@@ -1,0 +1,26 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Style-guide build scratch
+tools/_raw.pdf
+tools/_variant-landscape-logo.pdf
+tools/i18n/_old/
+sweet-pepper-style-guide-PREVIEW.pdf
+
+# Node (theme build)
+node_modules/
+
+# Heavy working material — kept outside git (see styleGuide-report.md §9)
+photos/
+design-examples/
+Research/
+design/process/
+
+# Built PDFs (rendered from style-guide-draft.html by tools/render-style-guide-pdf.py)
+sweet-pepper-style-guide.pdf
+sweet-pepper-style-guide-ru.pdf

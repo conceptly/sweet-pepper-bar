@@ -1,0 +1,135 @@
+<!-- MOBILE-SHELL -->
+<style>
+/* ── Mobile app shell (≤768px): home screen + one section per page ─────────────── */
+#m-home,#m-top,#m-bottom{display:none}
+@media (max-width:768px){
+  body.m-shell header.hero,body.m-shell section,body.m-shell footer{display:none}
+  body.m-shell #m-home{display:block}
+  body.m-shell.m-page #m-home{display:none}
+  body.m-shell.m-page section.m-active{display:block;padding:76px 0 96px}
+  body.m-shell.m-page #m-top,body.m-shell.m-page #m-bottom{display:flex}
+  body.m-shell .wrap{padding:0 20px}
+  body.m-shell .lang-switch{top:9px;right:10px;padding:2px}
+  body.m-shell .lang-switch button{padding:6px 10px;font-size:11px}
+
+  /* home */
+  #m-home{background:var(--paper);min-height:100vh}
+  .m-cover{background:var(--peppercorn);color:var(--paper);padding:64px 20px 32px;border-bottom:6px solid var(--lime)}
+  .m-cover .badge{font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime)}
+  .m-cover h1{font-family:'Molot',sans-serif;text-transform:uppercase;font-size:clamp(44px,13vw,64px);line-height:.92;margin:14px 0 0;letter-spacing:.01em}
+  .m-cover h1 .pep{color:var(--chili)} .m-cover h1 .swt{color:var(--lime)}
+  .m-cover .sub{font-size:15px;line-height:1.5;color:#d9d6c4;margin:18px 0 0}
+  .m-cover .m-how{display:inline-block;margin-top:18px;color:var(--cream);font-weight:600;font-size:14px;text-decoration:none;border-bottom:1px solid rgba(255,246,137,.5);padding-bottom:2px}
+  .m-list{list-style:none;margin:0;padding:8px 0 0}
+  .m-list li{border-bottom:1px solid var(--hair)}
+  .m-list a{display:flex;align-items:center;gap:14px;padding:16px 20px;color:var(--peppercorn);text-decoration:none;min-height:64px}
+  .m-list a:active{background:var(--parchment)}
+  .m-num{font-family:'Molot',sans-serif;font-size:28px;color:var(--chili);width:44px;flex:0 0 44px;line-height:1;letter-spacing:.02em}
+  .m-list li.m-internal .m-num{color:var(--ash)}
+  .m-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .m-name{font-weight:600;font-size:16px;line-height:1.25}
+  .m-desc{font-size:13px;color:var(--ash);line-height:1.35}
+  .m-chev{color:var(--olive);font-size:18px;flex:0 0 auto}
+  .m-foot{padding:22px 20px 40px;font-size:12px;color:var(--ash);line-height:1.6}
+  .m-foot a{color:var(--chili);font-weight:600}
+
+  /* page chrome */
+  #m-top{position:fixed;top:0;left:0;right:0;z-index:900;height:52px;align-items:center;gap:10px;padding:0 118px 0 12px;background:var(--peppercorn);color:var(--parchment);box-shadow:0 1px 0 #3a3a26}
+  #m-top .m-back{color:var(--lime);text-decoration:none;font-weight:600;font-size:13px;white-space:nowrap;padding:8px 6px 8px 0}
+  #m-top .m-title{font-family:'Molot',sans-serif;text-transform:uppercase;font-size:15px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--parchment)}
+  #m-top .m-title b{color:var(--chili);font-weight:400;margin-right:6px}
+  #m-bottom{position:fixed;bottom:0;left:0;right:0;z-index:900;background:var(--paper);border-top:1px solid var(--hair);padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:8px}
+  #m-bottom a{flex:1;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--peppercorn);padding:8px 10px;border-radius:10px;border:1px solid var(--hair);background:var(--parchment);min-height:44px;justify-content:center}
+  #m-bottom a.m-next{text-align:right}
+  #m-bottom a .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);font-weight:700}
+  #m-bottom a .v{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #m-bottom a.m-home{flex:0 0 auto;background:var(--peppercorn);color:var(--lime);border-color:var(--peppercorn);text-align:center;font-weight:700;font-size:12px;letter-spacing:.08em}
+  #m-bottom a[hidden]{display:none}
+
+  /* content tightening inside a mobile page */
+  body.m-shell h2.section-title{font-size:30px}
+  body.m-shell .lstage{padding:22px}
+  body.m-shell .type-spec,body.m-shell .two .panel,body.m-shell .dd .col{padding:18px}
+  body.m-shell .callout{padding:14px 16px}
+  body.m-shell .poster-demo{padding:28px 22px}
+  body.m-shell .ticket-grid figure{padding:16px}
+  body.m-shell .ticket-demo{padding:22px 18px}
+  body.m-shell .scale-row .spec{min-width:0;width:100%}
+  body.m-shell table{display:block;max-width:100%;overflow-x:auto}
+  body.m-shell pre.code{font-size:11.5px}
+  body.m-shell .toc{display:grid;grid-template-columns:1fr}
+  html.m-jump{scroll-behavior:auto}
+}
+@media print{#m-home,#m-top,#m-bottom{display:none!important}}
+</style>
+<script>
+(function(){
+  var S=[
+    {id:'living',n:'',list:false,en:['Using this guide','A living system: brand core vs working rules'],ru:['Как пользоваться гайдом','Живая система: ядро бренда и рабочие правила']},
+    {id:'essence',n:'01',en:['Brand essence','Cosy × spicy, and the guest-voice rule'],ru:['Суть бренда','Уютно × остро и голос со стороны гостя']},
+    {id:'logo',n:'02',en:['Logo','Six versions, clear space, minimum sizes'],ru:['Логотип','Шесть версий, охранное поле, минимальные размеры']},
+    {id:'color',n:'03',en:['Colour system','Three pepper ramps, Night & Day, safe pairings'],ru:['Цветовая система','Три перечные линии, ночь и день, безопасные пары']},
+    {id:'type',n:'04',en:['Typography','Molot leads, Golos reads; the type scale'],ru:['Типографика','Molot ведёт, Golos читается; шкала кеглей']},
+    {id:'motifs',n:'05',en:['Motifs & iconography','Ticket, rugged edge, Phosphor icons, social marks'],ru:['Мотивы и иконки','Тикет, рваный край, иконки Phosphor, знаки соцсетей']},
+    {id:'layout',n:'06',en:['Layout & components','Grid, spacing, promo and menu blocks'],ru:['Композиция и компоненты','Сетка, отступы, промо и блок меню']},
+    {id:'dodont',n:'07',en:["Do & Don't",'The short version'],ru:['Можно и нельзя','Коротко']},
+    {id:'photo',n:'08',en:['Photography','Shoot in the bar, set the scene'],ru:['Фотография','Снимаем в баре, строим сцену']},
+    {id:'notes',n:'09',internal:true,en:['Notes & open questions','Settled and open items (internal)'],ru:['Заметки и открытые вопросы','Решённое и открытое (внутреннее)']},
+    {id:'team',n:'10',en:['Team resources & contact','Asset folders, Phosphor, who to ask'],ru:['Ресурсы команды и контакты','Папки ассетов, Phosphor, к кому обращаться']}
+  ];
+  var T={
+    badge:['Brand & visual style guide · v0.3','Гайд по бренду и визуальному стилю · v0.3'],
+    sub:['A warm, loud, hand-made gastrobar in Yaroslavl. Cosy and spicy at once — pick a section.','Тёплый, громкий, рукотворный гастробар в Ярославле. Уютный и острый одновременно — выберите раздел.'],
+    how:['How to use this guide →','Как пользоваться гайдом →'],
+    foot:['Source of truth: design.md · Assets: ','Источник истины: design.md · Ассеты: '],
+    hub:['Yandex Disk hub','хаб на Яндекс Диске'],
+    home:['Home','Главная'], back:['← Home','← Главная'], prev:['Previous','Назад'], next:['Next','Дальше']
+  };
+  function bi(pair,tag){tag=tag||'span';return '<'+tag+' lang="en">'+pair[0]+'</'+tag+'><'+tag+' lang="ru">'+pair[1]+'</'+tag+'>';}
+  function bi2(item,i){return bi([item.en[i],item.ru[i]]);}
+
+  var MQ=window.matchMedia('(max-width:768px)'), body=document.body, built=false, home,top,bottom;
+  function build(){
+    if(built) return; built=true;
+    var toc=document.querySelector('nav.toc'); if(toc){var sec=toc.closest('section'); if(sec) sec.classList.add('m-toc');}
+    home=document.createElement('div'); home.id='m-home';
+    var rows=S.filter(function(s){return s.list!==false;}).map(function(s){
+      return '<li'+(s.internal?' class="m-internal"':'')+'><a href="#'+s.id+'"><span class="m-num">'+s.n+'</span><span class="m-txt"><span class="m-name">'+bi2(s,0)+'</span><span class="m-desc">'+bi2(s,1)+'</span></span><span class="m-chev">→</span></a></li>';
+    }).join('');
+    home.innerHTML='<div class="m-cover"><span class="badge">'+bi(T.badge)+'</span><h1><span class="swt">Sweet</span> <span class="pep">Pepper</span></h1><p class="sub">'+bi(T.sub)+'</p><a class="m-how" href="#living">'+bi(T.how)+'</a></div>'
+      +'<ol class="m-list">'+rows+'</ol>'
+      +'<div class="m-foot">'+bi(T.foot)+'<a href="https://disk.yandex.com/d/qZYJDoH89S5ttg" target="_blank" rel="noopener">'+bi(T.hub)+'</a></div>';
+    body.insertBefore(home, body.firstChild.nextSibling);
+    top=document.createElement('div'); top.id='m-top';
+    top.innerHTML='<a class="m-back" href="#home">'+bi(T.back)+'</a><span class="m-title"></span>';
+    bottom=document.createElement('nav'); bottom.id='m-bottom';
+    bottom.innerHTML='<a class="m-prev" href="#"><span class="k">'+bi(T.prev)+'</span><span class="v"></span></a><a class="m-home" href="#home">'+bi(T.home)+'</a><a class="m-next" href="#"><span class="k">'+bi(T.next)+'</span><span class="v"></span></a>';
+    body.appendChild(top); body.appendChild(bottom);
+  }
+  function lang(){return document.documentElement.getAttribute('data-lang')==='ru'?'ru':'en';}
+  function label(s){return (s.n?s.n+' · ':'')+s[lang()][0];}
+  function jumpTop(){var h=document.documentElement;h.classList.add('m-jump');window.scrollTo(0,0);setTimeout(function(){h.classList.remove('m-jump');},50);}
+  function route(){
+    var mobile=MQ.matches;
+    body.classList.toggle('m-shell',mobile);
+    if(!mobile){ body.classList.remove('m-page'); document.querySelectorAll('section.m-active').forEach(function(e){e.classList.remove('m-active');}); return; }
+    build();
+    var id=(location.hash||'').replace('#',''); var idx=-1;
+    S.forEach(function(s,i){ if(s.id===id) idx=i; });
+    document.querySelectorAll('section.m-active').forEach(function(e){e.classList.remove('m-active');});
+    if(idx<0){ body.classList.remove('m-page'); jumpTop(); return; }
+    var s=S[idx], sec=document.getElementById(s.id); if(!sec){ body.classList.remove('m-page'); return; }
+    sec.classList.add('m-active'); body.classList.add('m-page');
+    var listed=S.filter(function(x){return x.list!==false;}), li=listed.indexOf(s);
+    top.querySelector('.m-title').innerHTML=(s.n?'<b>'+s.n+'</b>':'')+bi([s.en[0],s.ru[0]]);
+    var prev=bottom.querySelector('.m-prev'), next=bottom.querySelector('.m-next');
+    if(li>0){prev.hidden=false;prev.href='#'+listed[li-1].id;prev.querySelector('.v').innerHTML=bi([listed[li-1].en[0],listed[li-1].ru[0]]);} else prev.hidden=true;
+    if(li>=0&&li<listed.length-1){next.hidden=false;next.href='#'+listed[li+1].id;next.querySelector('.v').innerHTML=bi([listed[li+1].en[0],listed[li+1].ru[0]]);} else next.hidden=true;
+    jumpTop();
+  }
+  window.addEventListener('hashchange',route);
+  if(MQ.addEventListener) MQ.addEventListener('change',route); else MQ.addListener(route);
+  route();
+})();
+</script>
+<!-- /MOBILE-SHELL -->

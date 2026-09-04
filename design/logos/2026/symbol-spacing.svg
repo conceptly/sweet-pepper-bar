@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-42.52 -21.26 146.08 127.56" font-family="Inter,Arial,sans-serif">
+  <rect x="-42.52" y="-21.26" width="146.08" height="127.56" fill="#E9F1CB"/>
+  <rect x="0" y="0" width="61.04" height="85.04" fill="#FCF7E8"/>
+  <svg x="0" y="0" width="61.04" height="85.04" viewBox="0 0 61.04 85.04">
+  <defs>
+    
+  </defs>
+  <g id="symbol">
+    <g id="shaker">
+      <polygon style="fill-rule: evenodd;fill: #869439;" points="0 26.5 30.94 19.8 36.6 69.93 16.09 74.33 0 26.5"/>
+      <path style="fill-rule: evenodd;fill: #e24526;" d="M2.34,23.97s-.53-4.67.81-7.14c1.34-2.47,3.28-2.63,3.28-2.63,0,0-3-9.55-1.4-11.42C6.64.91,14.06-.38,15.93.1c1.87.49,3.14,6.66,4.06,11.19,0,0,4.85-1.14,7.86,7.56L2.34,23.97Z"/>
+      <path style="fill-rule: evenodd;fill: #c5d72e;" d="M5.67,33.57c-.12-.45,0-1.39.82-1.67.66-.23,1.69-.05,1.9.8,2.35,9.28,8.69,31.27,8.69,31.27-3.82-10.1-8.35-18.76-11.41-30.4Z"/>
+      <path style="fill-rule: evenodd;fill: #ee6c44;" d="M7.86,4.42c-.69.27-.61,2.96.18,6.65.79,3.7,2.25,6.9,2.69,6.74.45-.16-1.08-2.41-1.84-6.94-.77-4.54-.34-6.72-1.03-6.45Z"/>
+    </g>
+    <g id="pepper">
+      <path style="fill: #747d39;" d="M46.35,31.35c-.65,1.17,1.46,2.2,2.35,1.25,5.07-5.46,7.5-8.64,8.78-14.08.35-1.49-.15-3.78-3.48-4.6-1.66-.41-3.84.76-3.91,2.35-.25,5.74-1.29,10.7-3.73,15.08Z"/>
+      <path style="fill: #eb5728;" d="M3.95,79.21c-2.39,2.28-.95,6.38,4.05,5.77,22.67-2.78,47.02-22.35,52.83-41.19,1.18-3.83-2.29-13.6-14.83-17.83-9.86-3.32-18.47-.13-19.36,6.17-2.58,18.4-12.87,37.7-22.7,47.09Z"/>
+      <path style="fill: #ee6c44;" d="M26.58,50.16c1.78-4.67,2.86-9.96,4.12-16.13.88-4.32,6.15-3.68,5.72.73-.97,10-11.5,19.75-9.84,15.4Z"/>
+      <path style="fill: #e24526;" d="M5.74,84.78c-.91-1.11-.97-2.07.1-2.45,26.66-9.45,56.19-49.93,31.21-57.67,2.71-.17,5.77.22,8.96,1.29,12.53,4.23,16.01,14,14.83,17.83-5.8,18.84-30.16,38.42-52.83,41.19-.86.04-1.61-.04-2.26-.2Z"/>
+    </g>
+  </g>
+</svg>
+  <rect x="0" y="0" width="61.04" height="85.04" fill="none" stroke="#54513F" stroke-width="0.38" stroke-dasharray="0.77 1.02" opacity="0.6"/>
+  <rect x="-42.52" y="-21.26" width="146.08" height="127.56" fill="none" stroke="#9aa07e" stroke-width="0.51" stroke-dasharray="2.55 1.66"/>
+  <text x="30.52" y="-10.63" font-size="8.93" font-weight="600" fill="#54513F" text-anchor="middle" dominant-baseline="middle">¼h</text><text x="30.52" y="95.67" font-size="8.93" font-weight="600" fill="#54513F" text-anchor="middle" dominant-baseline="middle">¼h</text><text x="-21.26" y="42.52" font-size="8.93" font-weight="600" fill="#54513F" text-anchor="middle" dominant-baseline="middle">½h</text><text x="82.30" y="42.52" font-size="8.93" font-weight="600" fill="#54513F" text-anchor="middle" dominant-baseline="middle">½h</text>
+</svg>

@@ -85,6 +85,84 @@ If partial automation is wanted later: VK's simpler, non-sanctioned API (registe
    
    **Never ship a live Instagram embed** — blocked for RU visitors without VPN regardless of API status; the importer supersedes it for every purpose, portfolio included.
 
+## "How it feels" — reviews pipeline (decided Sep 2026)
+
+Spec for the section itself (word cloud + quote wheel, tiers, one clock) is in `about-page-copy.md` → How it feels. This section is **where the words and quotes come from** and how the build is split. Same principle as the News feed: an importer behind our components, never an embedded widget; a human approves what ships.
+
+### Why not live
+
+- **Yandex** (the real source — ~690 reviews, ~1,600 ratings) has no official API that returns review text; Geosearch returns org data and rating only. The only sanctioned display is Yandex's iframe widget, which fails the design on every axis (no Molot, no outline→fill, no clock) and is the embedded widget we don't ship.
+- **Google** Places API returns max five reviews per place; the Business Profile API returns all of them but needs OAuth as the bar's Google account, quota approval, and a Google API call from a Russian server — the same infra risk flagged for Meta.
+- The tally moves maybe two words a year. A nightly scrape that can silently break on a markup change is a liability for a section that only needs re-counting a few times a year.
+
+**So: the cloud is a periodic tally, the wheel is curated. Neither is a runtime dependency.** The site has zero external calls in this section.
+
+### Honesty contract
+
+"Size = frequency" is only true if the count runs over the *whole* Yandex corpus, not a sample. Tiers come from real counts, thresholds recorded in the data file, re-run at least twice a year and after every season. If the corpus ever can't be pulled, the copy must change ("words guests use"), not the sizes. Nobody hand-picks a word into a tier.
+
+### Pipeline (three parts, three owners)
+
+| Part | Lives in | Runs | Who |
+|---|---|---|---|
+| **Pull + count** | `tools/reviews/` (Python) | by hand, ~2×/year | author |
+| **Store** | `sweet-pepper-theme/data/how-it-feels.json` (committed) + ACF for quotes | on commit | author |
+| **Render + motion** | `template-parts/about/how-it-feels.php`, `src/js/how-it-feels.js`, `about.css` | runtime | theme |
+
+Nothing new on the plugin list: counting happens outside WordPress, quotes use ACF we already have, the JSON is a theme asset read by a named function in `inc/`.
+
+### Part 1 — pull and count (`tools/reviews/`)
+
+1. **Pull.** One-off export of all Yandex reviews for the organisation (text, date, rating, author initial only — no names stored). First run: an Apify Yandex-reviews actor or a small Selenium script; either way it is a *tool*, not part of the site, and may break — that's acceptable at this cadence. Output: `tools/reviews/raw/yandex-YYYY-MM.jsonl`, git-ignored. Google/2GIS optional later, same shape.
+2. **Count** (`tools/reviews/count.py`): lemmatise Russian with `pymorphy3`; keep adjectives, adverbs and a short allow-list of nouns that are feelings, not objects (уют, душа → yes; суп, коктейль → no); drop a stop-list (`stoplist-ru.txt`: dish names, staff names, "вкусно/вкусный" and other food quality words that would swamp the ambience vocabulary — the section is about how it *feels*, not how it tastes). Merge spelling/lemma variants by hand in `merge.json` (уютно/уютный → уютно). Output: `tally.csv` — lemma, count, share of reviews mentioning it.
+3. **Tier.** Three brackets by count, thresholds chosen per run so the shape is roughly 3–4 top / 7–9 mid / rest low, 16–25 words total, hard cap 25. Record the thresholds in the JSON (`meta.thresholds`) so the sizes can be audited.
+4. **Translate.** EN display form per word, written by the author; the count is Russian-only. Words with no honest single-word English equivalent (душевно) get the nearest word, and the JSON keeps the RU lemma as the key so the tally is never re-run on translations.
+5. **Map words → quotes** by hand: each word lists the IDs of curated quotes that use it (or its idea). Every word needs ≥1 quote; the #1 word needs ≥2 (repeat-click deals the next quote).
+
+### Part 2 — data
+
+`sweet-pepper-theme/data/how-it-feels.json`:
+
+```json
+{
+  "meta": { "source": "yandex", "pulled": "2026-09", "reviews": 688,
+            "thresholds": { "top": 40, "mid": 12 } },
+  "words": [
+    { "key": "уютно", "ru": "уютно", "en": "cozy", "count": 131, "tier": "top", "quotes": ["q03","q11"] }
+  ]
+}
+```
+
+Quotes live in ACF (an options page group *How it feels*, or a `review` CPT if the wheel grows past ~15): quote RU / quote EN (Polylang-aware), platform (Yandex / Google / 2GIS), review date, link to the review or the org page, house footnote RU/EN (optional — "soulful is their word, not ours" is our voice, one line, no duplicates), and a stable ID the JSON refers to. Curation rules: 8–15 cards; short excerpts, never whole reviews; platform + date always shown; no author names; nothing that names a staff member without asking them.
+
+`inc/how-it-feels.php`: one function `sweet_pepper_how_it_feels_data()` that reads the JSON, pulls the ACF quotes, joins them, filters out words whose quotes are missing, and returns one array. Templates get that array; they don't read files.
+
+### Part 3 — render and motion (the theme)
+
+Template: `how-it-feels.php` already exists with hard-coded arrays — replace the arrays with the `inc/` call, keep the markup shape. Each word carries `data-key`, `data-tier`, `data-quotes`; each card carries `data-id`. The default state is server-rendered (#1 word filled, its first quote centred) so the section is correct with JS off and before hydration.
+
+`src/js/how-it-feels.js` (new, registered in `main.js`) owns everything that moves — per `about-page-copy.md` and Motion language:
+- one clock (~3.5 s) that fills the next word *and* rolls its quote to centre;
+- click on a word: seize the clock (pause ~8 s), step the word to the cloud column's centre, fill it, dim the others to ~30 %, roll its quote in; repeat-click deals the next quote from its list;
+- click on an edge card pulls it to centre and fills its word;
+- gentle drift + pointer parallax with tier-weighted depth (top words lead); transforms only;
+- `prefers-reduced-motion`: drift, parallax and auto-advance off; fill and quote swap remain.
+
+CSS stays in `about.css`: tier = size (64 / 40 / 26) and hue (Chili / Olive / Ash on day; Paprika / Lime Light / Mushroom at night); state = outline vs fill. No new colours.
+
+### Split of work
+
+- **Antigravity chat "How it feels — data":** `inc/how-it-feels.php`, the ACF group (export to `acf-json/`), template hook-up, JSON shape, sample data. PHP is fetch-and-hand-over only.
+- **Antigravity chat "How it feels — motion":** `how-it-feels.js` + the CSS states. Start from the server-rendered default; add the clock, then click, then drift/parallax. Test reduced-motion last.
+- **Claude Code (cloud, network):** `tools/reviews/` — the pull + `count.py` + first `tally.csv` and first `how-it-feels.json`. Runs where Python and the network are; the theme never runs it.
+- **Author:** stop-list, merges, translations, quote picks, footnotes. This is copy, not code.
+
+### Open
+- CTA: `about-page-copy.md` says chip; the template and Figma show a boxed button. Pick one (Interaction rule allows either; a button is louder — decide against the rest of the About page's CTA set).
+- "YOUR" in the current word list is a stray from the placeholder set — confirm it disappears with the real tally.
+- Whether to add Google/2GIS to the corpus, or keep Yandex as the single source and just credit the others on quotes.
+- Quoting: platform + date + link is our attribution floor; check the client is comfortable quoting guests on the site before launch.
+
 ## Typography on the web
 
 Molot leads; hierarchy comes from size, colour, case, and position — never a second display face (`design.md` §3.2). Golos Text carries everything meant for reading. Four web-specific additions:

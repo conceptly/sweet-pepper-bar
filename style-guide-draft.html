@@ -65,9 +65,11 @@ section{padding:72px 0;border-bottom:1px solid var(--hair);}
 section:last-child{border-bottom:none;}
 
 h2.section-title{font-family:'Molot',sans-serif;text-transform:uppercase;font-size:clamp(28px,4vw,44px);letter-spacing:.02em;margin:0 0 8px;color:var(--peppercorn);line-height:1;}
-.section-num{display:inline-block;font-family:'Inter';font-weight:700;font-size:13px;letter-spacing:.18em;color:var(--chili);text-transform:uppercase;margin-bottom:20px;}
+.section-num{display:inline-block;font-family:'Molot','Inter',sans-serif;font-weight:normal;font-size:14px;line-height:1.2;letter-spacing:.08em;color:var(--chili);text-transform:uppercase;margin-bottom:16px;}
 .lead{font-size:18px;color:var(--ash);max-width:64ch;margin:0 0 28px;}
-h3{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);margin:36px 0 14px;}
+h3{font-family:'Molot','Inter',sans-serif;font-weight:normal;font-size:18px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--olive);margin:32px 0 12px;}
+h1,h2,h4{line-height:1.2;}
+.brow{font-family:'Molot','Inter',sans-serif;font-weight:normal;font-size:13px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--ash);margin-bottom:8px;}
 p{max-width:68ch;}
 a{color:var(--chili);}
 .muted{color:var(--ash);}
@@ -75,7 +77,7 @@ code{background:#efece0;padding:2px 7px;border-radius:4px;font-size:13px;font-fa
 
 /* ---------- HERO ---------- */
 .hero{background:var(--peppercorn);color:var(--paper);padding:96px 0 88px;border-bottom:6px solid var(--lime);}
-.hero .badge{font-family:'Inter';font-weight:700;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);}
+.hero .badge{font-family:'Molot','Inter',sans-serif;font-weight:normal;font-size:14px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);}
 .hero h1{font-family:'Molot',sans-serif;text-transform:uppercase;font-size:clamp(48px,10vw,104px);line-height:.92;margin:18px 0 0;letter-spacing:.01em;}
 .hero h1 .pep{color:var(--chili);}
 .hero h1 .swt{color:var(--lime);}
@@ -128,12 +130,13 @@ pre.code{background:#151317;color:#F3E9D2;font-family:ui-monospace,Menlo,monospa
 @media(max-width:640px){.logo-gallery{grid-template-columns:1fr;}}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 .two .panel{border:1px solid var(--hair);border-radius:12px;padding:28px;}
+.panel>strong{line-height:1.2;}
 @media(max-width:640px){.two{grid-template-columns:1fr;}}
 
 /* ---------- COLOR ---------- */
 .mode-card{border-radius:16px;overflow:hidden;border:1px solid var(--hair);margin:22px 0 8px;}
 .mode-head{padding:22px 26px;}
-.mode-head .tag{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.85;}
+.mode-head .tag{font-family:'Molot','Inter',sans-serif;font-weight:normal;font-size:14px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;opacity:.85;}
 .mode-head h3{margin:6px 0 0;font-size:22px;font-family:'Molot',sans-serif;text-transform:uppercase;letter-spacing:.02em;color:inherit;}
 .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0;}
 .sw{padding:18px 16px;min-height:108px;display:flex;flex-direction:column;justify-content:flex-end;}
@@ -150,7 +153,7 @@ pre.code{background:#151317;color:#F3E9D2;font-family:ui-monospace,Menlo,monospa
 
 /* ---------- TYPE ---------- */
 .type-spec{border:1px solid var(--hair);border-radius:12px;padding:26px;margin:16px 0;}
-.type-spec .label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);}
+.type-spec .label{display:inline-block;font-family:'Molot','Inter',sans-serif;font-weight:normal;font-size:14px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--olive);}
 .scale-row{display:flex;align-items:baseline;gap:18px;padding:14px 0;border-bottom:1px dashed var(--hair);flex-wrap:wrap;}
 .scale-row:last-child{border-bottom:none;}
 .scale-row .spec{font-size:12px;color:var(--ash);min-width:150px;font-family:ui-monospace,Menlo,monospace;}
@@ -161,7 +164,7 @@ pre.code{background:#151317;color:#F3E9D2;font-family:ui-monospace,Menlo,monospa
 .dd .col{border-radius:12px;padding:24px;}
 .dd .do{background:#f0f6e0;border:1px solid #d6e4ad;}
 .dd .dont{background:#fbeae6;border:1px solid #f0c4ba;}
-.dd h4{margin:0 0 12px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;}
+.dd h4{margin:0 0 12px;font-family:'Molot','Inter',sans-serif;font-weight:normal;font-size:16px;letter-spacing:.06em;text-transform:uppercase;}
 .dd .do h4{color:#5a7a18;}
 .dd .dont h4{color:var(--chili);}
 .dd ul{margin:0;padding-left:18px;}
@@ -229,6 +232,7 @@ footer{background:var(--peppercorn);color:#9c9a86;padding:40px 0;font-size:13px;
   .ticket-grid figure{padding:14px;break-inside:avoid;page-break-inside:avoid;}
   .ticket-demo{break-inside:avoid;page-break-inside:avoid;}
   pre.code{white-space:pre-wrap;word-break:break-word;font-size:11px;}
+  section#type .type-spec:has(.scale-row),section#type .callout{break-inside:avoid;page-break-inside:avoid;}
   .cs-grid figcaption{font-size:10px;margin-top:5px;}
   #logo .type-spec,#logo div[style*="padding:40px"]{padding:22px !important;}
   #logo ul.clean li{margin-bottom:5px;font-size:13px;}
@@ -267,6 +271,18 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
 @media print{.lang-switch{display:none!important}}
 </style>
 <!-- /LANG-CSS -->
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -346,10 +362,22 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- HERO -->
 <header class="hero">
   <div class="wrap">
-    <span class="badge" lang="en">Brand & Visual Style Guide · Draft v0.3 · Sep 2026 · EN / RU · synced to design.md</span><span class="badge" lang="ru">Гайд по бренду и визуальному стилю · Черновик v0.3 · Сентябрь 2026 · EN / RU · синхронизирован с design.md</span>
+    <span class="badge" lang="en">Brand &amp; Visual Style Guide · v0.3 · Sep 2026 · EN / RU</span><span class="badge" lang="ru">Гайд по бренду и визуальному стилю · v0.3 · Сентябрь 2026 · EN / RU</span>
     <h1 class="molot"><span class="swt">Sweet</span> <span class="pep">Pepper</span></h1>
     <p class="sub" lang="en">A warm, loud, hand-made gastrobar in the heart of Yaroslavl. Cosy and spicy at once — this guide refines the look we built over ten years into a system we can build a website on.</p><p class="sub" lang="ru">Тёплый, громкий, рукотворный гастробар в центре Ярославля. Уютный и острый одновременно — этот гайд собирает образ, который мы строили десять лет, в систему, на которой можно построить сайт.</p>
     <div class="meta" lang="en">Shake &amp; Cook · Good food &amp; drink since 2014 · Kirova St. 10</div><div class="meta" lang="ru">Shake &amp; Cook · Good food &amp; drink since 2014 · ул. Кирова, 10</div>
@@ -369,8 +397,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       <a href="#layout" lang="en">06 — Layout & components</a><a href="#layout" lang="ru">06 — Композиция и компоненты</a>
       <a href="#dodont" lang="en">07 — Do & Don't</a><a href="#dodont" lang="ru">07 — Можно и нельзя</a>
       <a href="#photo" lang="en">08 — Photography</a><a href="#photo" lang="ru">08 — Фотография</a>
-      <a href="#notes" lang="en">09 — Notes & open questions</a><a href="#notes" lang="ru">09 — Заметки и открытые вопросы</a>
-      <a href="#team" lang="en">10 — Team resources & contact</a><a href="#team" lang="ru">10 — Ресурсы команды и контакты</a>
+      <a href="#team" lang="en">09 — Team resources & contact</a><a href="#team" lang="ru">09 — Ресурсы команды и контакты</a>
     </nav>
   </div>
 </section>
@@ -1191,7 +1218,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       <div class="col dont">
         <h4 lang="en">Don't</h4><h4 lang="ru">Нельзя</h4>
         <ul>
-          <li lang="en">Don't stack drop-shadow + outline + glow on the mark (the old default).</li><li lang="ru">Не складывайте на знак тень + обводку + свечение (старая привычка).</li>
+          <li lang="en">Don't stack drop-shadow + outline + glow on the mark.</li><li lang="ru">Не складывайте на знак тень + обводку + свечение.</li>
           <li lang="en">Don't place it on a busy, unblurred photo with no holding shape.</li><li lang="ru">Не ставьте его на пёстрое, неразмытое фото без подложки.</li>
           <li lang="en">Don't recolour the pepper — red pepper, green shaker, always.</li><li lang="ru">Не перекрашивайте перец — красный перец, зелёный шейкер, всегда.</li>
           <li lang="en">At small sizes, avoid the badge-in-the-middle lockup (the word splits) — switch to the icon or the stacked version.</li><li lang="ru">В мелком размере избегайте версии с печатью посередине (слово разрывается) — переходите на знак или вертикальную версию.</li>
@@ -1255,15 +1282,13 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <h2 class="section-title" lang="en">Colour system</h2><h2 class="section-title" lang="ru">Цветовая система</h2>
     <p class="lead" lang="en">There's no traditional colour harmony here — and it still works. The reason: the loud pepper hues are always grounded by a neutral. Peppercorn (rich black) does the harmonising at night; warm Parchment does it by day. That's the whole system.</p><p class="lead" lang="ru">Традиционной цветовой гармонии здесь нет — и всё равно работает. Причина: громкие перечные цвета всегда стоят на нейтральном основании. Ночью гармонизирует Peppercorn (глубокий чёрный), днём — тёплый Parchment. В этом вся система.</p>
 
-    <div class="callout" lang="en">
-      <strong>The principle, stated plainly:</strong> the saturated colours never carry a layout alone. A dominant <em>ground</em> (Peppercorn or Parchment) holds them together, one or two pepper hues lead, and Lemon is reserved for highlights. Add real neutrals so the eye has somewhere to rest — that's the single biggest upgrade from the old work.
-    </div><div class="callout" lang="ru"><strong>Принцип, сказанный прямо:</strong> насыщенные цвета никогда не несут макет в одиночку. Доминирующий <em>фон</em> (Peppercorn или Parchment) держит их вместе, один-два перечных цвета ведут, а Lemon оставлен для акцентов. Добавьте настоящих нейтральных, чтобы глазу было где отдохнуть, — это самое большое улучшение по сравнению со старыми работами.</div>
+    <div class="callout" lang="en"><strong>The principle, stated plainly:</strong> the saturated colours never carry a layout alone. A dominant <em>ground</em> (Peppercorn or Parchment) holds them together, one or two pepper hues lead, and Lemon is reserved for highlights. Real neutrals give the eye somewhere to rest.</div><div class="callout" lang="ru"><strong>Принцип, сказанный прямо:</strong> насыщенные цвета никогда не несут макет в одиночку. Доминирующий <em>фон</em> (Peppercorn или Parchment) держит их вместе, один-два перечных цвета ведут, а Lemon оставлен для акцентов. Настоящие нейтральные дают глазу место для отдыха.</div>
 
     <h3 lang="en">How it's built — three pepper ramps</h3><h3 lang="ru">Как это устроено — три перечные линии</h3>
     <p class="muted" lang="en">Every colour here is a tint or shade of just <strong>three hues</strong>: red (chili), green, and yellow. On the colour wheel each family sits on one line from the rim toward the centre — same hue, only saturation and lightness change. So the palette is really <strong>three monochromatic ramps plus neutrals</strong>, and that's the hidden harmony under a set of colours that "shouldn't" work together. The only real contrast is between the three anchor hues, which the neutral grounds reconcile.</p><p class="muted" lang="ru">Каждый цвет здесь — оттенок всего <strong>трёх тонов</strong>: красного (чили), зелёного и жёлтого. На цветовом круге каждое семейство лежит на одной линии от края к центру — тот же тон, меняются только насыщенность и светлота. То есть палитра — это <strong>три монохромные линии плюс нейтральные</strong>, и в этом скрытая гармония набора цветов, которые «не должны» сочетаться. Единственный настоящий контраст — между тремя опорными тонами, и его примиряют нейтральные фоны.</p>
 
     <div style="margin:16px 0;">
-      <div style="font-size:11px;font-weight:700;color:var(--ash);margin-bottom:6px;letter-spacing:.08em;">RED · CHILI LINE</div>
+      <div class="brow">RED · CHILI LINE</div>
       <div style="display:flex;border-radius:10px;overflow:hidden;border:1px solid var(--hair);">
         <div style="flex:1;background:#EF6D44;height:56px;display:flex;align-items:flex-end;padding:6px 8px;font-size:10px;color:#151317;">Paprika · EF6D44</div>
         <div style="flex:1;background:#EC572A;height:56px;display:flex;align-items:flex-end;padding:6px 8px;font-size:10px;color:#151317;">EC572A · logo only</div>
@@ -1272,7 +1297,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       </div>
     </div>
     <div style="margin:16px 0;">
-      <div style="font-size:11px;font-weight:700;color:var(--ash);margin-bottom:6px;letter-spacing:.08em;">GREEN LINE</div>
+      <div class="brow">GREEN LINE</div>
       <div style="display:flex;border-radius:10px;overflow:hidden;border:1px solid var(--hair);">
         <div style="flex:1;background:#D4E671;height:56px;display:flex;align-items:flex-end;padding:6px 8px;font-size:10px;color:#151317;">Light Lime · D4E671</div>
         <div style="flex:1;background:#C1DB34;height:56px;display:flex;align-items:flex-end;padding:6px 8px;font-size:10px;color:#151317;">Lime · C1DB34</div>
@@ -1281,7 +1306,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       </div>
     </div>
     <div style="margin:16px 0;">
-      <div style="font-size:11px;font-weight:700;color:var(--ash);margin-bottom:6px;letter-spacing:.08em;">YELLOW LINE</div>
+      <div class="brow">YELLOW LINE</div>
       <div style="display:flex;border-radius:10px;overflow:hidden;border:1px solid var(--hair);">
         <div style="flex:1;background:#FFED00;height:56px;display:flex;align-items:flex-end;padding:6px 8px;font-size:10px;color:#151317;">Lemon · FFED00</div>
         <div style="flex:1;background:#FFF689;height:56px;display:flex;align-items:flex-end;padding:6px 8px;font-size:10px;color:#151317;">Cream · FFF689</div>
@@ -1291,7 +1316,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       <strong>The generative rule:</strong> need a new shade? <strong>Move along an existing hue line</strong> — take a current colour and make it lighter or deeper at the <em>same hue</em>. Never introduce a new hue. This is why intermediate steps like the mid-chili (#EC572A) that only lives inside the logo don't need to become brand tokens — they're just points on a line you can sample anytime. Keep the named palette to the stops that carry a role.
     </div><div class="callout" lang="ru"><strong>Порождающее правило:</strong> нужен новый оттенок? <strong>Двигайтесь по существующей цветовой линии</strong> — возьмите текущий цвет и сделайте его светлее или глубже в <em>том же тоне</em>. Никогда не вводите новый тон. Поэтому промежуточные точки вроде среднего чили (#EC572A), который живёт только внутри логотипа, не должны становиться токенами бренда — это просто точки на линии, которые можно взять в любой момент. Именованную палитру держите на тех ступенях, у которых есть роль.</div>
 
-    <h3 lang="en">Peppers &amp; garnishes — accent palette, shared across both modes</h3><h3 lang="ru">Перцы и гарниры — акцентная палитра, общая для обоих режимов</h3>
+    <h3 lang="en">Peppers &amp; garnishes — the accent palette</h3><h3 lang="ru">Перцы и гарниры — акцентная палитра</h3>
     <div class="palette-row">
       <div class="chip"><div class="fill" style="background:#E34314"></div><div class="info"><b>Chili</b><span class="hex">#E34314</span></div></div>
       <div class="chip"><div class="fill" style="background:#9B2705"></div><div class="info"><b>Deep Chili <span style="font-weight:400;font-size:10px;opacity:.7" lang="en">(text)</span><span style="font-weight:400;font-size:10px;opacity:.7" lang="ru">(текст)</span></b><span class="hex">#9B2705</span></div></div>
@@ -1302,11 +1327,10 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       <div class="chip"><div class="fill" style="background:#869438"></div><div class="info"><b>Avocado</b><span class="hex">#869438</span></div></div>
       <div class="chip"><div class="fill" style="background:#737D3A"></div><div class="info"><b>Olive</b><span class="hex">#737D3A</span></div></div>
     </div>
-    <p class="note" lang="en">Refined in Adobe Color from the original files. <strong>Chili is now #E34314</strong> (the brand red-orange). <strong>Deep Chili (#9B2705)</strong> is a functional dark red for when red <em>text</em> needs to sit on Lemon, Lime, or Light Lime and pass contrast — the brand Chili red is fine for the logo and large display on those grounds, but not for small text.</p><p class="note" lang="ru">Уточнено в Adobe Color по исходным файлам. <strong>Chili теперь #E34314</strong> (фирменный красно-оранжевый). <strong>Deep Chili (#9B2705)</strong> — функциональный тёмно-красный для случаев, когда красный <em>текст</em> должен стоять на Lemon, Lime или Light Lime и проходить по контрасту; фирменный Chili хорош для логотипа и крупных заголовков на этих фонах, но не для мелкого текста.</p>
-    <p class="note" lang="en"><strong>A green ladder, by design.</strong> Light Lime → Lime → Avocado → Olive. Used as accents or backgrounds depending on contrast, and often layered for hierarchy (e.g. Light Lime type on an Olive panel, or vice-versa). <em>Burnt Orange retired earlier; Paprika remains the single orange.</em></p><p class="note" lang="ru"><strong>Зелёная лестница — по замыслу.</strong> Light Lime → Lime → Avocado → Olive. Используются как акценты или фоны в зависимости от контраста и часто слоятся ради иерархии (например, текст Light Lime на панели Olive или наоборот). <em>Burnt Orange снят раньше; Paprika остаётся единственным оранжевым.</em></p>
-    <p class="note" lang="en"><strong>Dark Olive <code>#242614</code> — removed (Jul 2026, deleted from Figma Aug 2026).</strong> Tested as a dark-surface alternative and failed: too close in value to Peppercorn to read darker, too hue-shifted to pass as neutral. Its last candidate role (badge ground under Lime) was superseded by the outline-door treatment. Not a brand token — the hex remains a point on the green line if a role ever appears (generative rule).</p><p class="note" lang="ru"><strong>Dark Olive <code>#242614</code> — удалён (июль 2026, из Figma — август 2026).</strong> Тестировался как альтернативная тёмная поверхность и не прошёл: слишком близок по светлоте к Peppercorn, чтобы читаться темнее, и слишком смещён по тону, чтобы сойти за нейтральный. Его последняя кандидатская роль (подложка бейджа под Lime) вытеснена контурной обработкой «дверей». Не токен бренда — hex остаётся точкой на зелёной линии, если роль когда-нибудь появится (порождающее правило).</p>
+    <p class="note" lang="en"><strong>Deep Chili (#9B2705)</strong> is a functional dark red for when red <em>text</em> needs to sit on Lemon, Lime, or Light Lime and pass contrast — the brand Chili red is fine for the logo and large display on those grounds, but not for small text.</p><p class="note" lang="ru"><strong>Deep Chili (#9B2705)</strong> — функциональный тёмно-красный для случаев, когда красный <em>текст</em> должен стоять на Lemon, Lime или Light Lime и проходить по контрасту; фирменный Chili хорош для логотипа и крупных заголовков на этих фонах, но не для мелкого текста.</p>
+    <p class="note" lang="en"><strong>A green ladder, by design.</strong> Light Lime → Lime → Avocado → Olive. Used as accents or backgrounds depending on contrast, and often layered for hierarchy (e.g. Light Lime type on an Olive panel, or vice-versa). Paprika is the single orange.</p><p class="note" lang="ru"><strong>Зелёная лестница — по замыслу.</strong> Light Lime → Lime → Avocado → Olive. Используются как акценты или фоны в зависимости от контраста и часто слоятся ради иерархии (например, текст Light Lime на панели Olive или наоборот). Paprika — единственный оранжевый.</p>
 
-    <h3 lang="en">Neutrals &amp; surfaces — the missing piece</h3><h3 lang="ru">Нейтральные и поверхности — недостающая часть</h3>
+    <h3 lang="en">Neutrals &amp; surfaces</h3><h3 lang="ru">Нейтральные и поверхности</h3>
     <div class="palette-row">
       <div class="chip"><div class="fill" style="background:#151317"></div><div class="info"><b>Peppercorn <span style="font-weight:400;font-size:10px;opacity:.7" lang="en">(black ground)</span><span style="font-weight:400;font-size:10px;opacity:.7" lang="ru">(чёрный фон)</span></b><span class="hex">#151317</span></div></div>
       <div class="chip"><div class="fill" style="background:#201E22"></div><div class="info"><b>Soft Peppercorn <span style="font-weight:400;font-size:10px;opacity:.7" lang="en">(alt dark surface)</span><span style="font-weight:400;font-size:10px;opacity:.7" lang="ru">(альт. тёмная поверхность)</span></b><span class="hex">#201E22</span></div></div>
@@ -1320,8 +1344,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <div class="callout" lang="en">
       <strong>One functional token, not a brand colour — <code>imgOverlayDark</code>:</strong> Peppercorn <code>#151317</code> at <strong>33%</strong>, laid over a photograph to render it <em>inactive</em>. It's the ground under the "dimmed → full strength" half of the state grammar — the home hero's unselected daypart cards, and anywhere an image is present but not current. It is a <em>state</em> overlay, not a scrim for legibility; the dark-scrim caption treatment is a separate thing and must never be bound to this token. Web-only; no print equivalent.
     </div><div class="callout" lang="ru"><strong>Один функциональный токен, не цвет бренда — <code>imgOverlayDark</code>:</strong> Peppercorn <code>#151317</code> с прозрачностью <strong>33%</strong>, положенный поверх фотографии, чтобы сделать её <em>неактивной</em>. Это основание половины «приглушено → в полную силу» в грамматике состояний — неактивные карточки времени дня в главном хиро и любое место, где изображение есть, но не является текущим. Это оверлей <em>состояния</em>, а не затемнение ради читаемости; тёмная подложка под подписью — отдельная сущность и никогда не должна привязываться к этому токену. Только веб; печатного эквивалента нет.</div>
-    <p class="note" style="font-size:12px;opacity:.75;" lang="en">Synced with the Figma <strong>Color</strong> collection (15 named tokens + <code>imgOverlayDark</code>). CSS var names = each token's web code-syntax. Naming note: Figma says <em>Chili Deep</em> / <em>Lime Light</em>, this guide says <em>Deep Chili</em> / <em>Light Lime</em> — harmless until CSS names are generated from one; pick one order for both.</p><p class="note" style="font-size:12px;opacity:.75;" lang="ru">Синхронизировано с коллекцией Figma <strong>Color</strong> (15 именованных токенов + <code>imgOverlayDark</code>). Имена CSS-переменных = веб-синтаксис каждого токена. Заметка об именах: Figma говорит <em>Chili Deep</em> / <em>Lime Light</em>, гайд — <em>Deep Chili</em> / <em>Light Lime</em>; безвредно, пока CSS-имена не генерируются из одного источника — выберите один порядок для обоих.</p>
-    <p class="note" lang="en"><strong>No pure white.</strong> The lightest surface is <strong>Paper (#FCF7E8)</strong>, a warm cream — light grounds are always a cream/yellow tint, never #FFFFFF. <strong>Ash (#54513F)</strong> is a warm grey for secondary / muted text on light surfaces (captions, metadata, helper text) when full-black Peppercorn would be too heavy — <em>settled</em>: it stays, and <strong>Mushroom</strong> is its night-mode twin for the same role on dark.</p><p class="note" lang="ru"><strong>Чисто-белого нет.</strong> Самая светлая поверхность — <strong>Paper (#FCF7E8)</strong>, тёплый кремовый; светлые фоны всегда кремово-жёлтого оттенка, никогда #FFFFFF. <strong>Ash (#54513F)</strong> — тёплый серый для второстепенного / приглушённого текста на светлом (подписи, метаданные, подсказки), когда полный чёрный Peppercorn был бы слишком тяжёлым — <em>решено</em>: остаётся, а <strong>Mushroom</strong> — его ночной близнец для той же роли на тёмном.</p>
+    <p class="note" lang="en"><strong>No pure white.</strong> The lightest surface is <strong>Paper (#FCF7E8)</strong>, a warm cream — light grounds are always a cream/yellow tint, never #FFFFFF. <strong>Ash (#54513F)</strong> is a warm grey for secondary / muted text on light surfaces (captions, metadata, helper text) when full-black Peppercorn would be too heavy; <strong>Mushroom</strong> is its night-mode twin for the same role on dark.</p><p class="note" lang="ru"><strong>Чисто-белого нет.</strong> Самая светлая поверхность — <strong>Paper (#FCF7E8)</strong>, тёплый кремовый; светлые фоны всегда кремово-жёлтого оттенка, никогда #FFFFFF. <strong>Ash (#54513F)</strong> — тёплый серый для второстепенного / приглушённого текста на светлом (подписи, метаданные, подсказки), когда полный чёрный Peppercorn был бы слишком тяжёлым; <strong>Mushroom</strong> — его ночной близнец для той же роли на тёмном.</p>
 
     <!-- MODE A -->
     <div class="mode-card">
@@ -1359,7 +1382,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <p class="note" lang="en">Calm, warm, appetising. Parchment is the food-associative surface. This is the daytime/breakfast/lunch half — readable, inviting, less shouty.</p><p class="note" lang="ru">Спокойно, тепло, аппетитно. Parchment — поверхность, ассоциирующаяся с едой. Это дневная половина — завтраки и обеды: читаемо, гостеприимно, меньше крика.</p>
 
     <div class="callout warn" lang="en">
-      <strong>Accessibility (validated in Adobe Color; re-measured Aug 2026):</strong> the palette is <strong>colour-blind safe</strong> (no conflicts across deuter/prot/tritanopia). <strong>Lemon and Lime are <em>not</em> interchangeable as grounds</strong> — the old rule lumped them together and was wrong for Lime:
+      <strong>Accessibility:</strong> the palette is <strong>colour-blind safe</strong> (no conflicts across deuter/prot/tritanopia). <strong>Lemon and Lime are <em>not</em> interchangeable as grounds</strong>:
       <table style="width:100%;border-collapse:collapse;font-size:13px;margin:12px 0 8px;background:var(--paper);border-radius:8px;">
         <thead><tr style="text-align:left;border-bottom:1px solid #e8c9bf;"><th style="padding:6px 10px;">Text on…</th><th style="padding:6px 10px;">Lemon #FFED00</th><th style="padding:6px 10px;">Lime #C1DB34</th></tr></thead>
         <tbody>
@@ -1370,7 +1393,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
         </tbody>
       </table>
       On <strong>Lime</strong>, only Peppercorn and Ash are safe — including for muted labels, which is the easy mistake (Olive reads as "quiet green on green" and is the value that fails). On <strong>Lemon</strong>, Chili and Olive clear the 3:1 floor for large text and UI, nothing smaller. For red text that must pass at small sizes on light grounds, use <strong>Deep Chili #9B2705</strong> — <em>day-only</em>: Deep Chili on Peppercorn is 2.4:1 and fails at any size. Lemon and Lime themselves are fills-behind-dark-text or accents on Peppercorn — never small text on a light surface. The logo is exempt: its Chili red reads fine on these grounds because of Molot's weight and it isn't body copy.
-    </div><div class="callout warn" lang="ru"><strong>Доступность (проверено в Adobe Color; перемерено в августе 2026):</strong> палитра <strong>безопасна для людей с нарушением цветовосприятия</strong> (нет конфликтов при дейтер-, прот- и тританопии). <strong>Lemon и Lime <em>не</em> взаимозаменяемы как фоны</strong> — старое правило сваливало их в кучу и было неверным для Lime:
+    </div><div class="callout warn" lang="ru"><strong>Доступность:</strong> палитра <strong>безопасна для людей с нарушением цветовосприятия</strong> (нет конфликтов при дейтер-, прот- и тританопии). <strong>Lemon и Lime <em>не</em> взаимозаменяемы как фоны</strong>:
       <table style="width:100%;border-collapse:collapse;font-size:13px;margin:12px 0 8px;background:var(--paper);border-radius:8px;">
 <thead><tr style="text-align:left;border-bottom:1px solid #e8c9bf;"><th style="padding:6px 10px;">Текст на…</th><th style="padding:6px 10px;">Lemon #FFED00</th><th style="padding:6px 10px;">Lime #C1DB34</th></tr></thead>
 <tbody>
@@ -1419,7 +1442,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <p class="muted" lang="en">The palette maps to a small set of <strong>semantic tokens</strong> with a Day and a Night value — the layer developers theme against (one toggle: <code>:root</code> = Day, <code>[data-theme="night"]</code> = Night). The day/night twins you designed (Ash↔Mushroom, Peppercorn↔Parchment) do the work.</p><p class="muted" lang="ru">Палитра сводится к небольшому набору <strong>семантических токенов</strong> с дневным и ночным значением — это слой, на который опираются разработчики (один переключатель: <code>:root</code> = День, <code>[data-theme="night"]</code> = Ночь). Работу делают спроектированные вами дневные/ночные близнецы (Ash↔Mushroom, Peppercorn↔Parchment).</p>
     <div class="two" style="align-items:start;">
       <div class="lstage" style="background:#FCF7E8;border:1px solid var(--hair);align-items:stretch;gap:10px;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#54513F;text-transform:uppercase;">Day</div>
+        <div class="brow" style="color:#54513F;">Day</div>
         <div style="background:#F3E9D2;border-radius:8px;padding:14px 16px;">
           <div style="color:#151317;font-weight:600;">Primary text on surface</div>
           <div style="color:#54513F;font-size:13px;">Muted text (Ash)</div>
@@ -1427,7 +1450,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
         </div>
       </div>
       <div class="lstage" style="background:#151317;border:1px solid #3a3a26;align-items:stretch;gap:10px;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#9E9789;text-transform:uppercase;">Night</div>
+        <div class="brow" style="color:#9E9789;">Night</div>
         <div style="background:#201E22;border-radius:8px;padding:14px 16px;">
           <div style="color:#F3E9D2;font-weight:600;">Primary text on surface</div>
           <div style="color:#9E9789;font-size:13px;">Muted text (Mushroom)</div>
@@ -1480,24 +1503,20 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
 
     <div class="type-spec">
       <span class="label" lang="en">Display — headlines, posters, signage</span><span class="label" lang="ru">Акцидентный — заголовки, афиши, вывески</span>
-      <p class="molot" style="font-size:clamp(40px,8vw,76px);margin:14px 0 6px;">Shake &amp; Cook</p>
+      <p class="molot" style="font-size:48px;margin:4px 0 0;">Molot</p>
       <p class="muted" lang="en"><strong>Molot</strong> — heavy, condensed, all-caps. Our signature for ten years and the most recognisable thing we own. Keep it for display only: headlines, event titles, big numbers, signage. Never for body text.</p><p class="muted" lang="ru"><strong>Molot</strong> — тяжёлый, узкий, только капс. Наша подпись десять лет и самое узнаваемое, что у нас есть. Только для акцидентного набора: заголовки, названия событий, крупные цифры, вывески. Никогда — для основного текста.</p>
     </div>
 
     <div class="type-spec">
       <span class="label" lang="en">Body & UI — everything readable</span><span class="label" lang="ru">Текст и UI — всё, что читают</span>
-      <p style="font-size:30px;font-weight:700;margin:10px 0 2px;" lang="en">Golos Text — warm, Russian-first, calm</p><p style="font-size:30px;font-weight:700;margin:10px 0 2px;" lang="ru">Golos Text — тёплый, русский, спокойный</p>
+      <p style="font-size:48px;font-weight:700;margin:4px 0 16px;line-height:1.2;">Golos Text</p>
       <p style="font-size:17px;margin:0 0 6px;">Вкусная еда, лучшие коктейли, развлечения каждый день. Delicious food, the best cocktails, entertainment every day — comfort food made well, designed to pair with a drink.</p>
-      <p class="muted" lang="en"><strong>Chosen.</strong> Replaces <strong>Calibri</strong> (the old menu pairing) and beats the neutral defaults: Inter is Figma's default and Roboto is Android's, so both read as "system neutral." Golos was drawn in Russia with Cyrillic as a first-class citizen, so it reads native, and its slight warmth nudges the <em>cosy</em> dial while still receding behind Molot. Use the <em>Golos Text</em> cut (text-optimised), not display <em>Golos</em>.</p><p class="muted" lang="ru"><strong>Выбран.</strong> Заменяет <strong>Calibri</strong> (старую пару из меню) и выигрывает у нейтральных дефолтов: Inter — дефолт Figma, Roboto — дефолт Android, оба читаются как «системный нейтральный». Golos нарисован в России с кириллицей как полноценным гражданином, поэтому читается родным, а лёгкая теплота сдвигает ручку в сторону <em>уютно</em>, при этом уступая Molot. Используйте начертание <em>Golos Text</em> (оптимизированное для текста), а не дисплейный <em>Golos</em>.</p>
+      <p class="muted" lang="en">Golos was drawn in Russia with Cyrillic as a first-class citizen, so it reads native, and its slight warmth nudges the <em>cosy</em> dial while still receding behind Molot. Use the <em>Golos Text</em> cut (text-optimised), not display <em>Golos</em>.</p><p class="muted" lang="ru">Golos нарисован в России с кириллицей как полноценным гражданином, поэтому читается родным, а лёгкая теплота сдвигает ручку в сторону <em>уютно</em>, при этом уступая Molot. Используйте начертание <em>Golos Text</em> (оптимизированное для текста), а не дисплейный <em>Golos</em>.</p>
     </div>
 
-    <div class="callout warn" lang="en">
-      <strong>On Molot + a serif (your Adelle question):</strong> your gut is right — and here's why. Molot is a heavy, geometric, squared display face that already carries a strong historical/industrial voice. A serif like Adelle brings its <em>own</em> editorial warmth and contrast, so the two compete for "character" instead of one leading. The reliable move for a loud display face is a neutral grotesque that disappears.
-      <br><br>
-      <strong>Decided: no serif, no Adelle.</strong> One display face (Molot) leads; the neutral grotesque (Golos) carries everything else, including all long-form like the About page. No third voice.
-    </div><div class="callout warn" lang="ru"><strong>О Molot + антиква (ваш вопрос про Adelle):</strong> интуиция вас не обманывает — и вот почему. Molot — тяжёлый, геометрический, квадратный акцидентный шрифт, который уже несёт сильный исторический/индустриальный голос. Антиква вроде Adelle приносит <em>собственную</em> редакционную теплоту и контраст, и в итоге оба борются за «характер» вместо того, чтобы один вёл. Надёжный ход для громкого акцидентного шрифта — нейтральный гротеск, который исчезает.<br/><br/><strong>Решено: без антиквы, без Adelle.</strong> Один акцидентный шрифт (Molot) ведёт; нейтральный гротеск (Golos) несёт всё остальное, включая длинные тексты вроде страницы «О нас». Третьего голоса нет.</div>
+    <div class="callout warn" lang="en"><strong>No serif.</strong> Molot is a heavy, geometric, squared display face that already carries a strong industrial voice. A serif brings its <em>own</em> editorial warmth and contrast, so the two compete for character instead of one leading. One display face (Molot) leads; the neutral grotesque (Golos) carries everything else, including all long-form like the About page. No third voice.</div><div class="callout warn" lang="ru"><strong>Без антиквы.</strong> Molot — тяжёлый, геометрический, квадратный акцидентный шрифт, который уже несёт сильный индустриальный голос. Антиква приносит <em>собственную</em> редакционную теплоту и контраст, и оба борются за характер вместо того, чтобы один вёл. Один акцидентный шрифт (Molot) ведёт; нейтральный гротеск (Golos) несёт всё остальное, включая длинные тексты вроде страницы «О нас». Третьего голоса нет.</div>
 
-    <h3 lang="en">Display system — one face, hierarchy by size &amp; colour</h3><h3 lang="ru">Акцидентная система — один шрифт, иерархия размером и цветом</h3>
+    <h3 lang="en">Display system — one face</h3><h3 lang="ru">Акцидентная система — один шрифт</h3>
     <p class="muted" lang="en">For posters and flyers, don't pair Molot — <strong>let it run alone</strong>. Build hierarchy from size, colour, case and position instead of a second typeface. One loud display face fighting another always loses; one face at varied sizes on flat colour blocks reads as a deliberate system. This is essentially Constructivist poster logic (Rodchenko, the Stenbergs, El Lissitzky) — a heritage Molot already belongs to, and an apt one for a Russian gastrobar.</p><p class="muted" lang="ru">Для афиш и флаеров не ставьте Molot в пару — <strong>пусть работает один</strong>. Стройте иерархию размером, цветом, регистром и положением, а не вторым шрифтом. Один громкий акцидентный шрифт в борьбе с другим всегда проигрывает; один шрифт в разных размерах на плоских цветных плашках читается как осознанная система. По сути это логика конструктивистского плаката (Родченко, Стенберги, Лисицкий) — наследие, к которому Molot уже принадлежит и которое уместно для русского гастробара.</p>
 
     <div class="type-spec" style="background:var(--peppercorn);border-color:#3a3a26;">
@@ -1528,8 +1547,8 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
 <li>Держите настроение игриво-индустриальным, а не суровым — тёплые тона и перечный мотив уравновешивают конструктивистскую жёсткость.</li>
 </ul></div>
 
-    <h3 lang="en">Type scale — re-synced from the Figma text styles (Aug 2026)</h3><h3 lang="ru">Шкала кеглей — пересинхронизирована с текстовыми стилями Figma (август 2026)</h3>
-    <p class="muted" lang="en">A transcription of the local text styles and the <em>Typography</em> variable collection, not a parallel spec — where the two disagreed, Figma won. Headings are <strong>Molot</strong> (Display → H3); body, captions and UI are <strong>Golos Text</strong>. Sizes shown desktop → mobile where they differ.</p><p class="muted" lang="ru">Транскрипция локальных текстовых стилей и коллекции переменных <em>Typography</em>, а не параллельная спецификация — где они расходились, побеждала Figma. Заголовки — <strong>Molot</strong> (Display → H3); основной текст, подписи и UI — <strong>Golos Text</strong>. Размеры показаны десктоп → мобильный там, где они отличаются.</p>
+    <h3 lang="en">Type scale</h3><h3 lang="ru">Шкала кеглей</h3>
+    <p class="muted" lang="en">Headings are <strong>Molot</strong> (Display → H3); body, captions and UI are <strong>Golos Text</strong>. Sizes shown desktop → mobile where they differ.</p><p class="muted" lang="ru">Заголовки — <strong>Molot</strong> (Display → H3); основной текст, подписи и UI — <strong>Golos Text</strong>. Размеры показаны десктоп → мобильный там, где они отличаются.</p>
     <div class="type-spec">
       <div class="scale-row"><span class="spec">Molot · Display · <code>--text-display</code> 76 → 64 · 110%/4%</span><span class="molot" style="font-size:40px;" lang="en">Live Music</span><span class="molot" style="font-size:40px;" lang="ru">Живая музыка</span></div>
       <div class="scale-row"><span class="spec">Molot · Home hero · 76 → content-sized · 104%/4%</span><span class="molot" style="font-size:36px;" lang="en">Yummy Morning!</span><span class="molot" style="font-size:36px;" lang="ru">Доброе утро!</span></div>
@@ -1547,15 +1566,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       <div class="scale-row"><span class="spec">Golos 500 · UI Nav · 16 · 100%</span><span style="font-size:16px;font-weight:500;" lang="en">Menu · Events · About</span><span style="font-size:16px;font-weight:500;" lang="ru">Меню · События · О нас</span></div>
       <div class="scale-row"><span class="spec">Golos 500 · UI Form label · 13 · 4%</span><span style="font-size:13px;font-weight:500;letter-spacing:.04em;" lang="en">Your name</span><span style="font-size:13px;font-weight:500;letter-spacing:.04em;" lang="ru">Ваше имя</span></div>
     </div>
-    <p class="note" lang="en"><strong>Corrections from the Aug sync:</strong> H1 was documented at 44 and is <strong>64</strong> (line-height 125%→105%, tracking 5%→4%). Display line-height 120%→110%. <strong>Caption is Golos 400, not 500</strong> — <em>UI/Form Label</em> is its 500 twin; the brief's <em>Form hint</em> is pixel-identical to Caption (one style, two names inside the Forms group — must not drift). Molot ships in a single weight (Regular); the 400/500/600/700 weight ramp is Golos only.</p><p class="note" lang="ru"><strong>Исправления после августовской синхронизации:</strong> H1 был задокументирован как 44, а на деле <strong>64</strong> (интерлиньяж 125%→105%, трекинг 5%→4%). Интерлиньяж Display 120%→110%. <strong>Caption — Golos 400, а не 500</strong>; <em>UI/Form Label</em> — его близнец в 500. <em>Form hint</em> из брифа попиксельно совпадает с Caption (один стиль, два имени внутри группы форм — не должны расходиться). Molot поставляется в одном начертании (Regular); линейка весов 400/500/600/700 — только у Golos.</p>
-    <div class="callout" lang="en">
-      <strong>Responsive rule — only the display levels move.</strong> The <em>Typography</em> collection carries <strong>Desktop</strong> and <strong>Mobile</strong> modes and exactly two sizes change: Display 76→64 and H1 64→36. H2, H3, Body, Caption and every UI style hold across breakpoints. That's the whole responsive type rule.
-      <br><br>
-      <strong>Headings run Molot all the way down</strong> (Display → H3) — hierarchy from size and colour, never by switching face. Golos enters where reading starts: body, captions, UI. Keep Molot headings short; drop to Golos the moment a heading runs long.
-    </div><div class="callout" lang="ru"><strong>Адаптивное правило — двигаются только акцидентные уровни.</strong> Коллекция <em>Typography</em> имеет режимы <strong>Desktop</strong> и <strong>Mobile</strong>, и меняются ровно два размера: Display 76→64 и H1 64→36. H2, H3, Body, Caption и все UI-стили держатся на всех брейкпоинтах. Это всё адаптивное правило типографики.<br/><br/><strong>Заголовки идут в Molot до самого низа</strong> (Display → H3) — иерархия размером и цветом, никогда сменой шрифта. Golos вступает там, где начинается чтение: основной текст, подписи, UI. Заголовки в Molot держите короткими; как только заголовок становится длинным — переходите на Golos.</div>
-    <div class="callout warn" lang="en">
-      <strong>Two open items:</strong> (1) <strong>Home hero is fragile</strong> — on mobile <code>Size/HomeHero</code> aliases <code>HeadlineFontSize</code> in the <em>mealTime</em> collection (56 for every state except Party at 52), sized around the longest <em>English</em> string; RU runs 10–15% longer and will break it. Replace per-state pixels with a fluid clamp / fit-to-box rule before the RU pass. (2) <strong>Two Molot small-size exceptions exist and only one is sanctioned</strong> — the brief permits Molot below display size in exactly one place (13–18px meal-period labels); <em>Heading/Captions</em> (Molot 16) is a second. Either sanction it with a named scope or fold it into H3.
-    </div><div class="callout warn" lang="ru"><strong>Два открытых пункта:</strong> (1) <strong>Главный хиро хрупкий</strong> — на мобильном <code>Size/HomeHero</code> ссылается на <code>HeadlineFontSize</code> из коллекции <em>mealTime</em> (56 для всех состояний, кроме Party — 52), подобранный под самую длинную <em>английскую</em> строку; русская на 10–15% длиннее и его сломает. Замените попиксельные значения по состояниям на плавный clamp / правило «по размеру блока» до русского прохода. (2) <strong>Существуют два исключения для мелкого Molot, и санкционировано только одно</strong> — бриф разрешает Molot меньше акцидентного размера ровно в одном месте (подписи времени приёма пищи 13–18px); <em>Heading/Captions</em> (Molot 16) — второе. Либо санкционируйте его с именованной областью применения, либо сложите в H3.</div>
+    <div class="callout" lang="en"><strong>Responsive rule — only the display levels move.</strong> Exactly two sizes change between desktop and mobile: Display 76→64 and H1 64→36. H2, H3, Body, Caption and every UI style hold across breakpoints. That's the whole responsive type rule.<br/><br/><strong>Headings run Molot all the way down</strong> (Display → H3) — hierarchy from size and colour, never by switching face. Golos enters where reading starts: body, captions, UI. Keep Molot headings short; drop to Golos the moment a heading runs long.</div><div class="callout" lang="ru"><strong>Адаптивное правило — двигаются только акцидентные уровни.</strong> Между десктопом и мобильным меняются ровно два размера: Display 76→64 и H1 64→36. H2, H3, Body, Caption и все UI-стили держатся на всех брейкпоинтах. Это всё адаптивное правило типографики.<br/><br/><strong>Заголовки идут в Molot до самого низа</strong> (Display → H3) — иерархия размером и цветом, никогда сменой шрифта. Golos вступает там, где начинается чтение: основной текст, подписи, UI. Заголовки в Molot держите короткими; как только заголовок становится длинным — переходите на Golos.</div>
 
     <div class="dd">
       <div class="col do">
@@ -1587,14 +1598,11 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <ul class="clean">
       <li lang="en"><strong>Red chili + green shaker</strong> — the hero motif. Use sparingly and at quality; don't shrink it into mush.</li><li lang="ru"><strong>Красный чили + зелёный шейкер</strong> — главный мотив. Используйте экономно и качественно; не сжимайте в кашу.</li>
       <li lang="en"><strong>Bottle-cap / badge edge</strong> — the scalloped seal shape, good as a stamp or section marker.</li><li lang="ru"><strong>Край пивной крышки / бейджа</strong> — фестончатая форма печати, хороша как штамп или маркер раздела.</li>
-      <li lang="en"><strong>Bartender's ticket</strong> — an order-slip card on Paper with a bottle-cap scalloped tear-off edge; the kitchen–bar handshake made tangible. Started as a gut-feeling footer device, now a <em>named component</em> (spec in <code>website-brief.md</code>) — the About pairing picker prints one. <strong>No longer the footer base (Aug 2026):</strong> the footer is a saturated Lime band in both modes, and Lime out-brights Paper, so a slip there would lose the "brightest object in view" rule that makes it read as a receipt. The ticket stays a page-body component; the footer is the site's <em>other</em> closing device — one per page.</li><li lang="ru"><strong>Тикет бармена</strong> — карточка-чек на Paper с фестончатым отрывным краем, как у пивной крышки; рукопожатие кухни и бара в осязаемом виде. Начинался как интуитивный приём для подвала, теперь — <em>именованный компонент</em> (спецификация в <code>website-brief.md</code>): его печатает подборщик пар на странице «О нас». <strong>Больше не основа подвала (август 2026):</strong> подвал — насыщенная полоса Lime в обоих режимах, а Lime ярче Paper, поэтому чек там потерял бы правило «самый яркий объект в кадре», благодаря которому он читается как чек. Тикет остаётся компонентом тела страницы; подвал — <em>другой</em> завершающий приём сайта, по одному на страницу.</li>
+      <li lang="en"><strong>Bartender's ticket</strong> — an order-slip card on Parchment/Paper with a bottle-cap scalloped tear-off edge; the kitchen–bar handshake made tangible. A <em>named component</em> (spec in <code>website-brief.md</code>) — the About pairing picker prints one. It lives in the page body; the footer borrows only its edge — one closing device per page.</li><li lang="ru"><strong>Тикет бармена</strong> — карточка-чек на Parchment/Paper с фестончатым отрывным краем, как у пивной крышки; рукопожатие кухни и бара в осязаемом виде. <em>Именованный компонент</em> (спецификация в <code>website-brief.md</code>): его печатает подборщик пар на странице «О нас». Живёт в теле страницы; подвал заимствует только его край — один завершающий приём на страницу.</li>
       <li lang="en"><strong>Colour-block bars</strong> — solid lime/cream/black bands that carry text. This replaces the stacked-effect look as our main "energy" device.</li><li lang="ru"><strong>Цветные плашки</strong> — сплошные полосы Lime/Cream/чёрного с текстом. Заменяют стопку эффектов как наш главный «энергетический» приём.</li>
       <li lang="en"><strong>The side rail</strong> — the vertical strip carrying hashtag, socials, phone, 18+ on the old posters. On web this becomes a tasteful accent stripe or a sticky info bar — refined, not crammed.</li><li lang="ru"><strong>Боковая рейка</strong> — вертикальная полоса с хэштегом, соцсетями, телефоном и 18+ на старых афишах. В вебе становится аккуратной акцентной полоской или закреплённой инфо-панелью — утончённой, а не набитой.</li>
       <li lang="en"><strong>Hot-pepper pattern</strong> — the angry-pepper repeat in current use (e.g. the VK cover) is licensed stock, not bespoke. It's well-loved, so keep it usable short-term — but the plan is a <em>unique</em> pattern drawn from our own chili-and-shaker language, so the texture becomes ownable IP with no licence dependency.</li><li lang="ru"><strong>Перечный паттерн</strong> — используемый сейчас паттерн со «злыми перцами» (например, на обложке VK) — лицензионный сток, не наш. Его любят, так что в краткосрочной перспективе он остаётся в ходу, но план — <em>уникальный</em> паттерн из нашего языка чили и шейкера, чтобы фактура стала собственной интеллектуальной собственностью без зависимости от лицензии.</li>
     </ul>
-    <div class="callout" lang="en">
-      <strong>Retire from the artwork:</strong> baked-in social glyphs (old Instagram/VK icons) — on web these become live components, and photography goes full-bleed with one consistent warm grade. <em>(Note: the "floating card on a blurred photo" look in some legacy files was just Behance portfolio framing, not brand artwork — nothing to fix there.)</em>
-    </div><div class="callout" lang="ru"><strong>Убираем из макетов:</strong> «вшитые» значки соцсетей (старые иконки Instagram/VK) — в вебе они становятся живыми компонентами, а фотография идёт навылет с одной тёплой цветокоррекцией. <em>(Заметка: «карточка, плавающая на размытом фото» в некоторых старых файлах — просто оформление портфолио на Behance, а не фирменная графика; там чинить нечего.)</em></div>
 
     <h3 lang="en">The bartender's ticket — examples</h3><h3 lang="ru">Тикет бармена — примеры</h3>
     <p class="muted" lang="en">The slip is a raised surface with a <strong>rugged edge</strong> — a row of half-circles "bitten" out of it in the colour of the ground behind, like a receipt torn off a spike. Cards carry the edge top and bottom; the deal chip carries it on top only. The same edge is what the footer borrows: a Lime band whose top scallops take the colour of the section above it (Parchment by day, Peppercorn by night) — it borrows the <em>edge</em>, not the slip, so the ticket remains a page-body component and the footer the page's other closing device.</p><p class="muted" lang="ru">Чек — это приподнятая поверхность с <strong>рваным краем</strong>: рядом полукругов, «выкушенных» из него цветом фона позади, как чек, сорванный с наколки. У карточек край сверху и снизу; у чипа с акцией — только сверху. Тот же край заимствует подвал: полоса Lime, верхние зубцы которой берут цвет секции над ней (Parchment днём, Peppercorn ночью). Он заимствует именно <em>край</em>, а не чек, поэтому тикет остаётся компонентом тела страницы, а подвал — вторым завершающим приёмом страницы.</p>
@@ -1781,7 +1789,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <p class="note" lang="en">All single-colour on the 12px grid, echoing Molot's weight. Recolour to one palette token per context (Peppercorn on light, Parchment/Lemon on dark, Chili for emphasis) — never multicolour; the only full-colour marks in the set are the official social logos. Icon sizes follow the <em>Sizes → Icons</em> scale (xs 8 · s 12 · m 16 · l 24 · xl 36 · xxl 48).</p><p class="note" lang="ru">Все одноцветные, на сетке 12px, в тон весу Molot. Перекрашивайте в один токен палитры по контексту (Peppercorn на светлом, Parchment/Lemon на тёмном, Chili для акцента) — никогда в несколько цветов; единственные многоцветные знаки в наборе — официальные логотипы соцсетей. Размеры иконок следуют шкале <em>Sizes → Icons</em> (xs 8 · s 12 · m 16 · l 24 · xl 36 · xxl 48).</p>
 
     <h3 lang="en">Library &amp; tiers</h3><h3 lang="ru">Библиотека и уровни</h3>
-    <p class="muted" lang="en"><strong>Chosen: <a href="https://phosphoricons.com" rel="noopener" target="_blank">Phosphor Icons</a> (Fill weight).</strong> We compared it with Material Symbols Sharp Filled — Material is the more squarely "Molot" match, but coverage gaps keep biting (a recurring problem), whereas Phosphor's ~9,000 icons include the food/bar-specific ones we actually need — a real <strong>pepper</strong> among them. Phosphor's slightly rounded corners are a fair trade for never hunting for an icon, and its bold fill already echoes Molot's weight. <em>One library, one weight — don't mix Phosphor with another icon set.</em></p><p class="muted" lang="ru"><strong>Выбрано: <a href="https://phosphoricons.com" rel="noopener" target="_blank">Phosphor Icons</a> (начертание Fill).</strong> Мы сравнивали их с Material Symbols Sharp Filled — Material по форме ближе к Molot, но пробелы в покрытии постоянно кусаются (повторяющаяся проблема), тогда как ~9 000 иконок Phosphor включают нужные нам знаки еды и бара — среди них настоящий <strong>перец</strong>. Чуть скруглённые углы Phosphor — честная плата за то, чтобы никогда не искать иконку, а его жирная заливка уже перекликается с весом Molot. <em>Одна библиотека, одно начертание — не смешивайте Phosphor с другим набором.</em></p>
+    <p class="muted" lang="en"><strong>Chosen: <a href="https://phosphoricons.com" rel="noopener" target="_blank">Phosphor Icons</a> (Fill weight).</strong> Its ~9,000 icons include the food/bar-specific ones we actually need — a real <strong>pepper</strong> among them — and its bold fill already echoes Molot's weight. <em>One library, one weight — don't mix Phosphor with another icon set.</em></p><p class="muted" lang="ru"><strong>Выбрано: <a href="https://phosphoricons.com" rel="noopener" target="_blank">Phosphor Icons</a> (начертание Fill).</strong> Его ~9 000 иконок включают нужные нам знаки еды и бара — среди них настоящий <strong>перец</strong>, — а жирная заливка уже перекликается с весом Molot. <em>Одна библиотека, одно начертание — не смешивайте Phosphor с другим набором.</em></p>
     <ul class="clean">
       <li lang="en"><strong>UI / functional icons</strong> → Phosphor Fill (phone, location, clock, wifi, share, delivery, dietary labels). Single colour from the palette.</li><li lang="ru"><strong>UI / функциональные иконки</strong> → Phosphor Fill (телефон, геометка, часы, Wi-Fi, поделиться, доставка, диетические метки). Один цвет из палитры.</li>
       <li lang="en"><strong>Brand / social logos</strong> → the <strong>official full-colour marks</strong> (VK, Telegram, Instagram), taken from each brand's own kit (<code>design/icons/social-media/</code>). They have always been full colour, on purpose: social marks are almost always contacts, and the colour separates them from the single-colour supporting icons at a glance. Don't recolour or redraw them.</li><li lang="ru"><strong>Логотипы брендов / соцсетей</strong> → <strong>официальные полноцветные знаки</strong> (VK, Telegram, Instagram), взятые из фирменного комплекта каждого бренда (<code>design/icons/social-media/</code>). Они всегда были полноцветными, и это намеренно: знаки соцсетей почти всегда служат контактами, и цвет с первого взгляда отделяет их от одноцветных вспомогательных иконок. Не перекрашивайте и не перерисовывайте их.</li>
@@ -1922,7 +1930,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       <li lang="en"><strong>The frame should echo the palette:</strong> warm wood/amber grounds, with fresh-green herbs and chili-red as the recurring accents. Fresh herbs (basil, mint, parsley) are the signature green pop.</li><li lang="ru"><strong>Кадр должен повторять палитру:</strong> тёплые фоны дерева и янтаря с повторяющимися акцентами свежей зелени и красного чили. Свежие травы (базилик, мята, петрушка) — фирменная зелёная вспышка.</li>
     </ul>
 
-    <h3 lang="en">Two registers — tie to the colour modes</h3><h3 lang="ru">Два регистра — привязка к цветовым режимам</h3>
+    <h3 lang="en">Two registers</h3><h3 lang="ru">Два регистра</h3>
     <div class="two">
       <div class="panel">
         <strong lang="en">Dark &amp; moody — Mode A</strong><strong lang="ru">Тёмный и атмосферный — режим A</strong>
@@ -1959,41 +1967,10 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
   </div>
 </section>
 
-<!-- 09 NOTES -->
-<section id="notes">
-  <div class="wrap">
-    <span class="section-num">09</span>
-    <h2 class="section-title" lang="en">Notes & open questions</h2><h2 class="section-title" lang="ru">Заметки и открытые вопросы</h2>
-    <h3 lang="en">Settled</h3><h3 lang="ru">Решено</h3>
-    <ul class="clean">
-      <li lang="en"><strong>Palette:</strong> ✓ refined &amp; validated in Adobe Color; hexes locked. <strong>Dark Olive removed</strong> (Jul 2026; deleted from Figma Aug 2026). <strong>Soft Peppercorn</strong> and <strong>Mushroom</strong> added; Ash vs Mushroom resolved as light/dark twins.</li><li lang="ru"><strong>Палитра:</strong> ✓ уточнена и проверена в Adobe Color; hex зафиксированы. <strong>Dark Olive удалён</strong> (июль 2026; из Figma — август 2026). Добавлены <strong>Soft Peppercorn</strong> и <strong>Mushroom</strong>; вопрос Ash vs Mushroom решён как пара светлое/тёмное.</li>
-      <li lang="en"><strong>Type:</strong> ✓ Golos Text body; no serif (Adelle not used). <strong>Caption weight closed — Golos 400</strong> (Form Label is the 500 twin). Scale re-synced from Figma, Aug 2026.</li><li lang="ru"><strong>Шрифт:</strong> ✓ Golos Text для текста; без антиквы (Adelle не используется). <strong>Вес Caption закрыт — Golos 400</strong> (Form Label — близнец в 500). Шкала пересинхронизирована с Figma, август 2026.</li>
-      <li lang="en"><strong>Icons:</strong> ✓ Phosphor Fill for UI (outline allowed where it reads better) + official full-colour social logos; bespoke bear and shaker stay custom; the veg label is the Phosphor leaf.</li><li lang="ru"><strong>Иконки:</strong> ✓ Phosphor Fill для UI (контур допустим там, где читается лучше) + официальные полноцветные логотипы соцсетей; собственные медведь и шейкер остаются кастомными; метка «вег» — листок из Phosphor.</li>
-      <li lang="en"><strong>Logo set:</strong> ✓ 2026 SVG family with clear-space (h-unit) and minimum sizes — <code>design/logos/2026/</code>.</li><li lang="ru"><strong>Набор логотипов:</strong> ✓ семейство SVG 2026 с охранным полем (единица h) и минимальными размерами — <code>design/logos/2026/</code>.</li>
-      <li lang="en"><strong>Platform:</strong> ✓ custom WordPress theme (classic PHP, thin) + ACF for staff-editable content. <strong>Webflow ruled out</strong> — a US company under OFAC sanctions can't serve Russian accounts/payments and doesn't reliably surface to visitors in Russia. Headless (Astro/Next) and Tilda also rejected. See <code>website-brief.md</code> → Platform.</li><li lang="ru"><strong>Платформа:</strong> ✓ собственная тема WordPress (классический PHP, тонкая) + ACF для контента, редактируемого командой. <strong>Webflow исключён</strong> — американская компания под санкциями OFAC не может обслуживать российские аккаунты/платежи и ненадёжно открывается у посетителей из России. Headless (Astro/Next) и Tilda тоже отклонены. См. <code>website-brief.md</code> → Platform.</li>
-    </ul>
-
-    <h3 lang="en">Open</h3><h3 lang="ru">Открыто</h3>
-    <ul class="clean">
-      <li lang="en"><strong>Figma — next job: a semantic Theme layer.</strong> § Colour defines <code>--bg / --surface / --text / --text-muted / --text-highlight / --accent / --accent-2</code> with Day and Night values, but the Figma <em>Color</em> collection is single-mode primitives only; every day/night variant is still built by hand. Build a <em>Theme</em> collection with Day/Night modes aliasing the palette, matching the CSS exactly — <em>then review every auto-switched screen by eye</em> (see the mode warning).</li><li lang="ru"><strong>Figma — следующая задача: семантический слой Theme.</strong> § Цвет определяет <code>--bg / --surface / --text / --text-muted / --text-highlight / --accent / --accent-2</code> с дневными и ночными значениями, но коллекция <em>Color</em> в Figma — однорежимные примитивы; каждый дневной/ночной вариант всё ещё собирается вручную. Постройте коллекцию <em>Theme</em> с режимами Day/Night, ссылающуюся на палитру и точно совпадающую с CSS, — <em>а затем проверьте глазами каждый автоматически переключённый экран</em> (см. предупреждение о режимах).</li>
-      <li lang="en"><strong>Naming drift:</strong> Figma says <em>Chili Deep</em> / <em>Lime Light</em>; the docs say <em>Deep Chili</em> / <em>Light Lime</em>. Pick one order before CSS names are generated from either.</li><li lang="ru"><strong>Расхождение имён:</strong> Figma говорит <em>Chili Deep</em> / <em>Lime Light</em>; документы — <em>Deep Chili</em> / <em>Light Lime</em>. Выберите один порядок, прежде чем из любого из них будут генерироваться CSS-имена.</li>
-      <li lang="en"><strong>Scopes:</strong> <code>Size/HomeHero</code>, <code>Icons</code>, <code>Spacing</code>, <code>Soft Peppercorn</code>, the overlay and every <em>mealTime</em> variable are <code>ALL_SCOPES</code> — narrow them before the file grows.</li><li lang="ru"><strong>Области применения:</strong> <code>Size/HomeHero</code>, <code>Icons</code>, <code>Spacing</code>, <code>Soft Peppercorn</code>, оверлей и все переменные <em>mealTime</em> стоят в <code>ALL_SCOPES</code> — сузьте их, пока файл не разросся.</li>
-      <li lang="en"><strong>Home hero type is fragile</strong> (mobile aliases per-state pixel sizes tuned to English; RU runs 10–15% longer) — fluid clamp / fit-to-box before the RU pass.</li><li lang="ru"><strong>Типографика главного хиро хрупкая</strong> (на мобильном ссылается на попиксельные размеры по состояниям, подобранные под английский; русский на 10–15% длиннее) — плавный clamp / «по размеру блока» до русского прохода.</li>
-      <li lang="en"><strong>Second Molot small-size exception</strong> (<em>Heading/Captions</em>, Molot 16) — sanction with a named scope or fold into H3.</li><li lang="ru"><strong>Второе исключение для мелкого Molot</strong> (<em>Heading/Captions</em>, Molot 16) — санкционировать с именованной областью применения или сложить в H3.</li>
-      <li lang="en"><strong><em>mealTime</em> strings are scaffolding;</strong> <code>website-brief.md</code>'s status-line matrix is canonical for copy. <code>nowState</code> is misnamed (it switches body copy, not the now-marker) — rename before anyone binds the marker to it.</li><li lang="ru"><strong>Строки <em>mealTime</em> — заглушки;</strong> матрица статусных строк из <code>website-brief.md</code> канонична для текста. <code>nowState</code> назван неверно (переключает основной текст, а не маркер «сейчас») — переименовать, прежде чем кто-то привяжет к нему маркер.</li>
-      <li lang="en"><strong>Pattern:</strong> design a bespoke pepper pattern to replace the licensed stock one.</li><li lang="ru"><strong>Паттерн:</strong> нарисовать собственный перечный паттерн взамен лицензионного стокового.</li>
-      <li lang="en"><strong>Rich black:</strong> confirm print formula (C15 M23 Y0 K95) and screen value (#151317).</li><li lang="ru"><strong>Глубокий чёрный:</strong> подтвердить формулу для печати (C15 M23 Y0 K95) и экранное значение (#151317).</li>
-      <li lang="en"><strong>Photography:</strong> define one grade/recipe and shoot or re-edit a consistent set.</li><li lang="ru"><strong>Фотография:</strong> определить одну цветокоррекцию/рецепт и снять или переобработать единый набор.</li>
-      <li lang="en"><strong>Translation:</strong> English-first; translate the final to Russian once content is locked (RU/EN are register twins, not literal).</li><li lang="ru"><strong>Перевод:</strong> английский первичен; окончательный текст переводится на русский после фиксации контента (RU/EN — близнецы по регистру, не дословно).</li>
-    </ul>
-    <p class="note" lang="en">Draft v0.3 — synced to <code>design.md</code> (Sep 2026), icon rules corrected, Russian version added. <code>design.md</code> is the written source of truth; this page is the interactive reference and should be re-synced whenever a rule changes there.</p><p class="note" lang="ru">Черновик v0.3 — синхронизирован с <code>design.md</code> (сентябрь 2026), исправлены правила иконок, добавлена русская версия. <code>design.md</code> — письменный источник истины; эта страница — интерактивный справочник, и её нужно пересинхронизировать при каждом изменении правила там.</p>
-  </div>
-</section>
-
 <!-- 10 TEAM RESOURCES -->
 <section id="team">
   <div class="wrap">
-    <span class="section-num">10</span>
+    <span class="section-num">09</span>
     <h2 class="section-title" lang="en">Team resources &amp; contact</h2><h2 class="section-title" lang="ru">Ресурсы команды и контакты</h2>
     <div class="two">
       <div class="panel">
@@ -2029,10 +2006,20 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
 </section>
 
 <footer>
-  <div class="wrap" lang="en">
-    Sweet Pepper · Brand & Visual Style Guide · Draft v0.3 · Sep 2026 · Internal working document · Source of truth: <code style="background:#2a2a2a;color:#bdbba8;">design.md</code> · website decisions: <code style="background:#2a2a2a;color:#bdbba8;">website-brief.md</code>
-  </div><div class="wrap" lang="ru">Sweet Pepper · Гайд по бренду и визуальному стилю · Черновик v0.3 · Сентябрь 2026 · Внутренний рабочий документ · Источник истины: <code style="background:#2a2a2a;color:#bdbba8;">design.md</code> · решения по сайту: <code style="background:#2a2a2a;color:#bdbba8;">website-brief.md</code></div>
+  <div class="wrap" lang="en">Sweet Pepper · Brand &amp; Visual Style Guide · v0.3 · Sep 2026 · Internal document · Source of truth: <code style="background:#2a2a2a;color:#bdbba8;">design.md</code></div><div class="wrap" lang="ru">Sweet Pepper · Гайд по бренду и визуальному стилю · v0.3 · Сентябрь 2026 · Внутренний документ · Источник истины: <code style="background:#2a2a2a;color:#bdbba8;">design.md</code></div>
 </footer>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2102,7 +2089,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
   /* home */
   #m-home{background:var(--paper);min-height:100vh}
   .m-cover{background:var(--peppercorn);color:var(--paper);padding:64px 20px 32px;border-bottom:6px solid var(--lime)}
-  .m-cover .badge{font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime)}
+  .m-cover .badge{font-family:'Molot',sans-serif;font-weight:normal;font-size:14px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
   .m-cover h1{font-family:'Molot',sans-serif;text-transform:uppercase;font-size:clamp(44px,13vw,64px);line-height:.92;margin:14px 0 0;letter-spacing:.01em}
   .m-cover h1 .pep{color:var(--chili)} .m-cover h1 .swt{color:var(--lime)}
   .m-cover .sub{font-size:15px;line-height:1.5;color:#d9d6c4;margin:18px 0 0}
@@ -2112,7 +2099,6 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
   .m-list a{display:flex;align-items:center;gap:14px;padding:16px 20px;color:var(--peppercorn);text-decoration:none;min-height:64px}
   .m-list a:active{background:var(--parchment)}
   .m-num{font-family:'Molot',sans-serif;font-size:28px;color:var(--chili);width:44px;flex:0 0 44px;line-height:1;letter-spacing:.02em}
-  .m-list li.m-internal .m-num{color:var(--ash)}
   .m-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
   .m-name{font-weight:600;font-size:16px;line-height:1.25}
   .m-desc{font-size:13px;color:var(--ash);line-height:1.35}
@@ -2128,7 +2114,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
   #m-bottom{position:fixed;bottom:0;left:0;right:0;z-index:900;background:var(--paper);border-top:1px solid var(--hair);padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:8px}
   #m-bottom a{flex:1;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--peppercorn);padding:8px 10px;border-radius:10px;border:1px solid var(--hair);background:var(--parchment);min-height:44px;justify-content:center}
   #m-bottom a.m-next{text-align:right}
-  #m-bottom a .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);font-weight:700}
+  #m-bottom a .k{font-family:'Molot',sans-serif;font-weight:normal;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--olive)}
   #m-bottom a .v{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #m-bottom a.m-home{flex:0 0 auto;background:var(--peppercorn);color:var(--lime);border-color:var(--peppercorn);text-align:center;font-weight:700;font-size:12px;letter-spacing:.08em}
   #m-bottom a[hidden]{display:none}
@@ -2161,11 +2147,10 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     {id:'layout',n:'06',en:['Layout & components','Grid, spacing, promo and menu blocks'],ru:['Композиция и компоненты','Сетка, отступы, промо и блок меню']},
     {id:'dodont',n:'07',en:["Do & Don't",'The short version'],ru:['Можно и нельзя','Коротко']},
     {id:'photo',n:'08',en:['Photography','Shoot in the bar, set the scene'],ru:['Фотография','Снимаем в баре, строим сцену']},
-    {id:'notes',n:'09',internal:true,en:['Notes & open questions','Settled and open items (internal)'],ru:['Заметки и открытые вопросы','Решённое и открытое (внутреннее)']},
-    {id:'team',n:'10',en:['Team resources & contact','Asset folders, Phosphor, who to ask'],ru:['Ресурсы команды и контакты','Папки ассетов, Phosphor, к кому обращаться']}
+    {id:'team',n:'09',en:['Team resources & contact','Asset folders, Phosphor, who to ask'],ru:['Ресурсы команды и контакты','Папки ассетов, Phosphor, к кому обращаться']}
   ];
   var T={
-    badge:['Brand & visual style guide · v0.3','Гайд по бренду и визуальному стилю · v0.3'],
+    badge:['Brand & visual style guide · v0.3','Гайд по бренду и стилю · v0.3'],
     sub:['A warm, loud, hand-made gastrobar in Yaroslavl. Cosy and spicy at once — pick a section.','Тёплый, громкий, рукотворный гастробар в Ярославле. Уютный и острый одновременно — выберите раздел.'],
     how:['How to use this guide →','Как пользоваться гайдом →'],
     foot:['Source of truth: design.md · Assets: ','Источник истины: design.md · Ассеты: '],

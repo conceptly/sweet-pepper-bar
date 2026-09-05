@@ -15,7 +15,7 @@
   /* home */
   #m-home{background:var(--paper);min-height:100vh}
   .m-cover{background:var(--peppercorn);color:var(--paper);padding:64px 20px 32px;border-bottom:6px solid var(--lime)}
-  .m-cover .badge{font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime)}
+  .m-cover .badge{font-family:'Molot',sans-serif;font-weight:normal;font-size:14px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
   .m-cover h1{font-family:'Molot',sans-serif;text-transform:uppercase;font-size:clamp(44px,13vw,64px);line-height:.92;margin:14px 0 0;letter-spacing:.01em}
   .m-cover h1 .pep{color:var(--chili)} .m-cover h1 .swt{color:var(--lime)}
   .m-cover .sub{font-size:15px;line-height:1.5;color:#d9d6c4;margin:18px 0 0}
@@ -25,7 +25,6 @@
   .m-list a{display:flex;align-items:center;gap:14px;padding:16px 20px;color:var(--peppercorn);text-decoration:none;min-height:64px}
   .m-list a:active{background:var(--parchment)}
   .m-num{font-family:'Molot',sans-serif;font-size:28px;color:var(--chili);width:44px;flex:0 0 44px;line-height:1;letter-spacing:.02em}
-  .m-list li.m-internal .m-num{color:var(--ash)}
   .m-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
   .m-name{font-weight:600;font-size:16px;line-height:1.25}
   .m-desc{font-size:13px;color:var(--ash);line-height:1.35}
@@ -41,7 +40,7 @@
   #m-bottom{position:fixed;bottom:0;left:0;right:0;z-index:900;background:var(--paper);border-top:1px solid var(--hair);padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:8px}
   #m-bottom a{flex:1;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--peppercorn);padding:8px 10px;border-radius:10px;border:1px solid var(--hair);background:var(--parchment);min-height:44px;justify-content:center}
   #m-bottom a.m-next{text-align:right}
-  #m-bottom a .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);font-weight:700}
+  #m-bottom a .k{font-family:'Molot',sans-serif;font-weight:normal;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--olive)}
   #m-bottom a .v{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #m-bottom a.m-home{flex:0 0 auto;background:var(--peppercorn);color:var(--lime);border-color:var(--peppercorn);text-align:center;font-weight:700;font-size:12px;letter-spacing:.08em}
   #m-bottom a[hidden]{display:none}
@@ -74,11 +73,10 @@
     {id:'layout',n:'06',en:['Layout & components','Grid, spacing, promo and menu blocks'],ru:['Композиция и компоненты','Сетка, отступы, промо и блок меню']},
     {id:'dodont',n:'07',en:["Do & Don't",'The short version'],ru:['Можно и нельзя','Коротко']},
     {id:'photo',n:'08',en:['Photography','Shoot in the bar, set the scene'],ru:['Фотография','Снимаем в баре, строим сцену']},
-    {id:'notes',n:'09',internal:true,en:['Notes & open questions','Settled and open items (internal)'],ru:['Заметки и открытые вопросы','Решённое и открытое (внутреннее)']},
-    {id:'team',n:'10',en:['Team resources & contact','Asset folders, Phosphor, who to ask'],ru:['Ресурсы команды и контакты','Папки ассетов, Phosphor, к кому обращаться']}
+    {id:'team',n:'09',en:['Team resources & contact','Asset folders, Phosphor, who to ask'],ru:['Ресурсы команды и контакты','Папки ассетов, Phosphor, к кому обращаться']}
   ];
   var T={
-    badge:['Brand & visual style guide · v0.3','Гайд по бренду и визуальному стилю · v0.3'],
+    badge:['Brand & visual style guide · v0.3','Гайд по бренду и стилю · v0.3'],
     sub:['A warm, loud, hand-made gastrobar in Yaroslavl. Cosy and spicy at once — pick a section.','Тёплый, громкий, рукотворный гастробар в Ярославле. Уютный и острый одновременно — выберите раздел.'],
     how:['How to use this guide →','Как пользоваться гайдом →'],
     foot:['Source of truth: design.md · Assets: ','Источник истины: design.md · Ассеты: '],

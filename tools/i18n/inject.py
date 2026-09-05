@@ -120,8 +120,8 @@ css='''<!-- LANG-CSS -->
 <style>
 html[data-lang="en"] [lang="ru"],html:not([data-lang]) [lang="ru"]{display:none!important}
 html[data-lang="ru"] [lang="en"]{display:none!important}
-.lang-switch{position:fixed;top:14px;right:14px;z-index:1000;display:flex;gap:2px;background:#151317;border:1px solid #3a3a26;border-radius:999px;padding:3px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
-.lang-switch button{appearance:none;border:0;background:transparent;color:#9E9789;font:600 12px/1 "Golos Text",system-ui,sans-serif;letter-spacing:.08em;padding:7px 12px;border-radius:999px;cursor:pointer}
+.lang-switch{position:fixed;top:14px;right:14px;z-index:1000;display:flex;gap:4px;background:#151317;border:1px solid #3a3a26;border-radius:999px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.lang-switch button{appearance:none;border:0;background:transparent;color:#9E9789;font:600 12px/1 "Golos Text",system-ui,sans-serif;letter-spacing:.08em;padding:8px 12px;border-radius:999px;cursor:pointer}
 .lang-switch button[aria-pressed="true"]{background:#C1DB34;color:#151317}
 .lang-switch button:hover{color:#F3E9D2}
 .lang-switch button[aria-pressed="true"]:hover{color:#151317}
@@ -164,7 +164,7 @@ switch='''<!-- LANG-SWITCH -->
 copysvg='''<!-- COPY-SVG -->
 <style>
 .lstage{position:relative}
-.copy-svg{position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:6px;appearance:none;border:1px solid var(--hair);background:var(--paper);color:var(--ash);font:600 11px/1 "Golos Text",system-ui,sans-serif;letter-spacing:.04em;padding:6px 9px;border-radius:999px;cursor:pointer;opacity:.85;transition:opacity .15s,background .15s,color .15s}
+.copy-svg{position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:8px;appearance:none;border:1px solid var(--hair);background:var(--paper);color:var(--ash);font:600 11px/1 "Golos Text",system-ui,sans-serif;letter-spacing:.04em;padding:8px 8px;border-radius:999px;cursor:pointer;opacity:.85;transition:opacity .15s,background .15s,color .15s}
 .copy-svg svg{width:12px;height:12px;fill:currentColor;display:block}
 .copy-svg:hover{opacity:1;background:#151317;color:#F3E9D2;border-color:#151317}
 .copy-svg.done{background:#C1DB34;color:#151317;border-color:#C1DB34;opacity:1}

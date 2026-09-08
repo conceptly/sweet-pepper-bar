@@ -2,8 +2,10 @@
    Loaded by style-guide.html only when the URL carries ?edit (e.g. style-guide.html?edit or ?lang=ru&edit).
    Every EN/RU text block (an element with a lang attribute) becomes click-to-edit; Save patches exactly those
    blocks into the file on the server through style-guide-save.php. Layout, SVGs, swatches, tables' structure and
-   anything without a lang attribute stay locked. Nothing here is ever written into the file: Save re-fetches the
-   file, replaces the inner HTML of the changed blocks (verified against the original text first) and posts it back. */
+   anything without a lang attribute stay locked. Nothing here is ever written into the file: Save asks the server for
+   the current file (from GitHub, or the local copy), replaces the inner HTML of the changed blocks — each verified
+   against the text this page loaded — and posts the result back; the server commits it to GitHub (the host's cron
+   deploys it minutes later) or writes it locally, depending on style-guide-config.php. */
 (function () {
   'use strict';
   var SAVE_URL = 'style-guide-save.php';
@@ -232,24 +234,26 @@
     var pass = passInput.value;
     if (!pass) { toast('Enter the password first', true); passInput.focus(); return; }
     setBusy(true);
-    fetch(location.pathname, { cache: 'no-store' })
-      .then(function (r) {
-        if (!r.ok) throw new Error('Could not fetch the current file (' + r.status + ')');
-        return r.text().then(function (t) { return { src: t, lm: r.headers.get('Last-Modified') }; });
-      })
+    function call(body) {                                   // every call carries the password; the server holds the GitHub token
+      return fetch(SAVE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) {
+          return r.json().catch(function () { return { error: 'Server answered ' + r.status + ' without JSON — is style-guide-save.php uploaded next to the guide, and does the host run PHP?' }; })
+            .then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || ('Request failed (' + r.status + ')')); return j; });
+        });
+    }
+    call({ action: 'fetch', password: pass })
       .then(function (o) {
-        var patched = patch(o.src, edits);
-        return fetch(SAVE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pass, lastModified: o.lm, html: patched }) })
-          .then(function (r) {
-            return r.json().catch(function () { return { error: 'Server answered ' + r.status + ' without JSON — is style-guide-save.php uploaded next to the guide, and does the host run PHP?' }; })
-              .then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || ('Save failed (' + r.status + ')')); return j; });
-          });
+        var patched = patch(o.html, edits);
+        return call({ action: 'save', password: pass, sha: o.sha, html: patched, blocks: edits.length });
       })
       .then(function (j) {
         edits.forEach(function (e) { orig[e.n] = els[e.n].innerHTML; origText[e.n] = norm(els[e.n].textContent); });
         refreshAll();
         try { sessionStorage.setItem('sp-guide-pass', pass); } catch (e) { }
-        toast('Saved ' + edits.length + ' block' + (edits.length > 1 ? 's' : '') + (j.backup ? ' · backup ' + j.backup : ''));
+        var what = edits.length + ' block' + (edits.length > 1 ? 's' : '');
+        toast(j.mode === 'github'
+          ? 'Committed ' + what + ' to GitHub' + (j.commit ? ' (' + j.commit + ')' : '') + ' · live on the site in about 5 minutes'
+          : 'Saved ' + what + (j.backup ? ' · backup ' + j.backup : ''));
       })
       .catch(function (err) {
         if (/password/i.test(err.message)) { try { sessionStorage.removeItem('sp-guide-pass'); } catch (e) { } }

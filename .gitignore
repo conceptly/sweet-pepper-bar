@@ -24,3 +24,7 @@ design/process/
 # Built PDFs (rendered from style-guide-draft.html by tools/render-style-guide-pdf.py)
 sweet-pepper-style-guide.pdf
 sweet-pepper-style-guide-ru.pdf
+
+# Style-guide edit mode — password hash and server-side backups never go in git
+style-guide-config.php
+style-guide-backups/

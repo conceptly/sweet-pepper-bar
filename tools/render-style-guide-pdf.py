@@ -1,5 +1,5 @@
 """Render style-guide-draft.html -> PDF (A4, full-bleed Paper pages, Peppercorn cover).
-Usage:  python3 render-style-guide-pdf.py [--lang en|ru] [--landscape-logo] [--out NAME.pdf]
+Usage:  python3 render-style-guide-pdf.py [--lang en|ru] [--src FILE.html] [--landscape-logo] [--out NAME.pdf]
   --lang ru renders the Russian layer of the bilingual HTML (default en; default output name gets a -ru suffix).
 Needs: playwright (chromium), pypdf, reportlab. Golos is embedded from design/fonts/Golos_Text/."""
 import asyncio, io, os, sys
@@ -9,7 +9,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC="file://"+os.path.join(ROOT,"style-guide-draft.html")
+SRC="file://"+os.path.join(ROOT, sys.argv[sys.argv.index("--src")+1] if "--src" in sys.argv else "style-guide.html")  # live file; --src style-guide-draft.html for the frozen copy
 GOLOS="file://"+os.path.join(ROOT,"design/fonts/Golos_Text/GolosText-VariableFont_wght.ttf")
 RAW=os.path.join(ROOT,"tools/_raw.pdf")
 PEPPERCORN="#151317"; PAPER="#FCF7E8"

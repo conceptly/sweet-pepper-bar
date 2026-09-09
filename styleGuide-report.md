@@ -1,6 +1,6 @@
 # Sweet Pepper style guide — process report
 
-Handoff note for any agent (Cowork, Antigravity, Claude Code) picking up the style-guide work. Read `design.md` first — it is the source of truth; this file explains how the guide artefacts were produced from it and where they stand as of 2026-09-07.
+Handoff note for any agent (Cowork, Antigravity, Claude Code) picking up the style-guide work. Read `design.md` first — it is the source of truth; this file explains how the guide artefacts were produced from it and where they stand as of 2026-09-08.
 
 ## 1. What exists
 
@@ -10,9 +10,10 @@ Handoff note for any agent (Cowork, Antigravity, Claude Code) picking up the sty
 | `website-brief.md` | repo root | Website-specific decisions (grid, day/night mechanic, image ratios). Not a style-guide input except §6 Layout. |
 | `style-guide.html` | repo root (~1.5 MB, single file) · live at `sweetpepper.bar/style-guide.html` | **The live guide since 2026-09-08.** Interactive guide, EN + RU in one file with a language switch; app-style mobile layout ≤768px (see §6). Everything inline: base64 Molot, flattened logo SVGs with Copy-SVG buttons, embedded photos/icons/ticket screenshots, tokens in `:root`, print CSS. Sections 00–09 (Notes & open questions removed 2026-09-05 — the guide is audience-facing; open items live in this report and `design.md`). Text is edited in place on the live page — §10. |
 | `style-guide-draft.html` | repo root | Frozen copy of the guide as of 2026-09-08 — backup only, do not edit. Previously live at `sweetpepper.bar/style-guide-draft.html`. |
-| `style-guide-edit.js` · `style-guide-save.php` | repo root | In-page edit mode and its save endpoint (§10). Uploaded next to `style-guide.html`. |
+| `style-guide-edit.js` · `style-guide-save.php` | repo root | In-page edit mode and its save endpoint (§10). Deployed by the host's cron next to `style-guide.html`. |
+| `style-guide-config.example.php` → `style-guide-config.php` | repo root (template) / server only (filled) | Password hash + GitHub token for the edit mode. The filled file is git-ignored and was uploaded by hand to `public_html` (§10). |
 | `sweet-pepper-style-guide.pdf` · `-ru.pdf` | repo root | A4 portrait renders of the HTML (EN 28 pp, RU 31 pp). Peppercorn cover, Paper pages, full bleed. |
-| `tools/i18n/` | tools/ | `inject.py` (builds the bilingual HTML, Copy-SVG buttons and the mobile shell), `strings-ru.json` (all Russian text), `mobile-shell.html` (mobile home screen + section router), `grid4.py` (4 px-grid checker/fixer). `_old/` holds the retired index-keyed files — delete. See §6. |
+| `tools/i18n/` | tools/ | `inject.py` (builds the bilingual HTML, Copy-SVG buttons and the mobile shell), `strings-ru.json` (all Russian text), `mobile-shell.html` (mobile home screen + section router), `grid4.py` (4 px-grid checker/fixer). `_old/` holds the retired index-keyed files — delete. See §6. **`inject.py` and `strings-ru.json` are retired for the live file since 2026-09-08 (§10)** — they still target `style-guide-draft.html` and must not be pointed at `style-guide.html`. |
 | `team-docs/design-guide.md` · `design-guide-ru.md` | team-docs/ | Short team-facing guide for new designers / SMM (EN + RU). Derived from `design.md`; no open questions, no history. Update when a rule changes. |
 | `figmaScreenshotws/ticketExamples/` | figmaScreenshotws/ | Source PNGs for the bartender's-ticket examples embedded in the HTML (cards, deal chip, four footers). |
 | `tools/render-style-guide-pdf.py` | tools/ | Render pipeline, `--lang en|ru` (see §4). |
@@ -41,7 +42,7 @@ Sync rule: after any `design.md` edit, re-check the HTML sections it touches; th
 
 ## 4. PDF pipeline
 
-`tools/render-style-guide-pdf.py`: Playwright Chromium prints the HTML to A4 → pypdf + reportlab lay a full-bleed underlay per page (Peppercorn p1, Paper others) → output. Flags: `--lang en|ru` (RU sets `data-lang` before printing and writes `-ru.pdf`), `--out`, `--landscape-logo` (kept for reference; rejected). Playwright is **not** installed on the Mac — render in the Cowork cloud container (stage the HTML + `GolosText-VariableFont_wght.ttf`, `pip install pypdf reportlab`, run, commit the PDFs back). In the Sep 2026 container Chromium ran without extra libs; in an earlier sandbox it needed `LD_LIBRARY_PATH=<stub dir> PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1` with a compiled `libXdamage.so.1` stub (apt is blocked); Google Fonts is blocked so Golos is injected via `@font-face` from `design/fonts/`; route handlers must be `async`. Orphan control was done by 3-col logo grids, flowing type specs/callouts and compaction (33 → 26 pages for the English text of Aug 2026; now 28 after the resource links, ticket examples, audience cleanup and the h-unit figure; `section#team` on its own page). The Russian render is 31 pages and was not orphan-tuned: a few type-scale rows and one callout split across pages.
+`tools/render-style-guide-pdf.py`: Playwright Chromium prints the HTML to A4 → pypdf + reportlab lay a full-bleed underlay per page (Peppercorn p1, Paper others) → output. Source: `style-guide.html` by default (since 2026-09-08; `--src style-guide-draft.html` for the frozen copy) — pull the live file from the repo first (§3). Flags: `--lang en|ru` (RU sets `data-lang` before printing and writes `-ru.pdf`), `--out`, `--landscape-logo` (kept for reference; rejected). Playwright is **not** installed on the Mac — render in the Cowork cloud container (stage the HTML + `GolosText-VariableFont_wght.ttf`, `pip install pypdf reportlab`, run, commit the PDFs back). In the Sep 2026 container Chromium ran without extra libs; in an earlier sandbox it needed `LD_LIBRARY_PATH=<stub dir> PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1` with a compiled `libXdamage.so.1` stub (apt is blocked); Google Fonts is blocked so Golos is injected via `@font-face` from `design/fonts/`; route handlers must be `async`. Orphan control was done by 3-col logo grids, flowing type specs/callouts and compaction (33 → 26 pages for the English text of Aug 2026; now 28 after the resource links, ticket examples, audience cleanup and the h-unit figure; `section#team` on its own page). The Russian render is 31 pages and was not orphan-tuned: a few type-scale rows and one callout split across pages.
 
 ## 5. Figma style-guide file — structure
 
@@ -95,7 +96,7 @@ Load `figma-use` + `figma-generate-library` skills before every `use_figma` call
 
 ## 6. Sep 2026 changes — bilingual HTML, Copy SVG, mobile shell, cleanup, ticket examples
 
-`style-guide-draft.html` is now one file carrying both languages. Every text-bearing block exists twice as siblings — `<p lang="en">…</p><p lang="ru">…</p>` — and CSS on `html[data-lang]` hides the other language. Images, inline SVGs, swatches and hex values are not duplicated. A fixed EN/RU pill (top right, hidden in print) switches the language. Default = the system/browser language (`navigator.languages`, any `ru*` → RU, else EN) on every fresh visit; `?lang=ru|en` in the URL overrides it; a toggle click is remembered for that tab only (`sessionStorage`), so a new tab or a later visit goes back to the system language. Without JS the English layer shows.
+*(History — describes how the bilingual file was built; since 2026-09-08 the live file is `style-guide.html` and its text is edited in place, §10.)* `style-guide-draft.html` is now one file carrying both languages. Every text-bearing block exists twice as siblings — `<p lang="en">…</p><p lang="ru">…</p>` — and CSS on `html[data-lang]` hides the other language. Images, inline SVGs, swatches and hex values are not duplicated. A fixed EN/RU pill (top right, hidden in print) switches the language. Default = the system/browser language (`navigator.languages`, any `ru*` → RU, else EN) on every fresh visit; `?lang=ru|en` in the URL overrides it; a toggle click is remembered for that tab only (`sessionStorage`), so a new tab or a later visit goes back to the system language. Without JS the English layer shows.
 
 - **Translations live in `tools/i18n/strings-ru.json`**, keyed by the whitespace-normalised English innerHTML of each text block (bs4 form: attributes sorted alphabetically, `&amp;` unescaped). Edit Russian text there, not in the HTML. When you add a new English block, add its key/value to the JSON; write anchor attributes in alphabetical order (`href rel style target`) so the key matches.
 - **`python3 tools/i18n/inject.py`** (from the project root) rebuilds the bilingual file: it strips the previous injection, re-extracts the English leaves, and re-inserts the RU twins. Run it after any English edit in the HTML. It reports `STALE` for RU entries whose English no longer matches (re-key them in the JSON) and `MISS` for pattern failures (should not happen). Needs `beautifulsoup4` (present on the Mac); no Playwright for this step.
@@ -120,6 +121,10 @@ Load `figma-use` + `figma-generate-library` skills before every `use_figma` call
 7. **Type scale rows** — the HTML scale still lists `Body/Secondary` (Golos 400 · 14) and `Secondary highlight`, which the website has largely replaced with Caption; the team guide already dropped them. Decide whether to remove the two rows here and in `design.md` §3.3 (and retire the Figma styles). Owner: Etual.
 8. **Colour pages, small edits made while fitting (Sep 2026):** neutral chips carry short names only (roles are in the paragraph); P12 body says “Ash and Mushroom, Peppercorn and Parchment” instead of ↔ (glyph missing in Golos); the banner example runs Molot 20 pt. The Sample page 7:44 is now redundant with P08/P09 — delete or keep as the component demo. Footer totals still say 27 (EN PDF count) — recount once all sections are in Figma.
 9. **Page 7 of the EN PDF** (favicon block) is mostly empty — a candidate for pulling the minimum-sizes list onto the same page. Cosmetic.
+10. **"Draft" wording in the live file** — the `<title>`, the lang-switch script's two title strings and the hero badge/footer still say "Draft" / v0.3. The title strings are JS, not text blocks, so this is a repo edit, not an in-page one. Owner: Etual (decide the version label), then agent.
+11. **Cron loop** — confirm the extended cron command from §9.3 is in place on the host; until then new versions of the editor/endpoint in the repo do not reach `public_html`.
+12. **PDFs after in-page edits** — every editor commit changes `style-guide.html` but not the PDFs; re-render both (§4) before sharing PDFs, or accept that the PDFs lag.
+13. **Editor limits to keep in mind** — text and links only; a new paragraph, section, image or table is a repo edit. Trailing line breaks are stripped on save; `<b>`/`<i>` become `<strong>`/`<em>`.
 
 ## 8. Working agreements
 
@@ -130,7 +135,7 @@ Load `figma-use` + `figma-generate-library` skills before every `use_figma` call
 
 ## 9. Publishing — git and hosting (handoff for Claude Code / Antigravity)
 
-Target repository: **`github.com/conceptly/sweet-pepper-bar`** (exists, created by Etual). The `Sweet-Website` folder is **not yet a git repository** — no `.git` at the root and none inside `sweet-pepper-theme/`. Cowork sessions cannot push (no network from the Mac shell, and the cloud token is not bound to this repo), so this step runs in Claude Code or Antigravity on the Mac, where Etual's own GitHub credentials apply.
+Target repository: **`github.com/conceptly/sweet-pepper-bar`** — **live since Sep 2026**: `Sweet-Website` is the git root, `origin` is set over SSH, and pushes work from Claude Code on the Mac with Etual's credentials (Cowork sessions still cannot push). §9.1 below is kept as history of the first push.
 
 ### 9.1 First push — do exactly this
 
@@ -159,26 +164,19 @@ Notes for the agent doing this:
 
 ### 9.2 Every later update
 
-`git add -A && git commit -m "<what changed>" && git push`. For style-guide text changes follow §3's sequence first (English in HTML → `strings-ru.json` → `python3 tools/i18n/inject.py` → PDFs re-rendered), then commit the HTML, the JSON and both PDFs together so they never drift.
+`git add -A && git commit -m "<what changed>" && git push`. Style-guide **text** no longer goes through git by hand — the in-page editor commits it (§10). For **structural** changes to the guide: `git pull` first (the editor may have committed), edit `style-guide.html`, re-render both PDFs (§4), commit HTML + PDFs together. Anything committed to `main` reaches the server on the next cron run (≤5 min).
 
 ### 9.3 Hosting the guide on the bar's domain
 
-Decision: the guide is a **static file outside WordPress**, not a WP page. Since 2026-09-08 it is live at `sweetpepper.bar/style-guide.html` with the in-page edit mode of §10 (three files in the web root: the HTML, `style-guide-edit.js`, `style-guide-save.php`). The `/guide/` move below is optional and still valid — keep the three files together if you do it. Steps once the repo is up:
+Decision: the guide is a **static file outside WordPress**, not a WP page. **Done (2026-09-08):** live at `https://sweetpepper.bar/style-guide.html` (HTTPS on), deep links `…/style-guide.html#logo`, language `…?lang=ru`, edit mode `…?edit`. The old draft URL still serves the frozen copy.
 
-1. Copy `style-guide-draft.html` to the web root as **`/guide/index.html`** (rename on copy; the file is self-contained — fonts, logos, photos are inline, nothing else needs uploading). Deep links then work as `…/guide/#logo`, language as `…/guide/?lang=ru`.
-2. The file already carries `<meta name="robots" content="noindex, nofollow">`, `theme-color` and an Apple web-app title, so it stays out of search and "Add to Home Screen" gives the team an app-like icon.
-3. Optional, recommended for a public host: password-protect the folder with `.htaccess` basic auth (one shared team password is enough):
-   ```
-   AuthType Basic
-   AuthName "Sweet Pepper — team guide"
-   AuthUserFile /absolute/path/outside/webroot/.htpasswd
-   Require valid-user
-   ```
-   Generate the file with `htpasswd -c .htpasswd team` (or an online htpasswd generator) and keep it outside the web root. Skip this if the host is nginx — use `auth_basic` in the server block instead.
-4. Serve with `Content-Type: text/html; charset=utf-8` (default on any host) and, if the host allows, `gzip`/`brotli` for `.html` — the file compresses to roughly a third.
-5. Keeping it current: after each `inject.py` run, re-copy the HTML to `/guide/index.html`. If the site is deployed from the repo by a script, add that copy to the deploy step so it is never forgotten.
-
-Not done / open: choose a real URL and hosting path with Etual; decide whether the PDFs also go online (e.g. `/guide/en.pdf`, `/guide/ru.pdf`) — cheap to add, and the Yandex hub already carries them.
+- **Deploy path:** the host's cron (every 5 min) pulls the repo into `$HOME/repository` and copies files into `$HOME/public_html`. The command must copy all guide files, not only the draft:
+  ```
+  cd "$HOME/repository" && git pull --ff-only origin main && for f in style-guide-draft.html style-guide.html style-guide-edit.js style-guide-save.php; do cp "$f" "$HOME/public_html/$f.tmp" && mv "$HOME/public_html/$f.tmp" "$HOME/public_html/$f"; done
+  ```
+  The first upload of the four files was done by hand through the hosting file manager (2026-09-08, permissions 600, which the host's PHP reads fine). `style-guide-config.php` lives only in `public_html`, never in git.
+- The file carries `<meta name="robots" content="noindex, nofollow">`, `theme-color` and an Apple web-app title, so it stays out of search and "Add to Home Screen" gives the team an app-like icon. Etual is fine with the contact details being public; no basic auth on the folder (the `.htaccess` recipe from the earlier plan is dropped — the editor has its own password, and the guide itself is meant to be reachable).
+- Optional, still open: a `/guide/` folder (`/guide/index.html`) for a nicer URL — move all four files together and keep `style-guide-save.php` next to the HTML; the editor uses relative paths. Also open: whether the PDFs go online (`/guide/en.pdf`, `/guide/ru.pdf`) — the Yandex hub already carries them.
 
 ## 10. In-page edit mode (2026-09-08)
 
@@ -191,5 +189,9 @@ Why: Etual wanted Webflow-style text editing on the page instead of VS Code + gi
 - **Trust model:** one shared team password, sent over HTTPS (live since 2026-09-08), verified against a hash, half-second delay on a wrong guess; the endpoint can only overwrite the guide and always keeps a backup first. The password is remembered per browser tab only.
 - **Deploy:** the host's cron (every 5 min) runs `git pull --ff-only` in `$HOME/repository` and copies files into `$HOME/public_html`. It must copy `style-guide.html`, `style-guide-edit.js` and `style-guide-save.php` (the draft copy can stay). `style-guide-config.php` is uploaded by hand once and is never touched by the cron.
 - **Consequences:** in GitHub mode the repo is the source for both languages, as before — the editor is just another way to commit. `tools/i18n/inject.py` still targets `style-guide-draft.html` only and must never be run against the live file (it would strip the RU layer and rebuild it from the stale JSON). Before any repo-side edit or PDF render, pull the live file first (§3). `design.md` remains the source of rules and numbers — in-page edits are for wording, not for changing a rule. Pull before editing structure in the repo (`git pull`), since the editor commits to `main`.
-- **Verified locally (2026-09-08)** against a Python stand-in for the PHP endpoint (both modes): block counts match between page and file (674/674, no tag/lang mismatch), a four-block EN+RU save changed exactly those blocks in the file, wrong password rejected, backup written. The PHP itself could not be executed on the Mac (no PHP installed) — the first save on the real host is the remaining test, including the GitHub API calls.
+- **Verified live (2026-09-08):** on `sweetpepper.bar` the config is not served as source (empty 200), the endpoint answers 405 on GET and 401 on a wrong password (PHP runs, config and hash load), and Etual's first real save committed to `main` through the GitHub API and deployed via the cron — "everything works". Earlier, **verified locally** against a Python stand-in for the PHP endpoint (both modes): block counts match between page and file (674/674, no tag/lang mismatch), a four-block EN+RU save changed exactly those blocks in the file, wrong password rejected, backup written. (The PHP could not be executed on the Mac — no PHP installed — hence the stand-in; the live run above closed that gap.)
 
+
+## 2026-09-09 — RU/EN editorial pass (local review)
+
+Refined the copy throughout `style-guide.html`, including the separate mobile navigation strings. Read the live file first and preserved the author's «06 — Композиция» edit. Changes are local: public page and PDFs still contain the earlier copy. The retired translation JSON and frozen draft were not edited. See `style-guide-copy-review.md` for editorial choices, unresolved technical contradictions and verification. The language-block order and count (674) remain compatible with in-page editing; no live save was performed.

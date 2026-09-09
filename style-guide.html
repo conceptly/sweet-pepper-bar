@@ -139,6 +139,7 @@ pre.code{background:#151317;color:#F3E9D2;font-family:ui-monospace,Menlo,monospa
 @media(max-width:640px){.logo-gallery{grid-template-columns:1fr;}}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 .two .panel{border:1px solid var(--hair);border-radius:12px;padding:28px;}
+.panel > h3:first-child,.panel > h3:first-child + h3{margin-top:0;} /* a heading that opens a card sits on the padding, not on its own top margin */
 .panel>strong{line-height:1.2;}
 @media(max-width:640px){.two{grid-template-columns:1fr;}}
 

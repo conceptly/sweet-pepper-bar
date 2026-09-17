@@ -70,7 +70,7 @@ get_header();
                 </div>
             </div>
             
-            <!-- Hero footer: lang-nudge (absolute) + section link word (in flow) -->
+            <!-- Hero footer: lang-nudge (in flow, right-aligned) + section link word -->
             <div class="hero-footer">
                 <div class="lang-nudge-wrapper">
                     <div class="lang-nudge" id="lang-nudge">

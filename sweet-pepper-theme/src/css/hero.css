@@ -329,11 +329,15 @@ body.admin-bar .home-hero {
 }
 
 /* ── Language Nudge ─────────────────────────────── */
-/* Wrapper: absolutely positioned above the link-word, right-aligned */
+/* Wrapper: in flow above the link-word, right-aligned (Sep 2026 — was absolute, hung
+   above the hero footer, which put it on the CTA buttons whenever the hero's content
+   was taller than the section's minimum: measured overlapping at 991 × 744, 1280 × 700
+   and 1440 × 800, a 13" laptop with browser chrome). In flow it costs ~53px of hero
+   height and pushes the foot word down instead. Dismissal still collapses the wrapper
+   (daypart-engine.js animates its height to 0), so the word rides up when it goes. */
 .lang-nudge-wrapper {
-    position: absolute;
-    bottom: 100%;
-    right: 0;
+    display: flex;
+    justify-content: flex-end;
     margin-bottom: 16px;
     overflow: hidden;
 }
@@ -405,7 +409,18 @@ html[data-theme="night"] .lang-nudge strong {
    All sizes derive from the wide span, so the 8px colour-stack padding and the desktop
    recipes above carry over unchanged (--active-w / --img-w / --img-h / --sheet-h).
    ══════════════════════════════════════════════════════════════════════ */
-@media (max-width: 767px) {
+/* ── The bento: phones, and portrait tablets (Sep 2026) ──
+   The 768–991 band is, in practice, portrait tablets (768 / 810 / 820 / 834 wide, all
+   ≥ 1024 tall); every landscape tablet is 1024+ and takes the desktop row. Measured with
+   the row at 768–991: four 137–174px squares across a 720–900 column read as thumbnails
+   and the 76px headline wrapped to two lines below ~870. The phone bento at the same
+   widths: the active photo 477 × 320 at 768, 503 × 338 at 820, and the hero still one
+   viewport (948 at 768 × 1024). The `min-height: 1000px` guard is what keeps a short
+   viewport in the band — a landscape phone, a narrowed desktop window — on the row: the
+   bento hero is ~1100px tall there and its headline sat 926px down at 991 × 744. The
+   tablet's own differences from the phone (eyebrow, second CTA, 64px headline, 24px gap)
+   are in the block after this one; daypart-engine.js gates the FLIP on the same query. */
+@media (max-width: 767px), (min-width: 768px) and (max-width: 991px) and (min-height: 1000px) {
     .home-hero {
         min-height: calc(100vh - 76px);
         min-height: calc(100dvh - 76px);
@@ -557,6 +572,50 @@ html[data-theme="night"] .lang-nudge strong {
     }
 }
 
+/* ── Bento on tablets: what differs from the phone (768–991 portrait, Sep 2026) ──
+   The phone cut the eyebrow and the second CTA for space (website-brief.md → Mobile —
+   home hero → Not carried over); the band has the space, so both return — the pair
+   splits the row as the block below already arranges. Headline at 64, the Typography
+   mobile Display size, not the phone's raw 32 (one line for the current copy at 768+;
+   colour stays the phone's Olive / Lemon — the Chili-vs-accent divergence is still open
+   at every width). Grid gap 24 = the grid gutter; the span formula follows it. The
+   language nudge stays hidden as on phones: it has no place in this composition and,
+   absolute in the hero footer, it overlapped the menu button on short viewports. */
+@media (min-width: 768px) and (max-width: 991px) and (min-height: 1000px) {
+    .hero-eyebrow {
+        display: block;
+        order: 2;
+        margin-top: 32px;
+        margin-bottom: 12px;
+    }
+
+    #hero-menu-btn {
+        display: inline-flex;
+    }
+
+    .hero-headline {
+        margin-top: 0;
+        font-size: 64px;
+        line-height: 1;
+    }
+
+    .hero-subhead {
+        font-size: 20px;
+    }
+
+    .daypart-grid {
+        gap: 24px;
+    }
+
+    .daypart-tile {
+        --span: calc((100cqw - 48px) / 3 * 2 + 24px);
+    }
+
+    .hero-ctas .btn-primary {
+        width: auto;
+    }
+}
+
 /* ── Hero CTAs on tablets (768–991, Sep 2026) ──
    Reserve + the daypart menu link split the row instead of sitting at their natural
    widths against a 720–943px column. Phones give the primary the full width (the
@@ -567,7 +626,7 @@ html[data-theme="night"] .lang-nudge strong {
     }
 }
 
-@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+@media (max-width: 991px) and (prefers-reduced-motion: reduce) {
     .daypart-tile,
     .daypart-tile .tile-img-wrapper,
     .daypart-tile .tile-overlay,

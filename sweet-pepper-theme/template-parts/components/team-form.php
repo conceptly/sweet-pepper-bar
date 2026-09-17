@@ -129,7 +129,7 @@
                 <p class="team-form__info-label molot-text"><?php esc_html_e( 'Direct contact email', 'sweet-pepper' ); ?></p>
                 <?php get_template_part( 'template-parts/components/contact-item', null, [
                     'icon_svg' => 'icons/c-mail.svg',
-                    'contact'  => 'hello@sweetpepperbar.ru',
+                    'contact'  => 'hello@sweetpepper.bar',
                 ] ); ?>
             </div>
 

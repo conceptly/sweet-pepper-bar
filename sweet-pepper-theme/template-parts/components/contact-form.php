@@ -167,7 +167,7 @@ $topics = $args['topics'] ?? [];
                 <p class="contact-form__info-label">Direct contact email</p>
                 <?php get_template_part( 'template-parts/components/contact-item', null, [
                     'icon_svg' => 'icons/c-mail.svg',
-                    'contact'  => 'hello@sweetpepperbar.ru',
+                    'contact'  => 'hello@sweetpepper.bar',
                 ] ); ?>
             </div>
 

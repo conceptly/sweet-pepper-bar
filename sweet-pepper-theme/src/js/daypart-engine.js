@@ -52,7 +52,8 @@ export function initDaypartEngine() {
         },
     };
 
-    const mobileBento = window.matchMedia('(max-width: 767px)');
+    // Same query as the bento block in hero.css: phones, and portrait tablets in the band
+    const mobileBento = window.matchMedia('(max-width: 767px), (min-width: 768px) and (max-width: 991px) and (min-height: 1000px)');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     /* ── Mobile bento: FLIP the re-placement ──────────
@@ -109,7 +110,7 @@ export function initDaypartEngine() {
             // Toggle active class
             tiles.forEach(t => t.classList.remove('is-active'));
             tile.classList.add('is-active');
-            // Mobile bento picks its grid geometry from this (hero.css ≤ 767px)
+            // The bento picks its grid geometry from this (hero.css — phones and portrait tablets)
             const grid = tile.closest('.daypart-grid');
             if (grid) grid.dataset.active = dp;
         });

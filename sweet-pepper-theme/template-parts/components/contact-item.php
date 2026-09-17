@@ -12,7 +12,7 @@
  *
  * @param array $args {
  *     @type string $icon_svg        Path (from assets/) to the leading icon SVG. Required.
- *     @type string $contact         Contact text (e.g. "hello@sweetpepperbar.ru"). Required.
+ *     @type string $contact         Contact text (e.g. "hello@sweetpepper.bar"). Required.
  *     @type string $copy_text       Text to copy to clipboard. Defaults to $contact.
  *     @type string $supportive_text Secondary line of text. Omit to hide.
  * }

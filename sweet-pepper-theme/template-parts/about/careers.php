@@ -95,7 +95,7 @@ $mail_svg       = file_exists( $icon_dir . 'c-mail.svg' ) ? file_get_contents( $
                     <?php
                     get_template_part( 'template-parts/components/button', null, [
                         'label'          => __( 'Send your CV', 'sweet-pepper' ),
-                        'url'            => 'mailto:hello@sweetpepperbar.ru',
+                        'url'            => 'mailto:hello@sweetpepper.bar',
                         'variant'        => 'secondary',
                         'icon_right_svg' => 'icons/c-mail.svg',
                     ] );
@@ -113,7 +113,7 @@ $mail_svg       = file_exists( $icon_dir . 'c-mail.svg' ) ? file_get_contents( $
                     <?php
                     get_template_part( 'template-parts/components/button', null, [
                         'label'          => __( 'Send your CV', 'sweet-pepper' ),
-                        'url'            => 'mailto:hello@sweetpepperbar.ru',
+                        'url'            => 'mailto:hello@sweetpepper.bar',
                         'variant'        => 'primary-green',
                         'icon_right_svg' => 'icons/c-arrow-right-outline.svg',
                     ] );

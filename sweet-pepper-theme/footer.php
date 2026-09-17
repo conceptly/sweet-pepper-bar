@@ -73,7 +73,7 @@
                             </div>
                             <div class="contact-item contact-item--email">
                                 <i class="ph ph-envelope-simple"></i>
-                                <a href="mailto:hello@sweetpepper.ru">hello@sweetpepper.ru</a>
+                                <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a>
                             </div>
                             <!-- VK leads (website-brief.md → News/social feed: chips out to VK (leading) and Instagram) -->
                             <div class="footer-socials">

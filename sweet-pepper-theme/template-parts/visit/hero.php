@@ -206,14 +206,14 @@
                             <div class="visit-hero__contact-row visit-hero__contact-row--with-action">
                                 <?php get_template_part( 'template-parts/components/contact-item', null, [
                                     'icon_svg'        => 'icons/c-mail.svg',
-                                    'contact'         => 'hello@sweetpepperbar.ru',
+                                    'contact'         => 'hello@sweetpepper.bar',
                                     'supportive_text' => 'Feedback, ideas, partnerships.',
                                 ] ); ?>
-                                <a href="mailto:hello@sweetpepperbar.ru" class="visit-hero__contact-action visit-hero__contact-action--desktop-only">
+                                <a href="mailto:hello@sweetpepper.bar" class="visit-hero__contact-action visit-hero__contact-action--desktop-only">
                                     <span class="visit-hero__contact-action-label">Write</span>
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
-                                <button type="button" class="visit-hero__contact-action visit-hero__contact-action--phone-only js-copy" data-copy-text="hello@sweetpepperbar.ru" data-copied-label="Email address copied" aria-label="Copy email address">
+                                <button type="button" class="visit-hero__contact-action visit-hero__contact-action--phone-only js-copy" data-copy-text="hello@sweetpepper.bar" data-copied-label="Email address copied" aria-label="Copy email address">
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-copy.svg' ); ?></span>
                                 </button>
                             </div>

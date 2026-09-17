@@ -1056,6 +1056,15 @@
     padding: 24px clamp(16px, 12.5vw - 80px, 80px);
   }
 
+  /* The fixed 76px bar and the body offset arrive at ≤991, so the hero's floor gives the
+     bar back here as the About hero does (its `100vh` on top of the offset put the floor
+     76px below the fold whenever the content was shorter than the viewport). Invisible
+     today — the stacked cards are taller than any tablet — but correct. */
+  .visit-hero {
+    min-height: calc(100vh - 76px);
+    min-height: calc(100dvh - 76px);
+  }
+
   .visit-hero__hours-wrap {
     width: 100%;
     flex: none;

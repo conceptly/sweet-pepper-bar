@@ -2170,6 +2170,20 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
        Five cards in one row leaves them ~137px here, narrower than their own Lemon
        caption pills. The phone grid gives ~360 / ~237 against a 736–903 column —
        larger than the desktop's 208 — and the five cards stay peers, no state. */
+
+    /* No flex gap between eyebrow, headline and lead in the band (author, 17 Sep 2026):
+       the desktop 20px was stacking on the lead's own <p> margin, so the headline sat 40
+       from its lead and 20 from its eyebrow. The elements' own margins carry the rhythm. */
+    .about-hero__content {
+        gap: 0;
+    }
+
+    /* With the gap gone the eyebrow sat on the headline with only the line-height as air —
+       "just a bit tight" (author); 12px under it. */
+    .about-hero__eyebrow {
+        padding-bottom: 12px;
+    }
+
     .about-hero__filmstrip {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
@@ -2289,6 +2303,33 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     }
 }
 
+/* ── Below the nav breakpoint, both phones and tablets (Sep 2026) ──
+   The fixed 76px bar and the body's 76px offset arrive at ≤991, so the hero's floor has
+   to give the bar back at ≤991 too. The phone block had it and the tablet block did not:
+   the section kept the desktop `100vh` on top of the offset, and the connector on its
+   floor sat 76px below the fold at 820 and 991 and 130 below at 768, with the content
+   ending 12–76px ABOVE the fold — a full-viewport hero whose last line could never be
+   seen without scrolling. (Desktop is right as it is: there the bar floats over the hero.) */
+@media (max-width: 991px) {
+    .page-about .about-hero {
+        min-height: calc(100vh - 76px);
+        min-height: calc(100dvh - 76px);
+        padding-top: 0;
+        justify-content: flex-end;
+    }
+
+    body.admin-bar .page-about .about-hero {
+        min-height: calc(100dvh - 76px - 46px);
+    }
+
+    /* A single button in a stacked section sits left on the grid start (Grid → Tablet →
+       single-button CTAs, Sep 2026); the desktop right-alignment belonged to the row where
+       the card and the cloud sat side by side. Phones give it the full width anyway. */
+    .about-how-it-feels__cta {
+        justify-content: flex-start;
+    }
+}
+
 @media (max-width: 767px) {
 
     /* ── Connectors: 48px rhythm; over a dark section the reflection runs at full
@@ -2312,18 +2353,9 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
         padding-bottom: 48px;
     }
 
-    /* ── 1. Hero — bento index, bottom-anchored, connector on the floor ── */
-
-    .page-about .about-hero {
-        min-height: calc(100vh - 76px);
-        min-height: calc(100dvh - 76px);
-        padding-top: 0;
-        justify-content: flex-end;
-    }
-
-    body.admin-bar .page-about .about-hero {
-        min-height: calc(100dvh - 76px - 46px);
-    }
+    /* ── 1. Hero — bento index, bottom-anchored, connector on the floor.
+       The floor itself (100dvh less the fixed bar) is set for phones AND tablets in the
+       ≤991 block above this one. ── */
 
     .about-hero .container {
         padding-top: 24px;

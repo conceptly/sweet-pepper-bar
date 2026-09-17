@@ -1,0 +1,475 @@
+/* Footer Styles — matches Figma Footer_Green component */
+
+/* Rugged edge top — sits inside the footer at the very top of the lime area.
+   The rugged circles must match the preceding section's bg so they blend seamlessly.
+   Default: Paper (the most common last-section bg). Page-specific overrides below. */
+.footer-rugged-top {
+    position: relative;
+    z-index: 3;
+    background-color: var(--lime);
+}
+
+/* Default: circles match Paper (menu page day, home fallback) */
+.footer-rugged-top .rugged-edge {
+    --rugged-color: var(--paper) !important;
+}
+
+/* Menu page night: location section bg → Soft Peppercorn */
+html[data-theme="night"] .footer-rugged-top .rugged-edge {
+    --rugged-color: var(--soft-peppercorn) !important;
+}
+
+/* Menu page on phones ends on the "Come sit with us" closer (Peppercorn by night),
+   not on Location (Soft Peppercorn) — location.css → .menu-visit-cta */
+@media (max-width: 767px) {
+    html[data-theme="night"] .page-template-page-menu .footer-rugged-top .rugged-edge {
+        --rugged-color: var(--peppercorn) !important;
+    }
+}
+
+/* Home: the closing section (Contacts) is Parchment by day, Peppercorn by night */
+.home .footer-rugged-top .rugged-edge {
+    --rugged-color: var(--parchment) !important;
+}
+
+html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
+    --rugged-color: var(--peppercorn) !important;
+}
+
+/* About + Visit pages: closing section is always Peppercorn (fixed composition, no daypart) */
+.page-template-page-about .footer-rugged-top .rugged-edge,
+.page-template-page-visit .footer-rugged-top .rugged-edge {
+    --rugged-color: var(--peppercorn) !important;
+}
+
+/* Visit on phones ends on the full-bleed contact form (Soft Peppercorn, visit.css → phone
+   block), not on the section ground, so the bites take the form's colour there. */
+@media (max-width: 767px) {
+    .page-template-page-visit .footer-rugged-top .rugged-edge {
+        --rugged-color: var(--soft-peppercorn) !important;
+    }
+}
+
+/* Lime behind the strip and the main row: the two are the same colour, so a seam between
+   them at a fractional y (the section above is text-height) can only ever show Lime. On
+   the Visit page the body is Peppercorn, which is what a dark hairline there was. */
+.site-footer {
+    position: relative;
+    background-color: var(--lime);
+}
+
+/* Main row: lime background, 80px horizontal padding, 48px vertical */
+.footer-main {
+    background-color: var(--lime);
+    padding-top: 48px;
+    padding-bottom: 48px;
+}
+
+.footer-main-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* Stamp logo */
+.footer-stamp {
+    flex-shrink: 0;
+}
+
+.stamp-img {
+    width: 160px;
+    height: auto;
+    transition: transform var(--dur-gentle) var(--ease-gentle); /* Figma "Gentle", 800ms — the house spring */
+}
+
+.footer-stamp:hover .stamp-img {
+    transform: rotate(180deg);
+}
+
+/* Navigation columns wrapper */
+.footer-nav {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    max-width: 738px;
+}
+
+/* Individual column */
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.footer-col-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3, 18px);
+    color: var(--peppercorn);
+    letter-spacing: 0.9px;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+/* Nav links */
+.footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-links li a {
+    font-family: var(--font-body);
+    font-size: var(--text-body, 16px);
+    color: var(--soft-peppercorn);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.2s;
+}
+
+.footer-links li:first-child a {
+    font-weight: 600;
+    color: var(--ash);
+}
+
+.footer-links li a:hover {
+    color: var(--peppercorn);
+}
+
+/* Hours */
+.footer-hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hours-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hours-day {
+    font-family: var(--font-body);
+    font-size: var(--text-body, 16px);
+    font-weight: 400;
+    color: var(--soft-peppercorn);
+    line-height: 1.4;
+    width: 72px;
+    flex-shrink: 0;
+}
+
+.hours-time {
+    font-family: var(--font-body);
+    font-size: var(--text-body, 16px);
+    font-weight: 600;
+    color: var(--ash);
+    line-height: 1.4;
+}
+
+/* Contact / Visit */
+.footer-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: var(--text-body, 16px);
+    color: var(--peppercorn);
+    line-height: 1.4;
+}
+
+.contact-item i {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.contact-item a {
+    color: var(--peppercorn);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.contact-item a:hover {
+    color: var(--soft-peppercorn);
+}
+
+/* Socials */
+.footer-socials {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding-top: 12px;
+}
+
+.footer-socials a {
+    display: flex;
+    transition: opacity 0.2s;
+}
+
+.footer-socials a:hover {
+    opacity: 0.7;
+}
+
+/* Bottom bar — lime bg with top border */
+.footer-bottom {
+    background-color: var(--lime);
+    border-top: 0.5px solid var(--ash);
+    padding: 24px 0;
+}
+
+.footer-bottom-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-copyright {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #242614; /* dark-olive from Figma */
+}
+
+.footer-back-to-top {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body, 16px);
+    color: var(--olive);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.footer-back-to-top:hover {
+    color: var(--peppercorn);
+}
+
+.footer-back-to-top i {
+    font-size: 12px;
+}
+
+
+/* ── Phones (Figma footer-mobile 1245:39505, every page) ──────────────────────
+   Lime block, 24/16/20 padding, 20px between rows with 0.5px Ash rules. Top row:
+   24px Symbol + Molot wordmark, "Top" link (replaces the desktop bottom bar's Back to
+   top). Then GO TO and HOURS side by side (website-brief.md → Footer → Mobile: two
+   columns, hours labels above their values), then the contacts row full width —
+   phone + address left, the two 44px social targets right. No stamp, no email, no
+   column title on the contacts row. Bottom row Lime-light with the copyright centred.
+   Column titles keep H3 18 (the eyebrow decision, Sep 2026; the frame draws 16). */
+.footer-mobile-top {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .site-footer {
+        background-color: var(--lime);
+        padding-bottom: calc(34px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .footer-main {
+        padding: 24px 0 20px;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .footer-main-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .footer-stamp {
+        display: none;
+    }
+
+    /* Top row */
+    .footer-mobile-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .footer-mini-brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        text-decoration: none;
+    }
+
+    .footer-mini-brand__symbol {
+        display: block;
+        width: auto;
+        height: 24px;
+        flex-shrink: 0;
+    }
+
+    .footer-mini-brand__name {
+        font-size: var(--text-h2);
+        line-height: 1.25;
+        letter-spacing: 0.05em;
+        color: var(--chili);
+        white-space: nowrap;
+    }
+
+    .footer-top-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 1.6;
+        color: var(--peppercorn);
+        text-decoration: none;
+        flex-shrink: 0;
+    }
+
+    .footer-top-link__icon svg {
+        display: block;
+        width: 12px;
+        height: 12px;
+    }
+
+    .footer-top-link__icon svg path {
+        fill: currentColor; /* arrow-up.svg ships with a hardcoded Lemon fill */
+    }
+
+    /* Columns: 2-up grid, contacts row spanning both, Ash rules above the grid and the row */
+    .footer-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 16px;
+        max-width: none;
+        width: 100%;
+        padding-top: 20px;
+        border-top: 0.5px solid var(--ash);
+    }
+
+    .footer-col {
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .footer-links {
+        gap: 6px;
+    }
+
+    .footer-links li a,
+    .footer-links li:first-child a {
+        font-weight: 400;
+        color: var(--dark-olive);
+    }
+
+    .footer-hours-list {
+        gap: 6px;
+    }
+
+    .hours-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
+    }
+
+    .hours-day {
+        width: auto;
+        font-weight: 600;
+        color: var(--dark-olive);
+    }
+
+    .hours-time {
+        font-weight: 400;
+        color: var(--peppercorn);
+    }
+
+    /* Contacts row */
+    .footer-col--visit {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        column-gap: 12px;
+        row-gap: 4px;
+        padding-top: 20px;
+        border-top: 0.5px solid var(--ash);
+    }
+
+    .footer-col--visit .footer-col-title,
+    .footer-col--visit .contact-item i,
+    .contact-item--email {
+        display: none;
+    }
+
+    .footer-contact-list {
+        display: contents;
+    }
+
+    .contact-item--phone {
+        grid-column: 1;
+        grid-row: 1;
+        font-weight: 600;
+    }
+
+    .contact-item--phone a {
+        color: var(--dark-olive);
+    }
+
+    .contact-item--address {
+        grid-column: 1;
+        grid-row: 2;
+        font-size: var(--text-caption);
+        letter-spacing: 0.04em;
+    }
+
+    .footer-socials {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        gap: 0;
+        padding-top: 0;
+    }
+
+    .footer-socials a {
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 4px;
+    }
+
+    /* Bottom row */
+    .footer-bottom {
+        background-color: var(--lime-light);
+        border-top: 0;
+        padding: 12px 0;
+    }
+
+    .footer-bottom-container {
+        justify-content: center;
+    }
+
+    .footer-copyright {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        font-size: var(--text-caption);
+        line-height: 1.4;
+        letter-spacing: 0.04em;
+        color: var(--ash);
+    }
+
+    .footer-back-to-top {
+        display: none;
+    }
+}

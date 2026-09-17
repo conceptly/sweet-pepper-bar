@@ -1,0 +1,378 @@
+/* ── Menu Preview Sections (Bar & Kitchen) ──────────────── */
+/* Figma: menuBarSection (219:2875) / menuKitchenSection (219:2954).
+   Two-column layout: text side (dish list + CTA) + image side.
+   Bar = text-left, Kitchen = image-left (mirrored).
+   Background alternates with surrounding sections. */
+
+
+/* ── Section Backgrounds ── */
+
+.home-bar-preview {
+    background-color: var(--surface); /* parchment (day) */
+}
+
+html[data-theme="night"] .home-bar-preview {
+    background-color: var(--bg); /* peppercorn */
+}
+
+.home-kitchen-preview {
+    background-color: var(--bg); /* paper (day) */
+}
+
+html[data-theme="night"] .home-kitchen-preview {
+    background-color: var(--surface); /* soft-peppercorn */
+}
+
+.home-bar-preview .container,
+.home-kitchen-preview .container {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+
+/* ── Two-Column Layout ── */
+/* Figma: "text" frame 1120w, two 542w halves with 36px gap (578 − 542). */
+
+.menu-preview-content {
+    display: flex;
+    gap: 36px;
+}
+
+.menu-preview-split {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* Text-left (bar): text comes first in DOM, image second — default flex order */
+.menu-preview--text-left {
+    flex-direction: row;
+}
+
+/* Image-left (kitchen): image first, text second */
+.menu-preview--image-left .menu-preview-image {
+    order: -1;
+}
+
+
+/* ── Text Side ── */
+
+.menu-preview-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu-preview-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Section title — Figma: Molot H2, same as card title size */
+.menu-preview-title {
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--chili);
+    margin-bottom: 16px;
+}
+
+/* Lemon by night at every width (Figma menuBarSection night + AboutSection 2048:127019);
+   was missing, so night rendered the day Chili. */
+html[data-theme="night"] .menu-preview-title {
+    color: var(--lemon);
+}
+
+/* CTA alignment */
+.menu-preview-cta {
+    margin-top: 48px;
+}
+
+.menu-preview-cta--right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* ── Image Side ── */
+
+.menu-preview-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.menu-preview-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Image caption label — the `img` component's `pill` (Figma 224:3148 / 224:3156):
+   Lemon at 90%, Peppercorn Golos 400 · 13 / 1.4 / 4%, radius 4, no tilt. Inset 24 on
+   desktop, 16 on phones (website-brief.md → Image caption label). */
+.menu-preview-badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background-color: var(--lemon);
+    opacity: 0.9;
+    color: var(--peppercorn);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+
+/* ── Dish Row ──────────────────────────── */
+/* Figma: dishRow (219:2737) — border-bottom, py 16px, flex row.
+   400px wide in component, 542px in section instance. */
+
+.dish-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--mushroom);
+    width: 100%;
+}
+
+html[data-theme="night"] .dish-row {
+    border-bottom-color: var(--ash);
+}
+
+/* Dish info — left side, flex: 1 */
+.dish-info {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+}
+
+/* Name row — dish name + icons + quantity */
+.dish-name-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Dish name — Golos SemiBold 16px/1.4
+   Figma: highlight=false → peppercorn (day) / paper (night).
+          highlight=true  → olive (day) / lime (night) — for hits & seasonal items. */
+.dish-name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--peppercorn);
+    white-space: nowrap;
+}
+
+html[data-theme="night"] .dish-name {
+    color: var(--paper);
+}
+
+/* Highlighted dish name — olive/lime accent for featured items */
+.dish-name--highlight {
+    color: var(--olive);
+}
+
+html[data-theme="night"] .dish-name--highlight {
+    color: var(--lime);
+}
+
+/* Dish icons — 16×16 inline SVGs */
+.dish-icon {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--olive);
+}
+
+html[data-theme="night"] .dish-icon {
+    color: var(--lime);
+}
+
+.dish-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.dish-icon svg path {
+    fill: currentColor;
+}
+
+/* Seasonal badge — lemon bg, slight rotation */
+.dish-seasonal-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--lemon);
+    color: var(--peppercorn);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: normal;
+    letter-spacing: 0.52px;
+    padding: 4px 8px;
+    border-radius: 2px;
+    transform: rotate(-1deg);
+    white-space: nowrap;
+}
+
+/* Quantity — Golos Regular 13px/1.4, tracking 0.52px */
+.dish-quantity {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+    white-space: nowrap;
+}
+
+html[data-theme="night"] .dish-quantity {
+    color: var(--mushroom);
+}
+
+/* Description — Golos Regular 14px/1.4, tracking 0.56px */
+.dish-description {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    color: var(--ash);
+    margin: 0;
+}
+
+html[data-theme="night"] .dish-description {
+    color: var(--parchment);
+}
+
+/* Options — bulleted sub-items */
+.dish-options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.dish-option {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.dish-option-bullet {
+    width: 8px;
+    height: 8px;
+    margin-top: 6px;
+    flex-shrink: 0;
+    border-radius: 1px;
+    background-color: var(--avocado);
+}
+
+html[data-theme="night"] .dish-option-bullet {
+    background-color: var(--lime);
+}
+
+.dish-option-text {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    color: var(--ash);
+}
+
+html[data-theme="night"] .dish-option-text {
+    color: var(--mushroom);
+}
+
+/* Price — Golos SemiBold 16px/1.6, avocado both modes */
+.dish-price {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--avocado);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Dishes container — stacks dish rows without extra gap (rows have py-16) */
+.dishes-container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ── Phones and tablets (Figma "AboutSection" 2048:127019 — the bar preview, despite the
+   layer name) ──
+   Single column: photo first (3:2, full width), 36px, then title + rows, 48px, then the CTA.
+   Both previews stack the same way, so the kitchen's image-left mirroring is moot here —
+   one `order: -1` on the image covers both variants, which is why this does not need the
+   `column-reverse` the text-left half would otherwise want. Connectors stay the desktop SVGs
+   (website-brief.md → Section connectors → Width matching). Dish rows are the shared
+   component unchanged.
+
+   Widened from ≤767 to ≤991 (Sep 2026, tablet pass): at 768–991 the two 50% halves leave the
+   dish list 348–460px, narrower than the 370 a phone gives the same rows. Phone-only extras —
+   the 48px section rhythm, the full-width CTA and the 16px label inset — stay in the ≤767
+   block below. */
+@media (max-width: 991px) {
+    .menu-preview-content {
+        flex-direction: column;
+        gap: 36px;
+    }
+
+    .menu-preview-image {
+        order: -1;
+    }
+
+    .menu-preview-split {
+        flex: none;
+        width: 100%;
+    }
+
+    .menu-preview-cta,
+    .menu-preview-cta--right {
+        display: flex;
+        margin-top: 48px;
+    }
+
+}
+
+/* Phone-only: the tighter section rhythm, the full-width CTA and the 16px label inset
+   (website-brief.md → Image caption label: 24px on desktop, 16px on phones). */
+@media (max-width: 767px) {
+    .home-bar-preview .container,
+    .home-kitchen-preview .container {
+        gap: 48px;
+    }
+
+    .menu-preview-cta .btn {
+        width: 100%;
+    }
+
+    .menu-preview-badge {
+        top: 16px;
+        left: 16px;
+    }
+}

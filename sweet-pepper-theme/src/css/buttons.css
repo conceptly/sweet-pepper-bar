@@ -1,0 +1,113 @@
+/* Reusable Button Component Styles */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.6;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.8s var(--ease-gentle-flat),
+                color 0.8s var(--ease-gentle-flat),
+                box-shadow 0.8s var(--ease-gentle-flat),
+                border-color 0.8s var(--ease-gentle-flat);
+    border: 1px solid transparent; /* default placeholder for outline states */
+    outline: none;
+}
+
+.btn-icon {
+    display: inline-flex;
+    font-size: 16px;
+}
+
+.btn-icon svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+.btn-icon-svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+/* Primary Button */
+.btn-primary {
+    background-color: var(--chili);
+    color: var(--lemon);
+}
+
+.btn-primary:hover {
+    background-color: var(--lemon);
+    color: var(--chili-deep);
+}
+
+.btn-primary:active {
+    background-color: var(--lemon);
+    color: var(--chili-deep);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+}
+
+/* Secondary Button (Context-Aware for Day/Night) */
+/* Default (Day Mode) */
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--olive);
+    color: var(--olive);
+}
+
+.btn-secondary:hover {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.btn-secondary:active {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+}
+
+/* Secondary Button (Night Mode) */
+html[data-theme="night"] .btn-secondary {
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+html[data-theme="night"] .btn-secondary:hover {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .btn-secondary:active {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+}
+
+/* Primary Green Button — softer alternative to red primary */
+.btn-primary-green {
+    background-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.btn-primary-green:hover {
+    background-color: var(--cream);
+    color: var(--ash);
+}
+
+.btn-primary-green:active {
+    background-color: var(--cream);
+    color: var(--ash);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+}

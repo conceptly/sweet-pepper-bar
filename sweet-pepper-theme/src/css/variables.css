@@ -1,0 +1,78 @@
+/* Semantic tokens based on design.md */
+:root {
+  /* Literals */
+  --chili: #E34314;
+  --chili-deep: #9B2705;
+  --lemon: #FFED00;
+  --olive: #737D3A;
+  --lime: #C1DB34;
+  --lime-light: #D4E671; /* footer bottom row, drawer current-item description */
+  --peppercorn: #151317;
+  --paper: #FCF7E8;
+  --parchment: #F3E9D2;
+  --ash: #54513F;
+  --mushroom: #9E9789;
+  --soft-peppercorn: #201E22;
+  --cream: #FFF689;
+  --paprika: #EF6D44;
+  --dark-olive: #242614;
+  --avocado: #869438;
+
+  /* Day */
+  --bg: var(--paper);
+  --surface: var(--parchment);
+  --text: var(--peppercorn);
+  --text-muted: var(--ash);
+  --text-highlight: var(--chili);
+  --accent: var(--chili);
+  --accent-2: var(--olive);
+
+  /* Type scale */
+  --text-display: 76px;
+  --text-h1: 64px;
+  --text-h2: 24px;
+  --text-h3: 18px;
+  --text-body: 16px;
+  --text-caption: 13px;
+
+  /* Base scales */
+  --font-display: 'Molot', sans-serif;
+  --font-body: 'Golos Text', sans-serif;
+
+  /* ── Motion (Sep 2026) ──
+     The site default is Figma's "Gentle" spring (mass 1 / stiffness 100 /
+     damping 15). In-page scrolling integrates the real spring
+     (src/js/gentle-scroll.js); CSS transitions use this bezier, fitted to
+     the same spring over 800ms (72% at 200ms, ~3% overshoot, settles ~800ms).
+     Use --ease-gentle on things that MOVE (transform, size, position).
+     Use --ease-gentle-flat on colour, opacity, shadow, border — a bezier
+     that overshoots on those flickers past the end value. Same duration. */
+  --dur-gentle: 800ms;
+  --ease-gentle: cubic-bezier(0.33, 0.57, 0.08, 1.19);
+  --ease-gentle-flat: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Figma "Bouncy" — only where the Figma prototype says so (menu hero words,
+     dish picker, Visit hero pops). */
+  --ease-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Expo-out, no overshoot — the home hero's daypart tiles resize on it. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="night"] {
+  /* Night */
+  --bg: var(--peppercorn);
+  --surface: var(--soft-peppercorn);
+  --text: var(--parchment);
+  --text-muted: var(--mushroom);
+  --text-highlight: var(--cream);
+  --accent: var(--chili);
+  --accent-2: var(--lime);
+}
+
+/* Figma `Typography` collection, Mobile mode (Sep 2026): only the display levels move —
+   Display 76 → 64, H1 64 → 36. H2/H3/Body/Caption and every UI style hold (design.md §3.3). */
+@media (max-width: 767px) {
+  :root {
+    --text-display: 64px;
+    --text-h1: 36px;
+  }
+}

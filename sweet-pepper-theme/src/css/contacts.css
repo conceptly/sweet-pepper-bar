@@ -1,0 +1,1382 @@
+/* ═══════════════════════════════════════════════
+   Contacts Section — Home Page
+   Figma: 235-2771 (day) · 293-7553 (night)
+   ═══════════════════════════════════════════════ */
+
+/* ── Section ─────────────────────────────────── */
+
+.home-contacts {
+    background-color: var(--parchment);
+    padding: 0 0 80px;
+}
+
+html[data-theme="night"] .home-contacts {
+    background-color: var(--peppercorn);
+}
+
+.home-contacts .container {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+/* ── Section Header overrides ────────────────── */
+/* Day eyebrow: Avocado (not Olive) */
+.home-contacts .section-eyebrow {
+    color: var(--avocado);
+}
+
+html[data-theme="night"] .home-contacts .section-eyebrow {
+    color: var(--cream);
+}
+
+/* Description: Dark Olive (day) / Paper (night) — already handled by base */
+
+/* ── Social link buttons (in section-ctas) ───── */
+/* Width override for these longer labels */
+.home-contacts .section-ctas .btn {
+    width: auto;
+}
+
+/* ── Split Grid (Map | Form) ─────────────────── */
+
+.contacts-split {
+    display: flex;
+    gap: 48px;
+    align-items: stretch;
+    width: 100%;
+}
+
+.contacts-map-wrap {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.contacts-form-wrap {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* ── Map Block ───────────────────────────────── */
+
+.contacts-map {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--mushroom);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+html[data-theme="night"] .contacts-map {
+    border-color: var(--lime);
+}
+
+.contacts-map__embed {
+    flex: 1 1 0;
+    min-height: 300px;
+    position: relative;
+}
+
+.contacts-map__embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* Address bar */
+.contacts-map__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Wraps the chips to a second row when they and the address stop fitting, rather than
+       needing another hand-picked breakpoint (Sep 2026). It was fixing a real overflow: in
+       992–1095 the contacts split leaves this card only 429–459px against a row needing 434
+       plus padding, so at 1000 the address was clipped by the Copy chip and Directions ran
+       37px past the card edge. With the 12px gap the wrap now fires across 995–1130 — a
+       little wider than the overflow it cures, because the gap counts toward the fit — and
+       the bar is one row again from 1135. Re-scanned 985–1220 in 5px steps: no overflow at
+       any width. Below 992 the bar is a row in the band and hidden on phones, so this never
+       fires there. */
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: var(--paper);
+    box-shadow: 0 -1px 2px rgba(117, 125, 56, 0.33);
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+html[data-theme="night"] .contacts-map__bar {
+    background-color: var(--soft-peppercorn);
+}
+
+.contacts-map__address {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contacts-map__pin-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--avocado);
+}
+
+.contacts-map__pin-icon svg {
+    width: 12px;
+    height: 12px;
+}
+
+html[data-theme="night"] .contacts-map__pin-icon {
+    color: var(--lime);
+}
+
+.contacts-map__address-text {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ash);
+    white-space: nowrap;
+}
+
+html[data-theme="night"] .contacts-map__address-text {
+    color: var(--parchment);
+}
+
+.contacts-map__chips {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* ── Chip buttons (map bar — Copy / Directions) ─ */
+
+.contacts-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 16px;
+    border-radius: 16px;
+    border: 1px solid var(--avocado);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--olive);
+    /* Colour only, on the house flat bezier (variables.css → Motion): the 0.15s ease it
+       shipped with was the one transition on the site off the Gentle curve (Sep 2026) */
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                border-color var(--dur-gentle) var(--ease-gentle-flat),
+                color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.contacts-chip .chip-icon {
+    display: inline-flex;
+}
+
+.contacts-chip .chip-icon svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+/* Copy chips carry both icons; the copied state swaps them (as the contact-item chip does)
+   and holds the hover colours for the two seconds the label reads "Copied!" */
+.contacts-chip .chip-icon--done {
+    display: none;
+}
+
+.contacts-chip.is-copied .chip-icon--copy {
+    display: none;
+}
+
+.contacts-chip.is-copied .chip-icon--done {
+    display: inline-flex;
+}
+
+.contacts-chip.is-copied {
+    background-color: var(--lemon);
+    border-color: var(--lemon);
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .contacts-chip {
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+.contacts-chip:hover {
+    background-color: var(--lemon);
+    border-color: var(--lemon);
+    color: var(--peppercorn);
+}
+
+/* ═══════════════════════════════════════════════
+   Contact Form Card
+   ═══════════════════════════════════════════════ */
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px;
+    border: 1px solid var(--mushroom);
+    border-radius: 8px;
+    background-color: var(--paper);
+    box-shadow: 1px 1px 4px rgba(21, 19, 23, 0.15);
+}
+
+html[data-theme="night"] .contact-form {
+    background-color: var(--peppercorn);
+}
+
+/* ── Form Header ─────────────────────────────── */
+
+.contact-form__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.contact-form__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin: 0;
+}
+
+html[data-theme="night"] .contact-form__title {
+    color: var(--lime);
+}
+
+.contact-form__subtitle {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    color: var(--ash);
+    margin: 0;
+}
+
+html[data-theme="night"] .contact-form__subtitle {
+    color: var(--paper);
+}
+
+/* ── Topic chips (optional; the Visit page passes them) ──
+   Figma chipBtn-Secondary: caption 13 in a 4/12 pill, 16px radius, one active. Day colours
+   here; the dark form recolours them (visit.css). The row scrolls sideways rather than wrapping. */
+
+.contact-form__topics {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: clip;
+    scrollbar-width: none;
+    margin: 0 -16px;
+    padding: 0 16px;
+}
+
+.contact-form__topics::-webkit-scrollbar {
+    display: none;
+}
+
+.contact-form__topic {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--avocado);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--olive);
+    white-space: nowrap;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.contact-form__topic.is-active {
+    background-color: var(--lime-light);
+    border-color: var(--lime-light);
+    color: var(--peppercorn);
+}
+
+/* ── Fields Container ────────────────────────── */
+
+.contact-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ── Single Field ────────────────────────────── */
+
+.contact-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Label row — holds label (left) + error text (right) on one line */
+.contact-field__label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.contact-field__label {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    cursor: pointer;
+}
+
+html[data-theme="night"] .contact-field__label {
+    color: var(--paper);
+}
+
+.contact-field__asterisk {
+    color: var(--lime);
+    font-weight: 400;
+}
+
+/* Error text — inline in label row, right-aligned, Paprika per Figma */
+.contact-field__error-text {
+    display: none;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--paprika);
+    white-space: nowrap;
+}
+
+.contact-field--error .contact-field__error-text {
+    display: block;
+}
+
+/* Input wrapper */
+.contact-field__input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid var(--mushroom);
+    border-radius: 4px;
+    background-color: var(--parchment);
+    transition: border-color 0.15s ease;
+}
+
+html[data-theme="night"] .contact-field__input-wrap {
+    background-color: transparent;
+}
+
+.contact-field__input-wrap:focus-within {
+    border-color: var(--lime);
+}
+
+/* Error state — border turns Chili */
+.contact-field--error .contact-field__input-wrap {
+    border-color: var(--chili);
+}
+
+/* Leading icon inside input */
+/* Field icons are library SVGs (c-mail / c-phone, currentColor) — not glyphs */
+.contact-field__icon svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+.contact-field__icon {
+    font-size: 16px;   /* kept: the slot still sizes by font for any non-SVG fallback */
+    color: var(--mushroom);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* The actual input element */
+.contact-field__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--peppercorn);
+    padding: 0;
+    min-width: 0;
+}
+
+html[data-theme="night"] .contact-field__input {
+    color: var(--paper);
+}
+
+.contact-field__input::placeholder {
+    color: var(--mushroom);
+}
+
+/* Autofill override — prevent browser blue background */
+.contact-field__input:-webkit-autofill,
+.contact-field__input:-webkit-autofill:hover,
+.contact-field__input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--parchment) inset;
+    -webkit-text-fill-color: var(--peppercorn);
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: var(--peppercorn);
+}
+
+html[data-theme="night"] .contact-field__input:-webkit-autofill,
+html[data-theme="night"] .contact-field__input:-webkit-autofill:hover,
+html[data-theme="night"] .contact-field__input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--peppercorn) inset;
+    -webkit-text-fill-color: var(--paper);
+    caret-color: var(--paper);
+}
+
+/* ── Textarea field ──────────────────────────── */
+
+.contact-field__input-wrap--textarea {
+    height: 120px;
+    align-items: flex-start;
+    padding: 12px 16px;
+}
+
+.contact-field__input-wrap--textarea .contact-field__input {
+    resize: none;
+    height: 100%;
+}
+
+/* Counter text */
+.contact-field__counter {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    text-align: right;
+}
+
+html[data-theme="night"] .contact-field__counter {
+    color: var(--paper);
+}
+
+/* ── Toggle field (email/phone swap group) ──── */
+
+.contact-toggle-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* The field that gets hidden */
+.contact-toggle-group__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-toggle-group__field[hidden] {
+    display: none;
+}
+
+/* Toggle pills row */
+.contact-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.contact-toggle__pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--avocado);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--avocado);
+    transition: all 0.15s ease;
+}
+
+.contact-toggle__pill--active {
+    background-color: var(--lime);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.contact-toggle__helper {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+}
+
+html[data-theme="night"] .contact-toggle__helper {
+    color: var(--paper);
+}
+
+/* ── Submit button (full width) ──────────────── */
+
+.contact-form__submit {
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════
+   Success State
+   ═══════════════════════════════════════════════ */
+
+/* Hide/show form vs success */
+.contact-form__body {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.contact-form__success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    text-align: center;
+}
+
+.contact-form[data-form-state="success"] .contact-form__body {
+    display: none;
+}
+
+.contact-form[data-form-state="success"] .contact-form__success {
+    display: flex;
+}
+
+/* Icon badge — Day: Avocado border + tint, Night: Lime */
+.contact-form__success-badge {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    border: 2px solid var(--avocado);
+    background: rgba(134, 148, 56, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+html[data-theme="night"] .contact-form__success-badge {
+    border-color: var(--lime);
+    background: rgba(193, 219, 52, 0.15);
+}
+
+.contact-form__success-badge .success-badge-icon {
+    display: flex;
+    color: var(--avocado);
+}
+
+html[data-theme="night"] .contact-form__success-badge .success-badge-icon {
+    color: var(--lime);
+}
+
+.contact-form__success-badge .success-badge-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Success content */
+.contact-form__success-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+/* Title — Day: Olive, Night: Lime */
+.contact-form__success-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: 1.44px;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin: 0;
+}
+
+html[data-theme="night"] .contact-form__success-title {
+    color: var(--lime);
+}
+
+/* Body — Day: Ash, Night: Paper */
+.contact-form__success-body {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ash);
+    text-wrap: pretty;
+    margin: 0;
+    text-align: left;
+}
+
+html[data-theme="night"] .contact-form__success-body {
+    color: var(--paper);
+}
+
+/* Info boxes — Day: Parchment bg, Night: Soft Peppercorn bg */
+.contact-form__info-box {
+    background-color: var(--parchment);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+html[data-theme="night"] .contact-form__info-box {
+    background-color: var(--soft-peppercorn);
+}
+
+/* Info label — Day: Ash, Night: Mushroom */
+.contact-form__info-label {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin: 0;
+}
+
+html[data-theme="night"] .contact-form__info-label {
+    color: var(--mushroom);
+}
+
+/* ── Contact Item Component ──────────────────── */
+/* Figma: contactItem-day (1819-128718)           */
+
+.contact-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    position: relative;
+}
+
+/* Leading icon — top-aligned with 4px top padding to balance text line-height */
+.contact-item__icon {
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+    padding-top: 4px;
+    color: var(--avocado);
+}
+
+html[data-theme="night"] .contact-item__icon {
+    color: var(--lime);
+}
+
+.contact-item__icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Body (text + supportive) */
+.contact-item__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+/* Main row (contact text + chip) */
+.contact-item__main {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Contact text */
+.contact-item__text {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--soft-peppercorn);
+    white-space: nowrap;
+}
+
+html[data-theme="night"] .contact-item__text {
+    color: var(--paper);
+}
+
+/* Supportive text (second line) */
+.contact-item__supportive {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+    white-space: nowrap;
+}
+
+html[data-theme="night"] .contact-item__supportive {
+    color: var(--mushroom);
+}
+
+/* Copy chip — hidden by default, revealed on hover via opacity + slide */
+.contact-item__copy-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background-color: var(--cream);
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    white-space: nowrap;
+    flex-shrink: 0;
+    /* Hidden by default — slides in from the right on hover */
+    opacity: 0;
+    transform: translateX(8px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.15s ease;
+}
+
+/* Show chip on row hover */
+.contact-item:hover .contact-item__copy-chip {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* Chip hover (hover2 state) — bg changes to lemon */
+.contact-item__copy-chip:hover {
+    background-color: var(--lemon);
+}
+
+/* Chip icon sizing */
+.contact-item__chip-icon svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+/* Force done icon (fire.svg) to use text colour instead of its hardcoded yellow fill */
+.contact-item__chip-icon--done svg,
+.contact-item__chip-icon--done svg path {
+    fill: currentColor;
+}
+
+/* Done icon (fire) hidden by default */
+.contact-item__chip-icon--done {
+    display: none;
+}
+
+/* Success state — swap label + icon */
+.contact-item.is-copied .contact-item__chip-icon--copy {
+    display: none;
+}
+
+.contact-item.is-copied .contact-item__chip-icon--done {
+    display: inline-flex;
+}
+
+/* Keep chip visible in success state even without hover */
+.contact-item.is-copied .contact-item__copy-chip {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* "Send another message" button */
+.contact-form__reset-btn {
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive — Mobile
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 991px) {
+    .contacts-split {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    /* Taller in the band (author, Sep 2026): 300 was a phone number tablets inherited.
+       600 reads well on a desktop browser narrowed to this width but eats a real tablet
+       screen, so the height is fluid between 400 and 600. Width drives it, which keeps the
+       map near 3:2 against the content column (461 at 768, 595 at 991); the vh term guards
+       short landscape viewports, where 60vw alone overshoots (960 × 600 → 400, not 576).
+       `vh` not `dvh`, so the map does not resize while a mobile toolbar hides. */
+    .contacts-map__embed {
+        min-height: clamp(400px, min(60vw, 55vh), 600px);
+    }
+
+    /* Stays a row in the band (author, Sep 2026). It had been stacked here since the
+       ≤991 block was written for phones; at 768–991 the bar is 734–901 wide and the
+       address + chips need ~466, so the row fits with room to spare and the bar keeps
+       its desktop height (56 rather than 91). Below 767 the bar is hidden entirely
+       (phones use .contacts-map__chips--phone), so this rule only ever applies here. */
+    .contacts-map__bar {
+        flex-direction: row;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .contact-form__success-title {
+        font-size: 28px;
+    }
+
+    .contact-toggle {
+        flex-wrap: wrap;
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   Phones — Figma Contacts 1198:53132
+   The form goes (the author dropped it from the home page: it made the section
+   too long); in its place the reserve drawer's booking block, a "Get directions"
+   band (map 360–400 by viewport) and a pointer to the Visit page. Stack at 24px: connector → (48) title block
+   with the short phone description → booking block → directions band (bleeds across
+   the gutters, the other ground: Paper by day, Soft Peppercorn by night) → "Looking
+   for more?". The three phone-only blocks are display: none above 767px.
+   ═══════════════════════════════════════════════ */
+
+.contacts-reserve,
+.contacts-subtitle--directions,
+.contacts-map__chips--phone,
+.contacts-more {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .home-contacts {
+        padding-bottom: 48px;
+    }
+
+    .home-contacts .container {
+        gap: 24px;
+    }
+
+    .home-contacts .section-header {
+        margin-top: 24px; /* 48 from the connector, like every other section */
+    }
+
+    .home-contacts .section-ctas,
+    .contacts-form-wrap,
+    .contacts-map__bar {
+        display: none;
+    }
+
+    /* ── Booking block (the drawer's ctaContainer: gap 24, rows gap 4) ── */
+    .contacts-reserve {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
+    }
+
+    .contacts-reserve__social {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .contacts-reserve__row {
+        display: flex;
+        gap: 16px;
+    }
+
+    .contacts-reserve__row .btn {
+        flex: 1 0 0;
+        min-width: 0;
+        white-space: nowrap;
+    }
+
+    /* ── Directions band ── */
+    .contacts-split {
+        gap: 24px;
+    }
+
+    .contacts-map-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin: 0 -16px;
+        padding: 24px 16px;
+        background-color: var(--bg);
+    }
+
+    html[data-theme="night"] .contacts-map-wrap {
+        background-color: var(--surface);
+    }
+
+    .contacts-subtitle {
+        font-size: var(--text-h2);
+        line-height: 1.25;
+        letter-spacing: 0.05em;
+        color: var(--olive);
+    }
+
+    html[data-theme="night"] .contacts-subtitle {
+        color: var(--cream);
+    }
+
+    .contacts-subtitle--directions {
+        display: block;
+    }
+
+    /* Map height follows the viewport, clamped to 360–400 (author, Sep 2026): the band
+       (24 + title 30 + 16 + map + 16 + chips 34 + 24 ≈ map + 146) must fit one screen
+       under the 76px header, and "Looking for more?" (≈ 130 with its gap) should fit
+       too where there is room — 100dvh − 352 does both: 360 on a 667px phone, 400 from
+       752px up. dvh so the URL bar is accounted for; vh is the fallback. */
+    .contacts-map,
+    html[data-theme="night"] .contacts-map {
+        height: clamp(360px, 100vh - 352px, 400px);
+        height: clamp(360px, 100dvh - 352px, 400px);
+        border-color: var(--mushroom);
+        box-shadow: 1px 1px 4px 0 rgba(21, 19, 23, 0.15);
+    }
+
+    .contacts-map__embed {
+        min-height: 0;
+    }
+
+    /* Chips: the Interaction rule's chip style — Golos Medium 13 / 1.4 / 4% — in a pill
+       with 8/16 padding (the frame's 14px was an undocumented paragraph style; decided Sep 2026) */
+    .contacts-map__chips--phone {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .contacts-map__chips--phone .contacts-chip {
+        padding: 8px 16px;
+        border-radius: 100px;
+        font-size: var(--text-caption);
+        font-weight: 500;
+        line-height: 1.4;
+        letter-spacing: 0.04em;
+    }
+
+    html[data-theme="night"] .contacts-map__chips--phone .contacts-chip {
+        background-color: var(--soft-peppercorn);
+    }
+
+    /* ── Looking for more? ── */
+    .contacts-more {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .contacts-more__row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .contacts-more__lead {
+        margin: 0;
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: var(--text-body);
+        line-height: 1.4;
+        color: var(--soft-peppercorn);
+    }
+
+    html[data-theme="night"] .contacts-more__lead {
+        color: var(--parchment);
+    }
+
+    .contacts-more__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        align-self: flex-start;
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: var(--text-body);
+        line-height: 1.6;
+        color: var(--olive);
+        text-decoration: none;
+    }
+
+    html[data-theme="night"] .contacts-more__link {
+        color: var(--lime);
+    }
+
+    .contacts-more__link-icon svg {
+        display: block;
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* ===========================================================================
+   Dream Team — "Write to the Team" form modal
+   =========================================================================== */
+
+/* ── Overlay scrim ── */
+
+.team-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.team-form-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ── Dialog card ── */
+
+.team-form-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 558px;
+    /* Never wider than the viewport, even while hidden: a fixed element that pokes
+       past the edge makes WebKit grow the layout viewport to its right edge (Sep
+       2026 — the About page rendered 453px wide on a 375 phone, header and all). */
+    max-width: calc(100vw - 32px);
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    padding: 24px;
+    background-color: var(--paper);
+    border: 1px solid rgba(84, 81, 63, 0.3);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s var(--ease-out-expo);
+}
+
+.team-form-dialog.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* ── Close button ── */
+
+.team-form-dialog__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--peppercorn);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+/* ── Compose state ── */
+
+.team-form__body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.team-form__title {
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: #e34314;
+    margin: 0;
+}
+
+/* To: row */
+.team-form__to-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+}
+
+.team-form__to-label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: normal;
+    color: var(--ash);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.team-form__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+}
+
+/* Name chip — default (outlined) */
+.team-form__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border: 1px solid var(--avocado);
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--olive);
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Dismiss × — hidden by default */
+.team-form__chip-dismiss {
+    display: none;
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+}
+
+/* Name chip — active (filled) */
+.team-form__chip.is-active {
+    background-color: var(--lime-light, #d4e671);
+    border-color: var(--lime-light, #d4e671);
+    color: var(--peppercorn);
+}
+
+.team-form__chip.is-active .team-form__chip-dismiss {
+    display: block;
+}
+
+/* Form fields container */
+.team-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* CTA row */
+.team-form__cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.team-form__cta-hint {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+    color: var(--ash);
+    white-space: nowrap;
+}
+
+.team-form__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 600;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+/* ── Success state ── */
+
+.team-form__success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    text-align: center;
+    padding: 24px;
+}
+
+/* Badge — replicates the existing contact-form badge */
+.team-form__success-badge {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    border: 2px solid var(--avocado);
+    background: rgba(134, 148, 56, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.team-form__success-badge .success-badge-icon {
+    display: flex;
+    color: var(--avocado);
+}
+
+.team-form__success-badge .success-badge-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Success content */
+.team-form__success-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.team-form__success-title {
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: 1.44px;
+    color: var(--olive);
+    margin: 0;
+}
+
+.team-form__success-body {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ash);
+    text-wrap: pretty;
+    margin: 0;
+    text-align: left;
+}
+
+/* Info boxes */
+.team-form__info-box {
+    background-color: var(--parchment);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.team-form__info-label {
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    color: var(--ash);
+    margin: 0;
+}
+
+/* Reset button */
+.team-form__reset-btn {
+    width: 100%;
+}
+
+/* ── State switching ── */
+
+.team-form-dialog[data-form-state="compose"] .team-form__success {
+    display: none;
+}
+
+.team-form-dialog[data-form-state="compose"] .team-form__body {
+    display: flex;
+}
+
+.team-form-dialog[data-form-state="success"] .team-form__body {
+    display: none;
+}
+
+.team-form-dialog[data-form-state="success"] .team-form__success {
+    display: flex;
+}
+
+/* ── "Write to the team" dialog on phones — interim (Sep 2026) ──
+   The dialog has no phone design yet (it wants the reserve drawer's bottom-sheet
+   treatment). Until then: it never exceeds the viewport (max-width above) and its
+   CTA row wraps instead of pushing the submit button past the card. */
+@media (max-width: 767px) {
+    .team-form-dialog {
+        padding: 20px 16px;
+    }
+
+    .team-form__cta-row {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .team-form__cta-hint {
+        white-space: normal;
+    }
+
+    .team-form__submit {
+        width: 100%;
+        justify-content: center;
+    }
+}

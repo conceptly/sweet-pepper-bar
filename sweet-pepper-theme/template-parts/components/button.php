@@ -1,0 +1,69 @@
+<?php
+/**
+ * Button Component
+ * 
+ * @param array $args {
+ *     @type string $label   Button text
+ *     @type string $url     Button link URL (if empty, renders a <button>)
+ *     @type string $type    'primary' | 'secondary'
+ *     @type string $icon    Name of Phosphor icon to include on the right
+ *     @type string $class   Extra CSS classes
+ *     @type string $id      Optional ID
+ * }
+ */
+
+$label      = $args['label'] ?? 'Button';
+$url        = $args['url'] ?? '';
+$type       = $args['variant'] ?? ( $args['type'] ?? 'primary' );
+$icon_left  = $args['icon_left'] ?? ( $args['icon'] ?? '' );
+$icon_right = $args['icon_right'] ?? '';
+$icon_left_svg  = $args['icon_left_svg'] ?? '';
+$icon_right_svg = $args['icon_right_svg'] ?? '';
+$class      = $args['class'] ?? '';
+$id         = $args['id'] ?? '';
+
+$classes = ['btn', 'btn-' . $type];
+if ( ! empty( $class ) ) {
+    $classes[] = $class;
+}
+
+$class_attr = 'class="' . esc_attr( implode( ' ', $classes ) ) . '"';
+$id_attr    = ! empty( $id ) ? 'id="' . esc_attr( $id ) . '"' : '';
+
+$icon_left_html = '';
+if ( ! empty( $icon_left_svg ) ) {
+    $svg = sweet_pepper_inline_svg( 'assets/' . $icon_left_svg );
+    if ( $svg ) {
+        $icon_left_html = '<span class="btn-icon btn-icon-left">' . $svg . '</span>';
+    }
+} elseif ( ! empty( $icon_left ) ) {
+    $icon_left_html = '<span class="btn-icon btn-icon-left"><i class="ph-fill ph-' . esc_attr( $icon_left ) . '"></i></span>';
+}
+
+$icon_right_html = '';
+if ( ! empty( $icon_right_svg ) ) {
+    $svg = sweet_pepper_inline_svg( 'assets/' . $icon_right_svg );
+    if ( $svg ) {
+        $icon_right_html = '<span class="btn-icon btn-icon-right">' . $svg . '</span>';
+    }
+} elseif ( ! empty( $icon_right ) ) {
+    $icon_right_html = '<span class="btn-icon btn-icon-right"><i class="ph-fill ph-' . esc_attr( $icon_right ) . '"></i></span>';
+}
+
+if ( ! empty( $url ) ) {
+    ?>
+    <a href="<?php echo esc_url( $url ); ?>" <?php echo $id_attr; ?> <?php echo $class_attr; ?>>
+        <?php echo $icon_left_html; ?>
+        <span class="btn-label"><?php echo esc_html( $label ); ?></span>
+        <?php echo $icon_right_html; ?>
+    </a>
+    <?php
+} else {
+    ?>
+    <button <?php echo $id_attr; ?> <?php echo $class_attr; ?>>
+        <?php echo $icon_left_html; ?>
+        <span class="btn-label"><?php echo esc_html( $label ); ?></span>
+        <?php echo $icon_right_html; ?>
+    </button>
+    <?php
+}

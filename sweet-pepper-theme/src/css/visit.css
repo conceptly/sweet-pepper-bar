@@ -1,0 +1,1869 @@
+/* ==========================================================================
+   Visit Page Styles
+   ========================================================================== */
+
+/* In-page anchors (Directions → #visit-map) scroll on a Figma "Gentle"
+   spring via src/js/gentle-scroll.js. No `scroll-behavior: smooth` here —
+   the browser's own smooth scroll is short and ends abruptly, and it would
+   also smooth the script's per-frame scrollTo() calls on top of the spring. */
+
+/* --------------------------------------------------------------------------
+   Section 1: Hero (.visit-hero)
+   -------------------------------------------------------------------------- */
+.visit-hero {
+  background-color: var(--peppercorn);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Contacts-hero-content: flex column, overlap handled by header's
+   margin-bottom: -40px (CSS doesn't support negative flex gap).
+   justify-content: center vertically centres the whole composition ── */
+.visit-hero__frame {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  overflow: clip;
+}
+
+/* ── Header: heroMessage + statesContainer together ── */
+.visit-hero__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+  margin-bottom: -40px;   /* Figma -52px adjusted for CSS tilt geometry */
+  position: relative;
+  z-index: 1;
+}
+
+/* heroMessage: title block left + description right */
+.visit-hero__hero-message {
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  align-items: flex-end;
+  padding: 132px 80px 48px; /* top clears absolute nav; bottom 48px for balance */
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  overflow: clip;
+}
+
+.visit-hero__title-block {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.visit-hero__eyebrow {
+  color: var(--lime-light, #d4e671);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  letter-spacing: 0.9px;
+  line-height: 1.35;
+}
+
+.visit-hero__headline {
+  color: var(--chili, #e34314);
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  letter-spacing: 2.56px;
+  line-height: 1.05;
+}
+
+.visit-hero__description {
+  flex: 1 1 0;
+  min-width: 0;
+  color: var(--parchment);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  text-wrap: pretty;
+  margin-block-end: 0.5em;
+}
+
+/* ── Status Band: Lime full-width bar, inside header ── */
+.visit-hero__band {
+  background-color: var(--lime, #c1db34);
+  width: 100%;
+  padding: 0 80px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transform: rotate(1deg);
+}
+
+.visit-hero__band-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.visit-hero__band-lead {
+  color: var(--soft-peppercorn, #201e22);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  letter-spacing: 0.9px;
+  line-height: 1.35;
+}
+
+.visit-hero__band-states {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.visit-hero__state-pill {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+.visit-hero__state-pill--bar {
+  background-color: var(--peppercorn);
+}
+
+.visit-hero__state-pill--kitchen {
+  background-color: var(--soft-peppercorn);
+}
+
+.visit-hero__state-icon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.visit-hero__state-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Default icon colours for currentColor SVGs */
+.visit-hero__state-pill--bar .visit-hero__state-icon {
+  color: var(--lemon, #ffed00);
+}
+
+.visit-hero__state-pill--kitchen .visit-hero__state-icon {
+  color: var(--lemon, #ffed00);
+}
+
+/* State-driven icon colours — override hardcoded SVG fills AND currentColor */
+[data-bar-state="closed"] .visit-hero__state-icon {
+  color: var(--paprika, #ef6d44);
+}
+[data-bar-state="closed"] .visit-hero__state-icon svg path,
+[data-bar-state="closed"] .visit-hero__state-icon svg circle {
+  fill: var(--paprika, #ef6d44);
+}
+
+[data-kitchen-state="closed"] .visit-hero__state-icon {
+  color: var(--paprika, #ef6d44);
+}
+[data-kitchen-state="closed"] .visit-hero__state-icon svg path,
+[data-kitchen-state="closed"] .visit-hero__state-icon svg circle {
+  fill: var(--paprika, #ef6d44);
+}
+
+.visit-hero__state-label {
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 0.64px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* State-driven label colours — labels stay "alive" colour, only Paprika on closed */
+[data-bar-state="open"] .visit-hero__state-label { color: var(--lime, #c1db34); }
+[data-bar-state="wrapping"] .visit-hero__state-label { color: var(--lime, #c1db34); }
+[data-bar-state="closed"] .visit-hero__state-label { color: var(--paprika, #ef6d44); }
+[data-kitchen-state="open"] .visit-hero__state-label { color: var(--lemon, #ffed00); }
+[data-kitchen-state="last-orders"] .visit-hero__state-label { color: var(--lemon, #ffed00); }
+[data-kitchen-state="bar-snacks"] .visit-hero__state-label { color: var(--lemon, #ffed00); }
+[data-kitchen-state="closed"] .visit-hero__state-label { color: var(--paprika, #ef6d44); }
+
+.visit-hero__state-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* State-driven dot colours — dots use orange for transitional states */
+[data-bar-state="open"] .visit-hero__state-dot { background-color: var(--lime, #c1db34); }
+[data-bar-state="wrapping"] .visit-hero__state-dot { background-color: #e8751a; }
+[data-bar-state="closed"] .visit-hero__state-dot { background-color: var(--paprika, #ef6d44); }
+[data-kitchen-state="open"] .visit-hero__state-dot { background-color: var(--lemon, #ffed00); }
+[data-kitchen-state="last-orders"] .visit-hero__state-dot { background-color: #e8751a; }
+[data-kitchen-state="bar-snacks"] .visit-hero__state-dot { background-color: #e8751a; }
+[data-kitchen-state="closed"] .visit-hero__state-dot { background-color: var(--paprika, #ef6d44); }
+
+/* ── Content: natural height, wraps the heroSplit. The frame handles
+   vertical centering; the header's -40px margin handles the overlap ── */
+.visit-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.visit-hero__split {
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Hours Card ── */
+/* The hero split is two fixed columns — 548 + 48 gap + 524 = 1120, exactly the design
+   column — so it only ever fit at 1280 and the contacts card hung past the viewport by
+   213px at 992, 181 at 1024, 105 at 1100 (measured Sep 2026). Both columns can give here,
+   unlike the badges/map pair where only one could, so both shrink from their own basis:
+   the bases sum to the 1072 available at 1280, which keeps 548 / 524 exactly, and below
+   that they scale together (992 → 401 / 383). No new breakpoint needed. */
+.visit-hero__hours-wrap {
+  flex: 1 1 548px;
+  min-width: 0;
+  margin-top: 36px;
+}
+
+/* ── Hours card — rugged "ticket" pattern ──
+   Same construction as .reserve-ticket-wrapper (reserve-drawer.css) and
+   .dish-picker__card-wrap (dish-picker.css):
+     wrapper     = position:relative + overflow:hidden (Figma: cardContainer, clip content)
+     top edge    = absolute, floats over the card from above (Figma: ruggedEdge z-3, top -13)
+     card        = in flow; its top padding absorbs the bite (Figma: card z-2, pt-24 + hoursContainer pt-24)
+     bottom edge = in flow, flush below the card (Figma: ruggedEdge z-1, card mb -13)
+   Edge colours: top = Peppercorn (section bg) bites into the card; bottom = Parchment (card bg)
+   scallops out onto the section. The edge wrappers MUST be full width — a centred flex
+   column shrinks an empty wrapper to 0px and the edge disappears. */
+.visit-hero__hours-card-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* Figma: clip content — trims the edges to the card's bounds */
+  isolation: isolate;
+}
+
+/* Top edge: absolutely positioned so it overlaps the card — no flow boundary = no seam.
+   Its centre row sits on the card's 1px Peppercorn top border (below), so the circles'
+   full-width top row is Peppercorn on Peppercorn and 11px of bite shows, as in Figma. */
+.visit-hero__hours-edge-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.visit-hero__hours-card {
+  background-color: var(--parchment, #f3e9d2);
+  /* No border-radius — the rugged edges ARE the boundary (same as .reserve-ticket-wrapper
+     and .dish-picker__card-wrap). Figma draws the card at 8px, but its ruggedEdge is a 24px
+     strip whose solid half overlaps the card by 13px and squares the corners under the
+     scallops; a bare 12px half-circle row over a rounded corner leaves a dark wedge at each
+     corner instead (author, Sep 2026). */
+  border-radius: 0;
+  /* A 1px top border in the section colour, so the Peppercorn → Parchment boundary is
+     painted by ONE element (border + background in one pass). A boundary between two
+     elements at a fractional y is rasterised separately per element and, at any
+     non-integer scale (DevTools "fit to window", Windows 125–150%), can leave a hairline
+     of whatever is behind. The edge strip's centre row sits on this border. */
+  border-top: 1px solid var(--peppercorn);
+  padding-top: 24px;
+  padding-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.visit-hero__hours-section {
+  padding: 24px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inner list wrapping regularHours + nextEvent — gap-24 between groups */
+.visit-hero__hours-list-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Each hours block (title + list/event) — gap-12 inside */
+.visit-hero__hours-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.visit-hero__hours-title {
+  color: var(--chili-deep, #9b2705);
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  letter-spacing: 1.2px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.visit-hero__hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.visit-hero__hours-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--avocado);
+}
+
+.visit-hero__hours-day {
+  color: var(--soft-peppercorn);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  width: 72px;
+}
+
+.visit-hero__hours-time {
+  color: var(--peppercorn);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+}
+
+/* Next Event */
+.visit-hero__next-event {
+  background-color: var(--cream, #fff689);
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.visit-hero__event-info {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.visit-hero__event-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  padding-top: 4px;
+  transform: rotate(-1deg);
+  display: flex;
+  align-items: center;
+}
+
+.visit-hero__event-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Party icon has hardcoded Lemon fill=#FFED00, invisible on cream bg — override.
+   Figma (920:30952): the icon is Chili Deep on the cream Next Up row. */
+.visit-hero__event-icon svg path {
+  fill: var(--chili-deep, #9b2705) !important;
+}
+
+.visit-hero__event-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+  line-height: 1.4;
+  color: var(--soft-peppercorn, #201e22);
+  white-space: nowrap;
+}
+
+.visit-hero__event-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-body);
+  color: var(--soft-peppercorn);
+}
+
+.visit-hero__event-detail {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--soft-peppercorn);
+  letter-spacing: 0.52px;
+}
+
+/* Evergreen social slot: one wrapping line, no time column — the placeholder event's
+   nowrap would overflow the 370 phone column (visit-page-copy-en.md → Evergreen social slot). */
+.visit-hero__next-event--evergreen .visit-hero__event-text {
+  white-space: normal;
+}
+
+.visit-hero__event-time {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--peppercorn);
+  line-height: 1.4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Hours CTA */
+.visit-hero__hours-cta {
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.visit-hero__hours-link {
+  color: var(--olive, #737d3a);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.visit-hero__hours-link-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-flex;
+}
+
+.visit-hero__hours-link-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Bottom edge: in normal flow, but pulled 1px up over the card and stacked above it, so the
+   two Parchment surfaces overlap rather than meet — a flush boundary at a fractional y
+   (the card's height is text-driven) draws a hairline in WebKit. The overlapped row is the
+   gradient's centre row: Parchment segments and transparent gaps, both over Parchment, so
+   nothing changes visually and 11px of scallop shows below the card, as in Figma.
+   Full width, or it collapses. */
+.visit-hero__hours-edge-bottom {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  margin-top: -1px;
+}
+
+/* ── Contacts Card ── */
+.visit-hero__contacts-wrap {
+  flex: 1 1 524px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visit-hero__contacts-card {
+  background-color: var(--soft-peppercorn, #201e22);
+  border: 1px solid var(--ash, #54513f);
+  border-radius: 8px;
+  padding: 48px;
+  transform: rotate(-1deg);
+  width: 100%;
+  max-width: 524px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: transform 0.8s var(--ease-bouncy),
+              filter  0.8s var(--ease-bouncy);
+}
+
+/* Hover state: card straightens + lime glow (Figma: Icon-Glow-Dark effect) */
+@media (hover: hover) {
+  .visit-hero__contacts-card:hover {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 4px rgba(212, 230, 113, 0.5));
+  }
+  .visit-hero__contacts-card:hover::before {
+    transform: translateX(-50%) rotate(1deg);
+  }
+}
+
+/* Chili pin (tab) at top center of contacts card */
+.visit-hero__contacts-card::before {
+  content: '';
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 48px;
+  height: 24px;
+  background-color: var(--chili, #e34314);
+  border-radius: 4px;
+  transition: transform 0.8s var(--ease-bouncy);
+}
+
+.visit-hero__contacts-title {
+  color: var(--lemon, #ffed00);
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  letter-spacing: 1.2px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.visit-hero__contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.visit-hero__contacts-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.visit-hero__contacts-heading {
+  color: var(--cream, #fff689);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  letter-spacing: 0.9px;
+  line-height: 1.35;
+  padding-bottom: 12px;
+  white-space: nowrap;
+}
+
+.visit-hero__contact-row {
+  padding-bottom: 12px;
+  width: 100%;
+}
+
+.visit-hero__contact-row--with-action {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.visit-hero__contact-action {
+  color: var(--lime, #c1db34);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.visit-hero__contact-action-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-flex;
+}
+
+.visit-hero__contact-action-icon svg {
+  width: 12px;
+  height: 12px;
+  color: var(--lime);
+}
+
+/* ── Contact-item dark overrides ──
+   Visit page is always dark but doesn't use data-theme="night",
+   so we scope the night palette for the contact-item component. */
+.visit-hero__contacts-card .contact-item__icon {
+  color: var(--lime, #c1db34);
+}
+
+.visit-hero__contacts-card .contact-item__text {
+  color: var(--paper, #fcf7e8);
+}
+
+.visit-hero__contacts-card .contact-item__supportive {
+  color: var(--mushroom, #9e9789);
+}
+
+/* --------------------------------------------------------------------------
+   Section 2: Location (.visit-location) — Figma Location 1990:124846 (desktop)
+   reflection → 48 → title (deal beside it) → 48 → badges | map → 48 → word.
+   The 6 landmark badges are route switches (location.php); the map is 736 × 400
+   with the Paper chip bar (Copy · Yandex Maps · Google Maps) on its foot.
+   -------------------------------------------------------------------------- */
+.visit-location {
+  background-color: var(--parchment, #f3e9d2);
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.visit-location > .container {
+  display: flex;
+  flex-direction: column;
+}
+
+.visit-location__header {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+.visit-location__title-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.visit-location__eyebrow {
+  color: var(--avocado, #869438);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  letter-spacing: 0.05em;
+  line-height: 1.35;
+}
+
+.visit-location__headline {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+
+.visit-location__headline-line1 {
+  color: var(--chili);
+  display: block;
+}
+
+.visit-location__headline-line2 {
+  color: var(--paprika, #ef6d44);
+  display: block;
+}
+
+/* ── Badges | map ── */
+/* Good-to-know slip: the supporting line is a sentence now ("The last part of the journey
+   is on foot." — visit-page-copy-en.md → Practical slip), and the shared deal card is a
+   fixed 348 with nowrap, so the Visit instance wraps and the offset shadow follows the
+   card's height instead of the component's fixed 92. */
+.visit-location .menu-section__deal-desc {
+  white-space: normal;
+}
+
+/* The main line still fits on one line, as it did under the component's nowrap — with 12px
+   of the card's 16px gap, which is what the extra three characters cost. */
+.visit-location .menu-section__deal-desc-main {
+  white-space: nowrap;
+}
+
+.visit-location .menu-section__deal-card {
+  gap: 12px;
+}
+
+.visit-location .menu-section__deal-shadow {
+  top: 4px;
+  height: auto;
+}
+
+.visit-location__map-container {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.visit-location__badges {
+  flex: 0 0 360px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.visit-location__badge-item {
+  display: flex;
+  min-width: 0;
+}
+
+/* A badge is a route switch (button) or, until its map exists, a plain item (locationBadge
+   945:32242 / active 945:32264): → · name · distance; the active one fills Cream and shows
+   its hint line — the map currently showing, the door at rest. Colour only, on the flat bezier. */
+.visit-location__badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 16px;
+  border: 1.5px solid var(--olive);
+  border-radius: 8px;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.8s var(--ease-gentle-flat);
+}
+
+.visit-location__badge--static {
+  cursor: default;
+}
+
+.visit-location__badge.is-active {
+  background-color: var(--cream);
+}
+
+.visit-location__badge:focus-visible {
+  outline: 2px solid var(--olive);
+  outline-offset: 2px;
+}
+
+.visit-location__badge-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  color: var(--olive);
+}
+
+.visit-location__badge-icon svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+
+.visit-location__badge-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.visit-location__badge-name {
+  font-weight: 600;
+  color: var(--soft-peppercorn);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.visit-location__badge-hint {
+  display: none;
+  font-size: var(--text-caption);
+  letter-spacing: 0.52px;
+  color: var(--ash);
+}
+
+.visit-location__badge.is-active .visit-location__badge-hint {
+  display: block;
+}
+
+.visit-location__badge-distance {
+  flex-shrink: 0;
+  color: var(--olive);
+  white-space: nowrap;
+}
+
+/* ── Map column ──
+   The fixed width moved from the map to the BADGES (Sep 2026). The badge column is the
+   one with a hard content requirement — its names must not ellipsise — while the map is
+   legible at any size, so the column that cannot give is the one that is pinned. With the
+   map pinned at 736 instead, the badges were squeezed to 144–300 between 992 and 1279 and
+   five of the six names truncated; now they hold 360 at every width and none does. The
+   1280 composition is unchanged: 360 badges + 24 gap + 736 map = the 1120 column. */
+.visit-location__map-column {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.visit-location__map {
+  position: relative;
+  height: 440px;
+  border: 1px solid var(--mushroom, #9e9789);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 2px rgba(21, 19, 23, 0.15);
+}
+
+.visit-location__map-embed {
+  flex: 1 1 0;
+  min-height: 0;
+  position: relative;
+}
+
+/* Override shared .location__map styles: strip border/shadow/radius, fill the map box */
+.visit-location .location__map {
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.visit-location__map-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  position: absolute;
+  inset: 0;
+}
+
+/* Chip bar on the map's foot (map "labels" 2391:76528): Paper, 12/16, the chips in the
+   component's own style (contacts.css → .contacts-chip: 4/16 pill, Olive, Avocado keyline),
+   a soft Olive shadow up into the map. Phones show the brand names only. */
+.visit-location__map-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: var(--paper);
+  box-shadow: 0 -1px 2px rgba(117, 125, 56, 0.33);
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   Section 3: Visit CTA (.visit-cta)
+   -------------------------------------------------------------------------- */
+.visit-cta {
+  background-color: var(--peppercorn, #151317);
+  padding: 80px 0;
+}
+
+.visit-cta__split {
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  align-items: center;
+}
+
+.visit-cta__closure {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.visit-cta__text {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.visit-cta__headline {
+  color: var(--lime);
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+
+.visit-cta__photo {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.visit-cta__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.visit-cta__body {
+  color: var(--lime);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  /* `.visit-cta__text` sets the rhythm with `gap: 24px`; the browser's default 1em on a
+     <p> was adding 16px on top of it, so the body sat 40px from the headline and 40px
+     from the buttons while everything else in the column ran 24. Same fault the About
+     hero lead had. */
+  margin: 0;
+}
+
+.visit-cta__buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.visit-cta__form-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* ── Dark form overrides (visit page doesn't use data-theme="night") ── */
+.visit-cta .contact-form {
+  background-color: var(--peppercorn);
+}
+
+.visit-cta .contact-form__title {
+  color: var(--lime);
+}
+
+.visit-cta .contact-form__subtitle {
+  color: var(--paper);
+}
+
+.visit-cta .contact-field__label {
+  color: var(--paper);
+}
+
+.visit-cta .contact-field__input-wrap {
+  background-color: transparent;
+}
+
+.visit-cta .contact-field__input {
+  color: var(--paper);
+}
+
+.visit-cta .contact-field__input:-webkit-autofill,
+.visit-cta .contact-field__input:-webkit-autofill:hover,
+.visit-cta .contact-field__input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--peppercorn) inset;
+  -webkit-text-fill-color: var(--paper);
+  caret-color: var(--paper);
+}
+
+.visit-cta .contact-field__counter {
+  color: var(--paper);
+}
+
+.visit-cta .contact-toggle__helper {
+  color: var(--paper);
+}
+
+/* Success state overrides */
+.visit-cta .contact-form__success-badge {
+  background-color: var(--avocado);
+}
+
+.visit-cta .contact-form__success-badge .success-badge-icon {
+  color: var(--lime);
+}
+
+.visit-cta .contact-form__success-title {
+  color: var(--lime);
+}
+
+.visit-cta .contact-form__success-body {
+  color: var(--parchment);
+}
+
+.visit-cta .contact-form__info-box {
+  border-color: var(--ash);
+}
+
+.visit-cta .contact-form__info-label {
+  color: var(--mushroom);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive (below 992px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+  /* The same collapse the phone block guards against, one breakpoint up: the frame is
+     `flex: 1 1 0; min-height: 0; overflow: clip`, so once the content is taller than the
+     flex space it gets silently cut rather than pushing the hero taller. Measured before
+     the fix: the contacts card lost 166px at 768, 167 at 834, 169 at 900, 171 at 991 —
+     the email row's caption and everything under it. Clean at 402 and at 992+. */
+  /* `align-items: flex-end` bottom-aligns the title block and the description in the
+     desktop ROW; flipped to a column it became horizontal and pushed the title block to
+     x=302 against a 24px gutter while the description stayed on the grid. Seventh instance
+     on this site of a desktop flex property changing meaning when the axis flips — and the
+     phone block already sets flex-start here for the same reason. */
+  /* The gutter is the site's ramp (main.css → .container), not a fixed 24: at 768 the
+     Location headline sat 8px left of the hero title, at 991 20px right of it. */
+  .visit-hero__hero-message {
+    padding: 96px clamp(16px, 12.5vw - 80px, 80px) 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    /* The 48px gap separates the title block from the description side by side; stacked it
+       becomes 48px of vertical air between a headline and its own lead, which nothing else
+       on the page runs. The title block carries its own rhythm. */
+    gap: 0;
+  }
+
+  .visit-cta__split {
+    flex-direction: column;
+  }
+
+  .visit-hero__band {
+    padding: 0 clamp(16px, 12.5vw - 80px, 80px);
+  }
+
+  .visit-hero__content {
+    padding: 24px clamp(16px, 12.5vw - 80px, 80px);
+  }
+
+  .visit-hero__hours-wrap {
+    width: 100%;
+    flex: none;
+  }
+
+  .visit-location__header {
+    flex-direction: column;
+  }
+
+  /* All three of this page's splits carry `align-items: center` for their desktop ROW,
+     where it is vertical alignment. Flipped to a column it becomes horizontal, and the
+     children were being centred instead of sitting on the grid: at 834 the location title
+     block started at x=103 and the CTA's closure at x=90 against a 24px gutter, while the
+     slip sat dead centre with 217px either side. "Centering a narrow column in a wide
+     section reads as an accident, not a choice" (Grid). Stretch puts every child back on
+     the container edge; the slip keeps its own width and is pinned to the same edge. */
+  .visit-cta__split,
+  .visit-location__header {
+    align-items: stretch;
+  }
+
+  .visit-location .menu-section__deal {
+    align-self: flex-start;
+  }
+
+  /* Tablets: badges over the map, the map at the full width.
+     `align-items: stretch` matters as much as the direction — the container inherits
+     `align-items: flex-start` from the desktop row, where it controls vertical alignment;
+     flipped to a column it makes the children shrink-to-fit instead, so the badge list
+     sat at its content width of 351px with 385–552px of dead space beside it. */
+  .visit-location__map-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+
+  .visit-location__map-column {
+    width: 100%;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Connectors (Visit) — both widths (Sep 2026)
+   The word ends a section, its reflection opens the next (the About device, via
+   template-parts/components/connector.php with set 'visit'; exports in
+   assets/sectionLinks/visit/). Two seams, two words — YOUR ROUTE TO PEPPER at the hero's
+   foot / Location's head, DROP A LITTLE NOTE at Location's foot / the CTA's head — and both
+   name the section BELOW them: on this page a connector band belongs to the section it
+   opens (website-brief.md → Section connectors → direction). Rhythm from visit-page
+   892:31050: 36 under the hero content, 48 on every other side (About runs 80 on
+   desktop). Visit is a fixed composition, so the reflection opacity follows the ground
+   it opens, not data-theme: 50% over Parchment, 30% over Peppercorn.
+   -------------------------------------------------------------------------- */
+
+.page-visit .visit-connector--head {
+  margin-bottom: 48px;
+}
+
+.page-visit .visit-connector--foot {
+  margin-top: 48px;
+}
+
+.page-visit .visit-connector {
+  flex: none;   /* the three sections are flex columns; the band keeps its own height */
+}
+
+/* The connector carries the section's vertical padding on its side */
+.page-visit section:has(> .visit-connector--head) {
+  padding-top: 0;
+}
+
+.page-visit section:has(> .visit-connector--foot) {
+  padding-bottom: 0;
+}
+
+/* The hero: 36 under the content, the word on the floor of the 100vh section */
+.visit-hero .visit-connector--foot {
+  margin-top: 36px;
+}
+
+/* We're all ears opens on the 21:9 photo (Form 1477:76522 — the band is a sibling of the
+   section in the frame), so the band carries the seam and the reflection goes: the same
+   rule the menu and About pages already follow, where the entrance photo stands between
+   two sections with no connector beside it (author, Sep 2026). The word at Location's
+   foot stays — the seam is word → photo → headline. The element keeps its place in the
+   DOM so the section's :has() padding rule still matches and the band sits flush.
+   ≤ 991, not ≤ 767: this follows the band, and the band now runs in the tablet band too. */
+@media (max-width: 991px) {
+  .visit-cta > .visit-connector--head {
+    display: none;
+  }
+}
+
+/* SVG reflections: 50% over the light Location, 30% over the dark CTA */
+.page-visit .visit-connector--head .section-link-word--reflection {
+  opacity: 0.5;
+}
+
+.visit-cta > .visit-connector--head .section-link-word--reflection {
+  opacity: 0.3;
+}
+
+/* Live-text prototype (section-link.php, theme "auto"): the ground comes from the section
+   the connector sits in — Location light, hero and CTA dark; same numbers as About's. */
+.page-visit .section-link--auto.section-link--word {
+  --section-link-ink: var(--olive);
+  --section-link-stroke: 2px;
+}
+
+.page-visit .section-link--auto.section-link--reflection {
+  --section-link-ink: var(--lime);
+  opacity: 1;
+}
+
+.visit-hero .section-link--auto.section-link--word,
+.visit-cta .section-link--auto.section-link--word {
+  --section-link-ink: var(--cream);
+  --section-link-stroke: 1px;
+}
+
+.visit-hero .section-link--auto.section-link--reflection,
+.visit-cta .section-link--auto.section-link--reflection {
+  --section-link-ink: var(--paper);
+  opacity: 0.3;
+}
+
+.visit-hero .section-link--auto .section-link__text,
+.visit-cta .section-link--auto .section-link__text {
+  background-image: linear-gradient(to top, var(--peppercorn), rgba(21, 19, 23, 0));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* --------------------------------------------------------------------------
+   Phones — Figma Visit-Mobile-opt2 (1441:72385), 402 wide, 16px gutters
+   Order (visit-page-copy.md → Mobile layout, the "anxiety order"): nav → eyebrow +
+   H1 + intro → running status rail → hours slip → contact card → scroll-down link →
+   Getting here (title · map + chips · badges · Good-to-know) → 21:9 photo band →
+   We're all ears (closure + booking block · form) → footer.
+   -------------------------------------------------------------------------- */
+
+/* Phone-only blocks are hidden at every other width */
+.visit-hero__rail,
+.visit-hero__contact-action--phone-only,
+.visit-band,
+.visit-cta__booking,
+.visit-cta .contact-form__topics,
+.visit-cta .contact-form__title-prefix {
+  display: none;
+}
+
+/* Running status rail — phones AND the tablet band (Sep 2026)
+   The desktop band exists to be half-covered: at 1280 the contacts card sits on its right
+   half. Wherever the overlap goes (below 1120) that half is exposed and reads as empty
+   Lime. In the 768–991 band the two hero cards are a centred 80% column (tablet-only
+   block below), and a static band with a lead word and two pills hard on the left gutter
+   fought that; the phone rail — no lead, no gutters, the pair running edge to edge —
+   softens it (author, Sep 2026). 992–1119 keeps the desktop band for now. Same states,
+   same script (visit-hero.js updates every group and pauses the run on touch). */
+@media (max-width: 991px) {
+  /* Desktop band out, running rail in: same states, no lead word, no pill grounds.
+     Peppercorn ink on Lime (Figma statesContainer-mobile-running). */
+  .visit-hero__band {
+    display: none;
+  }
+
+  .visit-hero__rail {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    /* Figma lays the rotated band out by its bounding box (51.01px tall); CSS lays out the
+       unrotated 44. Half the tilt's overhang each side — width × sin 1° ÷ 2, which is
+       0.8727vw: 3.5px at 402 (the Figma value), 6.7 at 768, 8.6 at 991 — so the gap to the
+       hours slip is measured from the band's lowest corner, as drawn. */
+    margin: 0.8727vw 0;
+    background-color: var(--lime);
+    overflow: hidden;
+    transform: rotate(1deg);
+    flex-shrink: 0;
+    cursor: default;
+  }
+
+  /* Three identical groups, each carrying its own 24px trailing gap, so one period is
+     exactly a third of the track. Starts at rest with the first pair in view (2.5s), then
+     runs. Pauses on touch (is-paused, 8s — visit-hero.js) and under hover. */
+  .visit-hero__rail-track {
+    display: flex;
+    flex-shrink: 0;
+    padding-left: 16px;
+    animation: visit-rail 22s linear 2.5s infinite;
+    will-change: transform;
+  }
+
+  .visit-hero__rail.is-paused .visit-hero__rail-track,
+  .visit-hero__rail:hover .visit-hero__rail-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes visit-rail {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-33.3333%); }
+  }
+
+  .visit-hero__rail-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-right: 24px;
+    flex-shrink: 0;
+  }
+
+  .visit-hero__rail-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .visit-hero__rail .visit-hero__state-label {
+    color: var(--peppercorn);
+  }
+
+  .visit-hero__rail .visit-hero__state-icon {
+    color: var(--peppercorn);
+  }
+
+  .visit-hero__rail .visit-hero__state-icon svg path,
+  .visit-hero__rail .visit-hero__state-icon svg circle {
+    fill: var(--peppercorn);
+  }
+
+  /* Molot variants of barState-mobile 1460:73436 / kitchenState-mobile 1460:73472 (the
+     Golos variants are not used on the rail). Ink Peppercorn on Lime; dots Olive alive,
+     Paprika transitional, Chili closed. Closed ink: the bar component says Chili Deep, the
+     kitchen component says Paprika — Paprika on Lime is 1.9:1, Chili Deep 4.9:1, so both
+     take Chili Deep here (Sep 2026; the kitchen variant is the one to re-sync in Figma). */
+  .visit-hero__rail [data-bar-state="open"] .visit-hero__state-dot,
+  .visit-hero__rail [data-kitchen-state="open"] .visit-hero__state-dot {
+    background-color: var(--olive);
+  }
+
+  .visit-hero__rail [data-bar-state="wrapping"] .visit-hero__state-dot,
+  .visit-hero__rail [data-kitchen-state="last-orders"] .visit-hero__state-dot,
+  .visit-hero__rail [data-kitchen-state="bar-snacks"] .visit-hero__state-dot {
+    background-color: var(--paprika);
+  }
+
+  .visit-hero__rail [data-bar-state="closed"] .visit-hero__state-dot,
+  .visit-hero__rail [data-kitchen-state="closed"] .visit-hero__state-dot {
+    background-color: var(--chili);
+  }
+
+  .visit-hero__rail [data-bar-state="closed"] .visit-hero__state-label,
+  .visit-hero__rail [data-kitchen-state="closed"] .visit-hero__state-label,
+  .visit-hero__rail [data-bar-state="closed"] .visit-hero__state-icon,
+  .visit-hero__rail [data-kitchen-state="closed"] .visit-hero__state-icon {
+    color: var(--chili-deep);
+  }
+
+  .visit-hero__rail [data-bar-state="closed"] .visit-hero__state-icon svg path,
+  .visit-hero__rail [data-kitchen-state="closed"] .visit-hero__state-icon svg path {
+    fill: var(--chili-deep);
+  }
+
+}
+
+@media (max-width: 767px) {
+
+  /* ── 1. Hero ── */
+  .visit-hero {
+    min-height: 0;
+    padding-bottom: 0;          /* the foot connector carries it (48 above the word) */
+  }
+
+  .visit-hero__frame {
+    flex: none;              /* the desktop flex: 1 1 0 collapses to 0 once the 100vh floor goes */
+    margin-bottom: 0;
+    gap: 16px;               /* band → hours slip (Contacts-hero-content gap 16) */
+  }
+
+  /* 32 below the fixed 76px bar (the body carries the offset — main.css) */
+  .visit-hero__hero-message {
+    padding: 24px 16px 24px;    /* Visit-hero 2363:75509: 24 under the fixed bar */
+    gap: 16px;
+    align-items: flex-start;   /* the desktop row aligns its end; the column aligns its start */
+  }
+
+  .visit-hero__description {
+    color: var(--paper);
+    margin-block-end: 0;
+  }
+
+  /* ── Hours slip + contact card, one column at 48 ── */
+  .visit-hero__content {
+    padding: 0 16px;
+  }
+
+  .visit-hero__split {
+    gap: 48px;
+  }
+
+  .visit-hero__hours-wrap {
+    margin-top: 0;
+  }
+
+  /* Centred tiling puts circle centres at 185 ± 48n on the 370 card — the end circles land
+     at −7 and 377 and show as 5px slivers at both sides. Half a tile of phase puts them at
+     17 and 353: whole circles with 5px margins, which is where Figma draws the bottom row
+     (16 / 352). Still symmetric at any width; only this card, the 548 desktop card keeps
+     the component default. */
+  .visit-hero__hours-card-container .rugged-edge {
+    background-position: calc(50% + 24px) top;
+  }
+
+  /* Next Up: name → detail → time in one column (Figma event 1441:73426) */
+  .visit-hero__next-event {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .visit-hero__event-time {
+    padding-left: 24px;      /* icon 16 + gap 8 — under the text column */
+  }
+
+  /* Contact card: 36 / 24 / 24, rests at 1° and settles to 0° on scroll-in
+     (is-settled — visit-hero.js). Decorative, so reduced motion leaves it flat. */
+  .visit-hero__contacts-card {
+    padding: 36px 24px 24px;
+    transform: rotate(1deg);
+  }
+
+  .visit-hero__contacts-card.is-settled {
+    transform: rotate(0deg);
+  }
+
+  .visit-hero__contacts-card::before {
+    transform: translateX(-50%) rotate(2deg);
+  }
+
+  .visit-hero__contacts-list {
+    gap: 8px;
+  }
+
+  /* Rows: icon · handle + hint · trailing glyph. The whole row is the target (≥ 48px):
+     the action's ::after covers the row, so a miss on the glyph still lands. Verb labels
+     go (tested and rejected, Aug 2026); ↗ on every row, the copy glyph on email. */
+  .visit-hero__contact-row {
+    position: relative;
+    min-height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  /* The handle + hint column may shrink and the hint may wrap — at 322px the email hint
+     otherwise runs out of the card and pushes the glyph with it */
+  .visit-hero__contacts-card .contact-item,
+  .visit-hero__contacts-card .contact-item__body {
+    min-width: 0;
+  }
+
+  .visit-hero__contacts-card .contact-item__supportive {
+    white-space: normal;
+  }
+
+  .visit-hero__contact-action--desktop-only,
+  .visit-hero__contact-action-label {
+    display: none;
+  }
+
+  .visit-hero__contact-action--phone-only {
+    display: inline-flex;
+  }
+
+  .visit-hero__contact-action {
+    padding: 4px 0 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .visit-hero__contact-action::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .visit-hero__contact-action--phone-only.is-copied .visit-hero__contact-action-icon svg {
+    color: var(--cream);
+  }
+
+  /* ── 2. Getting here (Location 1472:75737) ── */
+  .visit-location {
+    padding: 48px 0;
+  }
+
+  .visit-location > .container {
+    gap: 24px;
+  }
+
+  /* The header dissolves so the title, the slip and the map block can be ordered:
+     title → Good-to-know → map + chips + badges (Sep 2026 — the slip moved up from the
+     section's foot once the connector took the closing job) */
+  .visit-location__header {
+    display: contents;
+  }
+
+  .visit-location__title-block {
+    order: 1;
+    gap: 8px;
+  }
+
+  .visit-location .menu-section__deal {
+    order: 2;
+    width: 100%;
+    margin: 0;
+  }
+
+  .visit-location__map-container {
+    order: 3;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Map first, then the chips, then the badges */
+  .visit-location__map-column {
+    order: 1;
+    width: 100%;
+  }
+
+  .visit-location__badges {
+    order: 2;
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .visit-location__map {
+    box-shadow: none;
+  }
+
+  /* Chip bar: brand names only, and the phone chip style (Golos Medium 13 in the 8/16 pill,
+     the home directions band's) so two apps + "Copy address" sit in one row at 370 */
+  .visit-location__chip-long {
+    display: none;
+  }
+
+  .visit-location__map-bar .contacts-chip {
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: var(--text-caption);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* Two apps + "Copy address" measured 374 against the 338 available (Sep 2026), which is why
+     the copy chip used to be desktop-only. The chip now drops to "Copy" on phones — the
+     long half rides .visit-location__chip-long, the accessible name stays "Copy address" —
+     so the compact Copy · Yandex · Google row fits (visit-copy-review-en.md → Map actions). */
+
+  /* Badges (locationBadge-mobile): name over distance, no arrow; the door's hint is its
+     second line at rest and the active hint stays hidden — two lines per tile */
+  .visit-location__badge {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .visit-location__badge-icon {
+    display: none;
+  }
+
+  .visit-location__badge.is-active .visit-location__badge-hint {
+    display: none;
+  }
+
+  .visit-location__badges .visit-location__badge--door .visit-location__badge-hint {
+    display: block;         /* outranks the is-active hide above — the door is active at rest */
+    font-size: var(--text-body);
+    letter-spacing: 0;
+    color: var(--olive);
+  }
+
+  /* ── Photo band: 21:9 full-bleed, the img component's 4px radii; 48 to the headline ── */
+  .visit-band {
+    display: block;
+    margin: 0 0 48px;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: var(--peppercorn);
+  }
+
+  .visit-band img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── 3. We're all ears ── */
+  .visit-cta {
+    padding: 48px 0 0;
+  }
+
+  .visit-cta__split {
+    gap: 48px;
+  }
+
+  .visit-cta__closure {
+    width: 100%;
+    gap: 24px;
+  }
+
+  .visit-cta__photo,
+  .visit-cta__buttons {
+    display: none;
+  }
+
+  .visit-cta__body {
+    color: var(--mushroom);
+    text-wrap: pretty;
+  }
+
+  /* Booking block: title → Call (full width, on the bar-state engine) → VK · Instagram */
+  .visit-cta__booking {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .visit-cta__booking-title {
+    color: var(--lime-light);
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    letter-spacing: 0.9px;
+    line-height: 1.35;
+  }
+
+  .visit-cta__call {
+    width: 100%;
+  }
+
+  .visit-cta__booking[data-bar-state="busy"] .visit-cta__call {
+    background-color: #e8751a;   /* the drawer's busy orange (reserve-drawer.css) */
+    color: #fff;
+  }
+
+  .visit-cta__booking[data-bar-state="closed"] .visit-cta__call {
+    background-color: var(--chili);
+    color: #fff;
+  }
+
+  .visit-cta__booking-row {
+    display: flex;
+    gap: 16px;
+  }
+
+  .visit-cta__booking-row .btn {
+    flex: 1 0 0;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  /* Form: full-bleed on Soft Peppercorn, 48 / 16, no card chrome (formContact-dark-mobile) */
+  .visit-cta__form-wrap {
+    width: 100%;
+  }
+
+  .visit-cta .contact-form {
+    margin: 0 -16px;
+    padding: 48px 16px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--soft-peppercorn);
+  }
+
+  .visit-cta .contact-form__title-prefix {
+    display: inline;
+  }
+
+  .visit-cta .contact-form__topics {
+    display: flex;
+  }
+
+  .visit-cta .contact-form__topic {
+    border-color: var(--lime-light);
+    color: var(--lime);
+  }
+
+  .visit-cta .contact-form__topic.is-active {
+    background-color: var(--lime-light);
+    border-color: var(--lime-light);
+    color: var(--peppercorn);
+    /* the frame's glow on the active chip (Icon-Glow-Dark, drawn at radius 4 here) */
+    box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
+  }
+
+  .visit-cta .contact-toggle__helper {
+    display: none;
+  }
+
+  .visit-cta .contact-field__input-wrap,
+  .visit-cta .contact-field__input-wrap:focus-within {
+    background-color: transparent;
+  }
+}
+
+@media (max-width: 767px) {
+  .visit-hero .visit-connector--foot {
+    margin-top: 48px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visit-hero__rail-track {
+    animation: none;
+  }
+
+  .visit-hero__contacts-card,
+  .visit-hero__contacts-card.is-settled {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hero split — stacked below 1120 (Sep 2026)
+
+   The bound is measured, not chosen. The contacts card is pulled up over the state band
+   by the header's -40px margin, and on the 1280 composition it clears the band's last
+   chip. As the two columns shrink the card's left edge walks left across it: testing the
+   real rectangle intersection, the card covers "KITCHEN'S CLOSED" from 992 up to 1119 —
+   61 × 25px of it at 992, 19 × 25 at 1080 — and is clear from exactly 1120. So the
+   two-column hero holds down to 1120 and stacks below it.
+
+   This is a per-component bound, like the home page's section header at 1152. It does not
+   move the page's tablet band: the location and CTA splits are fluid and work from 992.
+   Re-derive it if the band's copy, the -40px overlap or the column bases change.
+   -------------------------------------------------------------------------- */
+@media (max-width: 1119px) {
+  .visit-hero__header {
+    margin-bottom: 0;
+  }
+
+  /* Grows to the 100vh floor so the foot connector stays on it, but never shrinks below
+     its content: the desktop `flex: 1 1 0` + `overflow: clip` cut anything taller than the
+     flex space (the contacts card lost 166–171px across 768–991 before this). `none`
+     fixed the clipping but let the word float mid-section on any viewport taller than
+     the stack. */
+  .visit-hero__frame {
+    flex: 1 0 auto;
+  }
+
+  .visit-hero__split {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .visit-hero__hours-wrap {
+    flex: none;   /* the 548px basis would become a HEIGHT once the axis flips */
+  }
+
+  .visit-hero__contacts-wrap {
+    flex: none;
+    width: 100%;
+  }
+
+  .visit-hero__contacts-card {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* The desktop tilt goes with the composition it belonged to — but only where the card is
+   stacked full width. This used to sit in the ≤1119 block above, which comes after the
+   phone block in source order and so was cancelling the phone card's documented 1° rest
+   tilt (Mobile — Contacts: rests at 1°, settles to 0° on scroll-in). */
+@media (min-width: 768px) and (max-width: 1119px) {
+  .visit-hero__contacts-card {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tablet only (768–991)
+   Note the bound: this file's main responsive block is `max-width: 991px` and so
+   includes phones. Anything that must not reach a phone needs its own query, which
+   is why this block exists rather than more rules in the one above.
+
+   It sits at the END of the file on purpose. Several of the things it switches ON
+   (.visit-band, the on-map slip) are switched OFF by the unconditional "hidden at every
+   other width" list further up; those rules have the same specificity, so source order
+   decides and this block has to come after them.
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Both hero cards at 80% of the column, centred (author, Sep 2026). A deliberate break
+     of Grid → Short copy ("never centered"): full width, the contact rows ran 720–943
+     and the trailing action sat too far from its handle; side by side (built and
+     measured, 336 / 321 at 768) the columns were too narrow and the ticket read as a
+     small left-aligned object. The percentage is authored against the tablet column,
+     not the 1120 one, so it scales with the band: 576 at 768, 605 at 820, 754 at 991.
+     The title block and the band stay on the gutter. */
+  .visit-hero__split {
+    width: 80%;
+    margin-inline: auto;
+  }
+
+  /* Badges move under the map (author, Sep 2026 — reversing the earlier "badges over
+     the map" call) and run two-up: six divide evenly by two, and a single column of
+     full-width badges across 736–903 reads as a stack of buttons rather than a set of
+     routes. This is what the phone block has always done (`order: 2` + a two-column
+     grid), so the band now matches it instead of inventing a third arrangement; the
+     only difference is the cell width, 356–440 here against 177 on a phone, so no name
+     truncates in the band. The phone's own 3-of-6 truncation is the documented frame
+     condition, untouched. */
+  .visit-location__badges {
+    order: 2;
+    /* The desktop `flex: 0 0 360px` is a WIDTH in the row; in the stacked container it
+       became a 360px HEIGHT (fault 2, Responsive faults). Chrome stretched the three grid
+       rows to fill it (121 / 103 / 103), Safari left them at natural height and showed
+       the remainder as a gap under the grid. */
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Every cell the height of the tallest — the active badge's, with its hint line — so
+       switching routes never re-flows the grid and no cell is stretched by its neighbour.
+       60px each, measured; 41 for a badge without a hint. */
+    grid-auto-rows: 1fr;
+    gap: 16px 24px;
+  }
+
+  /* ── Good-to-know: full width, on the section ground ──
+     Beside the title it worked because it was a margin note hanging off the headline;
+     stacked it lost that anchor and became a 352px card with 384–551px of nothing next
+     to it. Overlaying it on the map was tried and rejected (author, Sep 2026): it sat on
+     the embed's own controls, and the scalloped edge is a cut-out in the SECTION ground,
+     so over map tiles it rendered as Parchment blobs. Full width keeps the edge, keeps
+     the ground, and uses the column — the same answer phones reached. */
+  .visit-location .menu-section__deal {
+    align-self: stretch;
+    width: auto;
+  }
+
+  .visit-location .menu-section__deal-inner,
+  .visit-location .menu-section__deal-card {
+    width: auto;
+    flex: 1 1 auto;
+  }
+
+  /* `space-between` is right in a 348px card, where the label and the note are almost
+     touching; across 736–903 it strands the divider mid-card with a hole either side.
+     The three parts close up and the note takes the remaining width. */
+  .visit-location .menu-section__deal-card {
+    justify-content: flex-start;
+    gap: 24px;
+  }
+
+  .visit-location .menu-section__deal-desc {
+    flex: 1 1 auto;
+  }
+
+  /* The offset shadow is a fixed 348 × 92 behind a fixed card; once both are fluid it
+     has to follow the card's box instead of restating its size. */
+  .visit-location .menu-section__deal-shadow {
+    width: auto;
+    height: auto;
+    inset: 4px 0 0 4px;
+  }
+
+  /* ── Entrance photo: the phone's 21:9 band (img 1441:72476) ──
+     The band is already in the markup at the top of the section, under the reflection;
+     it is `display: none` above 767. The closure's inline 3:2 photo steps aside for it,
+     as on phones — the band ratio reads as the section's opening, the content card did
+     not. */
+  .visit-band {
+    display: block;
+    margin: 0 0 48px;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: var(--peppercorn);
+  }
+
+  .visit-band img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .visit-cta__photo {
+    display: none;
+  }
+
+  /* The two buttons split the row, as every other CTA pair in the band
+     (.section-ctas .btn, .hero-ctas .btn, .about-visit-cta__buttons .btn). */
+  .visit-cta__buttons {
+    width: 100%;
+  }
+
+  .visit-cta__buttons .btn {
+    flex: 1 1 0;
+    width: auto;
+  }
+}

@@ -1,0 +1,532 @@
+/* ═══════════════════════════════════════════════════════════════
+   Dish Picker Component + Pairing Station Section
+   Figma: picker-day (708:19997), picker-night
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ─────────────────────────── */
+
+.menu-pairing-station {
+    background-color: var(--surface);
+    padding-top: 80px;
+    padding-bottom: 0;
+    transition: background-color 0.3s ease;
+}
+
+/* Inner container — flex-col with 64px gap between content and link word (Figma: gap-[64px]) */
+.pairing-station__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+/* Content block — header + picker (Figma: gap-[48px]) */
+.pairing-station__content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+/* ── Header ──────────────────────────────────── */
+
+.pairing-station__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pairing-station__title {
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em; /* 4% of the size — 1.44 at the phone 36 */
+    color: var(--chili);
+    margin: 0;
+}
+
+.pairing-station__subtitle {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+    max-width: 364px;
+    margin: 0;
+}
+
+html[data-theme="night"] .pairing-station__subtitle {
+    color: var(--parchment);
+}
+
+/* ── Link word (bottom) ──────────────────────── */
+/* Figma: border-b-[0.5px] border-solid mushroom, opacity-50 */
+
+.pairing-station__link-word {
+    border-bottom: 0.5px solid var(--mushroom);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Dish Picker Component
+   ═══════════════════════════════════════════════════════════════ */
+
+.dish-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+/* ── Labels row ──────────────────────────────── */
+
+.dish-picker__labels-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.dish-picker__labels {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Tag pills — inactive */
+.dish-picker__tag {
+    display: flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--avocado);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--avocado);
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Tag pills — active */
+.dish-picker__tag.is-active {
+    background-color: var(--lime);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+/* Tag pills — hover (inactive only) */
+.dish-picker__tag:not(.is-active):hover {
+    background-color: rgba(134, 148, 56, 0.1);
+}
+
+/* Night overrides for tags */
+html[data-theme="night"] .dish-picker__tag {
+    border-color: var(--avocado);
+    color: var(--avocado);
+}
+
+html[data-theme="night"] .dish-picker__tag.is-active {
+    background-color: var(--lime);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .dish-picker__tag:not(.is-active):hover {
+    background-color: rgba(193, 219, 52, 0.1);
+}
+
+/* "or" separator */
+.dish-picker__or {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--mushroom);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Shake It! button */
+.dish-picker__shake-it {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: none;
+    background-color: var(--lemon);
+    cursor: pointer;
+    width: 108px;
+    flex-shrink: 0;
+    transition: transform 0.3s var(--ease-bouncy);
+}
+
+.dish-picker__shake-it:hover {
+    transform: scale(1.05);
+}
+
+.dish-picker__shake-it:active {
+    transform: scale(0.97);
+}
+
+.dish-picker__shake-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.dish-picker__shake-icon img {
+    width: 100%;
+    height: auto;
+}
+
+.dish-picker__shake-label {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    white-space: nowrap;
+}
+
+/* ── Result area ─────────────────────────────── */
+
+.dish-picker__result {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Photos side */
+.dish-picker__photos {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex: 1 0 0;
+    min-width: 0;
+}
+
+.dish-picker__photo-food,
+.dish-picker__photo-bar {
+    flex: 1 0 0;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.dish-picker__photo-food img,
+.dish-picker__photo-bar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.35s ease;
+}
+
+.dish-picker__photo-food img.is-fading,
+.dish-picker__photo-bar img.is-fading {
+    opacity: 0.3;
+}
+
+.dish-picker__x {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    color: var(--chili);
+    flex-shrink: 0;
+}
+
+/* ── Card container — follows reserve-drawer ticket pattern ──── */
+/* Wrapper: position:relative + overflow:hidden clips the rugged edges cleanly.
+   Figma: cardContainer (860:29545) — flex-col, items-center, justify-end, clip-content.
+   Gap: -13 in Figma is handled by the card margin-bottom overlap. */
+
+.dish-picker__card-wrap {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* Centers rugged edges; card content stays flush-left inside .dish-picker__card */
+    position: relative;
+    overflow: hidden; /* Figma: clip content — clips rugged edges to clean bounds */
+}
+
+/* Top edge: absolutely positioned, floats over card from above — no seam.
+   Same pattern as .ticket-top-edge in reserve-drawer.css */
+.dish-picker__card-edge-top {
+    position: absolute;
+    top: -1px; /* 1px above wrapper so gradient top is clipped → seamless edge */
+    left: 0;
+    right: 0;
+    z-index: 3;
+}
+
+/* Card: in normal flow. The generous top padding (48px) absorbs the rugged edge overlap.
+   No border-radius — the rugged edges ARE the visual boundaries.
+   Figma: bg=paper, gap-16, pb-36, pt-48, px-24 */
+.dish-picker__card {
+    background-color: var(--paper);
+    padding: 36px 24px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Night mode — card switches to cream (Figma: bg=cream #FFF689) */
+html[data-theme="night"] .dish-picker__card {
+    background-color: var(--cream);
+}
+
+/* Bottom edge: in normal flow, flush with card above (direct child of wrapper) */
+.dish-picker__card-wrap > .rugged-edge {
+    position: relative;
+    z-index: 1;
+}
+
+/* Card inner elements */
+.dish-picker__card-label {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    color: var(--ash);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Night: label stays ash — it's on paper bg */
+
+/* Dish info inside card */
+.dish-picker__dish {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 0.5px solid var(--mushroom);
+    padding-bottom: 16px;
+}
+
+.dish-picker__dish-name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--peppercorn);
+    margin: 0;
+    transition: opacity 0.25s ease;
+}
+
+.dish-picker__dish-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    margin: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* Night: dish text stays dark (on paper bg) */
+
+/* Pairing info */
+.dish-picker__pairing {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    color: var(--chili);
+    transition: opacity 0.25s ease;
+}
+
+.dish-picker__pairing-slogan {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    margin: 0;
+}
+
+.dish-picker__pairing-name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* CTA link */
+.dish-picker__cta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    text-decoration: none;
+    color: var(--olive);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    transition: color 0.2s ease;
+}
+
+.dish-picker__cta:hover {
+    color: var(--avocado);
+}
+
+.dish-picker__cta-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.dish-picker__cta-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Night mode overrides
+   Figma: picker-night (735:21620)
+   Section bg → soft-peppercorn (handled by --surface semantic token)
+   Card bg → cream (#FFF689)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Title: chili → lime */
+html[data-theme="night"] .pairing-station__title {
+    color: var(--lime);
+}
+
+/* "x" between photos: chili → cream */
+html[data-theme="night"] .dish-picker__x {
+    color: var(--cream);
+}
+
+/* Shake It! button: lemon → cream */
+html[data-theme="night"] .dish-picker__shake-it {
+    background-color: var(--cream);
+}
+
+/* Bottom rugged edge: must match card bg (cream) at night.
+   !important needed to override inline style from rugged-edge.php */
+html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
+    --rugged-color: var(--cream) !important;
+}
+
+/* Top rugged edge: must match section bg (surface) — already semantic, auto-swaps */
+
+
+/* ── Phones (≤ 767px) ──
+   Figma: Picker (2109:130226) + foodPairingContainer-mobile-day / -night (1432:54562 /
+   1432:53793). The section opens with the reflection of the tail connector flush at its
+   top (no padding), 48 to the content, 48 to the "you'll like it" connector, which ends
+   the section (the entrance photo follows). Tags become a scroll rail across the
+   gutters; the two photos stay side by side; the ticket goes full width under them
+   with 8px radii and a 48px top inset. The "x" is Olive by day; the night ticket is
+   Parchment (the desktop's Cream stays desktop). */
+@media (max-width: 767px) {
+    .menu-pairing-station {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .pairing-station__inner {
+        gap: 48px;
+    }
+
+    .pairing-station__content {
+        gap: 24px;
+    }
+
+    .pairing-station__subtitle {
+        max-width: none;
+    }
+
+    /* Tags scroll; "or Shake It!" is pinned at the right (decided Sep 2026 — at the
+       end of the scroll it was off-screen on load and after every pick). The row
+       bleeds to the left viewport edge; the tag scroller fades out into the gap
+       before "or" so the cut tag reads as "more", not as a collision. */
+    .dish-picker__labels-row {
+        justify-content: flex-start;
+        gap: 12px;
+        width: auto;
+        margin-left: -16px;
+    }
+
+    .dish-picker__labels {
+        position: relative;
+        flex: 1 1 0;
+        min-width: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0 32px 0 16px;
+        scroll-padding-inline: 16px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+        mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+    }
+
+    .dish-picker__labels::-webkit-scrollbar {
+        display: none;
+    }
+
+    .dish-picker__or,
+    .dish-picker__shake-it {
+        flex: none;
+    }
+
+    .dish-picker__result {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .dish-picker__photos,
+    .dish-picker__card-wrap {
+        flex: none;
+        width: 100%;
+    }
+
+    .dish-picker__x {
+        color: var(--olive);
+    }
+
+    html[data-theme="night"] .dish-picker__x {
+        color: var(--cream);
+    }
+
+    .dish-picker__card-wrap {
+        border-radius: 8px;
+    }
+
+    .dish-picker__card {
+        padding-top: 48px;
+    }
+
+    html[data-theme="night"] .dish-picker__card {
+        background-color: var(--parchment);
+    }
+
+    html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
+        --rugged-color: var(--parchment) !important;
+    }
+}

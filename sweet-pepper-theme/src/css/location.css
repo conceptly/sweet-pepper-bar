@@ -1,0 +1,349 @@
+/* ═══════════════════════════════════════════════════════════════
+   Location Section — "Find the Pepper"
+   Figma: Location (797:22992)
+   The last section before the footer on the menu page.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Entrance image ──────────────────────────── */
+/* Full-width photo above the location section.
+   Figma: img (S6), 21:9 aspect, pillTop on. */
+.menu-entrance-img {
+    background-color: var(--paper);
+}
+
+.menu-entrance-img__inner {
+    aspect-ratio: 4 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 12px 12px;
+}
+
+.menu-entrance-img__inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--img-pos, center center);
+    display: block;
+}
+
+/* Image caption label — the `img` component's `pill` (Figma 224:3148 / 224:3156), top-left:
+   Lemon at 90%, Peppercorn Golos 400 · 13 / 1.4 / 4%, radius 4, no tilt. Inset 24 on
+   desktop, 16 on phones (website-brief.md → Image caption label). Same recipe as
+   .menu-preview-badge and .menu-section__hero-pill. */
+.menu-entrance-img__pill {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background-color: var(--lemon);
+    opacity: 0.9;
+    color: var(--peppercorn);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+/* Section wrapper */
+.menu-location {
+    background-color: var(--paper);
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+/* Inner: copy left, map right. The row stretches: the map runs from the eyebrow's top
+   to the copy's last line (author, Sep 2026 — on About the copy outgrows the 400px map
+   and it was left hanging at the top); 400 stays the floor, so the menu page, whose
+   copy is shorter, is unchanged. */
+.location__inner {
+    display: flex;
+    gap: 48px;
+    align-items: stretch;
+}
+
+/* ── Left: copy ──────────────────────────────── */
+.location__copy {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Section title block */
+.location__title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Subheading: "FIND THE PEPPER" */
+.location__subheading {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--avocado);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Title lines container — block flow; the break is an explicit block span so the
+   three spans (line1 / mid / line2) can regroup per breakpoint. */
+.location__title {
+    display: block;
+    margin: 0;
+}
+
+.location__title-line2 {
+    display: block;   /* desktop: "at the very heart of the" | "best city" */
+}
+
+/* Title line 1: chili */
+.location__title-line1 {
+    font-family: var(--font-display);
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em; /* H1 tracking is 4% — 2.56 at 64, 1.44 at the phone 36 */
+    color: var(--chili);
+    text-transform: uppercase;
+}
+
+/* The middle words "of the": Chili with line 1 on desktop, Paprika with line 2 on phones */
+.location__title-mid {
+    font-family: var(--font-display);
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em; /* H1 tracking is 4% — 2.56 at 64, 1.44 at the phone 36 */
+    color: var(--chili);
+    text-transform: uppercase;
+}
+
+/* Title line 2: paprika — "BEST CITY" */
+.location__title-line2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em; /* H1 tracking is 4% — 2.56 at 64, 1.44 at the phone 36 */
+    color: var(--paprika);
+    text-transform: uppercase;
+}
+
+/* Body description */
+.location__description {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--dark-olive);
+    margin: 0;
+    text-wrap: pretty;
+}
+
+/* Optional CTA below description (used on About page) */
+.location__cta {
+    margin-top: 8px;
+}
+
+/* ── Right: map ──────────────────────────────── */
+.location__map {
+    width: 600px;
+    height: auto;
+    min-height: 400px;
+    flex-shrink: 0;
+    background-color: var(--dark-olive);
+    border: 1px solid var(--mushroom);
+    border-radius: 12px;
+    box-shadow: 1px 1px 4px 0px rgba(21, 19, 23, 0.15);
+    overflow: hidden;
+}
+
+.location__map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Night mode overrides
+   Figma: Location (847:30179)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Section bg: paper → soft-peppercorn */
+html[data-theme="night"] .menu-location,
+html[data-theme="night"] .menu-entrance-img {
+    background-color: var(--soft-peppercorn);
+}
+
+/* Subheading: avocado → lemon */
+html[data-theme="night"] .location__subheading {
+    color: var(--lemon);
+}
+
+/* Title lines: chili + paprika stay the same at night (per Figma) */
+
+/* Description: dark-olive → parchment */
+html[data-theme="night"] .location__description {
+    color: var(--parchment);
+}
+
+
+/* ── Phones (≤ 767px) ──
+   Figma: img (2109:130245) + Location (2109:130246) + Visit CTA (2109:130264).
+   Entrance photo full-bleed at 21:9 with the img component's 4px radii; Location on
+   Parchment (the desktop's Paper stays desktop) at 48 / 34 with the copy over a 400px
+   map at 24; the headline breaks after "heart" (Chili) / "of the best city" (Paprika).
+   Then the phone-only "Come sit with us" closer on Paper: 48 / 34, text → 40 → one
+   full-width Reserve button. */
+
+.menu-visit-cta {
+    display: none;
+}
+
+/* ── Tablet — 768–991 (built Sep 2026) ──
+   The map is `width: 600px; flex-shrink: 0`, so the copy column got whatever was left:
+   88px at 768, 138 at 834, 255 at 991 — the Molot headline ran eighteen lines, one word
+   per line. Stacked, as phones do it, with the phone's two-line title split. The map
+   height reuses the Contacts clamp rather than the phone's flat 400: width drives it so
+   the map keeps a sane proportion against the column, and the vh term guards a short
+   landscape viewport. */
+@media (min-width: 768px) and (max-width: 991px) {
+    .location__inner {
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    /* `height`, not `min-height`. The iframe inside is `height: 100%`, which only
+       resolves against a definite parent height — on an auto-height box it falls back to
+       the HTML default of 150px, so the map painted a 150px strip inside a 500px well
+       (found by the author, Sep 2026). Desktop gets away with `min-height` because the
+       row's `align-items: stretch` makes the height definite; a column does not. The
+       phone block uses a flat `height` for the same reason. */
+    .location__map {
+        width: 100%;
+        height: clamp(400px, min(60vw, 55vh), 600px);
+    }
+
+    /* The 4:1 divider band is a desktop ratio — at 736–903 it flattens to a 184–226px
+       strip. 21:9 is the phones' value and the next ratio up the sanctioned list
+       (website-brief.md → Image ratios), giving 315–387px here. */
+    .menu-entrance-img__inner {
+        aspect-ratio: 21 / 9;
+    }
+
+    /* "at the very heart" | "of the best city" — the phone split */
+    .location__title-line1 {
+        display: block;
+    }
+
+    .location__title-line2 {
+        display: inline;
+    }
+
+    .location__title-mid {
+        color: var(--paprika);
+    }
+}
+
+@media (max-width: 767px) {
+    .menu-entrance-img .container {
+        padding: 0;
+    }
+
+    .menu-entrance-img__inner {
+        aspect-ratio: 21 / 9;
+        border-radius: 4px;
+    }
+
+    .menu-entrance-img__pill {
+        top: 16px;
+        left: 16px;
+    }
+
+    .menu-location {
+        background-color: var(--parchment);
+        padding-top: 48px;
+        padding-bottom: 34px;
+    }
+
+    .location__inner {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    /* phones: "at the very heart" | "of the best city" */
+    .location__title-line1 {
+        display: block;
+    }
+
+    .location__title-line2 {
+        display: inline;
+    }
+
+    .location__title-mid {
+        color: var(--paprika);
+    }
+
+    .location__map {
+        width: 100%;
+        height: 400px;
+    }
+
+    .menu-visit-cta {
+        display: block;
+        background-color: var(--paper);
+        padding-top: 48px;
+        padding-bottom: 34px;
+    }
+
+    html[data-theme="night"] .menu-visit-cta {
+        background-color: var(--peppercorn);
+    }
+
+    .menu-visit-cta__inner {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .menu-visit-cta__text {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .menu-visit-cta__eyebrow {
+        display: block;
+        color: var(--avocado);
+        margin-bottom: 8px;
+    }
+
+    html[data-theme="night"] .menu-visit-cta__eyebrow {
+        color: var(--cream);
+    }
+
+    .menu-visit-cta__headline {
+        margin: 0;
+    }
+
+    .menu-visit-cta__body {
+        font-family: var(--font-body);
+        font-size: var(--text-body);
+        line-height: 1.4;
+        color: var(--soft-peppercorn);
+        margin: 0;
+        text-wrap: pretty;
+    }
+
+    html[data-theme="night"] .menu-visit-cta__body {
+        color: var(--parchment);
+    }
+
+    .menu-visit-cta__actions .btn {
+        width: 100%;
+    }
+}

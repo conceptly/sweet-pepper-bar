@@ -1,0 +1,587 @@
+/* ── Home Events Section ──────────────────────────── */
+/* Figma: eventsSection — vertical auto-layout, gap 80, 1280px wide.
+   3×2 grid of event cards + a "See all events" link tile.
+   Background alternates: about-preview = parchment/peppercorn,
+   events = paper/soft-peppercorn. */
+
+.home-events {
+    background-color: var(--bg); /* paper (day) — alternates with about-preview's parchment */
+}
+
+html[data-theme="night"] .home-events {
+    background-color: var(--surface); /* soft-peppercorn */
+}
+
+.home-events .container {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+
+/* ── Events Grid ──────────────────────────── */
+/* 3 columns, 2 rows. Gap 24px. Cards ~349px wide at 1120px container. */
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+
+/* ═════════════════════════════════════════════════════
+   Event Card — instagram-feed-cards component
+   
+   3 states: Default, Hover, Pinned
+   2 modes:  Day, Night
+   
+   Architecture: the card is a fixed-size container sized by
+   the image's 4:5 aspect ratio. The body overlay is positioned
+   absolutely at the bottom with a fixed height of 98px.
+   This guarantees the card NEVER changes height on hover.
+   
+   Structure:
+   a.event-card                        ← bordered card, relative, overflow hidden
+     ├── .event-card-img-wrap          ← 4:5 image (drives card height)
+     │     ├── img.event-card-img
+     │     └── .event-card-pill        ← category badge (top-left)
+     └── .event-card-body              ← absolute bottom, h=98px, gradient bg
+           ├── .event-card-default     ← date + title (visible default, hidden hover)
+           └── .event-card-hover       ← title + CTA (hidden default, visible hover)
+   
+   Animation: 800ms Gentle easing per Figma prototype.
+   ════════════════════════════════════════════════════ */
+
+/* Figma "Gentle" easing ≈ Material standard */
+:root {
+    --card-duration: 800ms;
+    --card-easing: var(--ease-gentle-flat);
+}
+
+
+/* ── Card Container ── */
+/* Figma: 349.33px, rounded-8, border, relative positioning.
+   Height is entirely driven by the image's 4:5 aspect ratio.
+   Day: parchment bg + mushroom border.
+   Night: peppercorn bg + mushroom border. */
+
+.event-card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid var(--mushroom);
+    background-color: var(--parchment);
+    text-decoration: none;
+    cursor: pointer;
+    transition: box-shadow var(--card-duration) var(--card-easing),
+                border-color var(--card-duration) var(--card-easing);
+}
+
+html[data-theme="night"] .event-card {
+    background-color: var(--peppercorn);
+}
+
+
+/* ── Hover State ── */
+/* Day: drop shadow 4px 4px 16px.
+   Night: lime glow 0 0 16px. */
+
+.event-card:hover {
+    box-shadow: 4px 4px 16px 0px rgba(21, 19, 23, 0.15);
+}
+
+html[data-theme="night"] .event-card:hover {
+    box-shadow: 0px 0px 16px 0px rgba(212, 230, 113, 0.5);
+}
+
+
+/* ── Pinned State ── */
+/* Day: lemon border + lemon glow 0 0 8px.
+   Night: lemon border (2px) + lemon glow. */
+
+.event-card--pinned {
+    border-color: var(--lemon);
+    box-shadow: 0px 0px 8px 0px var(--lemon);
+}
+
+html[data-theme="night"] .event-card--pinned {
+    border-width: 2px;
+    border-color: var(--lemon);
+}
+
+
+/* ── Card Image ── */
+/* 4:5 aspect ratio (400×500). This is the sole height driver.
+   Image fills the entire card; the body overlay floats on top. */
+
+.event-card-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    display: block;
+}
+
+.event-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* ── Category Pill (image badge) ── */
+/* Positioned inside the image's padding area (24px).
+   Lemon bg, peppercorn text, caption size, opacity 0.9. */
+
+.event-card-pill {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 3;
+    padding: 4px 8px;
+    border-radius: 4px;
+    opacity: 0.9;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    white-space: nowrap;
+    /* Default pill: lemon bg, peppercorn text */
+    background-color: var(--lemon);
+    color: var(--peppercorn);
+}
+
+/* Category-specific pill colours */
+.event-card-pill--event {
+    background-color: var(--chili);
+    color: var(--paper);
+}
+
+.event-card-pill--promo {
+    background-color: var(--lemon);
+    color: var(--peppercorn);
+}
+
+.event-card-pill--community {
+    background-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+
+/* ── Body Overlay ── */
+/* Absolutely positioned at the bottom of the card.
+   Fixed height of 98px — never changes between states.
+   This prevents any card height shifting on hover.
+   
+   Day gradient: from paper → paper at 75% → transparent
+   Night gradient: from peppercorn at 66% → peppercorn at 30% → transparent */
+
+.event-card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 98px;
+    z-index: 2;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(
+        to top,
+        var(--paper) 0%,
+        rgba(252, 247, 232, 0.75) 75.5%,
+        rgba(252, 247, 232, 0) 100%
+    );
+}
+
+html[data-theme="night"] .event-card-body {
+    background: linear-gradient(
+        to top,
+        var(--peppercorn) 0%,
+        var(--peppercorn) 65.9%,
+        rgba(21, 19, 23, 0.3) 100%
+    );
+}
+
+
+/* ── Default Content (date + title) ── */
+/* Visible by default, fades out on hover. */
+
+.event-card-default {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: opacity var(--card-duration) var(--card-easing);
+}
+
+.event-card:hover .event-card-default {
+    opacity: 0;
+}
+
+
+/* ── Hover Content (title + CTA) ── */
+/* Hidden by default, fades in on hover.
+   Absolutely positioned to overlap the default content
+   so the two swap without any layout shift. */
+
+.event-card-hover {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity var(--card-duration) var(--card-easing);
+}
+
+.event-card:hover .event-card-hover {
+    opacity: 1;
+}
+
+
+/* ── Date Badge ── */
+/* Day: Golos Medium 14px, peppercorn text.
+   Night: Golos Regular 13px (caption), lime text. */
+
+.event-card-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-card-source {
+    display: none; /* phones only — see the ≤ 767px block */
+}
+
+.event-card-date span {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    white-space: nowrap;
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .event-card-date span {
+    font-weight: 400;
+    font-size: var(--text-caption);
+    letter-spacing: 0.52px;
+    color: var(--lime);
+}
+
+/* "Today!" variant */
+.event-card-date--today span {
+    color: var(--chili);
+}
+
+html[data-theme="night"] .event-card-date--today span {
+    color: var(--lemon);
+}
+
+
+/* ── Title ── */
+/* Molot H3 18px / 1.35 / tracking 0.9px.
+   Day: olive. Night: paper. */
+
+.event-card-title {
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--olive);
+    margin: 0;
+    word-break: break-word;
+}
+
+html[data-theme="night"] .event-card-title {
+    color: var(--paper);
+}
+
+
+/* ── CTA Link ── */
+/* "See it on Instagram →"
+   Golos SemiBold 16px.
+   Day: peppercorn text. Night: lime text. */
+
+.event-card-cta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-card-cta-text {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    white-space: nowrap;
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .event-card-cta-text {
+    color: var(--lime);
+}
+
+.event-card-cta-arrow {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .event-card-cta-arrow {
+    color: var(--lime);
+}
+
+
+/* ═════════════════════════════════════════════════════
+   Events Link Card — "See all events →" tile
+   ════════════════════════════════════════════════════ */
+
+.events-link-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--mushroom);
+    transition: box-shadow var(--card-duration) var(--card-easing),
+                border-color var(--card-duration) var(--card-easing);
+}
+
+html[data-theme="night"] .events-link-card {
+    border-color: var(--mushroom);
+}
+
+.events-link-card:hover {
+    box-shadow: 4px 4px 16px 0px rgba(21, 19, 23, 0.15);
+}
+
+html[data-theme="night"] .events-link-card:hover {
+    box-shadow: 0px 0px 16px 0px rgba(212, 230, 113, 0.5);
+}
+
+.events-link-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.events-link-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(21, 19, 23, 0.5);
+    z-index: 1;
+}
+
+.events-link-card-text {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--parchment);
+    text-align: center;
+}
+
+
+/* ═════════════════════════════════════════════════════
+   Phones — Figma eventsSection-mobile 2048:127051
+   48px rhythm: connector → title block → card rail → the two Follow CTAs at full
+   width → connector. The CTAs sit inside .section-header in the markup, so the header
+   is dissolved (display: contents) and the two blocks are ordered here, as on
+   Highlights. Cards are the fixed 240×300 `instagram-feed-cards-mobile`: a snap rail
+   bleeding across the 16px gutters, the cropped card as the affordance. No hover on
+   touch, so the card's default layer carries the source's brand mark on its date row
+   and the title runs one line with an ellipsis (intentional: social titles are
+   unpredictable). Body overlay is 16px padding (82px tall) and the
+   category pill sits 16 from the corner (Image caption label: 16 on phones).
+   ════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    .home-events .container {
+        gap: 48px;
+    }
+
+    .home-events .section-header {
+        display: contents;
+    }
+
+    .home-events .section-ctas {
+        order: 1;
+    }
+
+    .home-events .section-link-word:last-child {
+        order: 2;
+    }
+
+    .events-grid {
+        display: flex;
+        gap: 24px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 16px;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Bleed across the gutters; the padding keeps the pinned card's 8px glow unclipped */
+        margin: -8px -16px;
+        padding: 8px 16px;
+    }
+
+    .events-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .event-card,
+    .events-link-card {
+        flex: 0 0 240px;
+        width: 240px;
+        scroll-snap-align: start;
+    }
+
+    .event-card-pill {
+        top: 16px;
+        left: 16px;
+    }
+
+    /* Body overlay: 16px padding, date row + 8px + one-line title = 82px.
+       Gradient per the mobile card: solid Peppercorn to 63%, clear by 90%. */
+    .event-card-body {
+        height: 82px;
+        padding: 16px;
+    }
+
+    html[data-theme="night"] .event-card-body {
+        background: linear-gradient(
+            to top,
+            var(--peppercorn) 0%,
+            var(--peppercorn) 63.3%,
+            rgba(21, 19, 23, 0) 90.3%
+        );
+    }
+
+    .event-card-default {
+        gap: 8px;
+    }
+
+    .event-card-date {
+        justify-content: space-between;
+    }
+
+    .event-card-source {
+        display: block;
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    /* Day card (1260:40760): Parchment ground, house shadow, Peppercorn title, Soft Peppercorn
+       caption date; overlay fades from clear at the top to Parchment by 43%. */
+    .event-card {
+        box-shadow: 1px 1px 4px 0px rgba(21, 19, 23, 0.15);
+    }
+
+    .event-card-body {
+        background: linear-gradient(
+            to bottom,
+            rgba(243, 233, 210, 0) 0%,
+            var(--parchment) 42.8%
+        );
+    }
+
+    .event-card-date span {
+        font-weight: 400;
+        font-size: var(--text-caption);
+        letter-spacing: 0.52px;
+        color: var(--soft-peppercorn);
+    }
+
+    .event-card-title {
+        color: var(--peppercorn);
+    }
+
+    html[data-theme="night"] .event-card {
+        box-shadow: none;
+    }
+
+    html[data-theme="night"] .event-card-date span {
+        color: var(--lime);
+    }
+
+    html[data-theme="night"] .event-card-title {
+        color: var(--paper);
+    }
+
+    /* "Today!" keeps its accent (the phone date rule above would otherwise win) */
+    .event-card-date--today span {
+        color: var(--chili);
+    }
+
+    html[data-theme="night"] .event-card-date--today span {
+        color: var(--lemon);
+    }
+
+    /* Pinned (1260:40728): 2px Lemon keyline, no glow on phones */
+    .event-card--pinned,
+    html[data-theme="night"] .event-card--pinned {
+        border-width: 2px;
+        box-shadow: none;
+    }
+
+    html[data-theme="night"] .event-card--pinned .event-card-body {
+        background: linear-gradient(
+            to top,
+            var(--peppercorn) 0%,
+            var(--peppercorn) 65.9%,
+            rgba(21, 19, 23, 0.3) 100%
+        );
+    }
+
+    .event-card-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: normal;
+    }
+
+    /* Touch: the hover layer never shows, keep it out of the way */
+    .event-card:hover .event-card-default {
+        opacity: 1;
+    }
+
+    .event-card:hover .event-card-hover {
+        opacity: 0;
+    }
+
+    /* "See all events" tile: blurred photo under a 75% Peppercorn scrim, LinkPrimary text */
+    .events-link-card-img {
+        filter: blur(2px);
+        transform: scale(1.04); /* hide the blur's soft edge */
+    }
+
+    .events-link-card-overlay {
+        background: rgba(21, 19, 23, 0.75);
+    }
+
+    .events-link-card-text {
+        font-weight: 600;
+        line-height: 1.6;
+    }
+
+    html[data-theme="night"] .events-link-card-text {
+        color: var(--lime);
+    }
+}

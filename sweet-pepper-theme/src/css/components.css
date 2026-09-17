@@ -1,0 +1,365 @@
+/* Reusable Components (Global) */
+
+/* Rugged Edge (Scallop)
+   Figma: ruggedEdge component — a row of 24×24 ellipses with 24px gap.
+   Only the bottom half of each circle is visible (half-circle facing down).
+   Circle diameter = 24px  →  radius = 12px
+   Gap = 24px
+   Repeating unit = 24 (circle) + 24 (gap) = 48px
+   Visible height = 12px (bottom half of circle) */
+.rugged-edge {
+    height: 12px;
+    width: 100%;
+    
+    /* Each 48px tile has one circle, centred in the tile (x=24) with its centre on the
+       top edge (y=0), so only the bottom half (12px) is visible.
+       The tiling is centred horizontally (matches Figma, where the 1280px ruggedEdge
+       is centre-aligned in its container): circle centres land at W/2 ± 48n, so the
+       pattern is symmetric for any card width and the two end circles are never
+       chopped unevenly. On a 548px card that is 34px and 514px — the Figma values. */
+    background-image: radial-gradient(
+        circle at 24px 0,
+        var(--rugged-color) 11.5px,
+        transparent 12px
+    );
+    background-size: 48px 12px;
+    background-position: center top;
+    background-repeat: repeat-x;
+    
+    display: block;
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* ── Section Link Word ──────────────────────────── */
+/* Reusable full-width SVG text (e.g. "AT SWEET PEPPER", "MORE FROM MENU").
+   Day/night swap is handled by .link-word-day / .link-word-night classes. */
+.section-link-word {
+    position: relative;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Top link words are reflections of the section below — faded at 50% */
+.section-link-word--reflection {
+    opacity: 0.5;
+}
+
+html[data-theme="night"] .section-link-word--reflection {
+    opacity: 0.3;
+}
+
+/* Phones: the desktop SVGs scale to 370, so their outlines thin to a third of their
+   weight and the night 30% made them vanish on Peppercorn (author, Sep 2026). The
+   night files carry their own gradient fade, so they run at full opacity on phones;
+   50% still read as dark grey in the browser. */
+@media (max-width: 767px) {
+    html[data-theme="night"] .section-link-word--reflection {
+        opacity: 1;
+    }
+}
+
+.section-link-word img {
+    width: 100%;
+    /* The <img> carries width/height from the SVG's viewBox (see the template
+       part), so `height: auto` resolves to the right aspect ratio and the band
+       reserves its space before the lazy file loads — keep both. */
+    height: auto;
+    display: block;
+}
+
+img.link-word-night {
+    display: none !important;
+}
+
+html[data-theme="night"] img.link-word-day {
+    display: none !important;
+}
+
+html[data-theme="night"] img.link-word-night {
+    display: block !important;
+}
+
+/* ── Section Header ──────────────────────────── */
+/* Figma: sectionTitleContainer — 1120px row, 24px gap.
+   Left: text column (739px) — eyebrow + headline + description.
+   Right: CTA slot (flex 1) — buttons stacked, right-aligned, vertically centered. */
+
+.section-header {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* ── Left: Title Block ── */
+
+.section-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-shrink: 0;
+    /* The Figma 739px itself, not a percentage that only equals it at a 1120 column.
+       66% held at the design width and squeezed everywhere below it — 549px at a 832
+       content column, which broke the Molot headline to three lines from 992 to 1119. */
+    width: min(100%, 739px);
+}
+
+/* Eyebrow — Molot 18px / 1.35 / tracking 0.9px */
+.section-eyebrow {
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--olive);
+}
+
+html[data-theme="night"] .section-eyebrow {
+    color: var(--cream);
+}
+
+/* Headline group — Figma "titleLines" container.
+   Gap between eyebrow and headline-group is 8px (sectionTitle internal gap).
+   The parent .section-title-block uses gap: 16px, so subtract 8px. */
+.section-headline-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: -8px; /* 16px gap − 8px = effective 8px from eyebrow */
+}
+
+/* Headline line 1 — Molot var(--text-h1) / 1.05 / tracking 4%, Chili */
+.section-headline {
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--chili);
+}
+
+/* Headline line 2 — same typography, Paprika (lighter red) */
+.section-headline-2 {
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--paprika);
+    margin: 0;
+}
+
+/* Description — Golos Text 16px / 1.4, max-width ≈643px */
+.section-description {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    text-wrap: pretty;
+    color: var(--dark-olive);
+    max-width: 643px;
+    margin: 0;
+}
+
+html[data-theme="night"] .section-description {
+    color: var(--paper);
+}
+
+/* ── Right: CTA Slot ── */
+
+.section-ctas {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: flex-end;
+    align-self: stretch;
+    min-width: 0;
+}
+
+/* Buttons inside section-ctas get a fixed width matching Figma (261px) */
+.section-ctas .btn {
+    width: 261px;
+}
+
+/* A section may carry a shorter phone-only description (section-header.php →
+   description_mobile): Body/Secondary 14 / 1.4 / 4%, shown ≤ 767px in place of the
+   desktop paragraph. */
+.section-description--mobile {
+    display: none;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+}
+
+/* ── Section header, stacked (768–1151, Sep 2026) ─────────────────────────
+   The same stack as phones — title block full width, CTA slot beneath — with two
+   deliberate differences, which is why this is its own block rather than the phone
+   block widened:
+
+   1. The CTA slot runs as a ROW of equal buttons, not a column of full-width ones.
+      Two stacked full-width buttons across 720–943px read as a form, not as a pair
+      of doors (Interaction rule — a button is one of the three tappable grammars).
+   2. `.section-description` keeps its 643px cap. The phone block drops it because
+      370px is already inside the measure; letting it run 943 here would put body
+      copy far past anything website-brief.md → Grid sanctions.
+
+   This also fixes a real desktop bug at these widths: `.section-ctas .btn` is a fixed
+   261px (the Figma number) inside a slot that is only 221px at 768, so the button
+   overflows its own slot by 40–59px and, being right-aligned, pushes left into the
+   paragraph — measured Sep 2026 at 768: 8px into Highlights, 16px into Contacts,
+   and still 2px into Contacts at 834.
+
+   Upper bound is 1151, not the 991 nav breakpoint, and the number is derived rather
+   than chosen: side by side the header needs 739 (title) + 24 (gap) + 261 (button) =
+   1024 of content, and with the ramped gutter (main.css) the content column is
+   0.75 × viewport + 160, so 1024 arrives at exactly 1152. Below that the two halves do
+   not both fit, and the choice is a squeezed three-line Molot headline or this stack —
+   the headline is the section's identity, so it wins. Re-derive this bound if the
+   gutter ramp, the 739 title or the 261 button ever move; RU labels are longer than
+   EN, so check it again when Polylang lands. */
+@media (min-width: 768px) and (max-width: 1151px) {
+    .section-header {
+        flex-direction: column;
+        gap: 36px;
+    }
+
+    .section-title-block {
+        width: 100%;
+    }
+
+    .section-ctas {
+        flex: none;
+        width: 100%;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+
+    .section-ctas .btn {
+        flex: 1 1 0;
+        width: auto;
+    }
+}
+
+/* ── Section header on phones ─────────────────────────────────────────────
+   Figma sectionTitle-Mobile (in HighlightsSection 2048:126987): the title block runs
+   the full 370, the CTA slot drops under it and its buttons go full width. The Figma
+   mobile component (sectionTitle-Mobile 1164:51509) sets the eyebrow in `Heading/Captions`
+   (Molot 16); the build keeps H3 18 at every width (decided Sep 2026 — tested in the
+   browser, consistent with desktop, and design.md §3.3 has no sanctioned Molot-16 slot).
+   Eyebrow colour is the desktop's at every width (Cream by night — decided Sep 2026; the
+   Highlights frame's Avocado was a stale instance). Where a section needs the CTAs elsewhere in the stack (Highlights:
+   under the cards) the section's own CSS dissolves .section-header with
+   `display: contents` and orders the two blocks itself. */
+@media (max-width: 767px) {
+    .section-header {
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    .section-title-block {
+        width: 100%;
+    }
+
+    .section-description {
+        max-width: none;
+    }
+
+    .section-description--mobile {
+        display: block;
+    }
+
+    .section-title-block:has(.section-description--mobile) .section-description:not(.section-description--mobile) {
+        display: none;
+    }
+
+    .section-ctas {
+        flex: none;
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .section-ctas .btn {
+        width: 100%;
+    }
+}
+
+
+/* ── Section Link — live text (prototype, Sep 2026) ──────────────────────────
+   The Figma `SectionLink` component set (212:2442) rebuilt as HTML text so it can be
+   judged and refined in the browser; template-parts/components/section-link.php.
+   The brief's connector rule (SVG only) still stands — this is the test of it.
+
+   Frame: text left, bottom-aligned; the 1252 frame's 80px gutters are the page
+   container's. Word: 50% opacity, 0.5px Mushroom rule under it. Reflection: the same
+   text flipped, no rule; 30% on dark, 100% on light. Text: Molot 122 / 75% / 4%.
+   Strokes in Figma are OUTSIDE; CSS text-stroke is centred, so a Figma 1px reads as
+   ~0.5px outside here — kept at the Figma numbers for the first look. */
+
+.section-link {
+    --section-link-size: 122px;          /* Figma; section-link.js overrides to fit the container */
+    --section-link-stroke: 1px;
+    --section-link-ink: var(--cream);
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    line-height: 0;
+    pointer-events: none;
+    z-index: 1;
+    position: relative;
+}
+
+.section-link__text {
+    display: block;
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: var(--section-link-size);
+    line-height: 0.75;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: var(--section-link-stroke) var(--section-link-ink);
+    text-stroke: var(--section-link-stroke) var(--section-link-ink);
+    text-align: left;
+}
+
+/* Word (Figma "Default"): 50%, Mushroom hairline under it */
+.section-link--word {
+    opacity: 0.5;
+    border-bottom: 0.5px solid var(--mushroom);
+}
+
+/* Reflection: flipped on its own baseline */
+.section-link--reflection .section-link__text {
+    transform: scaleY(-1);
+    transform-origin: 50% 50%;
+}
+
+/* Dark ground: Cream word, Paper reflection at 30%, Peppercorn fade in the counters */
+.section-link--dark .section-link__text {
+    background-image: linear-gradient(to top, var(--peppercorn), rgba(21, 19, 23, 0));
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.section-link--dark.section-link--word {
+    --section-link-ink: var(--cream);
+}
+
+.section-link--dark.section-link--reflection {
+    --section-link-ink: var(--paper);
+    opacity: 0.3;
+}
+
+/* Light ground: Olive 2px word, Lime reflection at full */
+.section-link--light.section-link--word {
+    --section-link-ink: var(--olive);
+    --section-link-stroke: 2px;
+}
+
+.section-link--light.section-link--reflection {
+    --section-link-ink: var(--lime);
+    opacity: 1;
+}
+
+@media (max-width: 767px) {
+    .section-link {
+        --section-link-size: 34px;       /* SectionLinkMobile; the fit pass overrides */
+    }
+}

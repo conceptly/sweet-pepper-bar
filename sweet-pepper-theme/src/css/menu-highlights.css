@@ -1,0 +1,345 @@
+/* ==========================================================================
+   Menu Highlights Section — Seasonal strip on the menu page
+   Figma: SeasonalMenuSection (781:24689)
+
+   Horizontal scrolling card strip with tilted dish cards.
+   Background: --surface (parchment day), alternates from hero's --bg (paper).
+   ========================================================================== */
+
+/* ── Section wrapper ── */
+.menu-highlights {
+    background-color: var(--surface); /* parchment (day) / soft-peppercorn (night) — via semantic tokens */
+    padding-top: 80px;
+    overflow-x: clip; /* Clip card rail overflow at the section edge */
+}
+
+.menu-highlights > .container {
+    display: flex;
+    flex-direction: column;
+    gap: 48px; /* Figma: 48px between sectionContent children + 48px to bottom */
+}
+
+
+/* ── Section Title ──
+   Uses the shared section-header component.
+   This instance has no CTAs and no description — title-only.
+   The title block spans full width here (no CTA slot). */
+
+.menu-highlights .section-header {
+    display: block; /* override the flex row — no CTA column here */
+}
+
+.menu-highlights .section-title-block {
+    width: 100%; /* full width, no 66% cap */
+}
+
+
+/* ── Horizontal Card Rail ──
+   Figma: horizontalImgGrid — flex row, 24px gap, rounded-8, W: 1120 Fill, H: Hug.
+   "Clip content" is OFF on the grid, ON on the section — cards overflow the
+   1120px content area and peek into the 80px padding zone before being clipped
+   at the 1280px section edge. This gives users a visual hint of more content.
+
+   CSS implementation:
+   - negative right margin pulls the grid into the container's padding zone
+   - overflow-x: auto keeps native horizontal scroll
+   - scroll-padding-inline-end adds breathing room when snapping to the last card
+   - the section gets overflow-x: clip to act as the Figma "Clip content" boundary */
+
+.menu-highlights-grid {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    border-radius: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    /* Extend to viewport right edge so cards peek past the content area.
+       --rail-overshoot = distance from the container's content edge to the viewport edge.
+       On viewports ≤ 1280px: just the 80px container padding.
+       On wider viewports: 80px + the centering margin ((100vw − 1280) / 2).
+       50vw − 560px is the algebraic shorthand for that. */
+    --rail-overshoot: max(80px, calc(50vw - 560px));
+    margin-right: calc(-1 * var(--rail-overshoot));
+    padding-right: var(--rail-overshoot);
+    scroll-padding-inline-end: var(--rail-overshoot);
+
+    padding-bottom: 4px; /* room for shadow below cards */
+    /* Hide scrollbar — the peeking cards ARE the scroll hint */
+    scrollbar-width: none; /* Firefox */
+}
+
+.menu-highlights-grid::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+
+/* ── Menu Highlight Card ──
+   Figma: menuHighlightCard (820:29462) — component with day/night + default/hover + tilt variants.
+   The outer container is a transparent centering wrapper (~266 × 261px).
+   The INNER card carries the bg, shadow, and rounded — it tilts WITH the content. */
+
+.menu-highlight-card {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    /* Transparent centering wrapper — bg/shadow is on the inner card */
+    /* Figma: 266.44 × 261.2px, but we let the inner card size this naturally */
+}
+
+
+/* ── Inner Card (tilted) ──
+   Figma: "card" frame — 262px wide, rounded-8, bg + shadow.
+   Alternating ±1° rotation, un-tilts on hover.
+   Day default: Paper bg, drop-shadow 1px 1px 4px (Drop Shadow Cards).
+   Night default: Peppercorn bg, no visible shadow. */
+
+.menu-highlight-card__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 262px;
+    border-radius: 8px;
+    background-color: var(--paper);
+    box-shadow: 1px 1px 4px 0px rgba(21, 19, 23, 0.15);
+    cursor: pointer;
+    transition: transform 0.8s var(--ease-gentle),
+                box-shadow 0.8s var(--ease-gentle-flat);
+}
+
+html[data-theme="night"] .menu-highlight-card__inner {
+    background-color: var(--peppercorn);
+    box-shadow: none;
+}
+
+.menu-highlight-card__inner--tilt-left {
+    transform: rotate(-1deg);
+}
+
+.menu-highlight-card__inner--tilt-right {
+    transform: rotate(1deg);
+}
+
+
+/* ── Hover: un-tilt + expanded shadow + title color change ──
+   Day hover: Drop-ShadowCards-Hover (4px 4px 16px), card goes flat.
+   Night hover: Card-Glow-Hover (0 0 16px lime glow), card goes flat. */
+
+.menu-highlight-card__inner:hover {
+    transform: rotate(0deg);
+    box-shadow: 4px 4px 16px 0px rgba(21, 19, 23, 0.15);
+}
+
+html[data-theme="night"] .menu-highlight-card__inner:hover {
+    box-shadow: 0px 0px 16px 0px rgba(212, 230, 113, 0.5);
+}
+
+/* Title turns Chili on hover (both day and night) */
+.menu-highlight-card__inner:hover .menu-highlight-card__title {
+    color: var(--chili);
+}
+
+
+/* ── Card Image ──
+   Figma: img — aspect 300/200 (3:2), rounded-4, overflow clip. */
+
+.menu-highlight-card__img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.menu-highlight-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    border-radius: 4px;
+}
+
+
+/* ── Card Content (text area) ──
+   Figma: teamInfo — flex column, px-16, pb-16. */
+
+.menu-highlight-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 16px 16px;
+    width: 100%;
+}
+
+
+/* ── Card Title ──
+   Figma: Molot 20px, Peppercorn (day). NOT the same as home highlight (H2/Olive). */
+
+.menu-highlight-card__title {
+    font-size: 20px;
+    line-height: normal;
+    color: var(--peppercorn);
+    white-space: nowrap;
+    transition: color 0.8s var(--ease-gentle-flat);
+}
+
+html[data-theme="night"] .menu-highlight-card__title {
+    color: var(--cream);
+}
+
+
+/* ── Card Link ──
+   Figma: LinkPrimary-Day — Golos SemiBold 16px, Olive, flex row with 12×12 arrow.
+   This is a "contained inline action" (Interaction rule — chips, §website-brief). */
+
+.menu-highlight-card__link {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    text-decoration: none;
+    color: var(--olive);
+    transition: color 0.2s ease;
+}
+
+.menu-highlight-card__link:hover {
+    color: var(--avocado);
+}
+
+html[data-theme="night"] .menu-highlight-card__link {
+    color: var(--lime);
+}
+
+html[data-theme="night"] .menu-highlight-card__link:hover {
+    color: var(--lemon);
+}
+
+.menu-highlight-card__link-label {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.menu-highlight-card__link-icon {
+    display: inline-flex;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.menu-highlight-card__link-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
+/* ── Eyebrow ──
+   Avocado, like every other section on the menu page (menu-section.css) and both Figma
+   frames of this section (SeasonalMenuSection 781:24689, Highlights 2109:130202). The shared
+   section-header component's Olive is the home-page value. */
+.menu-highlights .section-eyebrow {
+    color: var(--avocado);
+}
+
+
+/* ── Bottom Link Word ──
+   Figma: SectionLink — border-bottom 0.5px mushroom, opacity handled by --reflection class.
+   The link word lives inside the .container, so it inherits px-80 and max-width.
+   Only the bottom border is section-specific. */
+
+.menu-highlights__link-word {
+    border-bottom: 0.5px solid var(--mushroom);
+}
+
+
+/* ── Phones (≤ 767px) ──
+   Figma: Highlights (2109:130202) — the rail becomes a 2-up grid of six cards
+   (177 wide, 16px gaps) under the title, 48px section rhythm, the hero
+   connector's reflection above. Card links take the short label ("In Soups")
+   so they fit a 145px text column. */
+
+.menu-highlight-card__link-label--mobile {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .menu-highlights {
+        padding-top: 48px;
+    }
+
+    /* Figma: title → 24 → grid → 48 → connector */
+    .menu-highlights > .container {
+        gap: 24px;
+    }
+
+    .menu-highlights__link-word {
+        margin-top: 24px;
+    }
+
+    /* Tilt checkerboard as drawn (frame order +1 −1 / −1 +1 / +1 −1): neighbours
+       lean apart and each row flips — the desktop rail's simple alternation would
+       make every row lean the same way in a 2-up grid. */
+    .menu-highlight-card:nth-child(1) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(4) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(5) .menu-highlight-card__inner {
+        transform: rotate(1deg);
+    }
+
+    .menu-highlight-card:nth-child(2) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(3) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(6) .menu-highlight-card__inner {
+        transform: rotate(-1deg);
+    }
+
+    .menu-highlights-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-right: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+    }
+
+    .menu-highlight-card {
+        display: block;
+    }
+
+    .menu-highlight-card__inner {
+        width: 100%;
+        box-shadow: 1px 1px 2px 0 rgba(21, 19, 23, 0.15);
+    }
+
+    .menu-highlight-card__content {
+        min-width: 0;
+    }
+
+    .menu-highlight-card__title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Night frame (2194:70367): the second title line in Paprika, as the section
+       title's headline_2 — the day frame keeps one Chili title. */
+    html[data-theme="night"] .menu-highlights__headline-2 {
+        display: block;
+        color: var(--paprika);
+    }
+
+    .menu-highlight-card__link-label--desktop {
+        display: none;
+    }
+
+    .menu-highlight-card__link-label--mobile {
+        display: inline;
+    }
+}

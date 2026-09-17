@@ -1,0 +1,328 @@
+/* Header Styles */
+.site-header {
+    padding: 24px 0 0;
+    position: relative;
+    z-index: 100;
+    background-color: var(--surface);
+}
+
+html[data-theme="night"] .site-header {
+    background-color: var(--bg);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.site-branding .logo-link {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.site-branding .logo-link .logo-symbol {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: center;
+}
+
+.site-branding .logo-link:hover .logo-symbol {
+    transform: rotate(15deg) scale(1.05);
+}
+
+/* Main Navigation */
+.main-navigation {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.main-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 24px;
+}
+
+.main-navigation a {
+    text-decoration: none;
+    color: var(--soft-peppercorn);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.8s var(--ease-gentle-flat);
+}
+
+.main-navigation a:hover {
+    color: var(--avocado);
+}
+
+/* Active nav item (current page) */
+.main-navigation .current-menu-item a,
+.main-navigation .current_page_item a {
+    color: var(--olive);
+    font-weight: 750;
+}
+
+/* Night mode nav */
+html[data-theme="night"] .main-navigation a {
+    color: var(--paper);
+}
+
+html[data-theme="night"] .main-navigation a:hover {
+    color: var(--cream);
+}
+
+html[data-theme="night"] .main-navigation .current-menu-item a,
+html[data-theme="night"] .main-navigation .current_page_item a {
+    color: var(--lemon);
+    font-weight: 750;
+}
+
+/* Header Utilities (What's on & Lang Switch) */
+.header-utils {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+/* What's on chip */
+.whats-on-chip {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 4px 8px;
+    border: 1px solid var(--mushroom);
+    border-radius: 4px;
+}
+
+html[data-theme="night"] .whats-on-chip {
+    border-color: var(--ash);
+}
+
+.whats-on-chip .label {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--olive);
+}
+
+html[data-theme="night"] .whats-on-chip .label {
+    color: var(--lime-light, #d4e671);
+}
+
+.whats-on-chip .social-icons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.whats-on-chip .social-icon {
+    display: flex;
+    transition: opacity 0.2s;
+}
+
+.whats-on-chip .social-icon:hover {
+    opacity: 0.7;
+}
+
+/* Language Switch */
+.lang-switch {
+    display: flex;
+    border: 1px solid rgba(21, 19, 23, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 3px;
+    gap: 2px;
+}
+
+html[data-theme="night"] .lang-switch {
+    border-color: rgba(252, 247, 232, 0.3);
+    padding: 4px;
+}
+
+.lang-switch .lang-option {
+    padding: 4px 12px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    cursor: pointer;
+    color: var(--mushroom);
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+html[data-theme="night"] .lang-switch .lang-option {
+    color: var(--mushroom);
+}
+
+.lang-switch .lang-option.active {
+    background-color: var(--chili);
+    color: var(--parchment);
+}
+
+html[data-theme="night"] .lang-switch .lang-option.active {
+    color: var(--cream);
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.logo-wordmark {
+    display: none;
+}
+
+/* ---- Mobile header (Figma topNavContainer 1164:48786, breakpoint=mobile, logo=full) ----
+   16px vertical padding around a 44px bar; 8px bottom radii so the Parchment bar
+   reads as a bar over the Paper page by day. Lockup: 32px Symbol + 16px gap + 16px
+   Chili wordmark (Chili in both modes). Hamburger: 44px tap target, 24px icon
+   right-aligned — Olive by day, Lemon by night. */
+@media (max-width: 991px) {
+    /* Fixed bar (scroll-away/return behaviour is a later task); body carries the 76px offset in main.css */
+    .site-header {
+        position: fixed;
+        top: var(--wp-admin--admin-bar--height, 0px);
+        left: 0;
+        right: 0;
+        padding: 16px 0;
+        border-radius: 0 0 8px 8px;
+    }
+
+    /* About + Visit: the desktop header is a transparent absolute overlay on the dark hero;
+       fixed on mobile it needs its own ground once the page scrolls — Peppercorn, same as the hero */
+    .page-template-page-about .site-header,
+    .page-template-page-visit .site-header {
+        position: fixed;
+        background-color: var(--peppercorn);
+    }
+
+    /* Same pages: the page ground under the bar's 8px corners and the 76px body offset
+       is Peppercorn too, or the corners cut a Paper notch into the dark hero (Sep 2026) */
+    body.page-template-page-about,
+    body.page-template-page-visit {
+        background-color: var(--peppercorn);
+    }
+
+    .header-container {
+        min-height: 44px;
+    }
+
+    .main-navigation,
+    .header-utils {
+        display: none;
+    }
+
+    .site-branding .logo-link {
+        gap: 16px;
+        height: 32px;
+    }
+
+    .site-branding .logo-link .logo-symbol {
+        width: auto;
+        height: 32px;
+    }
+
+    .logo-wordmark {
+        display: block;
+        width: auto;
+        height: 16px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        border-radius: 4px;
+        background: none;
+        color: var(--olive);
+        cursor: pointer;
+    }
+
+    .menu-toggle svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+    }
+
+    html[data-theme="night"] .menu-toggle,
+    .page-template-page-about .menu-toggle,
+    .page-template-page-visit .menu-toggle {
+        color: var(--lemon);
+    }
+}
+
+/* ---- About + Visit pages: header over dark hero (desktop only) ----
+   Scoped ≥ 992px (Sep 2026): unscoped, this later rule out-ranked the mobile block's
+   "fixed, Peppercorn" for the same pages and left the phone header static and
+   transparent over the body's Paper offset. */
+@media (min-width: 992px) {
+    .page-template-page-about .site-header,
+    .page-template-page-visit .site-header {
+        background-color: transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.page-template-page-about .main-navigation a,
+.page-template-page-visit .main-navigation a {
+    color: var(--paper);
+}
+
+.page-template-page-about .main-navigation a:hover,
+.page-template-page-visit .main-navigation a:hover {
+    color: var(--cream);
+}
+
+.page-template-page-about .main-navigation .current-menu-item a,
+.page-template-page-about .main-navigation .current_page_item a,
+.page-template-page-visit .main-navigation .current-menu-item a,
+.page-template-page-visit .main-navigation .current_page_item a {
+    color: var(--lemon);
+    font-weight: 750;
+}
+
+.page-template-page-about .whats-on-chip,
+.page-template-page-visit .whats-on-chip {
+    border-color: var(--ash);
+}
+
+.page-template-page-about .whats-on-chip .label,
+.page-template-page-visit .whats-on-chip .label {
+    color: var(--lime-light, #d4e671);
+}
+
+.page-template-page-about .lang-switch,
+.page-template-page-visit .lang-switch {
+    border-color: rgba(252, 247, 232, 0.3);
+    padding: 4px;
+}
+
+.page-template-page-about .lang-switch .lang-option,
+.page-template-page-visit .lang-switch .lang-option {
+    color: var(--mushroom);
+}
+
+.page-template-page-about .lang-switch .lang-option.active,
+.page-template-page-visit .lang-switch .lang-option.active {
+    color: var(--cream);
+}

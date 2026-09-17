@@ -1,0 +1,745 @@
+/* ==========================================================================
+   Menu Hero — "Side-Nav Poster" (Concept B)
+   Figma: menu-one-photo-hero-kitchen-day-stacked (708:19545)
+          menu-one-photo-hero-kitchen-night-stacked (734:20685)
+   
+   Day mode base styles, with [data-theme="night"] overrides at the bottom.
+   ========================================================================== */
+
+/* ── Section wrapper — full viewport height minus header ── */
+.menu-hero {
+    background: var(--paper);
+    width: 100%;
+    min-height: calc(100vh - 78px); /* Match home-hero: header 24+54 = 78px */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Make the top nav blend into the hero on the menu page */
+.menu-hero ~ .site-header,
+body.page-template-page-menu .site-header {
+    background-color: var(--paper);
+}
+
+/* Admin bar adjustments */
+body.admin-bar .menu-hero {
+    min-height: calc(100vh - 78px - 32px);
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .menu-hero {
+        min-height: calc(100vh - 78px - 46px);
+    }
+}
+
+/* ── Inner layout ── */
+.menu-hero__inner {
+    display: flex;
+    gap: 48px;
+    align-items: center;       /* Centers nav and content as a group */
+    padding-right: 80px;
+    flex: 1;
+    min-height: 0;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ==========================================================================
+   LEFT: Nav Panel
+   ~340px content area, height hugs the word list + door.
+   Parchment bg with Lime edge strip peeking on the right.
+   ========================================================================== */
+
+.menu-hero__nav {
+    position: relative;
+    width: 440px;
+    min-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    justify-content: center;
+    padding: 44px 36px 44px 80px;
+    isolation: isolate;
+}
+
+/* ── Background sheets ──
+   Both sized to the nav element itself. Parchment is flush,
+   Lime is offset 8px down-right so it peeks as an edge strip. */
+
+.menu-hero__nav-bg {
+    position: absolute;
+    pointer-events: none;
+}
+
+.menu-hero__nav-bg--parchment {
+    inset: 0;
+    background: var(--parchment);
+    border-radius: 8px 8px 0 0;
+    z-index: 2;
+}
+
+.menu-hero__nav-bg--lime {
+    top: 8px;
+    left: 8px;
+    right: -8px;
+    bottom: -8px;
+    background: var(--lime);
+    border-radius: 0 2px 2px 0;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   Nav Word List
+   Molot 36px, outlined text by default, filled Chili when active.
+   ========================================================================== */
+
+.menu-hero__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    z-index: 4;
+}
+
+.menu-hero__nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.menu-hero__nav-label {
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: 1.44px;
+    white-space: nowrap;
+
+    /* Outlined text — the key visual trick */
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--olive);
+    text-stroke: 1.5px var(--olive);
+
+    /* Transition on the element that actually changes */
+    transition: color 0.8s var(--ease-bouncy),
+                -webkit-text-stroke 0.8s var(--ease-bouncy);
+}
+
+/* Active state — filled text */
+.menu-hero__nav-item.is-active .menu-hero__nav-label {
+    color: var(--chili);
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+}
+
+/* Arrow icon — use opacity for smooth show/hide instead of display toggle */
+.menu-hero__nav-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--chili);
+    opacity: 0;
+    transition: opacity 0.8s var(--ease-bouncy),
+                color 0.8s var(--ease-bouncy);
+}
+
+.menu-hero__nav-arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.menu-hero__nav-item.is-active .menu-hero__nav-arrow {
+    opacity: 1;
+    color: var(--chili);
+}
+
+/* Hover — Paprika fill + arrow visible (Figma: hover variant) */
+.menu-hero__nav-item:not(.is-active):hover .menu-hero__nav-label {
+    color: var(--paprika);
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+}
+
+.menu-hero__nav-item:not(.is-active):hover .menu-hero__nav-arrow {
+    opacity: 1;
+    color: var(--paprika);
+}
+
+/* ==========================================================================
+   DRINKS Door (ticket-day variant from Figma)
+   Peppercorn pill, rotated -1deg, Molot 32px, Lime outlined.
+   Half-ellipse notch on the left edge (Paper fill = parent bg).
+   Hover: text fills with Lime.
+   ========================================================================== */
+
+.menu-hero__door {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--peppercorn);
+    padding: 4px 16px 4px 24px;       /* Figma: pl-24 pr-16 py-4 */
+    border-radius: 4px;
+    text-decoration: none;
+    transform: rotate(-1deg);
+    position: relative;
+    z-index: 3;
+    align-self: flex-start;
+    transition: background 0.8s var(--ease-bouncy),
+                transform 0.8s var(--ease-bouncy);
+}
+
+.menu-hero__door:hover {
+    background: var(--peppercorn);
+}
+
+.menu-hero__door-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    transform: scaleX(-1);  /* Mirror the right-arrow SVG to point left */
+}
+
+.menu-hero__door-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    color: var(--lime);
+    transition: color 0.8s var(--ease-bouncy);
+}
+
+.menu-hero__door:hover .menu-hero__door-icon svg {
+    color: var(--lime);
+}
+
+.menu-hero__door-label {
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: 1.28px;
+    white-space: nowrap;
+
+    /* Outlined in Lime on Peppercorn background */
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--lime);
+    text-stroke: 1.5px var(--lime);
+    transition: color 0.8s var(--ease-bouncy),
+                -webkit-text-stroke 0.8s var(--ease-bouncy);
+}
+
+/* Hover: text fills with Lime */
+.menu-hero__door:hover .menu-hero__door-label {
+    color: var(--lime);
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+}
+
+/* Half-circle notch — left edge, Parchment fill to match nav panel bg.
+   A 24px circle shifted left so only the right half shows. */
+.menu-hero__door-hinge {
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 24px;
+    overflow: hidden;
+}
+
+.menu-hero__door-hinge::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--parchment);
+    transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   RIGHT: Content Area
+   Flex column: photo + description grouped (24px gap), wordmark at bottom.
+   ========================================================================== */
+
+.menu-hero__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ==========================================================================
+   Photo Stack
+   3:2 photo on top, layered color sheets behind at varying rotations.
+   The entire stack is contained — sheets do NOT bleed past the 
+   parent's bounds (the 80px right padding is on .menu-hero__inner).
+   ========================================================================== */
+
+.menu-hero__photo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    min-height: 0;
+    flex-shrink: 1;
+
+    /* Space for the sheet offsets — keeps everything inside the padding */
+    padding: 16px 20px 16px 0;
+}
+
+/* Photo frame — the actual image container */
+.menu-hero__photo-frame {
+    position: relative;
+    width: 100%;
+    max-height: 100%;
+    aspect-ratio: 3 / 2;
+    border: 2px solid var(--peppercorn);
+    border-radius: 4px;
+    overflow: hidden;
+    transform: rotate(-1deg);
+    z-index: 4;
+}
+
+.menu-hero__photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+    transition: opacity 0.5s ease;
+}
+
+/* Cross-fade state — applied by JS during image swap */
+.menu-hero__photo-frame.is-fading .menu-hero__photo-img {
+    opacity: 0.3;
+}
+
+.menu-hero__photo-frame.is-fading .menu-hero__photo-pill {
+    opacity: 0;
+}
+
+/* Yellow pill caption — bottom right per Figma reference */
+.menu-hero__photo-pill {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: var(--lemon);
+    opacity: 0.9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: var(--font-body, 'Golos Text', sans-serif);
+    font-size: var(--text-caption, 13px);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    white-space: nowrap;
+    transition: opacity 0.5s ease;
+}
+
+/* ── Offset color sheets ──
+   Each is positioned relative to the photo container, slightly 
+   offset and rotated. They stay inside the padded area. */
+
+.menu-hero__photo-sheet {
+    position: absolute;
+    border-radius: 2px;
+    pointer-events: none;
+
+    /* Match the photo frame size approximately */
+    width: calc(100% - 20px);
+    aspect-ratio: 3 / 2;
+}
+
+.menu-hero__photo-sheet--lemon {
+    z-index: 3;
+    background: var(--lemon);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-1.5deg) translate(4px, 3px);
+}
+
+.menu-hero__photo-sheet--lime {
+    z-index: 2;
+    background: var(--lime);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-1deg) translate(6px, 5px);
+}
+
+.menu-hero__photo-sheet--chili {
+    z-index: 1;
+    background: var(--chili);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-2deg) translate(8px, 7px);
+}
+
+/* ==========================================================================
+   Description Text
+   ========================================================================== */
+
+.menu-hero__description {
+    font-family: var(--font-body, 'Golos Text', sans-serif);
+    font-size: var(--text-body, 16px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ash);
+    text-wrap: pretty;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   FOOD Wordmark
+   Molot 122px, Avocado, right-aligned, flush to the bottom.
+   In the Figma it bleeds slightly past the viewport — we clip it.
+   ========================================================================== */
+
+.menu-hero__wordmark {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding-right: 80px;
+    text-align: right;
+    overflow: hidden;           /* Clip the bottom bleed */
+    max-height: 96px;           /* Show ~75% of the 122px text, bottom clipped */
+    z-index: 1;
+}
+
+.menu-hero__wordmark .molot-text {
+    font-size: 122px;
+    line-height: 0.75;
+    letter-spacing: 4.88px;
+    color: var(--avocado);
+    text-align: right;
+}
+
+/* ==========================================================================
+   NIGHT MODE OVERRIDES
+   Figma: menu-one-photo-hero-kitchen-night-stacked (734:20685)
+   
+   Activated when the daypart engine sets data-theme="night" on <html>.
+   The photo stack (sheets, frame, pill) is unchanged between modes.
+   ========================================================================== */
+
+/* ── Section + header bg ── */
+[data-theme="night"] .menu-hero {
+    background: var(--peppercorn);
+}
+
+[data-theme="night"] body.page-template-page-menu .site-header {
+    background-color: var(--peppercorn);
+}
+
+/* ── Nav panel bg: Parchment → Soft Peppercorn ── */
+[data-theme="night"] .menu-hero__nav-bg--parchment {
+    background: var(--soft-peppercorn);
+}
+
+/* Lime strip stays unchanged */
+
+/* ── Nav item text: Olive stroke → Lime stroke ── */
+[data-theme="night"] .menu-hero__nav-label {
+    -webkit-text-stroke: 1.5px var(--lime);
+    text-stroke: 1.5px var(--lime);
+}
+
+/* Active state: Chili → Lime */
+[data-theme="night"] .menu-hero__nav-item.is-active .menu-hero__nav-label {
+    color: var(--lime);
+}
+
+/* Active arrow: Chili → Lime */
+[data-theme="night"] .menu-hero__nav-item.is-active .menu-hero__nav-arrow {
+    color: var(--lime);
+}
+
+/* Hover: Paprika stays in both modes — warm accent reads well on Soft Peppercorn */
+
+/* ── DRINKS door — ticket-night variant ──
+   Day:   Peppercorn bg + Lime outlined text + Lime icon
+   Night: Lime bg + Peppercorn outlined text + Peppercorn icon (full inversion) */
+
+[data-theme="night"] .menu-hero__door {
+    background: var(--lime);
+}
+
+[data-theme="night"] .menu-hero__door-label {
+    -webkit-text-stroke: 1.5px var(--peppercorn);
+    text-stroke: 1.5px var(--peppercorn);
+}
+
+[data-theme="night"] .menu-hero__door:hover .menu-hero__door-label {
+    color: var(--peppercorn);
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+}
+
+[data-theme="night"] .menu-hero__door-icon svg {
+    color: var(--peppercorn);
+}
+
+[data-theme="night"] .menu-hero__door:hover .menu-hero__door-icon svg {
+    color: var(--peppercorn);
+}
+
+/* Hinge circle: Parchment → Soft Peppercorn (matches night nav bg) */
+[data-theme="night"] .menu-hero__door-hinge::after {
+    background: var(--soft-peppercorn);
+}
+
+/* ── Description text: Ash → Mushroom ── */
+[data-theme="night"] .menu-hero__description {
+    color: var(--mushroom);
+}
+
+/* ── FOOD wordmark: Avocado → Lemon ── */
+[data-theme="night"] .menu-hero__wordmark .molot-text {
+    color: var(--lemon);
+}
+
+/* ==========================================================================
+   DRINKS STATE OVERRIDES
+   Figma: menu-one-photo-hero-bar-stacked (735:22582)
+   
+   The bar menu is always dark (website-brief.md: "Menu — drinks state:
+   Always dark"). These overrides layer on top of the night block above.
+   
+   Key differences from kitchen night:
+   - Nav items mix two variants: "default" (Chili active) for alcoholic,
+     "non-alco" (Lime active) for non-alcoholic.
+   - Door is ticket-kitchen (Cream bg / Olive text), not ticket-night.
+   - Wordmark is "DRINKS" in Lime, not "FOOD" in Lemon.
+   ========================================================================== */
+
+/* ── Nav active: alcoholic sections (default variant) → Chili ── */
+[data-menu-state="drinks"] .menu-hero__nav-item[data-nav-variant="default"].is-active .menu-hero__nav-label {
+    color: var(--chili);
+}
+
+[data-menu-state="drinks"] .menu-hero__nav-item[data-nav-variant="default"].is-active .menu-hero__nav-arrow {
+    color: var(--chili);
+}
+
+/* Nav active: non-alco sections → Lime (same as kitchen night, already inherited) */
+
+/* ── FOOD door — ticket-kitchen variant ──
+   Cream bg + Olive text (default), Lemon bg + Avocado text (hover).
+   Inverts the kitchen's ticket-night door. */
+
+[data-menu-state="drinks"] .menu-hero__door {
+    background: var(--cream);
+}
+
+[data-menu-state="drinks"] .menu-hero__door-label {
+    /* Olive filled text (not outlined like ticket-night) */
+    color: var(--olive);
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+}
+
+[data-menu-state="drinks"] .menu-hero__door-icon svg {
+    color: var(--olive);
+}
+
+/* Hover: Cream → Lemon bg, Olive → Avocado text */
+[data-menu-state="drinks"] .menu-hero__door:hover {
+    background: var(--lemon);
+}
+
+[data-menu-state="drinks"] .menu-hero__door:hover .menu-hero__door-label {
+    color: var(--avocado);
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+}
+
+[data-menu-state="drinks"] .menu-hero__door:hover .menu-hero__door-icon svg {
+    color: var(--avocado);
+}
+
+/* Door hinge: matches nav panel bg (Soft Peppercorn in night) — already set by night block */
+
+/* ── DRINKS wordmark: Lime (not Lemon like kitchen night) ── */
+[data-menu-state="drinks"] .menu-hero__wordmark .molot-text {
+    color: var(--lime);
+}
+
+
+
+/* ==========================================================================
+   PHONES (≤ 767px)
+   Figma: menu-one-photo-hero-kitchen-day-stacked-mobile (2109:130201)
+
+   The nav panel has no room on a phone, so the hero is one column: a flush-left
+   Lime button that opens the jump-nav panel ("More plates"), the photo stack at
+   the full 370, the description, and a full-width primary that commits to the
+   section on show (website-brief.md → Menu page → Hero → Touch exception: on
+   touch, preview and commit are two objects). The room wordmark gives way to
+   the "food menu" / "drinks menu" connector, whose reflection opens the next
+   section (page-menu.php → .menu-hero-reflection).
+   ========================================================================== */
+
+/* Phone-only pieces, off by default */
+.menu-hero__page-nav,
+.menu-hero__commit,
+.menu-hero__connector,
+.menu-hero-reflection {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    /* One viewport: nav (76, fixed — body padding) + hero = 100dvh, as the home
+       hero. The opener + content travel as one block, centred in the slack
+       (auto margins above the opener and below the content); the connector
+       sits on the floor. Short viewports just grow — nothing squashes. */
+    .menu-hero {
+        min-height: calc(100vh - 76px);
+        min-height: calc(100dvh - 76px);
+        padding-top: 24px;
+        gap: 24px;
+    }
+
+    body.admin-bar .menu-hero {
+        min-height: calc(100dvh - 76px - 46px);
+    }
+
+    /* Flush-left opener: the edge tab's construction laid flat — square on the
+       viewport edge, 4px radii on the visible corners (Figma btnWrapper). */
+    .menu-hero__page-nav {
+        display: flex;
+        padding-right: 16px;
+        margin-top: auto;
+    }
+
+    .menu-hero__page-nav .btn {
+        border-radius: 0 4px 4px 0;
+    }
+
+    .menu-hero__inner {
+        display: block;
+        flex: none;
+        padding-right: 0;
+        max-width: none;
+        margin-bottom: auto;
+    }
+
+    /* Scoped to the hero: the jump-nav panel's sheet shares .menu-hero__nav */
+    .menu-hero__inner > .menu-hero__nav {
+        display: none;
+    }
+
+    .menu-hero__content {
+        padding: 0 16px 8px;
+        gap: 24px;
+    }
+
+    /* Photo stack: photo level, sheets fanned to the bottom-right inside an
+       8px pocket (Figma imgContainer-menu: pb-8 pr-8; net angles 0 / −0.5 / −1). */
+    .menu-hero__photo {
+        padding: 0 8px 8px 0;
+    }
+
+    .menu-hero__photo-frame {
+        transform: none;
+    }
+
+    .menu-hero__photo-pill {
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .menu-hero__photo-sheet {
+        width: calc(100% - 8px);
+        top: auto;
+        left: auto;
+    }
+
+    .menu-hero__photo-sheet--lime {
+        right: 4px;
+        bottom: 4px;
+        transform: none;
+    }
+
+    .menu-hero__photo-sheet--lemon {
+        right: 0;
+        top: 0;
+        transform: rotate(-0.5deg);
+    }
+
+    .menu-hero__photo-sheet--chili {
+        right: -4px;
+        bottom: 0;
+        transform: rotate(-1deg);
+    }
+
+    /* Recipe B — the components alternate the fan per section (Figma
+       imgContainer-menuFood / -menuBar): Salads, Soups, Desserts, Beer and
+       No Buzz put Chili in the mid slot peeking bottom-left and Lemon at the
+       back on the right. The hero carries data-current-section (menu-hero.js). */
+    .menu-hero:is([data-current-section="salads"], [data-current-section="soups"],
+                  [data-current-section="desserts"], [data-current-section="beer"],
+                  [data-current-section="no-buzz"]) .menu-hero__photo-sheet--lemon {
+        z-index: 1;
+        top: auto;
+        right: 0;
+        bottom: 0;
+        transform: rotate(-0.5deg);
+    }
+
+    .menu-hero:is([data-current-section="salads"], [data-current-section="soups"],
+                  [data-current-section="desserts"], [data-current-section="beer"],
+                  [data-current-section="no-buzz"]) .menu-hero__photo-sheet--chili {
+        z-index: 3;
+        right: auto;
+        left: 4px;
+        bottom: 0;
+        transform: rotate(-1deg);
+    }
+
+    /* Bar hero: the description is Parchment (Figma menu-bar-mobile 2175:68888);
+       the desktop night hero keeps Mushroom. */
+    [data-menu-state="drinks"].menu-hero .menu-hero__description {
+        color: var(--parchment);
+    }
+
+    .menu-hero__commit {
+        display: flex;
+    }
+
+    .menu-hero__commit .btn {
+        width: 100%;
+    }
+
+    .menu-hero__wordmark {
+        display: none;
+    }
+
+    /* Connector at the hero's foot (Figma SectionLinkMobile: 0.5px Mushroom rule) */
+    .menu-hero__connector {
+        display: block;
+    }
+
+    .menu-hero__connector .section-link-word {
+        border-bottom: 0.5px solid var(--mushroom);
+    }
+
+    /* Its reflection, on the next section's ground: Highlights is --surface, and
+       the first bar section's top block is --surface too (menu-section.css). */
+    .menu-hero-reflection {
+        display: block;
+        background-color: var(--surface);
+    }
+}

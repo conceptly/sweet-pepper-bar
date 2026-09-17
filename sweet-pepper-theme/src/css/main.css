@@ -1,0 +1,103 @@
+@font-face {
+    font-family: 'Molot';
+    src: url('../fonts/Molot-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Golos Text';
+    src: url('../fonts/GolosText-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Basic reset and base styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--text);
+    text-wrap: pretty;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Base typography */
+h1, h2, h3, .molot-text {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+h1 {
+    font-size: 44px;
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 1.35;
+    letter-spacing: 0.05em;
+}
+
+/* Gutter ramps instead of stepping (Sep 2026, tablet pass).
+   `12.5vw - 80px` is one-eighth of the viewport less 80, which passes through exactly
+   16px at 768 and exactly 80px at 1280 — both authored endpoints survive, and below 768
+   it clamps to the phone's 16px (Figma mobile frames, 370 content in 402).
+
+   It replaces a hard 24px → 80px step at 992 that made the content column NARROW as the
+   window got WIDER: 943 at 991, 832 at 992. Everything sized off the container jumped
+   backwards with it (hero tile 186→162, cards 298→261, connector SVG 943→832).
+
+   website-brief.md → Grid: the "24px gutter in between" constant retires; the ramp passes
+   through 24px at ~834. The 4px rule still holds for every authored value (16 and 80 are
+   both on it) — what the ramp computes between them is interpolation, like a fluid type
+   scale, and nothing aligns against a page margin. A `round(down, …, 4px)` variant keeps
+   every computed gutter on the grid but turns the content width into a sawtooth (climbs
+   ~37px, drops 8px at each step), i.e. one 111px cliff traded for fourteen 8px ones.
+
+   `vw` not `%`: one `.container` on /menu/ sits inside `.menu-visit-cta`, so a percentage
+   would resolve against the wrong box there. The cost is that vw counts the scrollbar. */
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-inline: clamp(16px, 12.5vw - 80px, 80px);
+}
+
+/* Below the nav breakpoint the page must never scroll sideways (website-brief.md → Responsive).
+   The clip sits on #page, not html: mobile browsers size the layout viewport to the document's
+   min-content width, which stretches every fixed element (header, drawer) with it, and a clip on
+   html does not stop that (measured Sep 2026: html clip → 595px viewport at 402; #page clip → 402).
+   `clip` rather than `hidden` so #page stays a non-scroll-container and position: sticky keeps
+   working. Needed while desktop-only sections still overflow a phone; harmless afterwards. */
+@media (max-width: 991px) {
+    #page {
+        overflow-x: clip;
+    }
+
+    /* Room for the fixed 76px header (header.css). The home hero subtracts it from 100dvh. */
+    body {
+        padding-top: 76px;
+    }
+
+    /* Anchor landings clear the fixed header (native hash jumps and gentle-scroll.js both read it) */
+    section[id] {
+        scroll-margin-top: 76px;
+    }
+}
+
+

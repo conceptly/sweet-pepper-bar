@@ -52,7 +52,7 @@ Every colour is a tint or shade of **three hues**: red (chili), green, and yello
 | Paprika | `#EF6D44` | orange / support |
 | *(mid-chili)* | `#EC572A` | **logo-internal only — not a brand token** |
 | Chili | `#E34314` | hero red / primary accent |
-| Deep Chili | `#9B2705` | dark red for red **text** on Lemon/Lime/Light-lime |
+| Deep Chili | `#9B2705` | dark red for red **text** on Lemon/Lime/Light-lime (brand Chili passes only as large text on Lemon, never on Lime — §2.5) |
 
 **Green line**
 
@@ -204,9 +204,9 @@ For posters/flyers, **don't pair Molot — let it run alone.** Build hierarchy f
 
 **Responsive rule — only the display levels move.** The `Typography` collection carries **Desktop** and **Mobile** modes, and just two sizes change: Display 76→64 and H1 64→36. H2, H3, Body, Caption and every UI style hold across breakpoints. That is the responsive type rule; there isn't a second one.
 
-**Home hero is the exception, and it's fragile.** `Size/HomeHero` on mobile doesn't take a fixed value — it aliases `HeadlineFontSize` in the `mealTime` collection, which is 56 for every state except Party (52), sized around the longest English string. RU runs 10–15% longer, so this will break on translation. Replace the per-state pixel values with a fluid clamp or a fit-to-box rule before the RU pass. *(Open.)*
+**Home hero is the exception, and it's fragile.** `Size/HomeHero` on mobile doesn't take a fixed value — it aliases `HeadlineFontSize` in the `mealTime` collection, which is 56 for every state except Party (52), sized around the longest English string. RU runs 10–15% longer, so this will break on translation. Replace the per-state pixel values with a fluid clamp or a fit-to-box rule before the RU pass. *(Open.)* **Sep 2026:** the bento mobile hero now in the build (`home-hero-bento-stack` 2048:126962) sets its headline at a raw **32px** (104% / 4%) instead, so the 56/52 alias belongs to the earlier display-sized hero only. Author keeping 32 pending notes — decide which is canonical and retire the other.
 
-**Two Molot exceptions now exist, and only one is sanctioned.** `website-brief.md` → Sanctioned small-size exception permits Molot below display size in exactly one place (13–18px meal-period labels). `Heading/Captions` is Molot at 16 and is a second. Either sanction it explicitly with a named scope, or fold it into H3. *(Open.)*
+**Two Molot exceptions now exist, and only one is sanctioned.** `website-brief.md` → Sanctioned small-size exception permits Molot below display size in exactly one place (13–18px meal-period labels). `Heading/Captions` is Molot at 16 and is a second. Either sanction it explicitly with a named scope, or fold it into H3. *(Open.)* **Sep 2026:** the web build sides with H3 for now — the mobile section eyebrow (Figma `sectionTitle-Mobile` 1164:51509, drawn in `Heading/Captions`) renders at 18 on every width, so no Molot-16 text ships. The style still exists in the Figma file; the open question is whether to retire it there.
 
 Headings run Molot all the way down — hierarchy by size and colour (§3.2), never by switching face. Golos enters where reading starts: body, captions, UI. Web interaction typography (the three "tappable" styles) is specified in `website-brief.md` → Interaction rule.
 
@@ -235,7 +235,7 @@ Clean 2026 SVG set in `design/logos/2026/` (svg + png + jpg, plus `logo-sweet.ai
 - **Stamp** — **¼ h**, equal all sides (a circle wants equal radial clearance).
 - **Symbol & Favicon** — **¼ h top & bottom, ½ h left & right** — a deliberate 2:1 that squares off the portrait mark for square avatars/favicons (the one place the UI-padding instinct applies).
 
-Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `design/logos/2026/rectangular-web.svg`. Keep **≥ 1 unit, equal**, on every side; no type, edges, or other marks inside it. Exception: a logo *container* (header bar, chip) may use more horizontal than vertical padding, but the equal clear space must fit inside it.
+Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `design/logos/2026/rectangular-web.svg`. Keep **the full clear space, equal**, on every side (the ½ h / ¼ h values above); no type, edges, or other marks inside it. Exception: a logo *container* (header bar, chip) may use more horizontal than vertical padding, but the equal clear space must fit inside it.
 
 **Minimum sizes** (web / print): Horizontal ≥ 180 px / 45 mm · Rectangular ≥ 120 px / 32 mm · Stacked ≥ 96 px / 24 mm · Stamp ≥ 56 px / 16 mm · Symbol ≥ 24 px (favicon 16–32 px uses the Symbol). Below the horizontal minimum, switch to Stacked or Symbol.
 
@@ -263,6 +263,8 @@ Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `desig
 - **UI / functional icons → Phosphor Icons (Fill).** Chosen over Material Sharp because Material's coverage gaps keep biting; Phosphor's ~9,000 icons include the food/bar set we need (even a pepper). One library, one weight.
 - **Social / brand logos → official full-colour marks** (VK, Telegram, Instagram), taken from each brand's own kit (`design/icons/social-media/`). They have always been full colour, on purpose: social marks are almost always contacts, and the colour separates them from the single-colour *supporting* icons at a glance. Don't recolour or redraw them.
 - **Bespoke brand icons → stay custom:** the Yaroslavl bear (city coat of arms) and the pepper-shaker motif. *(Corrected Sep 2026: the two-tone Olive/Avocado veggie leaf existed only in the print menu; the website uses the Phosphor leaf for consistency, so it is not part of the bespoke set.)*
+- **Delivery — inlined SVG, not the webfont, on contact and booking surfaces (Sep 2026).** Still Phosphor: `assets/icons/` holds the set exported from the Figma file (the `c-*` files draw in `currentColor`, so each takes its slot's colour), so this is one library delivered two ways, not two libraries. Inlined SVG wins wherever an icon carries state or sits in a contact control: it needs no font to load, it survives a failed request, its colour follows the slot in both themes, and it cannot be swapped by rewriting markup from JS — a real bug, where a copy handler rewrote a chip's `innerHTML` and left a typeface ✓ where the icon had been. **Icons change by CSS showing one of two inlined SVGs, never by JS editing an icon.** The webfont stays for the rest of the UI (dialog closes, the home stat chips, the button component's fallback).
+- **Two things that are not icons, deliberately.** The booking status's *busy* mark is a CSS dot — the exported set has no plain circle and the house already draws status dots that way (the Visit rail). The *closed* mark is the daypart `sleep` glyph, replacing a clock glyph that sat awkwardly against the no-clock rule (`website-brief.md`).
 - Don't mix two UI icon libraries. Don't redraw real brand logos by hand.
 
 ---

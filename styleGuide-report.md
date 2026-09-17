@@ -1,6 +1,6 @@
 # Sweet Pepper style guide — process report
 
-Handoff note for any agent (Cowork, Antigravity, Claude Code) picking up the style-guide work. Read `design.md` first — it is the source of truth; this file explains how the guide artefacts were produced from it and where they stand as of 2026-09-08.
+Handoff note for any agent (Cowork, Antigravity, Claude Code) picking up the style-guide work. Read `design.md` first — it is the source of truth; this file explains how the guide artefacts were produced from it and where they stand as of 2026-09-12.
 
 ## 1. What exists
 
@@ -12,9 +12,9 @@ Handoff note for any agent (Cowork, Antigravity, Claude Code) picking up the sty
 | `style-guide-draft.html` | repo root | Frozen copy of the guide as of 2026-09-08 — backup only, do not edit. Previously live at `sweetpepper.bar/style-guide-draft.html`. |
 | `style-guide-edit.js` · `style-guide-save.php` | repo root | In-page edit mode and its save endpoint (§10). Deployed by the host's cron next to `style-guide.html`. |
 | `style-guide-config.example.php` → `style-guide-config.php` | repo root (template) / server only (filled) | Password hash + GitHub token for the edit mode. The filled file is git-ignored and was uploaded by hand to `public_html` (§10). |
-| `sweet-pepper-style-guide.pdf` · `-ru.pdf` | repo root | A4 portrait renders of the HTML (EN 28 pp, RU 31 pp). Peppercorn cover, Paper pages, full bleed. |
+| `sweet-pepper-style-guide.pdf` · `-ru.pdf` | repo root | A4 portrait renders of the live HTML (EN 27 pp, RU 30 pp; 2026-09-12). Peppercorn cover, Paper pages, full bleed. |
 | `tools/i18n/` | tools/ | `inject.py` (builds the bilingual HTML, Copy-SVG buttons and the mobile shell), `strings-ru.json` (all Russian text), `mobile-shell.html` (mobile home screen + section router), `grid4.py` (4 px-grid checker/fixer). `_old/` holds the retired index-keyed files — delete. See §6. **`inject.py` and `strings-ru.json` are retired for the live file since 2026-09-08 (§10)** — they still target `style-guide-draft.html` and must not be pointed at `style-guide.html`. |
-| `team-docs/design-guide.md` · `design-guide-ru.md` | team-docs/ | Short team-facing guide for new designers / SMM (EN + RU). Derived from `design.md`; no open questions, no history. Update when a rule changes. |
+| `team-docs/design-guide.md` · `design-guide-ru.md` | team-docs/ | Short team-facing guide for new designers / SMM (EN + RU). Derived from `design.md`; no open questions, no history. Update when a rule changes. RU terminology follows the live guide (§11). |
 | `figmaScreenshotws/ticketExamples/` | figmaScreenshotws/ | Source PNGs for the bartender's-ticket examples embedded in the HTML (cards, deal chip, four footers). |
 | `tools/render-style-guide-pdf.py` | tools/ | Render pipeline, `--lang en|ru` (see §4). |
 | Figma **Sweet Pepper Style Guide** | file key `Ymf85QTDs0Ttf2rGrx9ter` | Token-driven layout system for the guide: variables → text styles → components → pages. Pages built so far: Cover, Contents, Brand essence (P03), Logo (P04–P07), Colour (P08–P12). |
@@ -125,12 +125,14 @@ Load `figma-use` + `figma-generate-library` skills before every `use_figma` call
 11. **Cron loop** — confirm the extended cron command from §9.3 is in place on the host; until then new versions of the editor/endpoint in the repo do not reach `public_html`.
 12. **PDFs after in-page edits** — every editor commit changes `style-guide.html` but not the PDFs; re-render both (§4) before sharing PDFs, or accept that the PDFs lag.
 13. **Editor limits to keep in mind** — text and links only; a new paragraph, section, image or table is a repo edit. Trailing line breaks are stripped on save; `<b>`/`<i>` become `<strong>`/`<em>`.
+14. **Accessibility claims** — the blanket "colour-blind safe" statement and the contrast figures in § Colour come from the Aug 2026 Adobe Color check and were only re-worded, not re-measured, in the copy pass. Re-verify the numbers (§8 agreement) before they are quoted anywhere else.
+15. **Commit the 2026-09-12 review fixes** — `style-guide.html` (Chili-on-Lime sentence, clear-space sentence, EN + RU), `design.md` §2.2/§4, `team-docs/design-guide-ru.md` terminology are edited locally and uncommitted; see §11.
 
 ## 8. Working agreements
 
 - `design.md` wins. Don't invent rules; flag conflicts with a section reference.
 - Etual is the author: critique drafts, offer options (including at least one that deliberately breaks a rule), don't replace judgment.
-- Concise, direct. English is the source language of the guide; the Russian layer is maintained in `tools/i18n/strings-ru.json`, register-twin not literal. Voice examples use «твой».
+- Concise, direct. Both languages are edited in `style-guide.html` (in-page editor or repo); Russian is written as natural instructions, register-twin not literal; house terms in §11. Voice examples use «твой».
 - Periodically re-verify the numbers in `design.md` (contrast ratios, token math) instead of trusting the tables.
 
 ## 9. Publishing — git and hosting (handoff for Claude Code / Antigravity)
@@ -192,6 +194,33 @@ Why: Etual wanted Webflow-style text editing on the page instead of VS Code + gi
 - **Verified live (2026-09-08):** on `sweetpepper.bar` the config is not served as source (empty 200), the endpoint answers 405 on GET and 401 on a wrong password (PHP runs, config and hash load), and Etual's first real save committed to `main` through the GitHub API and deployed via the cron — "everything works". Earlier, **verified locally** against a Python stand-in for the PHP endpoint (both modes): block counts match between page and file (674/674, no tag/lang mismatch), a four-block EN+RU save changed exactly those blocks in the file, wrong password rejected, backup written. (The PHP could not be executed on the Mac — no PHP installed — hence the stand-in; the live run above closed that gap.)
 
 
-## 2026-09-09 — RU/EN editorial pass (local review)
+## 11. Copy — the RU/EN editorial pass and its review (2026-09-09 → 12)
 
-Refined the copy throughout `style-guide.html`, including the separate mobile navigation strings. Read the live file first and preserved the author's «06 — Композиция» edit. Changes are local: public page and PDFs still contain the earlier copy. The retired translation JSON and frozen draft were not edited. See `style-guide-copy-review.md` for editorial choices, unresolved technical contradictions and verification. The language-block order and count (674) remain compatible with in-page editing; no live save was performed.
+**What happened.** Commit `ba48b3d` (2026-09-09) rewrote the copy throughout `style-guide.html` in both languages — 206 Russian and 133 English blocks changed, block count and order unchanged (674, so the in-page editor still maps every block). Two further in-place edits followed through the editor (`40739e5`, `761f42f`). Local `main` equals `origin/main`, so the pass is pushed and, via the host's cron, live. Editorial notes from that pass are in `style-guide-copy-review.md`.
+
+**Review verdict (Etual asked for a check, 2026-09-12).** The Russian reads as natural instructions rather than translated English — «используйте / выбирайте», short sentences, no metaphors — and is consistent with itself. Nothing in the rewrite contradicts `design.md`; where it touched a rule it quoted it correctly (h definition, clear-space values, 24/24/12 edge, icon rules, token names). The English shortened in step. A clear improvement for the team as it stands; Etual considers it an interim version, not final copy.
+
+**Terminology the pass settled — now the house terms (team docs aligned the same day):**
+
+| Concept | RU | EN |
+|---|---|---|
+| the order-slip component | **чек бармена** (was «тикет бармена») | bartender's ticket |
+| the scalloped edge | **фигурный край** (was «рваный / фестончатый») | scalloped edge |
+| section 06 | **Композиция** | Layout & components |
+| section 09 | **Материалы и контакты** | Team files and contacts |
+| shared assets | **общие файлы** | shared files |
+| body / secondary text | основной / второстепенный текст | body / secondary text |
+| desktop / mobile in captions | компьютер / телефон | desktop / mobile |
+
+`team-docs/design-guide-ru.md` now uses чек бармена / фигурный край; `design.md` keeps its English. Voice examples stay «твой».
+
+**Two factual fixes made in the same review (both languages, local edits — commit + push from Claude Code; `git pull` first in case the editor committed meanwhile):**
+
+1. *Chili on Lime.* The Deep Chili paragraph said brand Chili is fine for "large display on those grounds" (Lemon, Lime, Light Lime); the contrast table two blocks later rejects Chili on Lime at any size (2.65:1). Now: fine for the logo, and for large display **on Lemon only**; on Lime it fails even large. `design.md` §2.2 Deep Chili row carries the same clarification.
+2. *"≥ 1 unit".* The clear-space paragraph said "keep ≥ 1 unit clear" right after defining ½ h / ¼ h — "unit" was never defined. Now "keep the full clear space free on every side"; `design.md` §4 says the same and points at the ½ h / ¼ h values.
+
+**Still open from the copy review** (moved to §7): accessibility claims (item 14), type exceptions (already item 7), favicon internal padding vs external clear space (item 1).
+
+**Tooling status after the pass.** `style-guide.html` is the only source of both languages. `tools/i18n/strings-ru.json`, `mobile-shell.html` and `style-guide-draft.html` are frozen history — do not sync them to the new copy and never run `inject.py` against the live file (§10). The uncommitted JSON diff on the Mac is the last pre-freeze sync of five h-unit strings; commit or discard, it changes nothing live.
+
+**PDFs** re-rendered 2026-09-12 from the live `style-guide.html` including the two fixes (EN 27 pp, RU 30 pp); commit them together with the HTML.

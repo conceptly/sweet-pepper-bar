@@ -1,0 +1,3074 @@
+/* ==========================================================================
+   About Page — Section Styles
+   Fixed composition: dark/light sections in a set order, no daypart theming.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Shared About Section Styles
+   --------------------------------------------------------------------------- */
+
+.about-section {
+    padding: 80px 0;
+}
+
+/* Dark sections: Hero, Guests, Team, Visit CTA */
+.about-section--dark {
+    background-color: var(--peppercorn);
+    color: var(--parchment);
+}
+
+.about-section--dark .section-eyebrow {
+    color: var(--lime);
+}
+
+.about-section--dark .section-headline {
+    color: var(--chili);
+}
+
+.about-section--dark .section-headline-2 {
+    color: var(--paprika);
+}
+
+.about-section--dark .section-description {
+    color: var(--parchment);
+}
+
+.about-section--dark .btn-secondary {
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+.about-section--dark .btn-secondary:hover {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.about-section--dark .btn-secondary:active {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+}
+
+/* Surface-dark sections: Guests (Soft Peppercorn bg, Cream eyebrow) */
+.about-section--surface-dark {
+    background-color: var(--soft-peppercorn);
+}
+
+.about-section--surface-dark .section-eyebrow {
+    color: var(--cream);
+}
+
+/* Light sections: Concept, How It Feels, Perks, Story, Careers, Location */
+.about-section--light {
+    background-color: var(--paper);
+    color: var(--peppercorn);
+}
+
+.about-section--light .section-eyebrow {
+    color: var(--avocado);
+}
+
+.about-section--light .section-headline {
+    color: var(--chili);
+}
+
+.about-section--light .section-headline-2 {
+    color: var(--paprika);
+}
+
+.about-section--light .section-description {
+    color: var(--dark-olive);
+}
+
+/* Alternating light sections use surface bg */
+.about-section--surface {
+    background-color: var(--parchment);
+}
+
+/* ---------------------------------------------------------------------------
+   1. Hero
+   --------------------------------------------------------------------------- */
+
+.about-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0;
+}
+
+.about-hero .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 48px;
+    padding-bottom: 80px;
+    padding-top: 80px;
+    min-height: 100vh;
+}
+
+.about-hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.about-hero__eyebrow {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--text-h3);
+    letter-spacing: 0.9px;
+    line-height: 1.35;
+    color: #d4e671;
+}
+
+.about-hero__headline {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 76px;
+    letter-spacing: 3.04px;
+    line-height: 1.1;
+    color: var(--chili);
+}
+
+.about-hero__lead {
+    max-width: 642px;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--parchment);
+}
+
+/* Filmstrip Index Nav */
+.about-hero__filmstrip {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+}
+
+.about-hero__filmstrip-item {
+    flex: 1 0 0;
+    min-width: 0;
+    aspect-ratio: 320 / 220;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    /* Reserve the pressed border so it never shifts layout (same as the guests card) */
+    border: 1px solid transparent;
+    transition: border-color 800ms var(--ease-gentle-flat);
+}
+
+/* Image + overlay container */
+.about-hero__filmstrip-img-wrap {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.about-hero__filmstrip-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+    transition: transform 800ms var(--ease-gentle);
+}
+
+/* Dark overlay — 50% opacity Peppercorn (default state) */
+.about-hero__filmstrip-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(21, 19, 23, 0.5);
+    border-radius: 4px;
+    transition: background-color 800ms var(--ease-gentle-flat);
+}
+
+/* Hover: overlay lifts, image fully visible. Gated: on touch a tapped card would
+   otherwise keep its sticky hover after the anchor jump. */
+@media (hover: hover) {
+    .about-hero__filmstrip-item:hover .about-hero__filmstrip-overlay {
+        background-color: transparent;
+    }
+
+    .about-hero__filmstrip-item:hover .about-hero__filmstrip-img {
+        transform: scale(1.02);
+    }
+}
+
+/* Pressed — the shared card recipe (guests, careers, Highlights): Lime 1px border +
+   inset 2px -2px 8px at 25%, no radius change (Sep 2026; the earlier 24px inset at 60%
+   with a 4→8px radius jump was the one outlier). The image covers the card's own
+   inset shadow, so the overlay carries it. */
+.about-hero__filmstrip-item:active {
+    border-color: var(--lime);
+}
+
+.about-hero__filmstrip-item:active .about-hero__filmstrip-overlay {
+    box-shadow: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
+}
+
+.about-hero__filmstrip-item:active .about-hero__filmstrip-img {
+    transform: scale(1);
+}
+
+/* Pill label — bottom-left, Peppercorn bg at 90% opacity */
+.about-hero__filmstrip-pill-area {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1;
+    padding: 12px;
+}
+
+.about-hero__filmstrip-pill {
+    display: inline-flex;
+    align-self: flex-start;
+    background-color: var(--peppercorn);
+    opacity: 0.9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 800ms var(--ease-gentle-flat);
+}
+
+/* Hover: pill inverts — Lemon bg, Peppercorn text */
+@media (hover: hover) {
+    .about-hero__filmstrip-item:hover .about-hero__filmstrip-pill {
+        background-color: var(--lemon);
+    }
+}
+
+.about-hero__filmstrip-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    letter-spacing: 0.52px;
+    line-height: 1.4;
+    color: var(--lemon);
+    white-space: nowrap;
+    transition: color 800ms var(--ease-gentle-flat);
+}
+
+/* Hover: label text flips to dark */
+@media (hover: hover) {
+    .about-hero__filmstrip-item:hover .about-hero__filmstrip-label {
+        color: var(--peppercorn);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   2. The Concept
+   Figma: 323:6755 — dark bg (soft-peppercorn #201E22), 80px padding
+   Two-column: left text + CTA, right portrait picker
+   --------------------------------------------------------------------------- */
+
+.about-concept {
+    background-color: var(--soft-peppercorn, #201e22);
+    padding: 80px 0;
+}
+
+.about-concept__inner {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+/* Left column — section header + CTA */
+.about-concept__text {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Section header overrides for dark concept context */
+.about-concept .section-title-block {
+    width: 100%;
+}
+
+.about-concept .section-eyebrow {
+    color: var(--cream, #fff689);
+}
+
+.about-concept .section-headline {
+    color: var(--chili);
+}
+
+.about-concept .section-headline-2 {
+    color: var(--paprika, #ef6d44);
+}
+
+.about-concept .section-description {
+    color: var(--paper);
+}
+
+/* Right column — portrait picker */
+.about-concept__picker {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow: hidden;
+}
+
+/* Picker header: "TRY IT YOURSELF" */
+.about-concept__picker-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.about-concept__picker-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--lime);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.about-concept__picker-subtitle {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--parchment);
+    margin: 0;
+}
+
+/* ── Dish-picker portrait layout override ───────────── */
+/* When the picker is inside .about-concept, it stacks vertically */
+
+.about-concept .dish-picker {
+    gap: 24px;
+}
+
+/* Result stacks vertically instead of side-by-side */
+.about-concept .dish-picker__result {
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Photos row stays horizontal */
+.about-concept .dish-picker__photos {
+    gap: 8px;
+    width: 100%;
+}
+
+/* Square photos */
+.about-concept .dish-picker__photo-food,
+.about-concept .dish-picker__photo-bar {
+    aspect-ratio: 1 / 1;
+}
+
+/* "x" between photos — Cream in dark context */
+.about-concept .dish-picker__x {
+    color: var(--cream, #fff689);
+}
+
+/* Card uses Parchment bg (not Paper) in the About dark context */
+.about-concept .dish-picker__card {
+    background-color: var(--parchment);
+    border-radius: 8px 8px 0 0;
+}
+
+/* Card-wrap: in portrait layout it's stacked, not side-by-side */
+.about-concept .dish-picker__card-wrap {
+    flex: none;
+    width: 100%;
+}
+
+/* Rugged edge colors: top = section bg (soft-peppercorn), bottom = parchment */
+.about-concept .dish-picker__card-edge-top .rugged-edge {
+    --rugged-color: var(--soft-peppercorn, #201e22) !important;
+}
+
+.about-concept .dish-picker__card-wrap > .rugged-edge {
+    --rugged-color: var(--parchment) !important;
+}
+
+/* Shake It! button — Cream bg in dark context */
+.about-concept .dish-picker__shake-it {
+    background-color: var(--cream, #fff689);
+}
+
+/* Tag pills — avocado border on dark bg */
+.about-concept .dish-picker__tag {
+    border-color: var(--avocado);
+    color: var(--avocado);
+}
+
+.about-concept .dish-picker__tag.is-active {
+    background-color: var(--lime);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.about-concept .dish-picker__tag:not(.is-active):hover {
+    background-color: rgba(193, 219, 52, 0.1);
+}
+
+/* "or" text color in dark context */
+.about-concept .dish-picker__or {
+    color: var(--mushroom);
+}
+
+/* ---------------------------------------------------------------------------
+   3. How It Feels
+   Word cloud (left) + quote wheel (right).
+   Outline → fill state: all words idle as outlined Molot; active fills.
+   Quote cards: mushroom border, alternating ±1° tilt, cream highlight variant.
+   --------------------------------------------------------------------------- */
+
+.about-how-it-feels {
+    padding: 80px 0;
+}
+
+.about-how-it-feels .section-title-block {
+    width: 100%;
+}
+
+.about-how-it-feels__inner {
+    display: flex;
+    gap: 48px;
+    margin-top: 48px;
+}
+
+/* ── Word Cloud ─────────────────────────────────────────── */
+
+.about-how-it-feels__cloud {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+}
+
+.about-cloud {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 0;
+    width: 100%;
+}
+
+/* Each row is a centred flex line */
+.about-cloud__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Word base: outlined Molot */
+.about-cloud-word {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    /* Tier size comes from the template as an inline --cloud-size (56 / 36 / 24).
+       An inline custom property beats any selector, so phones override through a
+       second variable that wins when set (see the phone block). */
+    font-size: var(--cloud-size-phone, var(--cloud-size, 24px));
+    line-height: 1.1;
+    display: inline-block;
+    cursor: pointer;
+    /* Outline treatment — transparent fill + stroke */
+    color: transparent;
+    -webkit-text-stroke-width: 1.5px;
+    /* Fill / unfill and dim at 900 (was 600 — slower word change, author Sep 2026) */
+    transition:
+        color 900ms var(--ease-gentle-flat),
+        -webkit-text-stroke-color 900ms var(--ease-gentle-flat),
+        transform 800ms var(--ease-gentle),
+        opacity 900ms var(--ease-gentle-flat);
+}
+
+/* Outline stroke colour by hue — six stops dealt by the template (data-hue),
+   decoupled from tier (Sep 2026; the Figma cloud's range). The section is a
+   fixed light composition, so one set. Contrast on Parchment: Deep Chili 7.6,
+   Ash 6.4, Olive 4.6, Chili 3.9, Avocado 3.5, Paprika 2.5 — Paprika is top-tier
+   only (see the template). */
+.about-cloud-word[data-hue="chili"]      { -webkit-text-stroke-color: var(--chili); }
+.about-cloud-word[data-hue="deep-chili"] { -webkit-text-stroke-color: var(--chili-deep, #9B2705); }
+.about-cloud-word[data-hue="paprika"]    { -webkit-text-stroke-color: var(--paprika); }
+.about-cloud-word[data-hue="olive"]      { -webkit-text-stroke-color: var(--olive); }
+.about-cloud-word[data-hue="avocado"]    { -webkit-text-stroke-color: var(--avocado); }
+.about-cloud-word[data-hue="ash"]        { -webkit-text-stroke-color: var(--ash); }
+
+/* Filled state: the active word */
+.about-cloud-word.is-active {
+    -webkit-text-stroke-width: 0;
+}
+
+.about-cloud-word.is-active[data-hue="chili"]      { color: var(--chili); }
+.about-cloud-word.is-active[data-hue="deep-chili"] { color: var(--chili-deep, #9B2705); }
+.about-cloud-word.is-active[data-hue="paprika"]    { color: var(--paprika); }
+.about-cloud-word.is-active[data-hue="olive"]      { color: var(--olive); }
+.about-cloud-word.is-active[data-hue="avocado"]    { color: var(--avocado); }
+.about-cloud-word.is-active[data-hue="ash"]        { color: var(--ash); }
+
+/* Dimmed state: when another word is active, non-active words dim */
+.about-cloud.has-focus .about-cloud-word:not(.is-active) {
+    opacity: 0.3;
+}
+
+/* ── Field layout (B) — JS-driven absolute positioning ──── */
+
+/* Before JS hydrates: rows are visible as the no-JS fallback.
+   JS adds .is-placed after spiral placement is done. */
+.about-cloud--field.is-placed {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hide rows once field is active */
+.about-cloud--field.is-placed .about-cloud__row {
+    display: contents;
+}
+
+/* Words in the field */
+.about-cloud--field.is-placed .about-cloud-word {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
+    /* The rAF loop writes transform every frame: no transition on it, or every
+       write is smoothed over 800 ms (mushy orbit) and the first placement
+       animates in from 0,0. Colour/opacity keep the house 600 ms. */
+    transition:
+        color 600ms var(--ease-gentle-flat),
+        -webkit-text-stroke-color 600ms var(--ease-gentle-flat),
+        opacity 600ms var(--ease-gentle-flat);
+    /* Hidden until first placement frame — prevents 0,0 flash */
+    visibility: visible;
+}
+
+/* Before placement: hide words so they don't flash at 0,0 */
+.about-cloud--field.is-placing .about-cloud-word {
+    visibility: hidden;
+}
+
+/* Active word in field: always on top */
+.about-cloud--field .about-cloud-word.is-active {
+    z-index: 2;
+}
+
+/* Hover: stroke thickens (no scale — scaling fights placement) */
+@media (hover: hover) {
+    .about-cloud--field .about-cloud-word:hover {
+        -webkit-text-stroke-width: 2.5px;
+    }
+    .about-cloud--field .about-cloud-word.is-active:hover {
+        -webkit-text-stroke-width: 0;
+    }
+}
+
+/* Rows layout (A) hover — kept for non-field fallback */
+@media (hover: hover) {
+    .about-cloud:not(.about-cloud--field) .about-cloud-word:hover {
+        transform: scale(1.08);
+    }
+}
+
+/* ── Quote Cards (scrolling wheel) ──────────────────────── */
+
+.about-how-it-feels__quotes {
+    flex: 0 0 540px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 0;
+}
+
+/* Scrollable viewport: shows exactly 3 cards, snaps to centre */
+.about-how-it-feels__quotes-viewport {
+    /* Height set by JS to fit exactly 3 cards */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    /* 4px padding so rotated cards aren't clipped */
+    padding: 4px;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.about-how-it-feels__quotes-viewport::-webkit-scrollbar {
+    display: none;
+}
+
+/* Track: holds all cards in a column */
+.about-how-it-feels__quotes-track {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* Top/bottom padding set by JS so first/last card can centre */
+}
+
+/* Card wrapper: snap target + word link data */
+.about-quote-card__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: center;
+    transition: opacity 600ms var(--ease-gentle-flat);
+}
+
+/* Quote card — rendered as <a> */
+.about-quote-card {
+    background-color: var(--parchment);
+    /* The Cream tint arrives with the roll, not as a snap (Sep 2026) */
+    transition: background-color 900ms var(--ease-gentle-flat), box-shadow 300ms var(--ease-gentle-flat);
+    border: 1px solid var(--mushroom);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+    width: 100%;
+    transform: rotate(var(--card-rotate, 0deg));
+    transition:
+        box-shadow 600ms var(--ease-gentle-flat),
+        background-color 600ms var(--ease-gentle-flat);
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Centred / active card gets cream bg (dynamic, applied by JS) */
+.about-quote-card__wrap.is-centred .about-quote-card {
+    background-color: var(--cream);
+}
+
+@media (hover: hover) {
+    .about-quote-card:hover {
+        box-shadow: 2px 2px 12px rgba(21, 19, 23, 0.1);
+    }
+}
+
+/* Quote mark — Display size (76px) per Figma */
+.about-quote-card__mark {
+    font-family: var(--font-display);
+    font-size: 76px;
+    letter-spacing: 3.04px;
+    color: var(--chili);
+    line-height: 1.1;
+    flex-shrink: 0;
+    width: 41px;
+}
+
+/* Card content: text + source */
+.about-quote-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.about-quote-card__text {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--peppercorn);
+    text-wrap: pretty;
+    margin: 0;
+}
+
+/* "original in RU" link — inline in the source line */
+.about-quote-card__original {
+    color: var(--ash);
+    text-decoration: underline;
+    text-decoration-color: var(--mushroom);
+    text-underline-offset: 2px;
+    transition: color 300ms ease, text-decoration-color 300ms ease;
+}
+
+.about-quote-card__original:hover {
+    color: var(--olive);
+    text-decoration-color: var(--olive);
+}
+
+/* Source: Caption style — 13px, 0.52px tracking */
+.about-quote-card__source {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+}
+
+/* CTA */
+.about-how-it-feels__cta {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+/* ---------------------------------------------------------------------------
+   4. Beyond Shake & Cook (Perks / Services)
+   Dark section. Per-stamp colour coding via --stamp-color CSS variable.
+   --------------------------------------------------------------------------- */
+
+.about-perks {
+    padding: 96px 0;
+}
+
+.about-perks .container {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+}
+
+.about-perks .section-title-block {
+    width: 100%;
+}
+
+/* ── Stamps row ────────────────────────────────────────── */
+
+.about-perks__stamps {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+/* Individual stamp — default (inactive) state.
+   `--stamp` is the colour consumers read; phones swap it for the re-dealt phone colour.
+   `--lean` is the tilt direction (1 right / −1 left, alternating; phones flip it),
+   `--tilt` the current angle (4° at rest, 2° hovered, 0 active), `--press` the pressed scale. */
+.about-perks__stamp {
+    --stamp-color: var(--lime);
+    --stamp: var(--stamp-color);
+    --lean: 1;
+    --tilt: calc(var(--lean) * 4deg);
+    --press: 1;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px dashed var(--stamp);
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: none;
+    transform: rotate(var(--tilt)) scale(var(--press));
+    transition:
+        transform 800ms var(--ease-gentle),
+        border-style 800ms var(--ease-gentle-flat),
+        background-color 800ms var(--ease-gentle-flat),
+        box-shadow 800ms var(--ease-gentle-flat);
+}
+
+/* Alternating tilt on inactive stamps (desktop frame: even stamps lean left) */
+.about-perks__stamp:nth-child(even) {
+    --lean: -1;
+}
+
+/* Hover: the stamp straightens halfway — reaching for it, not yet pressed */
+@media (hover: hover) {
+    .about-perks__stamp:hover {
+        --tilt: calc(var(--lean) * 2deg);
+    }
+}
+
+/* Pressed: the stamp goes down (tappable rule — every button has a pressed state) */
+.about-perks__stamp:active {
+    --press: 0.94;
+    transition-duration: 120ms;
+}
+
+/* Active state: solid border, peppercorn fill, glow (as drawn — see about-page-copy.md), no tilt */
+.about-perks__stamp.is-active {
+    --tilt: 0deg;
+    border-style: solid;
+    background-color: var(--peppercorn);
+    box-shadow: 0 0 16px rgba(212, 230, 113, 0.5);
+}
+
+/* ── Stamp icon — inline SVG from assets/icons/, coloured by the stamp ── */
+
+.about-perks__stamp-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--stamp);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-perks__stamp-icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.about-perks__stamp-icon svg path {
+    fill: currentColor; /* the exports ship with a hardcoded Lemon fill */
+}
+
+/* ── Stamp label ───────────────────────────────────────── */
+
+.about-perks__stamp-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    text-align: center;
+    color: var(--parchment);
+    word-break: break-word;
+}
+
+/* Desktop shows the long label; the phone word is hidden (swapped in the phone block) */
+.about-perks__stamp-label--short {
+    display: none;
+}
+
+/* Active stamp: label matches stamp colour, medium weight */
+.about-perks__stamp.is-active .about-perks__stamp-label {
+    color: var(--stamp);
+    font-weight: 500;
+}
+
+/* ── Detail / Message row ──────────────────────────────── */
+
+.about-perks__detail {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Decorative header: ——— TITLE - - - - */
+.about-perks__detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* Solid leader line */
+.about-perks__detail-line--solid {
+    display: block;
+    width: 40px;
+    height: 0;
+    border-top: 2px solid var(--lime);
+}
+
+/* Dashed leader line */
+.about-perks__detail-line--dashed {
+    display: block;
+    width: 40px;
+    height: 0;
+    border-top: 2px dashed var(--lime);
+}
+
+/* Molot title between the lines */
+.about-perks__detail-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    color: var(--lime);
+    white-space: nowrap;
+    padding-bottom: 2px;
+}
+
+/* Description text */
+.about-perks__detail-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: normal;
+    color: rgba(243, 233, 210, 0.9);
+    white-space: nowrap;
+    padding-bottom: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   5. The Pepper Story
+   --------------------------------------------------------------------------- */
+
+.about-story {
+    padding: 80px 0;
+}
+
+.about-story__inner {
+    display: flex;
+    gap: 48px;
+}
+
+.about-story__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.about-story__body {
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--peppercorn);
+}
+
+.about-story__founder {
+    flex: 0 0 448px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Image wrapper: pushed right with pr-12, overlaps quote by -12px */
+.about-story__founder-img-wrap {
+    padding-right: 12px;
+    margin-bottom: -12px;
+    position: relative;
+    z-index: 0;
+}
+
+.about-story__founder-img {
+    width: 100%;
+    height: auto; /* the height attribute would otherwise pin 436px where the column is narrower */
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+/* Quote wrapper: pushed left with pl-12, card tilted 1° per Figma */
+.about-story__founder-quote-wrap {
+    padding-left: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.about-story__founder-quote {
+    transform: rotate(1deg);
+}
+
+/* Source attribution: two-line layout per Figma */
+.about-story__founder-quote .about-quote-card__source {
+    display: flex;
+    flex-direction: column;
+}
+
+.about-quote-card__source-name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--ash);
+}
+
+.about-quote-card__source-title {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+}
+
+/* Timeline
+   Grammar: outline → fill (website-brief → Motion language). Past markers are
+   outlined Molot, the current one is filled; a Chili heat line runs from the
+   first marker to the arrowhead. Hover a marker: it fills and the heat
+   retracts to it. No-JS state = finished state; .is-armed sets the
+   pre-entrance states, .is-in plays them. Transforms + opacity only. */
+.about-story__timeline {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    margin-top: 48px;
+    padding-top: 0;
+    min-height: 120px;
+    --axis-top: 28px; /* crosses the 8px tick: year line + 8px gap + tick centre */
+}
+
+/* Axis: Ash at ~35% — time is neutral */
+.about-story__timeline-line {
+    position: absolute;
+    top: var(--axis-top);
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba(84, 81, 63, 0.35);
+    transform-origin: left center;
+}
+
+/* Heat: Chili, from the first marker to the arrowhead; --heat-end moves on hover */
+.about-story__timeline-heat {
+    position: absolute;
+    top: calc(var(--axis-top) - 1px);
+    left: var(--heat-start, 24px);
+    width: calc(var(--heat-end, 100%) - var(--heat-start, 24px));
+    height: 3px;
+    background-color: var(--chili);
+    transform-origin: left center;
+    transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-story__timeline-cap {
+    position: absolute;
+    top: calc(var(--axis-top) - 4px);
+    left: 0;
+    width: 1px;
+    height: 9px;
+    background-color: var(--chili);
+}
+
+/* Arrowhead runs past the last marker — constancy by geometry */
+.about-story__timeline-arrow {
+    position: absolute;
+    top: calc(var(--axis-top) - 5px);
+    right: -2px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5.5px 0 5.5px 9px;
+    border-color: transparent transparent transparent var(--chili);
+}
+
+.about-story__milestone {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: absolute;
+    top: 0;
+    cursor: default;
+}
+
+.about-story__milestone--1,
+.about-story__milestone:nth-of-type(1) {
+    left: 24px;
+}
+
+.about-story__milestone--2,
+.about-story__milestone:nth-of-type(2) {
+    left: 34%;
+}
+
+.about-story__milestone--3,
+.about-story__milestone:nth-of-type(3) {
+    left: 77%;
+}
+
+.about-story__milestone-year {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    color: var(--avocado);
+    white-space: nowrap;
+}
+
+.about-story__milestone-tick {
+    width: 1px;
+    height: 8px;
+    background-color: var(--chili);
+    transform-origin: center bottom;
+    transition: transform 350ms var(--ease-bouncy);
+}
+
+.about-story__milestone-name {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--text-h3);
+    letter-spacing: 0.05em;
+    color: var(--chili);
+    transition: color 300ms ease, -webkit-text-stroke-color 300ms ease;
+}
+
+/* Past = outlined; filled on hover / when lit by JS. Current stays filled. */
+.about-story__milestone--past .about-story__milestone-name {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--chili);
+}
+
+.about-story__milestone--past.is-lit .about-story__milestone-name {
+    color: var(--chili);
+    -webkit-text-stroke-color: transparent;
+}
+
+.about-story__milestone-wit {
+    font-size: var(--text-caption);
+    color: var(--ash);
+    transition: color 300ms ease;
+}
+
+@media (hover: hover) {
+    .about-story__milestone--past:hover .about-story__milestone-name {
+        color: var(--chili);
+        -webkit-text-stroke-color: transparent;
+    }
+
+    .about-story__milestone:hover .about-story__milestone-tick {
+        transform: scaleY(2);
+    }
+
+    .about-story__milestone:hover .about-story__milestone-wit {
+        color: var(--peppercorn);
+    }
+}
+
+/* Entrance — pre-states only once JS has armed the section */
+.about-story.is-armed .about-story__timeline-line,
+.about-story.is-armed .about-story__timeline-heat {
+    transform: scaleX(0);
+}
+
+.about-story.is-armed .about-story__timeline-cap,
+.about-story.is-armed .about-story__milestone-year,
+.about-story.is-armed .about-story__milestone-tick,
+.about-story.is-armed .about-story__milestone-name,
+.about-story.is-armed .about-story__milestone-wit {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.about-story.is-armed .about-story__timeline-arrow {
+    opacity: 0;
+    transform: translateX(-12px);
+}
+
+.about-story.is-in .about-story__timeline-line {
+    transform: scaleX(1);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-story.is-in.is-heated .about-story__timeline-heat {
+    transform: scaleX(1);
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+                width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-story.is-in .about-story__timeline-cap,
+.about-story.is-in .about-story__milestone-year,
+.about-story.is-in .about-story__milestone-tick,
+.about-story.is-in .about-story__milestone-name,
+.about-story.is-in .about-story__milestone-wit {
+    opacity: 1;
+    transform: none;
+    transition: opacity 400ms ease, transform 500ms var(--ease-bouncy);
+    transition-delay: calc(500ms + var(--enter-delay, 0ms));
+}
+
+.about-story.is-in .about-story__milestone-tick  { transition-delay: calc(550ms + var(--enter-delay, 0ms)); }
+.about-story.is-in .about-story__milestone-name  { transition-delay: calc(600ms + var(--enter-delay, 0ms)); }
+.about-story.is-in .about-story__milestone-wit   { transition-delay: calc(650ms + var(--enter-delay, 0ms)); }
+
+/* Hover fill must not wait for the entrance delay */
+.about-story.is-in .about-story__milestone-name {
+    transition-property: opacity, transform, color, -webkit-text-stroke-color;
+    transition-duration: 400ms, 500ms, 300ms, 300ms;
+    transition-delay: calc(600ms + var(--enter-delay, 0ms)), calc(600ms + var(--enter-delay, 0ms)), 0ms, 0ms;
+}
+
+.about-story.is-in .about-story__timeline-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms ease 900ms, transform 450ms var(--ease-bouncy) 900ms;
+}
+
+/* Counter Ledger */
+.about-story__counters {
+    display: flex;
+    align-items: center;
+    background-color: var(--paper);
+    border: 1px solid var(--mushroom);
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 24px;
+    gap: 128px;
+    transition: opacity 400ms ease;
+}
+
+/* Dimmed while hovering a marker before Sweet Pepper existed */
+.about-story__counters.is-dim {
+    opacity: 0.4;
+}
+
+.about-story__counters-label {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--olive);
+    flex-shrink: 0;
+}
+
+.about-story__counters-row {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.about-story__counter {
+    display: flex;
+    flex-direction: column;
+}
+
+.about-story__counter-number {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 44px;
+    line-height: 1.25;
+    letter-spacing: 1.76px;
+    color: var(--paprika);
+    white-space: nowrap;
+}
+
+.about-story__counter-label {
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    color: var(--ash);
+}
+
+/* Slot rotation: out (up, fade) → swap → in (spring from below) */
+.about-story__counter-number,
+.about-story__counter-label {
+    transition: opacity 350ms ease, transform 450ms var(--ease-bouncy);
+}
+
+.about-story__counter.is-out .about-story__counter-number,
+.about-story__counter.is-out .about-story__counter-label {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 250ms ease, transform 250ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-story.is-armed .about-story__timeline-line,
+    .about-story.is-armed .about-story__timeline-heat,
+    .about-story.is-armed .about-story__timeline-cap,
+    .about-story.is-armed .about-story__timeline-arrow,
+    .about-story.is-armed .about-story__milestone-year,
+    .about-story.is-armed .about-story__milestone-tick,
+    .about-story.is-armed .about-story__milestone-name,
+    .about-story.is-armed .about-story__milestone-wit {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .about-story__timeline-heat,
+    .about-story__counter-number,
+    .about-story__counter-label,
+    .about-story__counters {
+        transition: none;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   6. The Dream Guests
+   --------------------------------------------------------------------------- */
+
+.about-guests {
+    padding: 80px 0;
+}
+
+.about-guests__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+}
+
+/* Photo card — link wrapper */
+.about-guests__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    /* Reserve 1px for hover border without layout shift */
+    border: 1px solid transparent;
+    transition: box-shadow 800ms var(--ease-gentle-flat),
+                border-color 800ms var(--ease-gentle-flat);
+}
+
+/* Cover image — fills the card */
+.about-guests__card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: transform 800ms var(--ease-bouncy);
+}
+
+/* Lemon caption pill — bottom-left over the image */
+.about-guests__card-pill {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    align-self: flex-start;
+    background-color: var(--peppercorn);
+    opacity: 0.9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--lemon);
+    white-space: nowrap;
+}
+
+/* --- Card states (dark-bg vocabulary: lime glow hover, inset pressed) --- */
+
+/* Hover: lime border + lime glow + subtle image zoom */
+@media (hover: hover) {
+    .about-guests__card:hover {
+        border-color: var(--lime);
+        box-shadow: 0 0 16px 0 rgba(212, 230, 113, 0.5);
+    }
+
+    .about-guests__card:hover .about-guests__card-img {
+        transform: scale(1.02);
+    }
+}
+
+/* Pressed: lime border + inset shadow, image returns to scale */
+.about-guests__card:active {
+    border-color: var(--lime);
+    box-shadow: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
+}
+
+.about-guests__card:active .about-guests__card-img {
+    transform: scale(1);
+}
+
+/* ---------------------------------------------------------------------------
+   7. The Dream Team
+   --------------------------------------------------------------------------- */
+
+.about-team {
+    padding: 80px 0;
+}
+
+/* === Drift strip — horizontal scroll of pinned wall photos === */
+
+.about-team__drift {
+    position: relative;
+    margin-top: 48px;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-top: 8px;  /* room for pins above */
+    padding-bottom: 24px;
+    scrollbar-width: none; /* Firefox */
+}
+
+.about-team__drift::-webkit-scrollbar {
+    display: none;
+}
+
+.about-team__drift-track {
+    display: flex;
+    gap: 48px;
+    /* Align left edge with .container content edge at all viewport widths.
+       1120px = container max-width (1280px) minus its padding (2 × 80px). */
+    padding-left: max(80px, calc((100vw - 1120px) / 2));
+    padding-right: 80px;
+    width: max-content;
+    position: relative;
+}
+
+/* Clothesline — horizontal line "holding" the pinned photos */
+.about-team__drift-track::before {
+    content: '';
+    position: absolute;
+    top: 8px;  /* vertical centre of pins (pin top: -4px + half of 24px height) */
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--olive);
+    pointer-events: none;
+}
+
+/* Wall card container */
+.about-team__wall-card {
+    position: relative;
+    flex-shrink: 0;
+    width: 356px;
+    isolation: isolate;
+}
+
+/* Pin — centred above the card */
+.about-team__wall-pin {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 24px;
+    border-radius: 4px;
+    z-index: 2;
+}
+
+.about-team__wall-pin--lime {
+    background-color: var(--lime);
+    transform: translateX(-50%) rotate(1deg);
+}
+
+.about-team__wall-pin--paprika {
+    background-color: var(--paprika);
+    transform: translateX(-50%) rotate(-1deg);
+}
+
+/* Photo wrapper — holds the tilted photo */
+.about-team__wall-photo-wrap {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 3 / 2;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 800ms var(--ease-bouncy);
+}
+
+/* Variant 1: tilt -1°, Variant 2: tilt +1° */
+.about-team__wall-card--v1 .about-team__wall-photo-wrap {
+    transform: rotate(-1deg);
+}
+
+.about-team__wall-card--v2 .about-team__wall-photo-wrap {
+    transform: rotate(1deg);
+}
+
+/* Hover: straighten the tilt */
+@media (hover: hover) {
+    .about-team__wall-card:hover .about-team__wall-photo-wrap {
+        transform: rotate(0deg);
+    }
+}
+
+.about-team__wall-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    border-radius: 4px;
+}
+
+/* Year pill — Lemon bg, Peppercorn text, bottom-left */
+.about-team__wall-pill {
+    position: absolute;
+    z-index: 1;
+    bottom: 16px;
+    left: 16px;
+    background-color: var(--lemon);
+    opacity: 0.9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    white-space: nowrap;
+}
+
+/* "To be continued…" end card */
+.about-team__wall-card--tbc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--soft-peppercorn);
+    border-radius: 8px;
+    aspect-ratio: 3 / 2;
+}
+
+.about-team__wall-tbc-text {
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+    color: var(--lime-light, #d4e671);
+}
+
+/* === Team Card Grid === */
+
+.about-team__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+
+/* Team card */
+.about-team__card {
+    position: relative;
+    /* Fluid up to the Figma 260, not pinned at it (fixed Sep 2026). A fixed width inside
+       `repeat(4, 1fr)` cannot shrink — the grid stayed 4 × 260 + 3 × 24 = 1112 whatever the
+       column was, and `#page { overflow-x: clip }` swallowed the rest with no scrollbar, so
+       four of the eight people were simply gone at 768–834 and two of them all the way up
+       to 1152. Same fault as the 448px founder column and the 600px map on this page. */
+    width: 100%;
+    max-width: 260px;
+    height: 392px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 1px 1px 4px 0 rgba(21, 19, 23, 0.15);
+    transition: box-shadow 800ms var(--ease-gentle-flat);
+}
+
+/* Card hover: deeper shadow */
+@media (hover: hover) {
+    .about-team__card:hover {
+        box-shadow: 4px 4px 16px 0 rgba(21, 19, 23, 0.15);
+    }
+
+    /* Tighten info gap on card hover (16px → 12px) */
+    .about-team__card:hover .about-team__card-info {
+        gap: 12px;
+    }
+}
+
+/* Default and active layers fill the card */
+.about-team__card-default,
+.about-team__card-active {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+}
+
+.about-team__card-default {
+    background-color: var(--parchment);
+}
+
+.about-team__card-active {
+    background-color: var(--paper);
+    /* Hidden, not merely clipped (fixed Sep 2026). Both faces sat in normal flow and
+       the second was invisible only because the card is `height: 392px; overflow: hidden`
+       — so it was `display: flex`, `visibility: visible`, not aria-hidden and not inert,
+       sitting exactly one card-height down. Screen readers read all eight hidden messages
+       and keyboard Tab landed on a button nobody could see. It also made the card
+       impossible to give a fluid width, which is what surfaced it. `.is-active` below
+       turns it back on; the phone block re-declares `display: grid` for its accordion. */
+    display: none;
+}
+
+/* Photo — 1:1 square, top of the card */
+.about-team__card-photo-wrap {
+    flex-shrink: 0;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.about-team__card-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+/* Info block — below photo */
+.about-team__card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 16px 16px;
+    flex: 1;
+    transition: gap 300ms ease;
+}
+
+.about-team__card-member-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+/* Name — Molot 20px */
+.about-team__card-name {
+    font-size: 20px;
+    line-height: normal;
+    color: var(--peppercorn);
+}
+
+/* Role — Golos 14px */
+.about-team__card-role {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    color: var(--ash);
+}
+
+/* Chip button — Avocado pill */
+.about-team__card-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 16px;
+    border: 1px solid var(--avocado);
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--olive);
+    white-space: nowrap;
+    transition: border-color 300ms ease, color 300ms ease, font-weight 300ms ease, padding 300ms ease;
+}
+
+.about-team__card-chip svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+/* Pressed: same lift as hover, so touch gets a state (tappable rule) */
+.about-team__card-chip:active {
+    border-color: var(--paprika);
+    color: var(--paprika);
+}
+
+@media (hover: hover) {
+    .about-team__card-chip:hover,
+    .about-team__card:hover .about-team__card-chip {
+        border-color: var(--paprika);
+        color: var(--paprika);
+        font-weight: 600;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+}
+
+/* === Card active state (message reveal) === */
+
+/* Name row: ← Name Says */
+.about-team__card-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.about-team__card-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--peppercorn);
+    flex-shrink: 0;
+}
+
+.about-team__card-says {
+    font-size: 20px;
+    line-height: normal;
+    color: var(--peppercorn);
+}
+
+/* Message text */
+.about-team__card-message {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.56px;
+    color: var(--dark-olive);
+    margin: 0;
+    height: 60px;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Card state toggle */
+.about-team__card.is-active .about-team__card-default {
+    display: none;
+}
+
+.about-team__card.is-active .about-team__card-active {
+    display: flex;
+}
+
+/* ---------------------------------------------------------------------------
+   8. Careers
+   Dark section (Peppercorn bg). Two-state jobsContainer:
+   - Default: 3 position cards + CTA row
+   - Empty:   single bordered "not hiring" box
+   --------------------------------------------------------------------------- */
+
+.about-careers {
+    padding: 80px 0;
+}
+
+/* Eyebrow override — Cream instead of the default dark-section Lime */
+.about-careers .section-eyebrow {
+    color: var(--cream);
+}
+
+/* jobsContainer wrapper */
+.about-careers__content {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    margin-top: 64px;
+}
+
+/* ── Default state: position cards ──────────────────────────────────────── */
+
+.about-careers__jobs {
+    display: flex;
+    gap: 24px;
+}
+
+/* Position card */
+.about-careers__card {
+    flex: 1 0 0;
+    min-width: 0;
+    background-color: var(--soft-peppercorn);
+    border: 1px solid var(--ash);
+    border-radius: 8px;
+    padding: 32px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: clip;
+    transition:
+        box-shadow 800ms var(--ease-gentle-flat),
+        border-color 800ms var(--ease-gentle-flat);
+}
+
+.about-careers__card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Card header: pill + meta */
+.about-careers__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Department pill — Peppercorn bg, Lemon text */
+.about-careers__pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--peppercorn);
+    opacity: 0.9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--lemon);
+    white-space: nowrap;
+}
+
+/* Employment type / openings count */
+.about-careers__card-meta {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: normal;
+    color: var(--mushroom);
+    white-space: nowrap;
+}
+
+/* Card body: title + description */
+.about-careers__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.about-careers__card-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--parchment);
+    margin: 0;
+}
+
+.about-careers__card-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--mushroom);
+    text-wrap: pretty;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Clamp to ~2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin: 0;
+}
+
+/* Card link — Lime, semibold, arrow icon */
+.about-careers__card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--lime);
+    white-space: nowrap;
+    transition: opacity 300ms ease;
+}
+
+.about-careers__card-link:hover {
+    opacity: 0.8;
+}
+
+.about-careers__card-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.about-careers__card-link-icon svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+/* --- Card states (dark-bg vocabulary: lime glow hover, inset pressed) --- */
+
+/* Hover: lime border + lime glow */
+@media (hover: hover) {
+    .about-careers__card:hover {
+        border-color: var(--lime);
+        box-shadow: 0 0 16px 0 rgba(212, 230, 113, 0.5);
+    }
+}
+
+/* Pressed: lime border + inset shadow */
+.about-careers__card:active {
+    border-color: var(--lime);
+    box-shadow: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
+}
+
+/* ── CTA row (below cards) ──────────────────────────────────────────────── */
+
+.about-careers__cta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.about-careers__cta-text {
+    max-width: 643px;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--paper);
+}
+
+.about-careers__cta-bold {
+    font-weight: 600;
+    margin: 0;
+}
+
+.about-careers__cta-regular {
+    font-weight: 400;
+    margin: 0;
+}
+
+/* ── Empty state: "not hiring" box ──────────────────────────────────────── */
+
+.about-careers__empty {
+    background-color: var(--soft-peppercorn);
+    border: 1px solid var(--ash);
+    border-radius: 8px;
+    padding: 48px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+}
+
+.about-careers__empty-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 640px;
+}
+
+.about-careers__empty-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--lemon);
+    margin: 0;
+}
+
+.about-careers__empty-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--paper);
+    text-wrap: pretty;
+    margin: 0;
+}
+
+
+/* ---------------------------------------------------------------------------
+   9. Location
+   Now shares menu-page location styles from location.css
+   (classes: .menu-location, .location__*, .menu-entrance-img).
+   --------------------------------------------------------------------------- */
+
+/* About is a fixed composition (website-brief.md → Day/Night → About, Visit): the shared
+   Location must not follow the clock here, or the light-ground connectors at its head
+   (Lime reflection) and foot (Olive "Your turn") would sit on Soft Peppercorn by night.
+   The selectors outrank location.css's `html[data-theme="night"] .menu-location`. */
+html[data-theme="night"] .page-about .menu-location {
+    background-color: var(--paper);
+}
+
+html[data-theme="night"] .page-about .location__subheading {
+    color: var(--avocado);
+}
+
+html[data-theme="night"] .page-about .location__description {
+    color: var(--dark-olive);
+}
+
+html[data-theme="night"] .page-about .menu-entrance-img--dark {
+    background-color: var(--peppercorn);
+}
+
+
+/* ---------------------------------------------------------------------------
+   10. Entrance Photo
+   Reuses .menu-entrance-img from location.css.
+   On the About page the entrance sits on a dark bg (between Careers dark
+   and Visit CTA dark), so we override the Paper bg.
+   --------------------------------------------------------------------------- */
+
+.menu-entrance-img--dark {
+    background-color: var(--peppercorn);
+}
+
+
+/* ---------------------------------------------------------------------------
+   11. Visit CTA
+   --------------------------------------------------------------------------- */
+
+.about-visit-cta {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.about-visit-cta__headline {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--text-display);
+    letter-spacing: 3.04px;
+    line-height: 1.1;
+    color: var(--lime);
+}
+
+.about-visit-cta__body {
+    max-width: 736px;
+    margin: 16px auto 0;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--lime);
+}
+
+.about-visit-cta__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.about-section--dark .btn-secondary,
+.btn-secondary--dark {
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+.about-section--dark .btn-secondary:hover,
+.btn-secondary--dark:hover {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+
+/* ===========================================================================
+   Connectors (About) — both widths (Sep 2026)
+   The word ends a section, its reflection opens the next: the home-page device,
+   via template-parts/about/connector.php, a wrapper over the shared
+   template-parts/components/connector.php (Visit uses the same part). The set in assets/sectionLinks/about/
+   is exported from the desktop SectionLink component (122px-class Molot, 1px
+   outside stroke, ~1090 wide) and scales to 370 on phones exactly as the home
+   files do — that is what keeps the stroke weight equal across pages. About is
+   a fixed composition, so one file per word/state serves day and night, and the
+   reflection opacity follows the *ground it opens* rather than data-theme:
+   50% over a light section (the day rule), 30% over a dark one (the night rule).
+   =========================================================================== */
+
+.page-about .about-connector--head {
+    margin-bottom: 80px;
+}
+
+.page-about .about-connector--foot {
+    margin-top: 80px;
+}
+
+/* The connector carries the section's vertical padding on its side */
+.page-about section:has(> .about-connector--head) {
+    padding-top: 0;
+}
+
+.page-about section:has(> .about-connector--foot) {
+    padding-bottom: 0;
+}
+
+.page-about .about-connector--head .section-link-word--reflection {
+    opacity: 0.5;
+}
+
+.page-about .about-section--dark > .about-connector--head .section-link-word--reflection {
+    opacity: 0.3;
+}
+
+/* The hero: the connector sits on the floor of the 100vh section, 80 under the
+   grid; the container gives up its own bottom padding and fixed height for that */
+.about-hero .container {
+    flex: 1 0 auto;
+    min-height: 0;
+    padding-bottom: 0;
+}
+
+.about-hero .about-connector {
+    flex: none;
+    min-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    gap: 0;
+}
+
+/* ── Live-text connectors (prototype, Sep 2026): section-link.php with theme "auto" —
+   the ground comes from the section the connector sits in. A head reflection is a
+   child of the section it opens, a foot word of the section it ends, so one ancestor
+   rule covers both. Light is the default (Concept, Guests and Team carry their own
+   dark/surface classes). Opacities are the component's: word 50, dark reflection 30,
+   light reflection 100 — not the site's SVG rule, deliberately, for the first look. ── */
+
+.page-about .section-link--auto.section-link--word {
+    --section-link-ink: var(--olive);
+    --section-link-stroke: 2px;
+}
+
+.page-about .section-link--auto.section-link--reflection {
+    --section-link-ink: var(--lime);
+    opacity: 1;
+}
+
+.page-about .about-section--dark .section-link--auto.section-link--word {
+    --section-link-ink: var(--cream);
+    --section-link-stroke: 1px;
+}
+
+.page-about .about-section--dark .section-link--auto.section-link--reflection {
+    --section-link-ink: var(--paper);
+    opacity: 0.3;
+}
+
+.page-about .about-section--dark .section-link--auto .section-link__text {
+    background-image: linear-gradient(to top, var(--peppercorn), rgba(21, 19, 23, 0));
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* The ledger's ticket edges exist for phones only (story.php) */
+.about-story__counters-edge {
+    display: none;
+}
+
+
+/* ===========================================================================
+   Phones (≤ 767px) — Figma About-mobile-opt2 1490:78249
+   48px rhythm: reflection → 48 → content → 48 → connector. Sections drop their
+   own vertical padding on the side a connector carries.
+   =========================================================================== */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Tablet — 768–991 (built Sep 2026)
+
+   About had exactly one breakpoint before this, so 768–991 ran the desktop layout
+   whole. Three of its columns are fixed pixel widths that cannot shrink — the 260px
+   team card, the 448px founder column and location.css's 600px map — and in a 736–903
+   content column they either clipped content away or starved the copy beside them
+   (the location headline ran eighteen lines at 768, one word per line). Two of the
+   three are fixed at the base rule above rather than here, because they were bugs at
+   every width, not tablet behaviour.
+
+   What the band borrows is already designed: the hero bento and the cloud-over-card
+   stack come from the phone frames, the derived-bound section header comes from the
+   home-page pass (components.css), and the fluid map height comes from Contacts.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) and (max-width: 991px) {
+
+    /* ── Hero — the phone's 2 + 3 bento (Figma bento-nav) ──
+       Five cards in one row leaves them ~137px here, narrower than their own Lemon
+       caption pills. The phone grid gives ~360 / ~237 against a 736–903 column —
+       larger than the desktop's 208 — and the five cards stay peers, no state. */
+    .about-hero__filmstrip {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+    }
+
+    .about-hero__filmstrip-item {
+        aspect-ratio: 1 / 1;
+        grid-column: span 2;
+    }
+
+    .about-hero__filmstrip-item:nth-child(-n + 2) {
+        aspect-ratio: 3 / 2;
+        grid-column: span 3;
+    }
+
+    /* ── How it feels — cloud above the card, as the phone stacks it ──
+       Side by side the cloud gets 148–315px against the 532 it is placed for, and the
+       words collide. Stacked it gets the full column, which is more than desktop. */
+    .about-how-it-feels__inner {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .about-how-it-feels__cloud {
+        flex: none;
+        width: 100%;
+    }
+
+    /* The quotes column carries `flex: 0 0 540px` for the desktop row, where 540 is its
+       WIDTH. Stacked, flex-basis becomes its HEIGHT, so the column was pinned at 540px
+       around ~200px of content and left roughly 340px of dead space under the button
+       (author, Sep 2026). Phones already release it; the band had nothing. */
+    .about-how-it-feels__quotes {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* ── Visit CTA — the buttons split the row, as every other CTA pair in the band ── */
+    .about-visit-cta__buttons .btn {
+        flex: 1 1 0;
+        width: auto;
+    }
+
+    /* ── Concept — rows, as phones do it (author, Sep 2026) ──
+       Side by side the headline broke to three lines and the picker's chips crowded.
+       The two wrappers dissolve and the pieces order themselves, the same move the
+       phone block makes; the picker keeps its Soft Peppercorn band, bled across the
+       gutter with the same clamp `.container` uses so it lines up at every width. */
+    .about-concept .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-concept__inner,
+    .about-concept__text {
+        display: contents;
+    }
+
+    .about-concept .section-header {
+        order: 1;
+    }
+
+    .about-concept__picker {
+        order: 2;
+        flex: none; /* the desktop `flex: 1 0 0` collapses it to zero in a column */
+        margin: 36px calc(-1 * clamp(16px, 12.5vw - 80px, 80px)) 0;
+        padding: 24px clamp(16px, 12.5vw - 80px, 80px);
+        background-color: var(--soft-peppercorn);
+    }
+
+    .about-concept__cta {
+        order: 3;
+        margin-top: 36px;
+    }
+
+    /* ── Team — two columns of the photo card (author, Sep 2026) ──
+       Eight members divide evenly into two rows of four and raggedly into three, which
+       left a hole at the foot of the section. The card goes fluid here (the base rule
+       caps it at 260 for desktop) and its height follows the square photo. Costs ~940px
+       of page against a three-up; bought because faces are the point of this section. */
+    .about-team__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-team__card {
+        max-width: none;
+        height: auto;
+    }
+
+    .about-team__card-default,
+    .about-team__card-active {
+        height: auto;
+    }
+
+    /* ── Perks — 3 × 2, not a ragged 5 + 1 ──
+       The stamps are a wrapping flex row of fixed 120px circles at 28px gaps: six need
+       860px and the band has 736–903, so the sixth dropped alone onto a second row. Six
+       divides evenly by three, which is also how the phone frame lays them out, so the
+       row becomes a three-column grid and the stamp keeps its desktop size inside it. */
+    .about-perks__stamps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+        justify-items: center;
+    }
+
+    /* ── Two `white-space: nowrap` desktop assumptions that the band cannot hold ──
+       Careers: "Full-time · 2 days on, 2 days off" does not fit a 229–285px card and was
+       cut mid-word. Perks: the stamps' one-liner is an intrinsic 677px, so it painted
+       139px past the viewport at 768, 82 at 834, 24 at 900 — the sentence simply ran off
+       the right edge. Phones already set both to `normal`; the band had nothing. */
+    .about-careers__card-meta,
+    .about-perks__detail-desc {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 767px) {
+
+    /* ── Connectors: 48px rhythm; over a dark section the reflection runs at full
+       opacity, as the home page does on phones (the scaled stroke is a third of
+       its weight and 30% read as dark grey — components.css) ── */
+
+    .page-about .about-connector--head {
+        margin-bottom: 48px;
+    }
+
+    .page-about .about-connector--foot {
+        margin-top: 48px;
+    }
+
+    .page-about .about-section--dark > .about-connector--head .section-link-word--reflection {
+        opacity: 1;
+    }
+
+    .page-about .about-section {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    /* ── 1. Hero — bento index, bottom-anchored, connector on the floor ── */
+
+    .page-about .about-hero {
+        min-height: calc(100vh - 76px);
+        min-height: calc(100dvh - 76px);
+        padding-top: 0;
+        justify-content: flex-end;
+    }
+
+    body.admin-bar .page-about .about-hero {
+        min-height: calc(100dvh - 76px - 46px);
+    }
+
+    .about-hero .container {
+        padding-top: 24px;
+        gap: 36px;
+    }
+
+    /* One 16px gap between the three text blocks; the lead's own <p> margins go, or
+       they double the spacing (author, Sep 2026) */
+    .about-hero__content {
+        gap: 16px;
+    }
+
+    .about-hero__headline {
+        font-size: var(--text-h1);
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+    }
+
+    .about-hero__lead {
+        margin: 0;
+        font-size: var(--text-body);
+        max-width: none;
+    }
+
+    /* Two rows, one grid: 2 × 3:2 over 3 × 1:1, 12px gap (Figma bento-nav). The five
+       cards are peers — no state — so equal widths per row, unlike the home bento. */
+    .about-hero__filmstrip {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+    }
+
+    .about-hero__filmstrip-item {
+        aspect-ratio: 1 / 1;
+        grid-column: span 2;
+    }
+
+    .about-hero__filmstrip-item:nth-child(-n + 2) {
+        aspect-ratio: 3 / 2;
+        grid-column: span 3;
+    }
+
+    /* Touch has no hover, so the rest state is the lit one: full-strength photo,
+       Lemon caption label (the desktop hover look). Dimmed would read as inactive. */
+    .about-hero__filmstrip-overlay {
+        background-color: transparent;
+    }
+
+    .about-hero__filmstrip-pill {
+        background-color: var(--lemon);
+    }
+
+    .about-hero__filmstrip-label {
+        color: var(--peppercorn);
+    }
+
+    /* 48 to the connector, as the other phone heroes (home: 36 + the connector's 12) */
+    .about-hero .about-connector--foot {
+        margin-top: 48px;
+    }
+
+    /* ── 2. The Concept — text on Peppercorn, picker on a Soft Peppercorn band ── */
+
+    .about-concept {
+        background-color: var(--peppercorn);
+    }
+
+    .about-concept .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-concept__inner,
+    .about-concept__text {
+        display: contents;
+    }
+
+    .about-concept .section-header {
+        order: 1;
+    }
+
+    .about-concept__picker {
+        order: 2;
+        flex: none; /* desktop's flex: 1 0 0 collapses it to 0 in a column */
+        margin: 36px -16px 0;
+        padding: 24px 16px;
+        background-color: var(--soft-peppercorn);
+    }
+
+    .about-concept__cta {
+        order: 3;
+        margin-top: 36px;
+    }
+
+    .about-concept__cta .btn {
+        width: 100%;
+    }
+
+    /* ── 3. How it feels — cloud over one quote (author, Sep 2026). The cloud was
+       first dropped on phones because it and a three-card rail couldn't share a
+       screen; it returns as wrapping rows at a phone size trio (40 / 26 / 18 —
+       H1-ish / H2-ish / H3, still three fixed sizes, hue = tier), and the rail shows
+       exactly one card, sized by JS to the tallest quote so nothing crops. Cloud +
+       card ≈ 440px, so the coupling (tap or heartbeat fills a word *and* swaps the
+       quote) stays in one view even on a 667-tall phone. ── */
+
+    .about-how-it-feels__inner {
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 36px;
+    }
+
+    .about-how-it-feels__cloud {
+        flex: none;
+        width: 100%;
+    }
+
+    /* Rows are the pre-hydration / no-JS / reduced-width state; once the field
+       has placed the words (.is-placed) the global field rules take over, so
+       phones get the same orbit as desktop (author, Sep 2026). */
+    .about-cloud:not(.is-placed),
+    .about-cloud.about-cloud--field:not(.is-placed) {
+        position: static;
+        height: auto;
+        padding: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        column-gap: 12px;
+        row-gap: 2px;
+    }
+
+    .about-cloud:not(.is-placed) .about-cloud__row {
+        display: contents;
+    }
+
+    .about-cloud:not(.is-placed) .about-cloud-word {
+        position: static;
+        transform: none;
+    }
+
+    .about-cloud-word {
+        padding: 2px 0;
+        -webkit-text-stroke-width: 1px;
+    }
+
+    .about-cloud-word[data-tier="top"] { --cloud-size-phone: 40px; }
+    .about-cloud-word[data-tier="mid"] { --cloud-size-phone: 26px; }
+    .about-cloud-word[data-tier="low"] { --cloud-size-phone: 18px; }
+
+    .about-how-it-feels__quotes {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .about-how-it-feels__cta {
+        margin-top: 36px;
+    }
+
+    .about-how-it-feels__cta .btn {
+        width: 100%;
+    }
+
+    /* ── 4. Perks — 3 × 2 stamps (frame 1490:78394): the ring shrinks to 72 and the
+       label drops under it, the pair still tilting as one; 120px cells so the tilt has
+       room and rows keep the frame's 124 pitch; the one-liner sits 24 under the stamps
+       because it is their caption. Phone colour deal via --stamp-color-phone (perks.php). ── */
+
+    .about-perks .container {
+        gap: 36px;
+    }
+
+    .about-perks__stamps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+    }
+
+    .about-perks__stamps .about-perks__stamp,
+    .about-perks__stamps .about-perks__stamp.is-active {
+        --stamp: var(--stamp-color-phone, var(--stamp-color));
+        width: auto;
+        height: auto;
+        min-height: 120px;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        gap: 12px;
+        overflow: visible;
+    }
+
+    /* The phone frame leans the other way: even stamps right, odd left */
+    .about-perks__stamp:nth-child(odd) {
+        --lean: -1;
+    }
+
+    .about-perks__stamp:nth-child(even) {
+        --lean: 1;
+    }
+
+    .about-perks__stamp-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        border: 2px dashed var(--stamp);
+        transition:
+            border-style 800ms var(--ease-gentle-flat),
+            background-color 800ms var(--ease-gentle-flat),
+            box-shadow 800ms var(--ease-gentle-flat);
+    }
+
+    .about-perks__stamp.is-active .about-perks__stamp-icon {
+        border-style: solid;
+        background-color: var(--peppercorn);
+        box-shadow: 0 0 16px rgba(212, 230, 113, 0.5);
+    }
+
+    .about-perks__stamp-label--long {
+        display: none;
+    }
+
+    .about-perks__stamp-label--short {
+        display: block;
+    }
+
+    .about-perks__detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        margin-top: -12px; /* 36 container gap → 24 to the stamps' caption */
+    }
+
+    .about-perks__detail-desc {
+        white-space: normal;
+        line-height: 1.4;
+        padding-bottom: 0;
+    }
+
+    /* The Guests title flows as one line where it fits — the Story half of this pair
+       moved to the ≤991 block below when the band adopted the phone story layout. */
+    .about-guests .section-headline-group {
+        display: block;
+        font-family: var(--font-display);
+        font-size: var(--text-h1);
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+    }
+
+    .about-guests .section-headline-group > * {
+        display: inline;
+        margin: 0;
+    }
+
+    /* ── 6. Guests — 2 × 4 grid (frame 1490:78481) ── */
+
+    /* Description → CTA is 24 in the frame, not the shared header's 48 */
+    .about-guests .section-header {
+        gap: 24px;
+    }
+
+    .about-guests__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-top: 48px;
+    }
+
+    /* ── 7. Team — drift strip at 240, cards become a snap rail across the gutters ── */
+
+    .about-team__drift {
+        margin-top: 48px;
+        padding-bottom: 0;
+    }
+
+    .about-team__drift-track {
+        gap: 24px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .about-team__wall-card {
+        width: 240px;
+    }
+
+    /* Team → rows, not a second rail (author, Sep 2026 — option 1 of the phone layouts
+       weighed in website-brief.md → Mobile About → Team). One column of row cards:
+       88px photo left, name / role / chip right; the chip opens the member's line as an
+       accordion under the row (the desktop's face-swap becomes a reveal). The wall
+       drift keeps the page's one horizontal rail — a clothesline is horizontal. */
+    .about-team__grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 48px 0 0;
+    }
+
+    .about-team__card {
+        width: 100%;
+        max-width: none; /* the desktop cap (260) was added after this block and reached phones: cards ran 260 wide at 430, chips clipped (found Sep 2026) */
+        height: auto;
+        background-color: var(--parchment);
+        transition: box-shadow 800ms var(--ease-gentle-flat), background-color 300ms var(--ease-gentle-flat);
+    }
+
+    .about-team__card.is-active {
+        background-color: var(--paper);
+    }
+
+    .about-team__card-default,
+    .about-team__card.is-active .about-team__card-default {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        height: auto;
+        padding: 12px;
+        background: transparent;
+    }
+
+    .about-team__card-default .about-team__card-photo-wrap {
+        width: 88px;
+    }
+
+    .about-team__card-default .about-team__card-info {
+        padding: 0;
+        gap: 8px;
+    }
+
+    .about-team__card-member-info {
+        white-space: normal;
+    }
+
+    .about-team__card-chip {
+        align-self: flex-start;
+    }
+
+    /* Open state: the chip is the exit as well as the entry, so it must say "open" —
+       the chevron turns to point down (the reveal is below) and the chip holds its
+       pressed colours until the line closes. Transform on the spring, colour on the
+       flat curve (Motion language). Desktop swaps the face, so this is phone-only. */
+    .about-team__card-chip svg {
+        transition: transform var(--dur-gentle) var(--ease-gentle);
+    }
+
+    .about-team__card-chip[aria-expanded="true"] {
+        border-color: var(--paprika);
+        color: var(--paprika);
+    }
+
+    .about-team__card-chip[aria-expanded="true"] svg {
+        transform: rotate(90deg);
+    }
+
+    /* No line to open → no chip: a chip that does nothing is a false door */
+    .about-team__card:not(.about-team__card--has-message) .about-team__card-chip {
+        display: none;
+    }
+
+    /* The reveal: the active layer is always in the box, collapsed to 0fr; the row
+       above stays. Its photo and "← Name Says" row are the desktop face — hidden. */
+    .about-team__card-active,
+    .about-team__card.is-active .about-team__card-active {
+        display: grid;
+        grid-template-rows: 0fr;
+        height: auto;
+        background: transparent;
+        visibility: hidden;
+        transition: grid-template-rows 300ms var(--ease-gentle-flat), visibility 0s 300ms;
+    }
+
+    .about-team__card.is-active .about-team__card-active {
+        grid-template-rows: 1fr;
+        visibility: visible;
+        transition-delay: 0s;
+    }
+
+    .about-team__card-active .about-team__card-photo-wrap,
+    .about-team__card-active .about-team__card-name-row {
+        display: none;
+    }
+
+    .about-team__card-active .about-team__card-info {
+        min-height: 0;
+        overflow: hidden;
+        padding: 0;
+        gap: 0;
+    }
+
+    .about-team__card-active .about-team__card-member-info {
+        display: block;
+    }
+
+    .about-team__card-message {
+        height: auto;
+        padding: 0 12px 12px 116px; /* the text column: 12 + 88 + 16 */
+    }
+
+    /* ── 8. Careers — checked against frame 1490:78518 (Sep 2026): as drawn — cards
+       stacked at 24, 48 to the CTA row, its text 16 over a full-width button. The empty
+       state has no phone frame: it takes the position card's 32 inset and a full-width
+       button, as every other phone CTA on the page. ── */
+
+    .about-careers__content {
+        gap: 48px;
+        margin-top: 48px;
+    }
+
+    .about-careers__jobs {
+        flex-direction: column;
+    }
+
+    .about-careers__card {
+        flex: none;
+        height: auto;
+        min-height: 240px;
+    }
+
+    .about-careers__cta {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .about-careers__cta-text {
+        max-width: none;
+    }
+
+    .about-careers__cta .btn {
+        width: 100%;
+    }
+
+    .about-careers__empty {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 32px;
+        gap: 24px;
+    }
+
+    .about-careers__empty-text {
+        width: auto;
+    }
+
+    .about-careers__empty .btn {
+        width: 100%;
+    }
+
+    /* ── 9–10. Location + entrance — checked against frame 1490:78527 (Sep 2026):
+       location.css stacks them; the connector takes over the section's vertical
+       padding, the photo runs flush. Copy → map is the frame's 48 (the menu page's
+       own frame draws 24); with the button kept, it is the Guests' CTA → grid 48. ── */
+
+    .page-about .location__inner {
+        gap: 48px;
+    }
+
+    .page-about .menu-entrance-img .container {
+        padding: 0;
+    }
+
+    html[data-theme="night"] .page-about .menu-location {
+        background-color: var(--parchment);
+    }
+
+    .page-about .location__cta .btn {
+        width: 100%;
+    }
+
+    /* ── 11. Visit CTA — checked against frame 1490:78533 (Sep 2026): left-aligned, the
+       headline at H1 (36 / 1.05 / 4%) instead of Display 64, body at 16 — the closer
+       keeps its Lime and its two buttons, not a poster size; 40 to the buttons, 24
+       between them, 48 / 34 like the menu page's phone closer. ── */
+
+    .about-visit-cta {
+        text-align: left;
+    }
+
+    .page-about .about-visit-cta {
+        padding-bottom: 34px; /* outranks .page-about .about-section above */
+    }
+
+    .about-visit-cta__headline {
+        font-size: var(--text-h1);
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+    }
+
+    .about-visit-cta__body {
+        margin: 16px 0 0;
+        max-width: none;
+        font-size: var(--text-body);
+    }
+
+    .about-visit-cta__buttons {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 40px;
+    }
+
+    .about-visit-cta__buttons .btn {
+        width: 100%;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Story — phones and tablets (≤ 991, widened Sep 2026)
+
+   Lifted wholesale out of the phone block rather than reimplemented: at 768–991 the
+   desktop split gave the narrative 240–407px against a fixed 448px founder column, and
+   the horizontal heat-line axis had no room for three milestones. The phone layout is
+   already designed for exactly that — one column in the frame's order, the axis
+   replaced by the segmented year control, the ledger keeping only the ticket edge — so
+   the band takes it as drawn. The Guests half of the shared headline-group rule stayed
+   behind in the ≤767 block; everything here is Story's alone.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 991px) {
+    /* ── 5. Story — one column in the frame's order: title → founder → ¶1 →
+       timeline → ¶2, ¶3 → ledger. The two-column wrappers dissolve. ── */
+
+    .about-story .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-story__inner,
+    .about-story__text,
+    .about-story__body {
+        display: contents;
+    }
+
+    .about-story .section-header {
+        order: 1;
+    }
+
+    /* The title flows as one line where it fits (frame: "THE PEPPER STORY"), two where
+       it doesn't — the component's forced break left STORY alone on wider phones */
+    .about-story .section-headline-group {
+        display: block;
+        font-family: var(--font-display); /* the space between the two parts is the group's */
+        font-size: var(--text-h1);
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+    }
+
+    .about-story .section-headline-group > * {
+        display: inline;
+        margin: 0;
+    }
+
+    .about-story__founder {
+        order: 2;
+        flex: none;
+        width: 100%;
+        margin-top: 48px;
+    }
+
+    .about-story__founder-quote {
+        gap: 16px; /* quote mark → text (author, Sep 2026) */
+    }
+
+    .about-story__body > p {
+        margin: 0;
+    }
+
+    .about-story__body > p:nth-child(1) {
+        order: 3;
+        margin-top: 48px;
+    }
+
+    .about-story__timeline {
+        order: 4;
+    }
+
+    .about-story__body > p:nth-child(2) {
+        order: 5;
+        margin-top: 48px;
+    }
+
+    .about-story__body > p:nth-child(3) {
+        order: 6;
+        margin-top: 16px;
+    }
+
+    .about-story__counters {
+        order: 7;
+        margin-top: 48px;
+    }
+
+    /* Timeline → segmented year control, one milestone shown (Figma timelineMobile).
+       The control is the state: filled segment = current (about-story.js sets
+       .is-current, starting on STILL HERE). Axis, heat and ticks don't survive the
+       switch — recorded as the open question in website-brief.md → The Pepper Story. */
+    .about-story__timeline {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 4px;
+        min-height: 0;
+        margin-top: 48px;
+        padding: 20px 20px 16px; /* 16 + the tray's 4 */
+        background-color: var(--paper);
+        border: 0;
+        border-radius: 8px;
+    }
+
+    /* The years sit in a Parchment tray (frame: yearsContainer, 4px padding, 4px gap);
+       the milestones are display: contents, so the tray is drawn behind the row */
+    .about-story__timeline::before {
+        content: '';
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        right: 16px;
+        height: 62px;
+        background-color: var(--parchment);
+        border-radius: 4px;
+    }
+
+    .about-story__timeline-line,
+    .about-story__timeline-heat,
+    .about-story__timeline-cap,
+    .about-story__timeline-arrow,
+    .about-story__milestone-tick {
+        display: none;
+    }
+
+    .about-story__milestone {
+        display: contents;
+    }
+
+    .about-story__milestone-year {
+        order: 1;
+        position: relative;
+        z-index: 1;
+        flex: 1 1 0;
+        padding: 12px 8px;
+        text-align: center;
+        font-size: var(--text-h2);
+        line-height: 1.25;
+        letter-spacing: 0.05em;
+        color: var(--ash);
+        background-color: var(--paper);
+        border: 0;
+        border-radius: 4px;
+        cursor: pointer;
+        transition:
+            background-color 300ms var(--ease-gentle-flat),
+            border-color 300ms var(--ease-gentle-flat),
+            color 300ms var(--ease-gentle-flat);
+    }
+
+    .about-story__milestone.is-current .about-story__milestone-year {
+        background-color: var(--chili);
+        color: var(--lemon);
+    }
+
+    .about-story__milestone-name,
+    .about-story__milestone-wit {
+        display: none;
+        flex-basis: 100%;
+    }
+
+    .about-story__milestone.is-current .about-story__milestone-name {
+        display: block;
+        order: 2;
+        margin-top: 20px; /* 16 past the tray */
+        font-size: var(--text-h1);
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+        color: var(--chili);
+        -webkit-text-stroke-color: transparent;
+    }
+
+    .about-story__milestone.is-current .about-story__milestone-wit {
+        display: block;
+        order: 3;
+        margin-top: 0;
+        font-size: var(--text-body);
+    }
+
+    /* Ledger → ticket-edged card: scallops top (ground colour) and bottom (card
+       colour); rows read number left, label right, ruled. */
+    .about-story__counters {
+        position: relative;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 48px 24px 36px;
+        border: 0;
+        border-radius: 0;
+        overflow: visible;
+        transform: rotate(1deg); /* the ticket sits 1° off, as the quote card does */
+    }
+
+    .about-story__counters-edge {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+
+    .about-story__counters-edge--top {
+        top: -1px;
+    }
+
+    .about-story__counters-edge--bottom {
+        top: calc(100% - 1px);
+    }
+
+    .about-story__counters-label br {
+        display: none;
+    }
+
+    .about-story__counters-label {
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--mushroom);
+    }
+
+    .about-story__counters-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .about-story__counter {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--avocado);
+    }
+
+    .about-story__counter-number {
+        font-size: 24px;
+        letter-spacing: 0.05em;
+    }
+
+    .about-story__counter-label {
+        font-size: 14px;
+        letter-spacing: 0.04em;
+        text-align: right;
+    }
+}

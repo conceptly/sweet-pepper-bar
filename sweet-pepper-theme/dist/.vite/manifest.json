@@ -1,0 +1,23 @@
+{
+  "src/fonts/GolosText-VariableFont_wght.ttf": {
+    "file": "assets/GolosText-VariableFont_wght-cldftjk2.ttf",
+    "src": "src/fonts/GolosText-VariableFont_wght.ttf"
+  },
+  "src/fonts/Molot-webfont.woff": {
+    "file": "assets/Molot-webfont-Bpv0sYix.woff",
+    "src": "src/fonts/Molot-webfont.woff"
+  },
+  "src/main.js": {
+    "file": "assets/main-D5PFdV-H.js",
+    "name": "main",
+    "src": "src/main.js",
+    "isEntry": true,
+    "css": [
+      "assets/main-Berc53zA.css"
+    ],
+    "assets": [
+      "assets/Molot-webfont-Bpv0sYix.woff",
+      "assets/GolosText-VariableFont_wght-cldftjk2.ttf"
+    ]
+  }
+}

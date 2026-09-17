@@ -1,0 +1,580 @@
+/* Hero Section — fills viewport minus header */
+.home-hero {
+    min-height: calc(100vh - 78px); /* Header: 24px top padding + ~54px content = 78px */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface); /* parchment (day) — alternates with highlights' paper */
+}
+
+html[data-theme="night"] .home-hero {
+    background-color: var(--bg); /* peppercorn — alternates with highlights' soft-peppercorn */
+}
+
+/* Adjust for WP Admin Bar */
+body.admin-bar .home-hero {
+    min-height: calc(100vh - 78px - 32px);
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .home-hero {
+        min-height: calc(100vh - 78px - 46px);
+    }
+}
+
+.hero-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Hero footer — contains the link-word (in flow) and lang-nudge (absolute) */
+.hero-footer {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-eyebrow {
+    color: var(--accent-2);
+    font-size: 18px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.hero-headline {
+    color: var(--accent);
+    font-size: 76px;
+    line-height: 1;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+.hero-subhead {
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--text);
+    max-width: 800px;
+    margin-bottom: 48px;
+}
+
+/* ── Daypart Image Grid ──────────────────────────── */
+/* Matches Figma: meal-home-container-opt-2 */
+.daypart-grid {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 0; /* Actions row now has its own margin-top */
+    container-type: inline-size; /* tiles size themselves from the grid's width (cqw) */
+}
+
+/* Each tile is a <button>.
+   Geometry is derived from one number, --tile (the inactive square).
+   Sep 2026: 224 at full width (was 156). Active image = (--tile + 16) tall at 3:2 → 360×240,
+   so the row = 3×tile + (1.5×(tile+16) + 8) + 3×24 gap = 4.5×tile + 104px.
+   At the 1120px content column that solves to 225.8 → capped at 224; below that the
+   tile shrinks fluidly while the 16px height step, 8px padding and 24px gap stay fixed.
+   At ≤ 767px the mobile bento takes over (block at the end of this file). */
+.daypart-tile {
+    --tile: min(224px, calc((100cqw - 104px) / 4.5)); /* inactive square */
+    --img-h: calc(var(--tile) + 16px);           /* active image height (240) */
+    --img-w: calc(var(--img-h) * 1.5);           /* 3:2 → 360 */
+    --active-w: calc(var(--img-w) + 8px);        /* + 8px right padding → 368 */
+    --sheet-h: calc(var(--active-w) / 1.5);      /* sheets are container-width at 3:2 → 245.33 */
+
+    /* Per-daypart recipe (from Figma imgContainer-menu, 1341:49804): a direction +
+       which colour sits nearest the photo. --dir: 1 tilts the photo −1° and fans the
+       sheets below-left; --dir: -1 mirrors the whole stack (photo +1°, fan below-right),
+       so the sheets always belong to the photo's tilt. Colours rotate through the slots. */
+    --dir: 1;
+    --tilt: calc(var(--dir) * -1deg);
+    --sheet-near: var(--lime);
+    --sheet-mid: var(--lemon);
+    --sheet-far: var(--chili);
+
+    position: relative;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    width: var(--tile);
+    height: var(--tile);
+    flex-shrink: 0;
+    transition: width 0.4s var(--ease-out-expo),
+                height 0.4s var(--ease-out-expo);
+}
+
+/* ── Image wrapper ──────────────────────────────── */
+.tile-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 4;
+    transition: transform 0.4s var(--ease-out-expo);
+}
+
+.tile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+}
+
+/* Dark overlay on inactive tiles */
+.tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(21, 19, 23, 0.33);
+    border-radius: 4px;
+    transition: opacity 0.3s;
+}
+
+/* ── Active tile ────────────────────────────────── */
+/* Recipes — breakfast is the default above (Figma variant=breakfast / snacks / sandwiches);
+   lunch = Figma variant=lunch; dinner = Figma variant=salads; party has no Figma twin —
+   Chili nearest (the hot end). Tilt alternates along the row: −1° / +1° / −1° / +1°. */
+.daypart-tile[data-daypart="lunch"] {
+    --dir: -1;
+    --sheet-near: var(--lemon);
+    --sheet-mid: var(--lime);
+    --sheet-far: var(--chili);
+}
+
+.daypart-tile[data-daypart="dinner"] {
+    --sheet-near: var(--lime);
+    --sheet-mid: var(--chili);
+    --sheet-far: var(--lemon);
+}
+
+.daypart-tile[data-daypart="party"] {
+    --dir: -1;
+    --sheet-near: var(--chili);
+    --sheet-mid: var(--lime);
+    --sheet-far: var(--lemon);
+}
+
+/* Figma imgContainer-home pattern: W = image + 8, padding-right:8, padding-bottom:8, no clip. */
+.daypart-tile.is-active {
+    width: var(--active-w);
+    height: auto;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    overflow: visible; /* bg layers peek outside */
+}
+
+.daypart-tile.is-active .tile-img-wrapper {
+    width: var(--img-w);
+    height: var(--img-h);
+    transform: rotate(var(--tilt));
+    border: 2px solid var(--peppercorn);
+}
+
+.daypart-tile.is-active .tile-overlay {
+    opacity: 0; /* No overlay on active */
+}
+
+/* ── Color stack (only visible on active) ───────── */
+.tile-color-stack {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+/* Inactive: the (invisible) sheets are --active-w wide and would otherwise push the
+   document's scroll width past a phone viewport on a narrow tile. The stack is the sheets'
+   containing block, so clipping it removes them from scrollable overflow — but only once
+   the fade-out has finished (discrete `overflow` transition, delayed by the fade), so a
+   deactivating tile's sheets still fade rather than vanish. Browsers without
+   transition-behavior clip immediately, which is what happened before. */
+.daypart-tile:not(.is-active) .tile-color-stack {
+    overflow: hidden;
+    transition: opacity 0.3s, overflow 0s 0.3s allow-discrete;
+}
+
+.daypart-tile.is-active .tile-color-stack {
+    opacity: 1;
+}
+
+/* All sheets: container width × 3:2, radius 2, absolute from container top-left.
+   Slot geometry is fixed and mirrors with --dir; the colour in each slot is the recipe.
+   The mirror is taken about the PHOTO, not the container (the container's 8px padding
+   sits right/bottom only): a sheet at x peeks −x on the left and x+8 on the right, so its
+   mirror sits at −(x+8). --sx does that: dir 1 → x, dir −1 → −(x+8). Angles flip sign, y stays. */
+.tile-bg {
+    --sx: calc(var(--dir) * var(--x) - (1 - var(--dir)) * 4px);
+    position: absolute;
+    left: 0;
+    top: 0;
+    /* Container width at 3:2 — as a percentage of the stack (= the tile's padding box) rather
+       than --active-w, so on mobile the sheets follow the tile's width while it transitions
+       instead of sitting at final size from the first frame (they poked past the viewport).
+       At rest this equals --active-w × --sheet-h. */
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    border-radius: 2px;
+    transform: translate(var(--sx), var(--y)) rotate(calc(var(--dir) * var(--a)));
+}
+
+/* z-3: nearest the photo */
+.tile-bg--near {
+    --x: -6px; --y: -4px; --a: -1deg;
+    background: var(--sheet-near);
+    z-index: 3;
+}
+
+/* z-2: middle */
+.tile-bg--mid {
+    --x: -4px; --y: -2px; --a: -1.5deg;
+    background: var(--sheet-mid);
+    z-index: 2;
+}
+
+/* z-1: furthest, most rotated */
+.tile-bg--far {
+    --x: -2px; --y: 0px; --a: -2deg;
+    background: var(--sheet-far);
+    z-index: 1;
+}
+
+/* ── Now badge ──────────────────────────────────── */
+.now-badge {
+    display: none; /* Hidden by default; shown via .is-now-daypart */
+}
+
+/* When this tile IS the current real-time daypart */
+.daypart-tile.is-now-daypart .now-badge {
+    display: block;
+    position: absolute;
+    z-index: 5;
+}
+
+/* Inactive dot: 8×8 lemon circle */
+.daypart-tile.is-now-daypart:not(.is-active) .now-badge {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--lemon, #FFED00);
+    opacity: 0.9;
+    bottom: 6px;
+    left: 12px;
+    font-size: 0;
+    color: transparent;
+    overflow: hidden;
+    padding: 0;
+}
+
+/* Active label: "Now" text pill */
+.daypart-tile.is-now-daypart.is-active .now-badge {
+    background: var(--lemon, #FFED00);
+    color: var(--soft-peppercorn);
+    font-family: var(--font-body);
+    font-size: var(--text-caption, 13px);
+    letter-spacing: 0.52px;
+    line-height: 1.4;
+    padding: 4px 8px;
+    border-radius: 4px;
+    opacity: 0.9;
+    bottom: 14px;
+    left: 10px;
+    transform: rotate(var(--tilt)); /* Rides on the photo, as in Figma (the pill sits inside the tilted frame) */
+}
+
+/* CTAs — below the daypart grid */
+.hero-ctas {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-top: 48px;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--accent); /* Chili */
+    color: #FFF;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text);
+}
+
+/* ── Language Nudge ─────────────────────────────── */
+/* Wrapper: absolutely positioned above the link-word, right-aligned */
+.lang-nudge-wrapper {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.lang-nudge {
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: var(--font-body);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    color: var(--text-muted);
+    /* Slide-out transition */
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 0.4s var(--ease-gentle),
+                opacity 0.3s ease;
+}
+
+/* Slide out to the right (masked by wrapper overflow:hidden) */
+.lang-nudge.is-dismissed {
+    transform: translateX(110%);
+    opacity: 0;
+}
+
+.lang-nudge strong {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+html:not([data-theme="night"]) .lang-nudge strong {
+    color: var(--olive, #737d3a);
+}
+
+html[data-theme="night"] .lang-nudge strong {
+    color: var(--lime, #c1db34);
+}
+
+.lang-nudge button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-muted);
+    transition: opacity 0.2s;
+    padding: 0;
+    line-height: 1;
+}
+
+.lang-nudge button:hover {
+    opacity: 0.7;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Mobile hero — bento (Figma home-hero-bento-stack 2048:126962, day twin 2048:127658)
+   Nav (fixed 76) + hero = 100dvh. The content block (tiles → copy → Reserve) is one unit,
+   centred in the space between the nav and the connector (author's call, Sep 2026 — reads
+   more balanced on a real phone than bottom-anchoring); 36px to the connector, and never
+   less than 24px under the nav (the hero's top padding).
+   Grid: 3 equal columns, 12px gap, 2 rows. Two geometries, chosen by which tile is active:
+     A (breakfast or party active):  "b b l" / "d p p"
+     B (lunch or dinner active):     "b l l" / "d d p"
+   The active tile takes the 2-column slot of its row; the other wide slot sits on the
+   opposite side (checkerboard). Wide inactive = landscape 3:2, narrow inactive = portrait 2:3.
+   All sizes derive from the wide span, so the 8px colour-stack padding and the desktop
+   recipes above carry over unchanged (--active-w / --img-w / --img-h / --sheet-h).
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    .home-hero {
+        min-height: calc(100vh - 76px);
+        min-height: calc(100dvh - 76px);
+        padding-top: 24px;
+    }
+
+    body.admin-bar .home-hero {
+        min-height: calc(100dvh - 76px - 46px);
+    }
+
+    .hero-content {
+        justify-content: center;
+    }
+
+    .hero-footer {
+        padding-top: 36px;
+    }
+
+    /* No eyebrow, no second CTA on mobile (website-brief.md → Mobile — home hero) */
+    .hero-eyebrow,
+    #hero-menu-btn,
+    .lang-nudge-wrapper { /* nudge not in the mobile frames — open */
+        display: none;
+    }
+
+    .hero-headline {
+        order: 2;
+        margin-top: 32px;
+        font-size: 32px;
+        line-height: 1.04;
+        letter-spacing: 0.04em;
+        color: var(--olive);
+    }
+
+    html[data-theme="night"] .hero-headline {
+        color: var(--lemon);
+    }
+
+    .hero-subhead {
+        order: 3;
+        margin-top: 12px;
+        margin-bottom: 0;
+        font-size: var(--text-body);
+        color: var(--text-muted);
+    }
+
+    .daypart-grid {
+        order: 1;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: auto auto;
+        grid-template-areas: "b b l" "d p p";
+        gap: 12px;
+        align-items: start;
+    }
+
+    .daypart-grid:is([data-active="lunch"], [data-active="dinner"]) {
+        grid-template-areas: "b l l" "d d p";
+    }
+
+    .daypart-tile {
+        /* wide span = 2 columns + 1 gap; the container's 8px right padding lives inside it */
+        --span: calc((100cqw - 24px) / 3 * 2 + 12px);
+        --active-w: var(--span);
+        --img-w: calc(var(--span) - 8px);
+        --img-h: calc(var(--img-w) / 1.5);
+        --sheet-h: calc(var(--active-w) / 1.5);
+        height: var(--img-h);
+        /* Motion: size and (FLIP) position ride the house Gentle spring; daypart-engine.js
+           translates each tile from where it was to where the grid re-places it, and these
+           transitions carry width/height/transform to rest. */
+        transition: width var(--dur-gentle) var(--ease-gentle),
+                    height var(--dur-gentle) var(--ease-gentle),
+                    transform var(--dur-gentle) var(--ease-gentle);
+    }
+
+    .daypart-tile .tile-img-wrapper {
+        transition: width var(--dur-gentle) var(--ease-gentle),
+                    height var(--dur-gentle) var(--ease-gentle),
+                    transform var(--dur-gentle) var(--ease-gentle),
+                    outline-color var(--dur-gentle) var(--ease-gentle-flat);
+        /* keyline as an inset outline so it can fade in/out without changing the box */
+        border: 0;
+        outline: 2px solid transparent;
+        outline-offset: -2px;
+    }
+
+    .daypart-tile.is-active .tile-img-wrapper {
+        border: 0;
+        outline-color: var(--peppercorn);
+    }
+
+    .daypart-tile .tile-overlay {
+        transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+    }
+
+    .daypart-tile .tile-color-stack {
+        transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+    }
+
+    .daypart-tile:not(.is-active) .tile-color-stack {
+        transition: opacity var(--dur-gentle) var(--ease-gentle-flat),
+                    overflow 0s var(--dur-gentle) allow-discrete;
+    }
+
+    /* Theme flip rides the same clock (the hero fills the viewport, so it is the visible flip) */
+    .home-hero,
+    .hero-headline,
+    .hero-subhead {
+        transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                    color var(--dur-gentle) var(--ease-gentle-flat);
+    }
+
+    .daypart-tile[data-daypart="breakfast"] { grid-area: b; }
+    .daypart-tile[data-daypart="lunch"]     { grid-area: l; }
+    .daypart-tile[data-daypart="dinner"]    { grid-area: d; }
+    .daypart-tile[data-daypart="party"]     { grid-area: p; }
+
+    /* Wide slots: the active tile (sized by the .is-active rule above) or a landscape 3:2 */
+    .daypart-tile {
+        width: var(--img-w);
+        justify-self: start;
+    }
+
+    /* Narrow slots: portrait 2:3, centred in the column */
+    .daypart-grid:is([data-active="breakfast"], [data-active="party"], :not([data-active])) :is([data-daypart="lunch"], [data-daypart="dinner"]),
+    .daypart-grid:is([data-active="lunch"], [data-active="dinner"]) :is([data-daypart="breakfast"], [data-daypart="party"]) {
+        width: calc(var(--img-h) * 2 / 3);
+        justify-self: center;
+    }
+
+    .daypart-tile.is-active {
+        width: var(--active-w);
+        height: calc(var(--img-h) + 8px); /* explicit (not auto) so it can transition */
+        justify-self: start;
+    }
+
+    .hero-ctas {
+        order: 4;
+        margin-top: 32px;
+    }
+
+    .hero-ctas .btn-primary {
+        width: 100%;
+    }
+
+    .hero-ctas .btn-primary .btn-icon-left {
+        order: 2; /* Figma mobile: bell trails the label */
+    }
+}
+
+/* ── Hero CTAs on tablets (768–991, Sep 2026) ──
+   Reserve + the daypart menu link split the row instead of sitting at their natural
+   widths against a 720–943px column. Phones give the primary the full width (the
+   ≤767 block above); here the pair stays a pair. */
+@media (min-width: 768px) and (max-width: 991px) {
+    .hero-ctas .btn {
+        flex: 1 1 0;
+    }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .daypart-tile,
+    .daypart-tile .tile-img-wrapper,
+    .daypart-tile .tile-overlay,
+    .daypart-tile .tile-color-stack,
+    .home-hero,
+    .hero-headline,
+    .hero-subhead {
+        transition: none;
+    }
+}

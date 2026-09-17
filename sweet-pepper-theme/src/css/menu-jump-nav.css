@@ -1,0 +1,307 @@
+/* ==========================================================================
+   Menu Jump-Nav — edge tab + slide-in panel
+   website-brief.md → Menu page → Sticky jump-nav
+   Figma: btnFixed-left (820:29398)
+
+   The tab is the left-edge twin of the Reserve tab (reserve-drawer.css →
+   .btn-fixed-wrapper). The panel reuses .menu-hero__nav and its children,
+   so word list, door and all day / night / drinks overrides come from
+   menu-hero.css — only the fixed positioning and the slide live here.
+   ========================================================================== */
+
+/* ── Edge tab ──
+   0×0 anchor at the left edge, vertically centred; the button rotates
+   inside it. Hidden off-screen until JS adds .is-visible (hero nav gone). */
+
+.menu-jump__tab-wrap {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transform: translateX(-64px);
+    visibility: hidden;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s linear var(--dur-gentle);
+}
+
+.menu-jump__tab-wrap.is-visible {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s;
+}
+
+/* Figma: btnFixed-left = ButtonPrimary-Green-Dark wrapped in a Lime
+   container that clips, squares the edge-side corners, rounds the visible
+   ones to 8px and rotates the whole thing 90°. Same construction as the
+   Reserve tab; implemented as this subclass on the shared .btn.
+
+   rotate(-90deg): local top edge → screen left edge, so translateY(+50%)
+   pulls the button until that edge sits flush on the viewport edge. Text
+   reads bottom-to-top with the icon at the top. */
+.menu-jump__tab-wrap .btn {
+    transform: rotate(-90deg) translateY(50%);
+    /* local top = hidden edge side (0), local bottom = visible side (8px) */
+    border-radius: 0 0 8px 8px;
+    /* House card shadow (1px 1px 4px Peppercorn 15%), expressed in the
+       rotated frame so it still falls down-right on screen:
+       screen +x = local +y, screen +y = local −x. */
+    box-shadow: -1px 1px 4px 0 rgba(21, 19, 23, 0.15);
+    white-space: nowrap;
+}
+
+.menu-jump__tab-wrap .btn:active {
+    transform: rotate(-90deg) translateY(50%) scale(0.98);
+}
+
+.menu-jump__tab-wrap .btn:focus-visible {
+    outline: 2px solid var(--peppercorn);
+    outline-offset: 2px;
+}
+
+/* ── Scrim ── */
+
+.menu-jump__scrim {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(21, 19, 23, 0.5); /* Peppercorn at 50% */
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.menu-jump__scrim.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ── Panel ──
+   Full-height drawer on the left. 440px sheet + 8px Lime edge = 448px.
+   Transform only (house rule: never animate layout). */
+
+.menu-jump__panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: 448px;
+    max-width: 100%;
+    z-index: 999;
+    display: flex;
+    /* Ground = sheet colour with a hard-stop Lime strip in the last 8px —
+       the hero nav's offset edge, without an overflowing layer inside a
+       scroll container. Sheet colour under the sheet (not Lime) so the
+       sub-pixel seam during the spring overshoot has nothing to reveal. */
+    background: linear-gradient(90deg,
+        var(--parchment) 0 calc(100% - 8px),
+        var(--lime) calc(100% - 8px));
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s linear var(--dur-gentle);
+}
+
+.menu-jump__panel.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s;
+}
+
+/* The sheet is the hero nav panel, stretched to the viewport height.
+   It only hosts the background layers and the close ×; the word list and
+   door live in .menu-jump__scroll so the × never scrolls away. */
+.menu-jump__panel .menu-jump__sheet {
+    width: 440px;
+    min-width: 0;
+    max-width: calc(100% - 8px);
+    height: 100%;
+    padding: 0;
+    gap: 0;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+/* Scroll region. Auto margins centre the list + door when there is room
+   and fall back to top-aligned when the viewport is short — unlike
+   justify-content: center, which clips the top of overflowing content.
+   Extra top padding clears the close ×. */
+.menu-jump__scroll {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding: 80px 36px 44px 80px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.menu-jump__scroll > .menu-hero__nav-list {
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.menu-jump__scroll > .menu-hero__door {
+    margin-bottom: auto;
+    flex-shrink: 0;
+}
+
+/* Sheet corners: flush to the viewport, no top radius */
+.menu-jump__panel .menu-hero__nav-bg--parchment {
+    border-radius: 0;
+}
+
+/* Off-screen extension: the Gentle spring overshoots the slide-in by ~3%
+   (≈13px), which would flash a sliver of scrim between sheet and viewport
+   edge. A solid box-shadow on the panel (not the sheet — the sheet clips its
+   overflow) paints sheet colour 32px past the left edge for that moment. */
+.menu-jump__panel {
+    box-shadow: -32px 0 0 var(--parchment);
+}
+
+[data-theme="night"] .menu-jump__panel {
+    background: linear-gradient(90deg,
+        var(--soft-peppercorn) 0 calc(100% - 8px),
+        var(--lime) calc(100% - 8px));
+    box-shadow: -32px 0 0 var(--soft-peppercorn);
+}
+
+/* The hero's offset Lime layer is redundant here (the panel ground does
+   the job) and would add scrollable overflow inside the sheet. */
+.menu-jump__panel .menu-hero__nav-bg--lime {
+    display: none;
+}
+
+/* ── Close × ── */
+
+.menu-jump__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--text);
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.menu-jump__close:hover {
+    opacity: 0.6;
+}
+
+.menu-jump__close:focus-visible {
+    outline: 2px solid var(--olive);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+[data-theme="night"] .menu-jump__close {
+    color: var(--mushroom);
+}
+
+[data-theme="night"] .menu-jump__close:focus-visible {
+    outline-color: var(--lime);
+}
+
+/* Focus ring for the word list inside the panel (keyboard users) */
+.menu-jump__panel .menu-hero__nav-item:focus-visible,
+.menu-jump__panel .menu-hero__door:focus-visible {
+    outline: 2px solid var(--olive);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+[data-theme="night"] .menu-jump__panel .menu-hero__nav-item:focus-visible,
+[data-theme="night"] .menu-jump__panel .menu-hero__door:focus-visible {
+    outline-color: var(--lime);
+}
+
+/* ── Reduced motion: instant swap ── */
+
+@media (prefers-reduced-motion: reduce) {
+    .menu-jump__tab-wrap,
+    .menu-jump__tab-wrap.is-visible,
+    .menu-jump__scrim,
+    .menu-jump__panel,
+    .menu-jump__panel.is-open {
+        transition: none;
+    }
+}
+
+
+/* ── Phones (≤ 767px) ──
+   No edge tab — a phone has no margin for one (the Reserve tab finding). The
+   panel opens from the hero's "More plates" button (.js-menu-jump-open) and
+   from nothing else; between sections the rail in every section headline does
+   the jumping (menu-section.css). The panel itself goes full width. */
+@media (max-width: 767px) {
+    .menu-jump__tab-wrap {
+        display: none;
+    }
+
+    /* Figma kitchen-drawer-day 1341:49297: the sheet fills the viewport with
+       the Lime edge on the LEFT (8px), the sheet's top-left corner rounded 4;
+       padding 48 / 72 / 48 / 48, list at 16, 48 to the door, all centred. */
+    .menu-jump__panel {
+        width: 100%;
+        background: linear-gradient(90deg,
+            var(--lime) 0 8px,
+            var(--parchment) 8px);
+        box-shadow: -32px 0 0 var(--lime);
+    }
+
+    [data-theme="night"] .menu-jump__panel {
+        background: linear-gradient(90deg,
+            var(--lime) 0 8px,
+            var(--soft-peppercorn) 8px);
+        box-shadow: -32px 0 0 var(--lime);
+    }
+
+    .menu-jump__panel .menu-jump__sheet {
+        width: auto;
+        flex: 1;
+        margin-left: 8px;
+        max-width: none;
+    }
+
+    .menu-jump__panel .menu-hero__nav-bg--parchment {
+        border-radius: 4px 0 0 0;
+    }
+
+    .menu-jump__scroll {
+        padding: 48px 72px 48px 48px;
+    }
+
+    /* No trailing arrow on the active word: on a phone the word previews the
+       hero, it is not the action — the arrow means "this word is the action"
+       (website-brief.md → Menu page → Hero → Touch exception). The frame draws one. */
+    .menu-jump__panel .menu-hero__nav-arrow {
+        display: none;
+    }
+
+    /* Close ×: 16px glyph where the frame puts it (13 / 12 + 8 padding), in a 40px target */
+    .menu-jump__close {
+        top: 8px;
+        right: 9px;
+        font-size: 16px;
+    }
+}

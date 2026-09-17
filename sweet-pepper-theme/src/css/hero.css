@@ -446,17 +446,16 @@ html[data-theme="night"] .lang-nudge strong {
         display: none;
     }
 
+    /* Colour is the base rule's `--accent` — Chili in both modes, as on desktop (author,
+       17 Sep 2026: the desktop is the correct one; the frames' Olive / Lemon headline is
+       the one to re-sync). This also ends the night clash of a Lemon headline beside the
+       Lemon NOW pip. */
     .hero-headline {
         order: 2;
         margin-top: 32px;
         font-size: 32px;
         line-height: 1.04;
         letter-spacing: 0.04em;
-        color: var(--olive);
-    }
-
-    html[data-theme="night"] .hero-headline {
-        color: var(--lemon);
     }
 
     .hero-subhead {

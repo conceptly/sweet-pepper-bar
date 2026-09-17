@@ -351,9 +351,16 @@ html[data-theme="night"] .dish-option-text {
         width: 100%;
     }
 
+    /* One button, left on the grid start, in both previews. The kitchen's desktop
+       right-alignment belongs to its mirrored row (image left, text right); stacked, it left
+       the button 500px from its own list while the bar's and the About preview's sat left.
+       Natural width — a lone full-width button across 736–903 reads as a form field, the same
+       reason the section header's pair does not go full width (Grid → Tablet). Phones keep
+       their full-width CTA in the ≤767 block. (author, 17 Sep 2026) */
     .menu-preview-cta,
     .menu-preview-cta--right {
         display: flex;
+        justify-content: flex-start;
         margin-top: 48px;
     }
 

@@ -36,6 +36,7 @@ foreach ( $sections as $slug => $sec ) {
         'image'       => $images_uri . $sec['image'],
         'caption'     => $sec['caption'],
         'description' => $sec['description'],
+        'focus'       => $sec['focus'] ?? '50% 50%', // tablet 21:9 crop — inc/menu-sections.php
     ];
 }
 
@@ -45,6 +46,7 @@ if ( $is_drinks ) {
     $sections_json['food'] = [
         'label'       => 'Food',
         'image'       => $images_uri . 'food/breakfast/pepper-breakfast-2.jpg',
+        'focus'       => '50% 60%',
         'caption'     => "Pepper's Breakfast",
         'description' => "The full kitchen — breakfast to dinner, soups to desserts, all cooked fresh and served at the bar or the table.",
     ];
@@ -53,6 +55,7 @@ if ( $is_drinks ) {
     $sections_json['drinks'] = [
         'label'       => 'Drinks',
         'image'       => $images_uri . 'bar/coffee/cappuccino-icecream-1.jpg',
+        'focus'       => '50% 50%',
         'caption'     => 'Cappuccino & Gelato',
         'description' => "House-made infusions, natural cocktails, local wines, and craft beer — the bar is a destination on its own. No syrup shortcuts.",
     ];
@@ -66,9 +69,10 @@ $arrow_svg = '';
 
 $default_sec   = $sections[ $section ];
 $default_image = $images_uri . $default_sec['image'];
+$default_focus = $default_sec['focus'] ?? '50% 50%';
 
-// Phone-only strings (≤ 767px, Figma menu-one-photo-hero-kitchen-day-stacked-mobile 2109:130201).
-// The nav panel is gone on phones; a flush-left Lime button opens the jump-nav panel instead
+// Phone and tablet strings (≤ 991px, Figma menu-one-photo-hero-kitchen-day-stacked-mobile 2109:130201).
+// The nav panel is gone there; a flush-left Lime button opens the jump-nav panel instead
 // ("More plates" as drawn; the drinks twin is a placeholder — see website-brief.md → Mobile — Menu page),
 // and a full-width primary commits to the default section (the touch exception: preview and
 // commit are two objects on touch). Connector SVGs: foodMenu / drinksMenu.
@@ -97,7 +101,7 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
         <link rel="prefetch" href="<?php echo esc_url( $images_uri . $sec['image'] ); ?>" as="image">
     <?php endforeach; ?>
 
-    <!-- Phone only: opens the jump-nav panel (the hero's word list has no room on a phone) -->
+    <!-- Phones and tablets: opens the jump-nav panel (the hero's word list has no room below 992px) -->
     <div class="menu-hero__page-nav">
         <?php
         get_template_part( 'template-parts/components/button', null, [
@@ -163,6 +167,7 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
                     <img src="<?php echo esc_url( $default_image ); ?>"
                          alt="<?php echo esc_attr( $default_sec['caption'] ); ?>"
                          class="menu-hero__photo-img"
+                         style="object-position: <?php echo esc_attr( $default_focus ); ?>"
                          loading="eager">
                     <span class="menu-hero__photo-pill">
                         <?php echo esc_html( $default_sec['caption'] ); ?>
@@ -173,7 +178,7 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
             <!-- Description -->
             <p class="menu-hero__description"><?php echo esc_html( $default_sec['description'] ); ?></p>
 
-            <!-- Phone only: the commit action for the section on show (touch exception —
+            <!-- Phones and tablets: the commit action for the section on show (touch exception —
                  website-brief.md → Menu page → Hero → Touch exception). A word picked in the
                  jump-nav panel previews here (menu-hero.js listens for menu-hero:preview) and
                  this button follows it. -->
@@ -192,8 +197,8 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
         </div>
     </div>
 
-    <!-- Phone only: connector at the hero's foot (its reflection opens the next section —
-         page-menu.php). Replaces the room wordmark below 768px. -->
+    <!-- Phones and tablets: connector at the hero's foot (its reflection opens the next section —
+         page-menu.php). Replaces the room wordmark below 992px. -->
     <div class="container menu-hero__connector">
         <?php
         get_template_part( 'template-parts/components/section-link-word', null, [

@@ -8,12 +8,12 @@
     "src": "src/fonts/Molot-webfont.woff"
   },
   "src/main.js": {
-    "file": "assets/main-CxxjcpAX.js",
+    "file": "assets/main-dJ85rSLd.js",
     "name": "main",
     "src": "src/main.js",
     "isEntry": true,
     "css": [
-      "assets/main-CWcGSM-e.css"
+      "assets/main-Br6DheWE.css"
     ],
     "assets": [
       "assets/Molot-webfont-Bpv0sYix.woff",

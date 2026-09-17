@@ -301,7 +301,7 @@ body.admin-bar .menu-hero {
     position: relative;
     width: 100%;
     max-height: 100%;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: var(--menu-hero-ratio, 3 / 2); /* the tablet band overrides it — see below */
     border: 2px solid var(--peppercorn);
     border-radius: 4px;
     overflow: hidden;
@@ -357,7 +357,7 @@ body.admin-bar .menu-hero {
 
     /* Match the photo frame size approximately */
     width: calc(100% - 20px);
-    aspect-ratio: 3 / 2;
+    aspect-ratio: var(--menu-hero-ratio, 3 / 2);
 }
 
 .menu-hero__photo-sheet--lemon {
@@ -572,6 +572,12 @@ body.admin-bar .menu-hero {
 
 /* Door hinge: matches nav panel bg (Soft Peppercorn in night) — already set by night block */
 
+/* ── Description: Parchment at every width (author, Sep 2026 — the phone component's
+   value, menu-bar-mobile 2175:68888, now the desktop's too; kitchen night keeps Mushroom) ── */
+[data-menu-state="drinks"].menu-hero .menu-hero__description {
+    color: var(--parchment);
+}
+
 /* ── DRINKS wordmark: Lime (not Lemon like kitchen night) ── */
 [data-menu-state="drinks"] .menu-hero__wordmark .molot-text {
     color: var(--lime);
@@ -580,16 +586,23 @@ body.admin-bar .menu-hero {
 
 
 /* ==========================================================================
-   PHONES (≤ 767px)
+   PHONES AND TABLETS (≤ 991px)
    Figma: menu-one-photo-hero-kitchen-day-stacked-mobile (2109:130201)
 
    The nav panel has no room on a phone, so the hero is one column: a flush-left
    Lime button that opens the jump-nav panel ("More plates"), the photo stack at
-   the full 370, the description, and a full-width primary that commits to the
+   the full column, the description, and a full-width primary that commits to the
    section on show (website-brief.md → Menu page → Hero → Touch exception: on
    touch, preview and commit are two objects). The room wordmark gives way to
    the "food menu" / "drinks menu" connector, whose reflection opens the next
    section (page-menu.php → .menu-hero-reflection).
+
+   Tablets (768–991, Sep 2026): the same hero, widened rather than copied. The
+   desktop poster's nav is a fixed 440, which left the photo a 182px thumbnail at
+   768; and a tablet has no hover, so the poster's one word cannot both preview
+   and commit — the touch exception applies to the whole band. The phone's fixed
+   16px gutters become the site ramp (main.css → .container) so the column matches
+   the sections below at every width in the band.
    ========================================================================== */
 
 /* Phone-only pieces, off by default */
@@ -600,7 +613,7 @@ body.admin-bar .menu-hero {
     display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
     /* One viewport: nav (76, fixed — body padding) + hero = 100dvh, as the home
        hero. The opener + content travel as one block, centred in the slack
        (auto margins above the opener and below the content); the connector
@@ -620,7 +633,7 @@ body.admin-bar .menu-hero {
        viewport edge, 4px radii on the visible corners (Figma btnWrapper). */
     .menu-hero__page-nav {
         display: flex;
-        padding-right: 16px;
+        padding-right: clamp(16px, 12.5vw - 80px, 80px);
         margin-top: auto;
     }
 
@@ -642,7 +655,7 @@ body.admin-bar .menu-hero {
     }
 
     .menu-hero__content {
-        padding: 0 16px 8px;
+        padding: 0 clamp(16px, 12.5vw - 80px, 80px) 8px;
         gap: 24px;
     }
 
@@ -709,12 +722,6 @@ body.admin-bar .menu-hero {
         transform: rotate(-1deg);
     }
 
-    /* Bar hero: the description is Parchment (Figma menu-bar-mobile 2175:68888);
-       the desktop night hero keeps Mushroom. */
-    [data-menu-state="drinks"].menu-hero .menu-hero__description {
-        color: var(--parchment);
-    }
-
     .menu-hero__commit {
         display: flex;
     }
@@ -741,5 +748,18 @@ body.admin-bar .menu-hero {
     .menu-hero-reflection {
         display: block;
         background-color: var(--surface);
+    }
+}
+
+/* ── Tablet band: the photo ratio (under trial, Sep 2026) ──
+   At the full column the 3:2 stack runs 736 × 490 at 768 and 903 × 602 at 991 —
+   larger than the desktop hero's 692 × 461 (the home page's "stacked photo" open).
+   The author rejected a flush-left cap; a wider ratio is being judged in the
+   browser instead. NOTE: Image ratios says 21:9 and 4:1 are never used for content
+   cards, and this photo is one (the preview and the link to the section) — if a
+   band ratio stays, record it as a named exception there. Phones keep 3:2. */
+@media (min-width: 768px) and (max-width: 991px) {
+    .menu-hero {
+        --menu-hero-ratio: 21 / 9;
     }
 }

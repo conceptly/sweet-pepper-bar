@@ -23,10 +23,11 @@ export function initMenuJumpNav() {
     const heroNav   = document.querySelector('.menu-hero__nav');
     const hero      = document.querySelector('.menu-hero');
 
-    // Phones (≤ 767px): the panel opens only from the hero, and a word previews
-    // the hero instead of jumping — the full-width button under the description
-    // commits (website-brief.md → Mobile — Menu page → Jump-nav on phones).
-    const phoneMq  = window.matchMedia('(max-width: 767px)');
+    // Phones and tablets (≤ 991px): the panel opens only from the hero, and a word
+    // previews the hero instead of jumping — the full-width button under the
+    // description commits (website-brief.md → Mobile — Menu page → Jump-nav on
+    // phones; the band runs the same hero, menu-hero.css).
+    const phoneMq  = window.matchMedia('(max-width: 991px)');
     const isPhone  = () => phoneMq.matches;
 
     if (tabBtn) {

@@ -489,8 +489,15 @@ html[data-theme="night"] .menu-section__remark {
 
 
 /* ══════════════════════════════════════════════════════════════════════════
-   PHONES (≤ 767px)
+   PHONES AND TABLETS (≤ 991px)
    Figma: menu-food-mobile-day (2109:130225)
+
+   Tablets (768–991, Sep 2026) take the phone layout widened, not copied: the
+   desktop's two columns ran 344–428 there, narrower than the 370 a phone gives the
+   same rows, and the fixed 352 deal overflowed its title-row slot (59px into the
+   "Tea & Coffee" headline at 768). The 16px bleeds and lead-ins are --gutter (the
+   site ramp) so the top block and the rail meet the viewport edge at every width.
+   Photo 7:3 is the sanctioned 21:9 (same fraction), 329 tall at 768, 425 at 991.
 
    One column. The section opens with a "top" block on the *other* ground
    (--section-top-bg, i.e. the previous section's colour, so the block reads as
@@ -511,7 +518,7 @@ html[data-theme="night"] .menu-section__remark {
     --section-top-bg: var(--bg);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
     .menu-section {
         gap: 36px; /* Figma: sectionContent gap 24 + bottom pt 12 */
     }
@@ -531,7 +538,7 @@ html[data-theme="night"] .menu-section__remark {
     .menu-section__hero {
         order: 1;
         width: auto;
-        margin: 0 -16px;
+        margin: 0 calc(-1 * var(--gutter));
         aspect-ratio: 210 / 90;
         border-radius: 0;
         background-color: var(--section-top-bg);
@@ -552,14 +559,14 @@ html[data-theme="night"] .menu-section__remark {
         position: sticky;           /* the rail is the page's navigation on phones: it stays under the header while its section scrolls */
         top: 76px;
         z-index: 5;
-        margin: 0 -16px;
-        padding: 8px 16px 0;
+        margin: 0 calc(-1 * var(--gutter));
+        padding: 8px var(--gutter) 0;
         gap: 24px;
         background-color: var(--section-top-bg);
         overflow-x: auto;
         overscroll-behavior-x: contain;
         scroll-snap-type: x mandatory;
-        scroll-padding-inline: 16px;
+        scroll-padding-inline: var(--gutter);
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
@@ -585,9 +592,9 @@ html[data-theme="night"] .menu-section__remark {
         letter-spacing: 1.44px;
     }
 
-    /* A trailing gutter so the last word can snap in with the same 16px margin */
+    /* A trailing gutter so the last word can snap in with the same margin */
     .menu-section-rail__link:last-child {
-        margin-right: 16px;
+        margin-right: var(--gutter);
     }
 
     /* Not current: outlined, same strokes as the hero word list */
@@ -617,8 +624,8 @@ html[data-theme="night"] .menu-section__remark {
     .menu-section__title-text .section-eyebrow {
         order: 3;
         display: block;
-        margin: 0 -16px 24px;
-        padding: 0 16px 16px;
+        margin: 0 calc(-1 * var(--gutter)) 24px;
+        padding: 0 var(--gutter) 16px;
         background-color: var(--section-top-bg);
         border-radius: 0 0 8px 8px;
     }
@@ -638,6 +645,10 @@ html[data-theme="night"] .menu-section__remark {
     .menu-section__deal-card {
         width: 100%;
         flex: 1 0 0;
+        /* Flush-left content: the desktop's space-between was drawn for a 348 card;
+           at the band's 736–903 it stranded the text at the far end of the coupon. */
+        justify-content: flex-start;
+        gap: 24px;
     }
 
     .menu-section__deal-shadow {
@@ -668,10 +679,11 @@ html[data-theme="night"] .menu-section__remark {
 
 
 /* ══════════════════════════════════════════════════════════════════════════
-   PHONES — one section at a time (src/js/menu-single-section.js)
-   website-brief.md → Mobile — Menu page → Sections.
+   PHONES AND TABLETS — one section at a time (src/js/menu-single-section.js)
+   website-brief.md → Mobile — Menu page → Sections; the band follows (author,
+   Sep 2026: one model across 768–991 rather than a column split at 838).
 
-   body.menu-single-section is set by the script below 768px; only the
+   body.menu-single-section is set by the script below 992px; only the
    section with .is-current renders. Every section then sits between the
    same neighbours (Highlights / the hero reflection above, the picker
    below), so the striping is fixed rather than positional: body on --bg,
@@ -684,7 +696,7 @@ html[data-theme="night"] .menu-section__remark {
     display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
     body.menu-single-section .menu-section:not(.is-current) {
         display: none;
     }

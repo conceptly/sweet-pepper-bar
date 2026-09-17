@@ -36,6 +36,11 @@
   --text-caption: 13px;
 
   /* Base scales */
+  /* Page gutter — the ramp main.css → .container documents (16 at 768 → 80 at 1280).
+     Anything that must bleed to the viewport edge or align on the gutter reads this
+     rather than a fixed 16 (the phone value), so it holds across the tablet band. */
+  --gutter: clamp(16px, 12.5vw - 80px, 80px);
+
   --font-display: 'Molot', sans-serif;
   --font-body: 'Golos Text', sans-serif;
 

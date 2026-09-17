@@ -442,7 +442,17 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
    gutters; the two photos stay side by side; the ticket goes full width under them
    with 8px radii and a 48px top inset. The "x" is Olive by day; the night ticket is
    Parchment (the desktop's Cream stays desktop). */
-@media (max-width: 767px) {
+/* Phones and tablets (≤ 991px): the page shows one section at a time there, so the
+   tail connector's reflection opens this section flush at the top, with the phone
+   rhythm below it. The result stacks as on phones (author, Sep 2026): the desktop
+   row ran 344 + 344 at 768 — cramped, and the 48px between photos and ticket had
+   no right value against the band's 16–44px page margins. Photo pair full width
+   above the ticket, the ticket with the phone's 8px radii and 48px top inset, and
+   the phone's colours with it — Olive "x" by day, Parchment night ticket (author:
+   colours follow the layout, not the device). The tags keep the desktop wrap (two
+   rows in the band); only the phone's scroll rail with the pinned Shake chip stays
+   below 768. */
+@media (max-width: 991px) {
     .menu-pairing-station {
         padding-top: 0;
         padding-bottom: 0;
@@ -455,6 +465,45 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
     .pairing-station__content {
         gap: 24px;
     }
+
+    .dish-picker__result {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .dish-picker__photos,
+    .dish-picker__card-wrap {
+        flex: none;
+        width: 100%;
+    }
+
+    .dish-picker__card-wrap {
+        border-radius: 8px;
+    }
+
+    .dish-picker__card {
+        padding-top: 48px;
+    }
+
+    .dish-picker__x {
+        color: var(--olive);
+    }
+
+    html[data-theme="night"] .dish-picker__x {
+        color: var(--cream);
+    }
+
+    html[data-theme="night"] .dish-picker__card {
+        background-color: var(--parchment);
+    }
+
+    html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
+        --rugged-color: var(--parchment) !important;
+    }
+}
+
+@media (max-width: 767px) {
 
     .pairing-station__subtitle {
         max-width: none;
@@ -494,39 +543,4 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
         flex: none;
     }
 
-    .dish-picker__result {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 24px;
-    }
-
-    .dish-picker__photos,
-    .dish-picker__card-wrap {
-        flex: none;
-        width: 100%;
-    }
-
-    .dish-picker__x {
-        color: var(--olive);
-    }
-
-    html[data-theme="night"] .dish-picker__x {
-        color: var(--cream);
-    }
-
-    .dish-picker__card-wrap {
-        border-radius: 8px;
-    }
-
-    .dish-picker__card {
-        padding-top: 48px;
-    }
-
-    html[data-theme="night"] .dish-picker__card {
-        background-color: var(--parchment);
-    }
-
-    html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
-        --rugged-color: var(--parchment) !important;
-    }
 }

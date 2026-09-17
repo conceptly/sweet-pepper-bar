@@ -260,17 +260,20 @@ html[data-theme="night"] .menu-highlight-card__link:hover {
 }
 
 
-/* ── Phones (≤ 767px) ──
-   Figma: Highlights (2109:130202) — the rail becomes a 2-up grid of six cards
-   (177 wide, 16px gaps) under the title, 48px section rhythm, the hero
-   connector's reflection above. Card links take the short label ("In Soups")
-   so they fit a 145px text column. */
+/* ── Phones and tablets (≤ 991px) ──
+   Figma: Highlights (2109:130202) — the rail becomes a grid of the six cards under
+   the title, 48px section rhythm, the hero connector's reflection above. Phones
+   run it 2-up (177 wide, 16px gaps); the tablet band 3-up (author, Sep 2026):
+   229–272px cards at a 24px gap, at or above the desktop rail's 262 for most of
+   the band, and six divides by three as the About perks do. The PHP's alternating
+   tilt classes make a checkerboard by themselves in a three-wide row, so only the
+   phone's even row needs the explicit pattern below. */
 
 .menu-highlight-card__link-label--mobile {
     display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
     .menu-highlights {
         padding-top: 48px;
     }
@@ -284,25 +287,10 @@ html[data-theme="night"] .menu-highlight-card__link:hover {
         margin-top: 24px;
     }
 
-    /* Tilt checkerboard as drawn (frame order +1 −1 / −1 +1 / +1 −1): neighbours
-       lean apart and each row flips — the desktop rail's simple alternation would
-       make every row lean the same way in a 2-up grid. */
-    .menu-highlight-card:nth-child(1) .menu-highlight-card__inner,
-    .menu-highlight-card:nth-child(4) .menu-highlight-card__inner,
-    .menu-highlight-card:nth-child(5) .menu-highlight-card__inner {
-        transform: rotate(1deg);
-    }
-
-    .menu-highlight-card:nth-child(2) .menu-highlight-card__inner,
-    .menu-highlight-card:nth-child(3) .menu-highlight-card__inner,
-    .menu-highlight-card:nth-child(6) .menu-highlight-card__inner {
-        transform: rotate(-1deg);
-    }
-
     .menu-highlights-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
         margin-right: 0;
         padding-right: 0;
         padding-bottom: 0;
@@ -326,6 +314,30 @@ html[data-theme="night"] .menu-highlight-card__link:hover {
     .menu-highlight-card__title {
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+}
+
+/* ── Phones (≤ 767px): 2-up, the frame's tilt checkerboard, short card labels ── */
+@media (max-width: 767px) {
+
+    /* Tilt checkerboard as drawn (frame order +1 −1 / −1 +1 / +1 −1): neighbours
+       lean apart and each row flips — the desktop rail's simple alternation would
+       make every row lean the same way in a 2-up grid. */
+    .menu-highlight-card:nth-child(1) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(4) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(5) .menu-highlight-card__inner {
+        transform: rotate(1deg);
+    }
+
+    .menu-highlight-card:nth-child(2) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(3) .menu-highlight-card__inner,
+    .menu-highlight-card:nth-child(6) .menu-highlight-card__inner {
+        transform: rotate(-1deg);
+    }
+
+    .menu-highlights-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
     }
 
     /* Night frame (2194:70367): the second title line in Paprika, as the section

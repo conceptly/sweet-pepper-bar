@@ -248,15 +248,30 @@
 }
 
 
-/* ── Phones (≤ 767px) ──
-   No edge tab — a phone has no margin for one (the Reserve tab finding). The
-   panel opens from the hero's "More plates" button (.js-menu-jump-open) and
-   from nothing else; between sections the rail in every section headline does
-   the jumping (menu-section.css). The panel itself goes full width. */
-@media (max-width: 767px) {
+/* ── Phones and tablets (≤ 991px) ──
+   No edge tab — a phone has no margin for one (the Reserve tab finding), and the
+   band has 16–44px of gutter against a 44px-deep tab, so it sat over the dish
+   rows (28px at 768). Same bound as the Reserve tab (reserve-drawer.css). The
+   panel opens from the hero's "More plates" button (.js-menu-jump-open) and from
+   nothing else; the words preview the hero and the hero's button commits
+   (menu-jump-nav.js), so the active word carries no arrow. */
+@media (max-width: 991px) {
     .menu-jump__tab-wrap {
         display: none;
     }
+
+    /* No trailing arrow on the active word: the word previews the hero, it is
+       not the action — the arrow means "this word is the action"
+       (website-brief.md → Menu page → Hero → Touch exception). The frame draws one. */
+    .menu-jump__panel .menu-hero__nav-arrow {
+        display: none;
+    }
+}
+
+/* ── Phones (≤ 767px) ──
+   Between sections the rail in every section headline does the jumping
+   (menu-section.css). The panel itself goes full width. */
+@media (max-width: 767px) {
 
     /* Figma kitchen-drawer-day 1341:49297: the sheet fills the viewport with
        the Lime edge on the LEFT (8px), the sheet's top-left corner rounded 4;
@@ -289,13 +304,6 @@
 
     .menu-jump__scroll {
         padding: 48px 72px 48px 48px;
-    }
-
-    /* No trailing arrow on the active word: on a phone the word previews the
-       hero, it is not the action — the arrow means "this word is the action"
-       (website-brief.md → Menu page → Hero → Touch exception). The frame draws one. */
-    .menu-jump__panel .menu-hero__nav-arrow {
-        display: none;
     }
 
     /* Close ×: 16px glyph where the frame puts it (13 / 12 + 8 padding), in a 40px target */

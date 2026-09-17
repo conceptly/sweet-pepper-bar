@@ -1,7 +1,7 @@
 /**
- * Menu page on phones — one section at a time
+ * Menu page on phones and tablets — one section at a time
  *
- * website-brief.md → Mobile — Menu page → Sections. Below 768px the page shows
+ * website-brief.md → Mobile — Menu page → Sections. Below 992px the page shows
  * a single menu section; the others stay in the DOM (server-rendered, one URL,
  * deep-linkable) but are display: none until chosen. The section on show
  * follows, in order of arrival:
@@ -11,7 +11,7 @@
  *      the hero's commit button, the highlight card links.
  * Switching keeps the URL hash current (replaceState, no history entry) and
  * scrolls to the section on the house spring when the tap came from a link.
- * Desktop is untouched: this module does nothing above 767px, and switching
+ * Desktop is untouched: this module does nothing above 991px, and switching
  * the viewport across the breakpoint shows every section again.
  */
 
@@ -22,18 +22,19 @@ export function initMenuSingleSection() {
     const sections = Array.from(document.querySelectorAll('main section.menu-section[id]'));
     if (!hero || sections.length < 2) return;
 
-    const phoneMq = window.matchMedia('(max-width: 767px)');
+    const phoneMq = window.matchMedia('(max-width: 991px)');
     const isPhone = () => phoneMq.matches;
     const slugs = new Set(sections.map((s) => s.id));
 
     let current = null;
 
-    /** Scroll the section's rail so its current word sits at the left gutter (16px). */
+    /** Scroll the section's rail so its current word sits at the left gutter (the rail's own lead-in). */
     function alignRail(sec) {
         const rail = sec.querySelector('.menu-section-rail');
         const word = rail && rail.querySelector('.menu-section-rail__current');
         if (!rail || !word) return;
-        rail.scrollLeft = Math.max(0, word.offsetLeft - 16);
+        const gutter = parseFloat(getComputedStyle(rail).paddingLeft) || 16;
+        rail.scrollLeft = Math.max(0, word.offsetLeft - gutter);
     }
 
     function show(slug, { scroll = false, hash = true } = {}) {

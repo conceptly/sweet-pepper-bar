@@ -79,6 +79,7 @@ export function initMenuHero() {
             // Swap content mid-fade (at ~half the CSS transition duration)
             setTimeout(() => {
                 photoImg.src = sec.image;
+                photoImg.style.objectPosition = sec.focus || ''; // tablet 21:9 crop
                 photoImg.alt = sec.caption;
                 photoPill.textContent = sec.caption;
                 description.textContent = sec.description;
@@ -88,6 +89,7 @@ export function initMenuHero() {
             }, 250); // Swap at mid-point of the 500ms CSS fade
         } else {
             photoImg.src = sec.image;
+            photoImg.style.objectPosition = sec.focus || '';
             photoImg.alt = sec.caption;
             photoPill.textContent = sec.caption;
             description.textContent = sec.description;

@@ -21,7 +21,7 @@ get_header();
         'menu_state' => $menu_state,
     ] );
 
-    // Phone only (≤ 767px): the hero connector's reflection, on the next section's ground
+    // Phones and tablets (≤ 991px): the hero connector's reflection, on the next section's ground
     // (Highlights → surface; Infusions → bg). Figma: SectionLinkMobile at the top of Highlights (2125:67676).
     $reflection = ( $menu_state === 'drinks' )
         ? [ 'day' => 'assets/sectionLinks/menu/bar/drinksMenu-reflection.svg', 'night' => 'assets/sectionLinks/menu/bar/drinksMenu-reflection.svg', 'alt' => 'DRINKS MENU' ]
@@ -284,7 +284,7 @@ get_header();
     <?php get_template_part( 'template-parts/menu-sections/kids' ); ?>
 
     <?php
-    // Phones only: the page shows one section at a time (menu-single-section.js), and
+    // Phones and tablets (≤ 991px): the page shows one section at a time (menu-single-section.js), and
     // whichever it is ends on the picker — so one connector serves them all, as the
     // Figma frame draws (menu-food-mobile-day 2109:130225 → "try the match maker").
     // The per-section words stay in their sections for desktop.

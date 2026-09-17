@@ -166,6 +166,7 @@ The primitive palette (§2.2) maps to a small set of **semantic tokens** with a 
 - **Display — Molot.** Heavy, condensed, all-caps. The signature; the most recognisable thing we own. Display only — headlines, event titles, big numbers, signage. Never body text.
 - **Body & UI — Golos Text.** Russian-first grotesque with native-quality Cyrillic and a touch of warmth; recedes behind Molot. Replaces the old Calibri pairing. Use the *Golos Text* cut, not display *Golos*.
 - **No serif — decided.** No serif pairs with Molot; Adelle is not used. Two strong voices fight; one display face leads, a neutral grotesque (Golos) carries the rest. Golos covers all long-form, including the About page.
+- **Licences (checked Sep 2026).** Molot is Jovanny Lemonad's free face; the author checked its licence on 17 Sep 2026 and found no restriction on web embedding or on the webfont sitting in the theme repository (`sweet-pepper-theme/src/fonts/`, copied into `dist/` by the build). Golos Text is under the SIL Open Font License. **Re-check Molot before the site or the repository goes public** — the font kit itself (`Molot-fontfacekit/`) stays out of git; only the `.woff` the site serves is tracked.
 
 ### 3.2 Display system — one face, hierarchy by size & colour
 

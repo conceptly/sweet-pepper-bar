@@ -1,7 +1,7 @@
 # Sweet Pepper — Brand & UX Case Study
 
 **Gastrobar identity system + website UX · Yaroslavl, Russia**
-Role: Brand & Web Designer (solo) · Timeline: June–September 2026 · Status: theme in build, style guide live · Updated September 8
+Role: Brand & Web Designer (solo) · Timeline: June–September 2026 · Status: theme built through Visit, responsive pass done, style guide live · Updated September 18
 
 [IMAGE: cocktail-1.jpg — full-bleed hero]
 
@@ -85,7 +85,11 @@ Before locking the shipped interaction, I used Claude to rapid-prototype six div
 
 Then usability testing did its job on the signature interaction itself. A participant called the slider "too complicated" — and fairly: the rail carried four labels, a knob, a now-marker, a status line and an instruction — six pieces of chrome to communicate one fact. A/B against alternatives, a **four-tile photo grid** won, first on mobile and then as the current desktop state: one tile per daypart, the selected tile large (size carries state — the grid *is* the scale), a photograph of eggs saying "morning here" faster than the word BREAKFAST, in both languages at once.
 
-What matters is what survived: **heat = time, the state model, the status-line matrix, and the day/night flip all carry over** — tapping a dinner tile darkens the site, and the tile grid becomes the mobile day/night control outright. The NOW pip stays independent of selection, the same two axes the slider had; there's no auto-revert, because time proposes and memory disposes. The costs went on record next to the win: sixteen art-directed photos instead of four, maintained by the team; an all-day story less visible at a glance (mitigations noted, not built); and the layered-sheets device stays desktop-only — at mobile tile sizes a 4px offset reads as print misregistration, not depth. The desktop composition is explicitly *current state, not settled*: its empty right third is flagged as "the mobile stack widened," with a two-sided layout as the live alternative.
+What matters is what survived: **heat = time, the state model, the status-line matrix, and the day/night flip all carry over** — tapping a dinner tile darkens the site, and the tile grid becomes the mobile day/night control outright. The NOW pip stays independent of selection, the same two axes the slider had; there's no auto-revert, because time proposes and memory disposes. The costs went on record next to the win: sixteen art-directed photos instead of four, maintained by the team; an all-day story less visible at a glance (mitigations noted, not built); and the layered-sheets device stays desktop-only — at mobile tile sizes a 4px offset reads as print misregistration, not depth.
+
+**Final form (September): the visual slider is the hero at every width.** The call rests on three legs — responsiveness (the audience is mobile-first, and the rail always favoured desktop), usability, and A/B results. The last refinement came from the browser rather than Figma: the cards grew until the selected tile carried the composition, closing the "desktop as the mobile stack widened" complaint for good.
+
+[IMAGE: design/process/home/img-slider/state=breakfast-half.png / state=diner-half.png — final hero, day and night states]
 
 ## From hero to full homepage
 
@@ -169,11 +173,21 @@ The design system got its own audience-facing deliverable, live on the bar's dom
 
 Two content mechanics got operating rules, not just layouts. **"How it feels"** — the review word-cloud — runs on a curated pipeline instead of a live API, the same call as the News feed for the same reasons: a periodic tally of the words guests actually use, a 12-card quote wheel with a written admission rule (up to three new cards per update, each retiring the oldest; a quote whose word isn't in the cloud waits), and a ledger recording every card's added/retired dates so the wheel's history stays auditable. **The Pepper Story** timeline was chosen from four interaction studies that deliberately included a rule-breaking candidate — a giant live-ticking Molot numeral in a Lemon band — per the project's standing agent brief: always offer the option that breaks a stated rule and argue whether it earns the exception. The heat line won on system grounds: the timeline joins the outline→fill grammar the rest of the site already speaks, so a new section arrived without a new vocabulary.
 
+## The content model: who edits what
+
+The build forced the CMS question the docs had deferred, and sorting by content type dissolved most of it. Three tiers: **rows** (menu items, hours, quotes, news) live in the WordPress admin as structured data; **prose** (the story, hero leads, section intros) lives in ACF fields — one group per page template, block editor off; **structure** (section order, image ratios, the daypart engine) is code and never editable. A bespoke keyed store was considered and dropped: ACF is the store, and an in-place editor — a port of the style guide's — is a *later layer* over the same fields, built only if the admin form annoys the team. The 239 hardcoded dish rows were already structured template-part calls, so migration is a script, not a rewrite. Languages lean "one document, two languages" — one page per template, PHP rendering one language per request — with the Polylang decision deliberately pinned to a real extraction rather than made in the abstract. And the temptation got tested instead of resisted: a page-builder rebuild of About runs as a side experiment in a separate install, judged against criteria written down *before* it started.
+
+## Responsive: the band between phone and desktop
+
+The responsive pass produced its own findings-on-record. In the 768–991px band the desktop hero row read as thumbnails under a wrapping headline — "the desktop stack narrowed," the same fault as the desktop's empty right third — so portrait tablets get the phone bento instead, **guarded by height, not width** (`min-height: 1000px`), so a narrowed desktop window keeps the row. The page gutter became one fluid clamp, and its off-grid interpolated values got a written carve-out from the 4px rule — nothing aligns against a page margin — after a rounding variant was built and rejected for trading one 111px cliff for fourteen 8px sawteeth. The pass closed by cataloguing **the five responsive faults that kept recurring** as a checklist: the testing-log move again — record the pattern, stop re-finding it.
+
+Copy got the same rigor. The Menu and Visit copy reviews open by declaring their evidence limits ("no live Figma inspection is claimed"), caught a shipped row reading "Horseraddish" with the literal word "description" as its copy — corrected in the clean files and flagged for the implementation pass, not hot-fixed — and started the RU layer as register twins: «Для смелых — Ярославль с огоньком» carries the wink of "For the brave — a taste of Yaroslavl's hot side," not its words.
+
 ## Where it stands
 
-**Done:** the full design system, validated, audited, and pruned; all four pages designed in both states, desktop and mobile, with both heroes validated by testing; the theme in build — hero, menu, and about running as working template parts with tokens compiled from `design.md`; the bilingual style guide live with PDFs, a mobile shell, and an in-page edit mode; team design guides in two languages; the reviews pipeline and story timeline specced with operating rules; stack, plugins, maps, and launch phasing closed.
+**Done:** the full design system, validated, audited, and pruned; all four pages designed and built in both states across phone, the tablet band, and desktop, with both heroes validated by testing; the bilingual style guide live with PDFs, a mobile shell, and an in-page edit mode; the content model settled (three tiers, ACF as the store); the responsive pass done with its recurring faults catalogued; Menu and Visit copy reviewed with the RU layer begun; stack, plugins, maps, and launch phasing closed.
 
-**Next:** the remaining theme sections and the Visit template; content entry and the RU layer; the remaining Figma guide pages; the queued tests (Home label, "Bar Snacks" naming, mobile status rail); the sixteen hero photos and the team shoot; launch phase one.
+**Next:** ACF extraction and the menu migration script; content entry and the rest of the RU layer; the remaining Figma guide pages; the queued tests (Home label, "Bar Snacks" naming, mobile status rail); the sixteen hero photos and the team shoot; launch phase one.
 
 ## Reflection
 

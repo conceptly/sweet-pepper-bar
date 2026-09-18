@@ -106,12 +106,20 @@ body.admin-bar .menu-hero {
     z-index: 4;
 }
 
+@property --menu-word-stroke {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 1.5px;
+}
+
 .menu-hero__nav-item {
     display: flex;
     align-items: center;
     gap: 12px;
     text-decoration: none;
     cursor: pointer;
+    --menu-word-dur: 1100ms;   /* fill and outline */
+    --menu-arrow-dur: 900ms;   /* the arrow's spring */
 }
 
 .menu-hero__nav-label {
@@ -120,21 +128,29 @@ body.admin-bar .menu-hero {
     letter-spacing: 1.44px;
     white-space: nowrap;
 
-    /* Outlined text — the key visual trick */
+    /* Outlined text — the key visual trick.
+       The stroke WIDTH rides a registered custom property: -webkit-text-stroke-width is a
+       discrete property, so on its own it snapped 1.5px → 0 on the first frame while the
+       fill was still at 2% — the word blinked out, then faded in (measured 18 Sep 2026).
+       Registered as a <length>, --menu-word-stroke interpolates and the outline thins as
+       the fill arrives. Browsers without @property keep the old snap. */
     color: transparent;
-    -webkit-text-stroke: 1.5px var(--olive);
-    text-stroke: 1.5px var(--olive);
+    --menu-word-stroke: 1.5px;
+    -webkit-text-stroke: var(--menu-word-stroke) var(--olive);
 
-    /* Transition on the element that actually changes */
-    transition: color 0.8s var(--ease-bouncy),
-                -webkit-text-stroke 0.8s var(--ease-bouncy);
+    /* Colour-only, so the flat Gentle curve (brief → Motion language) — a spring overshoots
+       past the end colour and flickers. The bounce lives in the arrow, below.
+       --menu-word-dur is slower than the house 800ms on purpose (author, 18 Sep 2026 — trial). */
+    transition: color var(--menu-word-dur) var(--ease-gentle-flat),
+                -webkit-text-stroke-color var(--menu-word-dur) var(--ease-gentle-flat),
+                --menu-word-stroke var(--menu-word-dur) var(--ease-gentle-flat);
 }
 
 /* Active state — filled text */
 .menu-hero__nav-item.is-active .menu-hero__nav-label {
     color: var(--chili);
-    -webkit-text-stroke: 0;
-    text-stroke: 0;
+    --menu-word-stroke: 0px;
+    -webkit-text-stroke-color: currentColor;
 }
 
 /* Arrow icon — use opacity for smooth show/hide instead of display toggle */
@@ -143,8 +159,20 @@ body.admin-bar .menu-hero {
     align-items: center;
     color: var(--chili);
     opacity: 0;
-    transition: opacity 0.8s var(--ease-bouncy),
-                color 0.8s var(--ease-bouncy);
+    /* The one thing here that MOVES, so the one thing that springs: parked behind the
+       word's end, it shoots out past its place and settles (Bouncy, ≈ 2px over). */
+    translate: -16px 0;
+    transition: opacity var(--menu-word-dur) var(--ease-gentle-flat),
+                color var(--menu-word-dur) var(--ease-gentle-flat),
+                translate var(--menu-arrow-dur) var(--ease-bouncy);
+}
+
+/* Reduced motion: the fill still changes (a state), the arrow does not travel */
+@media (prefers-reduced-motion: reduce) {
+    .menu-hero__nav-arrow {
+        translate: none;
+        transition-property: opacity, color;
+    }
 }
 
 .menu-hero__nav-arrow svg {
@@ -155,18 +183,20 @@ body.admin-bar .menu-hero {
 
 .menu-hero__nav-item.is-active .menu-hero__nav-arrow {
     opacity: 1;
+    translate: 0 0;
     color: var(--chili);
 }
 
 /* Hover — Paprika fill + arrow visible (Figma: hover variant) */
 .menu-hero__nav-item:not(.is-active):hover .menu-hero__nav-label {
     color: var(--paprika);
-    -webkit-text-stroke: 0;
-    text-stroke: 0;
+    --menu-word-stroke: 0px;
+    -webkit-text-stroke-color: currentColor;
 }
 
 .menu-hero__nav-item:not(.is-active):hover .menu-hero__nav-arrow {
     opacity: 1;
+    translate: 0 0;
     color: var(--paprika);
 }
 
@@ -298,6 +328,7 @@ body.admin-bar .menu-hero {
 
 /* Photo frame — the actual image container */
 .menu-hero__photo-frame {
+    display: block; /* an <a>: the card links to the section on show */
     position: relative;
     width: 100%;
     max-height: 100%;
@@ -316,6 +347,15 @@ body.admin-bar .menu-hero {
     display: block;
     border-radius: 4px;
     transition: opacity 0.5s ease;
+}
+
+.menu-hero__photo-frame:focus-visible {
+    outline: 2px solid var(--olive);
+    outline-offset: 4px;
+}
+
+[data-theme="night"] .menu-hero__photo-frame:focus-visible {
+    outline-color: var(--lime);
 }
 
 /* Cross-fade state — applied by JS during image swap */
@@ -453,8 +493,7 @@ body.admin-bar .menu-hero {
 
 /* ── Nav item text: Olive stroke → Lime stroke ── */
 [data-theme="night"] .menu-hero__nav-label {
-    -webkit-text-stroke: 1.5px var(--lime);
-    text-stroke: 1.5px var(--lime);
+    -webkit-text-stroke-color: var(--lime); /* width stays with --menu-word-stroke */
 }
 
 /* Active state: Chili → Lime */
@@ -763,3 +802,128 @@ body.admin-bar .menu-hero {
         --menu-hero-ratio: 21 / 9;
     }
 }
+
+/* ==========================================================================
+   PAGE-LOAD ENTRANCE (Sep 2026)
+   website-brief.md → Motion language → Page-load entrance — Menu hero.
+
+   The nav sheet slides in from the left edge — the jump-nav panel's own move, so "the
+   hero's column coming back" reads in both directions — with its Lime edge a beat behind.
+   The section words rise, 40 ms apart, all outlined; then the opening word FILLS and takes
+   its arrow (outline → fill: this page's answer, as the lit tile is Home's). The door pops.
+   The photo slides in inside its frame, the keyline draws, the three sheets fan out from
+   behind it (the Home tile's device, the Home tile's entrance), the pill pops. The
+   description rises; the room wordmark rises out of the section's bottom edge.
+   The food ↔ drinks door is a page load, so this entrance is also the room change.
+
+   Pure CSS, `backwards`-filled, shared hero keyframes (hero.css) plus four below. One gate:
+   the FILL is tied to .is-active, which hover moves from word to word — menu-hero.js adds
+   .is-settled on the first interaction (or after the entrance), or every hovered word
+   would replay the fill with its load delay. No JS → no hover transfer → no gate needed.
+   ========================================================================== */
+.menu-hero { --menu-word-outline: var(--olive); }
+[data-theme="night"] .menu-hero { --menu-word-outline: var(--lime); }
+
+@keyframes menu-sheet-in  { from { translate: -100% 0; } }
+@keyframes menu-word-in   { from { opacity: 0; translate: 0 12px; } }
+@keyframes menu-word-fill { from { color: transparent; --menu-word-stroke: 1.5px; -webkit-text-stroke-color: var(--menu-word-outline); } }
+/* Sheets start squared up behind the photo (the frame sits 10px left of the stack's centre,
+   at −1°) and fan to their own offsets */
+@keyframes menu-sheet-fan { from { transform: translate(-50%, -50%) translate(-10px, 0) rotate(-1deg); } }
+
+@media (prefers-reduced-motion: no-preference) {
+    .menu-hero {
+        --in-sheet: 0ms;
+        --in-words: 260ms;   /* first word; +40ms each */
+        --in-photo: 300ms;
+        --in-copy: 450ms;
+        --in-mark: 700ms;
+        --in-fill: 820ms;    /* the last word has risen */
+    }
+
+    .menu-hero__nav-bg--parchment {
+        animation: menu-sheet-in 700ms var(--ease-out-expo) var(--in-sheet) backwards;
+    }
+    .menu-hero__nav-bg--lime {
+        animation: menu-sheet-in 700ms var(--ease-out-expo) calc(var(--in-sheet) + 90ms) backwards;
+    }
+
+    .menu-hero__nav-item:nth-child(1) { --i: 0; }
+    .menu-hero__nav-item:nth-child(2) { --i: 1; }
+    .menu-hero__nav-item:nth-child(3) { --i: 2; }
+    .menu-hero__nav-item:nth-child(4) { --i: 3; }
+    .menu-hero__nav-item:nth-child(5) { --i: 4; }
+    .menu-hero__nav-item:nth-child(6) { --i: 5; }
+    .menu-hero__nav-item:nth-child(7) { --i: 6; }
+    .menu-hero__nav-item:nth-child(8) { --i: 7; }
+    .menu-hero__nav-item:nth-child(9) { --i: 8; }
+
+    .menu-hero__nav-item {
+        animation: menu-word-in 500ms var(--ease-gentle-flat) calc(var(--in-words) + var(--i, 0) * 40ms) backwards;
+    }
+
+    .menu-hero:not(.is-settled) .menu-hero__nav-item.is-active .menu-hero__nav-label {
+        animation: menu-word-fill 500ms var(--ease-gentle-flat) var(--in-fill) backwards;
+    }
+    .menu-hero:not(.is-settled) .menu-hero__nav-item.is-active .menu-hero__nav-arrow {
+        animation: hero-fade 300ms var(--ease-gentle-flat) calc(var(--in-fill) + 150ms) backwards,
+                   menu-sheet-in 500ms var(--ease-gentle) calc(var(--in-fill) + 150ms) backwards;
+    }
+
+    .menu-hero__door {
+        animation: hero-pop 500ms var(--ease-bouncy) calc(var(--in-fill) + 60ms) backwards;
+    }
+
+    /* Photo: slides inside the frame's clip; the keyline draws as it lands */
+    .menu-hero__photo-img {
+        animation: hero-tile-in 700ms var(--ease-out-expo) var(--in-photo) backwards;
+    }
+    .menu-hero__photo-frame {
+        animation: hero-keyline 400ms var(--ease-gentle-flat) calc(var(--in-photo) + 420ms) backwards;
+    }
+    /* The fan needs the desktop geometry (sheets centred on the stack and offset by
+       transform). Below 992px the sheets are inset 4px with a fraction of a degree — nothing
+       to fan — so they only fade in, in the same order. */
+    .menu-hero__photo-sheet {
+        animation: hero-fade 200ms var(--ease-gentle-flat) backwards;
+        animation-delay: calc(var(--in-photo) + 520ms);
+    }
+    .menu-hero__photo-sheet--lime  { animation-delay: calc(var(--in-photo) + 590ms); }
+    .menu-hero__photo-sheet--chili { animation-delay: calc(var(--in-photo) + 660ms); }
+
+    .menu-hero__photo-pill {
+        animation: hero-pop 500ms var(--ease-bouncy) calc(var(--in-photo) + 760ms) backwards;
+    }
+
+    .menu-hero__description,
+    .menu-hero__commit {
+        animation: hero-fade 400ms var(--ease-gentle-flat) var(--in-copy) backwards,
+                   hero-lift var(--dur-gentle) var(--ease-gentle) var(--in-copy) backwards;
+    }
+
+    /* Phones and tablets: the connector word stands in for the room wordmark and rises the
+       same way (eager in menu-hero.php — parked under a clip, a lazy file would not load) */
+    .menu-hero__connector .section-link-word {
+        clip-path: inset(-50% 0 0 0);
+    }
+    .menu-hero__connector .section-link-word img {
+        animation: hero-word-rise 900ms var(--ease-gentle) var(--in-mark) backwards;
+    }
+
+    /* Room wordmark: its box already clips the bottom bleed, so the word rises into it */
+    .menu-hero__wordmark .molot-text {
+        display: inline-block;
+        animation: hero-word-rise 900ms var(--ease-gentle) var(--in-mark) backwards;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 992px) {
+    .menu-hero__photo-sheet {
+        animation: hero-fade 200ms var(--ease-gentle-flat) backwards,
+                   menu-sheet-fan 900ms var(--ease-gentle) backwards;
+        animation-delay: calc(var(--in-photo) + 520ms);
+    }
+    .menu-hero__photo-sheet--lime  { animation-delay: calc(var(--in-photo) + 590ms); }
+    .menu-hero__photo-sheet--chili { animation-delay: calc(var(--in-photo) + 660ms); }
+}
+

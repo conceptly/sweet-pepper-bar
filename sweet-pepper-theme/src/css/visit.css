@@ -74,7 +74,7 @@
   color: var(--chili, #e34314);
   font-family: var(--font-display);
   font-size: var(--text-h1);
-  letter-spacing: 2.56px;
+  letter-spacing: 0.04em; /* was 2.56px — 7% at the phone 36, 5.3% at the tablet 48 */
   line-height: 1.05;
 }
 
@@ -1876,3 +1876,96 @@
     width: auto;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   Hero — page-load entrance (Sep 2026)
+   website-brief.md → Motion language → Page-load entrance — Visit hero.
+   The fastest of the three: people come here for hours and a phone number, so everything
+   is readable inside ~1 s. Copy rises (headline behind its mask) → the Lime status band is
+   laid down left to right like a strip of tape → its state pills pop and each dot lights →
+   the hours slip PRINTS from its own top edge (the ticket gesture) → the Get in touch card
+   drops in at its tilt, the Chili pin a beat after → the foot word rises.
+   The band is this page's answer — "can I come now?" — so it plays the part the lit tile
+   plays on Home. On phones the running rail takes the band's place and the whole entrance
+   finishes inside the rail's 2.5 s hold, so the rail stays the hero's one ongoing motion.
+   Pure CSS, `backwards`-filled, keyframes shared with the other heroes (hero.css) plus the
+   four below. Everything that already owns a transform (band 1°, card −1°, pin, the phone
+   slip) is moved with `translate` / `scale` / `clip-path`, which compose with it.
+   ══════════════════════════════════════════════════════════════════════ */
+@keyframes visit-band-lay { from { clip-path: inset(-4px 100% -4px -4px); } to { clip-path: inset(-4px); } }
+@keyframes visit-print    { from { translate: 0 -100%; clip-path: inset(100% -24px 0 -24px); } to { translate: 0 0; clip-path: inset(-24px); } }
+@keyframes visit-drop     { from { translate: 0 -36px; } }
+@keyframes visit-dot-on   { from { opacity: 0.15; scale: 0.5; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .visit-hero {
+    --in-eyebrow: 0ms;
+    --in-headline: 60ms;
+    --in-lead: 160ms;
+    --in-band: 200ms;
+    --in-pills: 520ms;  /* +110ms for the second */
+    --in-hours: 480ms;
+    --in-card: 620ms;
+    --in-word: 800ms;
+  }
+
+  .visit-hero__eyebrow,
+  .visit-hero__description {
+    animation: hero-fade 400ms var(--ease-gentle-flat) backwards,
+               hero-lift var(--dur-gentle) var(--ease-gentle) backwards;
+  }
+  .visit-hero__eyebrow     { animation-delay: var(--in-eyebrow); }
+  .visit-hero__description { animation-delay: var(--in-lead); }
+
+  .visit-hero__headline {
+    animation: hero-mask-rise 700ms var(--ease-out-expo) var(--in-headline) backwards;
+  }
+
+  /* Band (desktop) and rail (phones): the same strip, laid the same way */
+  .visit-hero__band,
+  .visit-hero__rail {
+    animation: visit-band-lay 700ms var(--ease-out-expo) var(--in-band) backwards;
+  }
+
+  .visit-hero__band-lead {
+    animation: hero-fade 300ms var(--ease-gentle-flat) calc(var(--in-band) + 250ms) backwards;
+  }
+
+  .visit-hero__band .visit-hero__state-pill {
+    animation: hero-pop 500ms var(--ease-bouncy) var(--in-pills) backwards;
+  }
+  .visit-hero__band .visit-hero__state-pill--kitchen {
+    animation-delay: calc(var(--in-pills) + 110ms);
+  }
+
+  .visit-hero__band .visit-hero__state-dot {
+    animation: visit-dot-on 400ms var(--ease-bouncy) calc(var(--in-pills) + 380ms) backwards;
+  }
+  .visit-hero__band .visit-hero__state-pill--kitchen .visit-hero__state-dot {
+    animation-delay: calc(var(--in-pills) + 490ms);
+  }
+
+  /* The slip prints on the house spring, like the pairing ticket (The bartender's ticket →
+     Motion): the overshoot runs downward, away from the mask's edge */
+  .visit-hero__hours-card-container {
+    animation: visit-print var(--dur-gentle) var(--ease-gentle) var(--in-hours) backwards;
+  }
+
+  .visit-hero__contacts-card {
+    animation: hero-fade 300ms var(--ease-gentle-flat) var(--in-card) backwards,
+               visit-drop 800ms var(--ease-bouncy) var(--in-card) backwards;
+  }
+  .visit-hero__contacts-card::before {
+    animation: hero-fade 150ms var(--ease-gentle-flat) calc(var(--in-card) + 380ms) backwards,
+               visit-drop 500ms var(--ease-bouncy) calc(var(--in-card) + 380ms) backwards;
+  }
+
+  /* Foot word (live text): the clip is open upward so the spring's overshoot isn't cut */
+  .visit-hero .visit-connector--foot .section-link {
+    clip-path: inset(-50% 0 0 0);
+  }
+  .visit-hero .visit-connector--foot .section-link__text {
+    animation: hero-word-rise 900ms var(--ease-gentle) var(--in-word) backwards;
+  }
+}
+

@@ -127,8 +127,8 @@
 .about-hero__headline {
     font-family: var(--font-display);
     text-transform: uppercase;
-    font-size: 76px;
-    letter-spacing: 3.04px;
+    font-size: var(--text-display); /* was a raw 76px: the tablet mode could not reach it */
+    letter-spacing: 0.04em;
     line-height: 1.1;
     color: var(--chili);
 }
@@ -260,6 +260,73 @@
 @media (hover: hover) {
     .about-hero__filmstrip-item:hover .about-hero__filmstrip-label {
         color: var(--peppercorn);
+    }
+}
+
+/* ── Hero: page-load entrance (Sep 2026) ──
+   The home hero's entrance in the same hand (website-brief.md → Motion language →
+   Page-load entrance), minus its lighting step: About is a fixed composition and none of
+   the five chapter cards is "now", so they arrive in their rest state — dimmed on desktop,
+   lit on touch — and only the caption pill pops as each card lands.
+   Copy rises (headline behind a stationary mask) → cards deal in from the left inside
+   their own frames, 120 ms apart → pills pop → the foot word rises out of the section's
+   bottom edge. Keyframes are the home hero's (hero.css: hero-fade / -lift / -mask-rise /
+   -tile-in / -pop / -word-rise) — one set for both pages.
+   Pure CSS, `backwards`-filled: it starts with the first paint and needs no script, no
+   arming and no settled state (nothing here re-triggers). Masked slides take
+   --ease-out-expo; unmasked moves Gentle; the pill Bouncy. The card photos are
+   loading="eager" in hero.php — a photo parked outside its frame's clip never intersects,
+   so a lazy one would slide in empty. */
+@media (prefers-reduced-motion: no-preference) {
+    .about-hero {
+        --in-eyebrow: 0ms;
+        --in-headline: 80ms;
+        --in-lead: 220ms;
+        --in-cards: 340ms;   /* first card; +120ms each */
+        --in-word: 900ms;
+    }
+
+    .about-hero__eyebrow,
+    .about-hero__lead {
+        animation: hero-fade 400ms var(--ease-gentle-flat) backwards,
+                   hero-lift var(--dur-gentle) var(--ease-gentle) backwards;
+    }
+    .about-hero__eyebrow { animation-delay: var(--in-eyebrow); }
+    .about-hero__lead    { animation-delay: var(--in-lead); }
+
+    .about-hero__headline {
+        animation: hero-mask-rise 700ms var(--ease-out-expo) var(--in-headline) backwards;
+    }
+
+    .about-hero__filmstrip-item:nth-child(1) { --i: 0; }
+    .about-hero__filmstrip-item:nth-child(2) { --i: 1; }
+    .about-hero__filmstrip-item:nth-child(3) { --i: 2; }
+    .about-hero__filmstrip-item:nth-child(4) { --i: 3; }
+    .about-hero__filmstrip-item:nth-child(5) { --i: 4; }
+
+    .about-hero__filmstrip-item {
+        --in-card: calc(var(--in-cards) + var(--i) * 120ms);
+    }
+
+    /* Photo and overlay slide as one, inside .about-hero__filmstrip-img-wrap's clip */
+    .about-hero__filmstrip-img,
+    .about-hero__filmstrip-overlay {
+        animation: hero-tile-in 700ms var(--ease-out-expo) var(--in-card) backwards;
+    }
+
+    /* hero-pop fades from 0 to the pill's own resting 90% and uses `scale`, so nothing steps */
+    .about-hero__filmstrip-pill {
+        animation: hero-pop 500ms var(--ease-bouncy) calc(var(--in-card) + 450ms) backwards;
+    }
+
+    /* Foot word (live text): the clip is open upward so the spring's overshoot isn't cut */
+    .about-hero .about-connector--foot .section-link {
+        clip-path: inset(-50% 0 0 0);
+    }
+    /* The 1px Mushroom rule under the word is the connector's own and stays put from the
+       first paint — the word rises onto it */
+    .about-hero .about-connector--foot .section-link__text {
+        animation: hero-word-rise 900ms var(--ease-gentle) var(--in-word) backwards;
     }
 }
 
@@ -829,9 +896,9 @@
 .about-perks__stamp-label {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 14px;
+    font-size: var(--text-caption);
     line-height: 1.4;
-    letter-spacing: 0.56px;
+    letter-spacing: 0.52px;
     text-align: center;
     color: var(--parchment);
     word-break: break-word;
@@ -1240,9 +1307,9 @@
 }
 
 .about-story__counter-label {
-    font-size: 13px;
+    font-size: var(--text-caption);
     line-height: 1.4;
-    letter-spacing: 0.56px;
+    letter-spacing: 0.52px;
     color: var(--ash);
 }
 
@@ -1618,13 +1685,13 @@
     color: var(--peppercorn);
 }
 
-/* Role — Golos 14px */
+/* Role — Caption 13 */
 .about-team__card-role {
     font-family: var(--font-body);
-    font-size: 14px;
     font-weight: 400;
+    font-size: var(--text-caption);
     line-height: 1.4;
-    letter-spacing: 0.56px;
+    letter-spacing: 0.52px;
     color: var(--ash);
 }
 
@@ -1699,16 +1766,19 @@
     color: var(--peppercorn);
 }
 
-/* Message text */
+/* Message text — Body 16 */
 .about-team__card-message {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: var(--text-body);
     font-weight: 400;
     line-height: 1.4;
-    letter-spacing: 0.56px;
     color: var(--dark-olive);
     margin: 0;
-    height: 60px;
+    /* Three lines of Body 16 (67.2px). Was 60px for three lines of the retired 14px
+       Secondary; the 8px comes out of the slack under the message, the card stays 392
+       with its 16px bottom padding (measured Sep 2026). A line is ≈ 25 characters at the
+       card's 228px measure, so a member's line wants ≤ ~75 characters. */
+    height: calc(1.4em * 3);
     overflow: hidden;
     white-space: normal;
     word-break: break-word;
@@ -2016,7 +2086,7 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     font-family: var(--font-display);
     text-transform: uppercase;
     font-size: var(--text-display);
-    letter-spacing: 3.04px;
+    letter-spacing: 0.04em;
     line-height: 1.1;
     color: var(--lime);
 }
@@ -2165,6 +2235,13 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
    home-page pass (components.css), and the fluid map height comes from Contacts.
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) and (max-width: 991px) {
+
+    /* Display 64 in the band (variables.css): the headline fits all but its last word on
+       one line at 768 and orphaned the year (667 + 137px). Balance restores the even
+       break it had at 76. Band only — the phone break is the author's. */
+    .about-hero__headline {
+        text-wrap: balance;
+    }
 
     /* ── Hero — the phone's 2 + 3 bento (Figma bento-nav) ──
        Five cards in one row leaves them ~137px here, narrower than their own Lemon
@@ -3099,8 +3176,6 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     }
 
     .about-story__counter-label {
-        font-size: 14px;
-        letter-spacing: 0.04em;
         text-align: right;
     }
 }

@@ -265,10 +265,9 @@ html[data-theme="night"] .contact-form__title {
 
 .contact-form__subtitle {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: var(--text-body);
     font-weight: 400;
     line-height: 1.4;
-    letter-spacing: 0.56px;
     color: var(--ash);
     margin: 0;
 }

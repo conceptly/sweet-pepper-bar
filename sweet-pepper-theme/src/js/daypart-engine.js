@@ -1,3 +1,5 @@
+import { scrambleTo } from './scramble-text';
+
 /**
  * Daypart Engine — switches hero content/theme based on time of day
  * and handles tile click interactions for the image grid.
@@ -100,13 +102,61 @@ export function initDaypartEngine() {
         }));
     }
 
+    /* ── Page-load entrance (hero.css → Page-load entrance) ──
+       The entrance itself is CSS and starts with the first paint. The engine's part:
+       swap the server-rendered tile for the real daypart while the tiles are still
+       hidden (transitions off, no FLIP), keep the lighting on schedule for the tile it
+       just activated, and settle the hero afterwards so taps don't replay the lighting. */
+    const hero = document.querySelector('.home-hero');
+    // The build's minifier rewrites 1100ms as 1.1s, so read the unit
+    const cssMs = (name) => {
+        const v = getComputedStyle(hero).getPropertyValue(name).trim();
+        return (parseFloat(v) || 0) * (/\d\s*s$/.test(v) && !v.endsWith('ms') ? 1000 : 1);
+    };
+
+    function sinceFirstPaint() {
+        const fcp = performance.getEntriesByName('first-contentful-paint')[0];
+        return fcp ? performance.now() - fcp.startTime : 0;
+    }
+
+    function settle() {
+        if (!hero || hero.classList.contains('is-settled')) return;
+        hero.classList.add('is-settled');
+        hero.style.removeProperty('--in-light');
+    }
+
+    function activateOnLoad(tile) {
+        if (!hero) { activateTile(tile); return; }
+
+        const elapsed = sinceFirstPaint();
+        // Script arrived after the tiles began to show: the entrance is the server's; this is a tap
+        if (!reducedMotion.matches && elapsed > cssMs('--in-tiles')) {
+            activateTile(tile); // settles first
+            return;
+        }
+
+        hero.classList.add('is-booting');
+        activateTile(tile, true);
+        hero.style.setProperty('--in-light', `${Math.max(0, cssMs('--in-light') - elapsed)}ms`);
+
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            hero.classList.remove('is-booting');
+            if (reducedMotion.matches || !hero.getAnimations) { settle(); return; }
+            const running = hero.getAnimations({ subtree: true }).map((a) => a.finished);
+            Promise.allSettled(running).then(settle);
+        }));
+    }
+
     /* ── Activate a tile ─────────────────────────────── */
-    function activateTile(tile) {
+    function activateTile(tile, onLoad = false) {
         const dp = tile.dataset.daypart;
         const data = daypartData[dp];
         if (!data) return;
 
-        flipTiles(() => {
+        // A tap during the entrance seizes it: everything lands, then the tap plays
+        if (!onLoad) settle();
+
+        (onLoad ? (mutate) => mutate() : flipTiles)(() => {
             // Toggle active class
             tiles.forEach(t => t.classList.remove('is-active'));
             tile.classList.add('is-active');
@@ -122,8 +172,12 @@ export function initDaypartEngine() {
             html.removeAttribute('data-theme');
         }
 
-        // Update hero copy
-        if (headline) headline.textContent = data.headline;
+        // Update hero copy — a tap scrambles the headline into the next one; the load swap
+        // is written directly (the entrance is already moving it)
+        if (headline) {
+            if (onLoad) headline.textContent = data.headline;
+            else scrambleTo(headline, data.headline);
+        }
         if (subhead) subhead.textContent = data.subhead;
 
         // Update menu button label + icon
@@ -141,13 +195,11 @@ export function initDaypartEngine() {
         tile.addEventListener('click', () => activateTile(tile));
     });
 
-    /* ── Determine real-time daypart ─────────────────── */
-    const hour = new Date().getHours();
-    let currentDP;
-    if (hour < 12) currentDP = 'breakfast';
-    else if (hour < 17) currentDP = 'lunch';
-    else if (hour < 21) currentDP = 'dinner';
-    else currentDP = 'party';
+    /* ── Real-time daypart ─────────────────────────────
+       Worked out before first paint by the inline script in inc/daypart-head.php, which
+       also sets the night theme so the page never paints in the wrong clothes. The hour
+       thresholds live there and only there. */
+    const currentDP = html.dataset.now;
 
     // Mark the real-time daypart tile with .is-now-daypart (for the Now badge)
     const nowTile = document.querySelector(`.daypart-tile[data-daypart="${currentDP}"]`);
@@ -169,7 +221,7 @@ export function initDaypartEngine() {
         const overrideDP = daypartOverride && daypartData[daypartOverride] ? daypartOverride : 'dinner';
         const overrideTile = document.querySelector(`.daypart-tile[data-daypart="${overrideDP}"]`);
         if (overrideTile) {
-            activateTile(overrideTile);
+            activateOnLoad(overrideTile);
         } else {
             // No tiles on this page (e.g. menu page) — just set the theme
             html.setAttribute('data-theme', 'night');
@@ -178,12 +230,12 @@ export function initDaypartEngine() {
         // Explicit daypart override (day mode: breakfast/lunch)
         const overrideTile = document.querySelector(`.daypart-tile[data-daypart="${daypartOverride}"]`);
         if (overrideTile) {
-            activateTile(overrideTile);
+            activateOnLoad(overrideTile);
         }
     } else {
         // Auto-activate the current daypart on page load
         if (nowTile) {
-            activateTile(nowTile);
+            activateOnLoad(nowTile);
         }
     }
 

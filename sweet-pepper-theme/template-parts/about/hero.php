@@ -63,7 +63,7 @@ $filmstrip = [
                         <img src="<?php echo esc_url( $item['image'] ); ?>"
                              alt=""
                              class="about-hero__filmstrip-img"
-                             loading="lazy">
+                             loading="eager" decoding="async">
                         <div class="about-hero__filmstrip-overlay"></div>
                     </div>
                     <div class="about-hero__filmstrip-pill-area">

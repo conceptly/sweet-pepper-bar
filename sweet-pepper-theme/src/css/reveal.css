@@ -1,0 +1,218 @@
+/* ══════════════════════════════════════════════════════════════════════
+   Reveal — scroll-in entrances (src/js/reveal.js; website-brief.md → Motion language →
+   Scroll-in entrances). Pre-entrance states exist only under .is-armed, which the script
+   adds — no JS, no arming, finished page. When an element has played, the script strips
+   both classes and the element's own CSS (hover, shadow, transitions) takes over again.
+
+   Masks are one element, no wrapper: the element is parked a full width (or height) away
+   and clipped by the same amount, so the clip's edge stays where the element's box will be
+   while the element travels through it. Transform and clip-path ride one curve, which is
+   what keeps the mask stationary. Masked moves take --ease-out-expo (no overshoot — a
+   spring would push the content past the mask and back); unmasked ones take Gentle.
+   The resting clip is −24px, not 0, so a card's shadow isn't shaved while it lands.
+   ══════════════════════════════════════════════════════════════════════ */
+.has-reveal {
+    overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    [data-reveal].is-armed {
+        transition: none;
+    }
+
+    /* The individual `translate` / `scale` properties, not `transform`: they compose with
+       whatever transform the element already owns — the 1° quote cards, the ±4° perk stamps,
+       the dish picker's centred ×. With `transform` the entrance would have flattened the
+       tilt for its duration and snapped it back at the end. */
+    /* Parked clips: the LEADING side is 0, not −24px. Whatever hangs past that edge — the
+       ticket's scallops, a tilted card's corner, a shadow — would otherwise show at the far
+       side of the mask before the element has moved (seen: the ticket's scalloped foot as a
+       dotted line under the photos). It opens to −24px with the rest as the element lands. */
+    [data-reveal="rise"].is-armed       { opacity: 0; translate: 0 16px; }
+    [data-reveal="pop"].is-armed        { scale: 0; } /* no opacity: the pill rests at 90%, and a fade to 1 would step back */
+    [data-reveal="mask-up"].is-armed    { translate: 0 100%;  clip-path: inset(0 -24px 100% -24px); }
+    [data-reveal="mask-down"].is-armed  { translate: 0 -100%; clip-path: inset(100% -24px 0 -24px); } /* prints: out from under what is above it */
+    [data-reveal="mask-left"].is-armed  { translate: -100% 0; clip-path: inset(-24px 0 -24px 100%); }
+    [data-reveal="mask-right"].is-armed { translate: 100% 0;  clip-path: inset(-24px 100% -24px 0); }
+
+    [data-reveal].is-armed.is-in {
+        translate: none;
+        scale: none;
+    }
+
+    [data-reveal="rise"].is-armed.is-in {
+        opacity: 1;
+    }
+
+    [data-reveal^="mask-"].is-armed.is-in {
+        clip-path: inset(-24px);
+        transition: translate 900ms var(--ease-out-expo) var(--reveal-delay, 0ms),
+                    clip-path 900ms var(--ease-out-expo) var(--reveal-delay, 0ms);
+    }
+
+    [data-reveal="mask-up"].is-armed.is-in {
+        transition-duration: 700ms;
+    }
+
+    /* The ticket is the one mask on the house spring: "it prints … with the house spring
+       easing" (website-brief.md → The bartender's ticket). The overshoot runs downward, away
+       from the mask's edge, and reads as paper feeding a touch too far — the same curve
+       dish-picker.js uses when a pick re-prints it. */
+    [data-reveal="mask-down"].is-armed.is-in {
+        transition-duration: var(--dur-gentle);
+        transition-timing-function: var(--ease-gentle);
+    }
+
+    [data-reveal="rise"].is-armed.is-in {
+        transition: translate var(--dur-gentle) var(--ease-gentle) var(--reveal-delay, 0ms),
+                    opacity 400ms var(--ease-gentle-flat) var(--reveal-delay, 0ms);
+    }
+
+    [data-reveal="pop"].is-armed.is-in {
+        transition: scale 500ms var(--ease-bouncy) var(--reveal-delay, 0ms);
+    }
+}
+
+/* ── Connector parallax ──
+   A connector is a pair: the word at one section's foot, its reflection at the next
+   section's head. The reflection lags the scroll by half its height (≈30px desktop, ≈10px phone) and closes on
+   the word as the seam reaches mid-viewport — then it is simply the documented pair.
+   Scroll-driven and CSS-only: where animation-timeline isn't supported the pair is closed
+   from the start, which is the finished state. Still non-interactive, never fills
+   (Section connectors). */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes link-word-close {
+            from { transform: translateY(50%); }
+            to   { transform: translateY(0); }
+        }
+
+        /* Heads only. On the menu page the upright word at a section's FOOT also carries
+           --reflection (it borrows the class for its 50% opacity): the hero's "food menu",
+           Highlights' word, every section's bottom word and the pairing station's. Parked
+           50% down, those sank behind the next section's ground and read as cut in half
+           (found 18 Sep 2026). A foot word never moves — the reflection closes on it. */
+        .section-link-word--reflection:not(
+            .menu-hero__connector > *,
+            .menu-highlights__link-word,
+            .menu-section__bottom-link-word,
+            .pairing-station__link-word
+        ) img {
+            animation: link-word-close linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 45%;
+        }
+
+        /* Live-text connectors (About prototype): the reflection is flipped with
+           `transform: scaleY(-1)`, so the lag rides `translate`, which composes with it —
+           a transform keyframe would stand the word back up. Only heads carry
+           .section-link--reflection here; the menu-page mix-up above doesn't apply. */
+        @keyframes link-text-close {
+            from { translate: 0 50%; }
+            to   { translate: 0 0; }
+        }
+
+        .section-link--reflection .section-link__text {
+            animation: link-text-close linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 45%;
+        }
+    }
+}
+
+/* ── Count-up (src/js/count-up.js) ── the number holds its final width while it counts */
+.count-up__n {
+    display: inline-block;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Photo drift ──
+   The three preview photos (Bar, Kitchen, About) sit 12% large in their 3:2 frames and
+   drift 4% against the scroll — the photo lags its frame, so it reads as behind it. The
+   frame is overflow: hidden, which makes it a scroll container, so the image can't use an
+   anonymous view(): the frame names the timeline and the image rides it.
+   Cost: a 12% crop of every preview photo, and 12% upscaling of its pixels.
+   No support, or reduced motion: the photo is unscaled and still — the finished state. */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes photo-drift {
+            from { transform: scale(1.12) translateY(-4%); }
+            to   { transform: scale(1.12) translateY(4%); }
+        }
+
+        .menu-preview-img-wrap,
+        .about-preview-image {
+            view-timeline: --photo block;
+        }
+
+        .menu-preview-img,
+        .about-preview-image img {
+            animation: photo-drift linear both;
+            animation-timeline: --photo;
+            animation-range: cover 0% cover 100%;
+        }
+    }
+}
+
+/* ── Entrance photo drift (About → "The way in") ──
+   The page's one photo parallax. No scaling: the band is a 4:1 (21:9 below desktop) cover
+   crop of a much taller photo, so the drift moves the crop window through picture that is
+   already there — object-position 70% → 30%, the photo lagging its frame like a view
+   through a doorway. Nothing is cropped tighter or upscaled (the cost the home preview
+   drift pays). About only: the menu page's copy of this band keeps its authored crop. */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes entrance-drift {
+            from { object-position: 50% 70%; }
+            to   { object-position: 50% 30%; }
+        }
+
+        .page-about .menu-entrance-img__inner {
+            view-timeline: --entrance block;
+        }
+
+        .page-about .menu-entrance-img__inner img {
+            animation: entrance-drift linear both;
+            animation-timeline: --entrance;
+            animation-range: cover 0% cover 100%;
+        }
+    }
+}
+
+/* ── Menu section photo bands — the lag ──
+   On the menu page the wide photo at a section's head stands where a connector's reflection
+   would: the word at the foot of the section above sits directly on it. So the band is the
+   head of the pair and carries the pair's motion — the picture lags inside its band
+   (±12% of object-position, a 4:1 / 21:9 crop of a much taller photo, so nothing is scaled).
+   It drifts AROUND the band's focal point, not over it: the band's object-position is
+   rebuilt from --img-x / --img-y (defaults 50% — nothing sets --img-pos on these bands
+   today) plus a registered --band-drift the scroll timeline animates, clamped so a focal
+   point near an edge can't pull the photo off its frame.
+   The band is overflow: hidden, hence a scroll container, hence the named timeline. */
+@property --band-drift {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes band-drift {
+            from { --band-drift: 12%; }
+            to   { --band-drift: -12%; }
+        }
+
+        .menu-section__hero {
+            view-timeline: --band block;
+        }
+
+        .menu-section__hero img {
+            object-position: var(--img-x, 50%) clamp(0%, calc(var(--img-y, 50%) + var(--band-drift)), 100%);
+            animation: band-drift linear both;
+            animation-timeline: --band;
+            animation-range: cover 0% cover 100%;
+        }
+    }
+}
+

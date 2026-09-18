@@ -12,6 +12,7 @@
  *     @type string $night_img Path relative to theme root for the night mode image.
  *     @type string $alt       Alt text for the image.
  *     @type string $class     Optional extra CSS class.
+ *     @type string $loading   'lazy' (default) or 'eager' — eager for a word in the first viewport.
  * }
  */
 
@@ -19,6 +20,7 @@ $day_img   = $args['day_img'] ?? '';
 $night_img = $args['night_img'] ?? '';
 $alt       = $args['alt'] ?? '';
 $class     = $args['class'] ?? '';
+$loading   = ( $args['loading'] ?? 'lazy' ) === 'eager' ? 'eager' : 'lazy';
 
 $link_word_images = [
     'link-word-day'   => $day_img,
@@ -37,6 +39,6 @@ $link_word_images = [
              alt="<?php echo esc_attr( $alt ); ?>"
              class="<?php echo esc_attr( $img_class ); ?>"
              <?php if ( $dims ) : ?>width="<?php echo (int) $dims['width']; ?>" height="<?php echo (int) $dims['height']; ?>"<?php endif; ?>
-             loading="lazy">
+             loading="<?php echo esc_attr( $loading ); ?>">
     <?php endforeach; ?>
 </div>

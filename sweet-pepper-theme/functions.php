@@ -52,6 +52,11 @@ add_action( 'after_setup_theme', 'sweet_pepper_setup' );
 require_once get_template_directory() . '/inc/vite-enqueue.php';
 
 /**
+ * Daypart: first-paint theme + the hour thresholds (inline, top of <head>).
+ */
+require_once get_template_directory() . '/inc/daypart-head.php';
+
+/**
  * Intrinsic SVG dimensions (section connectors reserve their height)
  */
 require_once get_template_directory() . '/inc/svg-dimensions.php';

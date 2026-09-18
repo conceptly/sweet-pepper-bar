@@ -54,7 +54,10 @@ body.admin-bar .home-hero {
 
 .hero-headline {
     color: var(--accent);
-    font-size: 76px;
+    /* Home hero = Display's size on desktop (76) and in the tablet band (64). Was a raw 76px,
+       so landscape tablets (768–991 wide, under 1000 tall — the row, not the bento) kept 76
+       and wrapped below ~870. Phones and the portrait bento set their own size below. */
+    font-size: var(--text-display);
     line-height: 1;
     margin-bottom: 0;
     text-transform: uppercase;
@@ -130,7 +133,8 @@ body.admin-bar .home-hero {
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 4px;
+    /* No radius of its own: the wrapper clips. Active, the wrapper's 2px keyline leaves an
+       inner curve of 4 − 2 = 2px; a 4px corner here was rounder than that and opened a gap. */
 }
 
 /* Dark overlay on inactive tiles */
@@ -138,7 +142,6 @@ body.admin-bar .home-hero {
     position: absolute;
     inset: 0;
     background: rgba(21, 19, 23, 0.33);
-    border-radius: 4px;
     transition: opacity 0.3s;
 }
 
@@ -210,7 +213,7 @@ body.admin-bar .home-hero {
     opacity: 1;
 }
 
-/* All sheets: container width × 3:2, radius 2, absolute from container top-left.
+/* All sheets: container width × 3:2, radius 2 (near: 4), absolute from container top-left.
    Slot geometry is fixed and mirrors with --dir; the colour in each slot is the recipe.
    The mirror is taken about the PHOTO, not the container (the container's 8px padding
    sits right/bottom only): a sheet at x peeks −x on the left and x+8 on the right, so its
@@ -235,6 +238,7 @@ body.admin-bar .home-hero {
 .tile-bg--near {
     --x: -6px; --y: -4px; --a: -1deg;
     background: var(--sheet-near);
+    border-radius: 4px; /* matches the photo it sits against; mid and far stay 2 */
     z-index: 3;
 }
 
@@ -634,5 +638,133 @@ html[data-theme="night"] .lang-nudge strong {
     .hero-headline,
     .hero-subhead {
         transition: none;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Page-load entrance (Sep 2026) — website-brief.md → Motion language → Page-load entrance
+   Copy rises → the four tiles deal in from the left, masked by their own frames, all
+   unlit → the active tile lights (dimmed → full strength: overlay lifts, keyline draws,
+   the three sheets fan out from behind the photo, the Now pill pops) → the foot word
+   rises out of the section's bottom edge.
+   Pure CSS `backwards`-filled animations, so it starts with the first paint and needs no
+   arming: with JS off the server-rendered tile lights itself and the rest state is the
+   finished state. daypart-engine.js only (a) swaps the active tile with transitions off
+   while the tiles are still hidden, (b) re-times --in-light for the tile it activated,
+   (c) adds .is-settled when the last animation ends or on the first tap — without it a
+   tapped tile would replay the lighting with the load delay.
+   Masked slides take --ease-out-expo (the hero's curve): an overshooting spring would
+   pull the photo past its frame and open a gap. Unmasked moves take the Gentle spring.
+   Delays are literal ms — the script reads --in-tiles / --in-light.
+   ══════════════════════════════════════════════════════════════════════ */
+.home-hero.is-booting,
+.home-hero.is-booting * {
+    transition: none !important;
+}
+
+@keyframes hero-fade      { from { opacity: 0; } }
+@keyframes hero-lift      { from { transform: translateY(16px); } }
+@keyframes hero-tile-in   { from { transform: translateX(-101%); } }
+@keyframes hero-unlit     { from { opacity: 1; } }
+@keyframes hero-keyline   { from { border-color: transparent; outline-color: transparent; } }
+@keyframes hero-sheet-fan { from { transform: rotate(var(--tilt)); } }
+@keyframes hero-pop       { from { opacity: 0; scale: 0.6; } }
+@keyframes hero-nudge-in  { from { transform: translateX(110%); } } /* the dismissal (.is-dismissed), reversed */
+@keyframes hero-word-rise { from { transform: translateY(105%); } } /* past 100%: a sub-pixel row of the letter tops showed at the fold */
+/* One element, stationary mask: the clip's bottom inset shrinks exactly as the text rises */
+@keyframes hero-mask-rise {
+    from { transform: translateY(100%); clip-path: inset(-10% -10% 100% -10%); }
+    to   { transform: translateY(0);    clip-path: inset(-10% -10% 0% -10%); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .home-hero {
+        --in-eyebrow: 0ms;
+        --in-headline: 80ms;
+        --in-subhead: 220ms;
+        --in-tiles: 340ms;   /* first tile; +120ms each (the Story's stagger) */
+        --in-ctas: 520ms;
+        --in-word: 900ms;
+        --in-light: 1100ms;  /* = --in-tiles + 760: the last tile has landed */
+        --in-nudge: 2000ms;  /* last: the sheets' spring has come to rest */
+    }
+
+    .home-hero:not(.is-settled) :is(.hero-eyebrow, .hero-subhead, .hero-ctas) {
+        animation: hero-fade 400ms var(--ease-gentle-flat) backwards,
+                   hero-lift var(--dur-gentle) var(--ease-gentle) backwards;
+    }
+    .home-hero:not(.is-settled) .hero-eyebrow       { animation-delay: var(--in-eyebrow); }
+    .home-hero:not(.is-settled) .hero-subhead       { animation-delay: var(--in-subhead); }
+    .home-hero:not(.is-settled) .hero-ctas          { animation-delay: var(--in-ctas); }
+
+    .home-hero:not(.is-settled) .hero-headline {
+        animation: hero-mask-rise 700ms var(--ease-out-expo) var(--in-headline) backwards;
+    }
+
+    /* Tiles: photo and its unlit overlay slide as one, inside .tile-img-wrapper's clip */
+    .daypart-tile:nth-child(1) { --i: 0; }
+    .daypart-tile:nth-child(2) { --i: 1; }
+    .daypart-tile:nth-child(3) { --i: 2; }
+    .daypart-tile:nth-child(4) { --i: 3; }
+
+    .home-hero:not(.is-settled) :is(.tile-img, .tile-overlay) {
+        --in-tile: calc(var(--in-tiles) + var(--i) * 120ms);
+        animation: hero-tile-in 700ms var(--ease-out-expo) var(--in-tile) backwards;
+    }
+
+    /* The active tile arrives unlit like the others, then lights */
+    .home-hero:not(.is-settled) .daypart-tile.is-active .tile-overlay {
+        animation: hero-tile-in 700ms var(--ease-out-expo) var(--in-tile) backwards,
+                   hero-unlit 500ms var(--ease-gentle-flat) var(--in-light) backwards;
+    }
+
+    .home-hero:not(.is-settled) .daypart-tile.is-active .tile-img-wrapper {
+        animation: hero-keyline 500ms var(--ease-gentle-flat) var(--in-light) backwards;
+    }
+
+    .home-hero:not(.is-settled) .daypart-tile.is-active .tile-color-stack {
+        animation: hero-fade 300ms var(--ease-gentle-flat) var(--in-light) backwards;
+    }
+
+    .tile-bg--near { --k: 0; }
+    .tile-bg--mid  { --k: 1; }
+    .tile-bg--far  { --k: 2; }
+
+    .home-hero:not(.is-settled) .daypart-tile.is-active .tile-bg {
+        animation: hero-sheet-fan 900ms var(--ease-gentle) calc(var(--in-light) + var(--k) * 70ms) backwards;
+    }
+
+    .home-hero:not(.is-settled) .daypart-tile.is-now-daypart .now-badge {
+        animation: hero-pop 500ms var(--ease-bouncy) calc(var(--in-light) + 250ms) backwards;
+    }
+
+    /* Language nudge: last in, from the right edge of the column, masked by its wrapper's
+       clip — the way it leaves when dismissed. Not part of the composition, so it waits
+       until the composition is finished. Hidden on the bento, so desktop timing only. */
+    .home-hero:not(.is-settled) .lang-nudge {
+        animation: hero-nudge-in var(--dur-gentle) var(--ease-gentle) var(--in-nudge) backwards;
+    }
+
+    /* Foot word: rises out of the section's bottom edge; the clip is open upward so the
+       spring's overshoot isn't cut */
+    .home-hero:not(.is-settled) .hero-footer .section-link-word {
+        clip-path: inset(-50% 0 0 0);
+    }
+    .home-hero:not(.is-settled) .hero-footer .section-link-word img {
+        animation: hero-word-rise 900ms var(--ease-gentle) var(--in-word) backwards;
+    }
+}
+
+/* Bento: the tiles are the top of the composition, so they lead and the copy follows */
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px),
+       (prefers-reduced-motion: no-preference) and (min-width: 768px) and (max-width: 991px) and (min-height: 1000px) {
+    .home-hero {
+        --in-tiles: 0ms;
+        --in-eyebrow: 380ms;
+        --in-headline: 440ms;
+        --in-subhead: 560ms;
+        --in-ctas: 680ms;
+        --in-word: 700ms;
+        --in-light: 760ms;
     }
 }

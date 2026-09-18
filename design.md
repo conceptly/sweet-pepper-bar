@@ -181,29 +181,29 @@ For posters/flyers, **don't pair Molot — let it run alone.** Build hierarchy f
 
 ### 3.3 Scale (synced with Figma text styles)
 
-**Re-synced from the Figma file, Aug 2026.** The table below is now a transcription of the local text styles and the `Typography` variable collection, not a parallel spec. Where the two disagreed, Figma won and the corrections are noted.
+**Re-synced from the Figma file, Aug 2026.** The table below is now a transcription of the local text styles and the `Typography` variable collection, not a parallel spec. Where the two disagreed, Figma won and the corrections are noted. **Since 18 Sep 2026 the table leads the file in two places** — the Tablet column and the retired Secondary pair (both below) are decided here and built, and the Figma file has not caught up; until it does, this table is the source, not the transcription.
 
-| Style (Figma name) | Face / weight | Desktop | Mobile | Line height / tracking |
-|---|---|---|---|---|
-| Display — `Heading/Display` | Molot | 76 | 64 | 110% / 4% |
-| Home hero — `Heading/HomeHero` | Molot | 76 | *content-sized, see below* | 104% / 4% |
-| H1 — `Heading/H1` | Molot | **64** | **36** | 105% / 4% |
-| H2 — `Heading/H2` | Molot | 24 | 24 | 125% / 5% |
-| H3 — eyebrows — `Heading/H3` | Molot | 18 | 18 | 135% / 5% |
-| Molot caption — `Heading/Captions` | Molot | 16 | 16 | 140% / 4% |
-| Subtitle — `Body/Subtitle` | Golos 400 | 20 | 20 | 140% / 0% |
-| Body — `Body/Regular` | Golos 400 | 16 | 16 | 140% / 0%, ¶ spacing 16 |
-| Body semibold — `Body/Semibold` | Golos 600 | 16 | 16 | 140% / 0% |
-| Secondary — `Body/Secondary` | Golos 400 | 14 | 14 | 140% / 4% |
-| Secondary highlight — `Body/Secondary Highlights` | Golos 500 | 14 | 14 | 140% / 4% |
-| Caption — `Body/Caption` | Golos **400** | 13 | 13 | 140% / 4% |
-| Button — `UI/ButtonPrimary` | Golos 600 | 16 | 16 | 160% / 0% |
-| Nav item — `UI/NavItem` | Golos 500 | 16 | 16 | 100% / 0% |
-| Form label — `UI/Form Label` | Golos 500 | 13 | 13 | 140% / 4% |
+| Style (Figma name) | Face / weight | Desktop | Tablet (768–991) | Mobile | Line height / tracking |
+| --- | --- | --- | --- | --- | --- |
+| Display — `Heading/Display` | Molot | 76 | 64 | 64 | 110% / 4% |
+| Home hero — `Heading/HomeHero` | Molot | 76 | 64 | *content-sized, see below* | 104% / 4% |
+| H1 — `Heading/H1` | Molot | **64** | **48** | **36** | 105% / 4% |
+| H2 — `Heading/H2` | Molot | 24 | 24 | 24 | 125% / 5% |
+| H3 — eyebrows — `Heading/H3` | Molot | 18 | 18 | 18 | 135% / 5% |
+| Molot caption — `Heading/Captions` | Molot | 16 | 16 | 16 | 140% / 4% |
+| Subtitle — `Body/Subtitle` | Golos 400 | 20 | 20 | 20 | 140% / 0% |
+| Body — `Body/Regular` | Golos 400 | 16 | 16 | 16 | 140% / 0%, ¶ spacing 16 |
+| Body semibold — `Body/Semibold` | Golos 600 | 16 | 16 | 16 | 140% / 0% |
+| Caption — `Body/Caption` | Golos **400** | 13 | 13 | 13 | 140% / 4% |
+| Button — `UI/ButtonPrimary` | Golos 600 | 16 | 16 | 16 | 160% / 0% |
+| Nav item — `UI/NavItem` | Golos 500 | 16 | 16 | 16 | 100% / 0% |
+| Form label — `UI/Form Label` | Golos 500 | 13 | 13 | 13 | 140% / 4% |
 
 **Corrections made in this sync (Aug 2026):** H1 was documented at 44 and is 64 — the doc was stale; line height 125%→105% and tracking 5%→4% with it. Display line height was documented at 120% and is 110%. **Caption is Golos 400, not 500** — this closes the open question in §9 and the "weight open" note in `website-brief.md` → Image caption label. Molot ships in a single weight (Regular); the weight ramp (400/500/600/700) is Golos only.
 
-**Responsive rule — only the display levels move.** The `Typography` collection carries **Desktop** and **Mobile** modes, and just two sizes change: Display 76→64 and H1 64→36. H2, H3, Body, Caption and every UI style hold across breakpoints. That is the responsive type rule; there isn't a second one.
+**Secondary 14 is retired (author, 18 Sep 2026).** `Body/Secondary` (Golos 400 · 14) and `Body/Secondary Highlights` (Golos 500 · 14) are out of the scale: a 1px step above Caption was not a hierarchy level, and what set those texts apart was colour (Ash / Mushroom), which they keep. Golos now reads at two sizes below Subtitle. **Caption 13** — dates, team roles, perk labels, counter labels, short status notes. **Body 16** — dish descriptions and options, team messages, introductory and supporting paragraphs. The test: *a label or a note is Caption; anything written as a sentence to be read is Body.* Muted Body (16 in `--text-muted`) is a colour role, not a style. The web build carries no 14px text; the two styles still exist in the Figma file — delete them there and re-point their instances. *(Figma re-sync owed.)*
+
+**Responsive rule — only the display levels move.** Three modes — **Desktop**, **Tablet** (768–991, author, 18 Sep 2026) and **Mobile** — and just two sizes change: Display 76 → 64 → 64 and H1 64 → 48 → 36. H2, H3, Subtitle, Body 16, Caption 13 and every UI style (Button, Nav item, Form label, the 13px chip) hold across breakpoints. That is the responsive type rule; there isn't a second one. **Why 48:** 36 → 48 → 64 is ×1.333 at each step, and at 768 it takes the longest title line from 89% of the column (638 of 720px at 64) to 67%. **Weighed and not taken for the band:** Caption 12 (below the 13 floor, and tablets are held furthest from the eye), Caption 14 (the size retired the same day, and Form label / chip stay 13), Body 18 (the real issue is measure — cap the column, don't grow the type). **Sizes stay in px.** rem was weighed: its gain is respecting a user's default font size (zoom already works), its cost is that this build's fixed-height boxes would clip enlarged text — so a rem pass only makes sense together with a fixed-height audit, as its own job. The build's token names stay as they are (`--text-display`, `--text-h1`, `--text-h2`, `--text-h3`, `--text-body`, `--text-caption`). *Figma: the `Typography` collection still has Desktop and Mobile modes only — add Tablet.*
 
 **Home hero is the exception, and it's fragile.** `Size/HomeHero` on mobile doesn't take a fixed value — it aliases `HeadlineFontSize` in the `mealTime` collection, which is 56 for every state except Party (52), sized around the longest English string. RU runs 10–15% longer, so this will break on translation. Replace the per-state pixel values with a fluid clamp or a fit-to-box rule before the RU pass. *(Open.)* **Sep 2026:** the bento mobile hero now in the build (`home-hero-bento-stack` 2048:126962) sets its headline at a raw **32px** (104% / 4%) instead, so the 56/52 alias belongs to the earlier display-sized hero only. Author keeping 32 pending notes — decide which is canonical and retire the other.
 
@@ -264,6 +264,7 @@ Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `desig
 - **UI / functional icons → Phosphor Icons (Fill).** Chosen over Material Sharp because Material's coverage gaps keep biting; Phosphor's ~9,000 icons include the food/bar set we need (even a pepper). One library, one weight.
 - **Social / brand logos → official full-colour marks** (VK, Telegram, Instagram), taken from each brand's own kit (`design/icons/social-media/`). They have always been full colour, on purpose: social marks are almost always contacts, and the colour separates them from the single-colour *supporting* icons at a glance. Don't recolour or redraw them.
 - **Bespoke brand icons → stay custom:** the Yaroslavl bear (city coat of arms) and the pepper-shaker motif. *(Corrected Sep 2026: the two-tone Olive/Avocado veggie leaf existed only in the print menu; the website uses the Phosphor leaf for consistency, so it is not part of the bespoke set.)*
+- **Icon beside text — top-aligned, then offset to the first line (author, 18 Sep 2026).** Where an icon leads a line of text that can wrap or carries a second line (a contact row with its supportive line, an address, a bulleted option), the row is **top-aligned** and the icon sits in a wrapper with a **top offset**, so it stays on line one instead of floating to the middle of the block. The offset centres the icon on the line's **capitals**, not on its line box: `offset = cap-centre − icon height ÷ 2`, rounded to the 4px grid. Measured for Golos on Body 16 / 140%: the line box is 22.4px, the baseline sits 17.2 down, the cap height is 11.2, so the capitals' centre is **11.6px** from the top of the line (the line box's own centre is 11.2; the x-height's is 13.0). A **16px icon → 3.6 → 4px**; an **8px bullet → 7.6 → 8px**. In Figma: wrap the icon in a frame, top padding 4 — as the `contactItem` component draws it. Single-line rows that can never wrap (the call-status line, buttons, chips) just centre-align and need no offset. **The offset belongs to the text size:** when a row's type changes, recompute it — the dish-option bullet's 6px was right for the 14px line and 2px high once the text went to 16.
 - **Delivery — inlined SVG, not the webfont, on contact and booking surfaces (Sep 2026).** Still Phosphor: `assets/icons/` holds the set exported from the Figma file (the `c-*` files draw in `currentColor`, so each takes its slot's colour), so this is one library delivered two ways, not two libraries. Inlined SVG wins wherever an icon carries state or sits in a contact control: it needs no font to load, it survives a failed request, its colour follows the slot in both themes, and it cannot be swapped by rewriting markup from JS — a real bug, where a copy handler rewrote a chip's `innerHTML` and left a typeface ✓ where the icon had been. **Icons change by CSS showing one of two inlined SVGs, never by JS editing an icon.** The webfont stays for the rest of the UI (dialog closes, the home stat chips, the button component's fallback).
 - **Two things that are not icons, deliberately.** The booking status's *busy* mark is a CSS dot — the exported set has no plain circle and the house already draws status dots that way (the Visit rail). The *closed* mark is the daypart `sleep` glyph, replacing a clock glyph that sat awkwardly against the no-clock rule (`website-brief.md`).
 - Don't mix two UI icon libraries. Don't redraw real brand logos by hand.
@@ -333,6 +334,7 @@ Consistency comes from **setting + grade**, not studio perfection. Casual, sligh
 - **Pattern:** design a bespoke pepper pattern to replace the licensed stock one.
 - **Rich black:** confirm print formula (`C15 M23 Y0 K95`) and screen value (`#151317`).
 - **Figma — variables audited Aug 2026.** Collections present: `Color` (17), `Typography` (13, Desktop/Mobile modes), `Sizes`, `Spacing`, `mealTime`. Findings still owed:
+  - **Type re-sync owed (18 Sep 2026, §3.3).** Add a **Tablet** mode to `Typography` (Display 64, H1 48, the rest as Desktop); delete `Body/Secondary` and `Body/Secondary Highlights` and re-point their instances — labels and notes to `Body/Caption`, sentences to `Body/Regular`.
   - **No semantic token layer exists in Figma.** §2.6 defines `--bg` / `--surface` / `--text` / `--text-muted` / `--text-highlight` / `--accent` / `--accent-2` with Day and Night values, but `Color` has a single "Value" mode and holds primitives only. Typography got modes for breakpoint; colour never got them for theme, so every day/night variant is built by hand. **This is the next Figma job** — a Theme collection with Day/Night modes aliasing the palette, matching §2.6 exactly so the CSS and the file stay in step.
   - **`Neutral/Dark Olive*`** — ✓ deleted from the `Color` collection, Aug 2026. It had outlived the Jul decision as a live bindable variable marked only with an asterisk.
   - **`imgOverlayDark`** — ✓ typo fixed in the file and documented in §2.2. It is the **inactive-image dim** (Peppercorn at 33%), not a caption scrim; the two must stay separate tokens.

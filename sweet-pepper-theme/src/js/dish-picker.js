@@ -35,6 +35,7 @@ function initSinglePicker(picker) {
     const dishDesc   = picker.querySelector('.dish-picker__dish-desc');
     const pairingName = picker.querySelector('.dish-picker__pairing-name');
     const ctaLink    = picker.querySelector('.dish-picker__cta');
+    const cardWrap   = picker.querySelector('.dish-picker__card-wrap');
 
     let currentIndex = parseInt(picker.dataset.defaultIndex, 10) || 0;
     let isTransitioning = false;
@@ -63,6 +64,52 @@ function initSinglePicker(picker) {
         document.fonts.ready.then(() => alignTags(tags[currentIndex], 'instant'));
     }
 
+    /* ── The ticket prints (website-brief.md → The bartender's ticket → Motion) ──
+       A pick is an order: the slip pulls back up into its slot, the reply is written while
+       it is out of sight, and it prints again on the house spring — never a text swap in
+       place, never a fade. The slot is .dish-picker__card-wrap itself (overflow: hidden),
+       so the paper — both scalloped edges and the card — moves inside it and nothing else
+       needs a mask. `translate`, so it composes with the phone ticket's 1° tilt.
+       Interruptible: a new pick starts from wherever the paper is. Reduced motion: the
+       text is swapped in place, as before. */
+    const RETRACT_MS = 220;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const rootStyle = getComputedStyle(document.documentElement);
+    const dur = rootStyle.getPropertyValue('--dur-gentle').trim(); // the minifier may write 800ms as .8s
+    const PRINT_MS = (parseFloat(dur) || 0.8) * (dur.endsWith('ms') ? 1 : 1000);
+    const PRINT_EASE = rootStyle.getPropertyValue('--ease-gentle').trim() || 'cubic-bezier(0.33, 0.57, 0.08, 1.19)';
+    let printRun = 0;
+
+    function paperY(el) {
+        const t = getComputedStyle(el).translate; // "none" | "0px -120px"
+        return t === 'none' ? 0 : parseFloat(t.split(' ')[1]) || 0;
+    }
+
+    function reprint(write) {
+        const paper = cardWrap ? [...cardWrap.children] : [];
+        if (!paper.length || reducedMotion.matches || !paper[0].animate) { write(); return; }
+
+        const run = ++printRun;
+        const from = paperY(paper[0]);
+        const out = -(cardWrap.offsetHeight + 8);
+        paper.forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
+
+        const retract = paper.map((el) => el.animate(
+            { translate: [`0 ${from}px`, `0 ${out}px`] },
+            { duration: RETRACT_MS, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
+        ));
+
+        Promise.all(retract.map((a) => a.finished)).then(() => {
+            if (run !== printRun) return; // a newer pick took over
+            write();
+            const height = -(cardWrap.offsetHeight + 8); // the new reply may be a line longer
+            paper.forEach((el) => {
+                el.getAnimations().forEach((a) => a.cancel());
+                el.animate({ translate: [`0 ${height}px`, '0 0px'] }, { duration: PRINT_MS, easing: PRINT_EASE });
+            });
+        }).catch(() => {}); // cancelled by a newer pick
+    }
+
     function selectPairing(index) {
         if (index === currentIndex || isTransitioning) return;
         if (index < 0 || index >= pairings.length) return;
@@ -78,6 +125,19 @@ function initSinglePicker(picker) {
         });
         alignTags(tags[index]);
 
+        // The ticket: retract → write the reply out of sight → print
+        reprint(() => {
+            dishName.textContent    = pairing.cardName || pairing.dish;
+            dishDesc.textContent    = pairing.description;
+            pairingName.textContent = pairing.pairing;
+
+            // Update CTA link
+            if (ctaLink) {
+                const baseUrl = window.location.pathname.replace(/\/$/, '');
+                ctaLink.href = baseUrl + '/?menu=drinks#' + pairing.barSection;
+            }
+        });
+
         // Fade out photos
         foodImg.classList.add('is-fading');
         barImg.classList.add('is-fading');
@@ -89,17 +149,6 @@ function initSinglePicker(picker) {
             foodImg.alt = pairing.dish;
             barImg.src  = pairing.barImg;
             barImg.alt  = pairing.pairing;
-
-            // Swap card content
-            dishName.textContent    = pairing.cardName || pairing.dish;
-            dishDesc.textContent    = pairing.description;
-            pairingName.textContent = pairing.pairing;
-
-            // Update CTA link
-            if (ctaLink) {
-                const baseUrl = window.location.pathname.replace(/\/$/, '');
-                ctaLink.href = baseUrl + '/?menu=drinks#' + pairing.barSection;
-            }
 
             // Fade in
             foodImg.classList.remove('is-fading');

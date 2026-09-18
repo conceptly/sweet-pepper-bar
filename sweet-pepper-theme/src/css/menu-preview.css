@@ -250,13 +250,13 @@ html[data-theme="night"] .dish-quantity {
     color: var(--mushroom);
 }
 
-/* Description — Golos Regular 14px/1.4, tracking 0.56px */
+/* Description — Body/Regular 16 / 1.4 / 0%. The 14px Secondary style is retired (Sep 2026):
+   the name above is 600 / Peppercorn, so weight and colour carry the row, not a 2px step. */
 .dish-description {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 14px;
+    font-size: var(--text-body);
     line-height: 1.4;
-    letter-spacing: 0.56px;
     color: var(--ash);
     margin: 0;
 }
@@ -282,7 +282,9 @@ html[data-theme="night"] .dish-description {
 .dish-option-bullet {
     width: 8px;
     height: 8px;
-    margin-top: 6px;
+    /* Icon beside text rule: 6px centred the bullet on the retired 14px line; on Body 16 /
+       140% the capitals' centre is 11.6px down, so an 8px mark wants 7.6 — 8 on the grid. */
+    margin-top: 8px;
     flex-shrink: 0;
     border-radius: 1px;
     background-color: var(--avocado);
@@ -295,9 +297,8 @@ html[data-theme="night"] .dish-option-bullet {
 .dish-option-text {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 14px;
+    font-size: var(--text-body);
     line-height: 1.4;
-    letter-spacing: 0.56px;
     color: var(--ash);
 }
 

@@ -262,9 +262,9 @@ html[data-theme="night"] .event-card-body {
 .event-card-date span {
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 14px;
+    font-size: var(--text-caption);
     line-height: 1.4;
-    letter-spacing: 0.56px;
+    letter-spacing: 0.52px;
     white-space: nowrap;
     color: var(--peppercorn);
 }

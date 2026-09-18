@@ -20,6 +20,7 @@ import './css/dish-picker.css';
 import './css/location.css';
 import './css/about.css';
 import './css/visit.css';
+import './css/reveal.css';
 import { initDaypartEngine } from './js/daypart-engine';
 import { initMobileDrawer } from './js/mobile-drawer';
 import { initReserveDrawer } from './js/reserve-drawer';
@@ -37,6 +38,8 @@ import { initTeamForm } from './js/team-form';
 import { initVisitHero } from './js/visit-hero';
 import { initGentleScroll } from './js/gentle-scroll';
 import { initSectionLinks } from './js/section-link';
+import { initReveal } from './js/reveal';
+import { initCountUp } from './js/count-up';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -92,4 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Live-text section connectors (About prototype): fit each word to its container
     initSectionLinks();
+
+    // Scroll-in entrances (home page plan; any [data-reveal] in markup)
+    initReveal();
+
+    // Numbers that count up once as their block reveals (after initReveal: it needs the arming)
+    initCountUp();
 });

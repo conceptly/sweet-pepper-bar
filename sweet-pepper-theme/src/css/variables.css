@@ -73,6 +73,16 @@
   --accent-2: var(--lime);
 }
 
+/* Tablet mode (768–991, author, 18 Sep 2026): again only the display levels move —
+   Display 76 → 64, H1 64 → 48 (36 → 48 → 64 is ×1.333 each step). H2/H3, Subtitle, Body 16,
+   Caption 13 and every UI style hold. Sizes stay in px (design.md §3.3). */
+@media (min-width: 768px) and (max-width: 991px) {
+  :root {
+    --text-display: 64px;
+    --text-h1: 48px;
+  }
+}
+
 /* Figma `Typography` collection, Mobile mode (Sep 2026): only the display levels move —
    Display 76 → 64, H1 64 → 36. H2/H3/Body/Caption and every UI style hold (design.md §3.3). */
 @media (max-width: 767px) {

@@ -162,8 +162,12 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
                 <div class="menu-hero__photo-sheet menu-hero__photo-sheet--lime" aria-hidden="true"></div>
                 <div class="menu-hero__photo-sheet menu-hero__photo-sheet--lemon" aria-hidden="true"></div>
 
-                <!-- Photo with keyline -->
-                <div class="menu-hero__photo-frame">
+                <!-- Photo with keyline — the card is the link to the section on show (brief → Menu
+                     page → Hero → Anatomy); menu-hero.js keeps href and label in step with the swap.
+                     The caption pill stays inert inside it: one tap target. -->
+                <a class="menu-hero__photo-frame"
+                   href="#<?php echo esc_attr( $section ); ?>"
+                   aria-label="<?php echo esc_attr( $default_sec['label'] ); ?>">
                     <img src="<?php echo esc_url( $default_image ); ?>"
                          alt="<?php echo esc_attr( $default_sec['caption'] ); ?>"
                          class="menu-hero__photo-img"
@@ -172,7 +176,7 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
                     <span class="menu-hero__photo-pill">
                         <?php echo esc_html( $default_sec['caption'] ); ?>
                     </span>
-                </div>
+                </a>
             </div>
 
             <!-- Description -->
@@ -206,6 +210,7 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
             'night_img' => $connector['night'],
             'alt'       => $connector['alt'],
             'class'     => 'section-link-word--reflection',
+            'loading'   => 'eager', // first viewport on phones, and the entrance parks it under a clip
         ] );
         ?>
     </div>

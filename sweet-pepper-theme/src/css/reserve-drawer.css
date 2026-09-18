@@ -255,15 +255,15 @@ html[data-theme="night"] .btn-call--closed { background-color: var(--chili); }
     color: var(--peppercorn);
 }
 
-/* Figma phoneState: flex gap-8, 14px text, ash color */
+/* Figma phoneState: flex gap-8, ash color. Caption 13 — a short status note (14 retired, Sep 2026) */
 .call-status {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: var(--text-caption);
     color: var(--text-muted); /* Ash by day, Mushroom by night (Figma phoneState) */
     display: flex;
     align-items: center;
     gap: 8px;
-    letter-spacing: 0.56px;
+    letter-spacing: 0.52px;
     line-height: 1.4;
 }
 
@@ -330,9 +330,10 @@ html[data-theme="night"] .btn-social:hover {
     color: var(--peppercorn);
 }
 
+/* A sentence, not a status note — Body 16 (14 retired, Sep 2026) */
 .reserve-footer-text {
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: 1.4;
     color: var(--text);
 }
 
@@ -439,9 +440,7 @@ html[data-theme="night"] .btn-social:hover {
     .reserve-subtitle,
     .reserve-footer-text {
         margin: 0;
-        font-size: 14px;
         line-height: 1.4;
-        letter-spacing: 0.04em;
         color: var(--text);
     }
 

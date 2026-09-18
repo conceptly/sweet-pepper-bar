@@ -39,7 +39,7 @@ get_header();
                             <div class="tile-img-wrapper">
                                 <img src="<?php echo get_template_directory_uri() . '/assets/images/' . $meta['img']; ?>" 
                                      alt="<?php echo esc_attr($meta['alt']); ?>"
-                                     class="tile-img" loading="lazy">
+                                     class="tile-img" loading="eager" decoding="async">
                                 <div class="tile-overlay"></div>
                             </div>
                             <!-- Now badge (dot when inactive, label when active) -->
@@ -83,7 +83,8 @@ get_header();
                 get_template_part( 'template-parts/components/section-link-word', null, [
                     'day_img'   => 'assets/sectionLinks/home/dayMode/atSweetPepper-bottom.svg',
                     'night_img' => 'assets/sectionLinks/home/nightMode/atSweetPepperBottom.svg',
-                    'alt'       => 'AT SWEET PEPPER'
+                    'alt'       => 'AT SWEET PEPPER',
+                    'loading'   => 'eager', // first viewport, and the entrance parks it outside its clip
                 ] ); 
                 ?>
             </div>
@@ -344,7 +345,7 @@ get_header();
                     <div class="about-preview-stats">
                         <span class="stat-chip">
                             <i class="ph-fill ph-pepper stat-chip-icon"></i>
-                            <span class="stat-chip-label">12 years</span>
+                            <span class="stat-chip-label" data-count-up>12 years</span>
                         </span>
                         <span class="stat-chip">
                             <i class="ph-fill ph-star stat-chip-icon"></i>

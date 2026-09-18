@@ -178,12 +178,10 @@ html[data-theme="night"] .section-description {
 }
 
 /* A section may carry a shorter phone-only description (section-header.php →
-   description_mobile): Body/Secondary 14 / 1.4 / 4%, shown ≤ 767px in place of the
-   desktop paragraph. */
+   description_mobile): shown ≤ 767px in place of the desktop paragraph, in the same
+   Body 16 (the 14px Secondary it used to take is retired, Sep 2026). */
 .section-description--mobile {
     display: none;
-    font-size: 14px;
-    letter-spacing: 0.04em;
 }
 
 /* ── Section header, stacked (768–1151, Sep 2026) ─────────────────────────

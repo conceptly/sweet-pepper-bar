@@ -16,39 +16,8 @@
 
 $img_base = get_template_directory_uri() . '/assets/images/';
 
-// Pairings — subset of the menu page's data, matches Figma variants
-$pairings = [
-    [
-        'slug'        => 'roast',
-        'dish'        => 'Yaroslavl Roast',
-        'card_name'   => 'Yaroslavl Roast',
-        'description' => 'A Kirova Street favourite',
-        'food_img'    => 'food/dinner/zharkoe-1.jpg',
-        'bar_img'     => 'bar/hard-drinks/finlandia-3.jpg',
-        'pairing'     => 'A shot of Finlandia vodka',
-        'bar_section' => 'spirits',
-    ],
-    [
-        'slug'        => 'pasta',
-        'dish'        => 'Chicken Pasta',
-        'card_name'   => 'Chicken Pasta',
-        'description' => 'A Kirova Street favourite',
-        'food_img'    => 'food/lunch/chicken-pasta-1.jpg',
-        'bar_img'     => 'bar/hard-drinks/ararat-1.jpg',
-        'pairing'     => 'A glass of Ararat brandy',
-        'bar_section' => 'spirits',
-    ],
-    [
-        'slug'        => 'pumpkin',
-        'dish'        => 'Pumpkin Soup',
-        'card_name'   => 'Pumpkin Soup',
-        'description' => 'Started as a special. Stayed by popular demand.',
-        'food_img'    => 'food/lunch/pumpkin.png',
-        'bar_img'     => 'bar/infusions/infusions-lenya-02.jpg',
-        'pairing'     => 'A shot of sea buckthorn infusion',
-        'bar_section' => 'infusions',
-    ],
-];
+// The menu page's pairings — one list for both pickers (inc/pairings.php)
+$pairings = sweet_pepper_food_pairings();
 ?>
 
 <section id="concept" class="about-section about-section--dark about-concept">
@@ -91,7 +60,7 @@ $pairings = [
                 <?php
                 get_template_part( 'template-parts/components/dish-picker', null, [
                     'pairings'      => $pairings,
-                    'default_index' => 0,
+                    'default_index' => sweet_pepper_pairing_index( $pairings, 'roast' ),
                 ] );
                 ?>
             </div>

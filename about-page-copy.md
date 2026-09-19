@@ -58,6 +58,8 @@ Eggs and coffee, a proper lunch or a cocktail with something to share. Here, the
 
 *Bar-reply draft, not an attributed quotation:* “I'd put a shot of Finlandia beside that.” Use only for the matching, bar-approved pairing. Do not create new pairings through this wording pass.
 
+*Build note, 18 Sep 2026: the About picker now shows the menu page's six pairings from one shared list (`inc/pairings.php`, author's call), so the item-level copy above is **not on the page at the moment** — the shared list still carries the menu's draft wording ("The legend of the Kirova street" on all six; "A shot of the Finlandia"). Open: move the reviewed wording into the shared list, and settle Chicken Pasta's drink (this doc: Ararat brandy; the menu list: Jim Beam on ice — and Ararat is on the wings there).*
+
 *Final review: confirm official dish names (including Pepper Roast / Yaroslavl Roast), serving terminology and each pairing. The current three-pairing implementation is distinct from earlier plans for 4–6 chips and daypart sets; this copy update does not expand the feature.*
 
 ## 3. How it feels

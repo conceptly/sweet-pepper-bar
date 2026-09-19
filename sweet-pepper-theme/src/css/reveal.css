@@ -21,9 +21,11 @@
     }
 
     /* The individual `translate` / `scale` properties, not `transform`: they compose with
-       whatever transform the element already owns — the 1° quote cards, the ±4° perk stamps,
-       the dish picker's centred ×. With `transform` the entrance would have flattened the
-       tilt for its duration and snapped it back at the end. */
+       whatever transform the element already owns — the 1° quote cards, the ±4° perk stamps.
+       With `transform` the entrance would have flattened the tilt for its duration and
+       snapped it back at the end. The corollary: never POSITION a revealed element with
+       `translate` or `scale` — .is-in sets both to `none` while the entrance plays (the
+       dish picker's Shake It! button is centred by offsets for that reason). */
     /* Parked clips: the LEADING side is 0, not −24px. Whatever hangs past that edge — the
        ticket's scallops, a tilted card's corner, a shadow — would otherwise show at the far
        side of the mask before the element has moved (seen: the ticket's scalloped foot as a

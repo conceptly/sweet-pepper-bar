@@ -139,64 +139,150 @@ html[data-theme="night"] .dish-picker__tag:not(.is-active):hover {
     background-color: rgba(193, 219, 52, 0.1);
 }
 
-/* "or" separator */
-.dish-picker__or {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: var(--text-caption);
-    line-height: 1.4;
-    letter-spacing: 0.52px;
-    color: var(--mushroom);
-    white-space: nowrap;
-    flex-shrink: 0;
+/* ── Shake It! — the shaker joins the plate and the glass ────────
+   Figma: shakeItContainer-desktop / -mobile (2437:71646 / 2437:72125). It replaced
+   the "x" and the "or Shake It!" chip (author, 18 Sep 2026), so the tags get the row.
+   48px button = a 4px ring in the section's ground (a colour block cut out of the
+   photos, not an outline) around a 40px disc; the Symbol at 24px (design.md §4 floor).
+   States — hover 52 · pressed 52 + the house inset · delay 56 (touch idle hint) — are
+   `transform: scale`, never size. The slot is centred by offsets and the entrance pops it
+   on `scale` (reveal.css), so the pop and the state scale don't fight. The spin and the
+   rattle ride `rotate` on the icon (dish-picker.js). */
+.dish-picker {
+    --shake-fill: var(--lemon);
+    --shake-ground: var(--surface);
+    --shake-border: transparent;
+    --shake-shadow: 1px 1px 4px rgba(21, 19, 23, 0.15);
+    --shake-glow: 0; /* the Lemon glow at rest: night + a hover-capable pointer only */
 }
 
-/* Shake It! button */
+html[data-theme="night"] .dish-picker {
+    --shake-fill: var(--cream);
+    --shake-border: var(--lemon);
+    --shake-shadow: none;
+}
+
+.dish-picker__shake {
+    position: absolute;
+    top: calc(50% - 24px);   /* not `translate: -50% -50%` — reveal.css sets `translate: none` */
+    left: calc(50% - 24px);  /* while an entrance plays, and the pop landed off-centre */
+    z-index: 2;
+}
+
 .dish-picker__shake-it {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 12px;
-    border-radius: 16px;
+    display: block;
+    width: 48px;
+    height: 48px;
+    padding: 4px;
     border: none;
-    background-color: var(--lemon);
+    border-radius: 50%;
+    background-color: var(--shake-ground);
     cursor: pointer;
-    width: 108px;
-    flex-shrink: 0;
-    transition: transform 0.3s var(--ease-bouncy);
+    transition: transform 0.3s var(--ease-bouncy), background-color 0.3s ease;
 }
 
-.dish-picker__shake-it:hover {
-    transform: scale(1.05);
-}
-
-.dish-picker__shake-it:active {
-    transform: scale(0.97);
-}
-
-.dish-picker__shake-icon {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
+.dish-picker__shake-disc {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 0.5px solid var(--shake-border);
+    background-color: var(--shake-fill);
+    box-shadow: var(--shake-shadow);
+    transition: box-shadow 0.3s var(--ease-gentle-flat);
+}
+
+/* GlowYellow (0 0 8 Lemon), on its own layer so it fades on opacity */
+.dish-picker__shake-disc::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--lemon);
+    opacity: var(--shake-glow);
+    transition: opacity 0.3s var(--ease-gentle-flat);
+    pointer-events: none;
+}
+
+.dish-picker__shake-icon {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
 }
 
 .dish-picker__shake-icon img {
     width: 100%;
-    height: auto;
+    height: 100%;
 }
 
-.dish-picker__shake-label {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: var(--text-caption);
-    line-height: 1.4;
-    letter-spacing: 0.52px;
-    color: var(--peppercorn);
-    white-space: nowrap;
+@media (hover: hover) {
+    html[data-theme="night"] .dish-picker {
+        --shake-glow: 1;
+    }
+
+    .dish-picker__shake-it:hover {
+        transform: scale(1.0833); /* 52 / 48 */
+    }
+
+    .dish-picker__shake-it:hover .dish-picker__shake-icon {
+        animation: dish-picker-rattle 0.6s var(--ease-gentle-flat);
+    }
+}
+
+.dish-picker__shake-it:active {
+    transform: scale(1.0833);
+}
+
+.dish-picker__shake-it:active .dish-picker__shake-disc {
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25); /* Tapped-btn, as buttons.css */
+}
+
+.dish-picker__shake-it:active .dish-picker__shake-disc::after {
+    opacity: 0;
+}
+
+/* Delay — the touch idle hint: swells to 56, rattles, settles; glows by night.
+   One beat per 5 s, the section's one clock (dish-picker.js). */
+.dish-picker__shake-it.is-hinting {
+    animation: dish-picker-swell 1s var(--ease-gentle-flat);
+}
+
+.dish-picker__shake-it.is-hinting .dish-picker__shake-icon {
+    animation: dish-picker-rattle 0.6s 0.2s var(--ease-gentle-flat);
+}
+
+html[data-theme="night"] .dish-picker__shake-it.is-hinting .dish-picker__shake-disc::after {
+    animation: dish-picker-glow 1s var(--ease-gentle-flat);
+}
+
+@keyframes dish-picker-swell {
+    0%, 100% { scale: 1; }
+    35%, 65% { scale: 1.1667; } /* 56 / 48 */
+}
+
+@keyframes dish-picker-glow {
+    0%, 100% { opacity: 0; }
+    35%, 65% { opacity: 1; }
+}
+
+@keyframes dish-picker-rattle {
+    0%, 100% { rotate: 0deg; }
+    20%      { rotate: -14deg; }
+    40%      { rotate: 12deg; }
+    60%      { rotate: -10deg; }
+    80%      { rotate: 5deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dish-picker__shake-it,
+    .dish-picker__shake-icon,
+    .dish-picker__shake-disc::after {
+        animation: none !important;
+    }
 }
 
 /* ── Result area ─────────────────────────────── */
@@ -210,6 +296,7 @@ html[data-theme="night"] .dish-picker__tag:not(.is-active):hover {
 
 /* Photos side */
 .dish-picker__photos {
+    position: relative; /* the Shake It! slot centres on the seam */
     display: flex;
     gap: 8px;
     align-items: center;
@@ -236,18 +323,15 @@ html[data-theme="night"] .dish-picker__tag:not(.is-active):hover {
     transition: opacity 0.35s ease;
 }
 
+/* The outgoing photo during a roll — a clone laid over the frame (dish-picker.js) */
+.dish-picker__photo-ghost {
+    position: absolute;
+    inset: 0;
+}
+
 .dish-picker__photo-food img.is-fading,
 .dish-picker__photo-bar img.is-fading {
     opacity: 0.3;
-}
-
-.dish-picker__x {
-    font-family: var(--font-display);
-    font-size: 16px;
-    line-height: 1.4;
-    letter-spacing: 0.64px;
-    color: var(--chili);
-    flex-shrink: 0;
 }
 
 /* ── Card container — follows reserve-drawer ticket pattern ──── */
@@ -415,16 +499,6 @@ html[data-theme="night"] .pairing-station__title {
     color: var(--lime);
 }
 
-/* "x" between photos: chili → cream */
-html[data-theme="night"] .dish-picker__x {
-    color: var(--cream);
-}
-
-/* Shake It! button: lemon → cream */
-html[data-theme="night"] .dish-picker__shake-it {
-    background-color: var(--cream);
-}
-
 /* Bottom rugged edge: must match card bg (cream) at night.
    !important needed to override inline style from rugged-edge.php */
 html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
@@ -440,18 +514,17 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
    top (no padding), 48 to the content, 48 to the "you'll like it" connector, which ends
    the section (the entrance photo follows). Tags become a scroll rail across the
    gutters; the two photos stay side by side; the ticket goes full width under them
-   with 8px radii and a 48px top inset. The "x" is Olive by day; the night ticket is
-   Parchment (the desktop's Cream stays desktop). */
+   with 8px radii and a 48px top inset. The night ticket is Parchment (the desktop's
+   Cream stays desktop). */
 /* Phones and tablets (≤ 991px): the page shows one section at a time there, so the
    tail connector's reflection opens this section flush at the top, with the phone
    rhythm below it. The result stacks as on phones (author, Sep 2026): the desktop
    row ran 344 + 344 at 768 — cramped, and the 48px between photos and ticket had
    no right value against the band's 16–44px page margins. Photo pair full width
    above the ticket, the ticket with the phone's 8px radii and 48px top inset, and
-   the phone's colours with it — Olive "x" by day, Parchment night ticket (author:
-   colours follow the layout, not the device). The tags keep the desktop wrap (two
-   rows in the band); only the phone's scroll rail with the pinned Shake chip stays
-   below 768. */
+   the phone's colours with it — the Parchment night ticket (author: colours follow
+   the layout, not the device). The tags keep the desktop wrap (two rows in the
+   band); only the phone's scroll rail stays below 768. */
 @media (max-width: 991px) {
     .menu-pairing-station {
         padding-top: 0;
@@ -486,14 +559,6 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
         padding-top: 48px;
     }
 
-    .dish-picker__x {
-        color: var(--olive);
-    }
-
-    html[data-theme="night"] .dish-picker__x {
-        color: var(--cream);
-    }
-
     html[data-theme="night"] .dish-picker__card {
         background-color: var(--parchment);
     }
@@ -509,38 +574,38 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
         max-width: none;
     }
 
-    /* Tags scroll; "or Shake It!" is pinned at the right (decided Sep 2026 — at the
-       end of the scroll it was off-screen on load and after every pick). The row
-       bleeds to the left viewport edge; the tag scroller fades out into the gap
-       before "or" so the cut tag reads as "more", not as a collision. */
+    /* Tags are a scroll rail from gutter edge to gutter edge (Shake It! left the row,
+       18 Sep 2026). Each end fades only while there is more that way — dish-picker.js
+       sets has-more-start / has-more-end — so a cut tag reads as "more", and a rail
+       that fits shows no fade at all. */
     .dish-picker__labels-row {
-        justify-content: flex-start;
-        gap: 12px;
         width: auto;
-        margin-left: -16px;
+        margin: 0 -16px;
     }
 
     .dish-picker__labels {
-        position: relative;
+        --fade-start: 0px;
+        --fade-end: 0px;
         flex: 1 1 0;
         min-width: 0;
         flex-wrap: nowrap;
+        gap: 8px;
         overflow-x: auto;
-        padding: 0 32px 0 16px;
+        padding: 0 16px;
         scroll-padding-inline: 16px;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
-        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
-        mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+        mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
     }
+
+    .dish-picker__labels.has-more-start { --fade-start: 32px; }
+    .dish-picker__labels.has-more-end   { --fade-end: 32px; }
 
     .dish-picker__labels::-webkit-scrollbar {
         display: none;
     }
 
-    .dish-picker__or,
-    .dish-picker__shake-it {
-        flex: none;
-    }
 
 }
+

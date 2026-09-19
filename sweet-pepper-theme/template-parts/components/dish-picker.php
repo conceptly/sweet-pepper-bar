@@ -6,7 +6,7 @@
  * the bar answers with a drink pairing on a "printed" ticket card.
  * Used on the menu page (pairing station) and planned for the About page.
  *
- * Figma: picker-day (860:29520), picker-night
+ * Figma: picker-day (860:29520), picker-night; Shake It! states 2437:71646 / 2437:72125
  *
  * @param array $args {
  *     @type array  $pairings       Array of pairing data. Each entry:
@@ -51,7 +51,7 @@ $default    = $pairings[ $default_index ];
         }, $pairings ) );
     ?></script>
 
-    <!-- Labels row: tags + "or" + Shake It! -->
+    <!-- Labels row: the dish tags (Shake It! lives between the photos) -->
     <div class="dish-picker__labels-row">
         <div class="dish-picker__labels">
             <?php foreach ( $pairings as $i => $p ) : ?>
@@ -65,16 +65,6 @@ $default    = $pairings[ $default_index ];
                 </button>
             <?php endforeach; ?>
         </div>
-
-        <span class="dish-picker__or">or</span>
-
-        <button class="dish-picker__shake-it" type="button" aria-label="Pick a random dish">
-            <span class="dish-picker__shake-icon">
-                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/icons/sweetPepperLogo.svg' ); ?>"
-                     alt="" width="16" height="16">
-            </span>
-            <span class="dish-picker__shake-label">Shake It!</span>
-        </button>
     </div>
 
     <!-- Result: photos + card -->
@@ -87,7 +77,18 @@ $default    = $pairings[ $default_index ];
                      alt="<?php echo esc_attr( $default['dish'] ); ?>"
                      loading="lazy">
             </div>
-            <span class="dish-picker__x molot-text" aria-hidden="true">x</span>
+            <!-- Shake It! — the shaker joins the plate and the glass (it replaced the "x").
+                 Figma: shakeItContainer-desktop / -mobile (2437:71646 / 2437:72125) -->
+            <div class="dish-picker__shake">
+                <button class="dish-picker__shake-it" type="button" aria-label="Shake it — pick a random dish">
+                    <span class="dish-picker__shake-disc">
+                        <span class="dish-picker__shake-icon">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/icons/sweetPepperLogo.svg' ); ?>"
+                                 alt="" width="24" height="24">
+                        </span>
+                    </span>
+                </button>
+            </div>
             <div class="dish-picker__photo-bar">
                 <img src="<?php echo esc_url( $img_base . $default['bar_img'] ); ?>"
                      alt="<?php echo esc_attr( $default['pairing'] ); ?>"

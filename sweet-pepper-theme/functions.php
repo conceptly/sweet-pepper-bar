@@ -72,6 +72,16 @@ require_once get_template_directory() . '/inc/inline-svg.php';
 require_once get_template_directory() . '/inc/menu-sections.php';
 
 /**
+ * Menu rows: the section records in admin → dish-row args (fallback: data/menu/).
+ */
+require_once get_template_directory() . '/inc/menu-data.php';
+
+/**
+ * Dish picker pairings — one list for the menu page and About.
+ */
+require_once get_template_directory() . '/inc/pairings.php';
+
+/**
  * Custom Post Types and Taxonomies
  */
 require_once get_template_directory() . '/inc/cpt.php';

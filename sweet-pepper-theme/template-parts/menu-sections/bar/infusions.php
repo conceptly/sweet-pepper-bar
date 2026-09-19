@@ -121,7 +121,7 @@
                         'price'       => '150-. / 1300-.',
                         'quantity'    => '40 ml / 500 ml',
                         'description' => 'description',
-                        'icons'       => [ 'fire', 'fire' ],
+                        'icons'       => [ 'fire', 'yaroslavl-logo' ],
                     ] );
                     get_template_part( 'template-parts/components/dish-row', null, [
                         'dish_name'   => 'Raspberry Gin',

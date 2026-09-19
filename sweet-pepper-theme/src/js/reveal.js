@@ -69,9 +69,9 @@ const ABOUT = {
         'mask-left':  '.dish-picker__photo-food, .about-guests__card, .about-team__card',
         'mask-right': '.dish-picker__photo-bar, .about-story__founder-img-wrap, .about-team__drift, .location__map',
         'mask-down':  '.dish-picker__card-wrap',
-        'pop':        '.dish-picker__x, .about-perks__stamp, .about-guests__card-pill, .menu-entrance-img__pill',
+        'pop':        '.dish-picker__shake, .about-perks__stamp, .about-guests__card-pill, .menu-entrance-img__pill',
     },
-    delays: { '.dish-picker__x': 350, '.dish-picker__card-wrap': 500 },
+    delays: { '.dish-picker__shake': 350, '.dish-picker__card-wrap': 500 },
 };
 
 /* Visit — a service page: the quietest plan. Text and controls rise, the two pictures
@@ -110,9 +110,9 @@ const MENU = {
         'mask-left':  '.menu-section__hero, .dish-picker__photo-food',
         'mask-right': '.dish-picker__photo-bar, .location__map',
         'mask-down':  '.dish-picker__card-wrap',
-        'pop':        '.menu-section__hero-pill, .menu-section__deal, .dish-picker__x, .menu-entrance-img__pill',
+        'pop':        '.menu-section__hero-pill, .menu-section__deal, .dish-picker__shake, .menu-entrance-img__pill',
     },
-    delays: { '.dish-picker__x': 350, '.dish-picker__card-wrap': 500 },
+    delays: { '.dish-picker__shake': 350, '.dish-picker__card-wrap': 500 },
 };
 
 const PLANS = [HOME, ABOUT, VISIT, MENU];

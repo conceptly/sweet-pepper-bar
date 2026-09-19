@@ -439,9 +439,23 @@
     aspect-ratio: 1 / 1;
 }
 
-/* "x" between photos — Cream in dark context */
-.about-concept .dish-picker__x {
-    color: var(--cream, #fff689);
+/* Shake It! — the night values in every theme (the band is always dark), and the ring
+   takes the band's ground rather than --surface */
+.about-concept .dish-picker {
+    --shake-fill: var(--cream, #fff689);
+    --shake-ground: var(--soft-peppercorn, #201e22);
+    --shake-border: var(--lemon);
+    --shake-shadow: none;
+}
+
+@media (hover: hover) {
+    .about-concept .dish-picker {
+        --shake-glow: 1;
+    }
+}
+
+.about-concept .dish-picker__shake-it.is-hinting .dish-picker__shake-disc::after {
+    animation: dish-picker-glow 1s var(--ease-gentle-flat);
 }
 
 /* Card uses Parchment bg (not Paper) in the About dark context */
@@ -465,11 +479,6 @@
     --rugged-color: var(--parchment) !important;
 }
 
-/* Shake It! button — Cream bg in dark context */
-.about-concept .dish-picker__shake-it {
-    background-color: var(--cream, #fff689);
-}
-
 /* Tag pills — avocado border on dark bg */
 .about-concept .dish-picker__tag {
     border-color: var(--avocado);
@@ -484,11 +493,6 @@
 
 .about-concept .dish-picker__tag:not(.is-active):hover {
     background-color: rgba(193, 219, 52, 0.1);
-}
-
-/* "or" text color in dark context */
-.about-concept .dish-picker__or {
-    color: var(--mushroom);
 }
 
 /* ---------------------------------------------------------------------------

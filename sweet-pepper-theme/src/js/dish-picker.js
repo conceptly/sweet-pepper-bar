@@ -2,7 +2,7 @@
  * Dish Picker — Interactive pairing component
  *
  * Reads pairings data from an inline <script type="application/json">,
- * handles tag selection, photo crossfade, and card content swap.
+ * handles tag selection, the photo roll, the ticket re-print and Shake It!.
  *
  * Pattern follows menu-hero.js (inline JSON data, crossfade transitions).
  */
@@ -38,16 +38,13 @@ function initSinglePicker(picker) {
     const cardWrap   = picker.querySelector('.dish-picker__card-wrap');
 
     let currentIndex = parseInt(picker.dataset.defaultIndex, 10) || 0;
-    let isTransitioning = false;
 
-    // ── Crossfade helper ─────────────────────────────
-    // Same pattern as menu-hero.js: fade out → swap at midpoint → fade in
-    const FADE_DURATION = 350; // ms — total crossfade
-    const FADE_MIDPOINT = FADE_DURATION / 2;
+    // Reduced motion only: the old crossfade — fade out → swap at midpoint → fade in
+    const FADE_MIDPOINT = 175; // ms
 
     /**
-     * Phones: the tags are a scroll rail with "or Shake It!" pinned beside it
-     * (dish-picker.css ≤ 767px), so the picked
+     * Phones: the tags are a gutter-to-gutter scroll rail (dish-picker.css ≤ 767px),
+     * so the picked
      * tag must be brought into view — to the 16px gutter, like the section rail —
      * or a "Shake It!" pick and the server-rendered default can sit off-screen.
      * Smooth on a tap, instant on load; a no-op when the row doesn't scroll.
@@ -110,11 +107,69 @@ function initSinglePicker(picker) {
         }).catch(() => {}); // cancelled by a newer pick
     }
 
+    /* ── The photos roll (website-brief.md → Pairing station → Motion) ──
+       A pick rolls both frames like a rail, in opposite directions — the plate comes down
+       from the top, the glass up from the bottom: the two hands of a shake. The frame is
+       the mask (overflow: hidden), so only the images move, on `translate`; the frames
+       stay the reveal engine's. The old photo leaves as a clone (already decoded, so it
+       covers while the new one decodes) and the real <img> takes the new src and rolls in
+       behind it, 8px apart like frames on a strip. --ease-out-expo, the curve the photos
+       entered on: a spring's overshoot would cross the mask's edge and show the ground.
+       Interruptible like the ticket — a new pick takes over from wherever the strip is. */
+    const ROLL_MS = 900;
+    const ROLL_GAP = 8;
+    const ROLL_EASE = rootStyle.getPropertyValue('--ease-out-expo').trim() || 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+    function rollPhoto(img, src, alt, dir, delay) {
+        const frame = img.parentElement;
+        let ghost = frame.querySelector('.dish-picker__photo-ghost');
+        let from;
+
+        if (img._parked && ghost) {
+            // A second pick before the first had decoded: the old photo is still the one on
+            // show — keep it, and just change what is coming.
+            from = img._from;
+        } else {
+            from = paperY(img); // mid-roll if a pick interrupts
+            img.getAnimations().forEach((a) => a.cancel());
+            if (ghost) ghost.remove();
+
+            ghost = img.cloneNode(false);
+            ghost.classList.add('dish-picker__photo-ghost');
+            ghost.alt = '';
+            ghost.setAttribute('aria-hidden', 'true');
+            ghost.removeAttribute('loading');
+            ghost.style.translate = `0 ${from}px`;
+            frame.appendChild(ghost);
+        }
+        img._parked = true;
+        img._from = from;
+
+        const travel = frame.offsetHeight + ROLL_GAP;
+        const start = from - dir * travel;
+        img.style.translate = `0 ${start}px`; // parked behind the mask while it decodes
+        img.src = src;
+        img.alt = alt;
+
+        const run = (img._rollRun = (img._rollRun || 0) + 1);
+        const ready = img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+        ready.then(() => {
+            if (run !== img._rollRun) return; // a newer pick took over
+            img._parked = false;
+            const timing = { duration: ROLL_MS, delay, easing: ROLL_EASE, fill: 'backwards' };
+            img.style.translate = '';
+            img.animate({ translate: [`0 ${start}px`, '0 0px'] }, timing);
+            ghost.style.translate = `0 ${dir * travel}px`;
+            ghost.animate({ translate: [`0 ${from}px`, `0 ${dir * travel}px`] }, timing)
+                .finished.then(() => ghost.remove()).catch(() => {});
+        });
+    }
+
     function selectPairing(index) {
-        if (index === currentIndex || isTransitioning) return;
+        if (index === currentIndex) return;
         if (index < 0 || index >= pairings.length) return;
 
-        isTransitioning = true;
+        currentIndex = index; // the last pick always wins — nothing is dropped mid-motion
         const pairing = pairings[index];
 
         // Update tag states
@@ -138,28 +193,73 @@ function initSinglePicker(picker) {
             }
         });
 
-        // Fade out photos
+        if (!reducedMotion.matches && foodImg.animate) {
+            rollPhoto(foodImg, pairing.foodImg, pairing.dish, 1, 0);      // plate: down from the top
+            rollPhoto(barImg, pairing.barImg, pairing.pairing, -1, 80);   // glass: up from the bottom, a beat later
+            return;
+        }
+
+        // Reduced motion: crossfade in place
         foodImg.classList.add('is-fading');
         barImg.classList.add('is-fading');
-
-        // Swap content at midpoint
         setTimeout(() => {
-            // Swap images
+            if (pairings[currentIndex] !== pairing) return; // a newer pick took over
             foodImg.src = pairing.foodImg;
             foodImg.alt = pairing.dish;
             barImg.src  = pairing.barImg;
             barImg.alt  = pairing.pairing;
-
-            // Fade in
             foodImg.classList.remove('is-fading');
             barImg.classList.remove('is-fading');
         }, FADE_MIDPOINT);
+    }
 
-        // Allow next transition after full duration
-        setTimeout(() => {
-            currentIndex = index;
-            isTransitioning = false;
-        }, FADE_DURATION);
+    /* ── Shake It! — the shaker between the plate and the glass ──
+       (website-brief.md → Pairing station; Figma 2437:71646 / 2437:72125.)
+       Tap: the shaker spins once on the house spring while the ticket re-prints.
+       Touch only: the "delay" state as an idle hint — a swell on the 5 s heartbeat, the
+       section's one clock. Any pick seizes it for 8 s; the first Shake ends it for the
+       visit (the guest has found it). Hover-capable pointers get the hover state instead. */
+    const shakeIcon = shakeBtn && shakeBtn.querySelector('.dish-picker__shake-icon');
+    const HEARTBEAT = 5000, SEIZE = 8000, FIRST = 2500;
+    let hintTimer = 0;
+    let hintInView = false;
+    let hintDone = !shakeBtn || !window.matchMedia('(hover: none)').matches;
+
+    function hintBeat() {
+        if (hintDone || reducedMotion.matches) return;
+        if (hintInView) {
+            shakeBtn.classList.remove('is-hinting');
+            void shakeBtn.offsetWidth; // restart the keyframes
+            shakeBtn.classList.add('is-hinting');
+        }
+        hintWait(HEARTBEAT);
+    }
+
+    function hintWait(ms) {
+        clearTimeout(hintTimer);
+        if (!hintDone) hintTimer = setTimeout(hintBeat, ms);
+    }
+
+    if (!hintDone && 'IntersectionObserver' in window) {
+        let started = false;
+        new IntersectionObserver(([entry]) => {
+            hintInView = entry.isIntersecting;
+            if (hintInView && !started) { started = true; hintWait(FIRST); }
+        }, { threshold: 0.6 }).observe(picker.querySelector('.dish-picker__photos'));
+    }
+
+    /* The tag rail (phones) fades at an end only while there is more that way. */
+    function markRail() {
+        if (!labelsRail) return;
+        const max = labelsRail.scrollWidth - labelsRail.clientWidth;
+        labelsRail.classList.toggle('has-more-start', labelsRail.scrollLeft > 1);
+        labelsRail.classList.toggle('has-more-end', labelsRail.scrollLeft < max - 1);
+    }
+    if (labelsRail) {
+        labelsRail.addEventListener('scroll', markRail, { passive: true });
+        window.addEventListener('resize', markRail);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(markRail);
+        markRail();
     }
 
     // ── Tag clicks ───────────────────────────────────
@@ -167,6 +267,8 @@ function initSinglePicker(picker) {
         tag.addEventListener('click', () => {
             const index = parseInt(tag.dataset.index, 10);
             selectPairing(index);
+            if (shakeBtn) shakeBtn.classList.remove('is-hinting');
+            hintWait(SEIZE);
         });
     });
 
@@ -181,11 +283,16 @@ function initSinglePicker(picker) {
 
             selectPairing(randomIndex);
 
-            // Add a micro-bounce to the button
-            shakeBtn.style.transform = 'scale(1.1) rotate(-3deg)';
-            setTimeout(() => {
-                shakeBtn.style.transform = '';
-            }, 300);
+            // Found: the idle hint has done its job for this visit.
+            hintDone = true;
+            clearTimeout(hintTimer);
+            shakeBtn.classList.remove('is-hinting');
+
+            // One full turn on the house spring — it overshoots and settles, like a wrist.
+            if (shakeIcon && shakeIcon.animate && !reducedMotion.matches) {
+                shakeIcon.getAnimations().forEach((a) => a.cancel());
+                shakeIcon.animate({ rotate: ['0deg', '360deg'] }, { duration: 900, easing: PRINT_EASE });
+            }
         });
     }
 

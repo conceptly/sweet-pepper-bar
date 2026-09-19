@@ -13,70 +13,8 @@
 
 $img_base = get_template_directory_uri() . '/assets/images/';
 
-// Hardcoded pairing data — each food dish matched to a bar recommendation.
-// Phase 2: pull from ACF repeater or dish CPT relationship field.
-$pairings = [
-    [
-        'slug'        => 'pumpkin-soup',
-        'dish'        => 'Pumpkin Soup',         // tag label
-        'card_name'   => 'Pumpkin Soup',          // card display name
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'food/lunch/pumpkin.png',
-        'bar_img'     => 'bar/infusions/infusions-lenya-11.jpg',
-        'pairing'     => 'A shot of the buckthorn infusion',
-        'bar_section' => 'infusions',
-    ],
-    [
-        'slug'        => 'draniki',
-        'dish'        => 'Signature Draniki',
-        'card_name'   => 'Signature Draniki',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'food/dinner/draniki-2.jpg',
-        'bar_img'     => 'bar/infusions/infusions-lenya-09.jpg',
-        'pairing'     => 'A shot of the cranberry infusion',
-        'bar_section' => 'infusions',
-    ],
-    [
-        'slug'        => 'beefsteak',
-        'dish'        => 'Beefsteak with Egg',
-        'card_name'   => 'Beefsteak with Egg',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'food/dinner/minced-beefsteak-07.jpg',
-        'bar_img'     => 'bar/hard-drinks/jim-beam-1.jpg',
-        'pairing'     => 'Jack Daniels on ice',
-        'bar_section' => 'spirits',
-    ],
-    [
-        'slug'        => 'roast',
-        'dish'        => 'Yaroslavl Pork Roast',  // tag label (longer)
-        'card_name'   => 'Yaroslavl Roast',        // card display name (shorter, per Figma)
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'food/dinner/zharkoe-1.jpg',
-        'bar_img'     => 'bar/hard-drinks/finlandia-3.jpg',
-        'pairing'     => 'A shot of the Finlandia',
-        'bar_section' => 'spirits',
-    ],
-    [
-        'slug'        => 'wings',
-        'dish'        => 'Smoked Pepper Wings',   // tag label
-        'card_name'   => 'Chicken Wings',          // card display name (per Figma)
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'food/dinner/wings-2.jpg',
-        'bar_img'     => 'bar/hard-drinks/ararat-1.jpg',
-        'pairing'     => 'A shot of the Ararat cognac',
-        'bar_section' => 'spirits',
-    ],
-    [
-        'slug'        => 'pasta',
-        'dish'        => 'Chicken Pasta',
-        'card_name'   => 'Chicken Pasta',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'food/lunch/chicken-pasta-1.jpg',
-        'bar_img'     => 'bar/wine/red-2.jpg',
-        'pairing'     => 'Jim Beam on ice',
-        'bar_section' => 'spirits',
-    ],
-];
+// One list for both pickers — inc/pairings.php.
+$pairings = sweet_pepper_food_pairings();
 ?>
 
 <!-- ═══════════════════════════════════════════════════════════════
@@ -109,7 +47,7 @@ $pairings = [
             <?php
             get_template_part( 'template-parts/components/dish-picker', null, [
                 'pairings'      => $pairings,
-                'default_index' => 3, // Yaroslavl Pork Roast — matches Figma default
+                'default_index' => sweet_pepper_pairing_index( $pairings, 'roast' ), // matches Figma default
             ] );
             ?>
         </div>

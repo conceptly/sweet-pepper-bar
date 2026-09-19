@@ -1,0 +1,620 @@
+{
+    "key": "group_sp_menu_section",
+    "title": "Раздел меню",
+    "fields": [
+        {
+            "key": "field_sp_menu_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Порядок строк — порядок на сайте: перетащите строку за номер слева. «Скрыть с сайта» убирает блюдо не в сезоне, строка остаётся здесь.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_menu_subsections",
+            "label": "Подразделы и блюда",
+            "name": "menu_subsections",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "field_sp_menu_sub_title_ru",
+            "button_label": "Добавить подраздел",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_menu_sub_title_ru",
+                    "label": "Подраздел",
+                    "name": "title_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "35",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "можно без заголовка",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_menu_subsections"
+                },
+                {
+                    "key": "field_sp_menu_sub_title_en",
+                    "label": "Подраздел (EN)",
+                    "name": "title_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "35",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_menu_subsections"
+                },
+                {
+                    "key": "field_sp_menu_sub_column",
+                    "label": "Колонка",
+                    "name": "column",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "15",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "left": "Левая",
+                        "right": "Правая"
+                    },
+                    "default_value": "left",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_menu_subsections"
+                },
+                {
+                    "key": "field_sp_menu_sub_style",
+                    "label": "Вид",
+                    "name": "style",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "15",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "list": "Список",
+                        "card": "Карточка (добавки, соусы)"
+                    },
+                    "default_value": "list",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_menu_subsections"
+                },
+                {
+                    "key": "field_sp_menu_dishes",
+                    "label": "Блюда",
+                    "name": "dishes",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "block",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "field_sp_menu_dish_name_ru",
+                    "button_label": "Добавить блюдо",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_sp_menu_dish_name_ru",
+                            "label": "Название",
+                            "name": "name_ru",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "40",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_name_en",
+                            "label": "Название (EN)",
+                            "name": "name_en",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "40",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_hidden",
+                            "label": "Скрыть с сайта",
+                            "name": "hidden",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "20",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "ui": 1,
+                            "ui_on_text": "Да",
+                            "ui_off_text": "Нет",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_amount",
+                            "label": "Выход",
+                            "name": "amount",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "14",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "min": 0,
+                            "max": "",
+                            "step": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_unit",
+                            "label": "Ед.",
+                            "name": "unit",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "14",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "g": "г",
+                                "ml": "мл",
+                                "l": "л",
+                                "pcs": "шт"
+                            },
+                            "default_value": "g",
+                            "allow_null": 0,
+                            "return_format": "value",
+                            "multiple": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_price",
+                            "label": "Цена",
+                            "name": "price",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "22",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "min": 0,
+                            "max": "",
+                            "step": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "-.",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_amount_2",
+                            "label": "Выход 2",
+                            "name": "amount_2",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "14",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "min": 0,
+                            "max": "",
+                            "step": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_unit_2",
+                            "label": "Ед.",
+                            "name": "unit_2",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "14",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "g": "г",
+                                "ml": "мл",
+                                "l": "л",
+                                "pcs": "шт"
+                            },
+                            "default_value": "g",
+                            "allow_null": 0,
+                            "return_format": "value",
+                            "multiple": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_price_2",
+                            "label": "Цена 2",
+                            "name": "price_2",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "22",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "min": 0,
+                            "max": "",
+                            "step": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "-.",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_description_ru",
+                            "label": "Описание",
+                            "name": "description_ru",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 2,
+                            "placeholder": "",
+                            "new_lines": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_description_en",
+                            "label": "Описание (EN)",
+                            "name": "description_en",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 2,
+                            "placeholder": "",
+                            "new_lines": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_more",
+                            "label": "Дополнительно: значки, сезон, опции",
+                            "name": "",
+                            "aria-label": "",
+                            "type": "accordion",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "open": 0,
+                            "multi_expand": 1,
+                            "endpoint": 0,
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_icons",
+                            "label": "Значки — не больше двух",
+                            "name": "icons",
+                            "aria-label": "",
+                            "type": "checkbox",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "veg": "Лист — вегетарианское",
+                                "fire": "Огонь — хит",
+                                "Pepper": "Перец — острое",
+                                "yaroslavl-logo": "Ярославль — местное блюдо"
+                            },
+                            "default_value": [],
+                            "return_format": "value",
+                            "allow_custom": 0,
+                            "save_custom": 0,
+                            "layout": "horizontal",
+                            "toggle": 0,
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_highlight",
+                            "label": "Выделить название",
+                            "name": "highlight",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "Хит, сезонное, фирменное",
+                            "default_value": 0,
+                            "ui": 1,
+                            "ui_on_text": "Да",
+                            "ui_off_text": "Нет",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_seasonal_ru",
+                            "label": "Сезонная метка",
+                            "name": "seasonal_ru",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "Лето’26!",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_seasonal_en",
+                            "label": "Сезонная метка (EN)",
+                            "name": "seasonal_en",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_options_ru",
+                            "label": "Опции",
+                            "name": "options_ru",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "Каждая опция с новой строки.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 3,
+                            "placeholder": "",
+                            "new_lines": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_options_en",
+                            "label": "Опции (EN)",
+                            "name": "options_en",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "Каждая опция с новой строки.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 3,
+                            "placeholder": "",
+                            "new_lines": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_id",
+                            "label": "ID",
+                            "name": "dish_id",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "sp-field-hidden",
+                                "id": ""
+                            },
+                            "readonly": 1,
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        }
+                    ],
+                    "parent_repeater": "field_sp_menu_subsections"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "menu_section"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Subsections → dishes of one menu section. Generated by tools/menu-field-group.py; read by inc/menu-data.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1789772856
+}

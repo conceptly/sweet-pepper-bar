@@ -28,6 +28,7 @@ import { initContactForm } from './js/contact-form';
 import { initMenuHero } from './js/menu-hero';
 import { initMenuJumpNav } from './js/menu-jump-nav';
 import { initMenuSingleSection } from './js/menu-single-section';
+import { initMenuRailNudge } from './js/menu-rail-nudge';
 import { initDishPicker } from './js/dish-picker';
 import { initLocationMap, initVisitMapRoutes } from './js/location-map';
 import { initAboutPerks } from './js/about-perks';
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Menu page on phones: one section at a time (menu page only)
     initMenuSingleSection();
+    initMenuRailNudge(); // the phone rail's entrance + idle nudge
 
     // Initialize dish picker (pairing station)
     initDishPicker();

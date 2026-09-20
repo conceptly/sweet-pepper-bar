@@ -248,7 +248,11 @@ export function initReveal() {
 
         roots.forEach((root) => {
             const st = state.get(root);
-            if (st === 'playing' || !hasBox(root)) return;
+            if (st === 'playing') return;
+            // Parked, then lost its box — a resize across a breakpoint turned it into
+            // display: contents / none (the menu's title wrapper on phones, a tablet rotating):
+            // it can never arrive, so hand it back, or whatever it holds stays parked for good
+            if (!hasBox(root)) { if (st === 'armed') release(root); return; }
             const y = layoutTop(root);
 
             if (st === 'armed') {
@@ -289,5 +293,8 @@ export function initReveal() {
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     window.addEventListener('load', schedule);
+    // The page changed under a still viewport (the phone menu swapping its section):
+    // whoever did it asks for another look
+    window.addEventListener('reveal:check', schedule);
     check();
 }

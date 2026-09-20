@@ -14,10 +14,11 @@ $uri   = get_template_directory_uri() . '/assets/icons/';
 
 // Order follows the Figma mockup (Home · About · Menu · Visit).
 // website-brief.md → Top nav → Mobile lists this as open: decided order is Home · Menu · About · Visit.
+// "late\u{2011}night": a non-breaking hyphen, so the description never splits there when it wraps.
 $items = [
     [ 'label' => 'Home',  'desc' => 'A taste of Sweet Pepper',          'url' => home_url( '/' ),      'current' => is_front_page() ],
     [ 'label' => 'About', 'desc' => 'The place, the people, the story', 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) ],
-    [ 'label' => 'Menu',  'desc' => 'From breakfast to late-night drinks', 'url' => home_url( '/menu' ),  'current' => is_page_template( 'page-menu.php' ) ],
+    [ 'label' => 'Menu',  'desc' => "From breakfast to late\u{2011}night drinks", 'url' => home_url( '/menu' ),  'current' => is_page_template( 'page-menu.php' ) ],
     [ 'label' => 'Visit', 'desc' => 'Hours, directions and contacts',   'url' => home_url( '/visit' ), 'current' => is_page_template( 'page-visit.php' ) ],
 ];
 
@@ -99,7 +100,7 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
         <div class="mobile-drawer__cta-row">
             <?php
             get_template_part( 'template-parts/components/button', null, [
-                'label'         => 'Vk Message',
+                'label'         => 'VK message',
                 'type'          => 'secondary',
                 'icon_left_svg' => 'icons/vk.svg',
                 'url'           => 'https://vk.me/barsweetpepper',

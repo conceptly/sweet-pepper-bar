@@ -118,7 +118,7 @@
     color: var(--lemon);
 }
 
-/* ---- Nav list: Molot H2 title + Golos description + 12px trailing icon ---- */
+/* ---- Nav list: Molot H2 title + Golos caption description + 12px trailing icon ---- */
 .mobile-drawer__nav {
     width: 100%;
     padding-top: 16px;
@@ -161,15 +161,22 @@
 }
 
 .mobile-drawer__link-desc {
-    padding-bottom: 2px;
+    /* Caption 13 / 4%, not Body 16 (author, 20 Sep 2026): at 16 the longer descriptions
+       wrapped to two lines on phones and the list lost its rhythm. */
+    padding-bottom: 4px;
     font-family: var(--font-body);
-    font-size: var(--text-body);
+    font-size: var(--text-caption);
+    letter-spacing: 0.04em;
     line-height: 1.4;
+    /* Where a description still wraps (≤ 360px, and RU to come), break it evenly */
+    text-wrap: balance;
 }
 
+/* Centred on the description's last line (18.2px line, 12px icon → 3px + the 4px above),
+   not on the title: the two read as one unit */
 .mobile-drawer__link-icon {
     flex-shrink: 0;
-    padding-bottom: 8px;
+    padding-bottom: 7px;
 }
 
 .mobile-drawer__link-icon svg {

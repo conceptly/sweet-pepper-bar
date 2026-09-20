@@ -130,7 +130,7 @@ Drop in, or arrange a table by phone or message. Planning a Friday or Saturday e
 
 Drop in, or book ahead for Friday and Saturday evenings.
 
-**Messaging buttons:** Message on VK · Message on Instagram
+**Messaging buttons:** VK message · Instagram DM *(20 Sep 2026 — was "Message on VK · Message on Instagram": the pair overflowed the two-up row on phones, where this block lives. Same labels now as the nav drawer, the reserve drawer and the Visit CTA.)*
 
 ### Map
 

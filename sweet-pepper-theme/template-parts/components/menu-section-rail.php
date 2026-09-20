@@ -16,6 +16,11 @@
  *     @type string $current   Slug of this section (required; matches the <section id>).
  *     @type string $headline  Headline text if it differs from the nav word
  *                             (e.g. "For Little Peppers" for kids). Optional.
+ *                             Desktop only: in the rail (≤ 991px) the current word is the
+ *                             nav word, like every other word in it — a tab that renames
+ *                             itself when chosen reads as a different place, and the long
+ *                             headlines ("Sandwiches & Bagels") filled the row, so the next
+ *                             word never peeked (author, 20 Sep 2026).
  * }
  */
 
@@ -27,7 +32,8 @@ if ( ! isset( $sections[ $current ] ) ) {
     return;
 }
 
-$headline = $args['headline'] ?? $sections[ $current ]['label'];
+$label    = $sections[ $current ]['label'];
+$headline = $args['headline'] ?? $label;
 
 // Canonical order, the current word in place: the rail is scrolled so the current word
 // sits at the left gutter and the sections before it are reachable by scrolling left
@@ -37,7 +43,13 @@ $headline = $args['headline'] ?? $sections[ $current ]['label'];
     <nav class="menu-section-rail__nav" aria-label="<?php esc_attr_e( 'Menu sections', 'sweet-pepper' ); ?>">
         <?php foreach ( $sections as $slug => $sec ) : ?>
             <?php if ( $slug === $current ) : ?>
-                <h2 class="section-headline molot-text menu-section-rail__item menu-section-rail__current"><?php echo esc_html( $headline ); ?></h2>
+                <h2 class="section-headline molot-text menu-section-rail__item menu-section-rail__current">
+                    <?php if ( $headline !== $label ) : // one is display: none at any width (menu-section.css) ?>
+                        <span class="menu-section-rail__long"><?php echo esc_html( $headline ); ?></span><span class="menu-section-rail__short"><?php echo esc_html( $label ); ?></span>
+                    <?php else : ?>
+                        <?php echo esc_html( $headline ); ?>
+                    <?php endif; ?>
+                </h2>
             <?php else : ?>
                 <a href="#<?php echo esc_attr( $slug ); ?>"
                    class="menu-section-rail__item menu-section-rail__link molot-text"

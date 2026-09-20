@@ -49,6 +49,10 @@ export function initMenuSingleSection() {
             const target = document.getElementById(slug);
             if (target) gentleScrollTo(target); // instant under prefers-reduced-motion
         }
+        // A switch changes what is in view without a scroll event (every section's top is the
+        // same spot), and reveal.js only looks again on scroll: a headline it parked earlier
+        // stayed parked, so the rail opened with no current word (20 Sep 2026).
+        window.dispatchEvent(new Event('reveal:check'));
         return true;
     }
 

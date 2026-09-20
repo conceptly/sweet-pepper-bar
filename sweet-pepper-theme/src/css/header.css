@@ -89,7 +89,10 @@ html[data-theme="night"] .main-navigation .current_page_item a {
 /* Header Utilities (What's on & Lang Switch) */
 .header-utils {
     display: flex;
-    align-items: center;
+    /* stretch, not center: the What's new chip takes the language switch's height (author,
+       20 Sep 2026). It was 34 against 38.4 by day and 40.4 by night; the chip's own row still
+       centres its label and icons. */
+    align-items: stretch;
     gap: 48px;
 }
 

@@ -1,5 +1,6 @@
 /* Hero Section — fills viewport minus header */
 .home-hero {
+    --hero-air: 32px; /* least space above the eyebrow and below the CTAs */
     min-height: calc(100vh - 78px); /* Header: 24px top padding + ~54px content = 78px */
     position: relative;
     display: flex;
@@ -37,6 +38,10 @@ body.admin-bar .home-hero {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* A floor under the centring (20 Sep 2026): on short screens — an iPad in landscape, a
+       13" laptop — the free space ran out and the eyebrow sat against the header (0px at
+       720 tall, 14px at 1280 × 800). Symmetric, so tall screens centre exactly as before. */
+    padding-block: var(--hero-air);
 }
 
 /* Hero footer — contains the link-word (in flow) and lang-nudge (absolute) */
@@ -89,7 +94,11 @@ body.admin-bar .home-hero {
    tile shrinks fluidly while the 16px height step, 8px padding and 24px gap stay fixed.
    At ≤ 767px the mobile bento takes over (block at the end of this file). */
 .daypart-tile {
-    --tile: min(224px, calc((100cqw - 104px) / 4.5)); /* inactive square */
+    /* …and by the screen's height (20 Sep 2026): everything in the hero except the tile row
+       is 612px tall with the 32px floors (header 78 + copy + CTAs + foot word + 24 of row
+       chrome), so the tile gives way before the hero outgrows the viewport — down to 168,
+       never below. 224 again from 836px of height. */
+    --tile: min(224px, calc((100cqw - 104px) / 4.5), max(168px, calc(100vh - 612px))); /* inactive square */
     --img-h: calc(var(--tile) + 16px);           /* active image height (240) */
     --img-w: calc(var(--img-h) * 1.5);           /* 3:2 → 360 */
     --active-w: calc(var(--img-w) + 8px);        /* + 8px right padding → 368 */
@@ -437,6 +446,7 @@ html[data-theme="night"] .lang-nudge strong {
 
     .hero-content {
         justify-content: center;
+        padding-block: 0; /* the 32px floor is the desktop row's; the bento keeps the frame's own 24 / 36 */
     }
 
     .hero-footer {

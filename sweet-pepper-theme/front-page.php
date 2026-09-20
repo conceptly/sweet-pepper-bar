@@ -563,13 +563,15 @@ get_header();
                     <div class="contacts-reserve__row">
                         <?php
                         get_template_part( 'template-parts/components/button', null, [
-                            'label'         => 'Message on VK',
+                            // Short labels, the drawers' and the Visit CTA's: the long pair ("Message on …")
+                            // overflowed the two-up row on phones (Sep 2026)
+                            'label'         => 'VK message',
                             'type'          => 'secondary',
                             'icon_left_svg' => 'icons/vk.svg',
                             'url'           => 'https://vk.me/barsweetpepper',
                         ] );
                         get_template_part( 'template-parts/components/button', null, [
-                            'label'         => 'Message on Instagram',
+                            'label'         => 'Instagram DM',
                             'type'          => 'secondary',
                             'icon_left_svg' => 'icons/insta.svg',
                             'url'           => 'https://ig.me/m/barsweetpepper',

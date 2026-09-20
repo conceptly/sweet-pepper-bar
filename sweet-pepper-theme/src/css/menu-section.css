@@ -483,7 +483,8 @@ html[data-theme="night"] .menu-section__remark {
     display: contents;
 }
 
-.menu-section-rail__link {
+.menu-section-rail__link,
+.menu-section-rail__short {
     display: none;
 }
 
@@ -553,14 +554,14 @@ html[data-theme="night"] .menu-section__remark {
         left: 16px;
     }
 
-    /* ── Top block, piece 2: the rail (46px, words at 24px, 16px lead-in) ── */
+    /* ── Top block, piece 2: the rail (54px: 8 + the 38px words + 8; 16px lead-in) ── */
     .menu-section-rail {
         order: 2;
         position: sticky;           /* the rail is the page's navigation on phones: it stays under the header while its section scrolls */
         top: 76px;
         z-index: 5;
         margin: 0 calc(-1 * var(--gutter));
-        padding: 8px var(--gutter) 0;
+        padding: 8px var(--gutter);  /* bottom = top (author, 20 Sep 2026): stuck under the header the band had 8 above the words and 0 below */
         gap: 24px;
         background-color: var(--section-top-bg);
         overflow-x: auto;
@@ -583,6 +584,15 @@ html[data-theme="night"] .menu-section__remark {
         display: block;
     }
 
+    /* In the rail the current word is the nav word — the long desktop headline steps aside */
+    .menu-section-rail__long {
+        display: none;
+    }
+
+    .menu-section-rail__short {
+        display: inline;
+    }
+
     .menu-section-rail__item {
         flex: none;
         white-space: nowrap;
@@ -590,6 +600,22 @@ html[data-theme="night"] .menu-section__remark {
         font-size: 36px;
         line-height: 1.05;
         letter-spacing: 1.44px;
+    }
+
+    /* Discoverability (20 Sep 2026; menu-rail-nudge.js keeps the clock). Nudge: the words start a swipe and spring back. Entrance: the words
+       after the current one arrive from the right, 80 ms apart, on the house spring. */
+    .menu-section-rail.is-nudging .menu-section-rail__item {
+        animation: rail-nudge 1100ms both;
+    }
+
+    /* Waiting for its entrance: the arriving words hold the entrance's first frame */
+    .menu-section-rail.is-parked .menu-section-rail__current ~ .menu-section-rail__link {
+        opacity: 0;
+        transform: translateX(72px);
+    }
+
+    .menu-section-rail.is-entering .menu-section-rail__current ~ .menu-section-rail__link {
+        animation: rail-enter var(--dur-gentle) var(--ease-gentle) calc(var(--rail-i, 0) * 80ms) backwards;
     }
 
     /* A trailing gutter so the last word can snap in with the same margin */
@@ -721,4 +747,17 @@ html[data-theme="night"] .menu-section__remark {
     body.menu-single-section .pairing-station__top-word {
         display: block;
     }
+}
+
+
+/* Rail entrance — from the right edge, where the rest of the rail lives */
+@keyframes rail-enter {
+    from { transform: translateX(72px); opacity: 0; }
+}
+
+/* Rail idle nudge — 14px left, then home on the Gentle spring's overshoot */
+@keyframes rail-nudge {
+    0%   { transform: translateX(0); animation-timing-function: var(--ease-gentle-flat, ease-out); }
+    38%  { transform: translateX(-14px); animation-timing-function: var(--ease-gentle); }
+    100% { transform: translateX(0); }
 }

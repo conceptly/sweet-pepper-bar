@@ -8,18 +8,24 @@
  *
  *   PHP=~/Library/Application\ Support/Local/lightning-services/php-8.2.30+1/bin/darwin-arm64/bin/php
  *   SOCK=~/Library/Application\ Support/Local/run/1tx2Lcx_A/mysql/mysqld.sock
- *   "$PHP" -d mysqli.default_socket="$SOCK" tools/menu-seed.php soups [--force]
+ *   "$PHP" -d mysqli.default_socket="$SOCK" tools/menu-seed.php soups [--dishes] [--force]
+ *
+ * --dishes seeds the other store of the Menu storage test instead: one `dish` post per
+ * row and the section's `menu_list` record placing them (inc/menu-data-dishes.php).
+ * The two stores are independent — seed both to compare them.
  *
  * A section that already has rows in admin is left alone unless --force is given:
  * after the first seed the database is the source, and the team's edits live there.
- * --force also re-issues every dish_id — don't use it once highlights or the picker reference dishes.
+ * --force also re-issues every dish_id (with --dishes: deletes the section's dish posts
+ * and creates new ones) — don't use it once highlights or the picker reference dishes.
  */
 
-$args  = array_slice( $argv, 1 );
-$force = in_array( '--force', $args, true );
-$slugs = array_values( array_diff( $args, [ '--force' ] ) );
+$args         = array_slice( $argv, 1 );
+$force        = in_array( '--force', $args, true );
+$dishes_store = in_array( '--dishes', $args, true );
+$slugs        = array_values( array_diff( $args, [ '--force', '--dishes' ] ) );
 if ( ! $slugs ) {
-    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] [--force]\n" );
+    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] [--dishes] [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -61,14 +67,15 @@ foreach ( $slugs as $slug ) {
         continue;
     }
 
-    $post = get_page_by_path( $slug, OBJECT, 'menu_section' );
+    $record_type = $dishes_store ? 'menu_list' : 'menu_section';
+    $post        = get_page_by_path( $slug, OBJECT, $record_type );
     if ( $post && get_field( 'menu_subsections', $post->ID ) && ! $force ) {
         echo "$slug: already has rows in admin — skipped (--force overwrites them)\n";
         continue;
     }
 
     $post_id = $post ? $post->ID : wp_insert_post( [
-        'post_type'   => 'menu_section',
+        'post_type'   => $record_type,
         'post_status' => 'publish',
         'post_name'   => $slug,
         'post_title'  => $sections[ $slug ]['label'] ?? ucfirst( $slug ),
@@ -119,6 +126,13 @@ foreach ( $slugs as $slug ) {
     }
 
     if ( $force ) {
+        if ( $dishes_store ) {
+            foreach ( (array) get_field( 'menu_subsections', $post_id ) as $old ) {
+                foreach ( (array) ( $old['dishes'] ?? [] ) as $old_dish ) {
+                    wp_delete_post( $old_dish, true );
+                }
+            }
+        }
         // Start clean: rows written under an older field shape would otherwise linger as orphan meta.
         global $wpdb;
         $wpdb->query( $wpdb->prepare(
@@ -127,8 +141,27 @@ foreach ( $slugs as $slug ) {
         ) );
         wp_cache_delete( $post_id, 'post_meta' );
     }
-    update_field( 'field_sp_menu_subsections', $rows, $post_id );
-    sweet_pepper_menu_fill_dish_ids( $post_id ); // update_field() does not fire acf/save_post
+    if ( $dishes_store ) {
+        // Each row becomes a `dish` post: the RU name is its title, hidden is Draft, its ID is the id.
+        foreach ( $rows as &$row ) {
+            foreach ( $row['dishes'] as &$dish ) {
+                $dish_id = wp_insert_post( [
+                    'post_type'   => 'dish',
+                    'post_status' => 'publish',
+                    'post_title'  => $dish['name_ru'] ?: $dish['name_en'],
+                ] );
+                foreach ( array_diff_key( $dish, array_flip( [ 'name_ru', 'hidden', 'dish_id' ] ) ) as $name => $value ) {
+                    update_field( "field_sp_dish_dish_{$name}", $value, $dish_id );
+                }
+                $dish = $dish_id;
+            }
+        }
+        unset( $row, $dish );
+        update_field( 'field_sp_list_subsections', $rows, $post_id );
+    } else {
+        update_field( 'field_sp_menu_subsections', $rows, $post_id );
+        sweet_pepper_menu_fill_dish_ids( $post_id ); // update_field() does not fire acf/save_post
+    }
 
     echo "$slug: post $post_id — " . count( $rows ) . " subsections, $n dishes\n";
 }

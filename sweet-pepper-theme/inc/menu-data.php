@@ -9,6 +9,10 @@
  * While a record is missing or empty the typed rows in data/menu/<slug>.php render
  * instead, so a section converts without the page ever going blank.
  *
+ * While Menu storage is under test, `?menu_store=dishes` renders a section from the
+ * other store instead — `dish` posts placed by a `menu_list` record
+ * (inc/menu-data-dishes.php). The flag goes when the test is decided.
+ *
  * website-brief.md → Content editing & languages → Menu storage.
  *
  * @package Sweet_Pepper
@@ -20,6 +24,13 @@
  */
 function sweet_pepper_menu_lang() {
     return 'en';
+}
+
+/**
+ * Which store the request renders from: 'repeater' (default) | 'dishes'.
+ */
+function sweet_pepper_menu_store() {
+    return ( isset( $_GET['menu_store'] ) && 'dishes' === $_GET['menu_store'] ) ? 'dishes' : 'repeater';
 }
 
 /**
@@ -86,15 +97,21 @@ function sweet_pepper_menu_fallback( $slug ) {
  */
 function sweet_pepper_menu_subsections( $slug ) {
     static $cache = [];
-    if ( isset( $cache[ $slug ] ) ) {
-        return $cache[ $slug ];
+    $store = sweet_pepper_menu_store();
+    $key   = "{$store}:{$slug}";
+    if ( isset( $cache[ $key ] ) ) {
+        return $cache[ $key ];
     }
 
-    $post = sweet_pepper_menu_section_post( $slug );
-    $rows = ( $post && function_exists( 'get_field' ) ) ? get_field( 'menu_subsections', $post->ID ) : [];
+    if ( 'dishes' === $store ) {
+        $rows = sweet_pepper_menu_list_rows( $slug );
+    } else {
+        $post = sweet_pepper_menu_section_post( $slug );
+        $rows = ( $post && function_exists( 'get_field' ) ) ? get_field( 'menu_subsections', $post->ID ) : [];
+    }
 
     if ( empty( $rows ) ) {
-        return $cache[ $slug ] = sweet_pepper_menu_fallback( $slug );
+        return $cache[ $key ] = sweet_pepper_menu_fallback( $slug );
     }
 
     $lang  = sweet_pepper_menu_lang();
@@ -135,7 +152,7 @@ function sweet_pepper_menu_subsections( $slug ) {
         ];
     }
 
-    return $cache[ $slug ] = $subsections;
+    return $cache[ $key ] = $subsections;
 }
 
 /**

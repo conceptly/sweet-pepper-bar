@@ -172,6 +172,8 @@ Notes for the agent doing this:
 
 ### 9.3 Hosting the guide on the bar's domain
 
+*19 Sep 2026:* `$HOME/repository` now also backs the website's test site — a git worktree on `wip` at `$HOME/repository-test`, copied into `test.sweetpepper.bar`'s themes folder after each pull (`website-brief.md` → Platform → *Test site*). Don't delete or move `~/repository`, and don't `git checkout wip` in it; the cron's `git pull origin main` below is unaffected.
+
 Decision: the guide is a **static file outside WordPress**, not a WP page. **Done (2026-09-08):** live at `https://sweetpepper.bar/style-guide.html` (HTTPS on), deep links `…/style-guide.html#logo`, language `…?lang=ru`, edit mode `…?edit`. The old draft URL still serves the frozen copy.
 
 - **Deploy path:** the host's cron (every 5 min) pulls the repo into `$HOME/repository` and copies files into `$HOME/public_html`. The command must copy all guide files, not only the draft:

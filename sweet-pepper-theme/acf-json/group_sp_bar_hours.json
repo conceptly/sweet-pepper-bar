@@ -1,0 +1,122 @@
+{
+    "key": "group_sp_bar_hours",
+    "title": "Часы работы бара",
+    "fields": [
+        {
+            "key": "field_sp_hours_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Обычная неделя. По этим часам сайт показывает, открыт бар или закрыт: главная страница, «Забронировать», страница «Как нас найти», часы в подвале. Если поле пустое или время выглядит ошибкой, сайт берёт привычные часы: 08:30, 10:00, 02:00. Праздничные дни появятся здесь отдельным списком.",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_bar_opens",
+            "label": "Открываемся · пн–сб",
+            "name": "bar_opens",
+            "aria-label": "",
+            "type": "time_picker",
+            "instructions": "Во сколько открываются двери.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "H:i",
+            "return_format": "H:i",
+            "default_value": "08:30",
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_sp_bar_opens_sunday",
+            "label": "Открываемся · воскресенье",
+            "name": "bar_opens_sunday",
+            "aria-label": "",
+            "type": "time_picker",
+            "instructions": "По воскресеньям позже — генеральная уборка.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "H:i",
+            "return_format": "H:i",
+            "default_value": "10:00",
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_sp_bar_closes",
+            "label": "Закрываемся · ночи с воскресенья по четверг",
+            "name": "bar_closes",
+            "aria-label": "",
+            "type": "time_picker",
+            "instructions": "Время после полуночи — это конец той же ночи: 02:00 значит «до двух ночи».",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "H:i",
+            "return_format": "H:i",
+            "default_value": "02:00",
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_sp_bar_closes_weekend",
+            "label": "Закрываемся · ночи пятницы и субботы",
+            "name": "bar_closes_weekend",
+            "aria-label": "",
+            "type": "time_picker",
+            "instructions": "Если в выходные вечеринка дольше — поставьте здесь другое время. Праздники потом смогут брать это же расписание.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "H:i",
+            "return_format": "H:i",
+            "default_value": "02:00",
+            "allow_in_bindings": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "sweet-pepper-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Regular opening hours. Read by inc/bar-hours.php, which holds the fallback defaults.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1789930212
+}

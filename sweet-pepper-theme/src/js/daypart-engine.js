@@ -1,4 +1,5 @@
 import { scrambleTo } from './scramble-text';
+import { getBarStatus, getBarHours, formatBarTime } from './bar-clock.js';
 
 /**
  * Daypart Engine — switches hero content/theme based on time of day
@@ -53,6 +54,23 @@ export function initDaypartEngine() {
             btnHref: '/menu/?menu=drinks#cocktails',
         },
     };
+
+    /* Closed state — bar and kitchen shut (by default 02:00 → 08:30, Sundays → 10:00; the
+       hours come from Bar Settings through bar-clock.js, and so do the times in this copy). inc/daypart-head.php sets <html data-closed="night|morning|sunday"> and parks
+       data-now: party till 04:00, breakfast after. The parked tile stays lit and carries
+       this copy instead of its own; every other tile previews its daypart as usual, and
+       tapping the parked tile brings the closed copy back. No Now marker while closed.
+       The word "closed" stays out of the hero (website-brief.md → Closed lines).
+       ?closed=night|morning|sunday shows a window at any hour. */
+    // ?closed=sunday on a weekday still speaks of Sunday's doors
+    const opensAt = formatBarTime(html.dataset.closed === 'sunday' && getBarHours()
+        ? getBarHours().openSun
+        : getBarStatus().opens);
+    const closedCopy = {
+        night:   { headline: 'GOOD NIGHT!', subhead: `See you for breakfast at ${opensAt}.` },
+        morning: { headline: "YOU'RE UP BEFORE THE BAR!", subhead: `Eggs and coffee from ${opensAt}.` },
+        sunday:  { headline: 'A LITTLE SUNDAY POLISH', subhead: `Back at ${opensAt}, spotless.` },
+    }[html.dataset.closed];
 
     // Same query as the bento block in hero.css: phones, and portrait tablets in the band
     const mobileBento = window.matchMedia('(max-width: 767px), (min-width: 768px) and (max-width: 991px) and (min-height: 1000px)');
@@ -150,8 +168,10 @@ export function initDaypartEngine() {
     /* ── Activate a tile ─────────────────────────────── */
     function activateTile(tile, onLoad = false) {
         const dp = tile.dataset.daypart;
-        const data = daypartData[dp];
-        if (!data) return;
+        if (!daypartData[dp]) return;
+        const data = closedCopy && dp === html.dataset.now
+            ? { ...daypartData[dp], ...closedCopy }
+            : daypartData[dp];
 
         // A tap during the entrance seizes it: everything lands, then the tap plays
         if (!onLoad) settle();
@@ -203,7 +223,8 @@ export function initDaypartEngine() {
 
     // Mark the real-time daypart tile with .is-now-daypart (for the Now badge)
     const nowTile = document.querySelector(`.daypart-tile[data-daypart="${currentDP}"]`);
-    if (nowTile) {
+    // — unless the bar is closed: there is no "now" when the room is dark
+    if (nowTile && !closedCopy) {
         nowTile.classList.add('is-now-daypart');
     }
 

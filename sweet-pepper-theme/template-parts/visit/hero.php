@@ -103,14 +103,12 @@
                                     <div class="visit-hero__hours-block">
                                         <h2 class="visit-hero__hours-title molot-text" data-hours-title>Opening hours</h2>
                                         <div class="visit-hero__hours-list">
+                                            <?php foreach ( sweet_pepper_bar_hours_rows() as $hours_row ) : // Bar Settings — inc/bar-hours.php ?>
                                             <div class="visit-hero__hours-item">
-                                                <span class="visit-hero__hours-day">Mon–Sat</span>
-                                                <span class="visit-hero__hours-time">08:30 — 02:00</span>
+                                                <span class="visit-hero__hours-day"><?php echo esc_html( $hours_row[0] ); ?></span>
+                                                <span class="visit-hero__hours-time"><?php echo esc_html( $hours_row[1] ); ?></span>
                                             </div>
-                                            <div class="visit-hero__hours-item">
-                                                <span class="visit-hero__hours-day">Sunday</span>
-                                                <span class="visit-hero__hours-time">10:00 — 02:00</span>
-                                            </div>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
 

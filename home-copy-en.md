@@ -13,6 +13,16 @@
 | Dinner | READY FOR TONIGHT? | Comfort food, cocktails and a table for your kind of evening. | Dinner menu |
 | Party | IT'S COCKTAIL TIME! | Start with your favourite cocktail. See where the evening goes. | Drinks menu |
 
+**Closed hours — built 20 September 2026** (the parked tile carries these instead of its own; the word "closed" stays out of the hero):
+
+| Bar's clock | Parked tile | Headline | Body |
+|---|---|---|---|
+| 02:00–04:00 | Party | GOOD NIGHT! | See you for breakfast at {8:30 · Sundays 10}. |
+| 04:00–08:30 | Breakfast | YOU'RE UP BEFORE THE BAR! | Eggs and coffee from 8:30. |
+| Sunday 04:00–10:00 | Breakfast | A LITTLE SUNDAY POLISH | Back at 10, spotless. |
+
+*For the final copy review: consider a shorter "YOU'RE UP BEFORE THE BAR!" — it fits (full column at 1280, two lines on phones) and the author likes it, but it is the longest headline in the set.*
+
 **Primary button — retained:** Reserve
 
 **Current-time marker:** Now
@@ -27,7 +37,7 @@
 | Weekend brunch available from the full menu | Weekend brunch — take your pick from the full menu. |
 | Kitchen open | The kitchen's on — take your time. |
 | Kitchen approaching last orders | Still time to eat — kitchen orders till {last order time}. |
-| Venue closed | Closed for now — back at {next opening time}. |
+| Venue closed | ~~Closed for now — back at {next opening time}.~~ Superseded for the hero (author, 20 Sep 2026 — no "closed" in the hero): **02:00–04:00** good night — see you for breakfast at {next opening time} · **04:00–08:30** you're up before the bar — eggs and coffee from 8:30 · **Sunday 04:00–10:00** a little Sunday polish — back at 10, spotless. Built split into headline + body — see §1 Hero → Closed hours. |
 | Selected offer unavailable | {Offer} returns {next service day/time}. |
 
 ## 2. Highlights

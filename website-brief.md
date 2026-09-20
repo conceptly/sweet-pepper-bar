@@ -35,11 +35,48 @@ Recorded after the first Home copy review (`home-copy-review-en.md`; RU review `
 The theme is hand-coded to this spec in full — day/night mechanic, spice slider, image ratio system, section striping. WordPress is the admin layer underneath; it doesn't constrain the design.
 
 **ACF scopes day-to-day editing to the team**, not the designer, without exposing layout to accidental breakage:
-- Hours — an ACF options page (day-by-day fields, plus a repeater for holiday exceptions)
-- Menu items — ~~a custom post type~~ **storage under test (18 Sep 2026):** one repeater per menu section, held on a `menu_section` record, is built for Soups; the `dish` post type is the alternative — see Content editing → Open → *Menu storage*. Fields either way: name, sizes and prices, description, icons, seasonal label, options (photo at 3:2 still to add)
+- Hours — an options page: four fields for the regular week (built 20 Sep 2026), plus a repeater for holiday exceptions (specified) — see *Bar hours settings* below. ~~day-by-day fields~~
+- Menu items — ~~a custom post type~~ **storage under test (18 Sep 2026):** one repeater per menu section, held on a `menu_section` record, is built for Soups; the alternative — `dish` posts placed by Relationship lists — is built for Soups too (20 Sep 2026) — see Content editing → Open → *Menu storage*. Fields either way: name, sizes and prices, description, icons, seasonal label, options (photo at 3:2 still to add)
 - News — a custom post type (photo, caption, category, date — see below)
 
 Note: ACF has an active free fork, Secure Custom Fields, following a dispute between WP Engine and Automattic. **SCF is the one in use (decided 18 Sep 2026)** — see Plugin cap → 1. Throughout this brief "ACF" means the field API (`get_field()`, `acf-json/`, field groups), which SCF keeps unchanged.
+
+### Bar hours settings (regular week built 20 Sep 2026; holidays specified, not built)
+
+**One source for every hour on the site.** Bar Settings (the SCF options page) → `inc/bar-hours.php` → the inline head script (`inc/daypart-head.php`, as `window.spBar`) → `src/js/bar-clock.js` → the home hero, the reserve drawer and the Visit hero. The footer and the Visit hours card print the same values through `sweet_pepper_bar_hours_rows()`. Everything runs on the bar's clock (`Europe/Moscow`).
+
+**Regular week — four time pickers** (`acf-json/group_sp_bar_hours.json`, labels in Russian for the team):
+
+| Field | Default | |
+|---|---|---|
+| Opens · Mon–Sat | 08:30 | |
+| Opens · Sunday | 10:00 | the general cleaning |
+| Closes · nights of Sun–Thu | 02:00 | a time after midnight is the end of the same night |
+| Closes · nights of Fri and Sat | 02:00 | for a longer weekend party; also what a "weekend schedule" holiday will borrow. 🔶 Real value to confirm with Iurii — every surface says 02:00 today (Spice slider → To confirm). |
+
+- **Deliberately not the "day-by-day fields" this section used to promise** (author, 20 Sep 2026): the bar has two opening patterns and works every day, so four fields that read like the sign on the door are harder to get wrong than fourteen. If a single weekday ever needs its own hours, that is an exception row, not a reason for seven days.
+- **The defaults are in the code, not in the form.** A field's default only pre-fills the admin page; nothing is stored until someone saves. `sweet_pepper_bar_hours()` falls back per field when a value is empty *or makes no sense* (doors outside 05:00–18:00, a night ending outside 22:00–07:00), so a slip in the admin can't shut the site at lunch. With nothing saved the site behaves exactly as it did on constants — the team meets the page first and the settings later.
+- **Copy that names a time takes it from here**: "See you for breakfast at {opens}", "Eggs and coffee from {opens}", "Back at {opens}, spotless", the drawer's "We'll pick up from {opens}" — in the clockless numeral style (8:30 · 10 · 12). This also fixed the drawer saying "from 8:30" on Sunday mornings.
+- **A night belongs to the day its doors opened.** At 01:00 on Saturday the bar is still on Friday's night, so Friday's closing time applies. The printed hours grow a Fri–Sat row only when that night ends at a different time.
+- **Not settings, on purpose:** the time zone; the daypart thresholds (12 / 17 / 21) and the 04:00 night → morning switch — design decisions, stated only in `inc/daypart-head.php`. **Not settings yet:** the Visit hero's kitchen stages (22:00 last orders · 01:00 bar snacks · 01:30 kitchen closed) and the drawer's Fri/Sat 22:00 rush.
+- 🔶 **Found:** a night that ends after 04:00 skips the hero's GOOD NIGHT! window and goes straight to the morning copy (the switch is a fixed 04:00). Harmless at 02:00; decide if the weekend close ever moves past 04:00.
+- **Cache (at launch):** the hours are printed into the page, so saving Bar Settings must purge WP Super Cache (Content editing → cache invalidation). The test site has no cache.
+- **Test site:** SCF → field groups → *Sync available* brings the group in; until someone saves, the defaults run.
+
+**Holiday exceptions — specified with the author 20 Sep 2026, to build before December** (4 November is the first public holiday, New Year the big one). The bar has closed for a full day once in twelve years (renovation), so there is **no "closed all day" switch** and no day-off copy; a one-off like that is a hand edit. A repeater on the same page, one row per holiday:
+
+| Field | |
+|---|---|
+| Date, or from – to | the January holidays are a range; past rows are ignored, nobody tidies up |
+| **Weekend schedule** (switch, on by default) | means both: the weekend kitchen offer (brunch, no business lunch) **and** the longer party night (the Fri/Sat closing time). The default for a holiday on a weekday. |
+| Opens (optional) | for the days the doors open later — New Year's Day opens around 12–13. Blank = the usual time. |
+| Closes (optional) | blank = what the switch gives |
+| Note for guests (optional) | one "coming up" line in the Visit hours card; the footer is optional |
+
+- Rows slot in behind `sweet_pepper_bar_hours()` / `spBar.status()`; the hero, drawer and Visit hero need no second pass. The closed windows stretch by themselves: on 1 January the breakfast tile stays lit with "Eggs and coffee from 12".
+- **The browser resolves the date, not PHP** — an exception starts on a date, not on a save, so a cached page would go stale at midnight. PHP hands over the regular week plus the next ~14 days of rows.
+- The weekend *kitchen offer* has nothing to drive yet: the weekday/weekend status lines and the LUNCH ↔ BRUNCH label are written (Spice slider) but not built. The switch is wired to the hours first and to the copy when that lands.
+- *Considered and not taken:* a single "today is different" button that resets at the next opening. Easier for a team new to the admin, but it can't be set in advance, and nobody wants to log in on 31 December.
 
 ### Theme type — classic PHP, not a block theme (decided Aug 2026)
 
@@ -73,13 +110,59 @@ The 2016-era failure mode this project is designed against is not one bad plugin
 
 ### Hosting — Timeweb (Sep 2026)
 
-**Timeweb shared hosting, plan "WordPress Старт"**, paid annually to 5 Sep 2027 (1 of 15 sites, 1 of 15 MySQL databases in use as of 18 Sep 2026). Russian host — consistent with the Platform reasoning above.
+**Timeweb shared hosting, plan "WordPress Старт"**, paid annually to 5 Sep 2027 (1 of 15 sites, 1 of 15 MySQL databases in use as of 18 Sep 2026; the test site below makes it 2). Russian host — consistent with the Platform reasoning above.
 
 - **PHP version:** set the site to **8.2** to match Local (8.2.29) before the first deploy, so nothing behaves differently live.
 - **Server-side page cache — almost certainly none; ticket filed 18 Sep 2026 to confirm.** Timeweb's own WordPress guide ([Оптимизация WordPress → Кэширование](https://timeweb.com/ru/docs/virtualnyj-hosting/cms/optimizaciya-wordpress/#kehshirovanie)) recommends caching plugins only (W3 Total Cache, WP Super Cache, WP Fastest Cache) and mentions no server-level HTML cache, nginx page cache, Redis or Memcached. So WP Super Cache stands (plugin slot 3). If support answers otherwise, use the host's cache instead — never both. Draft question: *«Есть ли на тарифе WordPress Старт серверное кэширование HTML-страниц (nginx или другое)? Если да — можно ли его отключить или сбрасывать из WordPress? Планирую ставить WP Super Cache и не хочу двойного кэширования.»*
 - **Page cache goes in at launch, not on Local** — locally it would serve stale copies of pages being edited.
 - **Compression — don't run it twice.** Timeweb's guide warns against gzip in two places at once. At launch, turn on WP Super Cache's compression only if the host isn't already compressing responses (check the `Content-Encoding` header).
 - Set a real password for the admin account on the live install (the local one still uses the auto-generated password).
+
+### Test site — `test.sweetpepper.bar` (decided 19 Sep 2026)
+
+**Purpose:** team-only testing of the current build on a real host and real phones — things Local can't show (HTTPS-only features such as the copy buttons, the Yandex/Google map switch from Russian phones, real network and fonts) — plus the admin-side trials, starting with *Menu storage* (Content editing → Open). Changes that come out of the tests are built locally and pushed up; content typed on the test site stays there.
+
+**Why a subdomain, not the main domain behind a password** (the main domain would also work):
+1. `sweetpepper.bar/style-guide.html` is open to the team without a password; a password over the whole domain would lock it too.
+2. A test copy is needed permanently — after launch every change is tried there first (Plugin cap → *update on staging first*). Testing on the main domain now would lose that place on launch day.
+3. Test dishes, accounts and half-finished experiments stay out of the database that launches.
+
+**Status (19 Sep 2026):** separate Timeweb site on the subdomain; **fresh WordPress + SCF installed by the author.** Not a copy of the Local database — nearly all content is still in the theme's PHP, so pages and settings are faster to recreate than to migrate.
+
+**Theme deploy — a git worktree plus a synced copy** *(the link was tried first and the host refused it — see step 3).* The server already reads the private repo for the style guide (`~/repository`, on `main`, see `styleGuide-report.md` §9.3). A second working folder on `wip` shares that access, so no new keys or tokens:
+
+```
+GitHub (wip)  →  ~/repository-test  (worktree of ~/repository)
+                     └─ sweet-pepper-theme  ── rsync after each pull ──→  ~/SweetPepper-test/public_html/wp-content/themes/sweet-pepper-test/
+```
+
+**Done 19 Sep 2026** — worktree at `528bd3c`, `wip` tracking `origin/wip`; theme active from the copy. As run:
+
+1. Timeweb panel → SSH-консоль. The test site's folder is **`~/SweetPepper-test`** (identified by `secure-custom-fields` in its plugins folder — see *Server folders* below).
+2. `cd ~/repository && git worktree prune && git remote set-branches --add origin wip && git fetch origin && git worktree add -B wip ~/repository-test origin/wip`
+   *Why not a plain `git fetch origin wip`:* `~/repository` was cloned tracking `main` only, so that fetch lands in `FETCH_HEAD`, `origin/wip` never exists and `worktree add` dies with "Not a valid object name". `set-branches --add` widens the clone's fetch list once; it is also what gives the worktree an upstream, without which the routine `git pull --ff-only` fails. The cron's `git pull origin main` is unaffected.
+3. ~~`ln -s ~/repository-test/sweet-pepper-theme …/themes/sweet-pepper-theme`~~ — **the link does not work on this host.** It resolved in the shell, but WordPress listed the theme under its folder name (it could not read `style.css`), so `functions.php` never ran: no page templates in the dropdown, no Меню / Dishes / News menus, no Bar Settings. Setting the worktree to 755/644 did not cure it — most likely PHP is confined to the site's own folder (`open_basedir`; not verified). A real copy in `…/themes/sweet-pepper-test/` works and is the active theme ("Sweet Pepper"). The folder name is free — nothing in the theme hardcodes it. Remove the dead link with `rm` (no `-r`, no trailing slash).
+
+**Server folders (as found 19 Sep 2026).** `~/public_html` — the style guide. `~/repository` — the clone, on `main`. `~/repository-test` — the worktree, on `wip`. `~/SweetPepper-test` — the test WordPress. `~/wordpress_so89h` — the Timeweb installer's original, whose `public_html` the author copied into `SweetPepper-test` on support's instructions. **Confirmed 19 Sep 2026: both `wp-config.php` files name the same database, `cb47162573_so89h` — that database *is* the test site's**, despite carrying the other folder's name. Never remove `wordpress_so89h` through the panel with "delete database" ticked, and never delete that database as a leftover; to clear the folder, delete its files only. No domain (including a Timeweb technical domain) may stay bound to it — it would serve a second WordPress on the same database, outside the subdomain's basic auth. `~/wordpress_5w3em` — an older install, purpose unconfirmed. The test install arrived with `ai-provider-for-anthropic`, `ai-provider-for-openai`, Akismet and Hello Dolly — to be removed (*Plugins: SCF only*, below).
+
+**Every update:** on the Mac, `npm run build` if CSS/JS changed, then commit and push `wip`; on the server, `cd ~/repository-test && git pull --ff-only && rsync -a --delete --chmod=D755,F644 sweet-pepper-theme/ ~/SweetPepper-test/public_html/wp-content/themes/sweet-pepper-test/`. **Keep `--chmod`:** git writes files `rw-------` on this server, and every build brings new hashed files in `dist/` — owner-only, the web server may refuse to serve the CSS and JS. No build on the server — `dist/` is committed and `IS_VITE_DEVELOPMENT` is false. The style guide's cron keeps pulling `main` in `~/repository` and is unaffected; don't `git checkout wip` there (the branch is held by the worktree).
+
+**Fallbacks:** if the worktree step fails, read the error before trying anything else (no credentials are needed to diagnose it). The symlink fallback was needed and is now the route (step 3).
+
+**Main site, when it comes (decided 19 Sep 2026): the same route, run by hand.** Same host, so expect the link to be refused there too. `~/repository` is already on `main` and pulled by the style guide's cron; the live theme is an `rsync` of `~/repository/sweet-pepper-theme/` into the main site's themes folder, from a script the author runs deliberately (`~/deploy-live.sh`, to be written at launch) — **not** added to the cron. A push to `main` must not reach the bar's public site on its own; changes are tried on the test site first (Plugin cap → *update on staging first*). The test site's script is `~/deploy-test.sh` (pull + rsync + the chmod).
+
+**First findings from real browsers (19 Sep 2026): layout issues, not yet listed.** The author saw them on the test site; they are the next session's first job. Collect per issue: page, device + browser, viewport width, a screenshot. Reproduce locally at the same width before fixing (headless Chrome, as every pass in `report.md` is verified); anything that only shows on a real engine (iOS Safari's viewport units and fixed bars, `text-stroke` on the live-text connectors, font loading) gets noted as such, because Local can't confirm the fix — only a deploy to the test site can.
+
+**Database content does not travel with the theme.** Pages, field values and `menu_section` records live in the test site's own database. A missing record is not a fault — the section renders from `data/menu/<slug>.php` — but the admin trial needs one per store: `WP_ROOT=~/SweetPepper-test/public_html php ~/repository-test/tools/menu-seed.php soups`, then the same with `--dishes` (the dishes store renders at `/menu/?menu_store=dishes`) (check `php -v` is 7.4+ first; SCF and the theme must be active).
+
+**Remaining setup, in order:**
+- SSL for the subdomain (Домены и SSL); PHP 8.2.
+- Activate the theme; create About, Menu, Visit pages and assign their templates; set the static front page; permalinks → Post name.
+- SCF → field groups → *Sync available* pulls the About group from `acf-json/`; field **values** (hero headline, Bar Settings hours) are re-entered.
+- **Team-only access:** HTTP basic auth on the whole subdomain (a few lines of `.htaccess`, no plugin) with one shared team login, plus Settings → Reading → *Discourage search engines* as a backup. Testers who try the admin get their own WordPress accounts with the **Editor** role, not admin.
+- **Plugins: SCF only.** No page cache on the test site (it would hide changes being tested); the Local-only `ai-provider-for-anthropic` plugin does not go up.
+
+**Tell testers:** forms don't send (no backend yet); social posts, some copy and the bar's highlight cards are placeholders (see `report.md` → Known Issues); the map picks Yandex or Google by the phone's language and timezone — test from both.
 
 ### Repository — the `wip` branch is the backup (decided 17 Sep 2026)
 
@@ -91,7 +174,7 @@ Before any `git add -A`: scan the staged list for lock files, licensed material 
 
 ### Content editing & languages — plan (Sep 2026)
 
-**State, updated 18 Sep 2026:** one section is out of the templates — Soups renders from a `menu_section` record through `inc/menu-data.php`, with the typed rows kept in `data/menu/soups.php` as fallback and seed source; `acf-json/` holds two groups (About hero headline, Раздел меню). Everything else is as below. **State at the time of writing (10 Sep 2026):** every string on the site is typed into the PHP templates — no ACF field groups (`acf-json/` is empty), no queries, the `dish` CPT registered but unused. Nothing is editable yet and nothing is translatable yet. The phase after the mobile breakpoint is therefore *content extraction*, and the two questions "how does the team edit" and "how does RU work" are one question with one answer.
+**State, updated 18 Sep 2026:** one section is out of the templates — Soups renders from a `menu_section` record through `inc/menu-data.php`, with the typed rows kept in `data/menu/soups.php` as fallback and seed source; `acf-json/` holds ~~two~~ four groups (About hero headline, Раздел меню; since 20 Sep 2026 also the dishes store's Блюдо and Раздел меню — списки блюд). Everything else is as below. **State at the time of writing (10 Sep 2026):** every string on the site is typed into the PHP templates — no ACF field groups (`acf-json/` is empty), no queries, the `dish` CPT registered but unused. Nothing is editable yet and nothing is translatable yet. The phase after the mobile breakpoint is therefore *content extraction*, and the two questions "how does the team edit" and "how does RU work" are one question with one answer.
 
 **Not everything gets converted.** Content is sorted into three tiers, and each tier gets the editing surface that fits it — not one editor pretending to do all three:
 
@@ -111,13 +194,13 @@ Before any `git add -A`: scan the staged list for lock files, licensed material 
 - **Menu storage (open; narrowed 18 Sep 2026).** Pick by which admin screen the team finds easier, not by purity. **Settled:**
   - **The same dishes appear on the menu, the highlight cards, the home bar/kitchen previews and the dish picker** (author). One record per dish — a price is entered once. Whatever option wins, those surfaces *reference* menu dishes; they never hold their own copy of name, price or photo.
   - **Split admin pages** — one per menu (Food / Bar) or one per section, never ~240 rows × fields × 2 languages on one screen (slow to load, one save touches everything).
-  - **The loser is removed.** The `dish` CPT and its Categories / Dietary Tags taxonomies are registered in `inc/cpt.php` and visible in admin ("Dishes", 0 posts). If the menu doesn't use them, unregister them so the team never starts entering dishes into an empty list.
-  - **Test before deciding:** build Soups each way in SCF and have a manager change a price and move a dish. *(open test — see `testing.md`; repeater side built 18 Sep 2026, two tasks added: reprice the whole section, undo a wrong edit)*
+  - **The loser is removed.** The `dish` CPT and its Categories / Dietary Tags taxonomies are registered in `inc/cpt.php` and visible in admin ("Dishes", 0 posts). If the menu doesn't use them, unregister them so the team never starts entering dishes into an empty list. *(20 Sep 2026: the two taxonomies are already gone — neither store uses them; the `dish` type stays for the test, Russian-labelled and no longer public. What each outcome deletes is listed in `report.md` → Menu storage — the dishes store.)*
+  - **Test before deciding:** build Soups each way in SCF and have a manager change a price and move a dish. *(open test — see `testing.md`; repeater side built 18 Sep 2026, two tasks added: reprice the whole section, undo a wrong edit; hybrid side built 20 Sep 2026)*
   
   **The three candidates:**
   - **Repeater per section** (author leaning). The admin page reads like the printed menu, with drag-to-reorder built in. Reuse needs a hidden stable ID per row (e.g. `soups-borscht`, filled automatically) and a dropdown built from the rows by a small function in `inc/` for highlights, previews and the picker. Dietary tags become a field in the row. **Built for Soups, 18 Sep 2026 — two changes from the description above:** (1) the repeater sits on a **`menu_section` post** (one per section, not public), not an options page — that brings revisions, the edit lock and the cache purge on save that an options page lacks, and still satisfies *Split admin pages*; (2) the stable ID is **random, issued on save** (`d-1609ad41`), not built from the name — Soups alone has two "Pumpkin soup" rows (two «Грибная кружка» in RU), and names get edited. **Row fields decided by the author, 18 Sep 2026:** (a) **price is a number** — the theme adds `-.`, because the team would forget it half the time (2 of the 239 typed prices were already malformed: `165 / 225-.`, `455-./ 645-.`); (b) a dish has **one size or two** — amount + unit + price, twice (23 rows are `40 ml / 500 ml` → `150-. / 1300-.`); the **unit is a dropdown** (г / мл / л / шт) and its EN twin (g / ml / L / pcs) lives in the theme, so it is never typed twice; rendering is always `N unit / N unit`, so the one `2 / 4 pcs` row becomes `2 pcs / 4 pcs` on migration; (c) **icons: two per dish at most, never the same twice**, from four — veg, fire, pepper, Yaroslavl logo (`assets/icons/veg|fire|Pepper|yaroslavl-logo.svg`, all themed by `.dish-icon svg path { fill: currentColor }`); the limit is validated on save. **Icon legend (author, 18 Sep 2026): leaf = vegetarian · fire = hit · pepper = spicy · Yaroslavl logo = local dish.** Fire is *not* heat — the admin labels say so («Огонь — хит», «Перец — острое»). Horseradish infusion = fire + Yaroslavl (its typed `fire, fire` is corrected in `bar/infusions.php`). Two leftovers contradict the legend and are the author's call: the home highlight card tags `fire` as "Spicy" (`front-page.php`, `tag_icon` / `tag_label`), and a breakfast row in `page-menu.php` asks for a `spicy-1` icon that does not exist (renders nothing). The public menu has no legend yet. **Admin form (same day):** notes are kept out of the row grid — they sat between label and input and broke the row's alignment; the price's `-.` is shown as a suffix on the input instead of explained, hints became placeholders, the group's `instruction_placement` is `field` (under the input) for the one note left (options: one per line) — and that note is **repeated on the EN twin**: a note on one side only leaves the pair uneven; consistency is worth the repetition (author). **Still open:** subsection **column** (left/right) is a field, on the edge of *Structure → code* — the alternative is auto-balancing; dish photo field not added yet. Files: `report.md` → Shared / Backend → 2.
-  - **`dish` CPT.** Reuse is built in (standard Relationship field), each dish saves and revises on its own, Draft takes a dish out of season, and the taxonomies already exist. Against: no drag order without a plugin (breaks the cap) — typed position numbers otherwise; one long list instead of the menu's shape; subsection headers and section-level content (deal, add-ons, hero photo) need a home anyway.
-  - **Hybrid:** dishes stored as the CPT; each section's admin page holds an ordered, drag-to-reorder **Relationship** list of dishes, and highlights / picker use the same field. Gets the menu's shape, ordering and reuse with no custom ID code and no plugin; costs a two-step add (create the dish, then place it).
+  - **`dish` CPT.** Reuse is built in (standard Relationship field), each dish saves and revises on its own, Draft takes a dish out of season ~~, and the taxonomies already exist~~ *(taxonomies removed 20 Sep 2026 — unused by either store)*. Against: no drag order without a plugin (breaks the cap) — typed position numbers otherwise; one long list instead of the menu's shape; subsection headers and section-level content (deal, add-ons, hero photo) need a home anyway.
+  - **Hybrid:** dishes stored as the CPT; each section's admin page holds an ordered, drag-to-reorder **Relationship** list of dishes, and highlights / picker use the same field. Gets the menu's shape, ordering and reuse with no custom ID code and no plugin; costs a two-step add (create the dish, then place it). **Built for Soups, 20 Sep 2026** — it contains the plain-CPT candidate (the «Б - Блюда» table is that screen), so one build tests both. As built: (1) the lists sit on a **`menu_list` post** per section («Б - Меню Макет»), `menu_section`'s twin, so both stores hold Soups at once; subsection header fields are the repeater's; (2) a dish is a `dish` post — **title = the Russian name, Draft = off the site (its place in the list is kept), post ID = the stable id**; every other field is the repeater row's, from one definition in the generator; (3) the Relationship picker and the «Б - Блюда» table show size and price beside the name — same-name dishes are indistinguishable otherwise — and the table says which section places a dish, or «— не в меню»; (4) the page renders this store only with **`?menu_store=dishes`** (test-only switch; goes with the loser, before any page cache). Found while building, for the scoresheet: the hybrid needs *no* id code and *no* hand-built dish dropdown (the pairings record's case), but price lives one screen away from the menu's shape — task 3 (reprice six soups) is six forms. Files: `report.md` → Menu storage — the dishes store.
 - **Picker pairings — a team-editable record (agreed 19 Sep 2026; not built).** One non-public **`pairings` post** with an SCF repeater, the `menu_section` pattern and for the same reasons (revisions, the edit lock, the cache purge on save that an options page lacks); field group generated like the menu's, fixed keys. **4–8 rows, drag to reorder; a row holds only what belongs to the pairing:** the dish (picked from the menu), the drink (picked from the bar menu), the bar's reply line RU / EN (The bartender's ticket → Voice: a person speaking), an optional short tag label RU / EN (the rail says "Yaroslavl Pork Roast", the ticket "Yaroslavl Roast"; length-capped for the rail), and which row the picker opens on. **Nothing else:** name, description and photo come from the dish's own record (*Menu storage → Settled*: surfaces reference dishes, never copy them — the About picker's three-dish copy had drifted from the menu's six by 18 Sep, wording and one pairing); the "See this drink" anchor follows from the section the drink lives in; no "show on About" switch — both pages show the same list (author), and a field is a promise. **The one exception: an optional square-crop photo override per row** — the picker is 1:1 (a hard-cropped theme image size), dish photos will be 3:2, and a plate framed for 3:2 often crops badly to a square. A hidden or deleted dish drops its row silently; under two rows the Shake button hides. **Blocked by Menu storage:** only Soups is in the database, and all six picker dishes and every drink live in unmigrated sections, so this comes after the menu migration script. It is also evidence for that test — with a repeater per section the dish dropdown is hand-built from `dish_id`s and must survive deletions; with the `dish` CPT or the hybrid it is a stock Relationship field, and highlights and the home previews are the same case twice more. **The seam is already in place:** `sweet_pepper_food_pairings()` (`inc/pairings.php`) feeds both pickers; when the record exists only its body changes. *Open:* the drinks-page picker (`pairing-station-bar.php`) holds what look like the same pairs reversed — if so, one reverse reply line per row lets one record feed all three pickers; check the six before building. In-place editing never touches it (lists deep-link to admin).
 - Field labels and instructions in **Russian**; team members get the Editor role, not admin.
 - Home hero headline size is tuned to English string lengths (`design.md` §3.3 → "Home hero is the exception"; RU runs 10–15% longer) — bites in this phase, not the mobile one.
@@ -484,17 +567,17 @@ Max 16 visual variants. The second stop's label (LUNCH ↔ BRUNCH) and every sta
 - Per stop, five possible states: **beginning / full swing / last call / off-hours** (dragged to outside its window), plus **closed** on the two edge stops only (breakfast pre-open, party post-close). "Closed" is never a fifth stop — the scale enumerates offers, and closed isn't one.
 - **Day-type** (weekday / weekend·holiday) comes from the ACF hours options page — same source as the footer hours; holidays follow the weekend rule via the exceptions repeater; Sunday's 10:00 opening is an hours exception, not component logic.
 - **Now-marker:** Lemon track notch, visible only while the knob is displaced; hidden during closed hours (there's no "now" on the track when the room is dark).
-- **Closed-window parking:** close → 05:00 parks on party (closed line); 05:00 → opening parks on breakfast (closed line; Sundays until 10:00). Overnight, the site points at the next open door.
+- **Closed-window parking (revised, author, 20 Sep 2026 — the switch moves from 05:00 to 04:00 and the theme is now stated):** close (02:00) → 04:00 parks on **party, night theme**; 04:00 → opening parks on **breakfast, day theme** (Sundays until 10:00, with the Sunday line from 04:00). Overnight, the site points at the next open door. Day at 4am is not a slip: night is the bar, not the dark (The day/night concept → Why no toggle), and at 04:00 the next thing the house offers is breakfast. The parked tile stays **lit** (decided and built the same day — Desktop — home hero → Open → Closed state).
 - Status line format: [fact] — [reassurance/wink]. Golos caption. Numerals clockless style: till 12 · till 4 · 1:30 — never AM/PM.
 
 ### Status lines — weekday
 
 | Stop | Beginning | Full swing | Last call | Off-hours | Closed |
 |---|---|---|---|---|---|
-| Breakfast | doors just opened — coffee's already on | the morning round — Bio Bio glass till 12 | breakfast stays all day — Bio Bio glass clocks out at 12 | eggs any hour — the morning glass returns at 8:30 | still closed — coffee and eggs are back at 8:30 |
+| Breakfast | doors just opened — coffee's already on | the morning round — Bio Bio glass till 12 | breakfast stays all day — Bio Bio glass clocks out at 12 | eggs any hour — the morning glass returns at 8:30 | you're up before the bar — eggs and coffee from 8:30 *(draft, author, 20 Sep 2026; was: still closed — coffee and eggs are back at 8:30)* |
 | Lunch | lunch is on — the soup's already out | lunch till 4 — no rush | lunch till 4 — last call! | back tomorrow at noon *(Friday evening: back Monday at noon)* | — |
 | Dinner | dinner's on — book for eight | the kitchen's on — no rush | still time for dinner — kitchen's good till 1:30 | the evening kitchen starts at 4 | — |
-| Party | first cocktails poured — the night's warming up | the room's buzzing — kitchen till 1:30 | last order 1:30 — make it count | starts after six — you're early | closed for today — back at 8:30 |
+| Party | first cocktails poured — the night's warming up | the room's buzzing — kitchen till 1:30 | last order 1:30 — make it count | starts after six — you're early | good night — see you for breakfast at {next opening time} *(draft, author, 20 Sep 2026; was: closed for today — back at 8:30)* |
 
 ### Status lines — weekend / holiday overrides
 
@@ -509,8 +592,22 @@ Second stop label → **BRUNCH** (no special menu exists — the copy frames tha
 
 Sunday (10:00 opening, general cleaning):
 
-- Closed / pre-open: "Sunday scrub — back at 10, spotless" *(rhymes with SPOTLESS in the About word cloud)*
+- Closed / pre-open, Sunday 04:00 → 10:00: "a little Sunday polish — back at 10, spotless" *(draft, author, 20 Sep 2026; was: "Sunday scrub — back at 10, spotless". Still rhymes with SPOTLESS in the About word cloud.)* Saturday night's 02:00 → 04:00 takes the party line, whose `{next opening time}` resolves to 10.
 - Breakfast beginning: "doors at 10 today — the room's just been cleaned within an inch of its life"
+
+### Closed lines — the word "closed" stays out of the hero (author, 20 Sep 2026)
+
+The hero's closed copy should welcome, not shut a door: the lines above say *good night*, *you're up before the bar*, *a little Sunday polish* and never "closed". The state pills on the Visit page and the reserve drawer may still say it — those are service surfaces, where the plain fact is the kindness. The exact time is allowed under the no-clock rule's own exception ("where guest anxiety is real"): a guest facing a shut bar is that case.
+
+RU drafts (author, 20 Sep 2026 — voice copy, to be reviewed with the rest of the RU set):
+
+| Window | RU |
+|---|---|
+| Party · 02:00–04:00 | доброй ночи — до встречи за завтраком в {next opening time} |
+| Breakfast · 04:00–08:30 | уже на ногах? Перчик ждёт на завтрак с кофе с 8:30 |
+| Sunday · 04:00–10:00 | воскресная уборка! ждём на завтрак и кофеёк с 10 |
+
+For the final RU review: the breakfast line's double «с» («с кофе с 8:30»). «кофеёк» is deliberate — bar vocabulary, and the author may use it more widely in the RU set.
 
 ### To confirm / translate
 
@@ -542,6 +639,29 @@ Single column, left-aligned, stacked top to bottom: eyebrow → headline → bod
 
 ### Open (desktop hero)
 
+- ✓ **Closed state — built 20 Sep 2026 (no longer open; kept here because other sections point at it).** Bar and kitchen both shut: 02:00 → 08:30, Sundays → 10:00 (closed for cleaning — bar *and* kitchen). Everything on the bar's clock.
+
+  | Bar's clock | Theme | Parked, lit tile | Headline | Subhead |
+  |---|---|---|---|---|
+  | 00:00 → 02:00 | night | party — *open*, Now marker on | IT'S COCKTAIL TIME! | (party's own) |
+  | 02:00 → 04:00 | night | party | GOOD NIGHT! | See you for breakfast at {8:30 · Sundays 10}. |
+  | 04:00 → 08:30 | day | breakfast | YOU'RE UP BEFORE THE BAR! | Eggs and coffee from 8:30. |
+  | Sunday 04:00 → 10:00 | day | breakfast | A LITTLE SUNDAY POLISH | Back at 10, spotless. |
+
+  - **The parked photo stays lit (author, 20 Sep).** The first plan — all four tiles inactive — tested as confusing on 19 Sep, and on the phone bento it leaves no large slot, so the grid loses its shape. A lit party photo till 04:00 and a lit breakfast after is a hint that targets the right guest and avoids dead tiles. It is the parking rule as written (State model → Closed-window parking), so the plan and the rule no longer disagree. Contact sheet: `Claude outputs/closed-state-contact-sheet.png`.
+  - **The line splits at its dash.** The hero has a headline and a subhead and no status-line slot; dropped under the daypart's own headline the line contradicts it ("IT'S COCKTAIL TIME!" over "good night"). So [fact] → headline, [wink] → subhead. The un-split lines stay in the status-line matrix for any surface that has a caption slot.
+  - **"YOU'RE UP BEFORE THE BAR!" — kept (author, 20 Sep); a shorter version is a question for the final copy review.** It fits: the full 1120 column at 1280, two lines on phones. It is the longest headline in the set, so it is the one to watch if the hero's type or column ever changes.
+  - **No Now marker while closed** (State model → Now-marker). The parked tile is lit but unmarked — that, the copy and the theme are the whole state.
+  - **Tried and dropped — the opening time in the Now pill's slot ("from 8:30" / "from 10").** The deliberate rule-breaker of the round (no-clock rule; "inactive tiles carry the dot only"). Prototyped; it fitted even at 360 (81px on a 209px tile). Author's call: the idea is useful but too much — the subhead already says the time, so the pill repeats it.
+  - **Tiles stay tappable.** A guest at 3am can still preview dinner ("time proposes, the guest disposes"); every other tile shows its normal copy and theme, and tapping the parked tile brings the closed copy back.
+  - **CTAs don't change. The Reserve drawer is left as it is (author, 20 Sep)** — it already reads the bar's clock and has its own closed state, and that is right because guests book through social media at any hour. The drawer may say "closed"; the hero never does (Spice slider → Closed lines).
+  - **Small hours fixed in the same pass.** `inc/daypart-head.php` used to send every hour before 12 to breakfast, so 00:00 → 02:00 — bar open, party on — opened on breakfast in day clothes. 00:00 → 02:00 is now party.
+  - **Checking it by day:** `?closed=night|morning|sunday` shows a window at any hour (kept for now — author). The Visit hero's twin is `?visit-state=closed`.
+  - **Whose clock — ✓ the bar's (author, 20 Sep 2026).** Every state on the site follows `Europe/Moscow` — it shows the bar's state, not the guest's afternoon. `src/js/bar-clock.js` serves the reserve drawer and the Visit hero; `inc/daypart-head.php` reads the same zone inline. `visit-hero.js` gained the Sunday 10:00 rule the same day, so the drawer, the Visit hero and the home hero agree.
+  - ✓ **Hours come from Bar Settings (built the same day)** — four fields with the old constants as code defaults; the times inside the closed copy follow them. Holidays are specified, not built. See Platform → *Bar hours settings*.
+  - 🔶 **Still open — RU.** The closed copy is built in English only, like the rest of the hero; RU drafts are in Spice slider → Closed lines.
+  - 🔶 **Figma:** the closed state is not drawn. Component variants → Gap to close still stands — but it is now only copy + "no marker" on an existing frame, so it may need no new axis at all.
+  - Both instruments: the desktop row and the phone/tablet bento share the engine, so one state serves all three. Checked at 1280, 402 and 360.
 - **Two-sided layout — the leading alternative.** Grid occupying one full side (left or right) as a column or block, copy on the other, instead of the current horizontal row under the text. Author's first instinct for the next pass, and it addresses the dead zone below directly.
 - **The right third is empty.** Headline ends around 830px and the grid around 940px of a 1280px frame, so the current composition reads as the mobile stack widened rather than a desktop layout. This is the single biggest thing to fix, and the two-sided idea exists because of it.
 - **The active tile's size advantage is much weaker than on mobile** — roughly 15–25% larger versus about double. Size was the primary state signal on mobile; on desktop the keyline and sheets are carrying nearly all of it. Either restore the size ratio or accept that desktop marks state differently and say so.
@@ -619,6 +739,7 @@ Built from `home-hero-bento-stack` 2048:126962 (night) / 2048:127658 (day) and t
 
 ### Open (mobile hero)
 
+- ✓ **Closed state** — built 20 Sep 2026; one engine, so it landed here with the desktop row. See *Open (desktop hero)* → Closed state.
 - ~~**Text-first or grid-first**~~ — resolved grid-first (Sep 2026, see Build status).
 - ~~Active-tile treatment — see the glow note above.~~ — the glow is gone, the keyline is Peppercorn (decided 17 Sep 2026) and the night Lemon headline / Lemon pip clash went with the Chili headline the same day. Nothing open here.
 - Whether the colour stack stays on mobile (trial, see Build status). If it does, rewrite "Layering stays a desktop device".
@@ -996,7 +1117,7 @@ Same engine, a second plan (`ABOUT` in `reveal.js`), scoped to `.page-about` so 
 ### Two divergences found while wiring this (not changed)
 
 - **Menu — food state does not theme by the hour in the build.** The table in *What themes and what doesn't* says it does; the engine only auto-themes where there are tiles (home), so `/menu/` from the nav is always day. The head script mirrors the build, not the table. Decide which is right.
-- **The hero's "now" is the visitor's clock; the Visit hero's is Moscow time** (`visit-hero.js`). A guest abroad — the portfolio audience — sees lunch while the bar is on cocktails. Probably wants the venue's time in both; one line in `inc/daypart-head.php` if so.
+- ✓ **Closed 20 Sep 2026 — one bar clock** (see *Open (desktop hero)* → Closed state → Whose clock). Was: **The hero's "now" is the visitor's clock; the Visit hero's is Moscow time** (`visit-hero.js`). A guest abroad — the portfolio audience — sees lunch while the bar is on cocktails. Probably wants the venue's time in both; one line in `inc/daypart-head.php` if so.
 
 ## Grid
 
@@ -1102,6 +1223,7 @@ Documented Aug 2026 — the device existed on the home and menu pages before it 
 - **Must be SVG format**: These link words must ALWAYS be exported and placed as SVGs, not rendered as HTML text.
 - **Request missing words**: If a particular section requires a link word and you don't have the SVG asset for it, you MUST stop and ask the user to provide it.
 - **Width matching**: The width of the SVG link word MUST exactly match the width of the content container (in Figma, this is 80px margins from the viewport). SVGs should be given `width: 100%` inside the standard container. *Mobile (Sep 2026): the container is 370 (402 − 2×16) and the desktop SVG scales to it. By night the scaled SVGs run at full opacity on phones (desktop: 30%) — at a third of their stroke weight, any dimming reads as dark grey on Peppercorn (author, Sep 2026); day keeps 50% at every width. The Figma mobile component (`SectionLinkMobile`) draws live Molot text with a gradient fade instead of the SVG — not adopted; the SVG rule stands until the author says otherwise.*
+- **Height reserved before load (Sep 2026).** The SVG component (`section-link-word.php`) reads each SVG's viewBox in PHP (`inc/svg-dimensions.php`) and writes it as `width`/`height` on the `<img>`, so the band has its aspect ratio before the lazy file arrives. Without it every connector is 0px until fetched and the menu page's anchor scrolls (hero nav, jump-nav) land short by the height of every connector above the target. Keep the attributes when touching the markup, and keep `height: auto` in the CSS. *SVG connectors only (home, menu): the live-text prototype on About and Visit reserves nothing until fonts load and `section-link.js` fits the word — harmless while those pages have no long anchor scrolls, but it must be solved before live text reaches the menu page.*
 - **Parallax (18 Sep 2026).** The reflection at a section's *head* lags the scroll and closes on the word above (Motion language → Scroll-in entrances → Connector parallax). **Heads only:** on the menu page the upright foot words wear `--reflection` for its opacity and must not move — the rule in `reveal.css` excludes them (`report.md`, 18 Sep). The hero's foot word is `loading="eager"`; every other connector stays lazy.
 - **Non-interactive — and that is the specification, not an omission.** A connector is not a link, not a section heading, and not the photo's caption. It must never acquire a hover fill, a trailing arrow, or a block: those are the three tappable grammars (Interaction rule), and borrowing one would make a decorative word claim to be a door or a chip.
 - **Why outlined Molot here doesn't dilute outline → fill.** Elsewhere outline means *not current* and filling means *active*. Connectors never fill, so they'd be the one place outline is merely texture. The carve-out that resolves it is **scale register**: outline → fill governs Molot at *reading and interaction* sizes — word lists, slider labels, nav items, chapter rails. Giant display Molot that bleeds off the layout is a separate register where outline is a treatment, not a state. The room wordmark and the seam wordmark (above) already live in that register; connectors join it. Keep the two registers visibly far apart in size — if a connector ever shrinks to near-H1, it re-enters the state vocabulary and the carve-out stops protecting it.

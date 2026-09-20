@@ -1,0 +1,196 @@
+{
+    "key": "group_sp_menu_list",
+    "title": "Раздел меню — списки блюд",
+    "fields": [
+        {
+            "key": "field_sp_list_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Порядок блюд в списке — порядок на сайте: перетащите блюдо в правой колонке. Само блюдо (цена, описание) правится в «Блюдах»; блюдо в черновике на сайте не показывается, но остаётся в списке.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_list_subsections",
+            "label": "Подразделы и блюда",
+            "name": "menu_subsections",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "field_sp_list_sub_title_ru",
+            "button_label": "Добавить подраздел",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_list_sub_title_ru",
+                    "label": "Подраздел",
+                    "name": "title_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "35",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "можно без заголовка",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_list_subsections"
+                },
+                {
+                    "key": "field_sp_list_sub_title_en",
+                    "label": "Подраздел (EN)",
+                    "name": "title_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "35",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_list_subsections"
+                },
+                {
+                    "key": "field_sp_list_sub_column",
+                    "label": "Колонка",
+                    "name": "column",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "15",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "left": "Левая",
+                        "right": "Правая"
+                    },
+                    "default_value": "left",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_list_subsections"
+                },
+                {
+                    "key": "field_sp_list_sub_style",
+                    "label": "Вид",
+                    "name": "style",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "15",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "list": "Список",
+                        "card": "Карточка (добавки, соусы)"
+                    },
+                    "default_value": "list",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_list_subsections"
+                },
+                {
+                    "key": "field_sp_list_dishes",
+                    "label": "Блюда",
+                    "name": "dishes",
+                    "aria-label": "",
+                    "type": "relationship",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "dish"
+                    ],
+                    "post_status": "",
+                    "taxonomy": "",
+                    "filters": [
+                        "search"
+                    ],
+                    "return_format": "id",
+                    "min": "",
+                    "max": "",
+                    "elements": "",
+                    "bidirectional": 0,
+                    "bidirectional_target": [],
+                    "parent_repeater": "field_sp_list_subsections"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "menu_list"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Subsections → ordered lists of `dish` posts, for one menu section. Generated by tools/menu-field-group.py; read by inc/menu-data-dishes.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1789928660
+}

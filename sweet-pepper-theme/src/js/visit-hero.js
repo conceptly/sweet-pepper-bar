@@ -1,7 +1,7 @@
 /**
  * Visit Hero — Status Band State Engine
  *
- * Determines bar / kitchen state based on current time (Moscow tz)
+ * Determines bar / kitchen state based on the bar's clock (bar-clock.js)
  * and updates the status band, state pills, and hours card heading.
  *
  * State matrix (from Figma statesContainer variants):
@@ -15,40 +15,17 @@
  *   01:00–01:30   wrapping      bar-snacks       Winding down
  *   01:30–02:00   wrapping      closed           Winding down
  *   02:00–08:30   closed        closed           See you soon
+ *   Sunday: closed till 10:00 (general cleaning)
+ *
+ * The door times above are the defaults; the real ones come from Bar Settings through
+ * bar-clock.js, the same answer the reserve drawer and the home hero get.
  *
  * URL override: ?visit-state=open|last-orders|bar-snacks|last-call|closed
  *
  * @package Sweet_Pepper
  */
 
-/**
- * Get the current Moscow-time hours and minutes.
- * Uses Intl API to reliably read Moscow time regardless of user's locale.
- */
-function getMoscowTime() {
-    const now = new Date();
-
-    // Format in Moscow timezone
-    const parts = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Europe/Moscow',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false,
-    }).formatToParts(now);
-
-    const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
-    const minute = parseInt(parts.find(p => p.type === 'minute').value, 10);
-
-    return { hour, minute };
-}
-
-/**
- * Convert hour:minute to a decimal for easier range checks.
- * e.g. 13:30 → 13.5, 01:00 → 1.0
- */
-function timeToDecimal(h, m) {
-    return h + m / 60;
-}
+import { getBarStatus } from './bar-clock.js';
 
 /**
  * Determine bar and kitchen state from current Moscow time.
@@ -63,27 +40,31 @@ function getVenueState() {
         return getStateFromOverride(override);
     }
 
-    const { hour, minute } = getMoscowTime();
-    const t = timeToDecimal(hour, minute);
+    // Doors: the bar's clock and the bar's hours (bar-clock.js ← Bar Settings).
+    // Kitchen stages are still stated here.
+    const { mins, open, opens } = getBarStatus();
+    const t = mins / 60;
 
-    // 08:30 – 22:00  →  bar open, kitchen on
-    if (t >= 8.5 && t < 22) {
-        return { bar: 'open', kitchen: 'open', bandLead: 'Good news!' };
+    if (!open) {
+        return { bar: 'closed', kitchen: 'closed', bandLead: 'See you soon' };
     }
+    // Open before today's opening = last night is still on
+    const lastNight = mins < opens;
+
     // 22:00 – 01:00  →  bar open, kitchen last-orders
-    if (t >= 22 || (t >= 0 && t < 1)) {
+    if (t >= 22 || (lastNight && t < 1)) {
         return { bar: 'open', kitchen: 'last-orders', bandLead: 'Still time to eat' };
     }
     // 01:00 – 01:30  →  bar wrapping, kitchen bar-snacks
-    if (t >= 1 && t < 1.5) {
+    if (lastNight && t < 1.5) {
         return { bar: 'wrapping', kitchen: 'bar-snacks', bandLead: 'Winding down' };
     }
-    // 01:30 – 02:00  →  bar wrapping, kitchen closed
-    if (t >= 1.5 && t < 2) {
+    // 01:30 – close  →  bar wrapping, kitchen closed
+    if (lastNight) {
         return { bar: 'wrapping', kitchen: 'closed', bandLead: 'Winding down' };
     }
-    // 02:00 – 08:30  →  closed
-    return { bar: 'closed', kitchen: 'closed', bandLead: 'See you soon' };
+    // opening – 22:00  →  bar open, kitchen on
+    return { bar: 'open', kitchen: 'open', bandLead: 'Good news!' };
 }
 
 /**

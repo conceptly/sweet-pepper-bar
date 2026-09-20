@@ -1,28 +1,34 @@
 <?php
 /**
- * Register Custom Post Types and Taxonomies
+ * Register Custom Post Types
  *
  * @package Sweet_Pepper
  */
 
 function sweet_pepper_register_cpt() {
-    // 1. Dish CPT
+    // 1. Dishes — the dishes store under test on Soups (website-brief.md → Menu storage):
+    // one post per dish, title = the Russian name, fields in acf-json/group_sp_dish.json.
+    // A dish is placed on the page by its section's `menu_list` record (4, below);
+    // Draft takes it off the site. Never a public URL — the menu page renders it.
+    // Removed, with `menu_list` and inc/menu-data-dishes.php, if the repeater store wins.
     $labels_dish = array(
-        'name'                  => _x( 'Dishes', 'Post Type General Name', 'sweet-pepper' ),
-        'singular_name'         => _x( 'Dish', 'Post Type Singular Name', 'sweet-pepper' ),
-        'menu_name'             => __( 'Dishes', 'sweet-pepper' ),
-        'all_items'             => __( 'All Dishes', 'sweet-pepper' ),
-        'add_new_item'          => __( 'Add New Dish', 'sweet-pepper' ),
-        'add_new'               => __( 'Add New', 'sweet-pepper' ),
-        'edit_item'             => __( 'Edit Dish', 'sweet-pepper' ),
+        'name'                  => 'Блюда',
+        'singular_name'         => 'Блюдо',
+        'menu_name'             => 'Б - Блюда', // А / Б: the Menu storage test's sidebar labels (author, 20 Sep 2026)
+        'all_items'             => 'Все блюда',
+        'add_new'               => 'Добавить блюдо',
+        'add_new_item'          => 'Новое блюдо',
+        'edit_item'             => 'Блюдо',
+        'search_items'          => 'Найти блюдо',
+        'not_found'             => 'Блюд нет',
     );
     $args_dish = array(
-        'label'                 => __( 'Dish', 'sweet-pepper' ),
+        'label'                 => 'Блюдо',
         'labels'                => $labels_dish,
-        'supports'              => array( 'title', 'thumbnail' ), // Name and Photo
-        'taxonomies'            => array( 'dish_category', 'dietary_tag' ),
-        'public'                => true,
-        'has_archive'           => true,
+        'supports'              => array( 'title', 'thumbnail', 'revisions' ), // Name and Photo
+        'public'                => false,
+        'show_ui'               => true,
+        'menu_position'         => 7, // А 6 · Б 7, 8 — own slots: a taken one (Posts is 5) gets bumped past its neighbours
         'menu_icon'             => 'dashicons-food',
         'show_in_rest'          => false, // Using classic theme, not relying on Gutenberg
     );
@@ -55,7 +61,7 @@ function sweet_pepper_register_cpt() {
     $labels_section = array(
         'name'                  => 'Разделы меню',
         'singular_name'         => 'Раздел меню',
-        'menu_name'             => 'Меню',
+        'menu_name'             => 'А - Меню Все в одном', // plain «Меню» again once the test is decided
         'all_items'             => 'Все разделы',
         'add_new'               => 'Добавить раздел',
         'add_new_item'          => 'Новый раздел меню',
@@ -69,7 +75,7 @@ function sweet_pepper_register_cpt() {
         'supports'              => array( 'title', 'revisions' ),
         'public'                => false,
         'show_ui'               => true,
-        'menu_position'         => 5,
+        'menu_position'         => 6,
         'menu_icon'             => 'dashicons-book-alt',
         'show_in_rest'          => false,
         'map_meta_cap'          => true,
@@ -77,6 +83,19 @@ function sweet_pepper_register_cpt() {
         'capabilities'          => array( 'create_posts' => 'manage_options' ),
     );
     register_post_type( 'menu_section', $args_section );
+
+    // 4. Menu lists — the dishes store's twin of `menu_section`: one record per section,
+    // holding subsections → ordered Relationship lists of `dish` posts
+    // (acf-json/group_sp_menu_list.json, read by inc/menu-data-dishes.php).
+    $labels_list = array(
+        'name'                  => 'Б - Меню Макет',
+        'menu_name'             => 'Б - Меню Макет',
+    ) + $labels_section;
+    register_post_type( 'menu_list', array(
+        'label'                 => 'Б - Меню Макет',
+        'labels'                => $labels_list,
+        'menu_position'         => 8,
+    ) + $args_section );
 }
 add_action( 'init', 'sweet_pepper_register_cpt', 0 );
 
@@ -84,42 +103,9 @@ add_action( 'init', 'sweet_pepper_register_cpt', 0 );
  * List menu sections in menu order (Breakfast … Spirits), not by date.
  */
 function sweet_pepper_menu_section_admin_order( $query ) {
-    if ( is_admin() && $query->is_main_query() && 'menu_section' === $query->get( 'post_type' ) && ! $query->get( 'orderby' ) ) {
+    if ( is_admin() && $query->is_main_query() && in_array( $query->get( 'post_type' ), array( 'menu_section', 'menu_list' ), true ) && ! $query->get( 'orderby' ) ) {
         $query->set( 'orderby', 'menu_order' );
         $query->set( 'order', 'ASC' );
     }
 }
 add_action( 'pre_get_posts', 'sweet_pepper_menu_section_admin_order' );
-
-function sweet_pepper_register_taxonomies() {
-    // 1. Dish Category
-    $labels_cat = array(
-        'name'              => _x( 'Dish Categories', 'taxonomy general name', 'sweet-pepper' ),
-        'singular_name'     => _x( 'Dish Category', 'taxonomy singular name', 'sweet-pepper' ),
-        'menu_name'         => __( 'Categories', 'sweet-pepper' ),
-    );
-    $args_cat = array(
-        'hierarchical'      => true,
-        'labels'            => $labels_cat,
-        'show_ui'           => true,
-        'show_admin_column' => true,
-        'query_var'         => true,
-    );
-    register_taxonomy( 'dish_category', array( 'dish' ), $args_cat );
-
-    // 2. Dietary Tags
-    $labels_tag = array(
-        'name'              => _x( 'Dietary Tags', 'taxonomy general name', 'sweet-pepper' ),
-        'singular_name'     => _x( 'Dietary Tag', 'taxonomy singular name', 'sweet-pepper' ),
-        'menu_name'         => __( 'Dietary Tags', 'sweet-pepper' ),
-    );
-    $args_tag = array(
-        'hierarchical'      => false,
-        'labels'            => $labels_tag,
-        'show_ui'           => true,
-        'show_admin_column' => true,
-        'query_var'         => true,
-    );
-    register_taxonomy( 'dietary_tag', array( 'dish' ), $args_tag );
-}
-add_action( 'init', 'sweet_pepper_register_taxonomies', 0 );

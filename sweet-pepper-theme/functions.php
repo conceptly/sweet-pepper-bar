@@ -52,6 +52,11 @@ add_action( 'after_setup_theme', 'sweet_pepper_setup' );
 require_once get_template_directory() . '/inc/vite-enqueue.php';
 
 /**
+ * Bar hours: Bar Settings values with the fallback defaults (read by daypart-head, footer, Visit hero).
+ */
+require_once get_template_directory() . '/inc/bar-hours.php';
+
+/**
  * Daypart: first-paint theme + the hour thresholds (inline, top of <head>).
  */
 require_once get_template_directory() . '/inc/daypart-head.php';
@@ -77,12 +82,17 @@ require_once get_template_directory() . '/inc/menu-sections.php';
 require_once get_template_directory() . '/inc/menu-data.php';
 
 /**
+ * Menu storage test: the dishes store (`dish` posts + `menu_list` records). Goes if the repeater wins.
+ */
+require_once get_template_directory() . '/inc/menu-data-dishes.php';
+
+/**
  * Dish picker pairings — one list for the menu page and About.
  */
 require_once get_template_directory() . '/inc/pairings.php';
 
 /**
- * Custom Post Types and Taxonomies
+ * Custom Post Types
  */
 require_once get_template_directory() . '/inc/cpt.php';
 

@@ -2,6 +2,8 @@
  * Reserve Drawer — open/close, copy-to-clipboard, bar state engine
  */
 
+import { getBarStatus, formatBarTime } from './bar-clock.js';
+
 /* ── Bar state definitions ─────────────────────────────────── */
 const BAR_STATES = {
     available: {
@@ -15,37 +17,24 @@ const BAR_STATES = {
         btnClass: 'btn-call--busy',
     },
     closed: {
-        subtitle: 'Closed for the night. Send a message, we\u2019ll respond from 8:30!',
-        statusText: 'We\u2019ll pick up from 8:30.',
+        // {opens} — the next opening, from Bar Settings (applyBarState fills it in)
+        subtitle: 'Closed for the night. Send a message, we\u2019ll respond from {opens}!',
+        statusText: 'We\u2019ll pick up from {opens}.',
         btnClass: 'btn-call--closed',
     },
 };
 
 /**
- * Determine the current bar state based on day/time.
- * Mon–Sat 08:30–02:00, Sunday 10:00–02:00
+ * The current bar state, on the bar's clock and the bar's hours (bar-clock.js — by default
+ * Mon–Sat 08:30–02:00, Sunday 10:00–02:00).
  * "Busy" on Fri/Sat after 22:00
  */
 function getBarState() {
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun … 6=Sat
-    const h = now.getHours();
-    const m = now.getMinutes();
-    const mins = h * 60 + m; // minutes since midnight
-
-    const openMon = 8 * 60 + 30;  // 08:30
-    const openSun = 10 * 60;      // 10:00
-    const close = 2 * 60;         // 02:00 (next day)
-    const rushStart = 22 * 60;    // 22:00
-
-    const isSunday = day === 0;
+    const { day, mins, open } = getBarStatus(); // day: 0=Sun … 6=Sat
+    const rushStart = 22 * 60; // 22:00
     const isFriSat = day === 5 || day === 6;
-    const openTime = isSunday ? openSun : openMon;
 
-    // Open window: openTime … 23:59 + 00:00 … 02:00
-    const isOpen = mins >= openTime || mins < close;
-
-    if (!isOpen) return 'closed';
+    if (!open) return 'closed';
     if (isFriSat && mins >= rushStart) return 'busy';
     return 'available';
 }
@@ -119,10 +108,11 @@ function applyBarState() {
     const state = getBarState();
     const cfg = BAR_STATES[state];
     if (!cfg) return;
+    const fill = (text) => text.replace('{opens}', formatBarTime(getBarStatus().opens));
 
     // Subtitle
     const subtitle = document.querySelector('.reserve-subtitle');
-    if (subtitle) subtitle.textContent = cfg.subtitle;
+    if (subtitle) subtitle.textContent = fill(cfg.subtitle);
 
     // Every phone CTA on the page (the drawer, and the home Contacts block on phones)
     document.querySelectorAll('.phone-cta-wrapper').forEach((wrapper) => {
@@ -138,7 +128,7 @@ function applyBarState() {
         // this wrapper's data-bar-state names (reserve-drawer.css → Bar-state icons).
 
         const statusText = wrapper.querySelector('.call-status-text');
-        if (statusText) statusText.textContent = cfg.statusText;
+        if (statusText) statusText.textContent = fill(cfg.statusText);
     });
 }
 

@@ -48,14 +48,12 @@
                     <div class="footer-col footer-col--hours">
                         <h3 class="footer-col-title">HOURS</h3>
                         <div class="footer-hours-list">
+                            <?php foreach ( sweet_pepper_bar_hours_rows() as $hours_row ) : // Bar Settings — inc/bar-hours.php ?>
                             <div class="hours-item">
-                                <span class="hours-day">Mon–Sat</span>
-                                <span class="hours-time">08:30 — 02:00</span>
+                                <span class="hours-day"><?php echo esc_html( $hours_row[0] ); ?></span>
+                                <span class="hours-time"><?php echo esc_html( $hours_row[1] ); ?></span>
                             </div>
-                            <div class="hours-item">
-                                <span class="hours-day">Sunday</span>
-                                <span class="hours-time">10:00 — 02:00</span>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                     

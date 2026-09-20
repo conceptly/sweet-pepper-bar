@@ -64,16 +64,21 @@ function sweet_pepper_dish_sizes_label( $dish_id ) {
 }
 
 /**
- * The Relationship picker shows the size and price beside each dish's name.
+ * The Relationship picker shows the size, the price and the start of the description
+ * beside each dish's name — the description is what tells the two mushroom mugs apart
+ * (same name, same leaf icon, same subsection).
  */
 function sweet_pepper_dish_relationship_result( $title, $post ) {
-    $sizes = sweet_pepper_dish_sizes_label( $post->ID );
-    return $sizes ? $title . ' — ' . esc_html( $sizes ) : $title;
+    $about = array_filter( [
+        sweet_pepper_dish_sizes_label( $post->ID ),
+        wp_html_excerpt( (string) get_field( 'description_ru', $post->ID ), 40, '…' ),
+    ] );
+    return $about ? $title . ' — ' . esc_html( implode( ' · ', $about ) ) : $title;
 }
 add_filter( 'acf/fields/relationship/result/key=field_sp_list_dishes', 'sweet_pepper_dish_relationship_result', 10, 2 );
 
 /**
- * Which section lists place a dish: dish ID → [ list ID => section title ].
+ * Which section lists place a dish: dish ID → [ list ID => 'Section · subsection' ].
  * A dish in no list is on no page — the Dishes table says so.
  */
 function sweet_pepper_dish_placements() {
@@ -86,7 +91,7 @@ function sweet_pepper_dish_placements() {
     foreach ( $lists as $list ) {
         foreach ( (array) get_field( 'menu_subsections', $list->ID ) as $sub ) {
             foreach ( (array) ( $sub['dishes'] ?? [] ) as $dish_id ) {
-                $map[ (int) $dish_id ][ $list->ID ] = $list->post_title;
+                $map[ (int) $dish_id ][ $list->ID ] = implode( ' · ', array_filter( [ $list->post_title, $sub['title_ru'] ?? '' ] ) );
             }
         }
     }
@@ -94,15 +99,18 @@ function sweet_pepper_dish_placements() {
 }
 
 /**
- * The Dishes table reads like the menu: name · size and price · section; A–Z, not by date.
+ * The Dishes table reads like the menu: name · description · size and price · section; A–Z, not by date.
  */
 function sweet_pepper_dish_admin_columns( $columns ) {
     unset( $columns['date'] );
-    return $columns + [ 'sp_sizes' => 'Выход и цена', 'sp_section' => 'Раздел меню', 'date' => 'Дата' ];
+    return $columns + [ 'sp_description' => 'Описание', 'sp_sizes' => 'Выход и цена', 'sp_section' => 'Раздел меню', 'date' => 'Дата' ];
 }
 add_filter( 'manage_dish_posts_columns', 'sweet_pepper_dish_admin_columns' );
 
 function sweet_pepper_dish_admin_column( $column, $post_id ) {
+    if ( 'sp_description' === $column ) {
+        echo esc_html( (string) get_field( 'description_ru', $post_id ) ?: '—' );
+    }
     if ( 'sp_sizes' === $column ) {
         echo esc_html( sweet_pepper_dish_sizes_label( $post_id ) ?: '—' );
     }

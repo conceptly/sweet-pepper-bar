@@ -460,10 +460,11 @@ html[data-theme="night"] .lang-nudge strong {
         display: none;
     }
 
-    /* Colour is the base rule's `--accent` — Chili in both modes, as on desktop (author,
-       17 Sep 2026: the desktop is the correct one; the frames' Olive / Lemon headline is
-       the one to re-sync). This also ends the night clash of a Lemon headline beside the
-       Lemon NOW pip. */
+    /* Colour at night — ON TRIAL (author, 20 Sep 2026): Lemon headline, Parchment subhead.
+       The desktop keeps Chili in both modes; in a phone's frame at night the wordmark, the
+       headline and Reserve were all Chili on top of red photography. Cream was built first
+       and is the fallback (one word below). Known cost of Lemon: it is also the Now pill's
+       colour — website-brief.md → Mobile — home hero → Colour roles. Day: Chili / muted. */
     .hero-headline {
         order: 2;
         margin-top: 32px;
@@ -480,6 +481,14 @@ html[data-theme="night"] .lang-nudge strong {
         color: var(--text-muted);
     }
 
+    html[data-theme="night"] .hero-headline {
+        color: var(--lemon);
+    }
+
+    html[data-theme="night"] .hero-subhead {
+        color: var(--parchment);
+    }
+
     .daypart-grid {
         order: 1;
         display: grid;
@@ -487,6 +496,13 @@ html[data-theme="night"] .lang-nudge strong {
         grid-template-rows: auto auto;
         grid-template-areas: "b b l" "d p p";
         gap: 12px;
+        /* The rows sit 20 apart whichever tile is lit (20 Sep 2026). The active tile is 8px
+           taller than the rest — room for its sheets — and that 8 used to live in the layout:
+           a lit top tile pushed the rows to 20 apart, a lit bottom tile left them at 12 (10
+           where the tilt lifts a corner), against column gaps of 16–25. Now the 8 is in the
+           row gap and the active tile gives it back (margin-bottom below), so the photos
+           never move and the sheets fan into the gap, or into the headline's margin. */
+        row-gap: 20px;
         align-items: start;
     }
 
@@ -568,6 +584,7 @@ html[data-theme="night"] .lang-nudge strong {
     .daypart-tile.is-active {
         width: var(--active-w);
         height: calc(var(--img-h) + 8px); /* explicit (not auto) so it can transition */
+        margin-bottom: -8px;              /* the sheets' 8px is not layout — see .daypart-grid */
         justify-self: start;
     }
 
@@ -590,8 +607,7 @@ html[data-theme="night"] .lang-nudge strong {
    home hero → Not carried over); the band has the space, so both return — the pair
    splits the row as the block below already arranges. Headline at 64, the Typography
    mobile Display size, not the phone's raw 32 (one line for the current copy at 768+;
-   colour stays the phone's Olive / Lemon — the Chili-vs-accent divergence is still open
-   at every width). Grid gap 24 = the grid gutter; the span formula follows it. The
+   colour is the phone's — Chili by day; at night Lemon, on trial). Grid gap 24 = the grid gutter; the span formula follows it. The
    language nudge stays hidden as on phones: it has no place in this composition and,
    absolute in the hero footer, it overlapped the menu button on short viewports. */
 @media (min-width: 768px) and (max-width: 991px) and (min-height: 1000px) {
@@ -618,6 +634,7 @@ html[data-theme="night"] .lang-nudge strong {
 
     .daypart-grid {
         gap: 24px;
+        row-gap: 32px; /* gap + the sheets' 8, as on phones */
     }
 
     .daypart-tile {

@@ -60,6 +60,23 @@ html[data-theme="night"] .section-link-word--reflection {
     }
 }
 
+/* Tablets and phones, light ground: full opacity too (author, 20 Sep 2026). The day
+   reflection is Lime on Parchment — 1.29:1 at full strength, 1.15:1 at 50% — and below
+   992px the SVG's hairlines thin with its width, so the 50% erased it. Heads only: the
+   menu page's upright FOOT words borrow this class for their 50% (reveal.css keeps the
+   same list) and stay as they are. About and Visit use the live-text connectors below,
+   whose light-ground reflection is already at 1 at every width. */
+@media (max-width: 991px) {
+    html:not([data-theme="night"]) .section-link-word--reflection:not(
+        .menu-hero__connector > *,
+        .menu-highlights__link-word,
+        .menu-section__bottom-link-word,
+        .pairing-station__link-word
+    ) {
+        opacity: 1;
+    }
+}
+
 .section-link-word img {
     width: 100%;
     /* The <img> carries width/height from the SVG's viewBox (see the template

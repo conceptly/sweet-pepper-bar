@@ -10,6 +10,11 @@
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php // iOS turns any phone number, date, address or e-mail it finds in plain TEXT into its own
+    // link, in its own colour: the Visit page's number went near-black on Peppercorn (author,
+    // iPhone, 20 Sep 2026). Every such line here already has a real action beside it — a tel:
+    // link, a copy button, a map link — so the guesswork is switched off. ?>
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <?php wp_head(); ?>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>

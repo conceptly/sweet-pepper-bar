@@ -563,26 +563,40 @@ html[data-theme="night"] .menu-section__remark {
         left: 16px;
     }
 
-    /* ── Top block, piece 2: the rail (54px: 8 + the 38px words + 8; 16px lead-in) ── */
+    /* ── Top block, piece 2: the rail (54px: 8 + the 38px words + 8; 16px lead-in) ──
+       Two elements, on purpose (21 Sep 2026). The BAR (.menu-section-rail) is sticky and does
+       not scroll; the ROW inside it (.menu-section-rail__nav) scrolls sideways and is not
+       sticky. They were one element, and on iPhones the stuck rail wandered ±4px against
+       the fixed header while the page scrolled — measured in the author's screen recording:
+       header wordmark on rows 363–421 of every frame, the rail's word anywhere from 540 to
+       552, back to 544 at rest. WebKit moves fixed and sticky layers on its scrolling thread,
+       but an element that is sticky AND its own scroll container falls back to the main
+       thread, a frame behind the scroll. Chrome on iOS is WebKit too; a Mac never shows it. */
     .menu-section-rail {
         order: 2;
+        display: block;
         position: sticky;           /* the rail is the page's navigation on phones: it stays under the header while its section scrolls */
         top: 76px;
         z-index: 5;
         margin: 0 calc(-1 * var(--gutter));
-        padding: 8px var(--gutter);  /* bottom = top (author, 20 Sep 2026): stuck under the header the band had 8 above the words and 0 below */
-        gap: 24px;
+        padding: 8px 0;             /* bottom = top (author, 20 Sep 2026): stuck under the header the band had 8 above the words and 0 below */
         background-color: var(--section-top-bg);
+    }
+
+    .menu-section-rail__nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding-left: var(--gutter); /* the trailing gutter is the last word's margin, below */
         overflow-x: auto;
-        overflow-y: hidden;         /* `auto` on x makes y `auto` too: the stuck rail could be dragged a pixel up and down inside itself */
+        overflow-y: hidden;         /* `auto` on x makes y `auto` too */
         overscroll-behavior-x: contain;
         scroll-snap-type: x mandatory;
         scroll-padding-inline: var(--gutter);
-        -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
 
-    .menu-section-rail::-webkit-scrollbar {
+    .menu-section-rail__nav::-webkit-scrollbar {
         display: none;
     }
 

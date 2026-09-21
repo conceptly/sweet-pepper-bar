@@ -28,13 +28,14 @@ export function initMenuSingleSection() {
 
     let current = null;
 
-    /** Scroll the section's rail so its current word sits at the left gutter (the rail's own lead-in). */
+    /** Scroll the section's rail so its current word sits at the left gutter (the row's own lead-in).
+     *  The scroller is the row inside the sticky bar, not the bar (menu-section.css → the rail). */
     function alignRail(sec) {
-        const rail = sec.querySelector('.menu-section-rail');
-        const word = rail && rail.querySelector('.menu-section-rail__current');
-        if (!rail || !word) return;
-        const gutter = parseFloat(getComputedStyle(rail).paddingLeft) || 16;
-        rail.scrollLeft = Math.max(0, word.offsetLeft - gutter);
+        const row = sec.querySelector('.menu-section-rail__nav');
+        const word = row && row.querySelector('.menu-section-rail__current');
+        if (!row || !word) return;
+        const gutter = parseFloat(getComputedStyle(row).paddingLeft) || 16;
+        row.scrollLeft = Math.max(0, word.getBoundingClientRect().left - row.getBoundingClientRect().left + row.scrollLeft - gutter);
     }
 
     function show(slug, { scroll = false, hash = true } = {}) {

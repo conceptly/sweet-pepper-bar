@@ -5,11 +5,10 @@
  * doesn't say "swipe me". So the rail says it twice (author, 20 Sep 2026 — tried as
  * ?rail= prototypes first):
  *
- *   Entrance  The first time each section's rail is where the guest is looking (top two
- *             thirds of the screen, scroll at rest), the words after the current one
- *             arrive from the right, one after another — the rail shows where it comes
- *             from, once, and then the page is still.
- *   Nudge     For a guest who still hasn't touched it: every 5 s the rail of the section
+ *   Entrance  The first time each section's rail crosses into the top two thirds of the
+ *             screen, the words after the current one arrive from the right, one after
+ *             another — the rail shows where it comes from, once, and then is still.
+ *   Nudge     For a guest who still hasn't touched it: every 2.5 s the rail of the section
  *             on show starts a swipe by itself — the words slide 14px left and spring back.
  *
  * Both stop for good at the first touch, scroll or key on any rail (remembered for the
@@ -23,7 +22,7 @@
  */
 
 const LEARNED = 'spRailLearned';
-const EVERY = 5000;
+const EVERY = 2500; // was 5000: on a phone the pauses read as longer than on a desktop (author, 21 Sep 2026)
 
 export function initMenuRailNudge() {
     const rails = Array.from(document.querySelectorAll('.menu-section-rail'));
@@ -62,18 +61,21 @@ export function initMenuRailNudge() {
         const rail = railOnShow();
         // Before or during its entrance, or nothing to the right to point at
         if (!rail || rail.classList.contains('is-entering') || rail.classList.contains('is-parked')) return;
-        if (rail.scrollWidth - rail.clientWidth - rail.scrollLeft < 8) return;
+        const row = rail.querySelector('.menu-section-rail__nav'); // the scroller is the row, not the sticky bar
+        if (!row || row.scrollWidth - row.clientWidth - row.scrollLeft < 8) return;
         // The entrance has just said it: give the guest a full beat before repeating
         if (performance.now() - (entered.get(rail) || 0) < EVERY) return;
         rail.classList.add('is-nudging');
     }
 
     // ── Entrance: once per section — when the guest is looking at it, not when it first
-    // touches the fold. Two conditions: the rail has come up into the top two thirds of the
-    // screen, and the scroll has come to rest. Until then the words that will arrive are
-    // parked out of sight (.is-parked), so nothing blinks away before it enters.
+    // touches the fold: it plays as the rail crosses into the top two thirds of the screen,
+    // while the section's photo above it is still in view. Until then the words that will
+    // arrive are parked out of sight (.is-parked), so nothing blinks away before it enters.
+    // (First it also waited for the scroll to rest. Fine with a mouse wheel; on a phone a
+    // fling keeps scrolling on momentum for a second or two, so the entrance played after the
+    // rail had already stuck under the header and the photo was gone — author, 21 Sep 2026.)
     const LINE = 0.66;  // of the viewport height
-    const REST = 140;   // ms without a scroll event
 
     function enter() {
         if (learned || !idle()) return;
@@ -93,10 +95,11 @@ export function initMenuRailNudge() {
         setTimeout(() => rail.classList.remove('is-entering'), 900 + i * 80);
     }
 
-    let rest = 0;
+    let queued = false;
     const lookForEntrance = () => {
-        clearTimeout(rest);
-        rest = setTimeout(enter, REST);
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => { queued = false; enter(); });
     };
 
     rails.forEach((rail) => {

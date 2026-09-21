@@ -154,6 +154,8 @@ html[data-theme="night"] .dish-picker__tag:not(.is-active):hover {
     --shake-border: transparent;
     --shake-shadow: 1px 1px 4px rgba(21, 19, 23, 0.15);
     --shake-glow: 0; /* the Lemon glow at rest: night + a hover-capable pointer only */
+    --shake-size: 48px; /* ring included; the tablet band grows it (below) */
+    --shake-icon: 24px;
 }
 
 html[data-theme="night"] .dish-picker {
@@ -164,15 +166,15 @@ html[data-theme="night"] .dish-picker {
 
 .dish-picker__shake {
     position: absolute;
-    top: calc(50% - 24px);   /* not `translate: -50% -50%` — reveal.css sets `translate: none` */
-    left: calc(50% - 24px);  /* while an entrance plays, and the pop landed off-centre */
+    top: calc(50% - var(--shake-size) / 2);   /* not `translate: -50% -50%` — reveal.css sets `translate: none` */
+    left: calc(50% - var(--shake-size) / 2);  /* while an entrance plays, and the pop landed off-centre */
     z-index: 2;
 }
 
 .dish-picker__shake-it {
     display: block;
-    width: 48px;
-    height: 48px;
+    width: var(--shake-size);
+    height: var(--shake-size);
     padding: 4px;
     border: none;
     border-radius: 50%;
@@ -209,8 +211,8 @@ html[data-theme="night"] .dish-picker {
 
 .dish-picker__shake-icon {
     display: flex;
-    width: 24px;
-    height: 24px;
+    width: var(--shake-icon);
+    height: var(--shake-icon);
     flex-shrink: 0;
 }
 
@@ -565,6 +567,17 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
 
     html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
         --rugged-color: var(--parchment) !important;
+    }
+}
+
+/* Tablet band only: Shake It! at 64 with the Symbol at 32 (author, 21 Sep 2026). Between
+   two 364–447px photos the 48px button read as a full stop; the ring stays 4px (it is the
+   ground showing, not part of the disc), so the disc is 56. States stay ratios of the
+   resting size — hover and pressed ×1.0833, the delay beat ×1.1667. */
+@media (min-width: 768px) and (max-width: 991px) {
+    .dish-picker {
+        --shake-size: 64px;
+        --shake-icon: 32px;
     }
 }
 

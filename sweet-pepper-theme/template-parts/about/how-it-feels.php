@@ -19,6 +19,11 @@
 // Rows are the no-JS / pre-hydration fallback; JS spiral-places them.
 // Tiers by review frequency: top = 2+ reviews, mid = 1, low = 1 (supporting).
 // Sizes tied 1:1 to tiers: top = 56, mid = 36, low = 24.
+// 'phone' => false keeps a word — and the quotes linked to it — off phones (< 768), where the
+// field is 328–370px wide and WIDE words are what cost height: the four widest mid-tier words
+// are out (author, 21 Sep 2026; website-brief.md → Mobile — About → How it feels). Dropping the
+// small ones instead saves nothing — they fill the gaps. how-it-feels.js removes the flagged
+// nodes at load; its FIELD_AREA_PHONE is tuned to this list.
 $cloud_rows = [
     [
         [ 'text' => 'cosy',      'tier' => 'top', 'size' => 56 ],  // Y01, G05
@@ -33,20 +38,30 @@ $cloud_rows = [
     [
         [ 'text' => 'perfect',   'tier' => 'mid', 'size' => 36 ],  // Y08
         [ 'text' => 'inviting',  'tier' => 'top', 'size' => 56 ],  // Y04, G04
-        [ 'text' => 'magnetic',  'tier' => 'mid', 'size' => 36 ],  // Y09
+        [ 'text' => 'magnetic',  'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y09
     ],
     [
         [ 'text' => 'sociable',  'tier' => 'mid', 'size' => 36 ],  // Y06
-        [ 'text' => 'wonderful', 'tier' => 'mid', 'size' => 36 ],  // Y11
+        [ 'text' => 'wonderful', 'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y11
         [ 'text' => 'lively',    'tier' => 'low', 'size' => 24 ],  // Y10
     ],
     [
-        [ 'text' => 'pleasant',  'tier' => 'mid', 'size' => 36 ],  // Y12
-        [ 'text' => 'charming',  'tier' => 'mid', 'size' => 36 ],  // Y13
+        [ 'text' => 'pleasant',  'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y12
+        [ 'text' => 'charming',  'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y13
         [ 'text' => 'kind',      'tier' => 'low', 'size' => 24 ],  // Y14
         [ 'text' => 'inclusive', 'tier' => 'low', 'size' => 24 ],  // Y15
     ],
 ];
+
+// Words flagged off phones, for the markup below.
+$phone_off = [];
+foreach ( $cloud_rows as $row ) {
+    foreach ( $row as $word ) {
+        if ( isset( $word['phone'] ) && false === $word['phone'] ) {
+            $phone_off[] = $word['text'];
+        }
+    }
+}
 
 // The default active word (filled on load, before JS takes over).
 $default_active = 'welcoming';
@@ -284,6 +299,7 @@ $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/rev
                                     data-tier="<?php echo esc_attr( $word['tier'] ); ?>"
                                     data-hue="<?php echo esc_attr( $hue ); ?>"
                                     data-key="<?php echo esc_attr( $word['text'] ); ?>"
+                                    <?php if ( in_array( $word['text'], $phone_off, true ) ) : ?>data-phone="off"<?php endif; ?>
                                     style="--cloud-size: <?php echo esc_attr( $word['size'] ); ?>px"
                                 >
                                     <?php echo esc_html( $word['text'] ); ?>
@@ -316,6 +332,7 @@ $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/rev
                                 style="--card-rotate: <?php echo $rotation; ?>deg"
                                 data-quote-id="<?php echo esc_attr( $quote['id'] ); ?>"
                                 data-word="<?php echo esc_attr( $quote['word'] ); ?>"
+                                <?php if ( in_array( $quote['word'], $phone_off, true ) ) : ?>data-phone="off"<?php endif; ?>
                             >
                                 <div class="about-quote-card">
                                     <span class="about-quote-card__mark" aria-hidden="true">&ldquo;</span>

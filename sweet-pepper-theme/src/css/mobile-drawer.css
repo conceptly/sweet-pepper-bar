@@ -185,6 +185,20 @@
     height: 12px;
 }
 
+/* Tablets: Body 16 / 0% (author, 21 Sep 2026). Caption was a phone fix — the wrap it cured
+   cannot happen in a 720px row — so from 768 the description is the sentence it reads as.
+   The icon follows the new line: 22.4px line, 12px icon → 5px + the 4px above. */
+@media (min-width: 768px) {
+    .mobile-drawer__link-desc {
+        font-size: var(--text-body);
+        letter-spacing: 0;
+    }
+
+    .mobile-drawer__link-icon {
+        padding-bottom: 9px;
+    }
+}
+
 /* Current page: outline → fill. Title Chili, description Paprika, trailing chili marker */
 .mobile-drawer__link.is-current .mobile-drawer__link-title,
 .mobile-drawer__link.is-current .mobile-drawer__link-icon {

@@ -67,7 +67,7 @@ export function initDaypartEngine() {
         ? getBarHours().openSun
         : getBarStatus().opens);
     const closedCopy = {
-        night:   { headline: 'GOOD NIGHT!', subhead: `See you for breakfast at ${opensAt}.` },
+        night:   { headline: 'GOOD NIGHT, YAROSLAVL', subhead: `See you for breakfast at ${opensAt}.` },
         morning: { headline: "YOU'RE UP BEFORE THE BAR!", subhead: `Eggs and coffee from ${opensAt}.` },
         sunday:  { headline: 'A LITTLE SUNDAY POLISH', subhead: `Back at ${opensAt}, spotless.` },
     }[html.dataset.closed];

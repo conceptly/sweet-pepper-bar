@@ -143,7 +143,6 @@ function layoutTop(el) {
 
 export function initReveal() {
     if (reducedMotion.matches) return;
-    if (document.documentElement.classList.contains('debug-noreveal')) return; // diagnostic — inc/daypart-head.php
 
     // Plan → data-reveal. Cards inside a swipe rail (phones) are not dealt one by one —
     // the rail would reveal them mid-swipe; the rail itself rises instead.
@@ -195,7 +194,8 @@ export function initReveal() {
         // section with any reveal, the phone menu's among them, and an `overflow-x: clip`
         // ancestor is what made the sticky rail tremble on iPhones: WebKit stops placing the
         // sticky layer on its scrolling thread, and it lands a few pixels off on every frame of
-        // a scroll (found with ?debug= switches on the author's phones, 21 Sep 2026).
+        // a scroll (found on the author's phones with temporary ?debug= switches, since removed;
+        // confirmed fixed 21 Sep 2026).
         if (all.some((el) => el.dataset.reveal === 'mask-right')) {
             root.closest('section')?.classList.add('has-reveal');
         }

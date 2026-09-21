@@ -25,7 +25,6 @@ const LEARNED = 'spRailLearned';
 const EVERY = 2500; // was 5000: on a phone the pauses read as longer than on a desktop (author, 21 Sep 2026)
 
 export function initMenuRailNudge() {
-    if (document.documentElement.classList.contains('debug-norail')) return; // diagnostic — inc/daypart-head.php
     const rails = Array.from(document.querySelectorAll('.menu-section-rail'));
     if (!rails.length) return;
 

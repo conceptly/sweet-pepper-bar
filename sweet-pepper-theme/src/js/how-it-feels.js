@@ -46,13 +46,29 @@ const MOBILE_BP      = 768;  // below this, fall back to rows
 // because the cloud now sits above the rail in a portrait column rather than beside it.
 const ONE_CARD_BP    = 992;
 const FIELD_MIN_H    = 480;  // px floor for the field height (a spiral needs area)
-const FIELD_MIN_H_PHONE = 380; // phones: 16 words at 40/26/18 fit; keeps cloud + one card on an SE
+const FIELD_MIN_H_PHONE = 380; // phones: floor only — the height now follows the words (FIELD_AREA_PHONE)
+// Phones: the field's area is this multiple of the words' own area (each box + WORD_GAP).
+// Tuned for the PHONE word list (how-it-feels.php → 'phone' => false drops a word and its
+// quotes below 768): 12 words, the four widest mid-tier ones out. Swept 288–398px in a Node
+// port of this file's maths (tools/how-it-feels-field-sim.mjs, 21 Sep 2026): at 2.0 no width
+// needs to grow and three taps in four centre fully — 380 / 410 / 429px tall at 402 / 375 /
+// 360. What costs height is WIDE words, not many words: dropping the four small ones saved
+// nothing (they are the filler), and all 16 needed 435–490. Change the list → re-run the sweep.
+const FIELD_AREA_PHONE = 2.0;
+const COMMIT_MARGIN_PHONE = 12; // the cleared zone's margin where the field is 370 wide (desktop 28)
 
 export function initHowItFeels() {
     const section = document.querySelector('.about-how-it-feels');
     if ( ! section ) return;
 
     const cloud    = section.querySelector('.about-cloud');
+    // Phones carry a shorter word list (author, 21 Sep 2026): the template flags the words
+    // that stay off, and their quotes with them — a quote never shows without its word.
+    // Decided once, at load; rows (no JS) keep the full list, which they have room for.
+    if ( window.innerWidth < MOBILE_BP ) {
+        section.querySelectorAll('[data-phone="off"]').forEach( el => el.remove() );
+    }
+
     const words    = [ ...section.querySelectorAll('.about-cloud-word') ];
     const viewport = section.querySelector('.about-how-it-feels__quotes-viewport');
     const track    = section.querySelector('.about-how-it-feels__quotes-track');
@@ -122,7 +138,13 @@ export function initHowItFeels() {
                 h = Math.max( h, Math.ceil( face.getBoundingClientRect().height ) );
             }
             h += 16;
+            // Every card gets a slot as tall as the viewport's inside (h minus its 4px
+            // paddings) and centres in it. Without it the neighbours sat a fixed 24px away,
+            // so under any quote ~45px shorter than the tallest both of them showed as
+            // slivers at the viewport's edges (author, 21 Sep 2026).
+            track.style.setProperty( '--quote-slot', ( h - 8 ) + 'px' );
         } else {
+            track.style.removeProperty( '--quote-slot' );
             for ( let i = N; i < N + 3 && i < allCards.length; i++ ) {
                 h += allCards[ i ].offsetHeight;
             }
@@ -296,12 +318,14 @@ export function initHowItFeels() {
             scrollToQuote( wordToOrigIndex[ key ][ 0 ] );
         }
 
-        if ( commit && isField && fieldReady && window.innerWidth >= MOBILE_BP ) {
+        if ( commit && isField && fieldReady ) {
+            // Every width since 21 Sep 2026 (author: without the reshuffle the phone cloud
+            // felt rigid). Phones got the room for it — FIELD_AREA_PHONE — and commitField
+            // shortens the move where a clean layout can't be found.
             commitField( words.indexOf( tw ) );
         } else if ( commit ) {
-            // Phones (field or rows): a tap commits by fill + dimming the others;
-            // the heartbeat or the 8 s release un-dims. Nothing moves — a 370px
-            // field has no room to clear a zone around the word.
+            // Rows (no field): a tap commits by fill + dimming the others; the heartbeat
+            // or the 8 s release un-dims.
             cloud.classList.add('has-focus');
         }
     }
@@ -378,6 +402,7 @@ export function initHowItFeels() {
     let rafId        = null;
     let cloudW       = 0;
     let cloudH       = 0;
+    let orbitScale   = 1;    // 1 = full orbit; eased toward 0.35 on phones while a word is chosen
 
     if ( isField ) {
         initFieldCloud();
@@ -417,7 +442,14 @@ export function initHowItFeels() {
         const column = cloud.parentElement;
         const rowsH  = cloud.offsetHeight;
         const isPhone = window.innerWidth < MOBILE_BP;
-        cloudH = Math.max( column ? column.clientHeight : 0, rowsH, isPhone ? FIELD_MIN_H_PHONE : FIELD_MIN_H );
+        if ( isPhone ) {
+            // The column is only as tall as the rows here (cloud above the card), so the
+            // height comes from the words: see FIELD_AREA_PHONE.
+            const wordsArea = measured.reduce( ( a, m ) => a + ( m.w + WORD_GAP ) * ( m.h + WORD_GAP ), 0 );
+            cloudH = Math.max( FIELD_MIN_H_PHONE, Math.ceil( FIELD_AREA_PHONE * wordsArea / cloudW ) );
+        } else {
+            cloudH = Math.max( column ? column.clientHeight : 0, rowsH, FIELD_MIN_H );
+        }
 
         // Sort largest first (by area) for spiral.
         const sorted = measured
@@ -425,13 +457,17 @@ export function initHowItFeels() {
             .sort( ( a, b ) => ( b.w * b.h ) - ( a.w * a.h ) );
 
         // Spiral placement.
-        const placed = []; // { x, y, w, h } of placed boxes (top-left coords)
+        let placed = []; // { x, y, w, h } of placed boxes (top-left coords)
         const cx = cloudW / 2;
-        const cy = cloudH / 2;
+        let cy, kx, ky;
         // Shape the spiral to the container: squash the longer axis so the
         // walk fills a portrait column as well as a landscape one.
-        const kx = Math.min( 1, cloudW / cloudH );
-        const ky = Math.min( 1, cloudH / cloudW );
+        const shapeSpiral = () => {
+            cy = cloudH / 2;
+            kx = Math.min( 1, cloudW / cloudH );
+            ky = Math.min( 1, cloudH / cloudW );
+        };
+        shapeSpiral();
 
         // Deterministic seed angle from the word list.
         let seed = 0;
@@ -470,26 +506,46 @@ export function initHowItFeels() {
             return null;
         };
 
-        sorted.forEach( item => {
-            // Full gap first; if the field is crowded, tighten the gap, then the
-            // inset, before ever stacking a word on the centre.
-            const spot = findSpot( item, WORD_GAP, FIELD_INSET )
-                      || findSpot( item, WORD_GAP / 2, FIELD_INSET )
-                      || findSpot( item, 0, FIELD_INSET )
-                      || findSpot( item, 0, 0 );
-            let bestX, bestY;
-            if ( spot ) {
-                [ bestX, bestY ] = spot;
-            } else {
-                bestX = cx - item.w / 2;
-                bestY = cy - item.h / 2;
-                console.warn( '[how-it-feels] no room in the field for "' + item.el.dataset.key + '" — cloud is ' + cloudW + '×' + cloudH + 'px; fewer or smaller words, or a taller column.' );
-            }
+        // Seats every word; returns how many ended at the field's edge (inset 0) or on the
+        // centre pile — the two placements that mean "this field is too small".
+        const seatAll = () => {
+            placed = [];
+            let unseated = 0;
+            sorted.forEach( item => {
+                // Full gap first; if the field is crowded, tighten the gap, then the
+                // inset, before ever stacking a word on the centre.
+                let spot = findSpot( item, WORD_GAP, FIELD_INSET )
+                        || findSpot( item, WORD_GAP / 2, FIELD_INSET )
+                        || findSpot( item, 0, FIELD_INSET );
+                if ( ! spot ) {
+                    unseated++;
+                    spot = findSpot( item, 0, 0 );
+                }
+                let bestX, bestY;
+                if ( spot ) {
+                    [ bestX, bestY ] = spot;
+                } else {
+                    bestX = cx - item.w / 2;
+                    bestY = cy - item.h / 2;
+                    console.warn( '[how-it-feels] no room in the field for "' + item.el.dataset.key + '" — cloud is ' + cloudW + '×' + cloudH + 'px; fewer or smaller words, or a taller column.' );
+                }
 
-            placed.push({ x: bestX, y: bestY, w: item.w, h: item.h });
-            item.homeX = bestX;
-            item.homeY = bestY;
-        });
+                placed.push({ x: bestX, y: bestY, w: item.w, h: item.h });
+                item.homeX = bestX;
+                item.homeY = bestY;
+            });
+            return unseated;
+        };
+
+        // Phones own their height, so a field that can't seat everyone grows and tries
+        // again (20px a time, six times at most) — a longer word list or RU costs height,
+        // never a pile. Desktop's height is the column's and is left alone.
+        let unseated = seatAll();
+        for ( let grow = 0; isPhone && unseated > 0 && grow < 6; grow++ ) {
+            cloudH += 20;
+            shapeSpiral();
+            unseated = seatAll();
+        }
 
         // Build bodies array in original word order.
         fieldBodies = new Array( words.length );
@@ -499,8 +555,22 @@ export function initHowItFeels() {
         sorted.forEach( item => {
             const rndA = 9 + Math.random() * 10;  // 9–19s period
             const rndB = 11 + Math.random() * 8;
-            const ampA = ampBase + Math.random() * ampBase;   // 6–12px desktop, 3–6 phones
-            const ampB = ampBase + Math.random() * ampBase;
+            let ampA = ampBase + Math.random() * ampBase;   // 6–12px desktop, 3–6 phones
+            let ampB = ampBase + Math.random() * ampBase;
+            if ( isPhone ) {
+                // Never swing further than half the way to the nearest neighbour: the
+                // spiral's fallbacks rest some phone pairs closer than two full orbits.
+                let nearest = Infinity;
+                sorted.forEach( o => {
+                    if ( o === item ) return;
+                    const sx = Math.max( item.homeX - ( o.homeX + o.w ), o.homeX - ( item.homeX + item.w ) );
+                    const sy = Math.max( item.homeY - ( o.homeY + o.h ), o.homeY - ( item.homeY + item.h ) );
+                    nearest = Math.min( nearest, Math.max( sx, sy ) );
+                });
+                const cap = Math.max( 1.5, nearest / 2 );
+                ampA = Math.min( ampA, cap );
+                ampB = Math.min( ampB, cap );
+            }
             fieldBodies[ item.origIdx ] = {
                 el: item.el,
                 w: item.w,
@@ -562,6 +632,11 @@ export function initHowItFeels() {
     function fieldTick( now = performance.now() ) {
         rafId = requestAnimationFrame( fieldTick );
         const t = now / 1000; // time in seconds
+        // Phones, while a word is chosen: the others orbit at a third. A commit packs a
+        // 370px field closer than it rests, and two neighbours at full swing (±6 each)
+        // drifted into one another; eased, so the calm arrives with the move.
+        const calmTo = ( committedIdx >= 0 && window.innerWidth < MOBILE_BP ) ? 0.35 : 1;
+        orbitScale += ( calmTo - orbitScale ) * 0.05;
 
         fieldBodies.forEach( ( b, i ) => {
             if ( i === committedIdx ) {
@@ -570,8 +645,8 @@ export function initHowItFeels() {
                 b.pos[1] += ( b.target[1] - b.pos[1] ) * 0.08;
             } else {
                 // Idle: orbit home + lean toward pointer.
-                let tx = b.target[0] + Math.sin( t / b.orbitA * Math.PI * 2 + b.phaseA ) * b.ampA;
-                let ty = b.target[1] + Math.sin( t / b.orbitB * Math.PI * 2 + b.phaseB ) * b.ampB;
+                let tx = b.target[0] + Math.sin( t / b.orbitA * Math.PI * 2 + b.phaseA ) * b.ampA * orbitScale;
+                let ty = b.target[1] + Math.sin( t / b.orbitB * Math.PI * 2 + b.phaseB ) * b.ampB * orbitScale;
 
                 // Pointer lean.
                 if ( pointerX > 0 && pointerY > 0 ) {
@@ -596,30 +671,69 @@ export function initHowItFeels() {
     }
 
     // ── Commit: make room ─────────────────────────────────────
+    // The chosen word travels to the column's centre and the others clear a zone around
+    // it. Tried in order until a layout has no overlaps: the full move, the full move with
+    // a tight zone, then shorter moves; the last entry moves nothing and is always clean.
+    // Desktop lands on the first in practice; a crowded phone field is why the chain exists.
     function commitField( wordIdx ) {
         if ( wordIdx < 0 || wordIdx >= fieldBodies.length ) return;
 
         committedIdx = wordIdx;
         cloud.classList.add('has-focus');
 
+        const margin = window.innerWidth < MOBILE_BP ? COMMIT_MARGIN_PHONE : COMMIT_MARGIN;
+        const tries = [ [ 1, margin ], [ 1, 4 ], [ 0.6, margin ], [ 0.6, 4 ], [ 0.3, 4 ], [ 0, 0 ] ];
+        let targets = null;
+        for ( const [ travel, m ] of tries ) {
+            const solved = solveCommit( wordIdx, travel, m );
+            targets = solved.targets;
+            if ( solved.clean ) break;
+        }
+
+        fieldBodies.forEach( ( fb, i ) => {
+            fb.target = targets[i];
+        });
+    }
+
+    function solveCommit( wordIdx, travel, margin ) {
         const b = fieldBodies[ wordIdx ];
 
-        // Centre the committed word in the column.
-        const centredX = ( cloudW - b.w ) / 2;
-        const centredY = ( cloudH - b.h ) / 2;
-        b.target = [ centredX, centredY ];
+        // Toward the column's centre, by `travel` of the way.
+        const centredX = b.home[0] + ( ( cloudW - b.w ) / 2 - b.home[0] ) * travel;
+        const centredY = b.home[1] + ( ( cloudH - b.h ) / 2 - b.home[1] ) * travel;
 
-        // Cleared zone: the word's box + COMMIT_MARGIN, centred.
+        // Cleared zone: the word's box + margin.
         const zone = {
-            x: centredX - COMMIT_MARGIN,
-            y: centredY - COMMIT_MARGIN,
-            w: b.w + COMMIT_MARGIN * 2,
-            h: b.h + COMMIT_MARGIN * 2,
+            x: centredX - margin,
+            y: centredY - margin,
+            w: b.w + margin * 2,
+            h: b.h + margin * 2,
         };
 
         // Run relaxation on copies of the homes.
         const targets = fieldBodies.map( fb => [ fb.home[0], fb.home[1] ] );
         const count = fieldBodies.length;
+
+        // Never ask a pair for more gap than it has at rest: the spiral's fallbacks place
+        // words closer than WORD_GAP, and demanding the full gap drove such a pair into a
+        // wall and left it overlapping on every commit.
+        const pairGap = fieldBodies.map( a => fieldBodies.map( c => {
+            const sx = Math.max( a.home[0] - ( c.home[0] + c.w ), c.home[0] - ( a.home[0] + a.w ) );
+            const sy = Math.max( a.home[1] - ( c.home[1] + c.h ), c.home[1] - ( a.home[1] + a.h ) );
+            return Math.max( 0, Math.min( WORD_GAP, Math.max( sx, sy ) ) );
+        }));
+
+        // Clamp to the inset — but never tighter than the word's own home: one placed at
+        // the edge (inset 0) was being pushed 16px inward, into its neighbours.
+        const clamp = ( i ) => {
+            const fb = fieldBodies[i];
+            const minX = Math.min( FIELD_INSET, fb.home[0] );
+            const maxX = Math.max( cloudW - FIELD_INSET - fb.w, fb.home[0] );
+            const minY = Math.min( FIELD_INSET, fb.home[1] );
+            const maxY = Math.max( cloudH - FIELD_INSET - fb.h, fb.home[1] );
+            targets[i][0] = Math.max( minX, Math.min( maxX, targets[i][0] ) );
+            targets[i][1] = Math.max( minY, Math.min( maxY, targets[i][1] ) );
+        };
 
         for ( let iter = 0; iter < 200; iter++ ) {
             const pullStrength = iter < 120 ? 0.04 : 0;
@@ -650,8 +764,7 @@ export function initHowItFeels() {
                 }
 
                 // 3. Clamp to inset.
-                targets[i][0] = Math.max( FIELD_INSET, Math.min( cloudW - FIELD_INSET - fb.w, targets[i][0] ) );
-                targets[i][1] = Math.max( FIELD_INSET, Math.min( cloudH - FIELD_INSET - fb.h, targets[i][1] ) );
+                clamp( i );
 
                 // 3b. If still inside zone after clamping, step vertically.
                 const bx2 = targets[i][0], by2 = targets[i][1];
@@ -671,11 +784,12 @@ export function initHowItFeels() {
                     const ai = fieldBodies[i], aj = fieldBodies[j];
                     const ax = targets[i][0], ay = targets[i][1];
                     const bx = targets[j][0], by = targets[j][1];
+                    const gap = pairGap[i][j];
 
-                    const overlapX = ( ax + ai.w + WORD_GAP ) - bx;
-                    const overlapY = ( ay + ai.h + WORD_GAP ) - by;
-                    const overlapXn = ( bx + aj.w + WORD_GAP ) - ax;
-                    const overlapYn = ( by + aj.h + WORD_GAP ) - ay;
+                    const overlapX = ( ax + ai.w + gap ) - bx;
+                    const overlapY = ( ay + ai.h + gap ) - by;
+                    const overlapXn = ( bx + aj.w + gap ) - ax;
+                    const overlapYn = ( by + aj.h + gap ) - ay;
 
                     if ( overlapX > 0 && overlapXn > 0 && overlapY > 0 && overlapYn > 0 ) {
                         // Find smallest overlap axis.
@@ -697,18 +811,25 @@ export function initHowItFeels() {
 
             // 5. Final clamp.
             for ( let i = 0; i < count; i++ ) {
-                if ( i === wordIdx ) continue;
-                const fb = fieldBodies[i];
-                targets[i][0] = Math.max( FIELD_INSET, Math.min( cloudW - FIELD_INSET - fb.w, targets[i][0] ) );
-                targets[i][1] = Math.max( FIELD_INSET, Math.min( cloudH - FIELD_INSET - fb.h, targets[i][1] ) );
+                if ( i !== wordIdx ) clamp( i );
             }
         }
 
-        // Apply targets.
         targets[ wordIdx ] = [ centredX, centredY ];
-        fieldBodies.forEach( ( fb, i ) => {
-            fb.target = targets[i];
-        });
+
+        // Clean = no two boxes overlap by more than 2px on both axes (the chosen word
+        // included).
+        let clean = true;
+        for ( let i = 0; i < count && clean; i++ ) {
+            for ( let j = i + 1; j < count; j++ ) {
+                const a = fieldBodies[i], c = fieldBodies[j];
+                const ox = Math.min( targets[i][0] + a.w, targets[j][0] + c.w ) - Math.max( targets[i][0], targets[j][0] );
+                const oy = Math.min( targets[i][1] + a.h, targets[j][1] + c.h ) - Math.max( targets[i][1], targets[j][1] );
+                if ( ox > 2 && oy > 2 ) { clean = false; break; }
+            }
+        }
+
+        return { targets, clean };
     }
 
     // ── Release: ease back to homes ───────────────────────────

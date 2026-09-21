@@ -17,7 +17,7 @@
 
 | Bar's clock | Parked tile | Headline | Body |
 |---|---|---|---|
-| 02:00–04:00 | Party | GOOD NIGHT! | See you for breakfast at {8:30 · Sundays 10}. |
+| 02:00–04:00 | Party | GOOD NIGHT, YAROSLAVL | See you for breakfast at {8:30 · Sundays 10}. |
 | 04:00–08:30 | Breakfast | YOU'RE UP BEFORE THE BAR! | Eggs and coffee from 8:30. |
 | Sunday 04:00–10:00 | Breakfast | A LITTLE SUNDAY POLISH | Back at 10, spotless. |
 

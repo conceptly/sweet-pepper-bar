@@ -588,9 +588,11 @@
 .about-cloud-word.is-active[data-hue="avocado"]    { color: var(--avocado); }
 .about-cloud-word.is-active[data-hue="ash"]        { color: var(--ash); }
 
-/* Dimmed state: when another word is active, non-active words dim */
+/* Dimmed state: when another word is active, non-active words dim. 50%, was 30%
+   (author, 21 Sep 2026): at 30 a 1px phone outline all but left the page, and the fill
+   against outlines already says which word is chosen. */
 .about-cloud.has-focus .about-cloud-word:not(.is-active) {
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 /* ── Field layout (B) — JS-driven absolute positioning ──── */
@@ -692,6 +694,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    /* One-card layouts (< 992): how-it-feels.js sets --quote-slot to the viewport's inner
+       height, so a short quote's neighbours can't show at its edges */
+    min-height: var(--quote-slot, 0px);
     scroll-snap-align: center;
     transition: opacity 600ms var(--ease-gentle-flat);
 }
@@ -2543,9 +2548,12 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
        card ≈ 440px, so the coupling (tap or heartbeat fills a word *and* swaps the
        quote) stays in one view even on a 667-tall phone. ── */
 
+    /* gap 0 (author, 21 Sep 2026, on trial): the blank under the words was never just this
+       gap — the field's 16px inset, the spiral's slack, the viewport's 4px and the card's
+       centring in its slot stack up to 35–53px without it (59–77 with the old 24). */
     .about-how-it-feels__inner {
         flex-direction: column;
-        gap: 24px;
+        gap: 0;
         margin-top: 36px;
     }
 
@@ -2572,6 +2580,14 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 
     .about-cloud:not(.is-placed) .about-cloud__row {
         display: contents;
+    }
+
+    /* The phone field is crowded enough that the spiral's last resort (inset 0) is used —
+       one word at 402, four at 375 — and the orbit (±3–6px) then carried those words past
+       the field's clip, shaving a letter (author, 21 Sep 2026). Nothing here needs the clip:
+       the overshoot lands in the 16px gutter, and a commit clamps every word to the field. */
+    .about-cloud--field.is-placed {
+        overflow: visible;
     }
 
     .about-cloud:not(.is-placed) .about-cloud-word {

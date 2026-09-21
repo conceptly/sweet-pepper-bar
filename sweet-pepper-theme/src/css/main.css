@@ -110,3 +110,27 @@ a[x-apple-data-detectors] {
     text-decoration: none !important;
     font: inherit !important;
 }
+
+
+/* ── Diagnostics — the iOS rail tremble (21 Sep 2026). ?debug=… sets these classes before
+   paint (inc/daypart-head.php). Each removes ONE thing that works while the page scrolls, so
+   the culprit can be found on a phone with one deploy. Delete with the rest of the debug code. ── */
+
+/* noscrollanim: every scroll-driven animation (reveal.css) — connector parallax, photo drift,
+   the menu photo band's drift (a custom-property animation: main-thread work on every frame) */
+html.debug-noscrollanim :is(
+    .section-link-word--reflection img,
+    .section-link--reflection .section-link__text,
+    .menu-preview-img,
+    .about-preview-image img,
+    .menu-entrance-img__inner img,
+    .menu-section__hero img
+) {
+    animation: none !important;
+}
+
+/* noclip: the two overflow-x: clip ancestors of the sticky rail */
+html.debug-noclip #page,
+html.debug-noclip .has-reveal {
+    overflow-x: visible !important;
+}

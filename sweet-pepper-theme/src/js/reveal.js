@@ -143,6 +143,7 @@ function layoutTop(el) {
 
 export function initReveal() {
     if (reducedMotion.matches) return;
+    if (document.documentElement.classList.contains('debug-noreveal')) return; // diagnostic — inc/daypart-head.php
 
     // Plan → data-reveal. Cards inside a swipe rail (phones) are not dealt one by one —
     // the rail would reveal them mid-swipe; the rail itself rises instead.

@@ -40,6 +40,11 @@
  *   ?theme=night, ?daypart=dinner|party → night
  *   ?daypart=breakfast|lunch          → day
  *   ?closed=night|morning|sunday      → that closed window, at any hour (for checking)
+ *
+ * DIAGNOSTIC (21 Sep 2026, the iOS rail tremble): ?debug=norail,noscrollanim,noreveal,noclip
+ * — or ?debug=all — puts html.debug-<name> classes on before paint. Each switches one
+ * suspect off (src/css/main.css → Diagnostics; reveal.js; menu-rail-nudge.js). Remove the
+ * lot once the tremble is settled.
  *   otherwise                         → by the hour, on the home page only
  *
  * @package Sweet_Pepper
@@ -85,6 +90,9 @@ function sweet_pepper_daypart_head() {
         d.dataset.closed = closed;
     }
     d.dataset.now = now;
+    var dbg = (q.get('debug') || '').toLowerCase();
+    if (dbg === 'all') dbg = 'norail,noscrollanim,noreveal,noclip';
+    dbg.split(',').forEach(function (f) { if (/^[a-z]+$/.test(f)) d.classList.add('debug-' + f); });
     if (q.get('menu') === 'drinks' || q.get('theme') === 'night' || night.test(dp) ||
         (<?php echo $themes_by_hour; // phpcs:ignore WordPress.Security.EscapeOutput -- literal true/false ?> && !/^(breakfast|lunch)$/.test(dp) && night.test(now))) {
         d.dataset.theme = 'night';

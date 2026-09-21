@@ -545,6 +545,15 @@ html[data-theme="night"] .menu-section__remark {
         background-color: var(--section-top-bg);
     }
 
+    /* Same reason as the rail's 38px line: 7:3 of a 402px screen is 172.29px, which left
+       everything under the photo — the rail's resting place included — on a fraction. */
+    @supports (height: round(down, 1px, 1px)) {
+        .menu-section__hero {
+            aspect-ratio: auto;
+            height: round(down, calc((100vw) * 90 / 210), 1px);
+        }
+    }
+
     .menu-section__hero img {
         border-radius: 4px;
     }
@@ -565,6 +574,7 @@ html[data-theme="night"] .menu-section__remark {
         gap: 24px;
         background-color: var(--section-top-bg);
         overflow-x: auto;
+        overflow-y: hidden;         /* `auto` on x makes y `auto` too: the stuck rail could be dragged a pixel up and down inside itself */
         overscroll-behavior-x: contain;
         scroll-snap-type: x mandatory;
         scroll-padding-inline: var(--gutter);
@@ -598,7 +608,10 @@ html[data-theme="night"] .menu-section__remark {
         white-space: nowrap;
         scroll-snap-align: start;
         font-size: 36px;
-        line-height: 1.05;
+        /* 38px, not 1.05 (= 37.8): the rail must be a whole 54px. A sticky layer on fractional
+           geometry is rounded to the pixel grid differently from frame to frame while the page
+           scrolls, and the stuck rail trembled by a pixel (author, 20 Sep 2026). */
+        line-height: 38px;
         letter-spacing: 1.44px;
     }
 

@@ -49,29 +49,44 @@ UNITS = {"g": "г", "ml": "мл", "l": "л", "pcs": "шт"}
 ICONS = {"veg": "Лист — вегетарианское", "fire": "Огонь — хит", "Pepper": "Перец — острое", "yaroslavl-logo": "Ярославль — местное блюдо"}
 
 def dish_fields(prefix, parent=None):
-    """A dish's fields — one definition for both stores, so the test compares the
-    structure, not the form. A repeater row (parent set) also carries what a post
-    has of its own: the RU name (a post's title), the hide switch (a post goes to
-    Draft) and the stable id (a post has its ID)."""
+    """A dish's fields, for both stores. A repeater row (parent set) also carries what a
+    post has of its own: the RU name (a post's title), the hide switch (a post goes to
+    Draft) and the stable id (a post has its ID).
+
+    The two forms differ on purpose since 20 Sep 2026 (author, after the team's first look).
+    A `dish` post has a screen to itself, so its fields are laid out in reading order. A
+    repeater ROW shares its screen with every other dish of the section, and what the team
+    changes most is the price: the row is ONE LINE — (first pass) name · size · price ·
+    size 2 · price 2 · hide — and everything else waits in one closed accordion. One accordion, not two: each
+    accordion bar costs a line of its own.
+
+    Later the same day (author, from the first screenshot): the sizes left the line too. At
+    8% a number field showed "300" as "30" and «Выход 2» wrapped its label and broke the row,
+    so the line is now name · price · price 2 · hide, and the two sizes open the accordion."""
     row = parent is not None
     f = lambda *a, **k: field(*a, parent=parent, prefix=prefix, **k)
-    return [
-        *([f("dish_name_ru", "Название", "name_ru", "text", 40, required=1, **text)] if row else []),
-        f("dish_name_en", "Название (EN)", "name_en", "text", 40 if row else "", **text),
-        *([f("dish_hidden", "Скрыть с сайта", "hidden", "true_false", 20, **toggle)] if row else []),
+    w = (lambda compact, roomy: compact) if row else (lambda compact, roomy: roomy)
 
-        # Size 1, and an optional size 2 (40 мл / 500 мл → 150 / 1300).
-        f("dish_amount", "Выход", "amount", "number", 14, **number),
-        f("dish_unit", "Ед.", "unit", "select", 14, choices=UNITS, default_value="g", allow_null=0, **select),
-        f("dish_price", "Цена", "price", "number", 22, **{**number, "append": "-."}),
-        f("dish_amount_2", "Выход 2", "amount_2", "number", 14, **number),
-        f("dish_unit_2", "Ед.", "unit_2", "select", 14, choices=UNITS, default_value="g", allow_null=0, **select),
-        f("dish_price_2", "Цена 2", "price_2", "number", 22, **{**number, "append": "-."}),
-
+    name_ru = f("dish_name_ru", "Название", "name_ru", "text", 50, required=1, **text)
+    name_en = f("dish_name_en", "Название (EN)", "name_en", "text", "", **text)  # full width: the RU/EN pairs below stay paired
+    hidden = f("dish_hidden", "Скрыть", "hidden", "true_false", 14, **toggle)
+    # Size 1, and an optional size 2 (40 мл / 500 мл → 150 / 1300).
+    amount, unit, price, amount_2, unit_2, price_2 = sizes = [
+        f("dish_amount", "Выход", "amount", "number", w(25, 14), **number),
+        f("dish_unit", "Ед.", "unit", "select", w(25, 14), choices=UNITS, default_value="g", allow_null=0, **select),
+        # Required in a row, as the hint above the rows says (all 233 dishes on the menu carry a price)
+        f("dish_price", "Цена", "price", "number", w(18, 22), required=1 if row else 0, **{**number, "append": "-."}),
+        f("dish_amount_2", "Выход 2", "amount_2", "number", w(25, 14), **number),
+        f("dish_unit_2", "Ед. 2" if row else "Ед.", "unit_2", "select", w(25, 14), choices=UNITS, default_value="g", allow_null=0, **select),
+        f("dish_price_2", "Цена 2", "price_2", "number", w(18, 22), **{**number, "append": "-."}),
+    ]
+    descriptions = [
         f("dish_description_ru", "Описание", "description_ru", "textarea", 50, **area),
         f("dish_description_en", "Описание (EN)", "description_en", "textarea", 50, **area),
-
-        f("dish_more", "Дополнительно: значки, сезон, опции", "", "accordion", "", open=0, multi_expand=1, endpoint=0),
+    ]
+    more = f("dish_more", "Подробнее: выход, EN, описание, значки, сезон, опции" if row else "Дополнительно: значки, сезон, опции",
+             "", "accordion", "", open=0, multi_expand=1, endpoint=0)
+    extras = [
         f("dish_icons", "Значки — не больше двух", "icons", "checkbox", 50,
           choices=ICONS, default_value=[], return_format="value", allow_custom=0, save_custom=0,
           layout="horizontal", toggle=0),
@@ -84,8 +99,12 @@ def dish_fields(prefix, parent=None):
         # The note is repeated on the twin on purpose: a note on one side only leaves the pair uneven.
         f("dish_options_en", "Опции (EN)", "options_en", "textarea", 50,
           instructions="Каждая опция с новой строки.", **{**area, "rows": 3}),
-        *([f("dish_id", "ID", "dish_id", "text", "", wrapper_class="sp-field-hidden", readonly=1, **text)] if row else []),
     ]
+    if row:
+        # 50 + 18 + 18 + 14 = 100: the whole line is the price list. Inside: the sizes, 4 × 25.
+        return [name_ru, price, price_2, hidden, more, amount, unit, amount_2, unit_2, name_en, *descriptions, *extras,
+                f("dish_id", "ID", "dish_id", "text", "", wrapper_class="sp-field-hidden", readonly=1, **text)]
+    return [name_en, *sizes, *descriptions, more, *extras]
 
 
 def subsection_fields(prefix, dishes):
@@ -126,8 +145,10 @@ def subsections(prefix, dishes):
 M = "field_sp_menu_"
 menu_section = group(
     "group_sp_menu_section", "Раздел меню", [
-        field("hint", "", "", "message", message="Порядок строк — порядок на сайте: перетащите строку за номер слева. "
-              "«Скрыть с сайта» убирает блюдо не в сезоне, строка остаётся здесь.", new_lines="", esc_html=0),
+        field("hint", "", "", "message", message="Одна строка — одно блюдо: название и цена. «Цена» — обязательное поле; «Цена 2» заполняется, "
+              "только если у блюда два размера (например, 40 мл / 500 мл). Выход и всё остальное — в «Подробнее». "
+              "Порядок строк — порядок на сайте: перетащите строку за номер слева. "
+              "«Скрыть» убирает блюдо не в сезоне, строка остаётся здесь.", new_lines="", esc_html=0),
         subsections(M, field("dishes", "Блюда", "dishes", "repeater", "", "subsections", layout="block", pagination=0,
                              min=0, max=0, collapsed=f"{M}dish_name_ru", button_label="Добавить блюдо",
                              rows_per_page=20, sub_fields=dish_fields(M, "dishes"))),
@@ -156,5 +177,12 @@ menu_list = group(
 
 for g in (menu_section, dish, menu_list):
     path = OUT / f"{g['key']}.json"
+    # `modified` is what makes SCF offer "Sync available": leave an unchanged group's file
+    # alone, or every run asks the team to sync all three.
+    if path.exists():
+        old = json.loads(path.read_text(encoding="utf-8"))
+        if {**old, "modified": 0} == {**g, "modified": 0}:
+            print(f"unchanged {path.name}")
+            continue
     path.write_text(json.dumps(g, ensure_ascii=False, indent=4) + "\n", encoding="utf-8")
     print(f"wrote {path.name}")

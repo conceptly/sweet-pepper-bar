@@ -85,6 +85,7 @@ require_once get_template_directory() . '/inc/menu-data.php';
  * Menu storage test: the dishes store (`dish` posts + `menu_list` records). Goes if the repeater wins.
  */
 require_once get_template_directory() . '/inc/menu-data-dishes.php';
+require_once get_template_directory() . '/inc/dish-quick-edit.php'; // size and price in the Dishes table's Quick Edit
 
 /**
  * Dish picker pairings — one list for the menu page and About.

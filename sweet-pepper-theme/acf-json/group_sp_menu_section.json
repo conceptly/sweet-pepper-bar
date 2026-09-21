@@ -16,7 +16,7 @@
                 "class": "",
                 "id": ""
             },
-            "message": "Порядок строк — порядок на сайте: перетащите строку за номер слева. «Скрыть с сайта» убирает блюдо не в сезоне, строка остаётся здесь.",
+            "message": "Одна строка — одно блюдо: название и цена. «Цена» — обязательное поле; «Цена 2» заполняется, только если у блюда два размера (например, 40 мл / 500 мл). Выход и всё остальное — в «Подробнее». Порядок строк — порядок на сайте: перетащите строку за номер слева. «Скрыть» убирает блюдо не в сезоне, строка остаётся здесь.",
             "new_lines": "",
             "esc_html": 0
         },
@@ -170,7 +170,7 @@
                             "required": 1,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "40",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
@@ -182,29 +182,54 @@
                             "parent_repeater": "field_sp_menu_dishes"
                         },
                         {
-                            "key": "field_sp_menu_dish_name_en",
-                            "label": "Название (EN)",
-                            "name": "name_en",
+                            "key": "field_sp_menu_dish_price",
+                            "label": "Цена",
+                            "name": "price",
                             "aria-label": "",
-                            "type": "text",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "18",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "min": 0,
+                            "max": "",
+                            "step": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "-.",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_price_2",
+                            "label": "Цена 2",
+                            "name": "price_2",
+                            "aria-label": "",
+                            "type": "number",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "40",
+                                "width": "18",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "",
-                            "maxlength": "",
+                            "min": 0,
+                            "max": "",
+                            "step": "",
                             "placeholder": "",
                             "prepend": "",
-                            "append": "",
+                            "append": "-.",
                             "parent_repeater": "field_sp_menu_dishes"
                         },
                         {
                             "key": "field_sp_menu_dish_hidden",
-                            "label": "Скрыть с сайта",
+                            "label": "Скрыть",
                             "name": "hidden",
                             "aria-label": "",
                             "type": "true_false",
@@ -212,7 +237,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "20",
+                                "width": "14",
                                 "class": "",
                                 "id": ""
                             },
@@ -221,6 +246,25 @@
                             "ui": 1,
                             "ui_on_text": "Да",
                             "ui_off_text": "Нет",
+                            "parent_repeater": "field_sp_menu_dishes"
+                        },
+                        {
+                            "key": "field_sp_menu_dish_more",
+                            "label": "Подробнее: выход, EN, описание, значки, сезон, опции",
+                            "name": "",
+                            "aria-label": "",
+                            "type": "accordion",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "open": 0,
+                            "multi_expand": 1,
+                            "endpoint": 0,
                             "parent_repeater": "field_sp_menu_dishes"
                         },
                         {
@@ -233,7 +277,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "14",
+                                "width": "25",
                                 "class": "",
                                 "id": ""
                             },
@@ -256,7 +300,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "14",
+                                "width": "25",
                                 "class": "",
                                 "id": ""
                             },
@@ -276,29 +320,6 @@
                             "parent_repeater": "field_sp_menu_dishes"
                         },
                         {
-                            "key": "field_sp_menu_dish_price",
-                            "label": "Цена",
-                            "name": "price",
-                            "aria-label": "",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "22",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "min": 0,
-                            "max": "",
-                            "step": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "-.",
-                            "parent_repeater": "field_sp_menu_dishes"
-                        },
-                        {
                             "key": "field_sp_menu_dish_amount_2",
                             "label": "Выход 2",
                             "name": "amount_2",
@@ -308,7 +329,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "14",
+                                "width": "25",
                                 "class": "",
                                 "id": ""
                             },
@@ -323,7 +344,7 @@
                         },
                         {
                             "key": "field_sp_menu_dish_unit_2",
-                            "label": "Ед.",
+                            "label": "Ед. 2",
                             "name": "unit_2",
                             "aria-label": "",
                             "type": "select",
@@ -331,7 +352,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "14",
+                                "width": "25",
                                 "class": "",
                                 "id": ""
                             },
@@ -351,26 +372,24 @@
                             "parent_repeater": "field_sp_menu_dishes"
                         },
                         {
-                            "key": "field_sp_menu_dish_price_2",
-                            "label": "Цена 2",
-                            "name": "price_2",
+                            "key": "field_sp_menu_dish_name_en",
+                            "label": "Название (EN)",
+                            "name": "name_en",
                             "aria-label": "",
-                            "type": "number",
+                            "type": "text",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "22",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "",
-                            "min": 0,
-                            "max": "",
-                            "step": "",
+                            "maxlength": "",
                             "placeholder": "",
                             "prepend": "",
-                            "append": "-.",
+                            "append": "",
                             "parent_repeater": "field_sp_menu_dishes"
                         },
                         {
@@ -413,25 +432,6 @@
                             "rows": 2,
                             "placeholder": "",
                             "new_lines": "",
-                            "parent_repeater": "field_sp_menu_dishes"
-                        },
-                        {
-                            "key": "field_sp_menu_dish_more",
-                            "label": "Дополнительно: значки, сезон, опции",
-                            "name": "",
-                            "aria-label": "",
-                            "type": "accordion",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "open": 0,
-                            "multi_expand": 1,
-                            "endpoint": 0,
                             "parent_repeater": "field_sp_menu_dishes"
                         },
                         {
@@ -616,5 +616,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1789772856
+    "modified": 1789955894
 }

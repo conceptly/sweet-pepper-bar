@@ -242,8 +242,9 @@ html[data-theme="night"] .btn-copy-ticket {
 .btn-call--available { background-color: var(--lime); }
 /* Busy — orange */
 .btn-call--busy { background-color: #E8751A; color: #fff; }
-/* Closed — chili */
-.btn-call--closed { background-color: var(--chili); color: #fff; }
+/* Closed — chili, with the primary button's Lemon label and icons (author, 20 Sep 2026; was #fff —
+   pure white is not in the palette, design.md §2.2) */
+.btn-call--closed { background-color: var(--chili); color: var(--lemon); }
 
 /* Night mode */
 html[data-theme="night"] .btn-call--busy { background-color: #E8751A; }

@@ -113,6 +113,7 @@ function sweet_pepper_dish_admin_column( $column, $post_id ) {
     }
     if ( 'sp_sizes' === $column ) {
         echo esc_html( sweet_pepper_dish_sizes_label( $post_id ) ?: '—' );
+        echo sweet_pepper_dish_quick_data( $post_id ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped there; Quick Edit starts from it (inc/dish-quick-edit.php)
     }
     if ( 'sp_section' === $column ) {
         $links = [];

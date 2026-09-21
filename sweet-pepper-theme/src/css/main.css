@@ -129,6 +129,11 @@ html.debug-noscrollanim :is(
     animation: none !important;
 }
 
+/* nopageclip: only the page-level clip (the section-level one is fixed in reveal.js) */
+html.debug-nopageclip #page {
+    overflow-x: visible !important;
+}
+
 /* noclip: the two overflow-x: clip ancestors of the sticky rail */
 html.debug-noclip #page,
 html.debug-noclip .has-reveal {

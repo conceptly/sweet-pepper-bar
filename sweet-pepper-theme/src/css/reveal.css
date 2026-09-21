@@ -11,6 +11,8 @@
    spring would push the content past the mask and back); unmasked ones take Gentle.
    The resting clip is −24px, not 0, so a card's shadow isn't shaved while it lands.
    ══════════════════════════════════════════════════════════════════════ */
+/* Set by reveal.js on a section that holds a mask-right element, and on no other: never put
+   `overflow-x: clip` on an ancestor of a `position: sticky` element (the phone menu's rail). */
 .has-reveal {
     overflow-x: clip;
 }

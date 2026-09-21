@@ -187,9 +187,18 @@ export function initReveal() {
     }
 
     function arm(root) {
-        [root, ...root.querySelectorAll('[data-reveal]')].forEach((el) => el.classList.add('is-armed'));
-        // A parked mask-right element reaches past the viewport: keep it out of the scroll width
-        root.closest('section')?.classList.add('has-reveal');
+        const all = [root, ...root.querySelectorAll('[data-reveal]')];
+        all.forEach((el) => el.classList.add('is-armed'));
+        // A parked mask-right element reaches past the viewport: keep it out of the scroll width.
+        // ONLY mask-right — the other effects park upwards, downwards or to the left, none of
+        // which widens the page — and only its own section. The clip used to go on every
+        // section with any reveal, the phone menu's among them, and an `overflow-x: clip`
+        // ancestor is what made the sticky rail tremble on iPhones: WebKit stops placing the
+        // sticky layer on its scrolling thread, and it lands a few pixels off on every frame of
+        // a scroll (found with ?debug= switches on the author's phones, 21 Sep 2026).
+        if (all.some((el) => el.dataset.reveal === 'mask-right')) {
+            root.closest('section')?.classList.add('has-reveal');
+        }
         state.set(root, 'armed');
     }
 

@@ -41,7 +41,7 @@
  *   ?daypart=breakfast|lunch          → day
  *   ?closed=night|morning|sunday      → that closed window, at any hour (for checking)
  *
- * DIAGNOSTIC (21 Sep 2026, the iOS rail tremble): ?debug=norail,noscrollanim,noreveal,noclip
+ * DIAGNOSTIC (21 Sep 2026, the iOS rail tremble): ?debug=norail,noscrollanim,noreveal,noclip,nopageclip
  * — or ?debug=all — puts html.debug-<name> classes on before paint. Each switches one
  * suspect off (src/css/main.css → Diagnostics; reveal.js; menu-rail-nudge.js). Remove the
  * lot once the tremble is settled.

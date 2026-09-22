@@ -3,87 +3,90 @@
  * Food → drink pairings for the dish picker.
  *
  * One list, two homes: the menu page's pairing station and the About page's Concept
- * picker (website-brief.md: the surfaces that show a dish reference one record, they
- * never hold their own copy). Until 18 Sep 2026 About carried a three-dish copy with
- * its own wording, and the two had drifted.
- * Phase 2: pull from an ACF repeater or a dish CPT relationship field.
+ * picker (website-brief.md → Picker pairings: the surfaces that show a dish reference one
+ * record, they never hold their own copy). The record is the one `pairings` post
+ * («Подбор пары», acf-json/group_sp_pairings.json); until it has rows, the typed list in
+ * data/pairings.php renders.
+ *
+ * Temporary shape (author, 21 Sep 2026): the dish and the drink are typed into the row —
+ * name, description, photo — because the menu is not in the database yet. When it is,
+ * those columns become references to menu dishes and this file reads the dish instead.
  *
  * @package Sweet_Pepper
  */
 
 /**
- * Each entry: slug, dish (tag label), card_name (ticket name), description,
- * food_img / bar_img (relative to assets/images/), pairing, bar_section (drinks anchor).
+ * The record. Made by the seeder; the post type allows no second one.
  */
-function sweet_pepper_food_pairings() {
-    return [
-        [
-            'slug'        => 'pumpkin-soup',
-            'dish'        => 'Pumpkin Soup',         // tag label
-            'card_name'   => 'Pumpkin Soup',          // card display name
-            'description' => 'The legend of the Kirova street',
-            'food_img'    => 'food/lunch/pumpkin.png',
-            'bar_img'     => 'bar/infusions/infusions-lenya-11.jpg',
-            'pairing'     => 'A shot of the buckthorn infusion',
-            'bar_section' => 'infusions',
-        ],
-        [
-            'slug'        => 'draniki',
-            'dish'        => 'Signature Draniki',
-            'card_name'   => 'Signature Draniki',
-            'description' => 'The legend of the Kirova street',
-            'food_img'    => 'food/dinner/draniki-2.jpg',
-            'bar_img'     => 'bar/infusions/infusions-lenya-09.jpg',
-            'pairing'     => 'A shot of the cranberry infusion',
-            'bar_section' => 'infusions',
-        ],
-        [
-            'slug'        => 'beefsteak',
-            'dish'        => 'Beefsteak with Egg',
-            'card_name'   => 'Beefsteak with Egg',
-            'description' => 'The legend of the Kirova street',
-            'food_img'    => 'food/dinner/minced-beefsteak-07.jpg',
-            'bar_img'     => 'bar/hard-drinks/jim-beam-1.jpg',
-            'pairing'     => 'Jack Daniels on ice',
-            'bar_section' => 'spirits',
-        ],
-        [
-            'slug'        => 'roast',
-            'dish'        => 'Yaroslavl Pork Roast',  // tag label (longer)
-            'card_name'   => 'Yaroslavl Roast',        // card display name (shorter, per Figma)
-            'description' => 'The legend of the Kirova street',
-            'food_img'    => 'food/dinner/zharkoe-1.jpg',
-            'bar_img'     => 'bar/hard-drinks/finlandia-3.jpg',
-            'pairing'     => 'A shot of the Finlandia',
-            'bar_section' => 'spirits',
-        ],
-        [
-            'slug'        => 'wings',
-            'dish'        => 'Smoked Pepper Wings',   // tag label
-            'card_name'   => 'Chicken Wings',          // card display name (per Figma)
-            'description' => 'The legend of the Kirova street',
-            'food_img'    => 'food/dinner/wings-2.jpg',
-            'bar_img'     => 'bar/hard-drinks/ararat-1.jpg',
-            'pairing'     => 'A shot of the Ararat cognac',
-            'bar_section' => 'spirits',
-        ],
-        [
-            'slug'        => 'pasta',
-            'dish'        => 'Chicken Pasta',
-            'card_name'   => 'Chicken Pasta',
-            'description' => 'The legend of the Kirova street',
-            'food_img'    => 'food/lunch/chicken-pasta-1.jpg',
-            'bar_img'     => 'bar/wine/red-2.jpg',
-            'pairing'     => 'Jim Beam on ice',
-            'bar_section' => 'spirits',
-        ],
-    ];
+function sweet_pepper_pairings_post() {
+    $posts = get_posts( [ 'post_type' => 'pairings', 'post_status' => 'publish', 'posts_per_page' => 1 ] );
+    return $posts[0] ?? null;
 }
 
 /**
- * Index of a pairing by slug — the picker's default pick, without counting by hand.
+ * Each entry: slug, dish (tag label), card_name (ticket name), description,
+ * food_img / bar_img (URLs), pairing (the bar's reply), bar_section (drinks anchor),
+ * default (opens first). One language, the request's.
  */
-function sweet_pepper_pairing_index( $pairings, $slug ) {
+function sweet_pepper_food_pairings() {
+    static $pairings = null;
+    if ( null !== $pairings ) {
+        return $pairings;
+    }
+    $post = sweet_pepper_pairings_post();
+    $rows = ( $post && function_exists( 'get_field' ) ) ? ( get_field( 'pairs', $post->ID ) ?: [] ) : [];
+    $saved = (bool) $rows;
+    if ( ! $saved ) {
+        foreach ( require get_template_directory() . '/data/pairings.php' as $row ) {
+            $rows[] = [
+                'slug'                => $row['slug'],
+                'dish_name_en'        => $row['dish'],
+                'dish_name_ru'        => $row['ru']['dish'] ?? '',
+                'dish_short_en'       => $row['dish_short'],
+                'dish_short_ru'       => $row['ru']['dish_short'] ?? '',
+                'dish_description_en' => $row['description'],
+                'dish_description_ru' => $row['ru']['description'] ?? '',
+                'reply_en'            => $row['reply'],
+                'reply_ru'            => $row['ru']['reply'] ?? '',
+                'drink_section'       => $row['drink_section'],
+                'default'             => $row['default'],
+                'food_fallback'       => $row['food_img'],
+                'bar_fallback'        => $row['bar_img'],
+            ];
+        }
+    }
+
+    $pairings = [];
+    foreach ( $rows as $i => $row ) {
+        $dish = sweet_pepper_pick( $row, 'dish_name' );
+        if ( '' === $dish || ! empty( $row['hidden'] ) ) {
+            continue;
+        }
+        $pairings[] = [
+            'slug'        => $row['slug'] ?? sanitize_title( $row['dish_name_en'] ?: $dish ) ?: 'pair-' . $i,
+            'dish'        => $dish,
+            'card_name'   => sweet_pepper_pick( $row, 'dish_short' ) ?: $dish,
+            'description' => sweet_pepper_pick( $row, 'dish_description' ),
+            'food_img'    => sweet_pepper_photo_url( $row['dish_photo'] ?? '', 'sp-square', $row['food_fallback'] ?? '' ),
+            'bar_img'     => sweet_pepper_photo_url( $row['drink_photo'] ?? '', 'sp-square', $row['bar_fallback'] ?? '' ),
+            'pairing'     => sweet_pepper_pick( $row, 'reply' ),
+            'bar_section' => (string) ( $row['drink_section'] ?? 'infusions' ),
+            'default'     => ! empty( $row['default'] ),
+        ];
+    }
+    return $pairings;
+}
+
+/**
+ * The row the picker opens on: the first marked «Открывается первой», else the first.
+ * ($slug is kept for the two callers; a saved record decides by the switch.)
+ */
+function sweet_pepper_pairing_index( $pairings, $slug = '' ) {
+    foreach ( $pairings as $i => $p ) {
+        if ( ! empty( $p['default'] ) ) {
+            return $i;
+        }
+    }
     $index = array_search( $slug, array_column( $pairings, 'slug' ), true );
     return false === $index ? 0 : $index;
 }

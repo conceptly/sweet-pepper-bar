@@ -12,6 +12,10 @@
  * Quote data: real excerpts from Yandex and Google reviews (about-reviews.md).
  * Each quote links to a cloud word via data-word attribute.
  *
+ * Content comes as args from sweet_pepper_about_reviews() (inc/about-data.php) — the About page's «Отзывы» tab.
+ *
+ * @param array $args eyebrow · headline · headline_2 · quotes[] (id, text, text_en, platform, footnote, link, word)
+ *
  * @package Sweet_Pepper
  */
 
@@ -66,192 +70,9 @@ foreach ( $cloud_rows as $row ) {
 // The default active word (filled on load, before JS takes over).
 $default_active = 'welcoming';
 
-// Quote cards: all 20 review excerpts from about-reviews.md (15 Yandex + 5 Google).
-// Each quote links to a cloud word via 'word' key.
-// Words with multiple reviews (cosy, welcoming, inviting, friendly) cycle on repeat-click.
-// text = Russian original; text_en = English translation.
-$quotes = [
-    [
-        'id'        => 'y01',
-        'text'      => 'Атмосфера здесь очень уютная, а время пролетает незаметно.',
-        'text_en'   => 'It\'s so cosy here, and time flies without you noticing.',
-        'platform'  => 'Yandex',
-        'footnote'  => 'time flies when the room is right',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=tj62avucx3mh98fvxwv7hrfb20&utm_source=review',
-        'word'      => 'cosy',
-    ],
-    [
-        'id'        => 'y02',
-        'text'      => 'Очень рада, что знакомство с городом состоялось именно здесь.',
-        'text_en'   => 'I\'m so glad this was my introduction to the city.',
-        'platform'  => 'Yandex',
-        'footnote'  => 'Yaroslavl, first stop',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=3grnhd9fggfg68khmptdmh9jbr&utm_source=review',
-        'word'      => 'happy',
-    ],
-    [
-        'id'        => 'y03',
-        'text'      => 'Классный персонал, собакоориентированность и игристое по утрам окончательно укрепили меня в мысли, что место годное!',
-        'text_en'   => 'Great staff, a welcome for dogs and sparkling wine in the morning sealed it for me: this place is a find!',
-        'platform'  => 'Yandex',
-        'footnote'  => 'dogs welcome, bubbles before noon',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=7cnpwx4y36r9fkz4x7k7f8rcdw&utm_source=review',
-        'word'      => 'welcoming',
-    ],
-    [
-        'id'        => 'y04',
-        'text'      => 'Внутри очень уютно, атмосфера располагающая, а цены приятно удивили.',
-        'text_en'   => 'It\'s very cosy inside, the atmosphere is inviting, and the prices were a pleasant surprise.',
-        'platform'  => 'Yandex',
-        'footnote'  => 'stepped in from the rain, stayed for dinner',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=8ec8jnaf6k7cg6ta3pq7bbyvy8&utm_source=review',
-        'word'      => 'inviting',
-    ],
-    [
-        'id'        => 'y05',
-        'text'      => 'Самый любимый бар, дружелюбное обслуживание, вкусная еда, а главное — отменные коктейли!',
-        'text_en'   => 'My favourite bar! Friendly service, delicious food and, most importantly, excellent cocktails!',
-        'platform'  => 'Yandex',
-        'footnote'  => 'cocktails first, apparently',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=kqhgu3gzgemq8m85hha1g9g0vr&utm_source=review',
-        'word'      => 'beloved',
-    ],
-    [
-        'id'        => 'y06',
-        'text'      => 'В общем отличное заведение, и если не знаете куда сходить с друзьями? Вам точно сюда!',
-        'text_en'   => 'A great place all round. If you\'re wondering where to go with friends, this is definitely the place!',
-        'platform'  => 'Yandex',
-        'footnote'  => 'bring friends, noted',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=116n4gwqek9rkuuxv433kr4tm4&utm_source=review',
-        'word'      => 'sociable',
-    ],
-    [
-        'id'        => 'y07',
-        'text'      => 'Харизматичная и очень приветливая официантка',
-        'text_en'   => 'A waitress with loads of personality, and so friendly',
-        'platform'  => 'Yandex',
-        'footnote'  => 'warmth isn\'t confined to longstanding staff',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=qk4qq7r8qh0x4wdf4t0wemey4m&utm_source=review',
-        'word'      => 'friendly',
-    ],
-    [
-        'id'        => 'y08',
-        'text'      => 'Это был идеальный вечер! Неплохая музыка, по еде всё идеально…',
-        'text_en'   => 'It was the perfect evening! Decent music, and all the food was spot on…',
-        'platform'  => 'Yandex',
-        'footnote'  => 'an evening they remember',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=jku9021x8da61k7wv6qumgmfag&utm_source=review',
-        'word'      => 'perfect',
-    ],
-    [
-        'id'        => 'y09',
-        'text'      => 'За 3 дня в Ярославле дважды посетили данное заведение, настолько понравилось 💕🔥',
-        'text_en'   => 'We came here twice in three days in Yaroslavl — that\'s how much we loved it 💕🔥',
-        'platform'  => 'Yandex',
-        'footnote'  => 'twice in three days says it all',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=r0uqpfbnw82jrfdf78k6k7r2c8&utm_source=review',
-        'word'      => 'magnetic',
-    ],
-    [
-        'id'        => 'y10',
-        'text'      => 'У меня Sweet Pepper ассоциируется со студенческими веселыми временами',
-        'text_en'   => 'Sweet Pepper brings back the good times from my student days',
-        'platform'  => 'Yandex',
-        'footnote'  => 'memories from a regular',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=yxdkf33f3va31b5fuu82meey30&utm_source=review',
-        'word'      => 'lively',
-    ],
-    [
-        'id'        => 'g01',
-        'text'      => 'Уютный гастрономический бар со своей атмосферой, персонал всегда приветливый и дружелюбный.',
-        'text_en'   => 'A cosy gastrobar with an atmosphere all its own. The staff are always welcoming and friendly.',
-        'platform'  => 'Google',
-        'footnote'  => 'the staff make the place',
-        'link'      => 'https://share.google/O0vFa1GqwJs2HfwQm',
-        'word'      => 'friendly',
-    ],
-    [
-        'id'        => 'g02',
-        'text'      => 'Классно, уютно, внимательный персонал, вкусная еда.',
-        'text_en'   => 'A lovely, cosy place. Attentive staff, delicious food.',
-        'platform'  => 'Google',
-        'footnote'  => 'repeat lunches and dinners',
-        'link'      => 'https://share.google/1Ah8c3kMf2iKOQ91l',
-        'word'      => 'attentive',
-    ],
-    [
-        'id'        => 'g03',
-        'text'      => 'Отдельное спасибо милым и приветливым официантам!',
-        'text_en'   => 'A special thank-you to the lovely, welcoming waiting staff!',
-        'platform'  => 'Google',
-        'footnote'  => 'the team, by name',
-        'link'      => 'https://share.google/oqgrJEVNwQU6QOAk1',
-        'word'      => 'welcoming',
-    ],
-    [
-        'id'        => 'g04',
-        'text'      => 'В этот раз в очередной раз убедилась, что это место стоит того, чтобы ходить туда чаще.',
-        'text_en'   => 'This visit reminded me once again that this place deserves more frequent visits.',
-        'platform'  => 'Google',
-        'footnote'  => 'a returning guest, convinced',
-        'link'      => 'https://share.google/HL3nbzdA4vm4AAdax',
-        'word'      => 'inviting',
-    ],
-    [
-        'id'        => 'g05',
-        'text'      => 'Уютная обстановка, хотя низкие столы и правда на любителя.',
-        'text_en'   => 'A cosy setting, though the low tables really aren\'t for everyone.',
-        'platform'  => 'Google',
-        'footnote'  => 'honest and still five stars',
-        'link'      => 'https://share.google/bf6H7c6KbKvqLYJrw',
-        'word'      => 'cosy',
-    ],
-    [
-        'id'        => 'y11',
-        'text'      => 'Посещаю это место несколько лет и каждый раз восхищаюсь атмосферой.',
-        'text_en'   => 'I\'ve visited for years, and the atmosphere still amazes me.',
-        'platform'  => 'Yandex',
-        'footnote'  => 'years of visits, still amazed',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=gtxmue6w93e45qgpammaufgv6m&utm_source=review',
-        'word'      => 'wonderful',
-    ],
-    [
-        'id'        => 'y12',
-        'text'      => 'Приятная атмосфера дня и ночи',
-        'text_en'   => 'A lovely atmosphere, day and night',
-        'platform'  => 'Yandex',
-        'footnote'  => 'day and night, both work',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=tm3zudznnxwm8jft7u9zhf9d3r&utm_source=review',
-        'word'      => 'pleasant',
-    ],
-    [
-        'id'        => 'y13',
-        'text'      => 'Еше тут приветливый и обаятельный персонал.',
-        'text_en'   => 'The staff are welcoming and charming, too.',
-        'platform'  => 'Yandex',
-        'footnote'  => 'took an infusion home for friends',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=basun.av&utm_source=review',
-        'word'      => 'charming',
-    ],
-    [
-        'id'        => 'y14',
-        'text'      => 'вежливый,доброжелательный персонал и быстрое обслуживание',
-        'text_en'   => 'Polite, friendly staff and quick service',
-        'platform'  => 'Yandex',
-        'footnote'  => 'quick even when full',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=irinkakashina94&utm_source=review',
-        'word'      => 'kind',
-    ],
-    [
-        'id'        => 'y15',
-        'text'      => 'даже моим родителям Sweet Pepper очень понравился.',
-        'text_en'   => 'Even my parents really liked Sweet Pepper.',
-        'platform'  => 'Yandex',
-        'footnote'  => 'a family endorsement',
-        'link'      => 'https://yandex.com/maps/org/237019392845/reviews?reviews%5BpublicId%5D=g50a6ate397davtyxe8htap8dc&utm_source=review',
-        'word'      => 'inclusive',
-    ],
-];
+// Quote cards — the About page's «Отзывы» tab (sweet_pepper_about_reviews()); each links to a
+// cloud word via 'word'. text = the Russian original; text_en = the English.
+$quotes = $args['quotes'];
 
 // CTA link.
 $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/reviews/?ll=39.888343%2C57.626024&z=17';
@@ -264,8 +85,9 @@ $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/rev
     <div class="container">
         <?php
         get_template_part( 'template-parts/components/section-header', null, [
-            'eyebrow'  => __( 'IN YOUR WORDS', 'sweet-pepper' ),
-            'headline' => __( 'HOW IT FEELS', 'sweet-pepper' ),
+            'eyebrow'    => $args['eyebrow'],
+            'headline'   => $args['headline'],
+            'headline_2' => $args['headline_2'],
         ] );
         ?>
 
@@ -316,7 +138,7 @@ $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/rev
                     <div class="about-how-it-feels__quotes-track">
                         <?php
                         // Detect whether the site is running in Russian.
-                        $is_ru = ( strpos( get_locale(), 'ru' ) === 0 );
+                        $is_ru = ( 'ru' === sweet_pepper_lang() );
 
                         foreach ( $quotes as $i => $quote ) :
                             // Pick quote text by locale.

@@ -7,76 +7,23 @@
  * States: tilt ±4° at rest → halfway straight on hover → straight, solid ring, ink fill when
  * active; a press scales down (about.css → 4. Beyond Shake & Cook).
  *
+ * @param array $args eyebrow · headline · headline_2 · perks[] (id, label, word, icon, color, title, description)
+ *
  * @package Sweet_Pepper
  */
 
 /*
  * Icons are the Figma `Icons` set exported to assets/icons/ (12px artboards, scaled by CSS)
- * and inlined so they take the stamp colour via currentColor — not Phosphor glyphs, whose
- * Fill variants read differently (the Wi-Fi fan, the dim sun). `label` is the desktop word
- * (desktop frame); `word` is the phone word (About-mobile-opt2 1490:78394 + about-page-copy.md
- * → stamp word), where the long labels wrapped and made the second row taller.
+ * and inlined so they take the stamp colour via currentColor. `label` is the desktop word,
+ * `word` the phone word (About-mobile-opt2 1490:78394), where the long labels wrapped.
+ * The six stamps come as args from sweet_pepper_about_perks() (inc/about-data.php) — the
+ * About page's «Удобства» tab; the colour deal (Lime → Lemon → Paprika) is made there.
  */
-$perks = [
-    [
-        'id'          => 'wifi',
-        'label'       => 'Wi-Fi',
-        'word'        => 'Wi-Fi',
-        'icon'        => 'wifi',
-        'color'       => 'lime',
-        'title'       => 'WI-FI & POWER',
-        'description' => 'Plug in, get comfortable. Wi-Fi and power sockets are available, with chargers at the bar.',
-    ],
-    [
-        'id'          => 'kids',
-        'label'       => 'Kids Welcome',
-        'word'        => 'Kids',
-        'icon'        => 'kids',
-        'color'       => 'lemon',
-        'title'       => 'KIDS\' MENU & ACTIVITIES',
-        'description' => 'A menu for smaller appetites, colouring books and cartoons at weekends.',
-    ],
-    [
-        'id'          => 'dogs',
-        'label'       => 'Dog-friendly',
-        'word'        => 'Dogs',
-        'icon'        => 'dog',
-        'color'       => 'paprika',
-        'title'       => 'DOGS WELCOME',
-        'description' => 'Your dog is welcome too. Water bowls are on the house.',
-    ],
-    [
-        'id'          => 'terrace',
-        'label'       => 'Terrace',
-        'word'        => 'Terrace',
-        'icon'        => 'sun',
-        'color'       => 'lime',
-        'title'       => 'SUMMER TERRACE',
-        'description' => 'Take your drink outside and settle into a swing chair.',
-    ],
-    [
-        'id'          => 'your-way',
-        'label'       => 'The Way You Like',
-        'word'        => 'Your way',
-        'icon'        => 'star',
-        'color'       => 'lemon',
-        'title'       => 'JUST THE WAY YOU LIKE IT',
-        'description' => 'Something to leave out or add? Ask the team about making it your way.',
-    ],
-    [
-        'id'          => 'no-stairs',
-        'label'       => 'Accessible',
-        'word'        => 'Step-free',
-        'icon'        => 'accessible',
-        'color'       => 'paprika',
-        'title'       => 'STEP-FREE ENTRANCE',
-        'description' => 'A step-free way in, with a ramp and help from the team if you need it.',
-    ],
-];
+$perks = $args['perks'];
 
 /*
  * Phones deal the three colours so no column repeats (frame 1490:78394: row two starts
- * on Paprika). Six in a row on desktop has no columns, so `color` stays as listed.
+ * on Paprika). Six in a row on desktop has no columns, so `color` stays as dealt.
  */
 $palette = [ 'lime', 'lemon', 'paprika' ];
 
@@ -108,9 +55,9 @@ $color_map = [
     <div class="container">
         <?php
         get_template_part( 'template-parts/components/section-header', null, [
-            'eyebrow'    => __( 'WHAT TO EXPECT', 'sweet-pepper' ),
-            'headline'   => __( 'BEYOND SHAKE', 'sweet-pepper' ),
-            'headline_2' => __( '& COOK', 'sweet-pepper' ),
+            'eyebrow'    => $args['eyebrow'],
+            'headline'   => $args['headline'],
+            'headline_2' => $args['headline_2'],
         ] );
         ?>
 

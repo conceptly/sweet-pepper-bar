@@ -38,3 +38,12 @@ function sweet_pepper_acf_json_load_point( $paths ) {
 add_action( 'acf/input/admin_head', function () {
     echo '<style>.acf-field.sp-field-hidden { display: none !important; }</style>';
 } );
+
+// A page cache purges on a post save by itself, not on an options-page save — and Bar
+// Settings prints into every page (hours, the location headline). WP Super Cache, when
+// it is installed (website-brief.md → Plugin cap → 3).
+add_action( 'acf/save_post', function ( $post_id ) {
+    if ( 'options' === $post_id && function_exists( 'wp_cache_clear_cache' ) ) {
+        wp_cache_clear_cache();
+    }
+}, 20 );

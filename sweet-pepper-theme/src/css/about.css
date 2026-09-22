@@ -79,7 +79,7 @@
 }
 
 .about-section--light .section-description {
-    color: var(--dark-olive);
+    color: var(--peppercorn);
 }
 
 /* Alternating light sections use surface bg */
@@ -566,8 +566,9 @@
 
 /* Outline stroke colour by hue — six stops dealt by the template (data-hue),
    decoupled from tier (Sep 2026; the Figma cloud's range). The section is a
-   fixed light composition, so one set. Contrast on Parchment: Deep Chili 7.6,
-   Ash 6.4, Olive 4.6, Chili 3.9, Avocado 3.5, Paprika 2.5 — Paprika is top-tier
+   fixed light composition, so one set. Contrast on Parchment, recomputed 21 Sep 2026 (the
+   figures here had been taken against white): Deep Chili 6.5, Ash 6.6, Olive 3.7, Chili 3.4,
+   Avocado 2.8, Paprika 2.5 — Avocado and Paprika are under 3:1. Paprika is top-tier
    only (see the template). */
 .about-cloud-word[data-hue="chili"]      { -webkit-text-stroke-color: var(--chili); }
 .about-cloud-word[data-hue="deep-chili"] { -webkit-text-stroke-color: var(--chili-deep, #9B2705); }
@@ -1781,7 +1782,7 @@
     font-size: var(--text-body);
     font-weight: 400;
     line-height: 1.4;
-    color: var(--dark-olive);
+    color: var(--peppercorn);
     margin: 0;
     /* Three lines of Body 16 (67.2px). Was 60px for three lines of the retired 14px
        Secondary; the 8px comes out of the slack under the message, the card stays 392
@@ -2062,7 +2063,7 @@ html[data-theme="night"] .page-about .location__subheading {
 }
 
 html[data-theme="night"] .page-about .location__description {
-    color: var(--dark-olive);
+    color: var(--peppercorn);
 }
 
 html[data-theme="night"] .page-about .menu-entrance-img--dark {

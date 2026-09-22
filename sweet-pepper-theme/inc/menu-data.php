@@ -19,11 +19,10 @@
  */
 
 /**
- * Language of the current request. English until the URL segment decides
- * (`/` RU, `/en/` EN — website-brief.md → Language model).
+ * Language of the current request — the site's (inc/fields.php).
  */
 function sweet_pepper_menu_lang() {
-    return 'en';
+    return sweet_pepper_lang();
 }
 
 /**

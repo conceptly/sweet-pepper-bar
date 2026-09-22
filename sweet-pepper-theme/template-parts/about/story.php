@@ -8,37 +8,26 @@
  * - Below columns: 3-milestone timeline (heat line, outline→fill) and counter ledger
  *   Motion lives in src/js/about-story.js; no-JS state is the finished state.
  *
+ * Content comes as args from sweet_pepper_about_story() (inc/about-data.php) — the About page's «История» tab.
+ *
+ * @param array $args eyebrow · headline · headline_2 · paragraphs[3] · founder_photo · founder_alt · founder_quote ·
+ *                    founder_name · founder_title · milestones[3] (year, name, wit) · counters_label · counters_label_2 · counters[] (number, label)
+ *
  * @package Sweet_Pepper
  */
 
-$img_base = get_template_directory_uri() . '/assets/images/';
 
-$milestones = [
-    [
-        'year'  => '2009',
-        'name'  => 'TABASCO BAR',
-        'wit'   => 'Where the heat started',
-        'class' => 'about-story__milestone--1 about-story__milestone--past',
-        'left'  => '24px',
-        'dims'  => true, // hovering it dims the ledger: no Sweet Pepper orders yet
-    ],
-    [
-        'year'  => '2014',
-        'name'  => 'SWEET PEPPER',
-        'wit'   => 'Kept the heat, made it delicious',
-        'class' => 'about-story__milestone--2 about-story__milestone--past',
-        'left'  => 34,
-        'dims'  => false,
-    ],
-    [
-        'year'  => '2026',
-        'name'  => 'STILL HERE',
-        'wit'   => 'Same table, probably yours',
-        'class' => 'about-story__milestone--3 about-story__milestone--now',
-        'left'  => 77,
-        'dims'  => false,
-    ],
+// The three markers' places on the axis and their states are the theme's; year, name and
+// wit come from the «История» tab (the third year is always the current one).
+$marker_layout = [
+    [ 'class' => 'about-story__milestone--1 about-story__milestone--past', 'left' => '24px', 'dims' => true ], // hovering it dims the ledger: no Sweet Pepper orders yet
+    [ 'class' => 'about-story__milestone--2 about-story__milestone--past', 'left' => 34,     'dims' => false ],
+    [ 'class' => 'about-story__milestone--3 about-story__milestone--now',  'left' => 77,     'dims' => false ],
 ];
+$milestones = [];
+foreach ( $args['milestones'] as $i => $m ) {
+    $milestones[] = $m + $marker_layout[ $i ];
+}
 
 // The heat line starts at the first marker and runs to the arrowhead.
 $heat_start_raw = $milestones[0]['left'];
@@ -49,11 +38,7 @@ $heat_start     = is_numeric( $heat_start_raw ) ? $heat_start_raw . '%' : $heat_
  * Three slots are shown; if the pool grows past three, JS rotates one slot
  * at a time (~4 s) per about-page-copy.md → Counter ledger.
  */
-$counters = [
-    [ 'number' => 128400, 'label' => 'cappuccinos served' ],
-    [ 'number' => 41200,  'label' => 'pumpkin soups served' ],
-    [ 'number' => 96700,  'label' => 'salted caramel shots poured' ],
-];
+$counters = $args['counters'];
 $counter_slots = array_slice( $counters, 0, 3 );
 ?>
 
@@ -68,25 +53,25 @@ $counter_slots = array_slice( $counters, 0, 3 );
             <div class="about-story__text">
                 <?php
                 get_template_part( 'template-parts/components/section-header', null, [
-                    'eyebrow'    => __( 'SINCE 2014', 'sweet-pepper' ),
-                    'headline'   => __( 'THE PEPPER', 'sweet-pepper' ),
-                    'headline_2' => __( 'STORY', 'sweet-pepper' ),
+                    'eyebrow'    => $args['eyebrow'],
+                    'headline'   => $args['headline'],
+                    'headline_2' => $args['headline_2'],
                 ] );
                 ?>
 
                 <div class="about-story__body">
                     <?php // The naming sentence opens ¶2, so on phones it follows the timeline (author, Sep 2026; about-page-copy.md → The Story) ?>
-                    <p><?php esc_html_e( 'Before Sweet Pepper, there was Tabasco Bar on Kirova Street. The next chapter kept the edge and added warmth, with a kitchen given as much care as the bar.', 'sweet-pepper' ); ?></p>
-                    <p><?php esc_html_e( 'The name says it: still pepper, a little sweeter. Breakfast, lunch and cocktails became parts of the same place, with room for an ordinary Tuesday as well as a big night out.', 'sweet-pepper' ); ?></p>
-                    <p><?php esc_html_e( 'The regulars helped shape what followed. Pumpkin soup, berry cheesecake and berry korzhik started as seasonal specials. Guests kept asking for them, so they stayed. Some of the best things on the menu are there because someone didn\'t want to say goodbye to them.', 'sweet-pepper' ); ?></p>
+                    <?php foreach ( $args['paragraphs'] as $paragraph ) : ?>
+                        <p><?php echo esc_html( $paragraph ); ?></p>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
             <!-- Right Column: Founder photo + quote card -->
             <div class="about-story__founder">
                 <div class="about-story__founder-img-wrap">
-                    <img src="<?php echo esc_url( $img_base . 'team/iura/iura-1.jpg' ); ?>"
-                         alt="<?php esc_attr_e( 'Iurii Primyshev behind the bar at Sweet Pepper', 'sweet-pepper' ); ?>"
+                    <img src="<?php echo esc_url( $args['founder_photo'] ); ?>"
+                         alt="<?php echo esc_attr( $args['founder_alt'] ); ?>"
                          class="about-story__founder-img"
                          width="436"
                          height="436"
@@ -97,10 +82,10 @@ $counter_slots = array_slice( $counters, 0, 3 );
                     <div class="about-quote-card about-story__founder-quote">
                         <span class="about-quote-card__mark" aria-hidden="true">&ldquo;</span>
                         <div class="about-quote-card__content">
-                            <p class="about-quote-card__text"><?php esc_html_e( 'The main thing is to always know your limit. Otherwise you might drink less.', 'sweet-pepper' ); ?></p>
+                            <p class="about-quote-card__text"><?php echo esc_html( $args['founder_quote'] ); ?></p>
                             <span class="about-quote-card__source">
-                                <span class="about-quote-card__source-name"><?php esc_html_e( 'Iurii Primyshev.', 'sweet-pepper' ); ?></span>
-                                <span class="about-quote-card__source-title"><?php esc_html_e( 'Founder, still behind the bar.', 'sweet-pepper' ); ?></span>
+                                <span class="about-quote-card__source-name"><?php echo esc_html( $args['founder_name'] ); ?></span>
+                                <span class="about-quote-card__source-title"><?php echo esc_html( $args['founder_title'] ); ?></span>
                             </span>
                         </div>
                     </div>
@@ -140,7 +125,7 @@ $counter_slots = array_slice( $counters, 0, 3 );
             <div class="about-story__counters-edge about-story__counters-edge--bottom" aria-hidden="true">
                 <?php get_template_part( 'template-parts/components/rugged-edge', null, [ 'color' => 'paper' ] ); ?>
             </div>
-            <h3 class="about-story__counters-label molot-text"><?php esc_html_e( 'TWELVE YEARS,', 'sweet-pepper' ); ?> <br aria-hidden="true"><?php esc_html_e( 'COUNTED IN ORDERS', 'sweet-pepper' ); ?></h3>
+            <h3 class="about-story__counters-label molot-text"><?php echo esc_html( $args['counters_label'] ); ?><?php if ( $args['counters_label_2'] ) : ?> <br aria-hidden="true"><?php echo esc_html( $args['counters_label_2'] ); ?><?php endif; ?></h3>
 
             <div class="about-story__counters-row">
                 <?php foreach ( $counter_slots as $counter ) : ?>

@@ -1,6 +1,9 @@
+/* Molot, Latin + Cyrillic — built from design/fonts/Molot.otf by tools/molot-webfont.py.
+   The font kit's Molot-webfont.woff was a Latin-only subset (no Russian at all). */
 @font-face {
     font-family: 'Molot';
-    src: url('../fonts/Molot-webfont.woff') format('woff');
+    src: url('../fonts/Molot.woff2') format('woff2'),
+         url('../fonts/Molot.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

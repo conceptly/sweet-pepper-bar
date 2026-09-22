@@ -23,8 +23,9 @@
             <div class="visit-location__title-block">
                 <span class="visit-location__eyebrow molot-text">your destination</span>
                 <h2 class="visit-location__headline molot-text">
-                    <span class="visit-location__headline-line1">in the very heart</span>
-                    <span class="visit-location__headline-line2">of the best city</span>
+                    <?php [ $line_1, $line_2 ] = sweet_pepper_location_headline(); // one headline for About, Menu and Visit (inc/location.php) ?>
+                    <span class="visit-location__headline-line1"><?php echo esc_html( $line_1 ); ?></span>
+                    <span class="visit-location__headline-line2"><?php echo esc_html( $line_2 ); ?></span>
                 </h2>
             </div>
             <div class="menu-section__deal">
@@ -111,7 +112,7 @@
                           // Yandex. Phones show the two apps only, in the 13px chip style — "Copy address"
                           // does not fit the row at 370 and "Copy" misreads beside the route badges. ?>
                     <?php
-                    $is_ru = ( strpos( get_locale(), 'ru' ) === 0 );
+                    $is_ru = ( 'ru' === sweet_pepper_lang() );
                     $map_apps  = $is_ru
                         ? [
                             [ 'Yandex', ' Maps', 'https://yandex.ru/maps/?rtext=~57.626100%2C39.884500' ],

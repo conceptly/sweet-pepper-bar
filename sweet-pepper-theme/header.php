@@ -38,16 +38,16 @@
 
             <nav id="site-navigation" class="main-navigation">
                 <ul>
-                    <li<?php if ( is_front_page() ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a></li>
-                    <li<?php if ( is_page_template( 'page-menu.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/menu' ) ); ?>">Menu</a></li>
-                    <li<?php if ( is_page_template( 'page-about.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">About</a></li>
-                    <li<?php if ( is_page_template( 'page-visit.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>">Visit</a></li>
+                    <li<?php if ( is_front_page() ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'sweet-pepper' ); ?></a></li>
+                    <li<?php if ( is_page_template( 'page-menu.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/menu' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
+                    <li<?php if ( is_page_template( 'page-about.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"><?php esc_html_e( 'About', 'sweet-pepper' ); ?></a></li>
+                    <li<?php if ( is_page_template( 'page-visit.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>"><?php esc_html_e( 'Visit', 'sweet-pepper' ); ?></a></li>
                 </ul>
             </nav><!-- #site-navigation -->
 
             <div class="header-utils">
                 <div class="whats-on-chip">
-                    <span class="label">What's new</span>
+                    <span class="label"><?php esc_html_e( "What's new", 'sweet-pepper' ); ?></span>
                     <div class="social-icons">
                         <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="social-icon">
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="Instagram" width="24" height="24">
@@ -57,10 +57,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="lang-switch">
-                    <button class="lang-option">РУС</button>
-                    <button class="lang-option active">EN</button>
-                </div>
+                <?php sweet_pepper_lang_switch(); ?>
             </div>
 
             <!-- Mobile Menu Toggle -->

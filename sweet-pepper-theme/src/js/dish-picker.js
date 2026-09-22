@@ -188,8 +188,9 @@ function initSinglePicker(picker) {
 
             // Update CTA link
             if (ctaLink) {
-                const baseUrl = window.location.pathname.replace(/\/$/, '');
-                ctaLink.href = baseUrl + '/?menu=drinks#' + pairing.barSection;
+                // The drinks page in the request's language (inc/lang.php prints spLang.root) — not the
+                // current path, which on About sent the link to /about/?menu=drinks (fixed 21 Sep 2026).
+                ctaLink.href = ((window.spLang && window.spLang.root) || '') + '/menu/?menu=drinks#' + pairing.barSection;
             }
         });
 

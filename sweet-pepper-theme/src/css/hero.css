@@ -795,3 +795,65 @@ html[data-theme="night"] .lang-nudge strong {
         --in-light: 760ms;
     }
 }
+
+
+/* ══ PROTOTYPE — the hero's "now" word (daypart-engine.js → markNowWord). Off without ?hl=1.
+   One word of the headline — the one the clock chose — takes the louder colour of a pair.
+   Delete with the JS, or promote.
+
+   Phones + tablets (≤ 991)   night  Cream / Lemon — always, with ?hl=1
+                              day    &hlday=green  Olive, solid
+                                     &hlday=red    Chili / Paprika word
+                                     &hlday=red2   Paprika / Chili word
+                                     &hlday=red3   Deep Chili / Chili word
+   Desktop (≥ 992)            &hld=a  Chili / Paprika word, both modes (the Figma try)
+                              &hld=b  the word is Chili, both modes: Paprika / Chili word
+                              &hld=c  as b, but every colour clears 3:1: day Deep Chili / Chili, night Paprika / Chili
+                              &hld=d  as c by day; night Cream / Lemon, the tablets' pair
+   On Parchment: Deep Chili 6.5, Olive 3.7, Chili 3.4, Paprika 2.5 (under 3:1).
+   On Peppercorn: Cream 16.5, Lemon 15.3, Paprika 6.1, Chili 4.5. ══ */
+.hero-headline__now {
+    white-space: nowrap; /* PUMPKIN SOUP never splits */
+}
+
+/* Each pair is two direct rules (base, word) — no fallbacks, so where no pair applies the
+   headline keeps its own colour. D = day, N = night. */
+@media (max-width: 991px) {
+    html.hl-on[data-theme="night"] .hero-headline { color: var(--cream); }
+    html.hl-on[data-theme="night"] .hero-headline__now { color: var(--lemon); }
+
+    html.hl-day-green:not([data-theme="night"]) .hero-headline { color: var(--olive); }
+
+    html.hl-day-red:not([data-theme="night"]) .hero-headline { color: var(--chili); }
+    html.hl-day-red:not([data-theme="night"]) .hero-headline__now { color: var(--paprika); }
+
+    html.hl-day-red2:not([data-theme="night"]) .hero-headline { color: var(--paprika); }
+    html.hl-day-red2:not([data-theme="night"]) .hero-headline__now { color: var(--chili); }
+
+    html.hl-day-red3:not([data-theme="night"]) .hero-headline { color: var(--chili-deep); }
+    html.hl-day-red3:not([data-theme="night"]) .hero-headline__now { color: var(--chili); }
+}
+
+@media (min-width: 992px) {
+    /* a — D+N Chili / Paprika */
+    html.hl-d-a .hero-headline { color: var(--chili); }
+    html.hl-d-a .hero-headline__now { color: var(--paprika); }
+
+    /* b — the word is Chili in both modes, on Paprika (author, 21 Sep 2026: Chili reads as
+       the highlight on either ground — the first build lit COCKTAIL in Paprika by night,
+       "brighter = louder on dark", and it read as the unlit word) */
+    html.hl-d-b .hero-headline { color: var(--paprika); }
+    html.hl-d-b .hero-headline__now { color: var(--chili); }
+
+    /* c, d — D Deep Chili / Chili (everything over 3:1 on Parchment) */
+    html:is(.hl-d-c, .hl-d-d):not([data-theme="night"]) .hero-headline { color: var(--chili-deep); }
+    html:is(.hl-d-c, .hl-d-d):not([data-theme="night"]) .hero-headline__now { color: var(--chili); }
+
+    /* c — N Paprika / Chili, as b (both clear 3:1 on Peppercorn: 6.1 and 4.5) */
+    html.hl-d-c[data-theme="night"] .hero-headline { color: var(--paprika); }
+    html.hl-d-c[data-theme="night"] .hero-headline__now { color: var(--chili); }
+
+    /* d — N Cream / Lemon */
+    html.hl-d-d[data-theme="night"] .hero-headline { color: var(--cream); }
+    html.hl-d-d[data-theme="night"] .hero-headline__now { color: var(--lemon); }
+}

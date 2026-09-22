@@ -7,14 +7,18 @@
  * - ButtonPrimary-Green-Dark: "Get your table" + phone icon (🔶 label under consideration)
  * - ButtonSecondary-Dark:     "See the menu" + arrow icon
  *
+ * Content comes as args from sweet_pepper_about_cta() (inc/about-data.php) — the About page's «Приглашение» tab.
+ *
+ * @param array $args headline · body
+ *
  * @package Sweet_Pepper
  */
 ?>
 
 <section class="about-section about-section--dark about-visit-cta">
     <div class="container">
-        <h1 class="about-visit-cta__headline molot-text"><?php echo esc_html__( 'COME SIT WITH US', 'sweet-pepper' ); ?></h1>
-        <p class="about-visit-cta__body"><?php echo esc_html__( 'The room is small and fills up — book ahead for evenings and weekends. Or just walk in and take your chances; the bar seats are for exactly that.', 'sweet-pepper' ); ?></p>
+        <h1 class="about-visit-cta__headline molot-text"><?php echo esc_html( $args['headline'] ); ?></h1>
+        <p class="about-visit-cta__body"><?php echo esc_html( $args['body'] ); ?></p>
         <div class="about-visit-cta__buttons">
             <?php
             get_template_part( 'template-parts/components/button', null, [

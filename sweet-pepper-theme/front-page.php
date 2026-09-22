@@ -64,7 +64,7 @@ get_header();
                         'id'    => 'hero-menu-btn',
                         // Matches the server-rendered 'Breakfast menu' label; daypart-engine.js
                         // swaps both label and href once it knows the real daypart.
-                        'url'   => '/menu/#breakfast'
+                        'url'   => home_url( '/menu/#breakfast' )
                     ]); 
                     ?>
                 </div>
@@ -109,7 +109,7 @@ get_header();
             get_template_part( 'template-parts/components/section-header', null, [
                 'eyebrow'     => 'A GOOD PLACE TO START',
                 'headline'    => 'HOUSE SPECIALS',
-                'headline_2'  => '& LOCAL FAVOURITES',
+                'headline_2'  => '& LOCAL HITS',
                 'description' => 'A little sweet, a little heat. Start with house infusions, grilled wings or Pepper\'s pot roast.',
                 'ctas'        => [
                     [
@@ -117,14 +117,14 @@ get_header();
                         'type'       => 'secondary',
                         'icon_left'  => 'martini',
                         'icon_right' => 'arrow-right',
-                        'url'        => '/menu/?menu=drinks'
+                        'url'        => home_url( '/menu/?menu=drinks' )
                     ],
                     [
                         'label'      => 'Food menu',
                         'type'       => 'secondary',
                         'icon_left'  => 'fork-knife',
                         'icon_right' => 'arrow-right',
-                        'url'        => '/menu/'
+                        'url'        => home_url( '/menu/' )
                     ]
                 ]
             ] ); 
@@ -147,7 +147,7 @@ get_header();
                         'tag_label'   => 'Seasonal hits',
                         // Bar state renders only in ?menu=drinks, so the state travels with the
                         // anchor (same pattern as dish-picker.js builds for the pairing CTA).
-                        'url'         => '/menu/?menu=drinks#infusions'
+                        'url'         => home_url( '/menu/?menu=drinks#infusions' )
                     ],
                     [
                         'image_url'   => get_template_directory_uri() . '/assets/images/food/dinner/wings-2.jpg',
@@ -157,7 +157,7 @@ get_header();
                         'description' => 'Honey-glazed wings with sour cream, carrot and celery sticks.',
                         'tag_icon'    => 'fire',
                         'tag_label'   => 'Spicy',
-                        'url'         => '/menu/#bar-snacks'
+                        'url'         => home_url( '/menu/#bar-snacks' )
                     ],
                     [
                         'image_url'   => get_template_directory_uri() . '/assets/images/food/dinner/zharkoe-1.jpg',
@@ -170,7 +170,7 @@ get_header();
                         'description' => 'Pork, potato wedges and vegetables in a spicy cream sauce.',
                         'tag_icon'    => 'yaroslavl-logo',
                         'tag_label'   => 'Yaroslavl-style',
-                        'url'         => '/menu/#hot-dishes'
+                        'url'         => home_url( '/menu/#hot-dishes' )
                     ],
                 ];
 
@@ -240,7 +240,7 @@ get_header();
                     'label'          => 'Explore the drinks menu',
                     'type'           => 'secondary',
                     'icon_right_svg' => 'icons/Pepper.svg',
-                    'url'            => '/menu/?menu=drinks',
+                    'url'            => home_url( '/menu/?menu=drinks' ),
                 ],
                 'cta_align'   => 'left',
             ] ); 
@@ -301,7 +301,7 @@ get_header();
                     'label'          => 'Explore the food menu',
                     'type'           => 'secondary',
                     'icon_right_svg' => 'icons/food.svg',
-                    'url'            => '/menu/',
+                    'url'            => home_url( '/menu/' ),
                 ],
                 'cta_align'   => 'right',
             ] ); 
@@ -359,7 +359,7 @@ get_header();
                             'label'      => 'Read the full story',
                             'type'       => 'secondary',
                             'icon_right' => 'pepper',
-                            'url'        => '/about',
+                            'url'        => home_url( '/about' ),
                         ] ); 
                         ?>
                     </div>

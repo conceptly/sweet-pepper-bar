@@ -39,9 +39,9 @@
             <div class="location__title-block">
                 <p class="location__subheading molot-text">Find the Pepper</p>
                 <h2 class="location__title">
-                    <!-- Desktop breaks after "of the" (Chili | Paprika); phones after "heart"
-                         (Figma 2109:130246) — the middle span changes side per breakpoint. -->
-                    <span class="location__title-line1 molot-text">at the very heart </span><span class="location__title-mid molot-text">of the </span><span class="location__title-line2 molot-text">best city</span>
+                    <?php [ $line_1, $line_2 ] = sweet_pepper_location_headline(); // one headline for About, Menu and Visit (inc/location.php) ?>
+                    <span class="location__title-line1 molot-text"><?php echo esc_html( $line_1 ); ?></span>
+                    <span class="location__title-line2 molot-text"><?php echo esc_html( $line_2 ); ?></span>
                 </h2>
             </div>
 

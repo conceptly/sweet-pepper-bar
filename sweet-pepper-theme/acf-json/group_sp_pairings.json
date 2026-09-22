@@ -1,0 +1,383 @@
+{
+    "key": "group_sp_pairings",
+    "title": "Подбор пары",
+    "fields": [
+        {
+            "key": "field_sp_pair_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "new_lines": "",
+            "esc_html": 0,
+            "message": "Одна строка — одна пара «блюдо → напиток». Порядок строк — порядок ярлыков на сайте. «Открывается первой» — пара, которую гость видит до выбора (одна на список). «Скрыть» убирает пару, пока блюда нет в меню. Пока меню не переехало в админку, блюдо и напиток здесь набираются руками; потом они станут выбором из меню."
+        },
+        {
+            "key": "field_sp_pair_rows",
+            "label": "Пары",
+            "name": "pairs",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 8,
+            "collapsed": "field_sp_pair_dish_name_ru",
+            "button_label": "Добавить пару",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_pair_dish_photo",
+                    "label": "Фото блюда",
+                    "name": "dish_photo",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "jpg,jpeg,png,webp",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_dish_name_ru",
+                    "label": "Блюдо",
+                    "name": "dish_name_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_dish_name_en",
+                    "label": "Блюдо (EN)",
+                    "name": "dish_name_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_default",
+                    "label": "Открывается первой",
+                    "name": "default",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Да",
+                    "ui_off_text": "Нет",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_hidden",
+                    "label": "Скрыть",
+                    "name": "hidden",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Да",
+                    "ui_off_text": "Нет",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_dish_short_ru",
+                    "label": "Короткое имя на билете",
+                    "name": "dish_short_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "если полное не помещается",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_dish_short_en",
+                    "label": "Короткое имя на билете (EN)",
+                    "name": "dish_short_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "если полное не помещается",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_dish_description_ru",
+                    "label": "Строка о блюде",
+                    "name": "dish_description_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_dish_description_en",
+                    "label": "Строка о блюде (EN)",
+                    "name": "dish_description_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_drink_photo",
+                    "label": "Фото напитка",
+                    "name": "drink_photo",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "jpg,jpeg,png,webp",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_drink_section",
+                    "label": "Раздел бара — куда ведёт «О напитке»",
+                    "name": "drink_section",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "infusions": "Настойки",
+                        "cocktails": "Коктейли",
+                        "wine": "Вино",
+                        "beer": "Пиво",
+                        "spirits": "Крепкое",
+                        "no-buzz": "Без градуса",
+                        "tea-coffee": "Чай и кофе"
+                    },
+                    "default_value": "infusions",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_reply_spacer",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "message",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "new_lines": "",
+                    "esc_html": 0,
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_reply_ru",
+                    "label": "Ответ бара — что налить",
+                    "name": "reply_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Стопка облепиховой настойки",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                },
+                {
+                    "key": "field_sp_pair_reply_en",
+                    "label": "Ответ бара — что налить (EN)",
+                    "name": "reply_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Стопка облепиховой настойки",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_pair_rows"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "pairings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "The dish picker's pairings — one record for the menu page and About. Generated by tools/page-field-groups.py; read by inc/pairings.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1790036362
+}

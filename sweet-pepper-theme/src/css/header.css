@@ -153,12 +153,13 @@ html[data-theme="night"] .lang-switch {
 }
 
 .lang-switch .lang-option {
+    display: inline-block;
+    text-decoration: none;
     padding: 4px 12px;
     font-family: var(--font-display);
     font-size: 16px;
     line-height: 1.4;
     letter-spacing: 0.64px;
-    cursor: pointer;
     color: var(--mushroom);
     background: transparent;
     border: none;

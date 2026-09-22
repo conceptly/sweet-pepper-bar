@@ -8,14 +8,15 @@
  *
  * Header sits over this section transparently (see header.css overrides).
  *
+ * Content comes as args from sweet_pepper_about_hero() (inc/about-data.php) — the About page's «Первый экран» tab.
+ *
+ * @param array $args eyebrow · headline · lead
+ *
  * @package Sweet_Pepper
  */
 
 $img_base = get_template_directory_uri() . '/assets/images/';
 
-// Headline from ACF (Pages → About), with the hardcoded copy as fallback.
-$headline = function_exists( 'get_field' ) ? get_field( 'about_hero_headline' ) : '';
-$headline = $headline ?: 'Shake & Cook Since 2014';
 
 // Filmstrip nav items — about-page-copy.md → Hero: Food & drink · Story · People · Careers · Location
 // (the doc flags the longer first label for a mobile fit check).
@@ -51,12 +52,12 @@ $filmstrip = [
 <section class="about-section about-section--dark about-hero">
     <div class="container">
         <div class="about-hero__content">
-            <span class="about-hero__eyebrow molot-text">Kirova St. 10/25, Yaroslavl</span>
-            <h1 class="about-hero__headline"><?php echo esc_html( $headline ); ?></h1>
-            <p class="about-hero__lead">A proper meal, a favourite drink and a place to settle in. Get to know the people, the stories and the room behind Sweet Pepper.</p>
+            <span class="about-hero__eyebrow molot-text"><?php echo esc_html( $args['eyebrow'] ); ?></span>
+            <h1 class="about-hero__headline"><?php echo esc_html( $args['headline'] ); ?></h1>
+            <p class="about-hero__lead"><?php echo esc_html( $args['lead'] ); ?></p>
         </div>
 
-        <nav class="about-hero__filmstrip" aria-label="Page sections">
+        <nav class="about-hero__filmstrip" aria-label="<?php esc_attr_e( 'Page sections', 'sweet-pepper' ); ?>">
             <?php foreach ( $filmstrip as $item ) : ?>
                 <a href="<?php echo esc_attr( $item['href'] ); ?>" class="about-hero__filmstrip-item">
                     <div class="about-hero__filmstrip-img-wrap" aria-hidden="true">

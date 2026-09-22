@@ -11,6 +11,10 @@
  *
  * Figma: 323:6755
  *
+ * Content comes as args from sweet_pepper_about_concept() (inc/about-data.php) — the About page's «Бар и кухня» tab.
+ *
+ * @param array $args eyebrow · headline · headline_2 · description
+ *
  * @package Sweet_Pepper
  */
 
@@ -30,10 +34,10 @@ $pairings = sweet_pepper_food_pairings();
             <div class="about-concept__text">
                 <?php
                 get_template_part( 'template-parts/components/section-header', null, [
-                    'eyebrow'     => __( 'BAR × KITCHEN', 'sweet-pepper' ),
-                    'headline'    => __( 'YOUR LOCAL', 'sweet-pepper' ),
-                    'headline_2'  => __( 'GASTROBAR', 'sweet-pepper' ),
-                    'description' => __( 'Eggs and coffee, a proper lunch or a cocktail with something to share. Here, the kitchen and bar belong at the same table. Every dish has a drink to go with it — with or without alcohol.', 'sweet-pepper' ),
+                    'eyebrow'     => $args['eyebrow'],
+                    'headline'    => $args['headline'],
+                    'headline_2'  => $args['headline_2'],
+                    'description' => $args['description'],
                 ] );
                 ?>
 

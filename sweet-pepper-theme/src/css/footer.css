@@ -239,7 +239,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 .footer-copyright {
     font-family: var(--font-body);
     font-size: 12px;
-    color: #242614; /* dark-olive from Figma */
+    color: var(--peppercorn);
 }
 
 .footer-back-to-top {
@@ -374,7 +374,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     .footer-links li a,
     .footer-links li:first-child a {
         font-weight: 400;
-        color: var(--dark-olive);
+        color: var(--peppercorn);
     }
 
     .footer-hours-list {
@@ -390,7 +390,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     .hours-day {
         width: auto;
         font-weight: 600;
-        color: var(--dark-olive);
+        color: var(--peppercorn);
     }
 
     .hours-time {
@@ -427,7 +427,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     }
 
     .contact-item--phone a {
-        color: var(--dark-olive);
+        color: var(--peppercorn);
     }
 
     .contact-item--address {

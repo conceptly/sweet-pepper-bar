@@ -5,44 +5,19 @@
  * Dark section (Peppercorn bg).
  * Section header with eyebrow, headline, and description.
  * Two-state jobsContainer component:
- *   - Default ($has_openings = true): 3 position cards + bottom CTA row.
- *   - Empty  ($has_openings = false): single bordered box with "not hiring" message.
+ *   - Default (there are positions): position cards + bottom CTA row.
+ *   - Empty  (no positions): single bordered box with "not hiring" message.
+ *
+ * Content comes as args from sweet_pepper_about_careers() (inc/about-data.php) — the
+ * About page's «Вакансии» tab. There is no hiring switch: no visible role is the empty state.
+ *
+ * @param array $args eyebrow · headline · headline_2 · description · positions[] (department,
+ *                    title, meta, desc, url) · cta_title · cta_text · empty_title · empty_text
  *
  * @package Sweet_Pepper
  */
 
-// ── Toggle: flip to false when there are no openings ─────────────────────
-$has_openings = true;
-
-// ── Position data (placeholder content) ──────────────────────────────────
-$positions = [
-    [
-        'department' => __( 'Service', 'sweet-pepper' ),
-        'title'      => __( 'Floor manager', 'sweet-pepper' ),
-        'meta'       => __( 'Full-time · 2 days on, 2 days off', 'sweet-pepper' ),
-        'desc'       => __( 'Keep service running smoothly, support the floor team and make every welcome count.', 'sweet-pepper' ),
-        'url'        => '#',
-    ],
-    [
-        'department' => __( 'Service', 'sweet-pepper' ),
-        'title'      => __( 'Cleaner', 'sweet-pepper' ),
-        'meta'       => __( 'Full-time', 'sweet-pepper' ),
-        'desc'       => __( 'Help keep the rooms ready for the next guests, from the first table to the last detail.', 'sweet-pepper' ),
-        'url'        => '#',
-    ],
-    [
-        'department' => __( 'Kitchen', 'sweet-pepper' ),
-        'title'      => __( 'Sous-chef', 'sweet-pepper' ),
-        'meta'       => __( 'Full-time', 'sweet-pepper' ),
-        'desc'       => __( 'Support the chef, keep the kitchen organised and help every plate leave as it should.', 'sweet-pepper' ),
-        'url'        => '#',
-    ],
-];
-
-// ── Icon paths (inline SVG via file_get_contents) ────────────────────────
-$icon_dir       = get_template_directory() . '/assets/icons/';
-// arrow: sweet_pepper_inline_svg() per instance (see mobile-drawer.php)
-$mail_svg       = file_exists( $icon_dir . 'c-mail.svg' ) ? file_get_contents( $icon_dir . 'c-mail.svg' ) : '';
+$positions = $args['positions'];
 ?>
 
 <section id="careers" class="about-section about-section--dark about-careers">
@@ -52,17 +27,17 @@ $mail_svg       = file_exists( $icon_dir . 'c-mail.svg' ) ? file_get_contents( $
     <div class="container">
         <?php
         get_template_part( 'template-parts/components/section-header', null, [
-            'eyebrow'     => __( 'WORK AT SWEET PEPPER', 'sweet-pepper' ),
-            'headline'    => __( 'WANT TO JOIN', 'sweet-pepper' ),
-            'headline_2'  => __( 'THE FAMILY?', 'sweet-pepper' ),
-            'description' => __( "A small team, familiar faces and room to learn. Take a look at the roles below — or get in touch about the work you'd like to do.", 'sweet-pepper' ),
+            'eyebrow'     => $args['eyebrow'],
+            'headline'    => $args['headline'],
+            'headline_2'  => $args['headline_2'],
+            'description' => $args['description'],
         ] );
         ?>
 
         <!-- jobsContainer -->
         <div class="about-careers__content">
 
-            <?php if ( $has_openings ) : ?>
+            <?php if ( $positions ) : ?>
 
                 <!-- Default state: job cards -->
                 <div class="about-careers__jobs">
@@ -78,10 +53,12 @@ $mail_svg       = file_exists( $icon_dir . 'c-mail.svg' ) ? file_get_contents( $
                                     <p class="about-careers__card-desc"><?php echo esc_html( $pos['desc'] ); ?></p>
                                 </div>
                             </div>
-                            <a href="<?php echo esc_url( $pos['url'] ); ?>" class="about-careers__card-link" target="_blank" rel="noopener noreferrer">
-                                <span><?php esc_html_e( 'View role on hh.ru', 'sweet-pepper' ); ?></span>
-                                <span class="about-careers__card-link-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-right-outline.svg' ); ?></span>
-                            </a>
+                            <?php if ( $pos['url'] ) : ?>
+                                <a href="<?php echo esc_url( $pos['url'] ); ?>" class="about-careers__card-link" target="_blank" rel="noopener noreferrer">
+                                    <span><?php esc_html_e( 'View role on hh.ru', 'sweet-pepper' ); ?></span>
+                                    <span class="about-careers__card-link-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-right-outline.svg' ); ?></span>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -89,8 +66,8 @@ $mail_svg       = file_exists( $icon_dir . 'c-mail.svg' ) ? file_get_contents( $
                 <!-- CTA row -->
                 <div class="about-careers__cta">
                     <div class="about-careers__cta-text">
-                        <p class="about-careers__cta-bold"><?php esc_html_e( "No opening with your name on it?", 'sweet-pepper' ); ?></p>
-                        <p class="about-careers__cta-regular"><?php esc_html_e( "Send a little about yourself and the work you'd like to do.", 'sweet-pepper' ); ?></p>
+                        <p class="about-careers__cta-bold"><?php echo esc_html( $args['cta_title'] ); ?></p>
+                        <p class="about-careers__cta-regular"><?php echo esc_html( $args['cta_text'] ); ?></p>
                     </div>
                     <?php
                     get_template_part( 'template-parts/components/button', null, [
@@ -107,8 +84,8 @@ $mail_svg       = file_exists( $icon_dir . 'c-mail.svg' ) ? file_get_contents( $
                 <!-- Empty state: not hiring -->
                 <div class="about-careers__empty">
                     <div class="about-careers__empty-text">
-                        <h3 class="about-careers__empty-title molot-text"><?php esc_html_e( 'NO OPEN ROLES JUST NOW', 'sweet-pepper' ); ?></h3>
-                        <p class="about-careers__empty-desc"><?php esc_html_e( "Interested in a future role? Send your CV and a little about the work you'd like to do.", 'sweet-pepper' ); ?></p>
+                        <h3 class="about-careers__empty-title molot-text"><?php echo esc_html( $args['empty_title'] ); ?></h3>
+                        <p class="about-careers__empty-desc"><?php echo esc_html( $args['empty_text'] ); ?></p>
                     </div>
                     <?php
                     get_template_part( 'template-parts/components/button', null, [

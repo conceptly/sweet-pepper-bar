@@ -78,7 +78,7 @@ Current Figma and build: **YOU CAN'T MISS IT / PEPPER'S SPECIAL & COMMUNITY HITS
 Proposed:
 
 - Eyebrow: **A GOOD PLACE TO START**
-- Headline: **HOUSE SPECIALS / & LOCAL FAVOURITES**
+- Headline: **HOUSE SPECIALS / & LOCAL HITS** *(was "& LOCAL FAVOURITES" — shortened by the author 21 Sep 2026 so the headline holds two lines on phones; see the note under this table)*
 - Body: **A little sweet, a little heat. Start with house infusions, grilled wings or Pepper's pot roast.**
 - Buttons: **Drinks menu** · **Food menu**
 

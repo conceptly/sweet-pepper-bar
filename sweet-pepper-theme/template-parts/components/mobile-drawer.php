@@ -16,10 +16,10 @@ $uri   = get_template_directory_uri() . '/assets/icons/';
 // website-brief.md → Top nav → Mobile lists this as open: decided order is Home · Menu · About · Visit.
 // "late\u{2011}night": a non-breaking hyphen, so the description never splits there when it wraps.
 $items = [
-    [ 'label' => 'Home',  'desc' => 'A taste of Sweet Pepper',          'url' => home_url( '/' ),      'current' => is_front_page() ],
-    [ 'label' => 'About', 'desc' => 'The place, the people, the story', 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) ],
-    [ 'label' => 'Menu',  'desc' => "From breakfast to late\u{2011}night drinks", 'url' => home_url( '/menu' ),  'current' => is_page_template( 'page-menu.php' ) ],
-    [ 'label' => 'Visit', 'desc' => 'Hours, directions and contacts',   'url' => home_url( '/visit' ), 'current' => is_page_template( 'page-visit.php' ) ],
+    [ 'label' => __( 'Home', 'sweet-pepper' ),  'desc' => __( 'A taste of Sweet Pepper', 'sweet-pepper' ),          'url' => home_url( '/' ),      'current' => is_front_page() ],
+    [ 'label' => __( 'About', 'sweet-pepper' ), 'desc' => __( 'The place, the people, the story', 'sweet-pepper' ), 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) ],
+    [ 'label' => __( 'Menu', 'sweet-pepper' ),  'desc' => __( "From breakfast to late\u{2011}night drinks", 'sweet-pepper' ), 'url' => home_url( '/menu' ),  'current' => is_page_template( 'page-menu.php' ) ],
+    [ 'label' => __( 'Visit', 'sweet-pepper' ), 'desc' => __( 'Hours, directions and contacts', 'sweet-pepper' ),   'url' => home_url( '/visit' ), 'current' => is_page_template( 'page-visit.php' ) ],
 ];
 
 // About and Visit are fixed compositions with a dark hero (website-brief.md → What themes
@@ -82,13 +82,10 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
         </div>
     </div>
 
-    <div class="lang-switch lang-switch--green" role="group" aria-label="<?php esc_attr_e( 'Language', 'sweet-pepper' ); ?>">
-        <button type="button" class="lang-option" lang="ru">РУС</button>
-        <button type="button" class="lang-option active" lang="en" aria-pressed="true">EN</button>
-    </div>
+    <?php sweet_pepper_lang_switch( 'lang-switch--green' ); ?>
 
     <div class="mobile-drawer__cta">
-        <h2 class="mobile-drawer__cta-title">Book your table</h2>
+        <h2 class="mobile-drawer__cta-title"><?php esc_html_e( 'Book your table', 'sweet-pepper' ); ?></h2>
         <?php
         get_template_part( 'template-parts/components/button', null, [
             'label'         => 'Call 911-202',

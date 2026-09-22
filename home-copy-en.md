@@ -44,7 +44,7 @@
 
 **Eyebrow:** A GOOD PLACE TO START
 
-**Headline:** HOUSE SPECIALS / & LOCAL FAVOURITES
+**Headline:** HOUSE SPECIALS / & LOCAL HITS
 
 **Body:**
 

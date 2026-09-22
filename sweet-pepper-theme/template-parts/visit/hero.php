@@ -134,7 +134,7 @@
                             <?php // CTA — Instagram (EN) / VK (RU) ?>
                             <div class="visit-hero__hours-cta">
                                 <?php
-                                $is_ru    = ( strpos( get_locale(), 'ru' ) === 0 );
+                                $is_ru    = ( 'ru' === sweet_pepper_lang() );
                                 $cta_url  = $is_ru ? 'https://vk.ru/sweetpepperbar' : 'https://instagram.com/barsweetpepper';
                                 ?>
                                 <a href="<?php echo esc_url( $cta_url ); ?>" target="_blank" rel="noopener" class="visit-hero__hours-link">

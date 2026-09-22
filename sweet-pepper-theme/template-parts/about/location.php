@@ -8,6 +8,10 @@
  * Two-column layout: copy left (subheading, 2-line headline, description),
  * map right (geo-detected iframe injection by location-map.js).
  *
+ * Content comes as args from sweet_pepper_about_location() (inc/about-data.php) — the About page's «Адрес» tab.
+ *
+ * @param array $args description — the headline is the shared one (inc/location.php)
+ *
  * @package Sweet_Pepper
  */
 ?>
@@ -23,13 +27,13 @@
             <div class="location__title-block">
                 <p class="location__subheading molot-text"><?php esc_html_e( 'YOUR DESTINATION', 'sweet-pepper' ); ?></p>
                 <h2 class="location__title">
-                    <?php // Desktop breaks after "of the" (Chili | Paprika); phones after "heart" (frame
-                          // 1490:78527) — the middle span changes side per breakpoint (location.css). ?>
-                    <span class="location__title-line1 molot-text"><?php esc_html_e( 'IN THE VERY HEART ', 'sweet-pepper' ); ?></span><span class="location__title-mid molot-text"><?php esc_html_e( 'OF THE ', 'sweet-pepper' ); ?></span><span class="location__title-line2 molot-text"><?php esc_html_e( 'BEST CITY', 'sweet-pepper' ); ?></span>
+                    <?php [ $line_1, $line_2 ] = sweet_pepper_location_headline(); // one headline for About, Menu and Visit (inc/location.php) ?>
+                    <span class="location__title-line1 molot-text"><?php echo esc_html( $line_1 ); ?></span>
+                    <span class="location__title-line2 molot-text"><?php echo esc_html( $line_2 ); ?></span>
                 </h2>
             </div>
 
-            <p class="location__description"><?php esc_html_e( "Your stop on Kirova Street: 10/25, in Yaroslavl's pedestrian centre. Two rooms with their own character, plus a summer terrace with swing chairs. A place to pause between a walk through the city and whatever comes next.", 'sweet-pepper' ); ?></p>
+            <p class="location__description"><?php echo esc_html( $args['description'] ); ?></p>
 
             <div class="location__cta">
                 <?php

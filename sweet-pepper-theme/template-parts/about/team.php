@@ -4,90 +4,23 @@
  *
  * Light section (Parchment bg).
  * Section header: eyebrow, headline, "Write to the team" CTA.
- * Drift strip: horizontally scrolling row of pinned wall/group photos (2019–2025)
+ * Drift strip: horizontally scrolling row of pinned wall/group photos
  *   + "To be continued…" end card.
  * Team card grid: 4×2, each card has default (photo + name + role + chip)
  *   and active (message reveal) states toggled by JS.
  *
+ * Content comes as args from sweet_pepper_about_team() (inc/about-data.php) — the About
+ * page's «Команда» tab: 6 or 8 members (an even count is validated on save), tenure
+ * printed from the year each joined, the chip's wording from a preset.
+ *
+ * @param array $args eyebrow · headline · headline_2 · wall[] (src, label) ·
+ *                    members[] (name, role, photo, chip, message)
+ *
  * @package Sweet_Pepper
  */
 
-$img_base = get_template_directory_uri() . '/assets/images/';
-
-// ── Drift strip: wall photos (2019–2025) ──────────────────────────────────
-
-$wall_photos = [
-    [ 'src' => 'team/group/2019.jpg', 'label' => '2019', 'variant' => 1 ],
-    [ 'src' => 'team/group/2020.jpg', 'label' => '2020', 'variant' => 2 ],
-    [ 'src' => 'team/group/2021.jpg', 'label' => '2021', 'variant' => 1 ],
-    [ 'src' => 'team/group/2022.jpg', 'label' => '2022', 'variant' => 2 ],
-    [ 'src' => 'team/group/2023-1.jpg', 'label' => '2023', 'variant' => 1 ],
-    [ 'src' => 'team/group/2024.jpg', 'label' => '2024', 'variant' => 2 ],
-    [ 'src' => 'team/group/2025.jpg', 'label' => '2025', 'variant' => 1 ],
-];
-
-// ── Team members (longest-tenured first) ──────────────────────────────────
-// Lines other than Lera's are PLACEHOLDERS (Sep 2026) so every row/card has a chip and a
-// reveal to judge the layout by; replace with the members' own words (about-page-copy.md).
-
-$team_members = [
-    [
-        'name'    => 'Kostya',
-        'role'    => __( 'General Manager · 8 years', 'sweet-pepper' ),
-        'photo'   => 'team/kostya.jpg',
-        'chip'    => __( 'Ask me about…', 'sweet-pepper' ),
-        'message' => __( 'Ask me about the terrace swing-chairs. I know which one doesn\'t squeak.', 'sweet-pepper' ),
-    ],
-    [
-        'name'    => 'Lera',
-        'role'    => __( 'Floor · 7 years', 'sweet-pepper' ),
-        'photo'   => 'team/lera.jpg',
-        'chip'    => __( 'Ask me about…', 'sweet-pepper' ),
-        'message' => __( 'Start with the salted caramel infusion. If you don\'t like it, I\'ll drink it — hasn\'t happened yet.', 'sweet-pepper' ),
-    ],
-    [
-        'name'    => 'Lenya',
-        'role'    => __( 'Floor Manager · 6 years', 'sweet-pepper' ),
-        'photo'   => 'team/lenya.jpg',
-        'chip'    => __( 'What I pick at the bar', 'sweet-pepper' ),
-        'message' => __( 'Pumpkin soup at noon, a sour after eight. Yes, both on the same shift.', 'sweet-pepper' ),
-    ],
-    [
-        'name'    => 'Anton',
-        'role'    => __( 'Bar chef · 5 years', 'sweet-pepper' ),
-        'photo'   => 'team/anton.jpg',
-        'chip'    => __( 'Ask me about…', 'sweet-pepper' ),
-        'message' => __( 'Tell me what you drank last night and I\'ll fix it. The drink, not the night.', 'sweet-pepper' ),
-    ],
-    [
-        'name'    => 'Stas',
-        'role'    => __( 'Unforgettable waiter · 8 years', 'sweet-pepper' ),
-        'photo'   => 'team/stas.jpg',
-        'chip'    => __( 'Ask me about…', 'sweet-pepper' ),
-        'message' => __( 'I remember your order from 2019. Don\'t test me — I will bring it.', 'sweet-pepper' ),
-    ],
-    [
-        'name'    => 'Alex',
-        'role'    => __( 'Bartender · 5 years', 'sweet-pepper' ),
-        'photo'   => 'team/alex.jpg',
-        'chip'    => __( 'Ask me about…', 'sweet-pepper' ),
-        'message' => __( 'The infusions rotate. Ask what\'s in the jar today, not what\'s on the list.', 'sweet-pepper' ),
-    ],
-    [
-        'name'    => 'Max',
-        'role'    => __( 'Chef · 8 years', 'sweet-pepper' ),
-        'photo'   => 'team/iura/iura-1.jpg',
-        'chip'    => __( 'Ask me about…', 'sweet-pepper' ),
-        'message' => __( 'Breakfast ends at noon. The eggs don\'t know that, so ask.', 'sweet-pepper' ),
-    ],
-    [
-        'name'    => 'Johnny',
-        'role'    => __( 'Sous-chef · 12 years', 'sweet-pepper' ),
-        'photo'   => 'team/iura/iura-1.jpg',
-        'chip'    => __( 'Ask me about…', 'sweet-pepper' ),
-        'message' => __( 'Twelve years, one recipe I still won\'t write down. It\'s the pepper one.', 'sweet-pepper' ),
-    ],
-];
+$wall_photos  = $args['wall'];
+$team_members = $args['members'];
 ?>
 
 <section id="team" class="about-section about-section--light about-section--surface about-team">
@@ -97,8 +30,9 @@ $team_members = [
     <div class="container">
         <?php
         get_template_part( 'template-parts/components/section-header', null, [
-            'eyebrow'    => __( 'THE ONES WHO KNOW YOUR ORDER', 'sweet-pepper' ),
-            'headline'   => __( 'THE DREAM TEAM', 'sweet-pepper' ),
+            'eyebrow'    => $args['eyebrow'],
+            'headline'   => $args['headline'],
+            'headline_2' => $args['headline_2'],
             'ctas'       => [
                 [
                     'label'          => __( 'Write to the team', 'sweet-pepper' ),
@@ -115,15 +49,15 @@ $team_members = [
     <!-- Drift strip: horizontal scroll of pinned wall photos -->
     <div class="about-team__drift">
         <div class="about-team__drift-track">
-            <?php foreach ( $wall_photos as $photo ) :
-                $v     = (int) $photo['variant'];
+            <?php foreach ( $wall_photos as $i => $photo ) :
+                $v     = $i % 2 ? 2 : 1; // pin colour and tilt alternate down the strip
                 $vmod  = $v === 2 ? 'about-team__wall-card--v2' : 'about-team__wall-card--v1';
                 $pin   = $v === 2 ? 'about-team__wall-pin--paprika' : 'about-team__wall-pin--lime';
             ?>
                 <div class="about-team__wall-card <?php echo esc_attr( $vmod ); ?>">
                     <div class="about-team__wall-pin <?php echo esc_attr( $pin ); ?>"></div>
                     <div class="about-team__wall-photo-wrap">
-                        <img src="<?php echo esc_url( $img_base . $photo['src'] ); ?>"
+                        <img src="<?php echo esc_url( $photo['src'] ); ?>"
                              alt="<?php echo esc_attr( sprintf( __( 'Sweet Pepper team group photo, %s', 'sweet-pepper' ), $photo['label'] ) ); ?>"
                              class="about-team__wall-photo"
                              loading="lazy">
@@ -152,7 +86,7 @@ $team_members = [
                     <!-- Default state -->
                     <div class="about-team__card-default">
                         <div class="about-team__card-photo-wrap">
-                            <img src="<?php echo esc_url( $img_base . $member['photo'] ); ?>"
+                            <img src="<?php echo esc_url( $member['photo'] ); ?>"
                                  alt="<?php echo esc_attr( sprintf( __( 'Photo of %s', 'sweet-pepper' ), $member['name'] ) ); ?>"
                                  class="about-team__card-photo"
                                  loading="lazy">
@@ -175,7 +109,7 @@ $team_members = [
                         <!-- Active state (message reveal) — hidden by default, toggled by JS -->
                         <div class="about-team__card-active" hidden>
                             <div class="about-team__card-photo-wrap">
-                                <img src="<?php echo esc_url( $img_base . $member['photo'] ); ?>"
+                                <img src="<?php echo esc_url( $member['photo'] ); ?>"
                                      alt="<?php echo esc_attr( sprintf( __( 'Photo of %s', 'sweet-pepper' ), $member['name'] ) ); ?>"
                                      class="about-team__card-photo"
                                      loading="lazy">

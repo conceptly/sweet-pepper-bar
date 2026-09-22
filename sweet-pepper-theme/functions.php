@@ -19,6 +19,9 @@ function sweet_pepper_setup() {
     // Let WordPress manage the document title.
     add_theme_support( 'title-tag' );
 
+    // UI strings (buttons, labels, aria) — languages/ru_RU.l10n.php; the locale follows the URL (inc/lang.php).
+    load_theme_textdomain( 'sweet-pepper', get_template_directory() . '/languages' );
+
     // Enable support for Post Thumbnails on posts and pages.
     add_theme_support( 'post-thumbnails' );
 
@@ -70,6 +73,31 @@ require_once get_template_directory() . '/inc/svg-dimensions.php';
  * Inline SVGs with per-instance unique ids (clipPath/gradient collisions).
  */
 require_once get_template_directory() . '/inc/inline-svg.php';
+
+/**
+ * Language on the URL (`/` RU, `/en/` EN): sweet_pepper_lang(), rewrite twins, locale, links, hreflang.
+ */
+require_once get_template_directory() . '/inc/lang.php';
+
+/**
+ * Fields in two languages: sp_field() and the RU / EN twin pick.
+ */
+require_once get_template_directory() . '/inc/fields.php';
+
+/**
+ * The location headline shared by About, Menu and Visit (Bar Settings; fallback: data/location.php).
+ */
+require_once get_template_directory() . '/inc/location.php';
+
+/**
+ * Team-replaceable photos: hard-cropped sizes (1:1, 3:2) and a URL from an image field.
+ */
+require_once get_template_directory() . '/inc/images.php';
+
+/**
+ * About page content: the page's fields → template-part args (fallback: data/about/).
+ */
+require_once get_template_directory() . '/inc/about-data.php';
 
 /**
  * Menu page section word lists (hero nav, jump-nav, mobile rail).

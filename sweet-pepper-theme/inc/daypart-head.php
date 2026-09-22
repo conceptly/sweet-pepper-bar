@@ -72,6 +72,8 @@ function sweet_pepper_daypart_head() {
         };
     }
     window.spBar = { hours: H, status: status };
+    // The language on the URL (inc/lang.php): a script that builds an internal link prefixes it with spLang.root.
+    window.spLang = { code: <?php echo wp_json_encode( sweet_pepper_lang() ); ?>, root: <?php echo wp_json_encode( rtrim( (string) parse_url( sweet_pepper_lang_root( sweet_pepper_lang() ), PHP_URL_PATH ), '/' ) ); ?> };
 
     var s = status(), mins = s.mins,
         q = new URLSearchParams(location.search),

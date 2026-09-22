@@ -5,6 +5,39 @@ import { getBarStatus, getBarHours, formatBarTime } from './bar-clock.js';
  * Daypart Engine — switches hero content/theme based on time of day
  * and handles tile click interactions for the image grid.
  */
+/* ── PROTOTYPE — the "now" word (author's idea, 21 Sep 2026). ?hl=1 [&hlday=…] [&hld=…]
+   One word of the hero headline — the one the clock chose — takes the louder colour of a
+   pair (hero.css → PROTOTYPE lists the pairs). Closed-hours headlines carry no `now`:
+   nothing is on, nothing lit. The scramble writes plain text, so the word lights when the
+   ride has resolved (600 ms). Delete with the CSS block, or promote: the split then belongs
+   in the copy, per language. */
+const hlParams = new URLSearchParams(window.location.search);
+const HL = hlParams.get('hl');
+if (HL) {
+    const cl = document.documentElement.classList;
+    cl.add('hl-on');
+    if (hlParams.get('hlday')) cl.add(`hl-day-${hlParams.get('hlday')}`);
+    if (hlParams.get('hld')) cl.add(`hl-d-${hlParams.get('hld')}`);
+}
+let markTimer = null;
+
+function markNowWord(el, data, delay) {
+    clearTimeout(markTimer);
+    if (!HL || !data.now) return;
+    markTimer = setTimeout(() => {
+        const at = data.headline.indexOf(data.now);
+        if (at < 0 || el.textContent !== data.headline) return; // another swap is under way
+        const word = document.createElement('span');
+        word.className = 'hero-headline__now';
+        word.textContent = data.now;
+        el.replaceChildren(
+            data.headline.slice(0, at),
+            word,
+            data.headline.slice(at + data.now.length),
+        );
+    }, delay);
+}
+
 export function initDaypartEngine() {
     const tiles = document.querySelectorAll('.daypart-tile');
     const html = document.documentElement;
@@ -24,6 +57,7 @@ export function initDaypartEngine() {
         breakfast: {
             mode: 'day',
             headline: 'YUMMY MORNING!',
+            now: 'MORNING', // PROTOTYPE ?hl= — the word the clock chose
             subhead: 'Coffee, eggs and a good reason to get out of bed.',
             btnText: 'Breakfast menu',
             btnIcon: 'coffee',
@@ -32,6 +66,7 @@ export function initDaypartEngine() {
         lunch: {
             mode: 'day',
             headline: 'PUMPKIN SOUP TIME!',
+            now: 'PUMPKIN SOUP', // PROTOTYPE ?hl= — the word the clock chose
             subhead: 'Soup, something hearty, a little break in your day.',
             btnText: 'Lunch menu',
             btnIcon: 'fork-knife',
@@ -40,6 +75,7 @@ export function initDaypartEngine() {
         dinner: {
             mode: 'night',
             headline: 'READY FOR TONIGHT?',
+            now: 'TONIGHT', // PROTOTYPE ?hl= — the word the clock chose
             subhead: 'Comfort food, cocktails and a table for your kind of evening.',
             btnText: 'Dinner menu',
             btnIcon: 'wine',
@@ -48,6 +84,7 @@ export function initDaypartEngine() {
         party: {
             mode: 'night',
             headline: "IT'S COCKTAIL TIME!",
+            now: 'COCKTAIL', // PROTOTYPE ?hl= — the word the clock chose
             subhead: 'Start with your favourite cocktail. See where the evening goes.',
             btnText: 'Drinks menu',
             btnIcon: 'martini',
@@ -197,6 +234,7 @@ export function initDaypartEngine() {
         if (headline) {
             if (onLoad) headline.textContent = data.headline;
             else scrambleTo(headline, data.headline);
+            markNowWord(headline, data, onLoad ? 0 : 680);
         }
         if (subhead) subhead.textContent = data.subhead;
 
@@ -206,7 +244,7 @@ export function initDaypartEngine() {
             const iconSpan = menuBtn.querySelector('.btn-icon i');
             if (labelSpan) labelSpan.textContent = data.btnText;
             if (iconSpan) iconSpan.className = `ph-fill ph-${data.btnIcon}`;
-            if (data.btnHref) menuBtn.href = data.btnHref;
+            if (data.btnHref) menuBtn.href = ((window.spLang && window.spLang.root) || '') + data.btnHref; // the language prefix (inc/lang.php)
         }
     }
 

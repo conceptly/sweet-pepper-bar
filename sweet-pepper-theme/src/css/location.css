@@ -91,15 +91,27 @@
     margin: 0;
 }
 
-/* Title lines container — block flow; the break is an explicit block span so the
-   three spans (line1 / mid / line2) can regroup per breakpoint. */
+/* Title: one headline for About, Menu and Visit, typed as two lines in Bar Settings
+   (inc/location.php). Below 992 the two typed lines are the break. From 992 the copy
+   column is 472 at most and neither line fits it at 64px ("IN THE VERY HEART" 627,
+   "OF THE BEST CITY" 571), so the lines flow as one sentence — three lines, as before the
+   fields — until the column or the copy changes (website-brief.md → Content editing →
+   About fields → Open). */
 .location__title {
     display: block;
     margin: 0;
 }
 
+.location__title-line1,
 .location__title-line2 {
-    display: block;   /* desktop: "at the very heart of the" | "best city" */
+    display: inline;
+}
+
+@media (max-width: 991px) {
+    .location__title-line1,
+    .location__title-line2 {
+        display: block;
+    }
 }
 
 /* Title line 1: chili */
@@ -112,17 +124,7 @@
     text-transform: uppercase;
 }
 
-/* The middle words "of the": Chili with line 1 on desktop, Paprika with line 2 on phones */
-.location__title-mid {
-    font-family: var(--font-display);
-    font-size: var(--text-h1);
-    line-height: 1.05;
-    letter-spacing: 0.04em; /* H1 tracking is 4% — 2.56 at 64, 1.44 at the phone 36 */
-    color: var(--chili);
-    text-transform: uppercase;
-}
-
-/* Title line 2: paprika — "BEST CITY" */
+/* Title line 2: paprika */
 .location__title-line2 {
     font-family: var(--font-display);
     font-size: var(--text-h1);
@@ -138,7 +140,7 @@
     font-weight: 400;
     font-size: var(--text-body);
     line-height: 1.4;
-    color: var(--dark-olive);
+    color: var(--peppercorn);
     margin: 0;
     text-wrap: pretty;
 }
@@ -154,7 +156,7 @@
     height: auto;
     min-height: 400px;
     flex-shrink: 0;
-    background-color: var(--dark-olive);
+    background-color: var(--peppercorn);
     border: 1px solid var(--mushroom);
     border-radius: 12px;
     box-shadow: 1px 1px 4px 0px rgba(21, 19, 23, 0.15);
@@ -186,7 +188,7 @@ html[data-theme="night"] .location__subheading {
 
 /* Title lines: chili + paprika stay the same at night (per Figma) */
 
-/* Description: dark-olive → parchment */
+/* Description: Peppercorn → Parchment */
 html[data-theme="night"] .location__description {
     color: var(--parchment);
 }
@@ -234,19 +236,6 @@ html[data-theme="night"] .location__description {
     .menu-entrance-img__inner {
         aspect-ratio: 21 / 9;
     }
-
-    /* "at the very heart" | "of the best city" — the phone split */
-    .location__title-line1 {
-        display: block;
-    }
-
-    .location__title-line2 {
-        display: inline;
-    }
-
-    .location__title-mid {
-        color: var(--paprika);
-    }
 }
 
 @media (max-width: 767px) {
@@ -273,19 +262,6 @@ html[data-theme="night"] .location__description {
     .location__inner {
         flex-direction: column;
         gap: 24px;
-    }
-
-    /* phones: "at the very heart" | "of the best city" */
-    .location__title-line1 {
-        display: block;
-    }
-
-    .location__title-line2 {
-        display: inline;
-    }
-
-    .location__title-mid {
-        color: var(--paprika);
     }
 
     .location__map {

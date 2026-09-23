@@ -28,6 +28,6 @@ return [
         [ 'icon' => 'star',       'label' => 'The Way You Like', 'word' => 'Your way',  'title' => 'JUST THE WAY YOU LIKE IT', 'description' => 'Something to leave out or add? Ask the team about making it your way.',
           'ru' => [ 'label' => 'По вкусу',     'word' => 'По вкусу',     'title' => 'ТАК, КАК ВЫ ЛЮБИТЕ',    'description' => 'Что-то убрать или добавить? Спросите команду, как можно изменить блюдо под ваш вкус.' ] ],
         [ 'icon' => 'accessible', 'label' => 'Accessible',       'word' => 'Step-free', 'title' => 'STEP-FREE ENTRANCE',       'description' => 'A step-free way in, with a ramp and help from the team if you need it.',
-          'ru' => [ 'label' => 'Без ступеней', 'word' => 'Без ступеней', 'title' => 'ВХОД БЕЗ СТУПЕНЕЙ',     'description' => 'На входе есть пандус. Если понадобится помощь, обратитесь к команде.' ] ],
+          'ru' => [ 'label' => 'Без ступенек', 'word' => 'Без ступенек', 'title' => 'ВХОД БЕЗ СТУПЕНЕК',     'description' => 'На входе есть пандус. Если понадобится помощь, обратитесь к команде.' ] ],
     ],
 ];

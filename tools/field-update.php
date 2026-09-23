@@ -11,7 +11,9 @@
  *   (Local: see tools/page-seed.php for the PHP binary and the socket)
  *
  * File shape: { "page": "<slug>", "groups": [ { "note": "…", "set": [ [ field, old, new ], … ] } ] }.
- * Field keys follow tools/page-field-groups.py: key = "field_sp_" . name.
+ * Field keys follow tools/page-field-groups.py: key = "field_sp_" . name. A field inside a
+ * repeater row has no key of its own — name it as saved, row index included
+ * ("about_perks_5_title_ru"); it is then written by name, as the row stores it.
  */
 
 $file = $argv[1] ?? '';
@@ -47,7 +49,8 @@ foreach ( $spec['groups'] as $group ) {
         continue;
     }
     foreach ( $group['set'] as [ $name, , $new ] ) {
-        update_field( 'field_sp_' . $name, $new, $page->ID );
+        $key = 'field_sp_' . $name;
+        update_field( acf_get_field( $key ) ? $key : $name, $new, $page->ID );
     }
     echo "applied  {$label}\n";
 }

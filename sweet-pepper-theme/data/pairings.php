@@ -1,7 +1,7 @@
 <?php
 /**
  * Pairings — the dish picker's six rows as typed before they moved into WordPress.
- * Fallback for sweet_pepper_food_pairings() while the «Подбор пары» record is empty, and
+ * Fallback for sweet_pepper_food_pairings() while the «Гастробот» record is empty, and
  * the seed source (tools/page-seed.php pairings — photos → media library).
  *
  *   dish        — the tag label · dish_short — the ticket's shorter name (optional)

@@ -5,7 +5,7 @@
  * One list, two homes: the menu page's pairing station and the About page's Concept
  * picker (website-brief.md → Picker pairings: the surfaces that show a dish reference one
  * record, they never hold their own copy). The record is the one `pairings` post
- * («Подбор пары», acf-json/group_sp_pairings.json); until it has rows, the typed list in
+ * («Гастробот», acf-json/group_sp_pairings.json); until it has rows, the typed list in
  * data/pairings.php renders.
  *
  * Temporary shape (author, 21 Sep 2026): the dish and the drink are typed into the row —

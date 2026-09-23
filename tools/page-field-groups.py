@@ -266,7 +266,7 @@ pr = lambda *args, **k: field(*args, prefix=P, parent="rows", **k)
 BAR_SECTIONS = {"infusions": "Настойки", "cocktails": "Коктейли", "wine": "Вино", "beer": "Пиво",
                 "spirits": "Крепкое", "no-buzz": "Без градуса", "tea-coffee": "Чай и кофе"}
 pairings = group(
-    "group_sp_pairings", "Подбор пары", [
+    "group_sp_pairings", "Гастробот", [
         field("hint", "", "", "message", prefix=P, new_lines="", esc_html=0,
               message="Одна строка — одна пара «блюдо → напиток». Порядок строк — порядок ярлыков на сайте. "
                       "«Открывается первой» — пара, которую гость видит до выбора (одна на список). "

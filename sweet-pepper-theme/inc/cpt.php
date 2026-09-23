@@ -67,13 +67,13 @@ function sweet_pepper_register_cpt() {
     );
     register_post_type( 'news', $args_news );
 
-    // 3. Pairings — ONE record («Подбор пары»): the dish picker's rows, for the menu page's
+    // 3. Pairings — ONE record («Гастробот»; «Подбор пары» until 23 Sep 2026 — a team member's name for it): the dish picker's rows, for the menu page's
     // pairing station and the About page's Concept picker at once (inc/pairings.php,
     // acf-json/group_sp_pairings.json). A post for the same reasons as a menu list:
     // revisions, the edit lock, the cache purge on save. Never a public URL.
     register_post_type( 'pairings', array(
-        'label'        => 'Подбор пары',
-        'labels'       => array( 'name' => 'Подбор пары', 'singular_name' => 'Подбор пары', 'menu_name' => 'Подбор пары', 'edit_item' => 'Подбор пары', 'all_items' => 'Подбор пары' ),
+        'label'        => 'Гастробот',
+        'labels'       => array( 'name' => 'Гастробот', 'singular_name' => 'Гастробот', 'menu_name' => 'Гастробот', 'edit_item' => 'Гастробот', 'all_items' => 'Гастробот' ),
         'supports'     => array( 'title', 'revisions' ),
         'public'       => false,
         'show_ui'      => true,

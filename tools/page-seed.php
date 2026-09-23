@@ -16,7 +16,7 @@
  *                   media library (assets/images/… → uploads), once — a re-seed finds them by
  *                   their source path and does not upload twice.
  *   location      — data/location.php → Bar Settings → «Локация — заголовок»
- *   pairings      — data/pairings.php → the one «Подбор пары» record (created if missing)
+ *   pairings      — data/pairings.php → the one «Гастробот» record (created if missing)
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -210,7 +210,7 @@ foreach ( $targets as $target ) {
         case 'pairings':
             $post = sweet_pepper_pairings_post();
             if ( ! $post ) {
-                $id = wp_insert_post( [ 'post_type' => 'pairings', 'post_status' => 'publish', 'post_title' => 'Подбор пары' ] );
+                $id = wp_insert_post( [ 'post_type' => 'pairings', 'post_status' => 'publish', 'post_title' => 'Гастробот' ] );
                 echo "pairings: record {$id} created\n";
             } else {
                 $id = $post->ID;

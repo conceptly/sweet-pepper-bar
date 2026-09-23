@@ -5,6 +5,10 @@
 
 ---
 
+## Home RU draft — voice pass, 23 September 2026
+
+Refined `home-copy-ru-draft.md` against the author's posts/voice guide and connector discussion. Preserved the six connectors already edited by the author, hero headlines, dish ingredients, booking/form and status copy. Revised hero supporting lines, highlights introduction, infusion descriptions, the whole-About teaser, social-offers introduction and navigation descriptions; filled the previously confirmed email. Review rationale and an explicitly unadopted voice-rule exception appended to `home-copy-ru-review.md`; conversation findings added to `russian-website-voice.md`. Draft proposals only: no theme, CMS, SVG, Figma or EN edits, and no visual-fit verification. Older connector inventories are historical; the current Home RU sequence is in the clean draft §9.
+
 ## Deploy: field changes travel as a file — 22 September 2026
 
 SCF values stay in each site's database, so today's About edits (hero headline split into two fields, the RU invitation copy, the author's seven RU edits) would not reach the test site with the theme. `tools/field-update.php <file>` applies a dated set — `tools/field-updates/2026-09-22-about-ru.json` — group by group, all-or-nothing, and only where every field still holds its expected old value; anything edited in admin since is SKIPPED and printed, a group already applied reports "done" (run twice locally: all "done"; a wrong old value: SKIPPED, field untouched). Keys follow the generator (`field_sp_` + name), so it also writes the new `about_hero_headline_2_*` before anyone has saved the tab. Also: `russian-website-voice.md` brought up to date (all nine About connectors on the page; «Перец» confirmed as the bar's short name). Left out of git: `Sweet posts examples.pdf` (source of the voice guide — contains private trainee feedback).

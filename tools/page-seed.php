@@ -214,6 +214,11 @@ foreach ( $targets as $target ) {
                 echo "pairings: record {$id} created\n";
             } else {
                 $id = $post->ID;
+                // Renamed «Гастробот» on 23 Sep 2026: a record made before that is renamed, nothing else.
+                if ( 'Подбор пары' === $post->post_title ) {
+                    wp_update_post( [ 'ID' => $id, 'post_title' => 'Гастробот' ] );
+                    echo "pairings: record {$id} renamed «Гастробот»\n";
+                }
                 if ( get_field( 'pairs', $id ) && ! $force ) {
                     echo "pairings: already saved — left alone (--force to overwrite)\n";
                     break;

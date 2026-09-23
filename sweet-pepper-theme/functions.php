@@ -112,6 +112,11 @@ require_once get_template_directory() . '/inc/menu-data-dishes.php';
 require_once get_template_directory() . '/inc/dish-quick-edit.php'; // size and price in the Dishes / Drinks tables' Quick Edit
 
 /**
+ * Media topics — «Темы» on images: labels and filters instead of folders.
+ */
+require_once get_template_directory() . '/inc/media-topics.php';
+
+/**
  * Dish picker pairings — one list for the menu page and About.
  */
 require_once get_template_directory() . '/inc/pairings.php';

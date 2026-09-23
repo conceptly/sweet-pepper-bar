@@ -33,81 +33,8 @@
             <div class="menu-section__title-right"></div>
         </div>
 
-        <!-- Two-Column Dish Layout -->
-        <div class="menu-section__columns">
-
-            <!-- LEFT COLUMN: Signature Salads -->
-            <div class="menu-section__column menu-section__column--left">
-
-                <!-- Subsection: signature salads -->
-                <div class="menu-section__subsection">
-                    <div class="menu-section__subsection-header">
-                        <h3 class="menu-section__subsection-title molot-text"><?php echo esc_html( 'signature salads' ); ?></h3>
-                    </div>
-                    <div class="menu-section__dishes">
-                        <?php
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name' => 'Cobb Salad',
-                            'price'     => '355-.',
-                            'quantity'  => '270 g',
-                            'options'   => [
-                                'Classic with chicken, bacon, cheese, avocado and veggies',
-                                'Vegetarian with mozzarella, avocado and veggies',
-                            ],
-                        ] );
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Sicilian',
-                            'price'       => '335-.',
-                            'quantity'    => '210 g',
-                            'description' => 'with chicken, oranges & arugula',
-                        ] );
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Summer salad with brynza',
-                            'price'       => '285-.',
-                            'quantity'    => '250 g',
-                            'description' => 'cherry tomatoes, bell pepper & basil-walnut pesto',
-                        ] );
-                        ?>
-                    </div>
-                </div>
-
-            </div><!-- /.menu-section__column--left -->
-
-            <!-- RIGHT COLUMN: Caesar Collection -->
-            <div class="menu-section__column menu-section__column--right">
-
-                <!-- Subsection: caesar collection -->
-                <div class="menu-section__subsection">
-                    <div class="menu-section__subsection-header">
-                        <h3 class="menu-section__subsection-title molot-text"><?php echo esc_html( 'caesar collection' ); ?></h3>
-                    </div>
-                    <div class="menu-section__dishes">
-                        <?php
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Classic Caesar',
-                            'price'       => '325-.',
-                            'quantity'    => '210 g',
-                            'description' => 'with chicken',
-                        ] );
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Mediterranean Caesar',
-                            'price'       => '475-.',
-                            'quantity'    => '210 g',
-                            'description' => 'with shrimp',
-                        ] );
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Scandinavian Caesar',
-                            'price'       => '445-.',
-                            'quantity'    => '210 g',
-                            'description' => 'with salmon',
-                        ] );
-                        ?>
-                    </div>
-                </div>
-
-            </div><!-- /.menu-section__column--right -->
-
-        </div><!-- /.menu-section__columns -->
+        <!-- Two-Column Dish Layout: rows from the menu store (inc/menu-data.php) -->
+        <?php get_template_part( 'template-parts/components/menu-section-columns', null, [ 'section' => 'salads' ] ); ?>
 
     </div><!-- /.container .menu-section__content -->
 

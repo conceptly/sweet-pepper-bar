@@ -5,15 +5,28 @@
  * Loops over sweet_pepper_menu_subsections() (inc/menu-data.php) — the rows come
  * from the section's record in admin, or from data/menu/<slug>.php until it is filled.
  * A subsection is a header + dish rows; style 'card' wraps it as the add-ons card
- * (e.g. Favorite Sauces).
+ * (e.g. Favorite Sauces). A list subsection without a title is a bare run of rows
+ * (Infusions). A subsection marked `divider` starts a new pair of columns under a
+ * rule (Tea & Coffee: coffee above, tea below); `note` prints a remark under it (Kids).
  *
  * @param array $args {
  *     @type string $section Section slug, e.g. 'soups' (required).
  * }
  */
 
-$subsections = sweet_pepper_menu_subsections( $args['section'] ?? '' );
+// Split into blocks of columns at each divider.
+$blocks = [];
+foreach ( sweet_pepper_menu_subsections( $args['section'] ?? '' ) as $sub ) {
+    if ( ! $blocks || ! empty( $sub['divider'] ) ) {
+        $blocks[] = [];
+    }
+    $blocks[ count( $blocks ) - 1 ][] = $sub;
+}
 ?>
+<?php foreach ( $blocks as $b => $subsections ) : ?>
+<?php if ( $b ) : ?>
+<div class="menu-section__coffee-tea-divider"></div>
+<?php endif; ?>
 <div class="menu-section__columns">
 
     <?php foreach ( [ 'left', 'right' ] as $side ) : ?>
@@ -24,12 +37,13 @@ $subsections = sweet_pepper_menu_subsections( $args['section'] ?? '' );
                     continue;
                 }
                 $is_card = 'card' === ( $sub['style'] ?? 'list' );
+                $is_bare = ! $is_card && empty( $sub['title'] );
                 ?>
 
                 <?php if ( $is_card ) : ?>
                 <div class="menu-section__addons">
                     <div class="menu-section__addons-card">
-                <?php else : ?>
+                <?php elseif ( ! $is_bare ) : ?>
                 <div class="menu-section__subsection">
                 <?php endif; ?>
 
@@ -48,8 +62,12 @@ $subsections = sweet_pepper_menu_subsections( $args['section'] ?? '' );
                         <?php get_template_part( 'template-parts/components/rugged-edge', null, [ 'color' => 'section-bg' ] ); ?>
                     </div>
                 </div>
-                <?php else : ?>
+                <?php elseif ( ! $is_bare ) : ?>
                 </div>
+                <?php endif; ?>
+
+                <?php if ( ! empty( $sub['note'] ) ) : ?>
+                <p class="menu-section__remark"><?php echo esc_html( $sub['note'] ); ?></p>
                 <?php endif; ?>
 
             <?php endforeach; ?>
@@ -58,3 +76,4 @@ $subsections = sweet_pepper_menu_subsections( $args['section'] ?? '' );
     <?php endforeach; ?>
 
 </div><!-- /.menu-section__columns -->
+<?php endforeach; ?>

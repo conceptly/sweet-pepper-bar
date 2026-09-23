@@ -16,7 +16,7 @@
                 "class": "",
                 "id": ""
             },
-            "message": "Порядок блюд в списке — порядок на сайте: перетащите блюдо в правой колонке. Само блюдо (цена, описание) правится в «Блюдах»; блюдо в черновике на сайте не показывается, но остаётся в списке.",
+            "message": "Порядок блюд в списке — порядок на сайте: перетащите блюдо в правой колонке. Само блюдо (цена, описание) правится в «Блюдах» или «Напитках»; блюдо в черновике на сайте не показывается, но остаётся в списке.",
             "new_lines": "",
             "esc_html": 0
         },
@@ -153,7 +153,8 @@
                         "id": ""
                     },
                     "post_type": [
-                        "dish"
+                        "dish",
+                        "drink"
                     ],
                     "post_status": "",
                     "taxonomy": "",
@@ -166,6 +167,69 @@
                     "elements": "",
                     "bidirectional": 0,
                     "bidirectional_target": [],
+                    "parent_repeater": "field_sp_list_subsections"
+                },
+                {
+                    "key": "field_sp_list_sub_note_ru",
+                    "label": "Примечание под подразделом",
+                    "name": "note_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_list_subsections"
+                },
+                {
+                    "key": "field_sp_list_sub_note_en",
+                    "label": "Примечание (EN)",
+                    "name": "note_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_list_subsections"
+                },
+                {
+                    "key": "field_sp_list_sub_divider",
+                    "label": "Черта перед подразделом",
+                    "name": "divider",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "Новый блок колонок",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Да",
+                    "ui_off_text": "Нет",
                     "parent_repeater": "field_sp_list_subsections"
                 }
             ]
@@ -192,5 +256,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1789928660
+    "modified": 1790182957
 }

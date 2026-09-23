@@ -1,9 +1,9 @@
 <?php
 /**
- * Dishes store (Menu storage test, option Б) — size and price in Quick Edit.
+ * The menu store — size and price in Quick Edit, in the «Блюда» and «Напитки» tables.
  *
- * The price is what the team changes most, and the Dishes table is where they look for a
- * dish (team, 20 Sep 2026). «Свойства» under a row opens WordPress's own Quick Edit with
+ * The price is what the team changes most, and the table is where they look for a
+ * dish (team, 20 Sep 2026; the test that chose this store, 23 Sep 2026). «Свойства» under a row opens WordPress's own Quick Edit with
  * the two sizes and prices in it: change, «Обновить», the row redraws — the dish is never
  * opened. Everything else about a dish stays on its own screen.
  *
@@ -11,11 +11,8 @@
  *   1. quick_edit_custom_box — the inputs, printed once per table, under the «Выход и цена» column;
  *   2. a few lines of script — Quick Edit only fills WordPress's own fields, so ours are
  *      filled from data-* attributes the column prints (inc/menu-data-dishes.php);
- *   3. save_post_dish — nonce, capability, then update_field() by KEY, so the value lands
- *      exactly where the dish's own screen puts it.
- *
- * Goes with the dishes store: if the repeater store wins the test, delete this file and
- * its require in functions.php.
+ *   3. save_post_{dish,drink} — nonce, capability, then update_field() by KEY, so the value
+ *      lands exactly where the dish's own screen puts it.
  *
  * @package Sweet_Pepper
  */
@@ -51,7 +48,7 @@ function sweet_pepper_dish_quick_data( $post_id ) {
 }
 
 function sweet_pepper_dish_quick_edit_box( $column, $post_type ) {
-    if ( 'dish' !== $post_type || 'sp_sizes' !== $column ) {
+    if ( ! in_array( $post_type, sweet_pepper_menu_item_types(), true ) || 'sp_sizes' !== $column ) {
         return;
     }
     $units = sweet_pepper_dish_quick_units();
@@ -115,11 +112,12 @@ function sweet_pepper_dish_quick_edit_save( $post_id ) {
     }
 }
 add_action( 'save_post_dish', 'sweet_pepper_dish_quick_edit_save' );
+add_action( 'save_post_drink', 'sweet_pepper_dish_quick_edit_save' );
 
-/** Fill our inputs when a row's Quick Edit opens; tidy the box. Dishes table only. */
+/** Fill our inputs when a row's Quick Edit opens; tidy the box. Dishes and Drinks tables only. */
 function sweet_pepper_dish_quick_edit_script() {
     $screen = get_current_screen();
-    if ( ! $screen || 'edit-dish' !== $screen->id ) {
+    if ( ! $screen || ! in_array( $screen->id, [ 'edit-dish', 'edit-drink' ], true ) ) {
         return;
     }
     ?>

@@ -1,21 +1,30 @@
 <?php
 /**
- * Menu data, dishes store — the second candidate of the Menu storage test.
+ * Menu data — the menu store (website-brief.md → Content editing & languages →
+ * Menu storage; option Б, decided 23 Sep 2026 after the team test).
  *
- * One `dish` post per dish (title = the Russian name, fields in
- * acf-json/group_sp_dish.json) and one `menu_list` record per section, slug = the
- * section slug, holding subsections → ordered Relationship lists of dishes
- * (acf-json/group_sp_menu_list.json). Rendered with `?menu_store=dishes`
- * (inc/menu-data.php → sweet_pepper_menu_store()); seeded by tools/menu-seed.php --dishes.
- *
- * If the repeater store wins, this file goes, with its require in functions.php, the
- * `dish` and `menu_list` post types (inc/cpt.php), the two field groups and their
- * block in tools/menu-field-group.py, and the --dishes branch of the seeder.
- *
- * website-brief.md → Content editing & languages → Menu storage.
+ * One post per item — `dish` («Блюда») for the kitchen, `drink` («Напитки») for the bar;
+ * title = the Russian name, fields in acf-json/group_sp_dish.json — and one `menu_list`
+ * record per section («Разделы меню»), slug = the section slug, holding subsections →
+ * ordered Relationship lists (acf-json/group_sp_menu_list.json). Seeded by
+ * tools/menu-seed.php. Also here: the two lists' admin tables.
  *
  * @package Sweet_Pepper
  */
+
+/** The menu's two item types. */
+function sweet_pepper_menu_item_types() {
+    return [ 'dish', 'drink' ];
+}
+
+/**
+ * Which type a section lists: bar sections list drinks, the kitchen's list dishes.
+ *
+ * @param string $slug Section slug.
+ */
+function sweet_pepper_menu_item_type( $slug ) {
+    return isset( sweet_pepper_menu_sections( 'drinks' )[ $slug ] ) ? 'drink' : 'dish';
+}
 
 /**
  * A section's rows in the shape the repeater store saves them, so
@@ -38,7 +47,7 @@ function sweet_pepper_menu_list_rows( $slug ) {
         foreach ( (array) ( $sub['dishes'] ?? [] ) as $dish_id ) {
             $dish = get_post( $dish_id );
             // A deleted dish drops out of its list silently.
-            if ( ! $dish || 'dish' !== $dish->post_type ) {
+            if ( ! $dish || ! in_array( $dish->post_type, sweet_pepper_menu_item_types(), true ) ) {
                 continue;
             }
             $dishes[] = [
@@ -78,6 +87,18 @@ function sweet_pepper_dish_relationship_result( $title, $post ) {
 add_filter( 'acf/fields/relationship/result/key=field_sp_list_dishes', 'sweet_pepper_dish_relationship_result', 10, 2 );
 
 /**
+ * A section's picker offers only its own kind: a bar section drinks, a kitchen section dishes.
+ */
+function sweet_pepper_dish_relationship_query( $args, $field, $post_id ) {
+    $slug = get_post_field( 'post_name', $post_id );
+    if ( $slug ) {
+        $args['post_type'] = sweet_pepper_menu_item_type( $slug );
+    }
+    return $args;
+}
+add_filter( 'acf/fields/relationship/query/key=field_sp_list_dishes', 'sweet_pepper_dish_relationship_query', 10, 3 );
+
+/**
  * Which section lists place a dish: dish ID → [ list ID => 'Section · subsection' ].
  * A dish in no list is on no page — the Dishes table says so.
  */
@@ -99,13 +120,17 @@ function sweet_pepper_dish_placements() {
 }
 
 /**
- * The Dishes table reads like the menu: name · description · size and price · section; A–Z, not by date.
+ * The Dishes and Drinks tables read like the menu: name · description · size and price · section; A–Z, not by date.
  */
 function sweet_pepper_dish_admin_columns( $columns ) {
     unset( $columns['date'] );
     return $columns + [ 'sp_description' => 'Описание', 'sp_sizes' => 'Выход и цена', 'sp_section' => 'Раздел меню', 'date' => 'Дата' ];
 }
-add_filter( 'manage_dish_posts_columns', 'sweet_pepper_dish_admin_columns' );
+foreach ( sweet_pepper_menu_item_types() as $sp_type ) {
+    add_filter( "manage_{$sp_type}_posts_columns", 'sweet_pepper_dish_admin_columns' );
+    add_action( "manage_{$sp_type}_posts_custom_column", 'sweet_pepper_dish_admin_column', 10, 2 );
+}
+unset( $sp_type );
 
 function sweet_pepper_dish_admin_column( $column, $post_id ) {
     if ( 'sp_description' === $column ) {
@@ -123,12 +148,45 @@ function sweet_pepper_dish_admin_column( $column, $post_id ) {
         echo $links ? implode( ', ', $links ) : '— не в меню';
     }
 }
-add_action( 'manage_dish_posts_custom_column', 'sweet_pepper_dish_admin_column', 10, 2 );
+
+/**
+ * A «Раздел» dropdown above each table: a long list narrowed to one section, for when
+ * search isn't the way in (the drinks list alone is ~160 items).
+ */
+function sweet_pepper_dish_admin_filter( $post_type ) {
+    if ( ! in_array( $post_type, sweet_pepper_menu_item_types(), true ) ) {
+        return;
+    }
+    $current = isset( $_GET['sp_section'] ) ? absint( $_GET['sp_section'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification -- a list filter
+    $lists   = get_posts( [ 'post_type' => 'menu_list', 'post_status' => 'any', 'numberposts' => -1, 'orderby' => 'menu_order', 'order' => 'ASC' ] );
+    echo '<label class="screen-reader-text" for="sp-section">Раздел меню</label>';
+    echo '<select name="sp_section" id="sp-section"><option value="0">Все разделы</option>';
+    foreach ( $lists as $list ) {
+        if ( sweet_pepper_menu_item_type( $list->post_name ) !== $post_type ) {
+            continue;
+        }
+        printf( '<option value="%d"%s>%s</option>', (int) $list->ID, selected( $current, $list->ID, false ), esc_html( $list->post_title ) );
+    }
+    echo '<option value="-1"' . selected( $current, -1, false ) . '>— не в меню</option></select>';
+}
+add_action( 'restrict_manage_posts', 'sweet_pepper_dish_admin_filter' );
 
 function sweet_pepper_dish_admin_order( $query ) {
-    if ( is_admin() && $query->is_main_query() && 'dish' === $query->get( 'post_type' ) && ! $query->get( 'orderby' ) ) {
+    if ( ! is_admin() || ! $query->is_main_query() || ! in_array( $query->get( 'post_type' ), sweet_pepper_menu_item_types(), true ) ) {
+        return;
+    }
+    if ( ! $query->get( 'orderby' ) ) {
         $query->set( 'orderby', 'title' );
         $query->set( 'order', 'ASC' );
+    }
+    $section = isset( $_GET['sp_section'] ) ? (int) $_GET['sp_section'] : 0; // phpcs:ignore WordPress.Security.NonceVerification -- a list filter
+    if ( $section ) {
+        $placed = array_keys( array_filter( sweet_pepper_dish_placements(), fn( $lists ) => isset( $lists[ $section ] ) ) );
+        if ( $section > 0 ) {
+            $query->set( 'post__in', $placed ?: [ 0 ] );
+        } else {
+            $query->set( 'post__not_in', array_keys( sweet_pepper_dish_placements() ) );
+        }
     }
 }
 add_action( 'pre_get_posts', 'sweet_pepper_dish_admin_order' );

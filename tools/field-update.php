@@ -11,6 +11,7 @@
  *   (Local: see tools/page-seed.php for the PHP binary and the socket)
  *
  * File shape: { "page": "<slug>", "groups": [ { "note": "…", "set": [ [ field, old, new ], … ] } ] }.
+ * For a one-record type (the «Гастробот» pairings) give "post_type" instead of "page".
  * Field keys follow tools/page-field-groups.py: key = "field_sp_" . name. A field inside a
  * repeater row has no key of its own — name it as saved, row index included
  * ("about_perks_5_title_ru"); it is then written by name, as the row stores it.
@@ -25,9 +26,16 @@ $spec = json_decode( file_get_contents( $file ), true );
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
 require $wp_root . '/wp-load.php';
 
-$page = get_page_by_path( $spec['page'] );
-if ( ! $page ) {
-    exit( "No page with the slug '{$spec['page']}'.\n" );
+if ( ! empty( $spec['post_type'] ) ) {
+    $page = get_posts( [ 'post_type' => $spec['post_type'], 'post_status' => 'any', 'numberposts' => 1, 'orderby' => 'ID', 'order' => 'ASC' ] )[0] ?? null;
+    if ( ! $page ) {
+        exit( "No '{$spec['post_type']}' record.\n" );
+    }
+} else {
+    $page = get_page_by_path( $spec['page'] );
+    if ( ! $page ) {
+        exit( "No page with the slug '{$spec['page']}'.\n" );
+    }
 }
 
 foreach ( $spec['groups'] as $group ) {

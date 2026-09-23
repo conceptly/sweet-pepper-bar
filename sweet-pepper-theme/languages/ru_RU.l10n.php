@@ -35,7 +35,8 @@ return [
         'YOUR DESTINATION'                           => 'ВАМ СЮДА',
         'Get directions'                             => 'Построить маршрут',
         'The way in'                                 => 'Здесь вход',
-        // The dish picker (✔ about-page-copy-ru-draft.md → Подбор пары; «Your Match» has no Russian there)
+        // The dish picker (✔ about-page-copy-ru-draft.md → Подбор пары; «Ваш выбор» — author, 23 Sep 2026)
+        'Your Match'                                 => 'Ваш выбор',
         'Shake it — pick a random dish'              => 'Выбрать случайное блюдо',
         '+ unforgettable with'                       => 'К этому блюду',
         'See this drink'                             => 'О напитке',

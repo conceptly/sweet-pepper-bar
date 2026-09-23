@@ -37,7 +37,7 @@ return [
         'reply'         => 'A shot of the cranberry infusion',
         'drink_section' => 'infusions',
         'default'       => false,
-        'ru'            => [ 'dish' => 'Фирменные драники', 'reply' => 'Стопка клюквенной настойки' ],
+        'ru'            => [ 'dish' => 'Фирменные драники', 'description' => 'Легенда улицы Кирова', 'reply' => 'Стопка клюквенной настойки' ],
     ],
     [
         'slug'          => 'beefsteak',
@@ -49,7 +49,7 @@ return [
         'reply'         => 'Jack Daniels on ice',
         'drink_section' => 'spirits',
         'default'       => false,
-        'ru'            => [ 'dish' => 'Бифштекс с яйцом', 'reply' => 'Jack Daniels со льдом' ],
+        'ru'            => [ 'dish' => 'Бифштекс с яйцом', 'description' => 'Легенда улицы Кирова', 'reply' => 'Jack Daniels со льдом' ],
     ],
     [
         'slug'          => 'roast',
@@ -61,7 +61,7 @@ return [
         'reply'         => 'A shot of the Finlandia',
         'drink_section' => 'spirits',
         'default'       => true,
-        'ru'            => [ 'dish' => 'Жаркое по-ярославски', 'dish_short' => 'Жаркое', 'reply' => 'Стопка водки Finlandia' ],
+        'ru'            => [ 'dish' => 'Жаркое по-ярославски', 'description' => 'Легенда улицы Кирова', 'dish_short' => 'Жаркое', 'reply' => 'Стопка водки Finlandia' ],
     ],
     [
         'slug'          => 'wings',
@@ -73,7 +73,7 @@ return [
         'reply'         => 'A shot of the Ararat cognac',
         'drink_section' => 'spirits',
         'default'       => false,
-        'ru'            => [ 'dish' => 'Крылышки-гриль', 'dish_short' => 'Крылышки', 'reply' => 'Бокал коньяка «Арарат»' ],
+        'ru'            => [ 'dish' => 'Крылышки-гриль', 'description' => 'Легенда улицы Кирова', 'dish_short' => 'Крылышки', 'reply' => 'Бокал коньяка «Арарат»' ],
     ],
     [
         'slug'          => 'pasta',
@@ -85,6 +85,6 @@ return [
         'reply'         => 'Jim Beam on ice',
         'drink_section' => 'spirits',
         'default'       => false,
-        'ru'            => [ 'dish' => 'Фарфалле с курицей', 'reply' => 'Jim Beam со льдом' ],
+        'ru'            => [ 'dish' => 'Фарфалле с курицей', 'description' => 'Легенда улицы Кирова', 'reply' => 'Jim Beam со льдом' ],
     ],
 ];

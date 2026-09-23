@@ -63,7 +63,9 @@ def repeater(key, label, name, sub_fields, button, min=0, max=0, layout="block",
 hero = [
     tab("hero", "Первый экран"),
     *twins(a, "hero_eyebrow", "Надзаголовок — адрес", "about_hero_eyebrow"),
-    *twins(a, "hero_headline", "Заголовок", "about_hero_headline"),
+    *twins(a, "hero_headline", "Заголовок · строка 1", "about_hero_headline"),
+    # Line 2 runs on after line 1 on desktop; tablets and phones stack it in Paprika (Figma 2559:70744)
+    *twins(a, "hero_headline_2", "Заголовок · строка 2", "about_hero_headline_2", placeholder="на телефоне — вторая строка другим цветом"),
     *twins(a, "hero_lead", "Текст", "about_hero_lead", "textarea"),
 ]
 

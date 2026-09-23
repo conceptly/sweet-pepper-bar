@@ -12,11 +12,13 @@
 
 return [
     'eyebrow'  => 'Kirova St. 10/25, Yaroslavl',
-    'headline' => 'Shake & Cook Since 2014',
+    'headline'   => 'Shake & Cook',
+    'headline_2' => 'Since 2014',  // stacked in Paprika below 992 (Figma 2559:70744); runs on after line 1 on desktop
     'lead'     => 'A proper meal, a favourite drink and a place to settle in. Get to know the people, the stories and the room behind Sweet Pepper.',
     'ru'       => [
         'eyebrow'  => 'Кирова, 10/25 · Ярославль',
-        'headline' => 'Shake & Cook с 2014 года',
-        'lead'     => 'Вкусно поесть, выпить любимое и устроиться поудобнее. Здесь — истории, люди и всё, из чего складывается Sweet Pepper.',
+        'headline'   => 'Shake & Cook',
+        'headline_2' => 'с 2014 года',
+        'lead'     => 'Вкусно перекусить, пропустить бокальчик-другой и устроиться поудобнее. Познакомьтесь с Перцем поближе: кто здесь готовит и наливает, кто приходит в гости и с чего всё началось.',
     ],
 ];

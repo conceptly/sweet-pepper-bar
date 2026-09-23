@@ -654,6 +654,23 @@
     }
 }
 
+/* Tier sizes follow the cloud column's width (author, 22 Sep 2026). The quote column is a
+   fixed 540, so below ~1280 the cloud narrows (532 → 327 at 1006) while the words did
+   not: the words with no free spot were parked on the field's centre — the pile (RU 6 words
+   at 1006, EN 3). 56 / 36 / 24 hold from a 532 column up and shrink in step below it
+   (10.53cqw = 56/532), floored at the phone sizes (40 / 26 / 18) so the tier ratio — the
+   honesty carrier — survives. ≥768 only: phones size through --cloud-size-phone.
+   how-it-feels.js measures the rendered words, and re-places them on resize. */
+@media (min-width: 768px) {
+    .about-how-it-feels__cloud {
+        container-type: inline-size;
+    }
+
+    .about-cloud-word[data-tier="top"] { font-size: clamp(40px, 10.53cqw, 56px); }
+    .about-cloud-word[data-tier="mid"] { font-size: clamp(26px, 6.77cqw, 36px); }
+    .about-cloud-word[data-tier="low"] { font-size: clamp(18px, 4.51cqw, 24px); }
+}
+
 /* ── Quote Cards (scrolling wheel) ──────────────────────── */
 
 .about-how-it-feels__quotes {
@@ -787,11 +804,11 @@
     color: var(--ash);
 }
 
-/* CTA */
+/* CTA — 48 under the wheel, the section rhythm (author, 22 Sep 2026; was 24); phones keep 36 */
 .about-how-it-feels__cta {
     display: flex;
     justify-content: flex-end;
-    margin-top: 24px;
+    margin-top: 48px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -825,12 +842,14 @@
 /* Individual stamp — default (inactive) state.
    `--stamp` is the colour consumers read; phones swap it for the re-dealt phone colour.
    `--lean` is the tilt direction (1 right / −1 left, alternating; phones flip it),
-   `--tilt` the current angle (4° at rest, 2° hovered, 0 active), `--press` the pressed scale. */
+   `--tilt` the current angle (4° at rest, 8° hovered, 0 pressed / active), `--lift` the hover
+   rise, `--press` the pressed scale. */
 .about-perks__stamp {
     --stamp-color: var(--lime);
     --stamp: var(--stamp-color);
     --lean: 1;
     --tilt: calc(var(--lean) * 4deg);
+    --lift: 0px;
     --press: 1;
     width: 120px;
     height: 120px;
@@ -846,7 +865,7 @@
     cursor: pointer;
     overflow: hidden;
     box-shadow: none;
-    transform: rotate(var(--tilt)) scale(var(--press));
+    transform: translateY(var(--lift)) rotate(var(--tilt)) scale(var(--press));
     transition:
         transform 800ms var(--ease-gentle),
         border-style 800ms var(--ease-gentle-flat),
@@ -859,17 +878,48 @@
     --lean: -1;
 }
 
-/* Hover: the stamp straightens halfway — reaching for it, not yet pressed */
+/* Hover (author, 22 Sep 2026 — was a half-straighten to 2°, which read as less motion, not
+   more): the stamp leans further and rises, its label takes the ring's colour, and it glows
+   in its own colour — the dark-card hover (guests, careers: border colour + `0 0 16px` at
+   50%) with the stamp's colour where the cards use Lime. The selected stamp stays upright
+   and keeps its own glow; it only rises. */
 @media (hover: hover) {
     .about-perks__stamp:hover {
-        --tilt: calc(var(--lean) * 2deg);
+        --lift: -6px;
+    }
+
+    .about-perks__stamp:not(.is-active):hover {
+        --tilt: calc(var(--lean) * 8deg);
+    }
+
+    /* The glow needs the stamp's own ring — below 768 the ring is the icon (phone block) */
+    @media (min-width: 768px) {
+        .about-perks__stamp:not(.is-active):hover {
+            box-shadow: 0 0 16px 0 color-mix(in srgb, var(--stamp) 50%, transparent);
+        }
+    }
+
+    .about-perks__stamp:hover .about-perks__stamp-label {
+        color: var(--stamp);
     }
 }
 
-/* Pressed: the stamp goes down (tappable rule — every button has a pressed state) */
-.about-perks__stamp:active {
+/* Pressed — the dark-card recipe (guests, careers, filmstrip): the border goes solid in the
+   stamp's colour (the cards' Lime border) + inset 2px -2px 8px at 25%; and the stamp itself
+   goes down — flat, no lift, 0.94 (tappable rule: every button has a pressed state).
+   The :not() twin matches the hover rule's weight, so pressing a hovered stamp wins. */
+.about-perks__stamp:active,
+.about-perks__stamp:not(.is-active):active {
+    --tilt: 0deg;
+    --lift: 0px;
     --press: 0.94;
+    border-style: solid;
+    box-shadow: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
     transition-duration: 120ms;
+}
+
+.about-perks__stamp:active .about-perks__stamp-label {
+    color: var(--stamp);
 }
 
 /* Active state: solid border, peppercorn fill, glow (as drawn — see about-page-copy.md), no tilt */
@@ -912,6 +962,7 @@
     text-align: center;
     color: var(--parchment);
     word-break: break-word;
+    transition: color 800ms var(--ease-gentle-flat);
 }
 
 /* Desktop shows the long label; the phone word is hidden (swapped in the phone block) */
@@ -2176,6 +2227,15 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     padding-bottom: 0;
 }
 
+/* Logged in, the 32px WP admin bar pushes the 100vh hero down and its connector under
+   the fold (author, 22 Sep 2026) — give it back, as home and menu heroes do. ≤991 has
+   its own admin-bar rule under the nav breakpoint below. */
+@media (min-width: 992px) {
+    body.admin-bar .about-hero {
+        min-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+    }
+}
+
 .about-hero .about-connector {
     flex: none;
     min-height: 0;
@@ -2245,13 +2305,6 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
    home-page pass (components.css), and the fluid map height comes from Contacts.
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) and (max-width: 991px) {
-
-    /* Display 64 in the band (variables.css): the headline fits all but its last word on
-       one line at 768 and orphaned the year (667 + 137px). Balance restores the even
-       break it had at 76. Band only — the phone break is the author's. */
-    .about-hero__headline {
-        text-wrap: balance;
-    }
 
     /* ── Hero — the phone's 2 + 3 bento (Figma bento-nav) ──
        Five cards in one row leaves them ~137px here, narrower than their own Lemon
@@ -2387,6 +2440,29 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     .about-careers__card-meta,
     .about-perks__detail-desc {
         white-space: normal;
+    }
+
+    /* …and once the sentence wraps, the centred row floated the ——— TITLE - - - header to
+       the middle of a two-line description; top-aligned, as phones already are (author,
+       22 Sep 2026). */
+    .about-perks__detail {
+        align-items: flex-start;
+    }
+}
+
+/* ── Hero headline, tablets and phones: two lines, the second in Paprika ──
+   The section-header's two-colour title (components.css → .section-headline-2), as Figma
+   draws it (sectionTitle 2559:70744: SHAKE & COOK / SINCE 2014), author 22 Sep 2026. The
+   lines are two fields (about_hero_headline / _2); on desktop they run on as one Chili
+   line. Replaces the band's `text-wrap: balance`, which only existed to keep the year from
+   being orphaned — the break is now authored. */
+@media (max-width: 991px) {
+    .about-hero__headline-line {
+        display: block;
+    }
+
+    .about-hero__headline-line--2 {
+        color: var(--paprika);
     }
 }
 
@@ -2667,6 +2743,12 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
             border-style 800ms var(--ease-gentle-flat),
             background-color 800ms var(--ease-gentle-flat),
             box-shadow 800ms var(--ease-gentle-flat);
+    }
+
+    /* Pressed on phones: the ring is the icon here, so the card recipe lands on it */
+    .about-perks__stamp:active .about-perks__stamp-icon {
+        border-style: solid;
+        box-shadow: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
     }
 
     .about-perks__stamp.is-active .about-perks__stamp-icon {

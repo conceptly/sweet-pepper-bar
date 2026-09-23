@@ -19,7 +19,10 @@
  * @package Sweet_Pepper
  */
 
-// Word cloud: words sourced from about-reviews.md (English display equivalents).
+// Word cloud: words sourced from about-reviews.md. 'text' is the English display word AND the
+// key the quotes link to (data-key / data-word) — it never changes with the language; 'ru' is
+// the Russian display word (the ledger's RU heading word, 22 Sep 2026: adverbs, so the cloud
+// answers КАК ЗДЕСЬ БЫВАЕТ). A word without 'ru' shows its English on the Russian page.
 // Rows are the no-JS / pre-hydration fallback; JS spiral-places them.
 // Tiers by review frequency: top = 2+ reviews, mid = 1, low = 1 (supporting).
 // Sizes tied 1:1 to tiers: top = 56, mid = 36, low = 24.
@@ -30,30 +33,30 @@
 // nodes at load; its FIELD_AREA_PHONE is tuned to this list.
 $cloud_rows = [
     [
-        [ 'text' => 'cosy',      'tier' => 'top', 'size' => 56 ],  // Y01, G05
-        [ 'text' => 'welcoming', 'tier' => 'top', 'size' => 56 ],  // Y03, G03
-        [ 'text' => 'beloved',   'tier' => 'mid', 'size' => 36 ],  // Y05
+        [ 'text' => 'cosy',     'ru' => 'уютно',          'tier' => 'top', 'size' => 56 ],  // Y01, G05
+        [ 'text' => 'welcoming','ru' => 'радушно',        'tier' => 'top', 'size' => 56 ],  // Y03, G03
+        [ 'text' => 'beloved',  'ru' => 'душевно',        'tier' => 'mid', 'size' => 36 ],  // Y05
     ],
     [
-        [ 'text' => 'friendly',  'tier' => 'top', 'size' => 56 ],  // Y07, G01
-        [ 'text' => 'happy',     'tier' => 'mid', 'size' => 36 ],  // Y02
-        [ 'text' => 'attentive', 'tier' => 'low', 'size' => 24 ],  // G02
+        [ 'text' => 'friendly', 'ru' => 'дружелюбно',     'tier' => 'top', 'size' => 56 ],  // Y07, G01
+        [ 'text' => 'happy',    'ru' => 'радостно',       'tier' => 'mid', 'size' => 36 ],  // Y02
+        [ 'text' => 'attentive','ru' => 'внимательно',    'tier' => 'low', 'size' => 24 ],  // G02
     ],
     [
-        [ 'text' => 'perfect',   'tier' => 'mid', 'size' => 36 ],  // Y08
-        [ 'text' => 'inviting',  'tier' => 'top', 'size' => 56 ],  // Y04, G04
-        [ 'text' => 'magnetic',  'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y09
+        [ 'text' => 'perfect',  'ru' => 'идеально',       'tier' => 'mid', 'size' => 36 ],  // Y08
+        [ 'text' => 'inviting', 'ru' => 'тепло',          'tier' => 'top', 'size' => 56 ],  // Y04, G04
+        [ 'text' => 'magnetic', 'ru' => 'притягательно',  'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y09
     ],
     [
-        [ 'text' => 'sociable',  'tier' => 'mid', 'size' => 36 ],  // Y06
-        [ 'text' => 'wonderful', 'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y11
-        [ 'text' => 'lively',    'tier' => 'low', 'size' => 24 ],  // Y10
+        [ 'text' => 'sociable', 'ru' => 'дружно',         'tier' => 'mid', 'size' => 36 ],  // Y06
+        [ 'text' => 'wonderful','ru' => 'чудесно',        'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y11
+        [ 'text' => 'lively',   'ru' => 'весело',         'tier' => 'low', 'size' => 24 ],  // Y10
     ],
     [
-        [ 'text' => 'pleasant',  'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y12
-        [ 'text' => 'charming',  'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y13
-        [ 'text' => 'kind',      'tier' => 'low', 'size' => 24 ],  // Y14
-        [ 'text' => 'inclusive', 'tier' => 'low', 'size' => 24 ],  // Y15
+        [ 'text' => 'pleasant', 'ru' => 'приятно',        'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y12
+        [ 'text' => 'charming', 'ru' => 'обаятельно',     'tier' => 'mid', 'size' => 36, 'phone' => false ],  // Y13
+        [ 'text' => 'kind',     'ru' => 'вежливо',        'tier' => 'low', 'size' => 24 ],  // Y14
+        [ 'text' => 'inclusive','ru' => 'для всех',       'tier' => 'low', 'size' => 24 ],  // Y15
     ],
 ];
 
@@ -73,6 +76,9 @@ $default_active = 'welcoming';
 // Quote cards — the About page's «Отзывы» tab (sweet_pepper_about_reviews()); each links to a
 // cloud word via 'word'. text = the Russian original; text_en = the English.
 $quotes = $args['quotes'];
+
+// One language per request (inc/lang.php): the cloud's display words and the quote text follow it.
+$is_ru = ( 'ru' === sweet_pepper_lang() );
 
 // CTA link.
 $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/reviews/?ll=39.888343%2C57.626024&z=17';
@@ -124,7 +130,7 @@ $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/rev
                                     <?php if ( in_array( $word['text'], $phone_off, true ) ) : ?>data-phone="off"<?php endif; ?>
                                     style="--cloud-size: <?php echo esc_attr( $word['size'] ); ?>px"
                                 >
-                                    <?php echo esc_html( $word['text'] ); ?>
+                                    <?php echo esc_html( ( $is_ru && ! empty( $word['ru'] ) ) ? $word['ru'] : $word['text'] ); ?>
                                 </span>
                             <?php endforeach; ?>
                         </div>
@@ -137,9 +143,6 @@ $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/rev
                 <div class="about-how-it-feels__quotes-viewport">
                     <div class="about-how-it-feels__quotes-track">
                         <?php
-                        // Detect whether the site is running in Russian.
-                        $is_ru = ( 'ru' === sweet_pepper_lang() );
-
                         foreach ( $quotes as $i => $quote ) :
                             // Pick quote text by locale.
                             $display_text = $is_ru
@@ -162,9 +165,16 @@ $yandex_reviews_url = 'https://yandex.com/maps/org/sweet_pepper/237019392845/rev
                                         <p class="about-quote-card__text"><?php echo esc_html( $display_text ); ?></p>
                                         <span class="about-quote-card__source">
                                             <?php echo esc_html( $quote['platform'] ); ?>
-                                            <?php if ( ! $is_ru && ! empty( $quote['link'] ) ) : ?>
+                                            <?php if ( ! empty( $quote['link'] ) ) :
+                                                // EN: the card is a translation, so the link offers the original.
+                                                // RU: the card IS the original, so the link just opens the review
+                                                // (about-page-copy-ru-draft.md → 3. Отзывы: «Читать в источнике»).
+                                                if ( $is_ru ) : ?>
+                                                · <a href="<?php echo esc_url( $quote['link'] ); ?>" class="about-quote-card__original" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Read the review', 'sweet-pepper' ); ?></a>
+                                                <?php else : ?>
                                                 · <a href="<?php echo esc_url( $quote['link'] ); ?>" class="about-quote-card__original" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'Read the Russian original', 'sweet-pepper' ); ?>"><?php esc_html_e( 'Russian original', 'sweet-pepper' ); ?></a>
-                                            <?php endif; ?>
+                                                <?php endif;
+                                            endif; ?>
                                         </span>
                                     </div>
                                 </div>

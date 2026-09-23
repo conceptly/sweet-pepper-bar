@@ -249,7 +249,8 @@ add_filter( 'acf/validate_value/name=about_team_members', function ( $valid, $va
 function sweet_pepper_about_hero( $page_id ) {
     $typed = require get_template_directory() . '/data/about/hero.php';
     $text  = sweet_pepper_about_text( $page_id, 'about_hero', $typed );
-    return [ 'eyebrow' => $text( 'eyebrow' ), 'headline' => $text( 'headline' ), 'lead' => $text( 'lead' ) ];
+    [ $headline, $headline_2 ] = sp_headline( 'about_hero_headline', $typed, $page_id );
+    return [ 'eyebrow' => $text( 'eyebrow' ), 'headline' => $headline, 'headline_2' => $headline_2, 'lead' => $text( 'lead' ) ];
 }
 
 /**

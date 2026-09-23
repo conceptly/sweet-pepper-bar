@@ -35,6 +35,10 @@ Copy is framed from the guest's side, continuing the house practice from social/
 
 ---
 
+### 1.2 Russian voice evidence — 22 September 2026
+
+See [russian-website-voice.md](russian-website-voice.md): observations from the author-supplied posts, separately identified trainee feedback, established vocabulary and provisional About connector choices. It records the tension between guest-centred writing and §1.1’s strict first-person restriction without changing that rule. The notes are an editorial handover reference, not permission to treat historic post facts or every sample draft as current approved copy.
+
 ## 2. Colour
 
 ### 2.1 The core rule — three pepper ramps

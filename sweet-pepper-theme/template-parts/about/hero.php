@@ -10,7 +10,8 @@
  *
  * Content comes as args from sweet_pepper_about_hero() (inc/about-data.php) — the About page's «Первый экран» tab.
  *
- * @param array $args eyebrow · headline · lead
+ * @param array $args eyebrow · headline · headline_2 · lead — two headline lines, one <h1>: they run on
+ *                    as one line on desktop and stack below 992, line 2 in Paprika (about.css → Hero).
  *
  * @package Sweet_Pepper
  */
@@ -53,7 +54,12 @@ $filmstrip = [
     <div class="container">
         <div class="about-hero__content">
             <span class="about-hero__eyebrow molot-text"><?php echo esc_html( $args['eyebrow'] ); ?></span>
-            <h1 class="about-hero__headline"><?php echo esc_html( $args['headline'] ); ?></h1>
+            <h1 class="about-hero__headline">
+                <span class="about-hero__headline-line"><?php echo esc_html( $args['headline'] ); ?></span>
+                <?php if ( ! empty( $args['headline_2'] ) ) : ?>
+                    <span class="about-hero__headline-line about-hero__headline-line--2"><?php echo esc_html( $args['headline_2'] ); ?></span>
+                <?php endif; ?>
+            </h1>
             <p class="about-hero__lead"><?php echo esc_html( $args['lead'] ); ?></p>
         </div>
 

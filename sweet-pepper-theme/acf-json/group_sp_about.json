@@ -61,7 +61,7 @@
         },
         {
             "key": "field_sp_about_hero_headline_ru",
-            "label": "Заголовок",
+            "label": "Заголовок · строка 1",
             "name": "about_hero_headline_ru",
             "aria-label": "",
             "type": "text",
@@ -81,7 +81,7 @@
         },
         {
             "key": "field_sp_about_hero_headline_en",
-            "label": "Заголовок (EN)",
+            "label": "Заголовок · строка 1 (EN)",
             "name": "about_hero_headline_en",
             "aria-label": "",
             "type": "text",
@@ -96,6 +96,46 @@
             "default_value": "",
             "maxlength": "",
             "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_about_hero_headline_2_ru",
+            "label": "Заголовок · строка 2",
+            "name": "about_hero_headline_2_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "на телефоне — вторая строка другим цветом",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_about_hero_headline_2_en",
+            "label": "Заголовок · строка 2 (EN)",
+            "name": "about_hero_headline_2_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "на телефоне — вторая строка другим цветом",
             "prepend": "",
             "append": ""
         },
@@ -3523,5 +3563,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790035414
+    "modified": 1790128954
 }

@@ -23,7 +23,7 @@ return [
     'headline'   => 'THE DREAM TEAM',
     'headline_2' => '',
     'ru'         => [
-        'eyebrow'    => 'ЗНАЮТ ВАШ ЛЮБИМЫЙ ЗАКАЗ',
+        'eyebrow'    => 'ЗНАЮТ, ЧТО ВЫ ЛЮБИТЕ',
         'headline'   => 'КОМАНДА МЕЧТЫ',
         'headline_2' => '',
     ],

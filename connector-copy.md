@@ -2,13 +2,13 @@
 
 *The giant outlined Molot words that ride the full-bleed photo bands between sections.*
 *Component spec, rules and open questions: `website-brief.md` → Layout notes → Section connectors.*
-*Status: scaffold, Aug 2026. Copy currently lives only in Figma and has not been transcribed — see Filling this file.*
+*Partial inventory, updated 22 September 2026: all nine About RU connectors selected by the author and wired to the RU page (`/about/`). See [Russian voice reference](russian-website-voice.md) for evidence, vocabulary and rationale. Other rows retain their recorded status.*
 
 ---
 
 ## What belongs here
 
-Connector wording for the **home page** and the **menu page** (both states), EN and RU. Nothing else — section names live in `website-brief.md` → Section labels, hero copy in `menu-hero-copy.md`.
+Connector wording for **Home, About, Visit and Menu** (both menu states), EN and RU. Nothing else — section names live in `website-brief.md` → Section labels, hero copy in `menu-hero-copy.md`.
 
 Connectors are non-interactive display text. They are not headings, not links, not photo captions. Treat the wording as **display copy**: it carries tone, not information, and no fact should be reachable only through a connector.
 
@@ -31,8 +31,8 @@ Connectors here are forward invitations to the section below.
 
 | # | Sits between | Points at | EN | RU | Status |
 |---|---|---|---|---|---|
-| 2 | Highlights → Bar preview | Bar preview | FOR A WELL-EARNED POUR | ДЛЯ НАСТРОЕНИЯ И АППЕТИТА | EN selected by author, Sep 2026; RU provisional; SVG pending |
-| 3 | Bar preview → Kitchen preview | Kitchen preview | FOR A PROPER APPETITE | ПЕРЕКУСИТЬ И ЗАКУСИТЬ | EN selected by author, Sep 2026; RU provisional; SVG pending |
+| 2 | Highlights → Bar preview | Bar preview | FOR A WELL-EARNED POUR | ДЛЯ НАСТРОЕНИЯ И АППЕТИТА | EN selected by author, Sep 2026; RU provisional; SVG pending; RU SVG exported + wired 22 Sep |
+| 3 | Bar preview → Kitchen preview | Kitchen preview | FOR A PROPER APPETITE | ПЕРЕКУСИТЬ И ЗАКУСИТЬ | EN selected by author, Sep 2026; RU provisional; SVG pending; RU SVG exported + wired 22 Sep |
 
 These two lines are author selections from the copy review, not transcriptions of existing Figma assets. The longer kitchen line replaces COME HUNGRY because that short phrase becomes too tall when scaled to the full container width. The author handles the SVG changes. Remaining Home connectors still await final review.
 
@@ -44,17 +44,17 @@ Connectors here are seams: the word ends a section, its reflection opens the nex
 
 | # | Ends | Opens | EN | RU | Status |
 |---|---|---|---|---|---|
-| 1 | Hero | The Concept | BETTER TOGETHER | | EN built |
-| 2 | The Concept | How it feels | WORD OF MOUTH | | EN built — the eyebrow under it became PEOPLE SPEAK so the pair doesn't repeat |
-| 3 | How it feels | Perks | LITTLE THINGS MATTER | | EN built |
-| 4 | Perks | The Story | BACK TO THE FIRST POUR | | EN built |
-| 5 | The Story | Guests | IN GOOD COMPANY | | EN built |
-| 6 | Guests | Team | THE USUAL SUSPECTS | | EN built |
-| 7 | Team | Careers | ROOM FOR ONE MORE | | EN built |
-| 8 | Careers | Location | MAKE YOURSELF AT HOME | | EN built |
-| 9 | Location | (entrance photo — word only, no reflection) | YOUR TURN | | EN built |
+| 1 | Hero | The Concept | BETTER TOGETHER | ЗДЕСЬ МОЖНО ВСЁ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
+| 2 | The Concept | How it feels | WORD OF MOUTH | СЛОВО ЛЮБИМЫМ ГОСТЯМ | EN built — the eyebrow under it became PEOPLE SPEAK so the pair doesn't repeat; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
+| 3 | How it feels | Perks | LITTLE THINGS MATTER | СО ВКУСОМ ВО ВСЕХ ОТНОШЕНИЯХ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
+| 4 | Perks | The Story | BACK TO THE FIRST POUR | САГА О ПЕРЦАХ И НАСТОЙКАХ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
+| 5 | The Story | Guests | IN GOOD COMPANY | ГЛАВНЫЕ ГЕРОИ ЗА СТОЛИКАМИ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
+| 6 | Guests | Team | THE USUAL SUSPECTS | ЗВЁЗДЫ КАЖДОЙ СМЕНЫ | EN built; RU provisional author choice, 22 Sep; RU SVG exported + wired 22 Sep |
+| 7 | Team | Careers | ROOM FOR ONE MORE | ТВОЁ МЕСТО В КОМАНДЕ | EN built; RU selected by author, 22 Sep; RU SVG exported + wired 22 Sep |
+| 8 | Careers | Location | MAKE YOURSELF AT HOME | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ | EN built; RU author choice, SVG exported + wired 22 Sep |
+| 9 | Location | (entrance photo — word only, no reflection) | NOW IT'S YOUR TURN | ЗАБЕГАЙТЕ НА ОГОНЁК | EN built; RU author choice, SVG exported + wired 22 Sep (word only, no reflection) |
 
-Nine winks on one page — review as a set per rule 2 before RU; the weakest two are the candidates to cut.
+Review the nine connectors as a set. All nine RU lines are author choices for the working copy (rows 8–9 confirmed by the SVG export, 22 Sep); final copy review can still replace any of them. **Wired 22 Sep 2026:** `template-parts/about/connector.php` swaps each EN stem for its RU twin on a Russian request — stem into `assets/sectionLinks/about/ru/`, alt drives the live-text prototype. Story alternatives shared with Iurii: ЧЕРЕЗ ТЕРНИИ К НАСТОЙКАМ; ПУТЬ ПЕРЦЕВ ОТ ПЕРВОЙ РЮМКИ; ВЕЛИКИЙ ПУТЬ ПЕРЦЕВ. Current choice: САГА О ПЕРЦАХ И НАСТОЙКАХ. His response is not recorded. Rationale and vocabulary: `russian-website-voice.md`.
 
 ---
 

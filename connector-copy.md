@@ -66,9 +66,7 @@ Review the nine connectors as a set. All nine RU lines are author choices for th
 
 ## Menu page — drinks state
 
-| # | Sits between | Points at | EN | RU | Status |
-|---|---|---|---|---|---|
-| | | | | | |
+Редактируемый список EN/RU и сырые варианты находятся в [menu-copy-ru-draft.md — Коннекторы бара](menu-copy-ru-draft.md#коннекторы-бара). Добавлен 23 сентября 2026 по текущим шаблонам; новые RU-строки не утверждены. Правки вести в русском черновике, чтобы не расходились две таблицы.
 
 ---
 

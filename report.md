@@ -5,6 +5,10 @@
 
 ---
 
+## Drinks-menu connectors — RU options, 23 September 2026
+
+The drinks inventory was empty. Added eleven current EN connector entries and rough RU options to `menu-copy-ru-draft.md` → «Коннекторы бара», including hero, seasonal highlights, seven categories and the pairing entrance/exit. All new bar selections remain unapproved; noted the existing YOU’LL LIKE IT placeholder and shared dish-first picker. `connector-copy.md` links to the editable draft. Documentation only; no theme, SVG or CMS changes.
+
 ## Food-menu RU connectors — author's editing pass — 23 September 2026
 
 **The author finished editing the table** (`menu-copy-ru-draft.md` → «Коннекторы кухни»). One line changed: the lead-in to the dish picker (EN TRY THE MATCH MAKER) is now **«Пара от бара — вместе вкуснее!»** — the author's own, after the ideas round (С ЧЕМ ЭТО ПЬЮТ?, БЛЮДО ИЩЕТ ПАРУ, СОВЕТ ДА ЛЮБОВЬ, ВДВОЁМ ВКУСНЕЕ… and the rhyme ВКУСНАЯ ПАРА ДЛЯ КУХНИ ОТ БАРА set aside as too childish); its row is marked as the author's choice. The other eleven rows kept their wording and their «Первый перевод» status — finishing the pass is not read as approving them; the Hero row (КУХНЯ ОТ ПЕРЦЕВ) is still marked undecided. **Before the SVGs:** (1) the new line is typed in sentence case while every connector is set in capitals (ПАРА ОТ БАРА — ВМЕСТЕ ВКУСНЕЕ!); (2) **on test in Figma (author, same day):** the exclamation marks — on it and on Desserts' ДАЁШЬ СЛАДКУЮ ЖИЗНЬ!, which feels right to the author but gets tested first; the Home and About RU rows avoided them (`home-copy-ru-review.md` → current connector row) — and the length: at 29 characters it is the longest food connector; the author holds a fallback line if it doesn't fit, and wants the chosen lines tested first. Nothing exported or wired: the RU food-menu connector SVGs are the next step once the rows are approved (Next Up → 0).

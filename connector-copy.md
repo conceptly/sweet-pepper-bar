@@ -60,11 +60,7 @@ Review the nine connectors as a set. All nine RU lines are author choices for th
 
 ## Menu page — food state
 
-Connectors here support the section they travel with.
-
-| # | Sits between | Points at | EN | RU | Status |
-|---|---|---|---|---|---|
-| | | | | | |
+Актуальная редактируемая таблица EN/RU, варианты и статусы находятся в [menu-copy-ru-draft.md — Коннекторы кухни](menu-copy-ru-draft.md#коннекторы-кухни). По решению автора от 23 сентября русский рабочий текст редактируется там. Коннекторы завершают свои разделы; исключения отмечены в таблице.
 
 ---
 

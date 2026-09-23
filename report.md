@@ -5,6 +5,12 @@
 
 ---
 
+## Food-menu RU connectors — editable inventory, 23 September 2026
+
+**Follow-up, author request:** moved the full editable table into `menu-copy-ru-draft.md` → «Коннекторы кухни»; `connector-copy.md` now links there to avoid competing copies. All twelve rows, alternatives and draft statuses preserved.
+
+Added the twelve discussed EN/RU food-menu connector rows to `connector-copy.md` → Menu page — food state, with draft status, the author's hero alternatives (no selection inferred), printed-menu wording references, and the endpoint interpretation. Linked from `menu-copy-ru-draft.md`. Documentation only; no copy published or assets changed.
+
 ## Menu store decided — Б, the whole menu in, two lists — 23 September 2026
 
 **Decision (author, after two usability sessions — `testing.md` → Decided):** option Б. Both participants chose it: harder to mix up dishes, and they change price / size / sometimes a description, rarely the layout; they would rather search than dive into А's nested repeater. Rationale, and А archived with how to bring it back: `website-brief.md` → Content editing → *Menu storage*.

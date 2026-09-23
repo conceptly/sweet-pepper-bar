@@ -22,6 +22,11 @@ $alt       = $args['alt'] ?? '';
 $class     = $args['class'] ?? '';
 $loading   = ( $args['loading'] ?? 'lazy' ) === 'eager' ? 'eager' : 'lazy';
 
+// A food-menu connector on a Russian request swaps to its RU twin (inc/menu-sections.php).
+if ( function_exists( 'sweet_pepper_menu_connector_lang' ) ) {
+    [ $day_img, $night_img, $alt ] = sweet_pepper_menu_connector_lang( $day_img, $night_img, $alt );
+}
+
 $link_word_images = [
     'link-word-day'   => $day_img,
     'link-word-night' => $night_img,

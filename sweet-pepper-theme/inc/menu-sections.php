@@ -205,3 +205,57 @@ function sweet_pepper_menu_sections( $state = 'food' ) {
 function sweet_pepper_menu_state_for( $slug ) {
     return array_key_exists( $slug, sweet_pepper_menu_sections( 'drinks' ) ) ? 'drinks' : 'food';
 }
+
+/**
+ * A food-menu connector in Russian: the English file stem → its RU twin in
+ * assets/sectionLinks/menu/kitchen-{day,night}/ru/ and the words for its alt
+ * (menu-copy-ru-draft.md → «Коннекторы кухни», the author's Figma exports of 23 Sep 2026).
+ * The hero's FOOD MENU is not here yet: its RU export is filled, not outlined, and has
+ * no night file or reflection — it stays English until re-exported.
+ */
+function sweet_pepper_menu_connectors_ru() {
+    return [
+        'getItWhileItLasts' => [ 'толькоЭтойОсенью', 'Только этой осенью' ],
+        'yummyMorning'      => [ 'начатьДеньСоВкусом', 'Начать день со вкусом' ],
+        'theBestInTheCity'  => [ 'лучшиеОбедыВГороде', 'Лучшие обеды в городе' ],
+        'fingerLickingFood' => [ 'делитьсяНеОбязательно', 'Делиться не обязательно' ],
+        'freshAsItGets'     => [ 'классикаИХитыОтПерцев', 'Классика и хиты от Перцев' ],
+        'stackedWithLove'   => [ 'лучшиеБубликиВГороде', 'Лучшие бублики в городе' ],
+        'spoonTherapy'      => [ 'восторгВКаждойЛожке', 'Восторг в каждой ложке' ],
+        'comfortFood'       => [ 'сытноВкусноУютно', 'Сытно, вкусно, уютно' ],
+        'sweetLikePepper'   => [ 'даёшьСладкуюЖизнь', 'Даёшь сладкую жизнь!' ],
+        'tryTheMatchMaker'  => [ 'параОтБараВместеВкуснее', 'Пара от бара — вместе вкуснее' ],
+        'youllLikeIt'       => [ 'вамЗдесьПонравится', 'Вам здесь понравится' ],
+    ];
+}
+
+/**
+ * Swap a connector's day / night files and alt for the Russian twins — on a Russian
+ * request of the food menu only (the drinks page reuses two kitchen files; its RU
+ * connectors are still undecided — menu-copy-ru-draft.md → «Коннекторы бара»).
+ * Called by template-parts/components/section-link-word.php. Both files must exist,
+ * or the English pair stays: a word never shows one language by day and another by night.
+ *
+ * @return array [ day path, night path, alt ]
+ */
+function sweet_pepper_menu_connector_lang( $day, $night, $alt ) {
+    if ( 'ru' !== sweet_pepper_lang() || ( isset( $_GET['menu'] ) && 'drinks' === $_GET['menu'] ) ) {
+        return [ $day, $night, $alt ];
+    }
+    $pattern = '~^assets/sectionLinks/menu/(?:kitchen-day|kitchen-night|bar)/([A-Za-z]+?)(-reflection)?\.svg$~';
+    if ( ! preg_match( $pattern, (string) $day, $d ) || ! preg_match( $pattern, (string) $night, $n ) || $d[1] !== $n[1] ) {
+        return [ $day, $night, $alt ];
+    }
+    $twin = sweet_pepper_menu_connectors_ru()[ $d[1] ] ?? null;
+    if ( ! $twin ) {
+        return [ $day, $night, $alt ];
+    }
+    $ru = [];
+    foreach ( [ 'day' => $d, 'night' => $n ] as $mode => $m ) {
+        $ru[ $mode ] = "assets/sectionLinks/menu/kitchen-{$mode}/ru/{$twin[0]}" . ( $m[2] ?? '' ) . '.svg';
+        if ( ! file_exists( get_template_directory() . '/' . $ru[ $mode ] ) ) {
+            return [ $day, $night, $alt ];
+        }
+    }
+    return [ $ru['day'], $ru['night'], $twin[1] ];
+}

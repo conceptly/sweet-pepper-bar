@@ -102,8 +102,8 @@ $pairings = [
         <div class="pairing-station__content">
             <!-- Section header -->
             <div class="pairing-station__header">
-                <h2 class="pairing-station__title molot-text">Find Your Match!</h2>
-                <p class="pairing-station__subtitle">Pick a drink — the kitchen takes care of the rest.</p>
+                <h2 class="pairing-station__title molot-text"><?php esc_html_e( 'Find Your Match!', 'sweet-pepper' ); ?></h2>
+                <p class="pairing-station__subtitle"><?php esc_html_e( 'Pick a drink — the kitchen takes care of the rest.', 'sweet-pepper' ); ?></p>
             </div>
 
             <!-- Dish Picker component (same component, swapped data) -->

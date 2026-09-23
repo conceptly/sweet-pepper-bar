@@ -39,6 +39,10 @@ return [
         'Your Match'                                 => 'Ваш выбор',
         'Shake it — pick a random dish'              => 'Выбрать случайное блюдо',
         '+ unforgettable with'                       => 'К этому блюду',
+        // Menu page pickers — the same name as About's (author, 23 Sep 2026)
+        'Find Your Match!'                           => 'Спросите Гастробота',
+        'Pick a plate — the bar takes care of the rest.'     => 'Выберите блюдо — и получите рекомендацию от бара!',
+        'Pick a drink — the kitchen takes care of the rest.' => 'Выберите напиток — и получите рекомендацию от кухни!',
         'See this drink'                             => 'О напитке',
         // Header and drawer (✔ home-copy-ru-draft.md)
         "What's new"                                 => 'Что нового',

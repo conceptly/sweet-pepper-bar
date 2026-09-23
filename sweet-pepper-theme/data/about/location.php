@@ -11,6 +11,6 @@
 return [
     'description' => "Your stop on Kirova Street: 10/25, in Yaroslavl's pedestrian centre. Two rooms with their own character, plus a summer terrace with swing chairs. A place to pause between a walk through the city and whatever comes next.",
     'ru'          => [
-        'description' => 'Кирова, 10/25 — ваша остановка в пешеходном центре Ярославля. Два зала, каждый со своим характером, и летняя веранда с креслами-качелями. Место для паузы между прогулкой по городу и тем, что будет дальше.',
+        'description' => 'Кирова, 10/25 — ваша обязательная остановка в пешеходном центре Ярославля. Два зала, каждый со своим характером, и любимая летняя веранда с креслами-качелями. Отличное место для паузы между прогулкой по городу и тем, что будет дальше.',
     ],
 ];

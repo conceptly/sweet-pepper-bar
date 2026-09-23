@@ -21,8 +21,8 @@ return [
     'messages'     => [
         // About — buttons and labels (✔ about-page-copy-ru-draft.md)
         'See the full menu'                          => 'Всё меню',
-        'Try it yourself'                            => 'Попробуйте сами',
-        'Pick a plate — see what the bar suggests.'  => 'Выберите блюдо — посмотрите, что предложит бар.',
+        'Try it yourself'                            => 'Спросите Гастробота',
+        'Pick a plate — see what the bar suggests.'  => 'Выберите блюдо — и получите рекомендацию от бара!',
         'Add your word'                              => 'Добавить свой отзыв',
         'Get your table'                             => 'Забронировать',
         'See the menu'                               => 'Смотреть меню',

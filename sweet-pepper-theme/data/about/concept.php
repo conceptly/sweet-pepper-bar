@@ -17,8 +17,8 @@ return [
     'description' => 'Eggs and coffee, a proper lunch or a cocktail with something to share. Here, the kitchen and bar belong at the same table. Every dish has a drink to go with it — with or without alcohol.',
     'ru'          => [
         'eyebrow'     => 'БАР × КУХНЯ',
-        'headline'    => 'ГАСТРОБАР,',
-        'headline_2'  => 'ГДЕ ТЫ СВОЙ',
-        'description' => 'Завтрак и кофе, основательный обед или коктейль и что-нибудь на компанию. Кухня и бар здесь заодно: к каждому блюду найдётся свой напиток — с алкоголем или без.',
+        'headline'    => 'МЕСТО,',
+        'headline_2'  => 'ГДЕ ВСЕ СВОИ',
+        'description' => 'Завтраки до обеда, сытные ланчи, классный коктейль — и что-нибудь на компанию. Кухня и бар в ПЕРЦЕ всегда заодно: к каждому блюду точно найдётся свой идеальный напиток. Градус и острота на ваш вкус!',
     ],
 ];

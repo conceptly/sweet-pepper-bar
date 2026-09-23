@@ -15,10 +15,10 @@ return [
     "headline_2"  => "GUESTS",
     "description" => "Some faces have been here since the early days; others are here for the first time. Together, they make the place. Take a look through the nights, celebrations and familiar faces — you might spot yourself.",
     "ru"          => [
-        "eyebrow"     => "ЗНАКОМЫЕ ЛИЦА",
+        "eyebrow"     => "ЗНАКОМЫЕ ВСЕ ЛИЦА",
         "headline"    => "ГОСТИ МЕЧТЫ",
         "headline_2"  => "",
-        "description" => "Кто-то приходит с первых дней, кто-то заглянул впервые. И каждый добавляет что-то своё в характер Перца. Без вас эта история была бы совсем другой. Листайте фотографии, ищите знакомые лица — а может, и себя.",
+        "description" => "Кто-то приходит с самых первых дней (привет, 2014-й!), а кто-то забежал впервые. И каждый гость добавляет что-то своё в характер ПЕРЦА. Без вас, друзья, эта история была бы совсем другой! Листайте фотки, ищите знакомые лица — а может, и себя найдёте.",
     ],
     "cards"       => [
         [ 'photo' => 'eventCovers/12y.jpg', 'label' => '12th Bday!', 'alt' => 'Guests celebrating Sweet Pepper\'s 12th birthday party', 'url' => 'https://vk.ru/album-64582467_308753763', 'ru' => [ 'label' => '12 лет!' ] ],

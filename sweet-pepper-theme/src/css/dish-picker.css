@@ -49,7 +49,6 @@
     line-height: 1.4;
     letter-spacing: 0.52px;
     color: var(--ash);
-    max-width: 364px;
     margin: 0;
 }
 
@@ -579,13 +578,16 @@ html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
         --shake-size: 64px;
         --shake-icon: 32px;
     }
+
+    /* The hint's 364 cap, kept for the tablet band only (the stacked picker). On desktop it
+       ran the Russian hint onto two lines under a one-line heading; its origin is unrecorded —
+       likely a Figma text-box width (author, 23 Sep 2026: "maybe the vertical picker"). */
+    .pairing-station__subtitle {
+        max-width: 364px;
+    }
 }
 
 @media (max-width: 767px) {
-
-    .pairing-station__subtitle {
-        max-width: none;
-    }
 
     /* Tags are a scroll rail from gutter edge to gutter edge (Shake It! left the row,
        18 Sep 2026). Each end fades only while there is more that way — dish-picker.js

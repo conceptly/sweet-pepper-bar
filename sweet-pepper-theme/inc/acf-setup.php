@@ -34,7 +34,7 @@ function sweet_pepper_acf_json_load_point( $paths ) {
     return $paths;
 }
 
-// Fields the theme fills in itself (a dish row's stable id) stay out of the form.
+// Fields the theme fills in itself (a row's stable id) stay out of the form.
 add_action( 'acf/input/admin_head', function () {
     echo '<style>.acf-field.sp-field-hidden { display: none !important; }</style>';
 } );

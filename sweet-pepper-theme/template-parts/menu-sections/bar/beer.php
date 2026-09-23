@@ -31,71 +31,8 @@
             <div class="menu-section__title-right"></div>
         </div>
 
-        <!-- Two-Column Dish Layout -->
-        <div class="menu-section__columns">
-
-            <!-- LEFT COLUMN: Bottled -->
-            <div class="menu-section__column menu-section__column--left">
-
-                <!-- Subsection: bottled -->
-                <div class="menu-section__subsection">
-                    <div class="menu-section__subsection-header">
-                        <h3 class="menu-section__subsection-title molot-text"><?php echo esc_html( 'bottled' ); ?></h3>
-                    </div>
-                    <div class="menu-section__dishes">
-                        <?php
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name' => 'Krušovice',
-                            'price'     => '225-.',
-                            'quantity'  => '450 ml',
-                        ] );
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Krušovice Non-Alc',
-                            'price'       => '195-.',
-                            'quantity'    => '330 ml',
-                            'description' => 'All the taste, zero alcohol.',
-                        ] );
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Craft',
-                            'price'       => '450-.',
-                            'quantity'    => '450 ml',
-                            'description' => "Can or bottle — ask your server for today's selection.",
-                        ] );
-                        ?>
-                    </div>
-                </div>
-
-            </div><!-- /.menu-section__column--left -->
-
-            <!-- RIGHT COLUMN: On Tap -->
-            <div class="menu-section__column menu-section__column--right">
-
-                <!-- Subsection: on tap -->
-                <div class="menu-section__subsection">
-                    <div class="menu-section__subsection-header">
-                        <h3 class="menu-section__subsection-title molot-text"><?php echo esc_html( 'on tap' ); ?></h3>
-                    </div>
-                    <div class="menu-section__dishes">
-                        <?php
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Oklers Weizen',
-                            'price'       => '235-. / 365-.',
-                            'quantity'    => '250 ml / 400 ml',
-                            'description' => 'OG 11%, ABV 4.5%. Bavarian-style wheat beer.',
-                        ] );
-                        get_template_part( 'template-parts/components/dish-row', null, [
-                            'dish_name'   => 'Soviet Pilsner',
-                            'price'       => '235-. / 365-.',
-                            'quantity'    => '250 ml / 400 ml',
-                            'description' => 'OG 11%, ABV 4.3%. Crisp lager, local brew.',
-                        ] );
-                        ?>
-                    </div>
-                </div>
-
-            </div><!-- /.menu-section__column--right -->
-
-        </div><!-- /.menu-section__columns -->
+        <!-- Two-Column Dish Layout: rows from the menu store (inc/menu-data.php) -->
+        <?php get_template_part( 'template-parts/components/menu-section-columns', null, [ 'section' => 'beer' ] ); ?>
 
     </div><!-- /.container .menu-section__content -->
 

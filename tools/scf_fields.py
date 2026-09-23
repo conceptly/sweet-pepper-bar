@@ -31,14 +31,15 @@ select = dict(return_format="value", multiple=0, ui=0, ajax=0, placeholder="")
 
 
 def group(key, title, fields, location, description, menu_order=0):
-    """`location` is a post type, or a full rule: {"param": …, "operator": "==", "value": …}."""
-    if isinstance(location, str):
-        location = {"param": "post_type", "operator": "==", "value": location}
+    """`location` is a post type, a full rule: {"param": …, "operator": "==", "value": …},
+    or a list of either — any one of them matches (SCF's OR groups)."""
+    rule = lambda l: {"param": "post_type", "operator": "==", "value": l} if isinstance(l, str) else l
+    rules = [[rule(l)] for l in (location if isinstance(location, list) else [location])]
     return {
         "key": key,
         "title": title,
         "fields": fields,
-        "location": [[location]],
+        "location": rules,
         "menu_order": menu_order, "position": "normal", "style": "seamless", "label_placement": "top",
         "instruction_placement": "field", "hide_on_screen": "", "active": True,
         "description": description,

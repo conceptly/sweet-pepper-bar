@@ -1,6 +1,6 @@
 <?php
 /**
- * Seed a menu section's record in WordPress from the typed rows in
+ * Seed menu sections in WordPress from the typed rows in
  * sweet-pepper-theme/data/menu/<slug>.php (website-brief.md → Menu storage:
  * "Migration is a script that parses the arrays, not hand entry").
  *
@@ -8,24 +8,24 @@
  *
  *   PHP=~/Library/Application\ Support/Local/lightning-services/php-8.2.30+1/bin/darwin-arm64/bin/php
  *   SOCK=~/Library/Application\ Support/Local/run/1tx2Lcx_A/mysql/mysqld.sock
- *   "$PHP" -d mysqli.default_socket="$SOCK" tools/menu-seed.php soups [--dishes] [--force]
+ *   "$PHP" -d mysqli.default_socket="$SOCK" tools/menu-seed.php soups [--force]
+ *   "$PHP" -d mysqli.default_socket="$SOCK" tools/menu-seed.php all
  *
- * --dishes seeds the other store of the Menu storage test instead: one `dish` post per
- * row and the section's `menu_list` record placing them (inc/menu-data-dishes.php).
- * The two stores are independent — seed both to compare them.
+ * Each row becomes a post — a `dish` («Блюда») in a kitchen section, a `drink` («Напитки»)
+ * in a bar section — and the section's `menu_list` record («Разделы меню») places them
+ * (inc/menu-data-dishes.php). `all` = every section that has a data file, in menu order.
  *
  * A section that already has rows in admin is left alone unless --force is given:
  * after the first seed the database is the source, and the team's edits live there.
- * --force also re-issues every dish_id (with --dishes: deletes the section's dish posts
- * and creates new ones) — don't use it once highlights or the picker reference dishes.
+ * --force deletes the section's posts and creates new ones (new IDs) — don't use it once
+ * highlights or the picker reference dishes.
  */
 
-$args         = array_slice( $argv, 1 );
-$force        = in_array( '--force', $args, true );
-$dishes_store = in_array( '--dishes', $args, true );
-$slugs        = array_values( array_diff( $args, [ '--force', '--dishes' ] ) );
+$args  = array_slice( $argv, 1 );
+$force = in_array( '--force', $args, true );
+$slugs = array_values( array_diff( $args, [ '--force' ] ) );
 if ( ! $slugs ) {
-    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] [--dishes] [--force]\n" );
+    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] | all [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -59,6 +59,17 @@ $icon_order = [ 'veg', 'fire', 'Pepper', 'yaroslavl-logo' ]; // as in tools/menu
 
 $sections = sweet_pepper_menu_sections( 'food' ) + sweet_pepper_menu_sections( 'drinks' );
 $order    = array_flip( array_keys( $sections ) );
+if ( [ 'all' ] === $slugs ) {
+    $slugs = array_keys( $sections );
+}
+// A record's title is what the team reads in admin («Разделы меню», the tables' «Раздел меню»
+// column), so it is Russian — the section names of menu-copy-ru-draft.md. The page never prints it.
+$titles_ru = [
+    'breakfast' => 'Завтраки', 'lunch' => 'Обеды', 'bar-snacks' => 'Закуски', 'salads' => 'Салаты',
+    'sandwiches' => 'Сэндвичи и бейглы', 'soups' => 'Супы', 'hot-dishes' => 'Горячее', 'desserts' => 'Десерты',
+    'kids' => 'Детям', 'infusions' => 'Домашние настойки', 'cocktails' => 'Коктейли', 'wine' => 'Вино',
+    'beer' => 'Пиво', 'spirits' => 'Крепкое', 'no-buzz' => 'Без алкоголя', 'tea-coffee' => 'Чай и кофе',
+];
 
 foreach ( $slugs as $slug ) {
     $source = sweet_pepper_menu_fallback( $slug );
@@ -67,18 +78,22 @@ foreach ( $slugs as $slug ) {
         continue;
     }
 
-    $record_type = $dishes_store ? 'menu_list' : 'menu_section';
-    $post        = get_page_by_path( $slug, OBJECT, $record_type );
+    $item_type = sweet_pepper_menu_item_type( $slug );
+    $post      = get_page_by_path( $slug, OBJECT, 'menu_list' );
+    // A record seeded before the titles were Russian (Soups, 20 Sep 2026) is renamed, nothing else.
+    if ( $post && isset( $titles_ru[ $slug ] ) && $post->post_title === ( $sections[ $slug ]['label'] ?? '' ) ) {
+        wp_update_post( [ 'ID' => $post->ID, 'post_title' => $titles_ru[ $slug ] ] );
+    }
     if ( $post && get_field( 'menu_subsections', $post->ID ) && ! $force ) {
         echo "$slug: already has rows in admin — skipped (--force overwrites them)\n";
         continue;
     }
 
     $post_id = $post ? $post->ID : wp_insert_post( [
-        'post_type'   => $record_type,
+        'post_type'   => 'menu_list',
         'post_status' => 'publish',
         'post_name'   => $slug,
-        'post_title'  => $sections[ $slug ]['label'] ?? ucfirst( $slug ),
+        'post_title'  => $titles_ru[ $slug ] ?? $sections[ $slug ]['label'] ?? ucfirst( $slug ),
         'menu_order'  => $order[ $slug ] ?? 0,
     ], true );
     if ( is_wp_error( $post_id ) ) {
@@ -112,7 +127,6 @@ foreach ( $slugs as $slug ) {
                 'seasonal_en'    => $dish['seasonal_label'] ?? '',
                 'options_ru'     => implode( "\n", $dish['ru']['options'] ?? [] ),
                 'options_en'     => implode( "\n", $dish['options'] ?? [] ),
-                'dish_id'        => '',
             ];
             $n++;
         }
@@ -122,15 +136,16 @@ foreach ( $slugs as $slug ) {
             'column'   => $sub['column'] ?? 'left',
             'style'    => $sub['style'] ?? 'list',
             'dishes'   => $dishes,
+            'note_ru'  => $sub['note_ru'] ?? '',
+            'note_en'  => $sub['note'] ?? '',
+            'divider'  => empty( $sub['divider'] ) ? 0 : 1,
         ];
     }
 
     if ( $force ) {
-        if ( $dishes_store ) {
-            foreach ( (array) get_field( 'menu_subsections', $post_id ) as $old ) {
-                foreach ( (array) ( $old['dishes'] ?? [] ) as $old_dish ) {
-                    wp_delete_post( $old_dish, true );
-                }
+        foreach ( (array) get_field( 'menu_subsections', $post_id ) as $old ) {
+            foreach ( (array) ( $old['dishes'] ?? [] ) as $old_dish ) {
+                wp_delete_post( $old_dish, true );
             }
         }
         // Start clean: rows written under an older field shape would otherwise linger as orphan meta.
@@ -141,27 +156,22 @@ foreach ( $slugs as $slug ) {
         ) );
         wp_cache_delete( $post_id, 'post_meta' );
     }
-    if ( $dishes_store ) {
-        // Each row becomes a `dish` post: the RU name is its title, hidden is Draft, its ID is the id.
-        foreach ( $rows as &$row ) {
-            foreach ( $row['dishes'] as &$dish ) {
-                $dish_id = wp_insert_post( [
-                    'post_type'   => 'dish',
-                    'post_status' => 'publish',
-                    'post_title'  => $dish['name_ru'] ?: $dish['name_en'],
-                ] );
-                foreach ( array_diff_key( $dish, array_flip( [ 'name_ru', 'hidden', 'dish_id' ] ) ) as $name => $value ) {
-                    update_field( "field_sp_dish_dish_{$name}", $value, $dish_id );
-                }
-                $dish = $dish_id;
+    // Each row becomes a post: the RU name is its title, hidden is Draft, its ID is the id.
+    foreach ( $rows as &$row ) {
+        foreach ( $row['dishes'] as &$dish ) {
+            $dish_id = wp_insert_post( [
+                'post_type'   => $item_type,
+                'post_status' => 'publish',
+                'post_title'  => $dish['name_ru'] ?: $dish['name_en'],
+            ] );
+            foreach ( array_diff_key( $dish, array_flip( [ 'name_ru', 'hidden' ] ) ) as $name => $value ) {
+                update_field( "field_sp_dish_dish_{$name}", $value, $dish_id );
             }
+            $dish = $dish_id;
         }
-        unset( $row, $dish );
-        update_field( 'field_sp_list_subsections', $rows, $post_id );
-    } else {
-        update_field( 'field_sp_menu_subsections', $rows, $post_id );
-        sweet_pepper_menu_fill_dish_ids( $post_id ); // update_field() does not fire acf/save_post
     }
+    unset( $row, $dish );
+    update_field( 'field_sp_list_subsections', $rows, $post_id );
 
-    echo "$slug: post $post_id — " . count( $rows ) . " subsections, $n dishes\n";
+    echo "$slug: post $post_id — " . count( $rows ) . " subsections, $n {$item_type} posts\n";
 }

@@ -711,6 +711,12 @@ html[data-theme="night"] .menu-section__remark {
         gap: 24px;
     }
 
+    /* The card is the column's width here: the main line wraps too rather than run past
+       the card at 360 (it did in English — «Drinks deal!» — and in Russian). */
+    .menu-section__deal-desc-main {
+        white-space: normal;
+    }
+
     .menu-section__deal-shadow {
         width: calc(100% - 2px);
     }

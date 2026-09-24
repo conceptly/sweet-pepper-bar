@@ -21,10 +21,13 @@
  *                   Menu) becomes «Меню — кухня» at /menu/food/ under a new «Меню» folder page
  *                   (/menu/, template Menu — Index) when it still sits at /menu/ itself, and the
  *                   bar page — «Меню — бар», /menu/bar/, template Menu — Bar — is created when
- *                   missing. Then data/menu/page.php → both pages' «Первый экран», «Подборка» and
- *                   «Поиск» tabs. The «Подборка» list is seeded with what the empty list shows
- *                   anyway: the menu's seasonal-labelled dishes (drinks on the bar page), so the
- *                   form and the page agree.
+ *                   missing. Then every SECTION tab: words from data/menu/sections-copy.php and
+ *                   inc/menu-sections.php (only empty fields), the two photos as attachments, and
+ *                   the subsections → dish lists — copied once from the section's old «Разделы меню»
+ *                   record where one exists (the store before 24 Sep 2026; words edited there come
+ *                   along), else left for tools/menu-seed.php. Then data/menu/page.php → the
+ *                   «Сезонное меню», door and «Поиск» tabs; the seasonal list is seeded with what
+ *                   the empty list shows anyway (the seasonal-labelled dishes), so form and page agree.
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -256,7 +259,6 @@ foreach ( $targets as $target ) {
             break;
 
         case 'menu':
-            $k     = 'field_sp_mpage_';
             $typed = require $data . 'menu/page.php';
             $pages = [ 'food' => sweet_pepper_menu_page( 'food' ) ];
             if ( ! $pages['food'] ) {
@@ -323,8 +325,55 @@ foreach ( $targets as $target ) {
             }
             foreach ( $pages as $state => $page ) {
                 $id = $page->ID;
+                $k  = 'food' === $state ? 'field_sp_mfood_' : 'field_sp_mbar_'; // tools/page-field-groups.py
+                // ── The section tabs ──
+                foreach ( sweet_pepper_menu_sections_typed( $state ) as $slug => $sec ) {
+                    $n       = 'sec_' . str_replace( '-', '_', $slug ) . '_';
+                    $written = [];
+                    $set     = function ( $key, $value ) use ( $id, $k, $n, &$written ) {
+                        $current = get_field( "{$n}{$key}", $id );
+                        if ( '' === trim( (string) ( is_scalar( $current ) ? $current : '' ) ) && ( ! is_array( $current ) || ! $current ) && '' !== trim( (string) ( is_scalar( $value ) ? $value : '1' ) ) ) {
+                            update_field( "{$k}{$n}{$key}", $value, $id );
+                            $written[] = $key;
+                        }
+                    };
+                    // 1. What the old «Разделы меню» record holds: its lists, and words edited there.
+                    $record = get_page_by_path( $slug, OBJECT, 'menu_list' );
+                    if ( $record ) {
+                        $rows = get_field( 'menu_subsections', $record->ID );
+                        if ( $rows ) {
+                            $set( 'subsections', array_map( fn( $row ) => [
+                                "{$k}{$n}sub_title_ru" => $row['title_ru'] ?? '', "{$k}{$n}sub_title_en" => $row['title_en'] ?? '',
+                                "{$k}{$n}sub_column"   => $row['column'] ?? 'left', "{$k}{$n}sub_style" => $row['style'] ?? 'list',
+                                "{$k}{$n}sub_dishes"   => array_map( 'intval', (array) ( $row['dishes'] ?? [] ) ),
+                                "{$k}{$n}sub_note_ru"  => $row['note_ru'] ?? '', "{$k}{$n}sub_note_en" => $row['note_en'] ?? '',
+                                "{$k}{$n}sub_divider"  => empty( $row['divider'] ) ? 0 : 1,
+                            ], $rows ) );
+                        }
+                        foreach ( sweet_pepper_menu_section_copy_keys() as $key ) {
+                            foreach ( [ 'ru', 'en' ] as $lang ) {
+                                $set( "{$key}_{$lang}", (string) get_field( "sec_{$key}_{$lang}", $record->ID ) );
+                            }
+                        }
+                    }
+                    // 2. The typed words and photos for whatever is still empty.
+                    foreach ( sweet_pepper_menu_section_copy_typed( $slug ) as $lang => $words ) {
+                        foreach ( $words as $key => $value ) {
+                            $set( "{$key}_{$lang}", $value );
+                        }
+                    }
+                    $set( 'hero_photo', sp_seed_attachment( $sec['image'] ) );
+                    if ( preg_match( '/^\S+ (\d+)%$/', (string) ( $sec['focus'] ?? '' ), $m ) ) {
+                        $set( 'hero_focus', (int) $m[1] );
+                    }
+                    if ( ! empty( $sec['band'] ) ) {
+                        $set( 'photo', sp_seed_attachment( $sec['band'] ) );
+                    }
+                    echo "menu ({$state}, page {$id}) {$slug}: " . ( $written ? count( $written ) . ' fields written' . ( in_array( 'subsections', $written, true ) ? ' (lists from the old record)' : '' ) : 'nothing to write' ) . "\n";
+                }
+                // ── «Сезонное меню», the door, «Поиск» ──
                 if ( metadata_exists( 'post', $id, 'menu_highlights' ) && ! $force ) {
-                    echo "menu ({$state}, page {$id}): already saved — left alone (--force to overwrite)\n";
+                    echo "menu ({$state}, page {$id}): seasonal / door / search already saved — left alone (--force to overwrite)\n";
                     continue;
                 }
                 $t = $typed[ $state ];

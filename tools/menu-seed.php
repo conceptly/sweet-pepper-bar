@@ -12,25 +12,23 @@
  *   "$PHP" -d mysqli.default_socket="$SOCK" tools/menu-seed.php all
  *
  * Each row becomes a post — a `dish` («Блюда») in a kitchen section, a `drink` («Напитки»)
- * in a bar section — and the section's `menu_list` record («Разделы меню») places them
- * (inc/menu-data-dishes.php). `all` = every section that has a data file, in menu order.
+ * in a bar section — and the section's tab on its menu page places them: the
+ * `sec_<slug>_subsections` repeater (inc/menu-data-dishes.php; the pages themselves come from
+ * tools/page-seed.php menu — run that first). `all` = every section that has a data file.
  *
- * A section that already has rows in admin is left alone unless --force is given:
+ * A section that already has rows on the page is left alone unless --force is given:
  * after the first seed the database is the source, and the team's edits live there.
  * --force deletes the section's posts and creates new ones (new IDs) — don't use it once
- * highlights or the picker reference dishes.
+ * the seasonal strip or the picker reference dishes.
  *
- * --copy seeds the section's own words instead — the «Тексты раздела» fields (headline,
- * eyebrow, hero text, captions, deal; RU + EN) from data/menu/sections-copy.php and the
- * section list. Only empty fields are written: text edited in admin is never overwritten.
+ * The section's words and photos are page-seed.php's job (menu), not this script's.
  */
 
 $args  = array_slice( $argv, 1 );
 $force = in_array( '--force', $args, true );
-$copy  = in_array( '--copy', $args, true );
-$slugs = array_values( array_diff( $args, [ '--force', '--copy' ] ) );
+$slugs = array_values( array_diff( $args, [ '--force' ] ) );
 if ( ! $slugs ) {
-    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] | all [--force | --copy]\n" );
+    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] | all [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -67,37 +65,6 @@ $order    = array_flip( array_keys( $sections ) );
 if ( [ 'all' ] === $slugs ) {
     $slugs = array_keys( $sections );
 }
-// A record's title is what the team reads in admin («Разделы меню», the tables' «Раздел меню»
-// column), so it is Russian — the section names of menu-copy-ru-draft.md. The page never prints it.
-$titles_ru = [
-    'breakfast' => 'Завтраки', 'lunch' => 'Обеды', 'bar-snacks' => 'Закуски', 'salads' => 'Салаты',
-    'sandwiches' => 'Сэндвичи и бейглы', 'soups' => 'Супы', 'hot-dishes' => 'Горячее', 'desserts' => 'Десерты',
-    'kids' => 'Детям', 'infusions' => 'Домашние настойки', 'cocktails' => 'Коктейли', 'wine' => 'Вино',
-    'beer' => 'Пиво', 'spirits' => 'Крепкое', 'no-buzz' => 'Без алкоголя', 'tea-coffee' => 'Чай и кофе',
-];
-
-if ( $copy ) {
-    foreach ( $slugs as $slug ) {
-        $post = get_page_by_path( $slug, OBJECT, 'menu_list' );
-        if ( ! $post ) {
-            echo "$slug: no «Разделы меню» record — seed the dishes first\n";
-            continue;
-        }
-        $written = 0;
-        foreach ( sweet_pepper_menu_section_copy_typed( $slug ) as $lang => $words ) {
-            foreach ( $words as $key => $value ) {
-                if ( '' === trim( (string) $value ) || '' !== trim( (string) get_field( "sec_{$key}_{$lang}", $post->ID ) ) ) {
-                    continue;
-                }
-                update_field( "field_sp_list_sec_{$key}_{$lang}", $value, $post->ID );
-                $written++;
-            }
-        }
-        echo "$slug: $written section fields written\n";
-    }
-    exit;
-}
-
 foreach ( $slugs as $slug ) {
     $source = sweet_pepper_menu_fallback( $slug );
     if ( ! $source ) {
@@ -106,30 +73,22 @@ foreach ( $slugs as $slug ) {
     }
 
     $item_type = sweet_pepper_menu_item_type( $slug );
-    $post      = get_page_by_path( $slug, OBJECT, 'menu_list' );
-    // A record seeded before the titles were Russian (Soups, 20 Sep 2026) is renamed, nothing else.
-    if ( $post && isset( $titles_ru[ $slug ] ) && $post->post_title === ( $sections[ $slug ]['label'] ?? '' ) ) {
-        wp_update_post( [ 'ID' => $post->ID, 'post_title' => $titles_ru[ $slug ] ] );
+    $state     = sweet_pepper_menu_state_for( $slug );
+    $page      = sweet_pepper_menu_page( $state );
+    if ( ! $page ) {
+        echo "$slug: no {$state} menu page — run tools/page-seed.php menu first\n";
+        continue;
     }
-    if ( $post && get_field( 'menu_subsections', $post->ID ) && ! $force ) {
-        echo "$slug: already has rows in admin — skipped (--force overwrites them)\n";
+    $post_id = $page->ID;
+    $k       = 'food' === $state ? 'field_sp_mfood_' : 'field_sp_mbar_'; // tools/page-field-groups.py
+    $n       = 'sec_' . str_replace( '-', '_', $slug ) . '_';
+    if ( get_field( "{$n}subsections", $post_id ) && ! $force ) {
+        echo "$slug: already has rows on the page — skipped (--force overwrites them)\n";
         continue;
     }
 
-    $post_id = $post ? $post->ID : wp_insert_post( [
-        'post_type'   => 'menu_list',
-        'post_status' => 'publish',
-        'post_name'   => $slug,
-        'post_title'  => $titles_ru[ $slug ] ?? $sections[ $slug ]['label'] ?? ucfirst( $slug ),
-        'menu_order'  => $order[ $slug ] ?? 0,
-    ], true );
-    if ( is_wp_error( $post_id ) ) {
-        echo "$slug: " . $post_id->get_error_message() . "\n";
-        continue;
-    }
-
-    $rows = [];
-    $n    = 0;
+    $rows  = [];
+    $count = 0;
     foreach ( $source as $sub ) {
         $dishes = [];
         foreach ( $sub['dishes'] as $dish ) {
@@ -155,7 +114,7 @@ foreach ( $slugs as $slug ) {
                 'options_ru'     => implode( "\n", $dish['ru']['options'] ?? [] ),
                 'options_en'     => implode( "\n", $dish['options'] ?? [] ),
             ];
-            $n++;
+            $count++;
         }
         $rows[] = [
             'title_ru' => $sub['title_ru'] ?? '',
@@ -170,16 +129,17 @@ foreach ( $slugs as $slug ) {
     }
 
     if ( $force ) {
-        foreach ( (array) get_field( 'menu_subsections', $post_id ) as $old ) {
+        foreach ( (array) get_field( "{$n}subsections", $post_id ) as $old ) {
             foreach ( (array) ( $old['dishes'] ?? [] ) as $old_dish ) {
                 wp_delete_post( $old_dish, true );
             }
         }
         // Start clean: rows written under an older field shape would otherwise linger as orphan meta.
         global $wpdb;
+        $like = str_replace( '_', '\\_', "{$n}subsections" );
         $wpdb->query( $wpdb->prepare(
             "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND ( meta_key LIKE %s OR meta_key LIKE %s )",
-            $post_id, 'menu\\_subsections%', '\\_menu\\_subsections%'
+            $post_id, "{$like}%", "\\_{$like}%"
         ) );
         wp_cache_delete( $post_id, 'post_meta' );
     }
@@ -198,7 +158,14 @@ foreach ( $slugs as $slug ) {
         }
     }
     unset( $row, $dish );
-    update_field( 'field_sp_list_subsections', $rows, $post_id );
+    $rows = array_map( fn( $row ) => [
+        "{$k}{$n}sub_title_ru" => $row['title_ru'], "{$k}{$n}sub_title_en" => $row['title_en'],
+        "{$k}{$n}sub_column"   => $row['column'],   "{$k}{$n}sub_style"    => $row['style'],
+        "{$k}{$n}sub_dishes"   => $row['dishes'],
+        "{$k}{$n}sub_note_ru"  => $row['note_ru'],  "{$k}{$n}sub_note_en"  => $row['note_en'],
+        "{$k}{$n}sub_divider"  => $row['divider'],
+    ], $rows );
+    update_field( "{$k}{$n}subsections", $rows, $post_id );
 
-    echo "$slug: post $post_id — " . count( $rows ) . " subsections, $n {$item_type} posts\n";
+    echo "$slug: page $post_id — " . count( $rows ) . " subsections, $count {$item_type} posts\n";
 }

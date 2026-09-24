@@ -3,9 +3,8 @@
  * Menu data — where the section templates get their rows.
  *
  * The menu store (website-brief.md → Content editing & languages → Menu storage,
- * decided 23 Sep 2026): one `dish` or `drink` post per item, placed by the section's
- * `menu_list` record — slug = the section slug in inc/menu-sections.php
- * (inc/menu-data-dishes.php). Templates never read fields: they loop over
+ * decided 23 Sep 2026): one `dish` or `drink` post per item, placed by the section's tab on
+ * its menu page — `sec_<slug>_subsections`, since 24 Sep 2026 (inc/menu-data-dishes.php). Templates never read fields: they loop over
  * sweet_pepper_menu_subsections(), which hands back dish-row args in one language.
  * While a record is missing or empty the typed rows in data/menu/<slug>.php render
  * instead, so a section converts without the page ever going blank.

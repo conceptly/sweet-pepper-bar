@@ -6,7 +6,7 @@
  * cards the strip showed before it read the store.
  *
  * The typed fallback and the seed source for the fields on the two pages
- * (acf-json/group_sp_menu.json → tabs «Первый экран», «Подборка», «Поиск»;
+ * (acf-json/group_sp_menu_food.json / _bar.json → tabs «Сезонное меню», the door, «Поиск»;
  * tools/page-seed.php menu), read by inc/menu-page.php. English from the templates as
  * they were (menu-hero.php, highlights.php, Sep 2026); Russian: the door words and the
  * Highlights heading from menu-copy-ru-draft.md («Навигация и подписи», «Подборка и

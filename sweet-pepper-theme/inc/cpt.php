@@ -11,7 +11,7 @@ function sweet_pepper_register_cpt() {
     // acf-json/group_sp_dish.json (one group for both types). Two types, not one with a
     // filter, so the kitchen and the bar each get their own list in the sidebar — «Блюда»
     // and «Напитки» (author, after the team test) — and a picker can ask for one or the other.
-    // A dish is placed on the page by its section's `menu_list` record (4, below);
+    // A dish is placed on the page by its section's tab on the menu page (inc/menu-data-dishes.php);
     // Draft takes it off the site. Never a public URL — the menu page renders it.
     // Its PHOTO is the post's featured image (3:2, the `sp-3x2` crop — inc/images.php): the
     // Highlights strip prints it (inc/menu-page.php); the pickers and previews will.
@@ -93,45 +93,9 @@ function sweet_pepper_register_cpt() {
         'capabilities' => array( 'create_posts' => 'do_not_allow' ),
     ) );
 
-    // 4. Menu sections — one `menu_list` record per section of the menu page (Soups,
-    // Cocktails, …), slug = the section slug: its subsections → ordered Relationship lists of
-    // dishes or drinks (acf-json/group_sp_menu_list.json, read by inc/menu-data-dishes.php).
-    // A post rather than an options page for what a post brings: revisions, the "someone is
-    // editing" lock, and a cache purge on save. The type keeps its test-era name `menu_list`
-    // (renaming it would move the saved records); only the labels changed.
-    register_post_type( 'menu_list', array(
-        'label'         => 'Раздел меню',
-        'labels'        => array(
-            'name'          => 'Разделы меню',
-            'singular_name' => 'Раздел меню',
-            'menu_name'     => 'Разделы меню',
-            'all_items'     => 'Все разделы',
-            'add_new'       => 'Добавить раздел',
-            'add_new_item'  => 'Новый раздел меню',
-            'edit_item'     => 'Раздел меню',
-            'search_items'  => 'Найти раздел',
-            'not_found'     => 'Разделов нет',
-        ),
-        'supports'      => array( 'title', 'revisions' ),
-        'public'        => false,
-        'show_ui'       => true,
-        'menu_position' => 8,
-        'menu_icon'     => 'dashicons-book-alt',
-        'show_in_rest'  => false,
-        'map_meta_cap'  => true,
-        // The list of sections is structure: the team edits them, only an admin adds one.
-        'capabilities'  => array( 'create_posts' => 'manage_options' ),
-    ) );
+    // (4. «Разделы меню» — `menu_list`, one record per section holding its subsections and
+    // words — was retired on 24 Sep 2026: the sections live as tabs on the two menu pages,
+    // inc/menu-page.php. The old records stay in the database, unregistered, until the author
+    // deletes them; tools/page-seed.php menu read them once into the pages.)
 }
 add_action( 'init', 'sweet_pepper_register_cpt', 0 );
-
-/**
- * List menu sections in menu order (Breakfast … Spirits), not by date.
- */
-function sweet_pepper_menu_section_admin_order( $query ) {
-    if ( is_admin() && $query->is_main_query() && 'menu_list' === $query->get( 'post_type' ) && ! $query->get( 'orderby' ) ) {
-        $query->set( 'orderby', 'menu_order' );
-        $query->set( 'order', 'ASC' );
-    }
-}
-add_action( 'pre_get_posts', 'sweet_pepper_menu_section_admin_order' );

@@ -4,7 +4,7 @@
  *
  * Figma: SeasonalMenuSection (781:24689 day, 833:34450 night); phones 2109:130202 / 2194:70367.
  * Rendered by template-parts/menu-page.php for the kitchen and the bar. Header and cards
- * come from the page's «Подборка» tab through sweet_pepper_menu_highlights()
+ * come from the page's «Сезонное меню» tab through sweet_pepper_menu_highlights()
  * (inc/menu-page.php): the cards REFERENCE dishes — name, photo (the dish's featured
  * image) and the section link all come from the dish's own record, never copied here.
  * While the page's list is empty the strip shows the menu's seasonal-labelled dishes

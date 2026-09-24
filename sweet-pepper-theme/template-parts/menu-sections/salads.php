@@ -16,7 +16,7 @@
 
         <!-- Hero Image -->
         <div class="menu-section__hero">
-            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/food/lunch/cobb-1.jpg' ); ?>"
+            <img src="<?php echo esc_url( $sec['band_image'] ); ?>"<?php echo sweet_pepper_menu_band_style( $sec ); // the page's photo + slider (inc/menu-sections.php) ?>
                  alt="<?php echo esc_attr( $sec['alt'] ); ?>"
                  loading="lazy">
             <span class="menu-section__hero-pill"><?php echo esc_html( $sec['pill'] ); ?></span>

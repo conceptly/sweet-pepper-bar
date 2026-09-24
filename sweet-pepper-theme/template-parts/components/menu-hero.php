@@ -33,7 +33,7 @@ foreach ( $sections as $slug => $sec ) {
         'label'       => $sec['label'],
         'ctaLabel'    => $sec['cta_label'] ?? $sec['label'],
         'iconSvg'     => sweet_pepper_inline_svg( 'assets/icons/c-' . ( $sec['icon'] ?? 'food' ) . '.svg' ),
-        'image'       => $images_uri . $sec['image'],
+        'image'       => $sec['image_url'],
         'caption'     => $sec['caption'],
         'description' => $sec['description'],
         'focus'       => $sec['focus'] ?? '50% 50%', // tablet 21:9 crop — inc/menu-sections.php
@@ -58,7 +58,7 @@ $sections_json[ $door['slug'] ] = [
 $arrow_svg = '';
 
 $default_sec   = $sections[ $section ];
-$default_image = $images_uri . $default_sec['image'];
+$default_image = $default_sec['image_url'];
 $default_focus = $default_sec['focus'] ?? '50% 50%';
 
 // Phone and tablet strings (≤ 991px, Figma menu-one-photo-hero-kitchen-day-stacked-mobile 2109:130201).
@@ -88,7 +88,7 @@ $door_slug  = $door['slug'];
     <?php foreach ( $sections as $slug => $sec ) :
         if ( $slug === $section ) continue; // Default image loads eagerly
     ?>
-        <link rel="prefetch" href="<?php echo esc_url( $images_uri . $sec['image'] ); ?>" as="image">
+        <link rel="prefetch" href="<?php echo esc_url( $sec['image_url'] ); ?>" as="image">
     <?php endforeach; ?>
 
     <!-- Phones and tablets: opens the jump-nav panel (the hero's word list has no room below 992px) -->

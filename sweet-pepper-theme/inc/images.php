@@ -10,13 +10,15 @@
 add_action( 'after_setup_theme', function () {
     add_image_size( 'sp-square', 600, 600, true ); // team cards, the picker (1:1)
     add_image_size( 'sp-3x2', 900, 600, true );    // the team wall, dish photos, guests (3:2)
+    add_image_size( 'sp-hero', 1440, 960, true );  // the menu hero's section photos (3:2, 2× of the ~690px frame)
+    add_image_size( 'sp-4x1', 1920, 480, true );   // the menu sections' photo bands (4:1)
 } );
 
 /**
  * A field's photo at a theme size, or the typed asset path while the field is empty.
  *
  * @param int|string $id       Attachment ID from an image field (empty = not set).
- * @param string     $size     'sp-square' | 'sp-3x2'.
+ * @param string     $size     'sp-square' | 'sp-3x2' | 'sp-hero' | 'sp-4x1'.
  * @param string     $fallback Path under assets/images/, or ''.
  */
 function sweet_pepper_photo_url( $id, $size, $fallback = '' ) {

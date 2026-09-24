@@ -52,6 +52,10 @@ return [
         'More plates'                                => 'Ещё блюда',
         'More pours'                                 => 'Ещё напитки',
         'Menu sections'                              => 'Разделы меню',
+        'Food Menu'                                  => 'Меню кухни', // mine — the desktop jump-nav tab
+        'Drinks Menu'                                => 'Барное меню', // mine
+        'Food Menu sections'                         => 'Разделы меню кухни',
+        'Drinks Menu sections'                       => 'Разделы барного меню',
         'Jump to a menu section'                     => 'Перейти к разделу меню', // mine
         'Close menu sections'                        => 'Закрыть разделы меню', // mine
         // The hero's door to the other menu — mine, the draft has none

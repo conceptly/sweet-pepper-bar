@@ -38,7 +38,8 @@ if ( empty( $sections ) ) {
 }
 
 $is_drinks = ( $menu_state === 'drinks' );
-$tab_label = $is_drinks ? 'Drinks Menu' : 'Food Menu';
+$tab_label = $is_drinks ? __( 'Drinks Menu', 'sweet-pepper' ) : __( 'Food Menu', 'sweet-pepper' );
+$tab_aria  = $is_drinks ? __( 'Drinks Menu sections', 'sweet-pepper' ) : __( 'Food Menu sections', 'sweet-pepper' );
 $tab_icon  = $is_drinks ? 'martini' : 'fork-knife';
 ?>
 
@@ -63,7 +64,7 @@ $tab_icon  = $is_drinks ? 'martini' : 'fork-knife';
      id="menu-jump-panel"
      role="dialog"
      aria-modal="true"
-     aria-label="<?php echo esc_attr( $tab_label ); ?> sections"
+     aria-label="<?php echo esc_attr( $tab_aria ); ?>"
      aria-hidden="true"
      data-menu-state="<?php echo esc_attr( $menu_state ); ?>"
      data-default-section="<?php echo esc_attr( $section ); ?>">

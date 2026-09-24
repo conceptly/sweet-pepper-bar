@@ -122,7 +122,7 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
             <div class="menu-hero__nav-bg menu-hero__nav-bg--parchment" aria-hidden="true"></div>
 
             <!-- Section word list -->
-            <nav class="menu-hero__nav-list" aria-label="Menu sections">
+            <nav class="menu-hero__nav-list" aria-label="<?php esc_attr_e( 'Menu sections', 'sweet-pepper' ); ?>">
                 <?php foreach ( $sections as $slug => $sec ) :
                     $is_active   = ( $slug === $section );
                     $nav_variant = $sec['nav_variant'] ?? 'default';

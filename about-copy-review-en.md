@@ -5,7 +5,7 @@ Updated 16 September 2026 · Proposed revision with author selections recorded �
 ## Author selections — 16 September
 
 - **Step-free** is selected for the short label inside the circular access stamp. Expanded title and detail copy remain for final review; this does not approve all the other proposed stamp labels.
-- Location headline: **IN THE VERY HEART OF THE BEST CITY**. Keep “very” and “best city”: affectionate local pride and a familiar joke, already well received in the bar's social copy. RU direction supplied by the author: **«В самом сердце любимого города»**. The two languages need not be literal translations.
+- Location headline: **IN THE HEART OF THE CITY** since 23 Sep 2026 (author dropped "very" and "best" for two lines). Was: **IN THE VERY HEART OF THE BEST CITY**. Keep “very” and “best city”: affectionate local pride and a familiar joke, already well received in the bar's social copy. RU direction supplied by the author: **«В самом сердце любимого города»**. The two languages need not be literal translations.
 - Careers headline: **WANT TO JOIN THE FAMILY?** stays. Here “family” is partly a local joke and partly a description of the atmosphere and relationships formed at the venue. The author reports that people have met their partners here, with another wedding about a week before this conversation after more than five years together. This is context for the wording, not permission to publish a particular couple's story or an invented testimonial. The generic recruitment alternative is withdrawn.
 
 ## Scope and sources

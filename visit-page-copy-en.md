@@ -91,7 +91,7 @@ Lunch on Kirova, a drink after a walk, or an evening with friends. Check the hou
 
 **Eyebrow:** YOUR DESTINATION
 
-**Headline:** IN THE VERY HEART / OF THE BEST CITY
+**Headline:** IN THE HEART / OF THE CITY *(23 Sep 2026; was IN THE VERY HEART / OF THE BEST CITY)*
 
 ### Practical slip
 

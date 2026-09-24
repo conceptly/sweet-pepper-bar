@@ -110,11 +110,12 @@ if ( 'ru' === sweet_pepper_lang() ) {
 <section id="pairing-station-bar" class="menu-pairing-station">
     <div class="container pairing-station__inner">
 
-        <!-- Phones only: the reflection of the section connector above (Figma Picker 2109:130226) -->
+        <!-- The reflection of the connector that ends the section above, at every width (author, 23 Sep 2026;
+             phones only before — Figma Picker 2109:130226) -->
         <?php
         get_template_part( 'template-parts/components/section-link-word', null, [
-            'day_img'   => 'assets/sectionLinks/menu/kitchen-night/tryTheMatchMaker-reflection.svg',
-            'night_img' => 'assets/sectionLinks/menu/kitchen-night/tryTheMatchMaker-reflection.svg',
+            'day_img'   => 'assets/sectionLinks/menu/bar/tryTheMatchMaker-reflection.svg',
+            'night_img' => 'assets/sectionLinks/menu/bar/tryTheMatchMaker-reflection.svg',
             'alt'       => 'TRY THE MATCH MAKER',
             'class'     => 'section-link-word--reflection pairing-station__top-word',
         ] );

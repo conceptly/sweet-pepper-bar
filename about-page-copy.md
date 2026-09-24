@@ -2,7 +2,7 @@
 
 *Consolidated 16 September 2026 from the current page, `about-copy-review-en.md` and the author's decisions. This is the working copy for final review, not a record of published changes.*
 
-**Selected wording:** Step-free · IN THE VERY HEART OF THE BEST CITY · WANT TO JOIN THE FAMILY?
+**Selected wording:** Step-free · IN THE HEART OF THE CITY *(23 Sep 2026; was IN THE VERY HEART OF THE BEST CITY)* · WANT TO JOIN THE FAMILY?
 
 The proposed revisions are incorporated below. Factual checks and a few conditional labels remain explicitly marked; they do not need to be resolved now. Forms, booking copy and interactions stay unchanged. No build or Figma changes are part of this update.
 
@@ -237,7 +237,7 @@ These are wording examples for the existing placeholders, not confirmed vacancie
 
 **Eyebrow:** YOUR DESTINATION
 
-**Headline — selected:** IN THE VERY HEART OF THE BEST CITY
+**Headline — selected:** IN THE HEART / OF THE CITY *(author, 23 Sep 2026: "very" and "best" dropped so it holds two lines; was IN THE VERY HEART OF THE BEST CITY)*
 
 **Body:**
 

@@ -49,7 +49,7 @@
                     <?php
                     get_template_part( 'template-parts/components/button', null, [
                         'label'          => __( 'See the menu', 'sweet-pepper' ),
-                        'url'            => home_url( '/menu' ),
+                        'url'            => sweet_pepper_menu_url( 'food' ),
                         'variant'        => 'primary-green',
                         'type'           => 'primary-green',
                         'icon_left_svg'  => 'icons/c-book-open.svg',

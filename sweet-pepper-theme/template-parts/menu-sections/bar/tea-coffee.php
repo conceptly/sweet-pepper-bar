@@ -53,13 +53,17 @@
 
     </div><!-- /.container .menu-section__content -->
 
-    <!-- Bottom Link Word: SURPRISINGLY GOOD -->
+    <!-- Bottom Link Word: TRY THE MATCH MAKER — the bar's last section, so its word is the
+         one the picker below reflects, as Kids on the food page (author, 23 Sep 2026; was
+         SURPRISINGLY GOOD, which the reflection never repeated). bar/ holds its pair (copies of
+         the kitchen-night files — the bar's colours). In Russian it becomes
+         bar/ru/параОтБараВместеВкуснее (inc/menu-sections.php). -->
     <div class="container">
         <?php
         get_template_part( 'template-parts/components/section-link-word', null, [
-            'day_img'   => 'assets/sectionLinks/menu/bar/surprisinglyGood.svg',
-            'night_img' => 'assets/sectionLinks/menu/bar/surprisinglyGood.svg',
-            'alt'       => 'SURPRISINGLY GOOD',
+            'day_img'   => 'assets/sectionLinks/menu/bar/tryTheMatchMaker.svg',
+            'night_img' => 'assets/sectionLinks/menu/bar/tryTheMatchMaker.svg',
+            'alt'       => 'TRY THE MATCH MAKER',
             'class'     => 'section-link-word--reflection menu-section__bottom-link-word',
         ] );
         ?>

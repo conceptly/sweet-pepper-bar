@@ -45,7 +45,7 @@ $pairings = sweet_pepper_food_pairings();
                     <?php
                     get_template_part( 'template-parts/components/button', null, [
                         'label'          => __( 'See the full menu', 'sweet-pepper' ),
-                        'url'            => home_url( '/menu' ),
+                        'url'            => sweet_pepper_menu_url( 'food' ),
                         'variant'        => 'primary-green',
                         'type'           => 'primary-green',
                         'icon_right_svg' => 'icons/food.svg',

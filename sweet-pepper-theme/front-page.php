@@ -64,7 +64,7 @@ get_header();
                         'id'    => 'hero-menu-btn',
                         // Matches the server-rendered 'Breakfast menu' label; daypart-engine.js
                         // swaps both label and href once it knows the real daypart.
-                        'url'   => home_url( '/menu/#breakfast' )
+                        'url'   => sweet_pepper_menu_url( 'food', 'breakfast' )
                     ]); 
                     ?>
                 </div>
@@ -124,7 +124,7 @@ get_header();
                         'type'       => 'secondary',
                         'icon_left'  => 'fork-knife',
                         'icon_right' => 'arrow-right',
-                        'url'        => home_url( '/menu/' )
+                        'url'        => sweet_pepper_menu_url( 'food' )
                     ]
                 ]
             ] ); 
@@ -156,7 +156,7 @@ get_header();
                         'description' => 'Honey-glazed wings with sour cream, carrot and celery sticks.',
                         'tag_icon'    => 'fire',
                         'tag_label'   => 'Spicy',
-                        'url'         => home_url( '/menu/#bar-snacks' )
+                        'url'         => sweet_pepper_menu_url( 'food', 'bar-snacks' )
                     ],
                     [
                         'image_url'   => get_template_directory_uri() . '/assets/images/food/dinner/zharkoe-1.jpg',
@@ -169,7 +169,7 @@ get_header();
                         'description' => 'Pork, potato wedges and vegetables in a spicy cream sauce.',
                         'tag_icon'    => 'yaroslavl-logo',
                         'tag_label'   => 'Yaroslavl-style',
-                        'url'         => home_url( '/menu/#hot-dishes' )
+                        'url'         => sweet_pepper_menu_url( 'food', 'hot-dishes' )
                     ],
                 ];
 
@@ -300,7 +300,7 @@ get_header();
                     'label'          => 'Explore the food menu',
                     'type'           => 'secondary',
                     'icon_right_svg' => 'icons/food.svg',
-                    'url'            => home_url( '/menu/' ),
+                    'url'            => sweet_pepper_menu_url( 'food' ),
                 ],
                 'cta_align'   => 'right',
             ] ); 

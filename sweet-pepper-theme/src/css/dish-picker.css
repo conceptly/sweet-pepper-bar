@@ -7,7 +7,10 @@
 
 .menu-pairing-station {
     background-color: var(--surface);
-    padding-top: 80px;
+    /* Flush: the section opens on the reflection of the word above (.pairing-station__top-word,
+       every width since 23 Sep 2026 — author; phones only before), then the inner 64 to the
+       header, as the header's 64 to the bottom word. Was 80 to the header, no reflection. */
+    padding-top: 0;
     padding-bottom: 0;
     transition: background-color 0.3s ease;
 }

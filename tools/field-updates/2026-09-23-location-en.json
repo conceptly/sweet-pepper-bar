@@ -1,0 +1,13 @@
+{
+ "option": true,
+ "date": "2026-09-23",
+ "groups": [
+  {
+   "note": "Location headline, EN — «very» and «best» dropped so it holds two lines (author, 23 Sep 2026)",
+   "set": [
+    [ "location_headline_en", "IN THE VERY HEART", "IN THE HEART" ],
+    [ "location_headline_2_en", "OF THE BEST CITY", "OF THE CITY" ]
+   ]
+  }
+ ]
+}

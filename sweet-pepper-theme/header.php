@@ -39,7 +39,7 @@
             <nav id="site-navigation" class="main-navigation">
                 <ul>
                     <li<?php if ( is_front_page() ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'sweet-pepper' ); ?></a></li>
-                    <li<?php if ( is_page_template( 'page-menu.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/menu' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
+                    <li<?php if ( sweet_pepper_is_menu_page() ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( sweet_pepper_menu_url( 'food' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
                     <li<?php if ( is_page_template( 'page-about.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"><?php esc_html_e( 'About', 'sweet-pepper' ); ?></a></li>
                     <li<?php if ( is_page_template( 'page-visit.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>"><?php esc_html_e( 'Visit', 'sweet-pepper' ); ?></a></li>
                 </ul>

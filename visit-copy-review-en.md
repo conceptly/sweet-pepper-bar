@@ -90,7 +90,7 @@ Keep **GET IN TOUCH**. Shorten the repeated hints rather than adding a verb to e
 
 **FIND THE PEPPER → YOUR DESTINATION.** This matches the About location section without repeating the full route connector.
 
-**AT THE VERY HEART OF THE BEST CITY → IN THE VERY HEART OF THE BEST CITY.** Carry the author's selected wording across pages. Preserve “very,” “best city” and the Russian **«В самом сердце любимого города»**.
+**AT THE VERY HEART OF THE BEST CITY → IN THE VERY HEART OF THE BEST CITY** *(→ IN THE HEART / OF THE CITY, author, 23 Sep 2026)*. Carry the author's selected wording across pages. Preserve “very,” “best city” and the Russian **«В самом сердце любимого города»**.
 
 Keep **GOOD TO KNOW**. Proposed slip:
 

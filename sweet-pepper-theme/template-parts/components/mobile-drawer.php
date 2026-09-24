@@ -18,7 +18,7 @@ $uri   = get_template_directory_uri() . '/assets/icons/';
 $items = [
     [ 'label' => __( 'Home', 'sweet-pepper' ),  'desc' => __( 'A taste of Sweet Pepper', 'sweet-pepper' ),          'url' => home_url( '/' ),      'current' => is_front_page() ],
     [ 'label' => __( 'About', 'sweet-pepper' ), 'desc' => __( 'The place, the people, the story', 'sweet-pepper' ), 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) ],
-    [ 'label' => __( 'Menu', 'sweet-pepper' ),  'desc' => __( "From breakfast to late\u{2011}night drinks", 'sweet-pepper' ), 'url' => home_url( '/menu' ),  'current' => is_page_template( 'page-menu.php' ) ],
+    [ 'label' => __( 'Menu', 'sweet-pepper' ),  'desc' => __( "From breakfast to late\u{2011}night drinks", 'sweet-pepper' ), 'url' => sweet_pepper_menu_url( 'food' ),  'current' => sweet_pepper_is_menu_page() ],
     [ 'label' => __( 'Visit', 'sweet-pepper' ), 'desc' => __( 'Hours, directions and contacts', 'sweet-pepper' ),   'url' => home_url( '/visit' ), 'current' => is_page_template( 'page-visit.php' ) ],
 ];
 

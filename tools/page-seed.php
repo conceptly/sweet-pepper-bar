@@ -17,11 +17,14 @@
  *                   their source path and does not upload twice.
  *   location      — data/location.php → Bar Settings → «Локация — заголовок»
  *   pairings      — data/pairings.php → the one «Гастробот» record (created if missing)
- *   menu          — data/menu/page.php → the two menu pages' «Первый экран», «Подборка» and «Поиск»
- *                   tabs (inc/menu-page.php). Creates the bar page — «Меню — бар», /menu/bar/,
- *                   template Menu — Bar — under the kitchen page when it is missing. The
- *                   «Подборка» list is seeded with what the empty list shows anyway: the menu's
- *                   seasonal-labelled dishes (drinks on the bar page), so the form and the page agree.
+ *   menu          — the menu pages (inc/menu-page.php). First the shape: the kitchen page (template
+ *                   Menu) becomes «Меню — кухня» at /menu/food/ under a new «Меню» folder page
+ *                   (/menu/, template Menu — Index) when it still sits at /menu/ itself, and the
+ *                   bar page — «Меню — бар», /menu/bar/, template Menu — Bar — is created when
+ *                   missing. Then data/menu/page.php → both pages' «Первый экран», «Подборка» and
+ *                   «Поиск» tabs. The «Подборка» list is seeded with what the empty list shows
+ *                   anyway: the menu's seasonal-labelled dishes (drinks on the bar page), so the
+ *                   form and the page agree.
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -260,6 +263,35 @@ foreach ( $targets as $target ) {
                 echo "menu: no page with the template Menu (page-menu.php)\n";
                 break;
             }
+            // The folder: the kitchen page moves from /menu/ to /menu/food/ under a new «Меню»
+            // page (author, 24 Sep 2026: the address bar says which menu, and the team sees
+            // both menus under one folder). Idempotent — a kitchen page already under the folder is left alone.
+            $folder = sweet_pepper_menu_page( 'index' );
+            if ( ! $folder ) {
+                $food = $pages['food'];
+                $slug = 'menu' === $food->post_name ? 'menu' : $food->post_name;
+                if ( 'menu' === $food->post_name ) {
+                    // free the slug first, or the folder gets menu-2
+                    wp_update_post( [ 'ID' => $food->ID, 'post_name' => 'food', 'post_title' => 'Menu' === $food->post_title ? 'Меню — кухня' : $food->post_title ] );
+                }
+                $id = wp_insert_post( [
+                    'post_type'   => 'page',
+                    'post_status' => 'publish',
+                    'post_title'  => 'Меню',
+                    'post_name'   => $slug,
+                    'post_parent' => $food->post_parent,
+                    'menu_order'  => $food->menu_order,
+                    'meta_input'  => [ '_wp_page_template' => 'page-menu-index.php' ],
+                ], true );
+                if ( is_wp_error( $id ) ) {
+                    exit( 'menu: could not create the folder page — ' . $id->get_error_message() . "\n" );
+                }
+                wp_update_post( [ 'ID' => $food->ID, 'post_parent' => $id, 'menu_order' => 1 ] );
+                $folder = get_post( $id );
+                echo "menu: folder page {$id} created — " . get_permalink( $id ) . "; kitchen page {$food->ID} → " . get_permalink( $food->ID ) . "\n";
+                clean_post_cache( $food->ID );
+                $pages['food'] = get_post( $food->ID );
+            }
             $pages['drinks'] = sweet_pepper_menu_page( 'drinks' );
             if ( ! $pages['drinks'] ) {
                 $id = wp_insert_post( [
@@ -267,8 +299,8 @@ foreach ( $targets as $target ) {
                     'post_status'  => 'publish',
                     'post_title'   => 'Меню — бар',
                     'post_name'    => 'bar',
-                    'post_parent'  => $pages['food']->ID,
-                    'menu_order'   => $pages['food']->menu_order + 1,
+                    'post_parent'  => $folder->ID,
+                    'menu_order'   => 2,
                     'meta_input'   => [ '_wp_page_template' => 'page-menu-bar.php' ],
                 ], true );
                 if ( is_wp_error( $id ) ) {
@@ -276,6 +308,10 @@ foreach ( $targets as $target ) {
                 }
                 $pages['drinks'] = get_post( $id );
                 echo "menu: bar page {$id} created — " . get_permalink( $id ) . "\n";
+            } elseif ( (int) $pages['drinks']->post_parent !== (int) $folder->ID ) {
+                // a bar page made before the folder existed (24 Sep 2026, first shape) moves under it
+                wp_update_post( [ 'ID' => $pages['drinks']->ID, 'post_parent' => $folder->ID, 'menu_order' => 2 ] );
+                echo "menu: bar page {$pages['drinks']->ID} moved under the folder — " . get_permalink( $pages['drinks']->ID ) . "\n";
             }
             foreach ( $pages as $state => $page ) {
                 $id = $page->ID;

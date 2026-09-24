@@ -38,7 +38,7 @@
                         <h3 class="footer-col-title">GO TO</h3>
                         <ul class="footer-links">
                             <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'sweet-pepper' ); ?></a></li>
-                            <li><a href="<?php echo esc_url( home_url( '/menu' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
+                            <li><a href="<?php echo esc_url( sweet_pepper_menu_url( 'food' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
                             <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"><?php esc_html_e( 'About', 'sweet-pepper' ); ?></a></li>
                             <li><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>"><?php esc_html_e( 'Visit', 'sweet-pepper' ); ?></a></li>
                         </ul>

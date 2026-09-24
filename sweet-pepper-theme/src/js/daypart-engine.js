@@ -61,7 +61,7 @@ export function initDaypartEngine() {
             subhead: 'Coffee, eggs and a good reason to get out of bed.',
             btnText: 'Breakfast menu',
             btnIcon: 'coffee',
-            btnHref: '/menu/#breakfast',
+            btnHref: '/menu/food/#breakfast',
         },
         lunch: {
             mode: 'day',
@@ -70,7 +70,7 @@ export function initDaypartEngine() {
             subhead: 'Soup, something hearty, a little break in your day.',
             btnText: 'Lunch menu',
             btnIcon: 'fork-knife',
-            btnHref: '/menu/#lunch',
+            btnHref: '/menu/food/#lunch',
         },
         dinner: {
             mode: 'night',
@@ -79,7 +79,7 @@ export function initDaypartEngine() {
             subhead: 'Comfort food, cocktails and a table for your kind of evening.',
             btnText: 'Dinner menu',
             btnIcon: 'wine',
-            btnHref: '/menu/#hot-dishes',
+            btnHref: '/menu/food/#hot-dishes',
         },
         party: {
             mode: 'night',

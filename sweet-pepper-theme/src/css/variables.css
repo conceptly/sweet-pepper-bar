@@ -33,6 +33,9 @@
   --text-h3: 18px;
   --text-body: 16px;
   --text-caption: 13px;
+  /* Russian: room above a headline under its eyebrow for Й / Ё, in the headline's em
+     (components.css → Cyrillic). 0.25 → 0.15, the author's check in the browser, 23 Sep 2026. */
+  --cyrillic-room: 0.15;
 
   /* Base scales */
   /* Page gutter — the ramp main.css → .container documents (16 at 768 → 80 at 1280).

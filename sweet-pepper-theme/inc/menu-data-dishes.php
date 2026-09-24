@@ -42,22 +42,38 @@ function sweet_pepper_menu_list_rows( $slug ) {
     foreach ( $rows as &$sub ) {
         $dishes = [];
         foreach ( (array) ( $sub['dishes'] ?? [] ) as $dish_id ) {
-            $dish = get_post( $dish_id );
+            $dish = sweet_pepper_menu_item_row( $dish_id );
             // A deleted dish drops out of its list silently.
-            if ( ! $dish || ! in_array( $dish->post_type, sweet_pepper_menu_item_types(), true ) ) {
-                continue;
+            if ( $dish ) {
+                $dishes[] = $dish;
             }
-            $dishes[] = [
-                'name_ru' => $dish->post_title,
-                'hidden'  => 'publish' !== $dish->post_status,
-                'dish_id' => (string) $dish->ID,
-            ] + (array) get_fields( $dish->ID );
         }
         $sub['dishes'] = $dishes;
     }
     unset( $sub );
 
     return $rows;
+}
+
+/**
+ * A dish or drink post in the shape a list row carries — what the repeater store's row held as
+ * fields: the Russian name (title), hidden (any status but Published), the stable id (post ID),
+ * then its fields. Null for a deleted post or one of another type. The section lists read it
+ * through sweet_pepper_menu_list_rows(); the home page's previews read it for their picks.
+ *
+ * @param int $post_id
+ * @return array|null
+ */
+function sweet_pepper_menu_item_row( $post_id ) {
+    $dish = get_post( $post_id );
+    if ( ! $dish || ! in_array( $dish->post_type, sweet_pepper_menu_item_types(), true ) ) {
+        return null;
+    }
+    return [
+        'name_ru' => $dish->post_title,
+        'hidden'  => 'publish' !== $dish->post_status,
+        'dish_id' => (string) $dish->ID,
+    ] + (array) get_fields( $dish->ID );
 }
 
 /**

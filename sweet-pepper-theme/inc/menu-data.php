@@ -87,7 +87,6 @@ function sweet_pepper_menu_subsections( $slug ) {
     $other = 'ru' === $lang ? 'en' : 'ru';
     // The other language stands in for a twin left empty, rather than a blank row.
     $pick  = fn( $row, $key ) => trim( (string) ( $row[ "{$key}_{$lang}" ] ?? '' ) ) ?: trim( (string) ( $row[ "{$key}_{$other}" ] ?? '' ) );
-    $lines = fn( $text ) => array_values( array_filter( array_map( 'trim', preg_split( '/\R/', (string) $text ) ) ) );
 
     $subsections = [];
     foreach ( $rows as $sub ) {
@@ -96,18 +95,7 @@ function sweet_pepper_menu_subsections( $slug ) {
             if ( ! empty( $dish['hidden'] ) ) {
                 continue;
             }
-            [ $price, $quantity ] = sweet_pepper_menu_format_sizes( $dish, $lang );
-            $dishes[] = [
-                'dish_id'        => $dish['dish_id'] ?? '',
-                'dish_name'      => $pick( $dish, 'name' ),
-                'price'          => $price,
-                'quantity'       => $quantity,
-                'description'    => $pick( $dish, 'description' ),
-                'icons'          => array_slice( (array) ( $dish['icons'] ?? [] ), 0, 2 ),
-                'seasonal_label' => $pick( $dish, 'seasonal' ),
-                'options'        => $lines( $pick( $dish, 'options' ) ),
-                'highlight'      => ! empty( $dish['highlight'] ),
-            ];
+            $dishes[] = sweet_pepper_menu_dish_args( $dish, $lang );
         }
         // A subsection with every dish hidden takes its header with it.
         if ( ! $dishes ) {
@@ -124,6 +112,32 @@ function sweet_pepper_menu_subsections( $slug ) {
     }
 
     return $cache[ $slug ] = $subsections;
+}
+
+/**
+ * One dish's row, ready for template-parts/components/dish-row.php, in one language — from a
+ * row of the store (sweet_pepper_menu_item_row(): the post's fields with name_ru / dish_id).
+ *
+ * @param array  $dish A dish's fields.
+ * @param string $lang 'ru' | 'en'.
+ * @return array dish-row args (+ dish_id).
+ */
+function sweet_pepper_menu_dish_args( $dish, $lang ) {
+    $other = 'ru' === $lang ? 'en' : 'ru';
+    $pick  = fn( $row, $key ) => trim( (string) ( $row[ "{$key}_{$lang}" ] ?? '' ) ) ?: trim( (string) ( $row[ "{$key}_{$other}" ] ?? '' ) );
+    $lines = fn( $text ) => array_values( array_filter( array_map( 'trim', preg_split( '/\R/', (string) $text ) ) ) );
+    [ $price, $quantity ] = sweet_pepper_menu_format_sizes( $dish, $lang );
+    return [
+        'dish_id'        => $dish['dish_id'] ?? '',
+        'dish_name'      => $pick( $dish, 'name' ),
+        'price'          => $price,
+        'quantity'       => $quantity,
+        'description'    => $pick( $dish, 'description' ),
+        'icons'          => array_slice( (array) ( $dish['icons'] ?? [] ), 0, 2 ),
+        'seasonal_label' => $pick( $dish, 'seasonal' ),
+        'options'        => $lines( $pick( $dish, 'options' ) ),
+        'highlight'      => ! empty( $dish['highlight'] ),
+    ];
 }
 
 /**

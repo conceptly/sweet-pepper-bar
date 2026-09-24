@@ -32,14 +32,14 @@ $pinned    = $args['pinned'] ?? false;
 
 // Category labels for the image pill
 $category_labels = [
-    'event'     => 'Event',
-    'promo'     => 'Promo',
-    'community' => 'Community',
+    'event'     => __( 'Event', 'sweet-pepper' ),
+    'promo'     => __( 'Promo', 'sweet-pepper' ),
+    'community' => __( 'Community', 'sweet-pepper' ),
 ];
 $badge_label = $category_labels[ $category ] ?? '';
 
 // CTA text based on source
-$cta_text = $source === 'vk' ? 'See it on VK' : 'See it on Instagram';
+$cta_text = $source === 'vk' ? __( 'See it on VK', 'sweet-pepper' ) : __( 'See it on Instagram', 'sweet-pepper' );
 
 // "Today!" detection
 $is_today = false;
@@ -49,7 +49,7 @@ if ( $date ) {
         $is_today = true;
     }
 }
-$display_date = $is_today ? 'Today!' : esc_html( $date );
+$display_date = $is_today ? esc_html__( 'Today!', 'sweet-pepper' ) : esc_html( $date );
 
 // Card classes
 $card_classes = 'event-card';

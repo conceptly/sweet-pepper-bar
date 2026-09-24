@@ -1,0 +1,3537 @@
+{
+    "key": "group_sp_home",
+    "title": "Главная",
+    "fields": [
+        {
+            "key": "field_sp_home_hero_tab",
+            "label": "Первый экран",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_hero_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Четыре набора — по времени суток: гость видит тот, что сейчас на часах бара, и может выбрать другой плиткой. Заголовок в одну строку, капслок ставит сайт.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_eyebrow_ru",
+            "label": "Надзаголовок",
+            "name": "home_hero_eyebrow_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_eyebrow_en",
+            "label": "Надзаголовок (EN)",
+            "name": "home_hero_eyebrow_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Завтрак</strong>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_photo",
+            "label": "Фото плитки",
+            "name": "home_hero_breakfast_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2 — плитка показывает его квадратом, выбранная — целиком.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_alt_ru",
+            "label": "Описание фото (alt)",
+            "name": "home_hero_breakfast_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_alt_en",
+            "label": "Описание фото (alt) (EN)",
+            "name": "home_hero_breakfast_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_headline_ru",
+            "label": "Заголовок",
+            "name": "home_hero_breakfast_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_headline_en",
+            "label": "Заголовок (EN)",
+            "name": "home_hero_breakfast_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_body_ru",
+            "label": "Текст",
+            "name": "home_hero_breakfast_body_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_body_en",
+            "label": "Текст (EN)",
+            "name": "home_hero_breakfast_body_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_button_ru",
+            "label": "Кнопка меню",
+            "name": "home_hero_breakfast_button_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_breakfast_button_en",
+            "label": "Кнопка меню (EN)",
+            "name": "home_hero_breakfast_button_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Обед</strong>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_lunch_photo",
+            "label": "Фото плитки",
+            "name": "home_hero_lunch_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2 — плитка показывает его квадратом, выбранная — целиком.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_hero_lunch_alt_ru",
+            "label": "Описание фото (alt)",
+            "name": "home_hero_lunch_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_alt_en",
+            "label": "Описание фото (alt) (EN)",
+            "name": "home_hero_lunch_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_headline_ru",
+            "label": "Заголовок",
+            "name": "home_hero_lunch_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_headline_en",
+            "label": "Заголовок (EN)",
+            "name": "home_hero_lunch_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_body_ru",
+            "label": "Текст",
+            "name": "home_hero_lunch_body_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_body_en",
+            "label": "Текст (EN)",
+            "name": "home_hero_lunch_body_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_button_ru",
+            "label": "Кнопка меню",
+            "name": "home_hero_lunch_button_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_lunch_button_en",
+            "label": "Кнопка меню (EN)",
+            "name": "home_hero_lunch_button_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Ужин</strong>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_dinner_photo",
+            "label": "Фото плитки",
+            "name": "home_hero_dinner_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2 — плитка показывает его квадратом, выбранная — целиком.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_hero_dinner_alt_ru",
+            "label": "Описание фото (alt)",
+            "name": "home_hero_dinner_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_alt_en",
+            "label": "Описание фото (alt) (EN)",
+            "name": "home_hero_dinner_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_headline_ru",
+            "label": "Заголовок",
+            "name": "home_hero_dinner_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_headline_en",
+            "label": "Заголовок (EN)",
+            "name": "home_hero_dinner_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_body_ru",
+            "label": "Текст",
+            "name": "home_hero_dinner_body_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_body_en",
+            "label": "Текст (EN)",
+            "name": "home_hero_dinner_body_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_button_ru",
+            "label": "Кнопка меню",
+            "name": "home_hero_dinner_button_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_dinner_button_en",
+            "label": "Кнопка меню (EN)",
+            "name": "home_hero_dinner_button_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Вечер</strong>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_party_photo",
+            "label": "Фото плитки",
+            "name": "home_hero_party_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2 — плитка показывает его квадратом, выбранная — целиком.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_hero_party_alt_ru",
+            "label": "Описание фото (alt)",
+            "name": "home_hero_party_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_alt_en",
+            "label": "Описание фото (alt) (EN)",
+            "name": "home_hero_party_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_headline_ru",
+            "label": "Заголовок",
+            "name": "home_hero_party_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_headline_en",
+            "label": "Заголовок (EN)",
+            "name": "home_hero_party_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_body_ru",
+            "label": "Текст",
+            "name": "home_hero_party_body_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_body_en",
+            "label": "Текст (EN)",
+            "name": "home_hero_party_body_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_button_ru",
+            "label": "Кнопка меню",
+            "name": "home_hero_party_button_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_party_button_en",
+            "label": "Кнопка меню (EN)",
+            "name": "home_hero_party_button_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "ведёт в свой раздел меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Когда бар закрыт</strong> — плитка остаётся подсвеченной, а слова другие; слова «закрыто» на первом экране нет. «{time}» в тексте — время открытия, сайт подставляет его сам из «Настроек бара».",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_closed_night_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Ночь — после закрытия до 4:00</strong>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_closed_night_headline_ru",
+            "label": "Заголовок",
+            "name": "home_hero_closed_night_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_night_headline_en",
+            "label": "Заголовок (EN)",
+            "name": "home_hero_closed_night_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_night_body_ru",
+            "label": "Текст",
+            "name": "home_hero_closed_night_body_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "… с {time}.",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_night_body_en",
+            "label": "Текст (EN)",
+            "name": "home_hero_closed_night_body_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "… с {time}.",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_morning_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Утро — с 4:00 до открытия</strong>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_closed_morning_headline_ru",
+            "label": "Заголовок",
+            "name": "home_hero_closed_morning_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_morning_headline_en",
+            "label": "Заголовок (EN)",
+            "name": "home_hero_closed_morning_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_morning_body_ru",
+            "label": "Текст",
+            "name": "home_hero_closed_morning_body_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "… с {time}.",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_morning_body_en",
+            "label": "Текст (EN)",
+            "name": "home_hero_closed_morning_body_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "… с {time}.",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_sunday_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Воскресное утро — до 10:00</strong>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_hero_closed_sunday_headline_ru",
+            "label": "Заголовок",
+            "name": "home_hero_closed_sunday_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_sunday_headline_en",
+            "label": "Заголовок (EN)",
+            "name": "home_hero_closed_sunday_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_sunday_body_ru",
+            "label": "Текст",
+            "name": "home_hero_closed_sunday_body_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "… с {time}.",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_hero_closed_sunday_body_en",
+            "label": "Текст (EN)",
+            "name": "home_hero_closed_sunday_body_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "… с {time}.",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_highlights_tab",
+            "label": "Что попробовать",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_highlights_eyebrow_ru",
+            "label": "Надзаголовок",
+            "name": "home_highlights_eyebrow_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_highlights_eyebrow_en",
+            "label": "Надзаголовок (EN)",
+            "name": "home_highlights_eyebrow_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_highlights_headline_ru",
+            "label": "Заголовок · строка 1",
+            "name": "home_highlights_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_highlights_headline_en",
+            "label": "Заголовок · строка 1 (EN)",
+            "name": "home_highlights_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_highlights_headline_2_ru",
+            "label": "Заголовок · строка 2",
+            "name": "home_highlights_headline_2_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_highlights_headline_2_en",
+            "label": "Заголовок · строка 2 (EN)",
+            "name": "home_highlights_headline_2_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_highlights_description_ru",
+            "label": "Текст",
+            "name": "home_highlights_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_highlights_description_en",
+            "label": "Текст (EN)",
+            "name": "home_highlights_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_highlight_cards_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Ровно три карточки, порядок строк — порядок на сайте. Обычно карточка — блюдо или напиток из меню: название, цена и фото берутся из его записи, ссылка ведёт в его раздел; название и описание на карточке можно задать свои. Карточка без блюда — категория (например, настойки): её слова и фото набираются здесь.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_highlight_cards",
+            "label": "Карточки",
+            "name": "home_highlight_cards",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 3,
+            "max": 3,
+            "collapsed": "field_sp_home_card_title_ru",
+            "button_label": "Добавить карточку",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_home_card_dish",
+                    "label": "Блюдо или напиток из меню",
+                    "name": "dish",
+                    "aria-label": "",
+                    "type": "relationship",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "dish",
+                        "drink"
+                    ],
+                    "post_status": [
+                        "publish"
+                    ],
+                    "taxonomy": [],
+                    "filters": [
+                        "search",
+                        "post_type"
+                    ],
+                    "return_format": "id",
+                    "min": 0,
+                    "max": 1,
+                    "elements": [
+                        "featured_image"
+                    ],
+                    "bidirectional": 0,
+                    "bidirectional_target": [],
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_title_ru",
+                    "label": "Название на карточке",
+                    "name": "title_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "пусто — как в меню",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_title_en",
+                    "label": "Название на карточке (EN)",
+                    "name": "title_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "если в меню длиннее",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_photo",
+                    "label": "Фото",
+                    "name": "photo",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Горизонтальное, 3:2.",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_sp_home_card_dish",
+                                "operator": "==empty"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "34",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "jpg,jpeg,png,webp",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_section",
+                    "label": "Куда ведёт карточка",
+                    "name": "section",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_sp_home_card_dish",
+                                "operator": "==empty"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "66",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "breakfast": "Завтраки",
+                        "lunch": "Обеды",
+                        "bar-snacks": "Закуски",
+                        "salads": "Салаты",
+                        "sandwiches": "Сэндвичи",
+                        "soups": "Супы",
+                        "hot-dishes": "Горячее",
+                        "desserts": "Десерты",
+                        "kids": "Детям",
+                        "infusions": "Настойки",
+                        "cocktails": "Коктейли",
+                        "wine": "Вино",
+                        "beer": "Пиво",
+                        "spirits": "Крепкое",
+                        "no-buzz": "Без алкоголя",
+                        "tea-coffee": "Чай и кофе"
+                    },
+                    "default_value": "infusions",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_price_ru",
+                    "label": "Цена",
+                    "name": "price_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_sp_home_card_dish",
+                                "operator": "==empty"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "От 150 ₽",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_price_en",
+                    "label": "Цена (EN)",
+                    "name": "price_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_sp_home_card_dish",
+                                "operator": "==empty"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "От 150 ₽",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_description_ru",
+                    "label": "Описание на карточке",
+                    "name": "description_ru",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 2,
+                    "placeholder": "пусто — как в меню",
+                    "new_lines": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_description_en",
+                    "label": "Описание на карточке (EN)",
+                    "name": "description_en",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 2,
+                    "placeholder": "пусто — как в меню",
+                    "new_lines": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_tag_icon",
+                    "label": "Метка: значок",
+                    "name": "tag_icon",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "34",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "": "— без метки",
+                        "star": "Звезда",
+                        "fire": "Огонь — хит",
+                        "Pepper": "Перец — острое",
+                        "veg": "Лист — вегетарианское",
+                        "yaroslavl-logo": "Ярославль — местное"
+                    },
+                    "default_value": "",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_tag_label_ru",
+                    "label": "Метка: слово",
+                    "name": "tag_label_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Сезонный хит",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                },
+                {
+                    "key": "field_sp_home_card_tag_label_en",
+                    "label": "Метка: слово (EN)",
+                    "name": "tag_label_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Сезонный хит",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_highlight_cards"
+                }
+            ]
+        },
+        {
+            "key": "field_sp_home_bar_tab",
+            "label": "Настойки",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_bar_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Заголовок, фото и три строки из меню. Название, выход, цена и описание — из записи блюда; порядок — порядок на сайте.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_bar_title_ru",
+            "label": "Заголовок",
+            "name": "home_bar_title_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_bar_title_en",
+            "label": "Заголовок (EN)",
+            "name": "home_bar_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_bar_photo",
+            "label": "Фото",
+            "name": "home_bar_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_bar_alt_ru",
+            "label": "Описание фото (alt)",
+            "name": "home_bar_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_bar_alt_en",
+            "label": "Описание фото (alt) (EN)",
+            "name": "home_bar_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_bar_badge_ru",
+            "label": "Подпись на фото",
+            "name": "home_bar_badge_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "пусто — без подписи",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_bar_badge_en",
+            "label": "Подпись на фото (EN)",
+            "name": "home_bar_badge_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "пусто — без подписи",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_bar_items",
+            "label": "Напитки",
+            "name": "home_bar_items",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "drink"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "min": 0,
+            "max": 3,
+            "elements": [
+                "featured_image"
+            ],
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_sp_home_kitchen_tab",
+            "label": "Обед",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_kitchen_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Заголовок, фото и три строки из меню. Название, выход, цена и описание — из записи блюда; порядок — порядок на сайте.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_kitchen_title_ru",
+            "label": "Заголовок",
+            "name": "home_kitchen_title_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_kitchen_title_en",
+            "label": "Заголовок (EN)",
+            "name": "home_kitchen_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_kitchen_photo",
+            "label": "Фото",
+            "name": "home_kitchen_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_kitchen_alt_ru",
+            "label": "Описание фото (alt)",
+            "name": "home_kitchen_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_kitchen_alt_en",
+            "label": "Описание фото (alt) (EN)",
+            "name": "home_kitchen_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_kitchen_badge_ru",
+            "label": "Подпись на фото",
+            "name": "home_kitchen_badge_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "пусто — без подписи",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_kitchen_badge_en",
+            "label": "Подпись на фото (EN)",
+            "name": "home_kitchen_badge_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "пусто — без подписи",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_kitchen_items",
+            "label": "Блюда",
+            "name": "home_kitchen_items",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "dish"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "min": 0,
+            "max": 3,
+            "elements": [
+                "featured_image"
+            ],
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_sp_home_about_tab",
+            "label": "О баре",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_about_eyebrow_ru",
+            "label": "Надзаголовок",
+            "name": "home_about_eyebrow_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_eyebrow_en",
+            "label": "Надзаголовок (EN)",
+            "name": "home_about_eyebrow_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_headline_ru",
+            "label": "Заголовок · строка 1",
+            "name": "home_about_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_headline_en",
+            "label": "Заголовок · строка 1 (EN)",
+            "name": "home_about_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_headline_2_ru",
+            "label": "Заголовок · строка 2",
+            "name": "home_about_headline_2_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_headline_2_en",
+            "label": "Заголовок · строка 2 (EN)",
+            "name": "home_about_headline_2_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_description_ru",
+            "label": "Текст",
+            "name": "home_about_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_about_description_en",
+            "label": "Текст (EN)",
+            "name": "home_about_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_about_photo",
+            "label": "Фото",
+            "name": "home_about_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_about_alt_ru",
+            "label": "Описание фото (alt)",
+            "name": "home_about_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_alt_en",
+            "label": "Описание фото (alt) (EN)",
+            "name": "home_about_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_since",
+            "label": "Год основания",
+            "name": "home_about_since",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Сайт считает «12 лет» сам: в этом году 12, в следующем 13.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": 2009,
+            "max": "",
+            "step": 1,
+            "placeholder": "2014",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_rating_ru",
+            "label": "Рейтинг",
+            "name": "home_about_rating_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "5.0 на Яндекс Картах",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_about_rating_en",
+            "label": "Рейтинг (EN)",
+            "name": "home_about_rating_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "5.0 на Яндекс Картах",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_tab",
+            "label": "Что нового",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_events_eyebrow_ru",
+            "label": "Надзаголовок",
+            "name": "home_events_eyebrow_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_eyebrow_en",
+            "label": "Надзаголовок (EN)",
+            "name": "home_events_eyebrow_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_headline_ru",
+            "label": "Заголовок · строка 1",
+            "name": "home_events_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_headline_en",
+            "label": "Заголовок · строка 1 (EN)",
+            "name": "home_events_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_headline_2_ru",
+            "label": "Заголовок · строка 2",
+            "name": "home_events_headline_2_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_headline_2_en",
+            "label": "Заголовок · строка 2 (EN)",
+            "name": "home_events_headline_2_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_description_ru",
+            "label": "Текст",
+            "name": "home_events_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_events_description_en",
+            "label": "Текст (EN)",
+            "name": "home_events_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_event_cards_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "До пяти карточек, порядок строк — порядок на сайте: то, что уже выложено в соцсети. Фото вертикальное 4:5. Дата — необязательна: сегодняшняя показывается как «Сегодня!». «Закрепить» выделяет карточку рамкой.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_event_cards",
+            "label": "Карточки",
+            "name": "home_event_cards",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 5,
+            "collapsed": "field_sp_home_event_title_ru",
+            "button_label": "Добавить карточку",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_home_event_cover",
+                    "label": "Фото",
+                    "name": "cover",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Вертикальное, 4:5.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "jpg,jpeg,png,webp",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_title_ru",
+                    "label": "Подпись",
+                    "name": "title_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_title_en",
+                    "label": "Подпись (EN)",
+                    "name": "title_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_date",
+                    "label": "Дата",
+                    "name": "date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "display_format": "d.m.Y",
+                    "return_format": "Y-m-d",
+                    "first_day": 1,
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_category",
+                    "label": "Метка",
+                    "name": "category",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "": "— без метки",
+                        "event": "Событие",
+                        "promo": "Акция",
+                        "community": "Наши гости"
+                    },
+                    "default_value": "",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_source",
+                    "label": "Где выложено",
+                    "name": "source",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "vk": "ВКонтакте",
+                        "instagram": "Instagram"
+                    },
+                    "default_value": "vk",
+                    "allow_null": 0,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_url",
+                    "label": "Ссылка на пост",
+                    "name": "url",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_pinned",
+                    "label": "Закрепить",
+                    "name": "pinned",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Да",
+                    "ui_off_text": "Нет",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_alt_ru",
+                    "label": "Описание фото (alt)",
+                    "name": "alt_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "пусто — как подпись",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_event_cards"
+                },
+                {
+                    "key": "field_sp_home_event_alt_en",
+                    "label": "Описание фото (alt) (EN)",
+                    "name": "alt_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "пусто — как подпись",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_home_event_cards"
+                }
+            ]
+        },
+        {
+            "key": "field_sp_home_events_more_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Последняя плитка</strong> — ссылка на сообщество.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_events_more_photo",
+            "label": "Фото",
+            "name": "home_events_more_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Вертикальное, 4:5; на сайте затемнено.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_home_events_more_label_ru",
+            "label": "Слова на плитке",
+            "name": "home_events_more_label_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_more_label_en",
+            "label": "Слова на плитке (EN)",
+            "name": "home_events_more_label_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_events_more_url",
+            "label": "Ссылка",
+            "name": "home_events_more_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_sp_home_contacts_tab",
+            "label": "Визит и связь",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_contacts_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Слова раздела. Телефон, адрес, ссылки на соцсети и карта — в коде сайта, до переезда в «Настройки бара».",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_contacts_eyebrow_ru",
+            "label": "Надзаголовок",
+            "name": "home_contacts_eyebrow_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_eyebrow_en",
+            "label": "Надзаголовок (EN)",
+            "name": "home_contacts_eyebrow_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_headline_ru",
+            "label": "Заголовок · строка 1",
+            "name": "home_contacts_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_headline_en",
+            "label": "Заголовок · строка 1 (EN)",
+            "name": "home_contacts_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_headline_2_ru",
+            "label": "Заголовок · строка 2",
+            "name": "home_contacts_headline_2_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_headline_2_en",
+            "label": "Заголовок · строка 2 (EN)",
+            "name": "home_contacts_headline_2_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_description_ru",
+            "label": "Текст",
+            "name": "home_contacts_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_contacts_description_en",
+            "label": "Текст (EN)",
+            "name": "home_contacts_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_contacts_description_mobile_ru",
+            "label": "Текст на телефоне",
+            "name": "home_contacts_description_mobile_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "короче: на телефоне вместо текста выше",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_contacts_description_mobile_en",
+            "label": "Текст на телефоне (EN)",
+            "name": "home_contacts_description_mobile_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "короче: на телефоне вместо текста выше",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_contacts_map_title_ru",
+            "label": "Заголовок над картой",
+            "name": "home_contacts_map_title_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_map_title_en",
+            "label": "Заголовок над картой (EN)",
+            "name": "home_contacts_map_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_more_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Переход на страницу «Как добраться»</strong> — только на телефоне.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_contacts_more_title_ru",
+            "label": "Заголовок",
+            "name": "home_contacts_more_title_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_more_title_en",
+            "label": "Заголовок (EN)",
+            "name": "home_contacts_more_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_more_text_ru",
+            "label": "Текст",
+            "name": "home_contacts_more_text_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_contacts_more_text_en",
+            "label": "Текст (EN)",
+            "name": "home_contacts_more_text_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_seo_tab",
+            "label": "Поиск",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_home_seo_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Название вкладки браузера и строка, которую показывает поиск. Имя сайта добавляется само.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_home_seo_title_ru",
+            "label": "Название страницы",
+            "name": "home_seo_title_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Бар и кухня в Ярославле",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_seo_title_en",
+            "label": "Название страницы (EN)",
+            "name": "home_seo_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Бар и кухня в Ярославле",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_home_seo_description_ru",
+            "label": "Описание для поиска",
+            "name": "home_seo_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 160,
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_home_seo_description_en",
+            "label": "Описание для поиска (EN)",
+            "name": "home_seo_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 160,
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "The home page, one tab per section, on the front page. Generated by tools/page-field-groups.py; read by inc/home-data.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1790273397
+}

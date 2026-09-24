@@ -47,12 +47,22 @@ export function initDaypartEngine() {
     const subhead = document.getElementById('hero-subhead');
     const menuBtn = document.getElementById('hero-menu-btn');
 
-    /* Daypart content dictionary.
+    /* The WORDS come from the page (25 Sep 2026): template-parts/home/hero.php prints the
+       front page's «Первый экран» fields as JSON in the request's language — headline,
+       subhead and the button's text per daypart, and the closed-hours lines (inc/home-data.php).
+       The dictionary below is the typed English, the fallback when the JSON is missing, and
+       the home of what stays code: the theme each daypart wears, the button's glyph and where
+       it goes.
        btnHref (Sep 2026): the hero button used to point at a dead `#menu` anchor that
        exists nowhere on the page. Each daypart now lands on its own section of the menu
        page; the bar state travels with the anchor because only one state renders per
-       request (see highlight-card usage in front-page.php). Every anchor here was checked
+       request (see highlight-card usage in template-parts/home/highlights.php). Every anchor here was checked
        against the rendered menu page. */
+    let fieldCopy = {};
+    const copyEl = document.querySelector('.home-hero__data');
+    if (copyEl) {
+        try { fieldCopy = JSON.parse(copyEl.textContent) || {}; } catch (e) { console.warn('[daypart] Could not parse the hero copy', e); }
+    }
     const daypartData = {
         breakfast: {
             mode: 'day',
@@ -91,6 +101,9 @@ export function initDaypartEngine() {
             btnHref: '/menu/bar/#cocktails',
         },
     };
+    Object.keys(daypartData).forEach((dp) => {
+        if (fieldCopy.dayparts && fieldCopy.dayparts[dp]) Object.assign(daypartData[dp], fieldCopy.dayparts[dp]);
+    });
 
     /* Closed state — bar and kitchen shut (by default 02:00 → 08:30, Sundays → 10:00; the
        hours come from Bar Settings through bar-clock.js, and so do the times in this copy). inc/daypart-head.php sets <html data-closed="night|morning|sunday"> and parks
@@ -103,11 +116,18 @@ export function initDaypartEngine() {
     const opensAt = formatBarTime(html.dataset.closed === 'sunday' && getBarHours()
         ? getBarHours().openSun
         : getBarStatus().opens);
-    const closedCopy = {
-        night:   { headline: 'GOOD NIGHT, YAROSLAVL', subhead: `See you for breakfast at ${opensAt}.` },
-        morning: { headline: "YOU'RE UP BEFORE THE BAR!", subhead: `Eggs and coffee from ${opensAt}.` },
-        sunday:  { headline: 'A LITTLE SUNDAY POLISH', subhead: `Back at ${opensAt}, spotless.` },
-    }[html.dataset.closed];
+    // «{time}» in a closed line is the opening time — typed English here, the page's words over it
+    const withTime = (line) => String(line).replace(/\{(time|время)\}/g, opensAt);
+    const closedTyped = {
+        night:   { headline: 'GOOD NIGHT, YAROSLAVL', subhead: 'See you for breakfast at {time}.' },
+        morning: { headline: "YOU'RE UP BEFORE THE BAR!", subhead: 'Eggs and coffee from {time}.' },
+        sunday:  { headline: 'A LITTLE SUNDAY POLISH', subhead: 'Back at {time}, spotless.' },
+    };
+    const closedWindow = html.dataset.closed;
+    const closedCopy = closedTyped[closedWindow] && (() => {
+        const c = { ...closedTyped[closedWindow], ...((fieldCopy.closed || {})[closedWindow] || {}) };
+        return { headline: c.headline, subhead: withTime(c.subhead) };
+    })();
 
     // Same query as the bento block in hero.css: phones, and portrait tablets in the band
     const mobileBento = window.matchMedia('(max-width: 767px), (min-width: 768px) and (max-width: 991px) and (min-height: 1000px)');

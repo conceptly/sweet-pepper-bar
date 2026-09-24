@@ -81,7 +81,7 @@
             <a href="https://vk.me/barsweetpepper" class="btn-social btn-social-vk" target="_blank" rel="noopener">
                 <div class="btn-social-left">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="VK" width="20" height="20" class="btn-social-icon">
-                    VK message
+                    <?php esc_html_e( 'VK message', 'sweet-pepper' ); ?>
                 </div>
                 <span class="btn-social-arrow"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
             </a>
@@ -89,7 +89,7 @@
             <a href="https://ig.me/m/barsweetpepper" class="btn-social btn-social-ig" target="_blank" rel="noopener">
                 <div class="btn-social-left">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="Instagram" width="20" height="20" class="btn-social-icon">
-                    Instagram DM
+                    <?php esc_html_e( 'Instagram DM', 'sweet-pepper' ); ?>
                 </div>
                 <span class="btn-social-arrow"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
             </a>

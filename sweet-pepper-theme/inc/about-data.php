@@ -5,52 +5,12 @@
  * The About page's fields (acf-json/group_sp_about.json, one tab per section), read
  * into template-part args in one language. Until a tab is saved the typed copy in
  * data/about/<section>.php renders instead, so a section converts without the page
- * ever going blank. Sections still typed into their template part have no function
- * here yet (website-brief.md → Content editing → About fields).
+ * ever going blank (the row and prose helpers — sweet_pepper_page_rows(),
+ * sweet_pepper_page_text() — live in inc/fields.php, shared with the home page).
  *
  * @package Sweet_Pepper
  */
 
-
-/**
- * A section's repeater rows: the saved rows, or — while the tab has never been saved — the
- * typed rows in the repeater's shape ("{$key}_en" / "{$key}_ru" for each twin, the rest as is).
- *
- * @param string   $field  Repeater field name (the "has this tab been saved" marker too).
- * @param array    $typed  Typed rows; a row's Russian twins sit under 'ru'.
- * @param string[] $twins  Keys that are RU / EN pairs.
- * @return array{0:bool, 1:array} [ saved, rows ]
- */
-function sweet_pepper_about_rows( $page_id, $field, $typed, $twins ) {
-    $saved = function_exists( 'get_field' ) && metadata_exists( 'post', $page_id, $field );
-    if ( $saved ) {
-        return [ true, get_field( $field, $page_id ) ?: [] ];
-    }
-    $rows = [];
-    foreach ( $typed as $row ) {
-        $out = [];
-        foreach ( $row as $key => $value ) {
-            if ( 'ru' === $key ) {
-                continue;
-            }
-            if ( in_array( $key, $twins, true ) ) {
-                $out[ "{$key}_en" ] = $value;
-                $out[ "{$key}_ru" ] = $row['ru'][ $key ] ?? '';
-            } else {
-                $out[ $key ] = $value;
-            }
-        }
-        $rows[] = $out;
-    }
-    return [ false, $rows ];
-}
-
-/**
- * A section's prose: sp_field() per key, over the typed copy.
- */
-function sweet_pepper_about_text( $page_id, $prefix, $typed ) {
-    return fn( $key ) => sp_field( "{$prefix}_{$key}", sweet_pepper_typed( $typed, $key ), $page_id );
-}
 
 /**
  * Departments of an open role. The team picks one from a dropdown; the twins live here.
@@ -248,7 +208,7 @@ add_filter( 'acf/validate_value/name=about_team_members', function ( $valid, $va
  */
 function sweet_pepper_about_hero( $page_id ) {
     $typed = require get_template_directory() . '/data/about/hero.php';
-    $text  = sweet_pepper_about_text( $page_id, 'about_hero', $typed );
+    $text  = sweet_pepper_page_text( $page_id, 'about_hero', $typed );
     [ $headline, $headline_2 ] = sp_headline( 'about_hero_headline', $typed, $page_id );
     return [ 'eyebrow' => $text( 'eyebrow' ), 'headline' => $headline, 'headline_2' => $headline_2, 'lead' => $text( 'lead' ) ];
 }
@@ -258,7 +218,7 @@ function sweet_pepper_about_hero( $page_id ) {
  */
 function sweet_pepper_about_concept( $page_id ) {
     $typed = require get_template_directory() . '/data/about/concept.php';
-    $text  = sweet_pepper_about_text( $page_id, 'about_concept', $typed );
+    $text  = sweet_pepper_page_text( $page_id, 'about_concept', $typed );
     [ $headline, $headline_2 ] = sp_headline( 'about_concept_headline', $typed, $page_id );
     return [ 'eyebrow' => $text( 'eyebrow' ), 'headline' => $headline, 'headline_2' => $headline_2, 'description' => $text( 'description' ) ];
 }
@@ -270,8 +230,8 @@ function sweet_pepper_about_concept( $page_id ) {
  */
 function sweet_pepper_about_reviews( $page_id ) {
     $typed = require get_template_directory() . '/data/about/reviews.php';
-    $text  = sweet_pepper_about_text( $page_id, 'about_reviews', $typed );
-    [ $saved, $rows ] = sweet_pepper_about_rows( $page_id, 'about_quotes', $typed['quotes'], [] );
+    $text  = sweet_pepper_page_text( $page_id, 'about_reviews', $typed );
+    [ $saved, $rows ] = sweet_pepper_page_rows( $page_id, 'about_quotes', $typed['quotes'], [] );
     $quotes = [];
     foreach ( $rows as $i => $row ) {
         $ru = trim( (string) ( $row[ $saved ? 'text_ru' : 'text' ] ?? '' ) );
@@ -319,8 +279,8 @@ add_action( 'acf/save_post', 'sweet_pepper_about_fill_quote_ids', 20 );
  */
 function sweet_pepper_about_perks( $page_id ) {
     $typed = require get_template_directory() . '/data/about/perks.php';
-    $text  = sweet_pepper_about_text( $page_id, 'about_perks', $typed );
-    [ , $rows ] = sweet_pepper_about_rows( $page_id, 'about_perks', $typed['perks'], [ 'label', 'word', 'title', 'description' ] );
+    $text  = sweet_pepper_page_text( $page_id, 'about_perks', $typed );
+    [ , $rows ] = sweet_pepper_page_rows( $page_id, 'about_perks', $typed['perks'], [ 'label', 'word', 'title', 'description' ] );
     $palette = [ 'lime', 'lemon', 'paprika' ];
     $perks   = [];
     foreach ( array_slice( $rows, 0, 6 ) as $i => $row ) {
@@ -348,13 +308,13 @@ function sweet_pepper_about_perks( $page_id ) {
  */
 function sweet_pepper_about_story( $page_id ) {
     $typed = require get_template_directory() . '/data/about/story.php';
-    $text  = sweet_pepper_about_text( $page_id, 'about_story', $typed );
+    $text  = sweet_pepper_page_text( $page_id, 'about_story', $typed );
     $fnd   = fn( $key ) => sp_field( "about_founder_{$key}", sweet_pepper_typed( $typed, "founder_{$key}" ), $page_id );
 
     $saved = function_exists( 'get_field' ) && metadata_exists( 'post', $page_id, 'about_milestones' );
     $photo = sweet_pepper_photo_url( $saved ? get_field( 'about_founder_photo', $page_id ) : '', 'sp-square', $typed['founder_photo'] );
 
-    [ , $rows ] = sweet_pepper_about_rows( $page_id, 'about_milestones', $typed['milestones'], [ 'name', 'wit' ] );
+    [ , $rows ] = sweet_pepper_page_rows( $page_id, 'about_milestones', $typed['milestones'], [ 'name', 'wit' ] );
     $milestones = [];
     foreach ( array_slice( $rows, 0, 3 ) as $i => $row ) {
         $milestones[] = [
@@ -364,7 +324,7 @@ function sweet_pepper_about_story( $page_id ) {
         ];
     }
 
-    [ , $rows ] = sweet_pepper_about_rows( $page_id, 'about_counters', $typed['counters'], [ 'label' ] );
+    [ , $rows ] = sweet_pepper_page_rows( $page_id, 'about_counters', $typed['counters'], [ 'label' ] );
     $counters = [];
     foreach ( $rows as $row ) {
         if ( (int) ( $row['number'] ?? 0 ) > 0 && '' !== sweet_pepper_pick( $row, 'label' ) ) {
@@ -397,8 +357,8 @@ function sweet_pepper_about_story( $page_id ) {
  */
 function sweet_pepper_about_guests( $page_id ) {
     $typed = require get_template_directory() . '/data/about/guests.php';
-    $text  = sweet_pepper_about_text( $page_id, 'about_guests', $typed );
-    [ , $rows ] = sweet_pepper_about_rows( $page_id, 'about_guest_cards', $typed['cards'], [ 'label', 'alt' ] );
+    $text  = sweet_pepper_page_text( $page_id, 'about_guests', $typed );
+    [ , $rows ] = sweet_pepper_page_rows( $page_id, 'about_guest_cards', $typed['cards'], [ 'label', 'alt' ] );
     $cards = [];
     foreach ( $rows as $row ) {
         $src = sweet_pepper_photo_url( $row['photo'] ?? '', 'sp-square', is_string( $row['photo'] ?? null ) ? $row['photo'] : '' );
@@ -427,7 +387,7 @@ function sweet_pepper_about_location( $page_id ) {
  */
 function sweet_pepper_about_cta( $page_id ) {
     $typed = require get_template_directory() . '/data/about/cta.php';
-    $text  = sweet_pepper_about_text( $page_id, 'about_cta', $typed );
+    $text  = sweet_pepper_page_text( $page_id, 'about_cta', $typed );
     return [ 'headline' => $text( 'headline' ), 'body' => $text( 'body' ) ];
 }
 

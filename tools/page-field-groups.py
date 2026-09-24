@@ -385,7 +385,7 @@ def menu_page_group(state, key, title, template, prefix, item_type, door_tab, do
               " из меню, до восьми; порядок здесь — порядок на сайте. Название, фото и ссылка на раздел берутся из записи: "
               "фото — «Фото» в карточке блюда, без него карточка показывает фото раздела. "
               "Пустой список — на сайте стоят позиции с сезонной меткой."),
-        mp("highlights", "Блюда подборки" if item_type == "dish" else "Напитки подборки", "menu_highlights", "relationship", "",
+        mp("highlights", "Блюда сезонного меню" if item_type == "dish" else "Напитки сезонного меню", "menu_highlights", "relationship", "",
            post_type=["dish", "drink"], post_status=["publish"], taxonomy=[], filters=["search", "post_type"],
            return_format="id", min=0, max=8, elements=["featured_image"], bidirectional=0, bidirectional_target=[]),
         mtab("door", door_tab),

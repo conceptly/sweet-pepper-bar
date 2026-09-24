@@ -186,12 +186,19 @@ add_action( 'pre_get_posts', 'sweet_pepper_dish_admin_order' );
 add_filter( 'acf/validate_value/key=field_sp_dish_dish_icons', 'sweet_pepper_menu_validate_icons', 10, 2 );
 
 /**
- * Under the «Фото блюда» box: the crop the site makes, so a plate is framed for it.
+ * The «Фото» field is the dish's photo; the post's featured image mirrors it on every save, so
+ * the Relationship pickers' thumbnails, the tables and the seasonal strip all read
+ * get_post_thumbnail_id() and never diverge from the form.
  */
-function sweet_pepper_dish_thumbnail_note( $html, $post_id ) {
-    if ( in_array( get_post_type( $post_id ), sweet_pepper_menu_item_types(), true ) ) {
-        $html .= '<p class="description">Горизонтальное фото 3:2 — на сайте обрезается по центру до этой пропорции (подборка на странице меню).</p>';
+function sweet_pepper_dish_sync_photo( $post_id ) {
+    if ( ! in_array( get_post_type( $post_id ), sweet_pepper_menu_item_types(), true ) ) {
+        return;
     }
-    return $html;
+    $photo = (int) get_field( 'photo', $post_id );
+    if ( $photo ) {
+        update_post_meta( $post_id, '_thumbnail_id', $photo );
+    } else {
+        delete_post_meta( $post_id, '_thumbnail_id' );
+    }
 }
-add_filter( 'admin_post_thumbnail_html', 'sweet_pepper_dish_thumbnail_note', 10, 2 );
+add_action( 'acf/save_post', 'sweet_pepper_dish_sync_photo', 20 );

@@ -31,6 +31,13 @@ def dish_fields(prefix):
     the site, its post ID is the stable id."""
     f = lambda *a, **k: field(*a, prefix=prefix, **k)
 
+    # The photo first (author, 24 Sep 2026: the featured-image box in the sidebar was not found).
+    # inc/menu-data-dishes.php copies it into the post's featured image on save, so the pickers'
+    # thumbnails and the seasonal strip read one thing.
+    photo   = f("dish_photo", "Фото", "photo", "image", "",
+                instructions="Горизонтальное фото 3:2 — на сайте обрезается по центру (сезонное меню, подборки).",
+                return_format="id", library="all", min_width="", min_height="", min_size="", max_width="", max_height="",
+                max_size="", mime_types="jpg,jpeg,png,webp", preview_size="medium")
     name_en = f("dish_name_en", "Название (EN)", "name_en", "text", "", **text)  # full width: the RU/EN pairs below stay paired
     # Size 1, and an optional size 2 (40 мл / 500 мл → 150 / 1300).
     sizes = [
@@ -60,7 +67,7 @@ def dish_fields(prefix):
         f("dish_options_en", "Опции (EN)", "options_en", "textarea", 50,
           instructions="Каждая опция с новой строки.", **{**area, "rows": 3}),
     ]
-    return [name_en, *sizes, *descriptions, more, *extras]
+    return [photo, name_en, *sizes, *descriptions, more, *extras]
 
 
 # ── The menu store ──

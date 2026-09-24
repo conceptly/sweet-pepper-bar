@@ -13,19 +13,15 @@ function sweet_pepper_register_cpt() {
     // and «Напитки» (author, after the team test) — and a picker can ask for one or the other.
     // A dish is placed on the page by its section's tab on the menu page (inc/menu-data-dishes.php);
     // Draft takes it off the site. Never a public URL — the menu page renders it.
-    // Its PHOTO is the post's featured image (3:2, the `sp-3x2` crop — inc/images.php): the
-    // Highlights strip prints it (inc/menu-page.php); the pickers and previews will.
+    // Its PHOTO is the «Фото» field at the top of its form (group_sp_dish.json), copied into
+    // the post's featured image on save (inc/menu-data-dishes.php) so the pickers' thumbnails
+    // and the seasonal strip read one thing. No featured-image box: the team looked for the
+    // photo in the form and not in the sidebar (author, 24 Sep 2026).
     $dish_type = function ( $labels, $position, $icon ) {
-        $photo = 'Напиток' === $labels['singular_name'] ? 'напитка' : 'блюда';
         return array(
             'label'         => $labels['singular_name'],
-            'labels'        => $labels + array(
-                'featured_image'        => "Фото {$photo}",
-                'set_featured_image'    => 'Выбрать фото',
-                'remove_featured_image' => 'Убрать фото',
-                'use_featured_image'    => 'Сделать фото ' . $photo,
-            ),
-            'supports'      => array( 'title', 'thumbnail', 'revisions' ), // Name and Photo
+            'labels'        => $labels,
+            'supports'      => array( 'title', 'revisions' ), // the name; everything else is a field
             'public'        => false,
             'show_ui'       => true,
             'menu_position' => $position, // own slots: a taken one (Posts is 5) gets bumped past its neighbours

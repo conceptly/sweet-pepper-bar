@@ -8556,7 +8556,7 @@
         },
         {
             "key": "field_sp_mfood_highlights",
-            "label": "Блюда подборки",
+            "label": "Блюда сезонного меню",
             "name": "menu_highlights",
             "aria-label": "",
             "type": "relationship",
@@ -8906,5 +8906,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790226874
+    "modified": 1790268642
 }

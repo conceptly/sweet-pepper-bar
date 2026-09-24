@@ -249,7 +249,10 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
     line-height: 1.35;
     letter-spacing: 0.9px;
     color: var(--chili-deep);
-    width: 88px;
+    /* 88 as drawn; a single word wider than that (RU «игристого», «Идеальная») widens the
+       box instead of running into the divider — the English titles never reach it. */
+    width: min-content;
+    min-width: 88px;
     flex-shrink: 0;
 }
 
@@ -702,6 +705,14 @@ html[data-theme="night"] .menu-section__remark {
            at the band's 736–903 it stranded the text at the far end of the coupon. */
         justify-content: flex-start;
         gap: 24px;
+    }
+
+    /* The card is the column's width here, so a line longer than the room wraps instead of
+       running past the card's edge — it did at 360 in English and from 402 in Russian
+       (the wine and spritz offers). Desktop keeps nowrap in its fixed 348 card. */
+    .menu-section__deal-desc {
+        white-space: normal;
+        min-width: 0;
     }
 
     .menu-section__deal-shadow {

@@ -50,6 +50,9 @@ $sections_json[ $door['slug'] ] = [
     'caption'     => $door['caption'],
     'description' => $door['description'],
 ];
+if ( ! empty( $door['night'] ) ) { // the night set — menu-hero.js swaps it in when <html data-theme="night">
+    $sections_json[ $door['slug'] ]['night'] = $door['night'];
+}
 
 // Arrow glyph: inlined per instance via sweet_pepper_inline_svg() (unique clipPath ids —
 // a shared id resolves to the first copy in the document, which on phones sits inside

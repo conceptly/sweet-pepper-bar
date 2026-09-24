@@ -17,7 +17,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_breakfast_hint",
@@ -35,7 +36,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_breakfast_label_ru",
@@ -213,7 +214,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_breakfast_hero_photo",
@@ -375,7 +376,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_breakfast_photo",
@@ -537,7 +538,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_breakfast_deal_title_ru",
@@ -715,7 +716,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_breakfast_subsections",
@@ -806,7 +807,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_breakfast_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_breakfast_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_breakfast_sub_style",
@@ -833,7 +836,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_breakfast_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_breakfast_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_breakfast_sub_dishes",
@@ -950,7 +955,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_lunch_hint",
@@ -968,7 +974,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_lunch_label_ru",
@@ -1146,7 +1152,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_lunch_hero_photo",
@@ -1308,7 +1314,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_lunch_photo",
@@ -1470,7 +1476,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_lunch_deal_title_ru",
@@ -1648,7 +1654,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_lunch_subsections",
@@ -1739,7 +1745,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_lunch_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_lunch_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_lunch_sub_style",
@@ -1766,7 +1774,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_lunch_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_lunch_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_lunch_sub_dishes",
@@ -1883,7 +1893,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_hint",
@@ -1901,7 +1912,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_label_ru",
@@ -2079,7 +2090,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_hero_photo",
@@ -2241,7 +2252,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_photo",
@@ -2403,7 +2414,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_deal_title_ru",
@@ -2581,7 +2592,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_subsections",
@@ -2672,7 +2683,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_bar_snacks_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_bar_snacks_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_bar_snacks_sub_style",
@@ -2699,7 +2712,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_bar_snacks_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_bar_snacks_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_bar_snacks_sub_dishes",
@@ -2816,7 +2831,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_salads_hint",
@@ -2834,7 +2850,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_salads_label_ru",
@@ -3012,7 +3028,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_salads_hero_photo",
@@ -3174,7 +3190,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_salads_photo",
@@ -3336,7 +3352,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_salads_deal_title_ru",
@@ -3514,7 +3530,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_salads_subsections",
@@ -3605,7 +3621,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_salads_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_salads_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_salads_sub_style",
@@ -3632,7 +3650,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_salads_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_salads_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_salads_sub_dishes",
@@ -3749,7 +3769,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_hint",
@@ -3767,7 +3788,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_label_ru",
@@ -3945,7 +3966,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_hero_photo",
@@ -4107,7 +4128,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_photo",
@@ -4269,7 +4290,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_deal_title_ru",
@@ -4447,7 +4468,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_subsections",
@@ -4538,7 +4559,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_sandwiches_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_sandwiches_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_sandwiches_sub_style",
@@ -4565,7 +4588,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_sandwiches_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_sandwiches_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_sandwiches_sub_dishes",
@@ -4682,7 +4707,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_soups_hint",
@@ -4700,7 +4726,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_soups_label_ru",
@@ -4878,7 +4904,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_soups_hero_photo",
@@ -5040,7 +5066,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_soups_photo",
@@ -5202,7 +5228,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_soups_deal_title_ru",
@@ -5380,7 +5406,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_soups_subsections",
@@ -5471,7 +5497,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_soups_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_soups_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_soups_sub_style",
@@ -5498,7 +5526,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_soups_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_soups_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_soups_sub_dishes",
@@ -5615,7 +5645,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_hint",
@@ -5633,7 +5664,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_label_ru",
@@ -5811,7 +5842,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_hero_photo",
@@ -5973,7 +6004,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_photo",
@@ -6135,7 +6166,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_deal_title_ru",
@@ -6313,7 +6344,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_subsections",
@@ -6404,7 +6435,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_hot_dishes_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_hot_dishes_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_hot_dishes_sub_style",
@@ -6431,7 +6464,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_hot_dishes_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_hot_dishes_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_hot_dishes_sub_dishes",
@@ -6548,7 +6583,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_desserts_hint",
@@ -6566,7 +6602,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_desserts_label_ru",
@@ -6744,7 +6780,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_desserts_hero_photo",
@@ -6906,7 +6942,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_desserts_photo",
@@ -7068,7 +7104,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_desserts_deal_title_ru",
@@ -7246,7 +7282,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_desserts_subsections",
@@ -7337,7 +7373,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_desserts_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_desserts_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_desserts_sub_style",
@@ -7364,7 +7402,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_desserts_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_desserts_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_desserts_sub_dishes",
@@ -7481,7 +7521,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_sec_kids_hint",
@@ -7499,7 +7540,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» / «Напитках»; здесь оно только выбирается и ставится на место."
+            "message": "Слова раздела, его фото и список блюд. Само блюдо (цена, выход, описание) правится в «Блюдах» \/ «Напитках»; здесь оно только выбирается и ставится на место."
         },
         {
             "key": "field_sp_mfood_sec_kids_label_ru",
@@ -7677,7 +7718,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Первый экран</strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
+            "message": "<strong>Первый экран<\/strong> — фото, его подпись и абзац, которые показываются, когда гость выбирает этот раздел в списке."
         },
         {
             "key": "field_sp_mfood_sec_kids_hero_photo",
@@ -7839,7 +7880,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Фото раздела</strong> — широкая полоса над списком блюд."
+            "message": "<strong>Фото раздела<\/strong> — широкая полоса над списком блюд."
         },
         {
             "key": "field_sp_mfood_sec_kids_photo",
@@ -8001,7 +8042,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Акция</strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
+            "message": "<strong>Акция<\/strong> — карточка справа от заголовка. Без заголовка акции карточки нет."
         },
         {
             "key": "field_sp_mfood_sec_kids_deal_title_ru",
@@ -8179,7 +8220,7 @@
             },
             "new_lines": "",
             "esc_html": 0,
-            "message": "<strong>Блюда раздела</strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
+            "message": "<strong>Блюда раздела<\/strong> по подразделам. Порядок — порядок на сайте: подразделы перетаскиваются за номер, блюда — в правой колонке списка. Блюдо в черновике на сайте не показывается, но остаётся в списке."
         },
         {
             "key": "field_sp_mfood_sec_kids_subsections",
@@ -8270,7 +8311,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_kids_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_kids_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_kids_sub_style",
@@ -8297,7 +8340,9 @@
                     "ui": 0,
                     "ajax": 0,
                     "placeholder": "",
-                    "parent_repeater": "field_sp_mfood_sec_kids_subsections"
+                    "parent_repeater": "field_sp_mfood_sec_kids_subsections",
+                    "create_options": 0,
+                    "save_options": 0
                 },
                 {
                     "key": "field_sp_mfood_sec_kids_sub_dishes",
@@ -8414,7 +8459,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_highlights_eyebrow_ru",
@@ -8604,7 +8650,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_door_hint",
@@ -8640,7 +8687,7 @@
             },
             "default_value": "",
             "maxlength": "",
-            "placeholder": "Напитки / Еда",
+            "placeholder": "Напитки \/ Еда",
             "prepend": "",
             "append": ""
         },
@@ -8660,7 +8707,7 @@
             },
             "default_value": "",
             "maxlength": "",
-            "placeholder": "Напитки / Еда",
+            "placeholder": "Напитки \/ Еда",
             "prepend": "",
             "append": ""
         },
@@ -8770,6 +8817,129 @@
             "new_lines": ""
         },
         {
+            "key": "field_sp_mfood_door_night_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<strong>Ночью<\/strong> — когда сайт в ночной теме (вечером и в тёмное время), дверь показывает другое фото: например, коктейли вместо кофе. Слово на двери то же. Пусто — ночью то же, что днём.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_mfood_door_night_photo",
+            "label": "Фото при наведении — ночью",
+            "name": "menu_door_night_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_mfood_door_night_caption_ru",
+            "label": "Подпись фото — ночью",
+            "name": "menu_door_night_caption_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "что на фото",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mfood_door_night_caption_en",
+            "label": "Подпись фото — ночью (EN)",
+            "name": "menu_door_night_caption_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "что на фото",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mfood_door_night_description_ru",
+            "label": "Абзац о баре — ночью",
+            "name": "menu_door_night_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "пусто — как днём",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_mfood_door_night_description_en",
+            "label": "Абзац о баре — ночью (EN)",
+            "name": "menu_door_night_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "пусто — как днём",
+            "new_lines": ""
+        },
+        {
             "key": "field_sp_mfood_seo_tab",
             "label": "Поиск",
             "name": "",
@@ -8784,7 +8954,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_sp_mfood_seo_hint",
@@ -8820,7 +8991,7 @@
             },
             "default_value": "",
             "maxlength": "",
-            "placeholder": "Меню кухни / Барное меню",
+            "placeholder": "Меню кухни \/ Барное меню",
             "prepend": "",
             "append": ""
         },
@@ -8840,7 +9011,7 @@
             },
             "default_value": "",
             "maxlength": "",
-            "placeholder": "Меню кухни / Барное меню",
+            "placeholder": "Меню кухни \/ Барное меню",
             "prepend": "",
             "append": ""
         },
@@ -8901,10 +9072,10 @@
     "instruction_placement": "field",
     "hide_on_screen": "",
     "active": true,
-    "description": "The food menu page: a tab per section (words, photos, subsections → lists of dish posts), «Сезонное меню», the door, «Поиск». Generated by tools/page-field-groups.py; read by inc/menu-sections.php, inc/menu-data-dishes.php, inc/menu-page.php.",
+    "description": "The food menu page: a tab per section (words, photos, subsections → lists of dish posts), «Сезонное меню», the door, «Поиск». Generated by tools\/page-field-groups.py; read by inc\/menu-sections.php, inc\/menu-data-dishes.php, inc\/menu-page.php.",
     "show_in_rest": 0,
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790268642
+    "modified": 1790269010
 }

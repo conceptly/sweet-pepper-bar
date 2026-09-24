@@ -65,7 +65,13 @@ export function initMenuHero() {
     Object.values(sections).forEach(sec => {
         const img = new Image();
         img.src = sec.image;
+        if (sec.night) { new Image().src = sec.night.image; }
     });
+
+    // The door's preview has a night set (photo, caption, paragraph — the kitchen page's
+    // «Дверь в бар» tab, author 24 Sep 2026): cocktails after dark, coffee by day. Read at
+    // swap time, so the theme the daypart engine set on <html> is the one that answers.
+    const atTheme = (sec) => (sec.night && document.documentElement.dataset.theme === 'night') ? { ...sec, ...sec.night } : sec;
 
     // ── Page-load entrance gate (menu-hero.css → PAGE-LOAD ENTRANCE) ──
     // The opening word's outline → fill is a load animation tied to .is-active, and hover
@@ -100,7 +106,7 @@ export function initMenuHero() {
      * Swap the hero content to a given section with cross-fade.
      */
     function showSection(slug, animate = true) {
-        const sec = sections[slug];
+        const sec = sections[slug] && atTheme(sections[slug]);
         if (!sec || slug === currentSection) return;
 
         currentSection = slug;

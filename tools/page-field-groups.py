@@ -394,6 +394,14 @@ def menu_page_group(state, key, title, template, prefix, item_type, door_tab, do
         mp("door_photo", "Фото при наведении", "menu_door_photo", "image", 34, instructions="Горизонтальное, 3:2 — обрезается по центру.", **image),
         *[dict(f, wrapper={"width": "33", "class": "", "id": ""}) for f in twins(mp, "door_caption", "Подпись фото", "menu_door_caption", placeholder="что на фото")],
         *twins(mp, "door_description", "Абзац о другом меню", "menu_door_description", "textarea", rows=3),
+        # The kitchen page has a day and a night theme; the bar page is always dark.
+        *([
+            mhint("door_night", "<strong>Ночью</strong> — когда сайт в ночной теме (вечером и в тёмное время), дверь показывает другое фото: "
+                                "например, коктейли вместо кофе. Слово на двери то же. Пусто — ночью то же, что днём."),
+            mp("door_night_photo", "Фото при наведении — ночью", "menu_door_night_photo", "image", 34, instructions="Горизонтальное, 3:2.", **image),
+            *[dict(f, wrapper={"width": "33", "class": "", "id": ""}) for f in twins(mp, "door_night_caption", "Подпись фото — ночью", "menu_door_night_caption", placeholder="что на фото")],
+            *twins(mp, "door_night_description", "Абзац о баре — ночью", "menu_door_night_description", "textarea", rows=3, placeholder="пусто — как днём"),
+        ] if state == "food" else []),
         mtab("seo", "Поиск"),
         mhint("seo", "Название вкладки браузера и строка, которую показывает поиск. Имя сайта добавляется само."),
         *twins(mp, "seo_title", "Название страницы", "menu_seo_title", placeholder="Меню кухни / Барное меню"),

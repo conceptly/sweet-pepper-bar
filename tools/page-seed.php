@@ -381,6 +381,11 @@ foreach ( $targets as $target ) {
                 sp_seed_twins( "{$k}door_caption", $t['door'], 'caption', $id );
                 sp_seed_twins( "{$k}door_description", $t['door'], 'description', $id );
                 update_field( "{$k}door_photo", sp_seed_attachment( $t['door']['image'] ), $id );
+                if ( ! empty( $t['door_night'] ) ) { // the kitchen page's night set
+                    sp_seed_twins( "{$k}door_night_caption", $t['door_night'], 'caption', $id );
+                    sp_seed_twins( "{$k}door_night_description", $t['door_night'], 'description', $id );
+                    update_field( "{$k}door_night_photo", sp_seed_attachment( $t['door_night']['image'] ), $id );
+                }
                 foreach ( [ 'eyebrow', 'headline', 'headline_2' ] as $key ) {
                     sp_seed_twins( "{$k}highlights_{$key}", $t['highlights'], $key, $id );
                 }

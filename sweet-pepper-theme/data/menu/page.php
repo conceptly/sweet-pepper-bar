@@ -14,6 +14,8 @@
  *
  *   door       — the hero's door to the other menu: the word on the block, and the
  *                preview it opens on hover (photo, its caption, a paragraph)
+ *   door_night — the kitchen page only: the same preview after dark (author, 24 Sep 2026:
+ *                cocktails at night, coffee by day); the word stays
  *   highlights — the strip's header: eyebrow, headline line 1, line 2
  *   seo        — the page's name in the browser tab (the site name is added), and the
  *                description search engines show
@@ -55,6 +57,16 @@ return [
                 'label'       => 'Напитки',
                 'caption'     => 'Капучино с мороженым', // draft
                 'description' => 'Фирменные настойки, коктейли без сиропных фокусов, вино и крафтовое пиво — в наш бар приходят и ради него самого.', // draft
+            ],
+        ],
+        'door_night' => [
+            'image'       => 'bar/cocktails/manhattan-3-2.jpg',
+            'focus'       => '50% 40%',
+            'caption'     => 'Manhattan',
+            'description' => 'Classics poured straight and twists poured loud — plus a new one on the board every week. The bar is at its best after dark.', // draft
+            'ru'          => [
+                'caption'     => 'Манхэттен',
+                'description' => 'Классика без фокусов и авторские твисты — плюс новый коктейль на доске каждую неделю. После заката бар в своей стихии.', // draft
             ],
         ],
         'highlights' => $highlights,

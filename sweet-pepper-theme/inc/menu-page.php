@@ -138,25 +138,39 @@ function sweet_pepper_menu_page_text( $state, $section, $key ) {
 
 /**
  * The hero's door on a menu page — the way to the OTHER menu: the word on the block and
- * the preview the hover opens (menu-hero.php, menu-hero.js). One language.
+ * the preview the hover opens (menu-hero.php, menu-hero.js). One language. The kitchen
+ * page's door carries a second set for the night theme — photo, caption, paragraph
+ * (cocktails after dark, coffee by day; author, 24 Sep 2026) — under 'night', which the
+ * script swaps in when <html data-theme="night">; absent when nothing is set or typed.
  *
  * @param string $state The page's state, 'food' | 'drinks'.
- * @return array [ slug, label, href, image (URL), focus, caption, description ]
+ * @return array [ slug, label, href, image (URL), focus, caption, description, night? => [ image, focus, caption, description ] ]
  */
 function sweet_pepper_menu_door( $state ) {
     $other = 'drinks' === $state ? 'food' : 'drinks';
     $page  = sweet_pepper_menu_page( $state );
-    $typed = sweet_pepper_menu_page_typed( $state )['door'];
+    $typed = sweet_pepper_menu_page_typed( $state );
     $photo = $page && function_exists( 'get_field' ) ? get_field( 'menu_door_photo', $page->ID ) : '';
-    return [
+    $door  = [
         'slug'        => $other,
         'label'       => sweet_pepper_menu_page_text( $state, 'door', 'label' ),
         'href'        => sweet_pepper_menu_url( $other ),
-        'image'       => sweet_pepper_photo_url( $photo, 'sp-3x2', $typed['image'] ),
-        'focus'       => $typed['focus'] ?? '50% 50%', // the tablet band's 21:9 crop of the preview (menu-hero.php); typed per photo
+        'image'       => sweet_pepper_photo_url( $photo, 'sp-hero', $typed['door']['image'] ),
+        'focus'       => $typed['door']['focus'] ?? '50% 50%', // the tablet band's 21:9 crop of the preview (menu-hero.php); typed per photo
         'caption'     => sweet_pepper_menu_page_text( $state, 'door', 'caption' ),
         'description' => sweet_pepper_menu_page_text( $state, 'door', 'description' ),
     ];
+    $night_typed = $typed['door_night'] ?? [];
+    $night_photo = $page && function_exists( 'get_field' ) ? get_field( 'menu_door_night_photo', $page->ID ) : '';
+    if ( $night_photo || ! empty( $night_typed['image'] ) ) {
+        $door['night'] = [
+            'image'       => sweet_pepper_photo_url( $night_photo, 'sp-hero', $night_typed['image'] ?? '' ),
+            'focus'       => $night_typed['focus'] ?? '50% 50%',
+            'caption'     => sweet_pepper_menu_page_text( $state, 'door_night', 'caption' ) ?: $door['caption'],
+            'description' => sweet_pepper_menu_page_text( $state, 'door_night', 'description' ) ?: $door['description'],
+        ];
+    }
+    return $door;
 }
 
 /**

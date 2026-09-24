@@ -111,6 +111,7 @@ require_once get_template_directory() . '/inc/menu-data.php';
 require_once get_template_directory() . '/inc/menu-data-dishes.php';
 require_once get_template_directory() . '/inc/dish-quick-edit.php'; // size and price in the Dishes / Drinks tables' Quick Edit
 require_once get_template_directory() . '/inc/menu-page.php';       // the two menu pages: state, URLs, door, Highlights, title
+require_once get_template_directory() . '/inc/admin-photo-preview.php'; // admin: photo fields previewed at the site's crop, sliders live
 
 /**
  * Media topics — «Темы» on images: labels and filters instead of folders.

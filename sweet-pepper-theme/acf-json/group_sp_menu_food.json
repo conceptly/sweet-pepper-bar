@@ -226,7 +226,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -247,11 +247,11 @@
             "name": "sec_breakfast_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -261,24 +261,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_breakfast_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_breakfast_caption_ru",
@@ -384,11 +366,11 @@
             "name": "sec_breakfast_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -409,7 +391,7 @@
             "name": "sec_breakfast_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -423,24 +405,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_breakfast_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_breakfast_pill_ru",
@@ -1164,7 +1128,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -1185,11 +1149,11 @@
             "name": "sec_lunch_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -1199,24 +1163,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_lunch_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_lunch_caption_ru",
@@ -1322,11 +1268,11 @@
             "name": "sec_lunch_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -1347,7 +1293,7 @@
             "name": "sec_lunch_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -1361,24 +1307,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_lunch_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_lunch_pill_ru",
@@ -2102,7 +2030,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -2123,11 +2051,11 @@
             "name": "sec_bar_snacks_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -2137,24 +2065,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_bar_snacks_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_caption_ru",
@@ -2260,11 +2170,11 @@
             "name": "sec_bar_snacks_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -2285,7 +2195,7 @@
             "name": "sec_bar_snacks_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -2299,24 +2209,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_bar_snacks_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_bar_snacks_pill_ru",
@@ -3040,7 +2932,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -3061,11 +2953,11 @@
             "name": "sec_salads_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -3075,24 +2967,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_salads_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_salads_caption_ru",
@@ -3198,11 +3072,11 @@
             "name": "sec_salads_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -3223,7 +3097,7 @@
             "name": "sec_salads_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -3237,24 +3111,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_salads_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_salads_pill_ru",
@@ -3978,7 +3834,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -3999,11 +3855,11 @@
             "name": "sec_sandwiches_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -4013,24 +3869,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_sandwiches_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_caption_ru",
@@ -4136,11 +3974,11 @@
             "name": "sec_sandwiches_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -4161,7 +3999,7 @@
             "name": "sec_sandwiches_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -4175,24 +4013,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_sandwiches_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_sandwiches_pill_ru",
@@ -4916,7 +4736,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -4937,11 +4757,11 @@
             "name": "sec_soups_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -4951,24 +4771,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_soups_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_soups_caption_ru",
@@ -5074,11 +4876,11 @@
             "name": "sec_soups_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -5099,7 +4901,7 @@
             "name": "sec_soups_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -5113,24 +4915,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_soups_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_soups_pill_ru",
@@ -5854,7 +5638,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -5875,11 +5659,11 @@
             "name": "sec_hot_dishes_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -5889,24 +5673,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_hot_dishes_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_caption_ru",
@@ -6012,11 +5778,11 @@
             "name": "sec_hot_dishes_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -6037,7 +5803,7 @@
             "name": "sec_hot_dishes_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -6051,24 +5817,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_hot_dishes_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_hot_dishes_pill_ru",
@@ -6792,7 +6540,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -6813,11 +6561,11 @@
             "name": "sec_desserts_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -6827,24 +6575,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_desserts_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_desserts_caption_ru",
@@ -6950,11 +6680,11 @@
             "name": "sec_desserts_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -6975,7 +6705,7 @@
             "name": "sec_desserts_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -6989,24 +6719,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_desserts_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_desserts_pill_ru",
@@ -7730,7 +7442,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -7751,11 +7463,11 @@
             "name": "sec_kids_hero_focus",
             "aria-label": "",
             "type": "range",
-            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ.",
+            "instructions": "Планшет обрезает фото сверху и снизу: 0 — верх, 100 — низ. Рамка на фото слева показывает кадр.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -7765,24 +7477,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_kids_hero_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_kids_caption_ru",
@@ -7888,11 +7582,11 @@
             "name": "sec_kids_photo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Горизонтальное; на сайте — полоса 4:1.",
+            "instructions": "Горизонтальное; на сайте — полоса 4:1, как в окне слева.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "34",
+                "width": "67",
                 "class": "",
                 "id": ""
             },
@@ -7913,7 +7607,7 @@
             "name": "sec_kids_photo_y",
             "aria-label": "",
             "type": "range",
-            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ.",
+            "instructions": "Какую часть фото оставить в полосе: 0 — верх, 100 — низ. Окно слева двигается вместе с ползунком.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -7927,24 +7621,6 @@
             "step": 5,
             "prepend": "",
             "append": "%"
-        },
-        {
-            "key": "field_sp_mfood_sec_kids_band_spacer",
-            "label": "",
-            "name": "",
-            "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "new_lines": "",
-            "esc_html": 0
         },
         {
             "key": "field_sp_mfood_sec_kids_pill_ru",
@@ -9077,5 +8753,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790269861
+    "modified": 1790270080
 }

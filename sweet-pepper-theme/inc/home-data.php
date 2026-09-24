@@ -341,8 +341,8 @@ unset( $sp_name );
 function sweet_pepper_home_connectors_ru() {
     return [
         'atSweetPepper'      => [ 'sweetPepperBar',          'Sweet Pepper Bar' ],
-        'forAWellEarnedPour' => [ 'здесьДринкиСПерчинкой',   'Здесь дринки с перчинкой' ],
-        'forAProperAppetite' => [ 'здесьНеприличноВкусно',   'Здесь неприлично вкусно' ],
+        'forAWellEarnedPour' => [ 'отКапучиноДоНастойки',    'От капучино до настойки' ], // author, 25 Sep 2026 — was ЗДЕСЬ ДРИНКИ С ПЕРЧИНКОЙ
+        'forAProperAppetite' => [ 'отОмлетаДоЖаркого',       'От омлета до жаркого' ],    // author, 25 Sep 2026 — was ЗДЕСЬ НЕПРИЛИЧНО ВКУСНО
         'moreThanAMenu'      => [ 'людиИдеяХарактер',        'Люди, идея, характер' ],
         'seeWhatsNew'        => [ 'акцииНовостиВечеринки',   'Акции, новости, вечеринки' ],
         'joinTheParty'       => [ 'всеДорогиВедутВПерец',    'Все дороги ведут в Перец' ],

@@ -32,8 +32,8 @@ Connectors here are forward invitations to the section below. **RU set — the a
 | # | Sits between | Points at | EN | RU | Status |
 |---|---|---|---|---|---|
 | 1 | Hero → Highlights | Highlights | AT SWEET PEPPER | SWEET PEPPER BAR | EN built; RU exported 23 Sep, wired 25 Sep |
-| 2 | Highlights → Bar preview | Bar preview | FOR A WELL-EARNED POUR | ЗДЕСЬ ДРИНКИ С ПЕРЧИНКОЙ | EN selected by author, Sep 2026; RU exported 23 Sep, wired 25 Sep |
-| 3 | Bar preview → Kitchen preview | Kitchen preview | FOR A PROPER APPETITE | ЗДЕСЬ НЕПРИЛИЧНО ВКУСНО | EN selected by author, Sep 2026; RU exported 23 Sep, wired 25 Sep |
+| 2 | Highlights → Bar preview | Bar preview | FOR A WELL-EARNED POUR | ОТ КАПУЧИНО ДО НАСТОЙКИ | EN selected by author, Sep 2026; RU exported + wired 25 Sep (replaces ЗДЕСЬ ДРИНКИ С ПЕРЧИНКОЙ, exported 23 Sep, retired the same day it was wired — the new pair names what the two previews hold) |
+| 3 | Bar preview → Kitchen preview | Kitchen preview | FOR A PROPER APPETITE | ОТ ОМЛЕТА ДО ЖАРКОГО | EN selected by author, Sep 2026; RU exported + wired 25 Sep (replaces ЗДЕСЬ НЕПРИЛИЧНО ВКУСНО — the set's strongest wink, spent on clarity; About keeps the jokes) |
 | 4 | Kitchen preview → About preview | About preview | MORE THAN A MENU | ЛЮДИ, ИДЕЯ, ХАРАКТЕР | EN built; RU exported 23 Sep, wired 25 Sep |
 | 5 | About preview → What's on | What's on | SEE WHAT'S NEW | АКЦИИ, НОВОСТИ, ВЕЧЕРИНКИ | EN built; RU exported 23 Sep, wired 25 Sep |
 | 6 | What's on → Contacts | Contacts | JOIN THE PARTY | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ | EN built; RU exported 23 Sep, wired 25 Sep — the same line closes About and Visit |

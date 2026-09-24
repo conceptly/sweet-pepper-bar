@@ -364,7 +364,12 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
     background-repeat: no-repeat;
     background-position: top;
     border-radius: 0 0 4px 4px;
-    padding: 8px 12px 12px;
+    /* Even room on all four sides (author: the inner spacing read smaller than the outer,
+       23 Sep 2026): ink measured 24 from the dashed top to the title, 24 at the sides, 24
+       from the last line to the scallop tops (the bottom 12px is the rugged edge) — was
+       20.5 / 11.5 / 18.5. The title → first row gap is 21 (row top 12, was 16 → 25):
+       tighter than the frame, so the title belongs to its rows. */
+    padding: 12px 24px 18px;
     overflow: visible; /* rugged edge peeks below */
     position: relative;
     display: flex;
@@ -393,6 +398,7 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
 /* Dish rows inside addons — no bottom border, avocado price color */
 .menu-section__addons-card .dish-row {
     border-bottom: none;
+    padding: 12px 0 16px;
 }
 
 .menu-section__addons-card .dish-row:last-child {
@@ -757,8 +763,7 @@ html[data-theme="night"] .menu-section__remark {
    the single tail word (menu-sections-tail.php).
    ══════════════════════════════════════════════════════════════════════════ */
 
-.menu-sections-tail,
-.pairing-station__top-word {
+.menu-sections-tail {
     display: none;
 }
 
@@ -782,10 +787,6 @@ html[data-theme="night"] .menu-section__remark {
         display: block;
         padding-top: 36px;
         padding-bottom: 0;
-    }
-
-    body.menu-single-section .pairing-station__top-word {
-        display: block;
     }
 }
 

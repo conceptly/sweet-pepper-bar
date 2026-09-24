@@ -92,32 +92,37 @@
 }
 
 /* Title: one headline for About, Menu and Visit, typed as two lines in Bar Settings
-   (inc/location.php). Below 992 the two typed lines are the break. From 992 the copy
-   column is 472 at most and neither line fits it at 64px ("IN THE VERY HEART" 627,
-   "OF THE BEST CITY" 571), so the lines flow as one sentence — three lines, as before the
-   fields — until the column or the copy changes (website-brief.md → Content editing →
-   About fields → Open). */
+   (inc/location.php) — the typed lines are the break at every width (author, 23 Sep 2026).
+   The copy column beside the map is narrow on small desktops (256 at 992, 337 at 1100, 472
+   from 1280), so the headline shrinks until its longer line fits: H1, or the column ÷ that
+   line's width in em, whichever is smaller. --location-fit is measured on the typed words
+   in real Molot at 4% tracking — IN THE HEART 6.84em, ЛЮБИМОГО ГОРОДА 9.9em — plus a
+   little room; re-measure if the team types a longer line. English: 37px at 992, 49 at
+   1100, the full 64 from ~1215; phones and tablets keep their H1 (36 / 48). */
+.location__copy {
+    container-type: inline-size;
+}
+
 .location__title {
+    --location-fit: 6.95;
     display: block;
     margin: 0;
+    font-size: min(var(--text-h1), 100cqw / var(--location-fit));
+}
+
+:lang(ru) .location__title {
+    --location-fit: 10.05;
 }
 
 .location__title-line1,
 .location__title-line2 {
-    display: inline;
-}
-
-@media (max-width: 991px) {
-    .location__title-line1,
-    .location__title-line2 {
-        display: block;
-    }
+    display: block;
 }
 
 /* Title line 1: chili */
 .location__title-line1 {
     font-family: var(--font-display);
-    font-size: var(--text-h1);
+    font-size: inherit; /* the fitted size on .location__title */
     line-height: 1.05;
     letter-spacing: 0.04em; /* H1 tracking is 4% — 2.56 at 64, 1.44 at the phone 36 */
     color: var(--chili);
@@ -127,7 +132,7 @@
 /* Title line 2: paprika */
 .location__title-line2 {
     font-family: var(--font-display);
-    font-size: var(--text-h1);
+    font-size: inherit;
     line-height: 1.05;
     letter-spacing: 0.04em; /* H1 tracking is 4% — 2.56 at 64, 1.44 at the phone 36 */
     color: var(--paprika);

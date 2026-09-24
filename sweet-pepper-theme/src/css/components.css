@@ -163,7 +163,8 @@ html[data-theme="night"] .section-eyebrow {
 /* ── Cyrillic: room for Й and Ё above a headline under an eyebrow (author, 23 Sep 2026;
    design.md → Type) ──
    The breve of Й and the dots of Ё rise 0.245em above Molot's capitals (measured: 15.7px
-   at 64, 8.8 at 36), and every eyebrow-to-headline gap was drawn for Latin capitals — in
+   at 64, 8.8 at 36); the room is --cyrillic-room (0.15em — the author's check: the gap the
+   eyebrow already has covers the rest), and every eyebrow-to-headline gap was drawn for Latin capitals — in
    КОКТЕЙЛИ and ЧАЙ И КОФЕ the breve all but touched the eyebrow. Russian pages only, and
    every headline under an eyebrow, not only the ones with Й / Ё, so the gap reads the same
    in every section. In em of the headline itself, so it follows 76 / 64 / 48 / 36. The
@@ -174,19 +175,19 @@ html[data-theme="night"] .section-eyebrow {
 :lang(ru) .about-hero__eyebrow + .about-hero__headline,
 :lang(ru) .visit-hero__eyebrow + .visit-hero__headline,
 :lang(ru) .visit-location__eyebrow + .visit-location__headline {
-    padding-top: 0.25em;
+    padding-top: calc(var(--cyrillic-room) * 1em);
 }
 
-/* Location (About, Menu): the size is on the line spans, not the <h2> */
+/* Location (About, Menu): the <h2> carries the fitted size (location.css), so 1em is right */
 :lang(ru) .location__subheading + .location__title {
-    padding-top: calc(var(--text-h1) * 0.25);
+    padding-top: calc(var(--cyrillic-room) * 1em);
 }
 
 /* Menu sections: desktop only — below 992 the headline is a word in the phone rail and the
    eyebrow sits under it (menu-section.css) */
 @media (min-width: 992px) {
     :lang(ru) .section-eyebrow + .menu-section-rail .menu-section-rail__current {
-        padding-top: 0.25em;
+        padding-top: calc(var(--cyrillic-room) * 1em);
     }
 }
 

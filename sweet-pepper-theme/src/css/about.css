@@ -2796,7 +2796,7 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     /* Russian: the headline's parts are inline here, so the room for Й / Ё
        (components.css → Cyrillic) goes on the group, which carries the size */
     :lang(ru) .about-guests .section-eyebrow + .section-headline-group {
-        padding-top: 0.25em;
+        padding-top: calc(var(--cyrillic-room) * 1em);
     }
 
     /* ── 6. Guests — 2 × 4 grid (frame 1490:78481) ── */
@@ -3098,7 +3098,7 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     /* Russian: the headline's parts are inline here, so the room for Й / Ё
        (components.css → Cyrillic) goes on the group, which carries the size */
     :lang(ru) .about-story .section-eyebrow + .section-headline-group {
-        padding-top: 0.25em;
+        padding-top: calc(var(--cyrillic-room) * 1em);
     }
 
     .about-story__founder {

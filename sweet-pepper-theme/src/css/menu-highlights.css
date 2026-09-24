@@ -33,6 +33,17 @@
     width: 100%; /* full width, no 66% cap */
 }
 
+/* Eyebrow straight on the headline, as in every menu section below it (their eyebrow and
+   rail word stack with no gap) — the shared header's 8px (Home, About) read as a larger
+   gap on this page (author, 23 Sep 2026). −16 cancels .section-title-block's gap:
+   eyebrow top → headline top 23.3 in the sections, 24.3 here (was 32.3). Desktop only:
+   below 992 the sections' eyebrow sits under the rail word, and the phone frame keeps 8. */
+@media (min-width: 992px) {
+    .menu-highlights .section-headline-group {
+        margin-top: -16px;
+    }
+}
+
 
 /* ── Horizontal Card Rail ──
    Figma: horizontalImgGrid — flex row, 24px gap, rounded-8, W: 1120 Fill, H: Hug.
@@ -186,6 +197,9 @@ html[data-theme="night"] .menu-highlight-card__inner:hover {
     line-height: normal;
     color: var(--peppercorn);
     white-space: nowrap;
+    /* One line at every width: a long name (RU «Летний салат с брынзой») ends in an ellipsis. */
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition: color 0.8s var(--ease-gentle-flat);
 }
 
@@ -309,11 +323,6 @@ html[data-theme="night"] .menu-highlight-card__link:hover {
 
     .menu-highlight-card__content {
         min-width: 0;
-    }
-
-    .menu-highlight-card__title {
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 }
 

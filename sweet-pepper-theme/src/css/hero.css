@@ -126,11 +126,11 @@ body.admin-bar .home-hero {
                 height 0.4s var(--ease-out-expo);
 }
 
-/* Russian: the headline sits 0.25em lower under its eyebrow, for Й / Ё (components.css →
-   Cyrillic) — 19px at 76, 16 at 64 — so the tile gives the same back and the hero keeps the
+/* Russian: the headline sits --cyrillic-room lower under its eyebrow, for Й / Ё (components.css →
+   Cyrillic) — 11px at 76, 10 at 64 — so the tile gives the same back and the hero keeps the
    height it had: at 1180×690 it ran 7px past the viewport without this. */
 :lang(ru) .daypart-tile {
-    --tile: min(224px, calc((100cqw - 104px) / 4.5), max(168px, calc(100vh - 612px - var(--text-display) * 0.25)));
+    --tile: min(224px, calc((100cqw - 104px) / 4.5), max(168px, calc(100vh - 612px - var(--text-display) * var(--cyrillic-room))));
 }
 
 /* ── Image wrapper ──────────────────────────────── */

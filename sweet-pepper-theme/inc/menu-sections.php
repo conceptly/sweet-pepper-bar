@@ -307,7 +307,6 @@ function sweet_pepper_menu_connectors_ru( $state = 'food' ) {
             'coldAndHonest'     => [ 'пеннаяКлассикаИКрафт', 'Пенная классика и крафт' ],
             'worldAndLocalHits' => [ 'впепперепить', '#впепперепить' ],
             'clearHeadsWelcome' => [ 'яркийВкусСЯснойГоловой', 'Яркий вкус с ясной головой' ],
-            'surprisinglyGood'  => [ 'лучшийКофеВГороде', 'Лучший кофе в городе' ],
         ] + $picker;
     }
     return [

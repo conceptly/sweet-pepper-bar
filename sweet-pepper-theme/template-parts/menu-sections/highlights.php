@@ -18,16 +18,16 @@ $img_base   = get_template_directory_uri() . '/assets/images/';
 $section_url = function ( $slug ) use ( $is_drinks ) {
     return $is_drinks ? home_url( '/menu/#' . $slug ) : '#' . $slug;
 };
-// Russian (menu-copy-ru-draft.md → Подборка и подписи фотографий, 23 Sep 2026): the heading
-// СЕЗОННЫЕ НОВИНКИ + ЧТО ПОПРОБОВАТЬ, dish names from the RU menu, and the card link
-// «Смотреть в разделе «…»» / «В разделе «…»» naming the section by its RU headline.
+// Russian (menu-copy-ru-draft.md → Подборка и подписи фотографий; author, 23 Sep 2026): the heading
+// СЕЗОННЫЕ НОВИНКИ alone, dish names from the RU menu, and the card link as just the section's
+// name + arrow — its jump-nav label (Супы · Салаты · Горячее · Десерты), not the headline:
+// «Салаты от Перцев» overflows a 262px card. One label at every width, so no phone twin.
 $is_ru = 'ru' === sweet_pepper_lang();
 $in_section = function ( $slug, $en, $en_mobile ) use ( $is_ru ) {
     if ( ! $is_ru ) {
         return [ $en, $en_mobile ];
     }
-    $name = sweet_pepper_menu_section( $slug )['headline'] ?? '';
-    return [ sprintf( 'Смотреть в разделе «%s»', $name ), sprintf( 'В разделе «%s»', $name ) ];
+    return [ sweet_pepper_menu_section( $slug )['label'] ?? '', '' ];
 };
 ?>
 <section class="menu-highlights">
@@ -39,7 +39,7 @@ $in_section = function ( $slug, $en, $en_mobile ) use ( $is_ru ) {
             // The phone night frame (menuSection 2194:70367) sets "Highlights" in Paprika on its own line;
             // the span is inert everywhere else (menu-highlights.css).
             'headline' => $is_ru
-                ? 'Сезонные новинки <span class="menu-highlights__headline-2">Что попробовать</span>'
+                ? 'Сезонные новинки'
                 : 'Summer Menu <span class="menu-highlights__headline-2">Highlights</span>',
         ] );
         ?>

@@ -6,7 +6,7 @@
  * so whichever section is on show ends on the pairing station; this single connector
  * ("try the match maker") replaces the nine per-section words, which stay in their
  * sections for desktop (hidden ≤ 767px in menu-section.css). The bar is always dark,
- * so it uses the night SVG in both themes (there is no bar-folder export of this word).
+ * so it uses its bar/ file in both themes (a copy of the kitchen-night export, 23 Sep 2026).
  *
  * Figma: SectionLinkMobile at the foot of menu-food-mobile-day (2109:130225).
  *
@@ -14,7 +14,7 @@
  */
 
 $menu_state = $args['menu_state'] ?? 'food';
-$night      = 'assets/sectionLinks/menu/kitchen-night/tryTheMatchMaker.svg';
+$night      = ( $menu_state === 'drinks' ) ? 'assets/sectionLinks/menu/bar/tryTheMatchMaker.svg' : 'assets/sectionLinks/menu/kitchen-night/tryTheMatchMaker.svg';
 $day        = ( $menu_state === 'drinks' ) ? $night : 'assets/sectionLinks/menu/kitchen-day/tryTheMatchMaker.svg';
 ?>
 <div class="container menu-sections-tail">

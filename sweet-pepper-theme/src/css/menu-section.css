@@ -267,7 +267,10 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    white-space: nowrap;
+    /* Wraps only when a line is longer than the card's room: the English lines fit the
+       348 card on one line; the Russian offers («по специальной цене к завтраку», the wine
+       line, «Смотреть в барном меню») were cut at its edge under nowrap (23 Sep 2026). */
+    min-width: 0;
 }
 
 .menu-section__deal-desc-main {
@@ -298,7 +301,6 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
     font-weight: 600;
     font-size: var(--text-body);
     line-height: 1.6;
-    white-space: nowrap;
     transform: rotate(-1deg);
 }
 
@@ -705,15 +707,6 @@ html[data-theme="night"] .menu-section__remark {
            at the band's 736–903 it stranded the text at the far end of the coupon. */
         justify-content: flex-start;
         gap: 24px;
-    }
-
-    /* The card is the column's width here, so a line longer than the room wraps instead of
-       running past the card's edge — it did at 360 in English and from 402 in Russian
-       (the wine and spritz offers). Desktop keeps nowrap in its fixed 348 card. */
-    .menu-section__deal-desc,
-    .menu-section__deal-link {
-        white-space: normal;
-        min-width: 0;
     }
 
     .menu-section__deal-shadow {

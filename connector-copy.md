@@ -2,7 +2,7 @@
 
 *The giant outlined Molot words that ride the full-bleed photo bands between sections.*
 *Component spec, rules and open questions: `website-brief.md` → Layout notes → Section connectors.*
-*Partial inventory, updated 22 September 2026: all nine About RU connectors selected by the author and wired to the RU page (`/about/`). See [Russian voice reference](russian-website-voice.md) for evidence, vocabulary and rationale. Other rows retain their recorded status.*
+*Partial inventory, updated 25 September 2026: all nine About RU connectors selected by the author and wired to the RU page (`/about/`); the six Home RU connectors exported by the author and wired (`/`). See [Russian voice reference](russian-website-voice.md) for evidence, vocabulary and rationale. Other rows retain their recorded status.*
 
 ---
 
@@ -27,14 +27,18 @@ Connectors are non-interactive display text. They are not headings, not links, n
 
 ## Home page
 
-Connectors here are forward invitations to the section below.
+Connectors here are forward invitations to the section below. **RU set — the author's decision (23 Sep 2026), exported from Figma into `sweet-pepper-theme/assets/sectionLinks/home/{dayMode,nightMode}/ru/` (word + reflection, both themes) and wired on 25 Sep 2026:** `section-link-word.php` swaps an English home pair for its RU twin through `sweet_pepper_home_connector_lang()` (`inc/home-data.php`), the menu's rule — both themes' files must exist, or the English pair stays. Wording as in `home-copy-ru-draft.md` → 9. Коннекторы.
 
 | # | Sits between | Points at | EN | RU | Status |
 |---|---|---|---|---|---|
-| 2 | Highlights → Bar preview | Bar preview | FOR A WELL-EARNED POUR | ДЛЯ НАСТРОЕНИЯ И АППЕТИТА | EN selected by author, Sep 2026; RU provisional; SVG pending; RU SVG exported + wired 22 Sep |
-| 3 | Bar preview → Kitchen preview | Kitchen preview | FOR A PROPER APPETITE | ПЕРЕКУСИТЬ И ЗАКУСИТЬ | EN selected by author, Sep 2026; RU provisional; SVG pending; RU SVG exported + wired 22 Sep |
+| 1 | Hero → Highlights | Highlights | AT SWEET PEPPER | SWEET PEPPER BAR | EN built; RU exported 23 Sep, wired 25 Sep |
+| 2 | Highlights → Bar preview | Bar preview | FOR A WELL-EARNED POUR | ЗДЕСЬ ДРИНКИ С ПЕРЧИНКОЙ | EN selected by author, Sep 2026; RU exported 23 Sep, wired 25 Sep |
+| 3 | Bar preview → Kitchen preview | Kitchen preview | FOR A PROPER APPETITE | ЗДЕСЬ НЕПРИЛИЧНО ВКУСНО | EN selected by author, Sep 2026; RU exported 23 Sep, wired 25 Sep |
+| 4 | Kitchen preview → About preview | About preview | MORE THAN A MENU | ЛЮДИ, ИДЕЯ, ХАРАКТЕР | EN built; RU exported 23 Sep, wired 25 Sep |
+| 5 | About preview → What's on | What's on | SEE WHAT'S NEW | АКЦИИ, НОВОСТИ, ВЕЧЕРИНКИ | EN built; RU exported 23 Sep, wired 25 Sep |
+| 6 | What's on → Contacts | Contacts | JOIN THE PARTY | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ | EN built; RU exported 23 Sep, wired 25 Sep — the same line closes About and Visit |
 
-These two lines are author selections from the copy review, not transcriptions of existing Figma assets. The longer kitchen line replaces COME HUNGRY because that short phrase becomes too tall when scaled to the full container width. The author handles the SVG changes. Remaining Home connectors still await final review.
+*Earlier rows here (ДЛЯ НАСТРОЕНИЯ И АППЕТИТА, ПЕРЕКУСИТЬ И ЗАКУСИТЬ for seams 2 and 3, "the longer kitchen line replaces COME HUNGRY") were provisional selections from the copy review and never exported; the set above is the author's. Remaining EN Home connectors still await final review.*
 
 ---
 
@@ -92,8 +96,8 @@ Once transcribed, review the set per page against rule 2 before touching individ
 
 ## Open
 
-- Transcribe home-page and menu-page connectors from Figma (both states, both themes if the wording differs by theme — confirm it doesn't).
-- RU twins for every line.
+- Transcribe home-page and menu-page connectors from Figma (both states, both themes if the wording differs by theme — confirm it doesn't). *Home: done, the six EN and their RU twins are in the table above (25 Sep 2026).*
+- RU twins for every line — Home, About and Visit have theirs; the menu's are in `menu-copy-ru-draft.md`.
 - Direction rule (see brief) — once decided, re-check that each line still points where it should; forward-facing copy sitting above a section it was written to follow will need rewriting.
 - Author's note (Aug 2026): wording may change at final review; treat the first transcription as a snapshot, not a freeze.
 

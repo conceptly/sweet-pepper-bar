@@ -332,3 +332,51 @@ foreach ( [ 'dish', 'home_bar_items', 'home_kitchen_items' ] as $sp_name ) {
     add_filter( "acf/fields/relationship/result/name={$sp_name}", 'sweet_pepper_dish_relationship_result', 10, 2 );
 }
 unset( $sp_name );
+
+/**
+ * The home page's connectors in Russian — the author's exports in assets/sectionLinks/home/
+ * {dayMode,nightMode}/ru/ (23 Sep 2026; wording: home-copy-ru-draft.md → 9. Коннекторы).
+ * English stem → [ RU stem, alt ]. Structure, not a field (the connectors stay in code).
+ */
+function sweet_pepper_home_connectors_ru() {
+    return [
+        'atSweetPepper'      => [ 'sweetPepperBar',          'Sweet Pepper Bar' ],
+        'forAWellEarnedPour' => [ 'здесьДринкиСПерчинкой',   'Здесь дринки с перчинкой' ],
+        'forAProperAppetite' => [ 'здесьНеприличноВкусно',   'Здесь неприлично вкусно' ],
+        'moreThanAMenu'      => [ 'людиИдеяХарактер',        'Люди, идея, характер' ],
+        'seeWhatsNew'        => [ 'акцииНовостиВечеринки',   'Акции, новости, вечеринки' ],
+        'joinTheParty'       => [ 'всеДорогиВедутВПерец',    'Все дороги ведут в Перец' ],
+    ];
+}
+
+/**
+ * Swap a home connector's day / night files and alt for the Russian twins on a Russian request
+ * — the menu's rule (sweet_pepper_menu_connector_lang), for the home set: the English pair is
+ * `<stem>-bottom.svg` (the word) / `<stem>-top.svg` (its reflection) per theme folder, the Russian
+ * `ru/<stem>.svg` / `ru/<stem>-reflection.svg`. Both files must exist, or the English pair stays.
+ * Called by template-parts/components/section-link-word.php.
+ *
+ * @return array [ day path, night path, alt ]
+ */
+function sweet_pepper_home_connector_lang( $day, $night, $alt ) {
+    if ( 'ru' !== sweet_pepper_lang() ) {
+        return [ $day, $night, $alt ];
+    }
+    // the night AT SWEET PEPPER word is atSweetPepperBottom.svg — the one file named without the dash
+    $pattern = '~^assets/sectionLinks/home/(dayMode|nightMode)/([A-Za-z]+?)(-bottom|Bottom|-top)\.svg$~';
+    if ( ! preg_match( $pattern, (string) $day, $d ) || ! preg_match( $pattern, (string) $night, $n ) || $d[2] !== $n[2] ) {
+        return [ $day, $night, $alt ];
+    }
+    $twin = sweet_pepper_home_connectors_ru()[ $d[2] ] ?? null;
+    if ( ! $twin ) {
+        return [ $day, $night, $alt ];
+    }
+    $ru = [];
+    foreach ( [ 'day' => $d, 'night' => $n ] as $mode => $m ) {
+        $ru[ $mode ] = "assets/sectionLinks/home/{$m[1]}/ru/{$twin[0]}" . ( '-top' === $m[3] ? '-reflection' : '' ) . '.svg';
+        if ( ! file_exists( get_template_directory() . '/' . $ru[ $mode ] ) ) {
+            return [ $day, $night, $alt ];
+        }
+    }
+    return [ $ru['day'], $ru['night'], $twin[1] ];
+}

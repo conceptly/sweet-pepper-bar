@@ -710,7 +710,8 @@ html[data-theme="night"] .menu-section__remark {
     /* The card is the column's width here, so a line longer than the room wraps instead of
        running past the card's edge — it did at 360 in English and from 402 in Russian
        (the wine and spritz offers). Desktop keeps nowrap in its fixed 348 card. */
-    .menu-section__deal-desc {
+    .menu-section__deal-desc,
+    .menu-section__deal-link {
         white-space: normal;
         min-width: 0;
     }

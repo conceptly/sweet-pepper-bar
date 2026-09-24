@@ -267,13 +267,15 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    /* Wraps only when a line is longer than the card's room: the English lines fit the
-       348 card on one line; the Russian offers («по специальной цене к завтраку», the wine
-       line, «Смотреть в барном меню») were cut at its edge under nowrap (23 Sep 2026). */
+    /* The main line stays on one line and sets the column's width, as drawn; the second
+       line (or the link) wraps under it when it is longer — the Russian offers («по
+       специальной цене к завтраку», the wine line, «Смотреть в барном меню») were cut at
+       the card's edge under nowrap (23 Sep 2026). The English second lines fit. */
     min-width: 0;
 }
 
 .menu-section__deal-desc-main {
+    white-space: nowrap;
     font-family: var(--font-body);
     font-weight: 600;
     font-size: var(--text-body);

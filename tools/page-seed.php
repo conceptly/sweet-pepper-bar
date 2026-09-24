@@ -266,13 +266,22 @@ foreach ( $targets as $target ) {
             // The folder: the kitchen page moves from /menu/ to /menu/food/ under a new «Меню»
             // page (author, 24 Sep 2026: the address bar says which menu, and the team sees
             // both menus under one folder). Idempotent — a kitchen page already under the folder is left alone.
+            // wp_update_post() re-validates a page's template against the served theme's files and
+            // resets an unknown one to "default" — so after every update the template is set again by
+            // meta, which skips the check (bitten locally, where the served theme lagged the branch).
+            $move = function ( $id, $fields ) {
+                $template = get_post_meta( $id, '_wp_page_template', true );
+                wp_update_post( [ 'ID' => $id ] + $fields );
+                update_post_meta( $id, '_wp_page_template', $template );
+                clean_post_cache( $id );
+            };
             $folder = sweet_pepper_menu_page( 'index' );
             if ( ! $folder ) {
                 $food = $pages['food'];
                 $slug = 'menu' === $food->post_name ? 'menu' : $food->post_name;
                 if ( 'menu' === $food->post_name ) {
                     // free the slug first, or the folder gets menu-2
-                    wp_update_post( [ 'ID' => $food->ID, 'post_name' => 'food', 'post_title' => 'Menu' === $food->post_title ? 'Меню — кухня' : $food->post_title ] );
+                    $move( $food->ID, [ 'post_name' => 'food', 'post_title' => 'Menu' === $food->post_title ? 'Меню — кухня' : $food->post_title ] );
                 }
                 $id = wp_insert_post( [
                     'post_type'   => 'page',
@@ -286,10 +295,9 @@ foreach ( $targets as $target ) {
                 if ( is_wp_error( $id ) ) {
                     exit( 'menu: could not create the folder page — ' . $id->get_error_message() . "\n" );
                 }
-                wp_update_post( [ 'ID' => $food->ID, 'post_parent' => $id, 'menu_order' => 1 ] );
+                $move( $food->ID, [ 'post_parent' => $id, 'menu_order' => 1 ] );
                 $folder = get_post( $id );
                 echo "menu: folder page {$id} created — " . get_permalink( $id ) . "; kitchen page {$food->ID} → " . get_permalink( $food->ID ) . "\n";
-                clean_post_cache( $food->ID );
                 $pages['food'] = get_post( $food->ID );
             }
             $pages['drinks'] = sweet_pepper_menu_page( 'drinks' );
@@ -310,7 +318,7 @@ foreach ( $targets as $target ) {
                 echo "menu: bar page {$id} created — " . get_permalink( $id ) . "\n";
             } elseif ( (int) $pages['drinks']->post_parent !== (int) $folder->ID ) {
                 // a bar page made before the folder existed (24 Sep 2026, first shape) moves under it
-                wp_update_post( [ 'ID' => $pages['drinks']->ID, 'post_parent' => $folder->ID, 'menu_order' => 2 ] );
+                $move( $pages['drinks']->ID, [ 'post_parent' => $folder->ID, 'menu_order' => 2 ] );
                 echo "menu: bar page {$pages['drinks']->ID} moved under the folder — " . get_permalink( $pages['drinks']->ID ) . "\n";
             }
             foreach ( $pages as $state => $page ) {

@@ -141,7 +141,8 @@ body.admin-bar .home-hero {
     border-radius: 4px;
     overflow: hidden;
     z-index: 4;
-    transition: transform 0.4s var(--ease-out-expo);
+    transition: transform 0.4s var(--ease-out-expo),
+                box-shadow 0.3s;
 }
 
 .tile-img {
@@ -203,6 +204,38 @@ body.admin-bar .home-hero {
 
 .daypart-tile.is-active .tile-overlay {
     opacity: 0; /* No overlay on active */
+}
+
+/* ── Hover and focus — the card vocabulary (highlights.css, events.css; author, 25 Sep 2026):
+   the shadow expands by day, a Lime glow by night, and the dimmed photo lifts halfway so the
+   tile answers the pointer. The active tile already has its keyline and sheets and answers
+   nothing more. Pointer input only — the phone bento has no hover. */
+@media (hover: hover) {
+    .daypart-tile:not(.is-active):hover .tile-img-wrapper {
+        box-shadow: 4px 4px 16px 0 rgba(21, 19, 23, 0.15);
+    }
+
+    html[data-theme="night"] .daypart-tile:not(.is-active):hover .tile-img-wrapper {
+        box-shadow: 0 0 16px 0 rgba(212, 230, 113, 0.5);
+    }
+
+    .daypart-tile:not(.is-active):hover .tile-overlay {
+        opacity: 0.5;
+    }
+}
+
+/* Keyboard focus: the cards' outline — Chili by day, Lime by night — on the photo, not the button box */
+.daypart-tile:focus-visible {
+    outline: none;
+}
+
+.daypart-tile:focus-visible .tile-img-wrapper {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+html[data-theme="night"] .daypart-tile:focus-visible .tile-img-wrapper {
+    outline-color: var(--lime);
 }
 
 /* ── Color stack (only visible on active) ───────── */

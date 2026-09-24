@@ -311,7 +311,9 @@ SECTIONS = {
     "drinks": [("infusions", "Настойки"), ("cocktails", "Коктейли"), ("wine", "Вино"), ("beer", "Пиво"),
                ("spirits", "Крепкое"), ("no-buzz", "Без алкоголя"), ("tea-coffee", "Чай и кофе")],
 }
-slider = dict(default_value="", min=0, max=100, step=5, prepend="", append="%")
+# A range can never be empty: the form shows 0 for an unsaved value and would store it on the first
+# Update — so the default is the centre, which is what the site shows while nothing is set.
+slider = dict(default_value=50, min=0, max=100, step=5, prepend="", append="%")
 
 def section_tab(f, slug, title, prefix, item_type):
     """One section's tab. Field names: sec_<slug with _>_<key>[_<lang>] — read by

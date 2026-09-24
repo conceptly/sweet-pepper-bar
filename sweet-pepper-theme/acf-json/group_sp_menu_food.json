@@ -255,7 +255,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -417,7 +417,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -1193,7 +1193,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -1355,7 +1355,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -2131,7 +2131,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -2293,7 +2293,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -3069,7 +3069,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -3231,7 +3231,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -4007,7 +4007,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -4169,7 +4169,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -4945,7 +4945,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -5107,7 +5107,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -5883,7 +5883,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -6045,7 +6045,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -6821,7 +6821,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -6983,7 +6983,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -7759,7 +7759,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -7921,7 +7921,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
+            "default_value": 50,
             "min": 0,
             "max": 100,
             "step": 5,
@@ -9077,5 +9077,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790269010
+    "modified": 1790269861
 }

@@ -124,7 +124,9 @@ function sweet_pepper_dish_placements() {
  */
 function sweet_pepper_dish_admin_columns( $columns ) {
     unset( $columns['date'] );
-    return $columns + [ 'sp_description' => 'Описание', 'sp_sizes' => 'Выход и цена', 'sp_section' => 'Раздел меню', 'date' => 'Дата' ];
+    // The photo first: the strip and the pickers print it, and a table shows at a glance which dishes have none yet.
+    $out = [ 'cb' => $columns['cb'] ?? '', 'sp_photo' => 'Фото', 'title' => $columns['title'] ?? 'Название' ];
+    return $out + $columns + [ 'sp_description' => 'Описание', 'sp_sizes' => 'Выход и цена', 'sp_section' => 'Раздел меню', 'date' => 'Дата' ];
 }
 foreach ( sweet_pepper_menu_item_types() as $sp_type ) {
     add_filter( "manage_{$sp_type}_posts_columns", 'sweet_pepper_dish_admin_columns' );
@@ -133,6 +135,9 @@ foreach ( sweet_pepper_menu_item_types() as $sp_type ) {
 unset( $sp_type );
 
 function sweet_pepper_dish_admin_column( $column, $post_id ) {
+    if ( 'sp_photo' === $column ) {
+        echo has_post_thumbnail( $post_id ) ? get_the_post_thumbnail( $post_id, [ 60, 40 ] ) : '<span aria-hidden="true">—</span>';
+    }
     if ( 'sp_description' === $column ) {
         echo esc_html( (string) get_field( 'description_ru', $post_id ) ?: '—' );
     }
@@ -193,3 +198,14 @@ add_action( 'pre_get_posts', 'sweet_pepper_dish_admin_order' );
 
 // Two icons at most, as in the repeater store (inc/menu-data.php).
 add_filter( 'acf/validate_value/key=field_sp_dish_dish_icons', 'sweet_pepper_menu_validate_icons', 10, 2 );
+
+/**
+ * Under the «Фото блюда» box: the crop the site makes, so a plate is framed for it.
+ */
+function sweet_pepper_dish_thumbnail_note( $html, $post_id ) {
+    if ( in_array( get_post_type( $post_id ), sweet_pepper_menu_item_types(), true ) ) {
+        $html .= '<p class="description">Горизонтальное фото 3:2 — на сайте обрезается по центру до этой пропорции (подборка на странице меню).</p>';
+    }
+    return $html;
+}
+add_filter( 'admin_post_thumbnail_html', 'sweet_pepper_dish_thumbnail_note', 10, 2 );

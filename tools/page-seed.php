@@ -17,6 +17,11 @@
  *                   their source path and does not upload twice.
  *   location      — data/location.php → Bar Settings → «Локация — заголовок»
  *   pairings      — data/pairings.php → the one «Гастробот» record (created if missing)
+ *   menu          — data/menu/page.php → the two menu pages' «Первый экран», «Подборка» and «Поиск»
+ *                   tabs (inc/menu-page.php). Creates the bar page — «Меню — бар», /menu/bar/,
+ *                   template Menu — Bar — under the kitchen page when it is missing. The
+ *                   «Подборка» list is seeded with what the empty list shows anyway: the menu's
+ *                   seasonal-labelled dishes (drinks on the bar page), so the form and the page agree.
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -27,7 +32,7 @@ $args    = array_slice( $argv, 1 );
 $force   = in_array( '--force', $args, true );
 $targets = array_values( array_diff( $args, [ '--force' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|location|pairings> [...] [--force]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|location|pairings|menu> [...] [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -245,6 +250,60 @@ foreach ( $targets as $target ) {
             }
             update_field( "{$k}rows", $rows, $id );
             echo 'pairings: seeded ' . count( $rows ) . " pairs on record {$id}\n";
+            break;
+
+        case 'menu':
+            $k     = 'field_sp_mpage_';
+            $typed = require $data . 'menu/page.php';
+            $pages = [ 'food' => sweet_pepper_menu_page( 'food' ) ];
+            if ( ! $pages['food'] ) {
+                echo "menu: no page with the template Menu (page-menu.php)\n";
+                break;
+            }
+            $pages['drinks'] = sweet_pepper_menu_page( 'drinks' );
+            if ( ! $pages['drinks'] ) {
+                $id = wp_insert_post( [
+                    'post_type'    => 'page',
+                    'post_status'  => 'publish',
+                    'post_title'   => 'Меню — бар',
+                    'post_name'    => 'bar',
+                    'post_parent'  => $pages['food']->ID,
+                    'menu_order'   => $pages['food']->menu_order + 1,
+                    'meta_input'   => [ '_wp_page_template' => 'page-menu-bar.php' ],
+                ], true );
+                if ( is_wp_error( $id ) ) {
+                    exit( 'menu: could not create the bar page — ' . $id->get_error_message() . "\n" );
+                }
+                $pages['drinks'] = get_post( $id );
+                echo "menu: bar page {$id} created — " . get_permalink( $id ) . "\n";
+            }
+            foreach ( $pages as $state => $page ) {
+                $id = $page->ID;
+                if ( metadata_exists( 'post', $id, 'menu_highlights' ) && ! $force ) {
+                    echo "menu ({$state}, page {$id}): already saved — left alone (--force to overwrite)\n";
+                    continue;
+                }
+                $t = $typed[ $state ];
+                sp_seed_twins( "{$k}door_label", $t['door'], 'label', $id );
+                sp_seed_twins( "{$k}door_caption", $t['door'], 'caption', $id );
+                sp_seed_twins( "{$k}door_description", $t['door'], 'description', $id );
+                update_field( "{$k}door_photo", sp_seed_attachment( $t['door']['image'] ), $id );
+                foreach ( [ 'eyebrow', 'headline', 'headline_2' ] as $key ) {
+                    sp_seed_twins( "{$k}highlights_{$key}", $t['highlights'], $key, $id );
+                }
+                sp_seed_twins( "{$k}seo_title", $t['seo'], 'title', $id );
+                sp_seed_twins( "{$k}seo_description", $t['seo'], 'description', $id );
+                // The list: what the empty list shows — the menu's seasonal-labelled items, in menu order.
+                $ids = [];
+                foreach ( sweet_pepper_menu_items_in_order( $state ) as $item ) {
+                    if ( '' !== trim( (string) get_field( 'seasonal_ru', $item ) . get_field( 'seasonal_en', $item ) ) ) {
+                        $ids[] = $item;
+                    }
+                }
+                $ids = array_slice( $ids, 0, 8 );
+                update_field( "{$k}highlights", $ids, $id );
+                echo "menu ({$state}, page {$id}): seeded — door, header, title, " . count( $ids ) . " highlights\n";
+            }
             break;
 
         default:

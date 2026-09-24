@@ -1,0 +1,520 @@
+{
+    "key": "group_sp_menu",
+    "title": "Меню — страница",
+    "fields": [
+        {
+            "key": "field_sp_mpage_door_tab",
+            "label": "Первый экран",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_mpage_door_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Дверь в другое меню — блок со стрелкой под списком разделов: на странице кухни она ведёт в бар, на странице бара — на кухню. Слово на двери, а при наведении — фото, его подпись и абзац о том меню.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_mpage_door_label_ru",
+            "label": "Слово на двери",
+            "name": "menu_door_label_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Напитки / Еда",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_door_label_en",
+            "label": "Слово на двери (EN)",
+            "name": "menu_door_label_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Напитки / Еда",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_door_photo",
+            "label": "Фото при наведении",
+            "name": "menu_door_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Горизонтальное, 3:2 — обрезается по центру.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_sp_mpage_door_caption_ru",
+            "label": "Подпись фото",
+            "name": "menu_door_caption_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "что на фото",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_door_caption_en",
+            "label": "Подпись фото (EN)",
+            "name": "menu_door_caption_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "что на фото",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_door_description_ru",
+            "label": "Абзац о другом меню",
+            "name": "menu_door_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_mpage_door_description_en",
+            "label": "Абзац о другом меню (EN)",
+            "name": "menu_door_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_mpage_highlights_tab",
+            "label": "Подборка",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_mpage_highlights_eyebrow_ru",
+            "label": "Надзаголовок",
+            "name": "menu_highlights_eyebrow_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_highlights_eyebrow_en",
+            "label": "Надзаголовок (EN)",
+            "name": "menu_highlights_eyebrow_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_highlights_headline_ru",
+            "label": "Заголовок · строка 1",
+            "name": "menu_highlights_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_highlights_headline_en",
+            "label": "Заголовок · строка 1 (EN)",
+            "name": "menu_highlights_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_highlights_headline_2_ru",
+            "label": "Заголовок · строка 2",
+            "name": "menu_highlights_headline_2_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_highlights_headline_2_en",
+            "label": "Заголовок · строка 2 (EN)",
+            "name": "menu_highlights_headline_2_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "можно без второй строки",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_highlights_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Карточки полосы «Что попробовать» — блюда и напитки из меню, до восьми; порядок здесь — порядок на сайте. Название, фото и ссылка «Смотреть в разделе …» берутся из записи блюда: фото — «Фото блюда» в его карточке, без фото карточка показывает фото раздела. Пустой список — на сайте стоят блюда с сезонной меткой (на странице бара — напитки).",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_mpage_highlights",
+            "label": "Блюда подборки",
+            "name": "menu_highlights",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "dish",
+                "drink"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search",
+                "post_type"
+            ],
+            "return_format": "id",
+            "min": 0,
+            "max": 8,
+            "elements": [
+                "featured_image"
+            ],
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_sp_mpage_seo_tab",
+            "label": "Поиск",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_mpage_seo_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Название вкладки браузера и строка, которую показывает поиск. Имя сайта добавляется само.",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_sp_mpage_seo_title_ru",
+            "label": "Название страницы",
+            "name": "menu_seo_title_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Меню кухни / Барное меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_seo_title_en",
+            "label": "Название страницы (EN)",
+            "name": "menu_seo_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Меню кухни / Барное меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_mpage_seo_description_ru",
+            "label": "Описание для поиска",
+            "name": "menu_seo_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 160,
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_mpage_seo_description_en",
+            "label": "Описание для поиска (EN)",
+            "name": "menu_seo_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 160,
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-menu.php"
+            }
+        ],
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-menu-bar.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "The two menu pages' own words: the door, the Highlights strip, the browser title. Generated by tools/page-field-groups.py; read by inc/menu-page.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1790223626
+}

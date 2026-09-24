@@ -13,10 +13,18 @@ function sweet_pepper_register_cpt() {
     // and «Напитки» (author, after the team test) — and a picker can ask for one or the other.
     // A dish is placed on the page by its section's `menu_list` record (4, below);
     // Draft takes it off the site. Never a public URL — the menu page renders it.
+    // Its PHOTO is the post's featured image (3:2, the `sp-3x2` crop — inc/images.php): the
+    // Highlights strip prints it (inc/menu-page.php); the pickers and previews will.
     $dish_type = function ( $labels, $position, $icon ) {
+        $photo = 'Напиток' === $labels['singular_name'] ? 'напитка' : 'блюда';
         return array(
             'label'         => $labels['singular_name'],
-            'labels'        => $labels,
+            'labels'        => $labels + array(
+                'featured_image'        => "Фото {$photo}",
+                'set_featured_image'    => 'Выбрать фото',
+                'remove_featured_image' => 'Убрать фото',
+                'use_featured_image'    => 'Сделать фото ' . $photo,
+            ),
             'supports'      => array( 'title', 'thumbnail', 'revisions' ), // Name and Photo
             'public'        => false,
             'show_ui'       => true,

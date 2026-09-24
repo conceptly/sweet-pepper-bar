@@ -36,7 +36,8 @@
  * hero → Closed state).
  *
  * Mirrors the engine's rules exactly, so the engine finds the theme already right:
- *   ?menu=drinks                      → night (the bar state is always dark)
+ *   the bar menu page, /menu/bar/     → night (the bar is always dark; inc/menu-page.php)
+ *   ?menu=drinks                      → night (the same, as a switch on any page)
  *   ?theme=night, ?daypart=dinner|party → night
  *   ?daypart=breakfast|lunch          → day
  *   ?closed=night|morning|sunday      → that closed window, at any hour (for checking)
@@ -47,6 +48,7 @@
 
 function sweet_pepper_daypart_head() {
     $themes_by_hour = is_front_page() ? 'true' : 'false';
+    $bar_page       = 'drinks' === sweet_pepper_menu_state() ? 'true' : 'false';
     ?>
 <script>
 (function (d) {
@@ -87,7 +89,7 @@ function sweet_pepper_daypart_head() {
         d.dataset.closed = closed;
     }
     d.dataset.now = now;
-    if (q.get('menu') === 'drinks' || q.get('theme') === 'night' || night.test(dp) ||
+    if (<?php echo $bar_page; // phpcs:ignore WordPress.Security.EscapeOutput -- literal true/false ?> || q.get('menu') === 'drinks' || q.get('theme') === 'night' || night.test(dp) ||
         (<?php echo $themes_by_hour; // phpcs:ignore WordPress.Security.EscapeOutput -- literal true/false ?> && !/^(breakfast|lunch)$/.test(dp) && night.test(now))) {
         d.dataset.theme = 'night';
     }

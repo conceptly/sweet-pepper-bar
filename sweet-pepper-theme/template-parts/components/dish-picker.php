@@ -118,7 +118,7 @@ $default    = $pairings[ $default_index ];
                 </div>
 
                 <a class="dish-picker__cta"
-                   href="<?php echo esc_url( home_url( '/menu/?menu=drinks#' . $default['bar_section'] ) ); ?>">
+                   href="<?php echo esc_url( sweet_pepper_menu_url( 'drinks', $default['bar_section'] ) ); ?>">
                     <span><?php esc_html_e( 'See this drink', 'sweet-pepper' ); ?></span>
                     <span class="dish-picker__cta-icon" aria-hidden="true">
                         <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

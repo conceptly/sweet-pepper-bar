@@ -88,7 +88,7 @@ export function initDaypartEngine() {
             subhead: 'Start with your favourite cocktail. See where the evening goes.',
             btnText: 'Drinks menu',
             btnIcon: 'martini',
-            btnHref: '/menu/?menu=drinks#cocktails',
+            btnHref: '/menu/bar/#cocktails',
         },
     };
 
@@ -271,9 +271,11 @@ export function initDaypartEngine() {
     const themeOverride = params.get('theme');
     const daypartOverride = params.get('daypart');
     const menuOverride = params.get('menu');
+    // The bar menu page, /menu/bar/ (page-menu-bar.php — WordPress names the template on <body>)
+    const barPage = document.body.classList.contains('page-template-page-menu-bar');
 
     // Bar menu is always dark (website-brief.md: "Menu — drinks state: Always dark")
-    if (menuOverride === 'drinks') {
+    if (barPage || menuOverride === 'drinks') {
         html.setAttribute('data-theme', 'night');
     } else if (themeOverride === 'night' || ['dinner', 'party'].includes(daypartOverride)) {
         // Force night mode from URL

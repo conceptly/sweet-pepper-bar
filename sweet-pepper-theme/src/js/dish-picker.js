@@ -188,9 +188,9 @@ function initSinglePicker(picker) {
 
             // Update CTA link
             if (ctaLink) {
-                // The drinks page in the request's language (inc/lang.php prints spLang.root) — not the
-                // current path, which on About sent the link to /about/?menu=drinks (fixed 21 Sep 2026).
-                ctaLink.href = ((window.spLang && window.spLang.root) || '') + '/menu/?menu=drinks#' + pairing.barSection;
+                // The bar menu page (/menu/bar/, inc/menu-page.php) in the request's language (inc/lang.php
+                // prints spLang.root) — not the current path, which on About once sent the link to /about/… (21 Sep 2026).
+                ctaLink.href = ((window.spLang && window.spLang.root) || '') + '/menu/bar/#' + pairing.barSection;
             }
         });
 

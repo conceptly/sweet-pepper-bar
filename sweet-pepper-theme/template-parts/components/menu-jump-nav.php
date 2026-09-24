@@ -29,7 +29,7 @@ $sections   = $args['sections']   ?? [];
 $section    = $args['section']    ?? '';
 $menu_state = $args['menu_state'] ?? 'food';
 $door_label = $args['door_label'] ?? 'Drinks';
-$door_href  = $args['door_href']  ?? home_url( '/menu/?menu=drinks' );
+$door_href  = $args['door_href']  ?? sweet_pepper_menu_url( 'drinks' );
 $door_slug  = $args['door_slug']  ?? 'drinks';
 $arrow_svg  = $args['arrow_svg']  ?? '';
 

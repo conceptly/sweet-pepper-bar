@@ -117,7 +117,7 @@ get_header();
                         'type'       => 'secondary',
                         'icon_left'  => 'martini',
                         'icon_right' => 'arrow-right',
-                        'url'        => home_url( '/menu/?menu=drinks' )
+                        'url'        => sweet_pepper_menu_url( 'drinks' )
                     ],
                     [
                         'label'      => 'Food menu',
@@ -145,9 +145,8 @@ get_header();
                         'description' => 'From cranberry to raspberry gin.',
                         'tag_icon'    => 'star',
                         'tag_label'   => 'Seasonal hits',
-                        // Bar state renders only in ?menu=drinks, so the state travels with the
-                        // anchor (same pattern as dish-picker.js builds for the pairing CTA).
-                        'url'         => home_url( '/menu/?menu=drinks#infusions' )
+                        // The bar page's section (inc/menu-page.php → /menu/bar/#infusions).
+                        'url'         => sweet_pepper_menu_url( 'drinks', 'infusions' )
                     ],
                     [
                         'image_url'   => get_template_directory_uri() . '/assets/images/food/dinner/wings-2.jpg',
@@ -240,7 +239,7 @@ get_header();
                     'label'          => 'Explore the drinks menu',
                     'type'           => 'secondary',
                     'icon_right_svg' => 'icons/Pepper.svg',
-                    'url'            => home_url( '/menu/?menu=drinks' ),
+                    'url'            => sweet_pepper_menu_url( 'drinks' ),
                 ],
                 'cta_align'   => 'left',
             ] ); 

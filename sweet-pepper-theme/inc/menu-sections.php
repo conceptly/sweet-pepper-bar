@@ -338,7 +338,7 @@ function sweet_pepper_menu_connector_lang( $day, $night, $alt ) {
     if ( ! preg_match( $pattern, (string) $day, $d ) || ! preg_match( $pattern, (string) $night, $n ) || $d[1] !== $n[1] ) {
         return [ $day, $night, $alt ];
     }
-    $state = ( isset( $_GET['menu'] ) && 'drinks' === $_GET['menu'] ) ? 'drinks' : 'food';
+    $state = sweet_pepper_menu_state() ?: 'food'; // the page's menu (inc/menu-page.php)
     $twin  = sweet_pepper_menu_connectors_ru( $state )[ $d[1] ] ?? null;
     if ( ! $twin ) {
         return [ $day, $night, $alt ];

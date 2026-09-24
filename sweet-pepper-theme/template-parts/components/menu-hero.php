@@ -40,26 +40,16 @@ foreach ( $sections as $slug => $sec ) {
     ];
 }
 
-// Add the cross-menu door hover entry
-if ( $is_drinks ) {
-    // FOOD door on bar page → show kitchen intro
-    $sections_json['food'] = [
-        'label'       => __( 'Food', 'sweet-pepper' ),
-        'image'       => $images_uri . 'food/breakfast/pepper-breakfast-2.jpg',
-        'focus'       => '50% 60%',
-        'caption'     => __( "Pepper's Breakfast", 'sweet-pepper' ),
-        'description' => __( 'The full kitchen — breakfast to dinner, soups to desserts, all cooked fresh and served at the bar or the table.', 'sweet-pepper' ),
-    ];
-} else {
-    // DRINKS door on food page → show bar intro
-    $sections_json['drinks'] = [
-        'label'       => __( 'Drinks', 'sweet-pepper' ),
-        'image'       => $images_uri . 'bar/coffee/cappuccino-icecream-1.jpg',
-        'focus'       => '50% 50%',
-        'caption'     => __( 'Cappuccino & Gelato', 'sweet-pepper' ),
-        'description' => __( 'House-made infusions, natural cocktails, local wines, and craft beer — the bar is a destination on its own. No syrup shortcuts.', 'sweet-pepper' ),
-    ];
-}
+// The cross-menu door's hover entry: the page's own «Первый экран» fields — the word, the
+// photo, its caption and the paragraph (inc/menu-page.php → sweet_pepper_menu_door()).
+$door = sweet_pepper_menu_door( $menu_state );
+$sections_json[ $door['slug'] ] = [
+    'label'       => $door['label'],
+    'image'       => $door['image'],
+    'focus'       => $door['focus'],
+    'caption'     => $door['caption'],
+    'description' => $door['description'],
+];
 
 // Arrow glyph: inlined per instance via sweet_pepper_inline_svg() (unique clipPath ids —
 // a shared id resolves to the first copy in the document, which on phones sits inside
@@ -81,10 +71,10 @@ $connector    = $is_drinks
     ? [ 'day' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'night' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'alt' => 'DRINKS MENU' ]
     : [ 'day' => 'assets/sectionLinks/menu/kitchen-day/foodMenu.svg', 'night' => 'assets/sectionLinks/menu/kitchen-night/foodMenu.svg', 'alt' => 'FOOD MENU' ];
 
-// Door config
-$door_label = $is_drinks ? __( 'Food', 'sweet-pepper' ) : __( 'Drinks', 'sweet-pepper' );
-$door_href  = $is_drinks ? home_url( '/menu/' ) : home_url( '/menu/?menu=drinks' );
-$door_slug  = $is_drinks ? 'food' : 'drinks';
+// Door config — the other menu's page (inc/menu-page.php: /menu/ ⇄ /menu/bar/)
+$door_label = $door['label'];
+$door_href  = $door['href'];
+$door_slug  = $door['slug'];
 ?>
 
 <section class="menu-hero"

@@ -3,6 +3,522 @@
     "title": "Раздел меню — списки блюд",
     "fields": [
         {
+            "key": "field_sp_list_sec_more",
+            "label": "Тексты раздела: названия, заголовок, первый экран, фото, акция",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 1,
+            "endpoint": 0
+        },
+        {
+            "key": "field_sp_list_sec_label_ru",
+            "label": "Название в навигации",
+            "name": "sec_label_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Короткое: меню первого экрана и строка разделов на телефоне",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_label_en",
+            "label": "Название в навигации (EN)",
+            "name": "sec_label_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Короткое: меню первого экрана и строка разделов на телефоне",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_cta_label_ru",
+            "label": "Кнопка на первом экране (телефон)",
+            "name": "sec_cta_label_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_cta_label_en",
+            "label": "Кнопка на первом экране (телефон) (EN)",
+            "name": "sec_cta_label_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_headline_ru",
+            "label": "Заголовок раздела",
+            "name": "sec_headline_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Пусто — как название в навигации",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_headline_en",
+            "label": "Заголовок раздела (EN)",
+            "name": "sec_headline_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Пусто — как название в навигации",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_eyebrow_ru",
+            "label": "Надзаголовок",
+            "name": "sec_eyebrow_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_eyebrow_en",
+            "label": "Надзаголовок (EN)",
+            "name": "sec_eyebrow_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_description_ru",
+            "label": "Текст первого экрана",
+            "name": "sec_description_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_list_sec_description_en",
+            "label": "Текст первого экрана (EN)",
+            "name": "sec_description_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_list_sec_caption_ru",
+            "label": "Подпись фото на первом экране",
+            "name": "sec_caption_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Что на фото",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_caption_en",
+            "label": "Подпись фото на первом экране (EN)",
+            "name": "sec_caption_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Что на фото",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_pill_ru",
+            "label": "Подпись фото раздела",
+            "name": "sec_pill_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Что на фото; она же — описание для скринридера",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_pill_en",
+            "label": "Подпись фото раздела (EN)",
+            "name": "sec_pill_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Что на фото; она же — описание для скринридера",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_alt_ru",
+            "label": "Описание фото для скринридера",
+            "name": "sec_alt_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Пусто — как подпись фото раздела",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_alt_en",
+            "label": "Описание фото для скринридера (EN)",
+            "name": "sec_alt_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Пусто — как подпись фото раздела",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_title_ru",
+            "label": "Акция: заголовок",
+            "name": "sec_deal_title_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Пусто — карточки акции нет",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_title_en",
+            "label": "Акция: заголовок (EN)",
+            "name": "sec_deal_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Пусто — карточки акции нет",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_main_ru",
+            "label": "Акция: главная строка",
+            "name": "sec_deal_main_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_main_en",
+            "label": "Акция: главная строка (EN)",
+            "name": "sec_deal_main_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_sub_ru",
+            "label": "Акция: вторая строка",
+            "name": "sec_deal_sub_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_sub_en",
+            "label": "Акция: вторая строка (EN)",
+            "name": "sec_deal_sub_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_link_ru",
+            "label": "Акция: ссылка вместо второй строки",
+            "name": "sec_deal_link_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Ведёт в барное меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_deal_link_en",
+            "label": "Акция: ссылка вместо второй строки (EN)",
+            "name": "sec_deal_link_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Ведёт в барное меню",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_list_sec_end",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 1
+        },
+        {
             "key": "field_sp_list_hint",
             "label": "",
             "name": "",
@@ -256,5 +772,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790182957
+    "modified": 1790213292
 }

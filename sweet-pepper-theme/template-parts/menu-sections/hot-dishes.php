@@ -6,6 +6,7 @@
  */
 ?>
 
+<?php $sec = sweet_pepper_menu_section( 'hot-dishes' ); // this section's words, in the request's language (inc/menu-sections.php) ?>
 <section id="hot-dishes" class="menu-section">
 
     <!-- Section Content -->
@@ -14,16 +15,16 @@
         <!-- Hero Image -->
         <div class="menu-section__hero">
             <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/food/dinner/zharkoe-1.jpg' ); ?>"
-                 alt="<?php echo esc_attr( 'Yaroslavl-Style Roast' ); ?>"
+                 alt="<?php echo esc_attr( $sec['alt'] ); ?>"
                  loading="lazy">
-            <span class="menu-section__hero-pill"><?php echo esc_html( 'Yaroslavl-Style Roast' ); ?></span>
+            <span class="menu-section__hero-pill"><?php echo esc_html( $sec['pill'] ); ?></span>
         </div>
 
         <!-- Title Row: eyebrow + headline + empty right slot -->
         <div class="menu-section__title-row">
             <div class="menu-section__title-text">
                 <div class="section-title">
-                    <span class="section-eyebrow molot-text"><?php echo esc_html( 'from the kitchen' ); ?></span>
+                    <span class="section-eyebrow molot-text"><?php echo esc_html( $sec['eyebrow'] ); ?></span>
                     <?php // Headline + phone rail (template-parts/components/menu-section-rail.php)
                     get_template_part( 'template-parts/components/menu-section-rail', null, [ 'current' => 'hot-dishes' ] ); ?>
                 </div>

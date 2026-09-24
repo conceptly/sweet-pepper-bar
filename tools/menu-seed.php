@@ -19,13 +19,18 @@
  * after the first seed the database is the source, and the team's edits live there.
  * --force deletes the section's posts and creates new ones (new IDs) — don't use it once
  * highlights or the picker reference dishes.
+ *
+ * --copy seeds the section's own words instead — the «Тексты раздела» fields (headline,
+ * eyebrow, hero text, captions, deal; RU + EN) from data/menu/sections-copy.php and the
+ * section list. Only empty fields are written: text edited in admin is never overwritten.
  */
 
 $args  = array_slice( $argv, 1 );
 $force = in_array( '--force', $args, true );
-$slugs = array_values( array_diff( $args, [ '--force' ] ) );
+$copy  = in_array( '--copy', $args, true );
+$slugs = array_values( array_diff( $args, [ '--force', '--copy' ] ) );
 if ( ! $slugs ) {
-    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] | all [--force]\n" );
+    exit( "Usage: menu-seed.php <section-slug> [<section-slug> …] | all [--force | --copy]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -57,7 +62,7 @@ function sp_seed_sizes( $price, $quantity ) {
 
 $icon_order = [ 'veg', 'fire', 'Pepper', 'yaroslavl-logo' ]; // as in tools/menu-field-group.py
 
-$sections = sweet_pepper_menu_sections( 'food' ) + sweet_pepper_menu_sections( 'drinks' );
+$sections = sweet_pepper_menu_sections_typed( 'food' ) + sweet_pepper_menu_sections_typed( 'drinks' );
 $order    = array_flip( array_keys( $sections ) );
 if ( [ 'all' ] === $slugs ) {
     $slugs = array_keys( $sections );
@@ -70,6 +75,28 @@ $titles_ru = [
     'kids' => 'Детям', 'infusions' => 'Домашние настойки', 'cocktails' => 'Коктейли', 'wine' => 'Вино',
     'beer' => 'Пиво', 'spirits' => 'Крепкое', 'no-buzz' => 'Без алкоголя', 'tea-coffee' => 'Чай и кофе',
 ];
+
+if ( $copy ) {
+    foreach ( $slugs as $slug ) {
+        $post = get_page_by_path( $slug, OBJECT, 'menu_list' );
+        if ( ! $post ) {
+            echo "$slug: no «Разделы меню» record — seed the dishes first\n";
+            continue;
+        }
+        $written = 0;
+        foreach ( sweet_pepper_menu_section_copy_typed( $slug ) as $lang => $words ) {
+            foreach ( $words as $key => $value ) {
+                if ( '' === trim( (string) $value ) || '' !== trim( (string) get_field( "sec_{$key}_{$lang}", $post->ID ) ) ) {
+                    continue;
+                }
+                update_field( "field_sp_list_sec_{$key}_{$lang}", $value, $post->ID );
+                $written++;
+            }
+        }
+        echo "$slug: $written section fields written\n";
+    }
+    exit;
+}
 
 foreach ( $slugs as $slug ) {
     $source = sweet_pepper_menu_fallback( $slug );

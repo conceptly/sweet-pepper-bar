@@ -44,6 +44,27 @@ return [
         'Pick a plate — the bar takes care of the rest.'     => 'Выберите блюдо — и получите рекомендацию от бара!',
         'Pick a drink — the kitchen takes care of the rest.' => 'Выберите напиток — и получите рекомендацию от кухни!',
         'See this drink'                             => 'О напитке',
+        // Menu page (✔ menu-copy-ru-draft.md → Навигация и подписи, 23 Sep 2026; «mine» = not in the draft)
+        'Food'                                       => 'Еда',
+        'Drinks'                                     => 'Напитки',
+        'FOOD'                                       => 'ЕДА',
+        'DRINKS'                                     => 'НАПИТКИ',
+        'More plates'                                => 'Ещё блюда',
+        'More pours'                                 => 'Ещё напитки',
+        'Menu sections'                              => 'Разделы меню',
+        'Jump to a menu section'                     => 'Перейти к разделу меню', // mine
+        'Close menu sections'                        => 'Закрыть разделы меню', // mine
+        // The hero's door to the other menu — mine, the draft has none
+        "Pepper's Breakfast"                         => 'Завтрак от Перцев',
+        'Cappuccino & Gelato'                        => 'Капучино с мороженым',
+        'The full kitchen — breakfast to dinner, soups to desserts, all cooked fresh and served at the bar or the table.' => 'Вся кухня — от завтрака до ужина, от супов до десертов. Готовим сами и подаём к стойке или к столику.',
+        'House-made infusions, natural cocktails, local wines, and craft beer — the bar is a destination on its own. No syrup shortcuts.' => 'Домашние настойки, коктейли, вино и крафтовое пиво — в бар стоит прийти ради самого бара. Без сиропов-полуфабрикатов.',
+        // Menu page — location and the phone closer (headline + body come from About's fields)
+        'Find the Pepper'                            => 'ВАМ СЮДА',
+        'Sweet Pepper restaurant entrance on Kirova Street' => 'Вход в Sweet Pepper',
+        'Restaurant location map'                    => 'Карта: где находится Sweet Pepper',
+        'join the party'                             => 'ждём в гости', // mine
+        'Reserve a table'                            => 'Забронировать',
         // Header and drawer (✔ home-copy-ru-draft.md)
         "What's new"                                 => 'Что нового',
         'Book your table'                            => 'Забронировать',

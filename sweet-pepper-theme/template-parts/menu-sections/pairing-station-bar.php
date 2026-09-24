@@ -78,6 +78,28 @@ $pairings = [
         'bar_section' => 'hot-dishes',
     ],
 ];
+
+// Russian twins (23 Sep 2026): drink names from menu-copy-ru-draft.md → Подбор пары, dish
+// names as the «Гастробот» record has them, the dish line the same placeholder as the
+// kitchen picker's. Typed here while this picker's rows are typed (the reversed-pairs
+// question: website-brief.md → Picker pairings).
+if ( 'ru' === sweet_pepper_lang() ) {
+    $ru = [
+        'buckthorn-infusion' => [ 'Облепиховая настойка', 'Облепиховая настойка', 'Тыквенный суп' ],
+        'cranberry-infusion' => [ 'Клюквенная настойка', 'Клюквенная настойка', 'Фирменные драники' ],
+        'jim-beam'           => [ "Jack Daniel's со льдом", "Jack Daniel's со льдом", 'Бифштекс с яйцом' ],
+        'finlandia'          => [ 'Стопка водки Finlandia', 'Стопка Finlandia', 'Жаркое по-ярославски' ],
+        'ararat'             => [ 'Коньяк «Арарат»', 'Коньяк «Арарат»', 'Крылышки-гриль' ],
+        'red-wine'           => [ 'Красное вино', 'Красное вино', 'Фарфалле с курицей' ],
+    ];
+    foreach ( $pairings as &$p ) {
+        if ( isset( $ru[ $p['slug'] ] ) ) {
+            [ $p['dish'], $p['card_name'], $p['pairing'] ] = $ru[ $p['slug'] ];
+            $p['description'] = 'Легенда улицы Кирова';
+        }
+    }
+    unset( $p );
+}
 ?>
 
 <!-- ═══════════════════════════════════════════════════════════════

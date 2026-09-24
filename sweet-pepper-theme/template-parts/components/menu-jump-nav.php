@@ -72,14 +72,14 @@ $tab_icon  = $is_drinks ? 'martini' : 'fork-knife';
         <div class="menu-hero__nav-bg menu-hero__nav-bg--lime" aria-hidden="true"></div>
         <div class="menu-hero__nav-bg menu-hero__nav-bg--parchment" aria-hidden="true"></div>
 
-        <button type="button" class="menu-jump__close js-menu-jump-close" aria-label="Close menu sections">
+        <button type="button" class="menu-jump__close js-menu-jump-close" aria-label="<?php esc_attr_e( 'Close menu sections', 'sweet-pepper' ); ?>">
             <i class="ph ph-x" aria-hidden="true"></i>
         </button>
 
         <!-- Scroll region: word list + door. Centred when there is room,
              top-aligned (and scrollable) on short viewports. -->
         <div class="menu-jump__scroll">
-        <nav class="menu-hero__nav-list" aria-label="Jump to a menu section">
+        <nav class="menu-hero__nav-list" aria-label="<?php esc_attr_e( 'Jump to a menu section', 'sweet-pepper' ); ?>">
             <?php foreach ( $sections as $slug => $sec ) :
                 $is_active   = ( $slug === $section );
                 $nav_variant = $sec['nav_variant'] ?? 'default';

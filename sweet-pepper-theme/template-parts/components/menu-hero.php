@@ -44,20 +44,20 @@ foreach ( $sections as $slug => $sec ) {
 if ( $is_drinks ) {
     // FOOD door on bar page → show kitchen intro
     $sections_json['food'] = [
-        'label'       => 'Food',
+        'label'       => __( 'Food', 'sweet-pepper' ),
         'image'       => $images_uri . 'food/breakfast/pepper-breakfast-2.jpg',
         'focus'       => '50% 60%',
-        'caption'     => "Pepper's Breakfast",
-        'description' => "The full kitchen — breakfast to dinner, soups to desserts, all cooked fresh and served at the bar or the table.",
+        'caption'     => __( "Pepper's Breakfast", 'sweet-pepper' ),
+        'description' => __( 'The full kitchen — breakfast to dinner, soups to desserts, all cooked fresh and served at the bar or the table.', 'sweet-pepper' ),
     ];
 } else {
     // DRINKS door on food page → show bar intro
     $sections_json['drinks'] = [
-        'label'       => 'Drinks',
+        'label'       => __( 'Drinks', 'sweet-pepper' ),
         'image'       => $images_uri . 'bar/coffee/cappuccino-icecream-1.jpg',
         'focus'       => '50% 50%',
-        'caption'     => 'Cappuccino & Gelato',
-        'description' => "House-made infusions, natural cocktails, local wines, and craft beer — the bar is a destination on its own. No syrup shortcuts.",
+        'caption'     => __( 'Cappuccino & Gelato', 'sweet-pepper' ),
+        'description' => __( 'House-made infusions, natural cocktails, local wines, and craft beer — the bar is a destination on its own. No syrup shortcuts.', 'sweet-pepper' ),
     ];
 }
 
@@ -76,13 +76,13 @@ $default_focus = $default_sec['focus'] ?? '50% 50%';
 // ("More plates" as drawn; the drinks twin is a placeholder — see website-brief.md → Mobile — Menu page),
 // and a full-width primary commits to the default section (the touch exception: preview and
 // commit are two objects on touch). Connector SVGs: foodMenu / drinksMenu.
-$open_label   = $is_drinks ? 'More pours' : 'More plates';
+$open_label   = $is_drinks ? __( 'More pours', 'sweet-pepper' ) : __( 'More plates', 'sweet-pepper' );
 $connector    = $is_drinks
     ? [ 'day' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'night' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'alt' => 'DRINKS MENU' ]
     : [ 'day' => 'assets/sectionLinks/menu/kitchen-day/foodMenu.svg', 'night' => 'assets/sectionLinks/menu/kitchen-night/foodMenu.svg', 'alt' => 'FOOD MENU' ];
 
 // Door config
-$door_label = $is_drinks ? 'Food' : 'Drinks';
+$door_label = $is_drinks ? __( 'Food', 'sweet-pepper' ) : __( 'Drinks', 'sweet-pepper' );
 $door_href  = $is_drinks ? home_url( '/menu/' ) : home_url( '/menu/?menu=drinks' );
 $door_slug  = $is_drinks ? 'food' : 'drinks';
 ?>
@@ -217,7 +217,7 @@ $door_slug  = $is_drinks ? 'food' : 'drinks';
 
     <!-- FOOD/DRINKS wordmark — positioned absolute at bottom of hero -->
     <div class="menu-hero__wordmark">
-        <span class="molot-text"><?php echo $is_drinks ? 'DRINKS' : 'FOOD'; ?></span>
+        <span class="molot-text"><?php echo esc_html( $is_drinks ? __( 'DRINKS', 'sweet-pepper' ) : __( 'FOOD', 'sweet-pepper' ) ); ?></span>
     </div>
 </section>
 

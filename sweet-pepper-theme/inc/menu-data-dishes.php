@@ -23,7 +23,7 @@ function sweet_pepper_menu_item_types() {
  * @param string $slug Section slug.
  */
 function sweet_pepper_menu_item_type( $slug ) {
-    return isset( sweet_pepper_menu_sections( 'drinks' )[ $slug ] ) ? 'drink' : 'dish';
+    return isset( sweet_pepper_menu_sections_typed( 'drinks' )[ $slug ] ) ? 'drink' : 'dish';
 }
 
 /**

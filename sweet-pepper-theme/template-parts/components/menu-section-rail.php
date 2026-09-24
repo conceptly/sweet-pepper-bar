@@ -14,8 +14,9 @@
  *
  * @param array $args {
  *     @type string $current   Slug of this section (required; matches the <section id>).
- *     @type string $headline  Headline text if it differs from the nav word
- *                             (e.g. "For Little Peppers" for kids). Optional.
+ *     @type string $headline  Headline text if it differs from the nav word. Optional — by
+ *                             default the section's own (sweet_pepper_menu_sections() →
+ *                             headline: "For Little Peppers", «На первое»; field or typed).
  *                             Desktop only: in the rail (≤ 991px) the current word is the
  *                             nav word, like every other word in it — a tab that renames
  *                             itself when chosen reads as a different place, and the long
@@ -33,7 +34,7 @@ if ( ! isset( $sections[ $current ] ) ) {
 }
 
 $label    = $sections[ $current ]['label'];
-$headline = $args['headline'] ?? $label;
+$headline = $args['headline'] ?? ( $sections[ $current ]['headline'] ?? $label );
 
 // Canonical order, the current word in place: the rail is scrolled so the current word
 // sits at the left gutter and the sections before it are reachable by scrolling left

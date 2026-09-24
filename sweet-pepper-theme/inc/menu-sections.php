@@ -17,10 +17,13 @@
  */
 
 /**
+ * The sections as typed, in English — keys, photos and the English words. Pages read
+ * sweet_pepper_menu_sections() (below), which gives them in the request's language.
+ *
  * @param string $state 'food' | 'drinks'
  * @return array slug => [ label, image, caption, description, nav_variant ]
  */
-function sweet_pepper_menu_sections( $state = 'food' ) {
+function sweet_pepper_menu_sections_typed( $state = 'food' ) {
     // 'focus' — the hero photo's focal point (CSS object-position). Only the tablet band crops
     // the 3:2 photo (to 21:9, menu-hero.css), keeping 64% of its height, so the value says
     // which 64%: '50% 30%' keeps the top, '50% 70%' the bottom. Chosen per photo, Sep 2026.
@@ -198,12 +201,86 @@ function sweet_pepper_menu_sections( $state = 'food' ) {
 }
 
 /**
+ * A section's words that the team edits, per language: the section words above, and each
+ * section's own copy (data/menu/sections-copy.php). Keys of the «Тексты раздела» fields on
+ * the section's «Разделы меню» record (`sec_{key}_ru` / `_en`).
+ */
+function sweet_pepper_menu_section_copy_keys() {
+    return [ 'label', 'cta_label', 'headline', 'eyebrow', 'description', 'caption', 'pill', 'alt', 'deal_title', 'deal_main', 'deal_sub', 'deal_link' ];
+}
+
+/**
+ * A section's words as typed, per language: [ 'en' => [ key => text ], 'ru' => [ … ] ] over
+ * sweet_pepper_menu_section_copy_keys() — the English from the section list and
+ * data/menu/sections-copy.php, the Russian from the latter's `ru`. The fallback while a
+ * record's field is empty, and what tools/menu-seed.php --copy writes into the fields.
+ */
+function sweet_pepper_menu_section_copy_typed( $slug ) {
+    static $copy = null;
+    $copy  ??= require get_template_directory() . '/data/menu/sections-copy.php';
+    $state = sweet_pepper_menu_state_for( $slug );
+    $sec   = sweet_pepper_menu_sections_typed( $state )[ $slug ] ?? [];
+    $typed = $copy[ $slug ] ?? [];
+    $flat  = function ( $set ) {
+        $out = array_diff_key( $set, [ 'deal' => 1, 'ru' => 1 ] );
+        foreach ( (array) ( $set['deal'] ?? [] ) as $k => $v ) {
+            $out[ "deal_$k" ] = $v;
+        }
+        return $out;
+    };
+    $keys = array_flip( sweet_pepper_menu_section_copy_keys() );
+    return [
+        'en' => array_intersect_key( $flat( $sec + $typed ), $keys ),
+        'ru' => array_intersect_key( $flat( (array) ( $typed['ru'] ?? [] ) ), $keys ),
+    ];
+}
+
+/**
+ * The sections in the request's language, ready to print: every key of the typed
+ * section, plus headline · eyebrow · pill · alt · deal ( title, main, sub, link ).
+ * Per word: the section record's field in this language → the typed twin in this
+ * language → the English as typed. Not a word goes blank while a record is empty.
+ *
+ * @param string $state 'food' | 'drinks'
+ * @return array slug => section
+ */
+function sweet_pepper_menu_sections( $state = 'food' ) {
+    static $cache = [];
+    $lang = sweet_pepper_lang();
+    if ( isset( $cache[ "$state:$lang" ] ) ) {
+        return $cache[ "$state:$lang" ];
+    }
+    $sections = sweet_pepper_menu_sections_typed( $state );
+    foreach ( $sections as $slug => &$sec ) {
+        $typed  = sweet_pepper_menu_section_copy_typed( $slug );
+        $record = function_exists( 'get_field' ) ? get_page_by_path( $slug, OBJECT, 'menu_list' ) : null;
+        foreach ( sweet_pepper_menu_section_copy_keys() as $key ) {
+            $field = $record ? trim( (string) get_field( "sec_{$key}_{$lang}", $record->ID ) ) : '';
+            $sec[ $key ] = $field ?: trim( (string) ( $typed[ $lang ][ $key ] ?? '' ) ) ?: trim( (string) ( $typed['en'][ $key ] ?? '' ) );
+        }
+        $sec['headline'] = $sec['headline'] ?: $sec['label'];
+        $sec['pill']     = $sec['pill'] ?: $sec['caption'];
+        $sec['alt']      = $sec['alt'] ?: $sec['pill'];
+        $sec['deal']     = array_filter( [ 'title' => $sec['deal_title'], 'main' => $sec['deal_main'], 'sub' => $sec['deal_sub'], 'link' => $sec['deal_link'] ] );
+    }
+    unset( $sec );
+    return $cache[ "$state:$lang" ] = $sections;
+}
+
+/**
+ * One section, in the request's language (see sweet_pepper_menu_sections()).
+ */
+function sweet_pepper_menu_section( $slug ) {
+    return sweet_pepper_menu_sections( sweet_pepper_menu_state_for( $slug ) )[ $slug ] ?? [];
+}
+
+/**
  * Which menu state a section slug belongs to.
  *
  * @return string 'food' | 'drinks'
  */
 function sweet_pepper_menu_state_for( $slug ) {
-    return array_key_exists( $slug, sweet_pepper_menu_sections( 'drinks' ) ) ? 'drinks' : 'food';
+    return array_key_exists( $slug, sweet_pepper_menu_sections_typed( 'drinks' ) ) ? 'drinks' : 'food';
 }
 
 /**

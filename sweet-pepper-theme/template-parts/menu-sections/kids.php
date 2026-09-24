@@ -6,6 +6,7 @@
  */
 ?>
 
+<?php $sec = sweet_pepper_menu_section( 'kids' ); // this section's words, in the request's language (inc/menu-sections.php) ?>
 <section id="kids" class="menu-section">
 
     <!-- Section Content -->
@@ -14,18 +15,18 @@
         <!-- Hero Image -->
         <div class="menu-section__hero">
             <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/food/kids/kids-nuggets-2.jpg' ); ?>"
-                 alt="<?php echo esc_attr( 'Home-Made Nuggets' ); ?>"
+                 alt="<?php echo esc_attr( $sec['alt'] ); ?>"
                  loading="lazy">
-            <span class="menu-section__hero-pill"><?php echo esc_html( 'Home-Made Nuggets' ); ?></span>
+            <span class="menu-section__hero-pill"><?php echo esc_html( $sec['pill'] ); ?></span>
         </div>
 
         <!-- Title Row: eyebrow + headline -->
         <div class="menu-section__title-row">
             <div class="menu-section__title-text">
                 <div class="section-title">
-                    <span class="section-eyebrow molot-text"><?php echo esc_html( 'favorites they finish' ); ?></span>
+                    <span class="section-eyebrow molot-text"><?php echo esc_html( $sec['eyebrow'] ); ?></span>
                     <?php // Headline + phone rail (template-parts/components/menu-section-rail.php)
-                    get_template_part( 'template-parts/components/menu-section-rail', null, [ 'current' => 'kids', 'headline' => 'For Little Peppers' ] ); ?>
+                    get_template_part( 'template-parts/components/menu-section-rail', null, [ 'current' => 'kids' ] ); ?>
                 </div>
             </div>
             <div class="menu-section__title-right"></div>

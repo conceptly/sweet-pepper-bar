@@ -6,6 +6,7 @@
  */
 ?>
 
+<?php $sec = sweet_pepper_menu_section( 'spirits' ); // this section's words, in the request's language (inc/menu-sections.php) ?>
 <section id="spirits" class="menu-section">
 
     <!-- Section Content -->
@@ -14,16 +15,16 @@
         <!-- Hero Image -->
         <div class="menu-section__hero">
             <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/bar/hard-drinks/jim-beam-1.jpg' ); ?>"
-                 alt="<?php echo esc_attr( 'Jim Beam White Label' ); ?>"
+                 alt="<?php echo esc_attr( $sec['alt'] ); ?>"
                  loading="lazy">
-            <span class="menu-section__hero-pill"><?php echo esc_html( 'Jim Beam White Label' ); ?></span>
+            <span class="menu-section__hero-pill"><?php echo esc_html( $sec['pill'] ); ?></span>
         </div>
 
         <!-- Title Row: eyebrow + headline + deal slot -->
         <div class="menu-section__title-row">
             <div class="menu-section__title-text">
                 <div class="section-title">
-                    <span class="section-eyebrow molot-text"><?php echo esc_html( 'neat or on the rocks' ); ?></span>
+                    <span class="section-eyebrow molot-text"><?php echo esc_html( $sec['eyebrow'] ); ?></span>
                     <?php // Headline + phone rail (template-parts/components/menu-section-rail.php)
                     get_template_part( 'template-parts/components/menu-section-rail', null, [ 'current' => 'spirits' ] ); ?>
                 </div>

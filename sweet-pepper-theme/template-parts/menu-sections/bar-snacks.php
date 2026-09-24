@@ -8,6 +8,7 @@
  */
 ?>
 
+<?php $sec = sweet_pepper_menu_section( 'bar-snacks' ); // this section's words, in the request's language (inc/menu-sections.php) ?>
 <section id="bar-snacks" class="menu-section">
 
     <!-- Section Content -->
@@ -16,16 +17,16 @@
         <!-- Hero Image -->
         <div class="menu-section__hero">
             <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/food/dinner/wings-2.jpg' ); ?>"
-                 alt="<?php echo esc_attr( "Pepper's Stuffed Chicken" ); ?>"
+                 alt="<?php echo esc_attr( $sec['alt'] ); ?>"
                  loading="lazy">
-            <span class="menu-section__hero-pill"><?php echo esc_html( "Pepper's Stuffed Chicken" ); ?></span>
+            <span class="menu-section__hero-pill"><?php echo esc_html( $sec['pill'] ); ?></span>
         </div>
 
         <!-- Title Row: eyebrow + headline + deal -->
         <div class="menu-section__title-row">
             <div class="menu-section__title-text">
                 <div class="section-title">
-                    <span class="section-eyebrow molot-text"><?php echo esc_html( 'share with friends' ); ?></span>
+                    <span class="section-eyebrow molot-text"><?php echo esc_html( $sec['eyebrow'] ); ?></span>
                     <?php // Headline + phone rail (template-parts/components/menu-section-rail.php)
                     get_template_part( 'template-parts/components/menu-section-rail', null, [ 'current' => 'bar-snacks' ] ); ?>
                 </div>
@@ -36,12 +37,12 @@
                     <div class="menu-section__deal-inner">
                         <div class="menu-section__deal-card">
                             <?php get_template_part( 'template-parts/components/rugged-edge', null, [ 'color' => 'section-bg' ] ); ?>
-                            <div class="menu-section__deal-title molot-text"><?php echo esc_html( 'perfect together' ); ?></div>
+                            <div class="menu-section__deal-title molot-text"><?php echo esc_html( $sec['deal']['title'] ?? '' ); ?></div>
                             <div class="menu-section__deal-divider"></div>
                             <div class="menu-section__deal-desc">
-                                <span class="menu-section__deal-desc-main"><?php echo esc_html( 'Infusions 3+1' ); ?></span>
+                                <span class="menu-section__deal-desc-main"><?php echo esc_html( $sec['deal']['main'] ?? '' ); ?></span>
                                 <a href="#bar-menu" class="menu-section__deal-link">
-                                    <span><?php echo esc_html( 'See it in the Bar menu!' ); ?></span>
+                                    <span><?php echo esc_html( $sec['deal']['link'] ?? '' ); ?></span>
                                     <span class="menu-section__deal-link-icon">
                                         <?php
                                         echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-right-outline.svg' );

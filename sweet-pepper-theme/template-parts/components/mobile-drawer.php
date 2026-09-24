@@ -97,13 +97,13 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
         <div class="mobile-drawer__cta-row">
             <?php
             get_template_part( 'template-parts/components/button', null, [
-                'label'         => 'VK message',
+                'label'         => __( 'VK message', 'sweet-pepper' ),
                 'type'          => 'secondary',
                 'icon_left_svg' => 'icons/vk.svg',
                 'url'           => 'https://vk.me/barsweetpepper',
             ] );
             get_template_part( 'template-parts/components/button', null, [
-                'label'         => 'Instagram DM',
+                'label'         => __( 'Instagram DM', 'sweet-pepper' ),
                 'type'          => 'secondary',
                 'icon_left_svg' => 'icons/insta.svg',
                 'url'           => 'https://ig.me/m/barsweetpepper',

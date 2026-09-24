@@ -5,7 +5,7 @@
  *
  * The theme prints ONE language per request — sweet_pepper_lang() (inc/lang.php) says which. Templates never read a twin by name:
  * prose comes through sp_field(), rows through a named function in inc/ that hands
- * back one language (inc/menu-data.php, inc/about-data.php).
+ * back one language (inc/menu-data.php, inc/about-data.php, inc/home-data.php).
  *
  * @package Sweet_Pepper
  */
@@ -74,4 +74,46 @@ function sp_headline( $name, $typed, $post_id = false ) {
 function sweet_pepper_typed( $typed, $key ) {
     $ru = 'ru' === sweet_pepper_lang() ? trim( (string) ( $typed['ru'][ $key ] ?? '' ) ) : '';
     return '' !== $ru ? $ru : (string) ( $typed[ $key ] ?? '' );
+}
+
+/**
+ * A page section's repeater rows: the saved rows, or — while the tab has never been saved — the
+ * typed rows in the repeater's shape ("{$key}_en" / "{$key}_ru" for each twin, the rest as is).
+ * Shared by the About and Home readers.
+ *
+ * @param int      $page_id The page.
+ * @param string   $field   Repeater field name (the "has this tab been saved" marker too).
+ * @param array    $typed   Typed rows; a row's Russian twins sit under 'ru'.
+ * @param string[] $twins   Keys that are RU / EN pairs.
+ * @return array{0:bool, 1:array} [ saved, rows ]
+ */
+function sweet_pepper_page_rows( $page_id, $field, $typed, $twins ) {
+    $saved = function_exists( 'get_field' ) && metadata_exists( 'post', $page_id, $field );
+    if ( $saved ) {
+        return [ true, get_field( $field, $page_id ) ?: [] ];
+    }
+    $rows = [];
+    foreach ( $typed as $row ) {
+        $out = [];
+        foreach ( $row as $key => $value ) {
+            if ( 'ru' === $key ) {
+                continue;
+            }
+            if ( in_array( $key, $twins, true ) ) {
+                $out[ "{$key}_en" ] = $value;
+                $out[ "{$key}_ru" ] = $row['ru'][ $key ] ?? '';
+            } else {
+                $out[ $key ] = $value;
+            }
+        }
+        $rows[] = $out;
+    }
+    return [ false, $rows ];
+}
+
+/**
+ * A page section's prose: sp_field() per key, over the typed copy — `$text( 'eyebrow' )`.
+ */
+function sweet_pepper_page_text( $page_id, $prefix, $typed ) {
+    return fn( $key ) => sp_field( "{$prefix}_{$key}", sweet_pepper_typed( $typed, $key ), $page_id );
 }

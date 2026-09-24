@@ -8,7 +8,8 @@
  * Loaded by load_theme_textdomain() when the request is Russian (inc/lang.php sets the
  * locale from the URL). A string missing here prints in English.
  *
- * Sources: about-page-copy-ru-draft.md (buttons, marked ✔), home-copy-ru-draft.md; the
+ * Sources: about-page-copy-ru-draft.md (buttons, marked ✔), home-copy-ru-draft.md (the home
+ * page's buttons and chips, 25 Sep 2026); the
  * accessibility boilerplate (skip link, open / close, back) is conventional wording, not
  * voice. Not translated on purpose: the nav (no Russian in the drafts yet), the team
  * form (deferred by the draft), the Visit CTA buttons (its block is deferred), image alt
@@ -72,6 +73,33 @@ return [
         // Header and drawer (✔ home-copy-ru-draft.md)
         "What's new"                                 => 'Что нового',
         'Book your table'                            => 'Забронировать',
+        // Home page (✔ home-copy-ru-draft.md; «mine» = not in the draft) — 25 Sep 2026
+        'Now'                                        => 'Сейчас',
+        'Reserve'                                    => 'Забронировать',
+        'Drinks menu'                                => 'Барное меню',
+        'Food menu'                                  => 'Меню кухни',
+        'Explore the drinks menu'                    => 'Посмотреть барное меню',
+        'Explore the food menu'                      => 'Посмотреть меню кухни',
+        'Read the full story'                        => 'Больше о Перце',
+        "See what's on VK"                           => 'Новости в VK',
+        'View Instagram'                             => 'Новости в Instagram',
+        'VK message'                                 => 'Написать во ВКонтакте',
+        'Instagram DM'                               => 'Написать в Instagram',
+        'Usually answer in 20 minutes'               => 'Обычно отвечаем в течение 20 минут', // mine — the RU review asks not to promise a time until the team confirms one
+        'Copy'                                       => 'Скопировать',
+        'Copied'                                     => 'Скопировано',
+        'Copy address'                               => 'Скопировать адрес',
+        'Address copied'                             => 'Адрес скопирован',
+        "home map chip — opens directions to the bar\4Directions" => 'Маршрут', // mine — the desktop chip is short (the full action, «Построить маршрут», is its aria name); a context, because "Directions" means «К карте» on the Visit page
+        'Yandex Maps'                                => 'Яндекс Карты',
+        'Plan your visit'                            => 'Спланировать визит',
+        'Kirova 10/25, Yaroslavl'                    => 'Ярославль, ул. Кирова, 10/25',
+        'Event'                                      => 'Событие',    // mine — the social cards' pills
+        'Promo'                                      => 'Акция',      // mine
+        'Community'                                  => 'Наши гости', // mine
+        'See it on VK'                               => 'Смотреть во ВКонтакте', // mine
+        'See it on Instagram'                        => 'Смотреть в Instagram',  // mine
+        'Today!'                                     => 'Сегодня!',
         // Accessibility boilerplate — conventional, not voice
         'Skip to content'                            => 'Перейти к содержимому',
         'Open menu'                                  => 'Открыть меню',

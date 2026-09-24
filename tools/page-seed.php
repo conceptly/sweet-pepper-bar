@@ -29,6 +29,16 @@
  *                   «Сезонное меню», door and «Поиск» tabs; the seasonal list is seeded with what
  *                   the empty list shows anyway (the seasonal-labelled dishes), so form and page agree.
  *
+ *   home          — the home page (inc/home-data.php). First the page: «Главная» is created when no
+ *                   page is the front page yet, and Settings → Reading is set to open the site on
+ *                   it (the theme's front-page.php renders it at / and /en/). Then every tab from
+ *                   data/home/*.php — the hero's four dayparts and the closed-hours lines, the
+ *                   highlight cards (two of them pointing at menu dishes found by their Russian
+ *                   title and section), the two previews' three menu items each, the About
+ *                   preview, the social cards (no dates — the team fills in real posts), contacts,
+ *                   «Поиск»; photos as attachments. Also, once: the seed's placeholders on the
+ *                   three infusions the bar preview points at give way to the home copy's lines.
+ *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
  * Field keys: tools/page-field-groups.py.
@@ -38,7 +48,7 @@ $args    = array_slice( $argv, 1 );
 $force   = in_array( '--force', $args, true );
 $targets = array_values( array_diff( $args, [ '--force' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|location|pairings|menu> [...] [--force]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|location|pairings|menu|home> [...] [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -100,8 +110,9 @@ function sp_seed_rows( $typed_rows, $prefix, $twins, $plain ) {
 }
 
 /**
- * One About tab: `marker` is the field that says "saved"; `twins` the prose pairs
- * (field-key prefix → typed key); `rows` the repeaters. Returns a one-line report.
+ * One tab of a page (About, and the home page since 25 Sep 2026): `marker` is the field that
+ * says "saved"; `twins` the prose pairs (field-key prefix → typed key); `rows` the repeaters;
+ * `extra` a closure for what is neither (a photo, a picked dish). Returns a one-line report.
  */
 function sp_seed_about_tab( $page_id, $force, $name, $typed, $marker, $twins, $rows = [], $extra = null ) {
     if ( metadata_exists( 'post', $page_id, $marker ) && ! $force ) {
@@ -120,6 +131,23 @@ function sp_seed_about_tab( $page_id, $force, $name, $typed, $marker, $twins, $r
         $extra( $page_id );
     }
     return "{$name}: seeded" . ( $counts ? ' ' . implode( ', ', $counts ) : '' );
+}
+
+/**
+ * A menu item named by the typed copy — [ 'dish' | 'drink', its Russian title, the section that
+ * places it ] — as a post ID; 0 (and a line) when the store has no such item. Two dishes may share
+ * a name (three «Тыквенный суп»), so the section decides.
+ */
+function sp_seed_menu_item( $seed ) {
+    [ $type, $title, $section ] = $seed;
+    $found = get_posts( [ 'post_type' => $type, 'post_status' => 'any', 'numberposts' => -1, 'title' => $title, 'fields' => 'ids' ] );
+    foreach ( $found as $id ) {
+        if ( isset( sweet_pepper_dish_placements()[ $id ][ $section ] ) ) {
+            return (int) $id;
+        }
+    }
+    echo "  ! no {$type} «{$title}» placed in «{$section}» — left unpicked\n";
+    return 0;
 }
 
 foreach ( $targets as $target ) {
@@ -401,6 +429,149 @@ foreach ( $targets as $target ) {
                 $ids = array_slice( $ids, 0, 8 );
                 update_field( "{$k}highlights", $ids, $id );
                 echo "menu ({$state}, page {$id}): seeded — door, header, title, " . count( $ids ) . " highlights\n";
+            }
+            break;
+
+        case 'home':
+            // The seeder reads the SERVED theme (get_template_directory): until the branch that built the
+            // home page is merged and served, there is nothing to seed with — say so instead of a fatal.
+            if ( ! function_exists( 'sweet_pepper_home_page' ) || ! is_dir( $data . 'home' ) ) {
+                echo "home: the served theme (" . get_template_directory() . ") has no home page reader or data/home/ yet — merge and deploy the branch first, then run this again\n";
+                break;
+            }
+            // The page. The theme renders the home page from front-page.php whatever Settings → Reading
+            // says, but the FIELDS need a page to sit on: a static front page, «Главная».
+            $page = sweet_pepper_home_page();
+            if ( ! $page ) {
+                $page = get_page_by_path( 'home' );
+                if ( ! $page ) {
+                    $id = wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Главная', 'post_name' => 'home' ], true );
+                    if ( is_wp_error( $id ) ) {
+                        exit( 'home: could not create the page — ' . $id->get_error_message() . "\n" );
+                    }
+                    $page = get_post( $id );
+                    echo "home: page {$id} «Главная» created\n";
+                }
+                update_option( 'show_on_front', 'page' );
+                update_option( 'page_on_front', $page->ID );
+                echo "home: page {$page->ID} is the front page now (Settings → Reading) — " . get_permalink( $page->ID ) . "\n";
+            }
+            $id  = $page->ID;
+            $k   = 'field_sp_home_';
+            $t   = fn( $section ) => require $data . "home/{$section}.php";
+            $hdr = fn( $s ) => [ "{$k}{$s}_eyebrow" => 'eyebrow', "{$k}{$s}_headline" => 'headline', "{$k}{$s}_headline_2" => 'headline_2', "{$k}{$s}_description" => 'description' ];
+
+            $typed = $t( 'hero' );
+            echo sp_seed_about_tab( $id, $force, 'home-hero', $typed, 'home_hero_eyebrow_en', [ "{$k}hero_eyebrow" => 'eyebrow' ], [], function ( $id ) use ( $k, $typed ) {
+                foreach ( $typed['dayparts'] as $dp => $d ) {
+                    foreach ( [ 'alt', 'headline', 'body', 'button' ] as $key ) {
+                        sp_seed_twins( "{$k}hero_{$dp}_{$key}", $d, $key, $id );
+                    }
+                    update_field( "{$k}hero_{$dp}_photo", sp_seed_attachment( $d['photo'] ), $id );
+                }
+                foreach ( $typed['closed'] as $window => $c ) {
+                    sp_seed_twins( "{$k}hero_closed_{$window}_headline", $c, 'headline', $id );
+                    sp_seed_twins( "{$k}hero_closed_{$window}_body", $c, 'body', $id );
+                }
+            } ), "\n";
+
+            $typed = $t( 'highlights' );
+            echo sp_seed_about_tab( $id, $force, 'home-highlights', $typed, 'home_highlight_cards', $hdr( 'highlights' ), [], function ( $id ) use ( $k, $typed ) {
+                $rows = [];
+                foreach ( $typed['cards'] as $card ) {
+                    // A dish card points at the store (found by title + section) and types only what is the
+                    // card's — its short name, its line, the tag; a category card (no `seed`) types it all.
+                    $dish = ! empty( $card['seed'] ) ? sp_seed_menu_item( $card['seed'] ) : 0;
+                    if ( $dish && ! get_field( 'photo', $dish ) ) {
+                        // The dish has no photo of its own yet: the card's typed photo becomes the dish's
+                        // («Фото» + the featured image it mirrors), so the card — and the menu's strip — show it.
+                        $photo = sp_seed_attachment( $card['photo'] );
+                        update_field( 'photo', $photo, $dish );
+                        update_post_meta( $dish, '_thumbnail_id', $photo );
+                        echo "  dish {$dish} «{$card['seed'][1]}»: photo set from the card's ({$card['photo']})\n";
+                    }
+                    $rows[] = [
+                        "{$k}card_dish"           => $dish ? [ $dish ] : [],
+                        "{$k}card_title_ru"       => $dish ? '' : ( $card['ru']['title'] ?? '' ),
+                        "{$k}card_title_en"       => $dish ? ( $card['short'] ?? '' ) : $card['title'],
+                        "{$k}card_photo"          => $dish ? '' : sp_seed_attachment( $card['photo'] ),
+                        "{$k}card_price_ru"       => $dish ? '' : ( $card['ru']['price'] ?? '' ),
+                        "{$k}card_price_en"       => $dish ? '' : $card['price'],
+                        "{$k}card_section"        => $card['section'],
+                        "{$k}card_description_ru" => $card['ru']['description'] ?? '',
+                        "{$k}card_description_en" => $card['description'],
+                        "{$k}card_tag_icon"       => $card['tag_icon'],
+                        "{$k}card_tag_label_ru"   => $card['ru']['tag_label'] ?? '',
+                        "{$k}card_tag_label_en"   => $card['tag_label'],
+                    ];
+                }
+                update_field( "{$k}highlight_cards", $rows, $id );
+                echo '  ' . count( $rows ) . ' cards, ' . count( array_filter( array_column( $rows, "{$k}card_dish" ) ) ) . " of them menu dishes\n";
+            } ), "\n";
+
+            foreach ( [ 'bar', 'kitchen' ] as $key ) {
+                $typed = $t( $key );
+                echo sp_seed_about_tab( $id, $force, "home-{$key}", $typed, "home_{$key}_items", [ "{$k}{$key}_title" => 'title', "{$k}{$key}_alt" => 'alt', "{$k}{$key}_badge" => 'badge' ], [], function ( $id ) use ( $k, $key, $typed ) {
+                    update_field( "{$k}{$key}_photo", sp_seed_attachment( $typed['photo'] ), $id );
+                    $ids = array_values( array_filter( array_map( 'sp_seed_menu_item', $typed['items'] ) ) );
+                    update_field( "{$k}{$key}_items", $ids, $id );
+                    echo '  ' . count( $ids ) . ' of ' . count( $typed['items'] ) . " menu items picked\n";
+                } ), "\n";
+            }
+
+            $typed = $t( 'about' );
+            echo sp_seed_about_tab( $id, $force, 'home-about', $typed, 'home_about_since', $hdr( 'about' ) + [ "{$k}about_alt" => 'alt', "{$k}about_rating" => 'rating' ], [], function ( $id ) use ( $k, $typed ) {
+                update_field( "{$k}about_photo", sp_seed_attachment( $typed['photo'] ), $id );
+                update_field( "{$k}about_since", (int) $typed['since'], $id );
+            } ), "\n";
+
+            $typed = $t( 'events' );
+            echo sp_seed_about_tab( $id, $force, 'home-events', $typed, 'home_event_cards', $hdr( 'events' ), [], function ( $id ) use ( $k, $typed ) {
+                $rows = [];
+                foreach ( $typed['cards'] as $card ) {
+                    // Placeholders until the team pastes real posts: no invented date, the source the link names.
+                    $rows[] = [
+                        "{$k}event_cover"    => sp_seed_attachment( $card['cover'] ),
+                        "{$k}event_title_ru" => $card['ru']['title'] ?? '',
+                        "{$k}event_title_en" => $card['title'],
+                        "{$k}event_date"     => '',
+                        "{$k}event_category" => $card['category'],
+                        "{$k}event_source"   => 'vk',
+                        "{$k}event_url"      => $card['url'],
+                        "{$k}event_pinned"   => empty( $card['pinned'] ) ? 0 : 1,
+                        "{$k}event_alt_ru"   => '',
+                        "{$k}event_alt_en"   => $card['alt'],
+                    ];
+                }
+                update_field( "{$k}event_cards", $rows, $id );
+                update_field( "{$k}events_more_photo", sp_seed_attachment( $typed['more']['photo'] ), $id );
+                sp_seed_twins( "{$k}events_more_label", $typed['more'], 'label', $id );
+                update_field( "{$k}events_more_url", $typed['more']['url'], $id );
+                echo '  ' . count( $rows ) . " cards (placeholders, no dates)\n";
+            } ), "\n";
+
+            $typed = $t( 'contacts' );
+            echo sp_seed_about_tab( $id, $force, 'home-contacts', $typed, 'home_contacts_headline_en', $hdr( 'contacts' ) + [
+                "{$k}contacts_description_mobile" => 'description_mobile', "{$k}contacts_map_title" => 'map_title',
+                "{$k}contacts_more_title" => 'more_title', "{$k}contacts_more_text" => 'more_text',
+            ] ), "\n";
+
+            $typed = $t( 'seo' );
+            echo sp_seed_about_tab( $id, $force, 'home-seo', $typed, 'home_seo_title_en', [ "{$k}seo_title" => 'title', "{$k}seo_description" => 'description' ] ), "\n";
+
+            // The bar preview prints three infusion records; two still held the seed's placeholders
+            // where the home copy has the approved line (home-copy-en.md → 3; data/menu/infusions.php
+            // says the same now). Written only while the old value is still there — an edit in admin wins.
+            foreach ( [
+                [ 'Хреновуха',       'name_en',        'Horseraddish',                  'Horseradish' ],
+                [ 'Хреновуха',       'description_en', 'description',                   "For the brave — a taste of Yaroslavl's hot side." ],
+                [ 'Малина на Джине', 'description_en', 'Fruity gin infusion, premium.', 'Gin infused with raspberries.' ],
+            ] as [ $title, $field, $old, $new ] ) {
+                $item = sp_seed_menu_item( [ 'drink', $title, 'infusions' ] );
+                if ( $item && trim( (string) get_field( $field, $item ) ) === $old ) {
+                    update_field( $field, $new, $item );
+                    echo "home: drink {$item} «{$title}» {$field}: «{$old}» → «{$new}»\n";
+                }
             }
             break;
 

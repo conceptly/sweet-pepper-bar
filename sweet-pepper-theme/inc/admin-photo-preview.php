@@ -13,6 +13,9 @@
  *                                                    21:9 window drawn over it (menu-hero.css
  *                                                    keeps 64% of the height; the slider says which)
  *   photo (dish / drink), menu_door_photo, menu_door_night_photo → a 3:2 centre crop
+ *   home_hero_<daypart>_photo, home_bar_photo, home_kitchen_photo, home_about_photo,
+ *   photo (a highlight card)                                     → 3:2 (the home page)
+ *   cover (a social card), home_events_more_photo                → a 4:5 centre crop
  *
  * Fields are found by name (SCF prints data-name on every field wrapper), so a regenerated
  * group needs nothing here. Ratios: inc/images.php (sp-4x1, sp-hero, sp-3x2).
@@ -21,7 +24,7 @@
  */
 
 /**
- * Only where these fields live: the two menu pages, dishes and drinks.
+ * Only where these fields live: the menu pages and the home page, dishes and drinks.
  */
 function sweet_pepper_admin_photo_preview_wanted() {
     $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
@@ -40,6 +43,7 @@ function sweet_pepper_admin_photo_preview_css() {
 .acf-field-image.sp-preview--band .image-wrap { aspect-ratio: 4 / 1; }
 .acf-field-image.sp-preview--hero .image-wrap,
 .acf-field-image.sp-preview--3x2  .image-wrap { aspect-ratio: 3 / 2; }
+.acf-field-image.sp-preview--4x5  .image-wrap { aspect-ratio: 4 / 5; max-width: 240px !important; }
 /* The hero keeps its 3:2 frame; the tablet's 21:9 window is drawn over it and moves with the slider. */
 .acf-field-image.sp-preview--hero .image-wrap img { object-position: 50% 50%; }
 .acf-field-image.sp-preview--hero .sp-crop-window {
@@ -71,6 +75,8 @@ function sweet_pepper_admin_photo_preview_js() {
         if (/^sec_.+_hero_photo$/.test(name)) return { cls: 'sp-preview--hero', slider: name.replace(/_hero_photo$/, '_hero_focus'), note: 'На компьютере — весь кадр 3:2; рамка — что останется на планшете (ползунок справа).' };
         if (/^sec_.+_photo$/.test(name))      return { cls: 'sp-preview--band', slider: name.replace(/_photo$/, '_photo_y'),      note: 'Так полоса 4:1 выглядит на сайте; ползунок справа двигает фото в ней.' };
         if (name === 'photo' || name === 'menu_door_photo' || name === 'menu_door_night_photo') return { cls: 'sp-preview--3x2', slider: null, note: 'Так фото обрезается на сайте (3:2, по центру).' };
+        if (/^home_(hero_(breakfast|lunch|dinner|party)|bar|kitchen|about)_photo$/.test(name)) return { cls: 'sp-preview--3x2', slider: null, note: 'Так фото обрезается на сайте (3:2, по центру).' };
+        if (name === 'cover' || name === 'home_events_more_photo') return { cls: 'sp-preview--4x5', slider: null, note: 'Так фото обрезается на сайте (4:5, по центру).' };
         return null;
     }
     function apply(photoField, y) {

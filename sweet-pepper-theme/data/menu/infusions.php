@@ -84,10 +84,10 @@ return [
                 'ru'          => [ 'dish_name' => 'Чертовка', 'description' => 'Чернослив и специи.' ],
             ],
             [
-                'dish_name'   => 'Horseraddish',
+                'dish_name'   => 'Horseradish',
                 'price'       => '150-. / 1300-.',
                 'quantity'    => '40 ml / 500 ml',
-                'description' => 'description',
+                'description' => "For the brave — a taste of Yaroslavl's hot side.", // home-copy-en.md → 3 (was the placeholder «description», 25 Sep 2026)
                 'icons'       => [ 'fire', 'yaroslavl-logo' ],
                 'ru'          => [ 'dish_name' => 'Хреновуха', 'description' => 'Ядрёная и бодрящая — по-ярославски.' ], // description draft — not in menu.md
             ],
@@ -95,7 +95,7 @@ return [
                 'dish_name'   => 'Raspberry Gin',
                 'price'       => '190-. / 1800-.',
                 'quantity'    => '40 ml / 500 ml',
-                'description' => 'Fruity gin infusion, premium.',
+                'description' => 'Gin infused with raspberries.', // home-copy-en.md → 3 (was a draft, 25 Sep 2026)
                 'ru'          => [ 'dish_name' => 'Малина на Джине', 'description' => 'Ягодная настойка на джине.' ], // description draft — not in menu.md
             ],
             [

@@ -108,6 +108,15 @@ add_filter( 'query_vars', function ( $vars ) {
     return $vars;
 } );
 
+// `sp_lang` has done its job once the rule matched (the language is read from the URI); it
+// leaves the query so `/en/` is the same empty query as `/` — WordPress turns an EMPTY home
+// query into the static front page (Settings → Reading, set by tools/page-seed.php home), and
+// any other var in it would leave `/en/` on the posts index instead of the home page.
+add_filter( 'request', function ( $vars ) {
+    unset( $vars['sp_lang'] );
+    return $vars;
+} );
+
 // The rules live in the database: rebuild them once when this file's version changes
 // (a new site, the test site after a sync, a future rule change) — no Permalinks visit.
 add_action( 'init', function () {

@@ -13,7 +13,7 @@ tools/i18n/_old/
 sweet-pepper-style-guide-PREVIEW.pdf
 
 # Node (theme build)
-node_modules/
+node_modules
 
 # Heavy working material — kept outside git (see styleGuide-report.md §9)
 photos/

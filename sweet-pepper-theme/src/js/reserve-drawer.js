@@ -5,6 +5,13 @@
 import { getBarStatus, formatBarTime } from './bar-clock.js';
 
 /* ── Bar state definitions ─────────────────────────────────── */
+/* The WORDS come from the page (25 Sep 2026): reserve-drawer.php prints them as JSON in the
+   request's language (.reserve-drawer__strings); the typed English below is the fallback. */
+const drawerEl = document.querySelector('.reserve-drawer__strings');
+let WORDS = {};
+if (drawerEl) {
+    try { WORDS = JSON.parse(drawerEl.textContent) || {}; } catch (e) { console.warn('[reserve] Could not parse the drawer strings', e); }
+}
 const BAR_STATES = {
     available: {
         subtitle: 'We\u2019re open \u2014 tonight, just walk in or write ahead.',
@@ -23,6 +30,10 @@ const BAR_STATES = {
         btnClass: 'btn-call--closed',
     },
 };
+Object.keys(BAR_STATES).forEach((state) => {
+    if (WORDS.states && WORDS.states[state]) Object.assign(BAR_STATES[state], WORDS.states[state]);
+});
+const COPY_WORDS = { copy: 'Copy', copied: 'Copied!', phoneCopied: 'Copied to your clipboard!', ...WORDS };
 
 /**
  * The current bar state, on the bar's clock and the bar's hours (bar-clock.js — by default
@@ -84,16 +95,16 @@ function initCopyButtons() {
                 btn.classList.add('is-copied');
 
                 if (label) {
-                    label.textContent = 'Copied!';           // ticket "Copy" → "Copied!"
+                    label.textContent = COPY_WORDS.copied;   // ticket "Copy" → "Copied!"
                 } else if (callLabel) {
-                    callLabel.textContent = 'Copied to your clipboard!';
+                    callLabel.textContent = COPY_WORDS.phoneCopied;
                 }
 
                 // Reset after 2s
                 setTimeout(() => {
                     btn.classList.remove('is-copied');
                     if (label) {
-                        label.textContent = 'Copy';
+                        label.textContent = COPY_WORDS.copy;
                     } else if (callLabel) {
                         callLabel.textContent = '+7 (4852) 911-202';
                     }

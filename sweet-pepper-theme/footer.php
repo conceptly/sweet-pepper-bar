@@ -22,7 +22,7 @@
                     </a>
                     <a href="#page" class="footer-top-link">
                         <span class="footer-top-link__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/arrow-up.svg' ); ?></span>
-                        Top
+                        <?php esc_html_e( 'Top', 'sweet-pepper' ); ?>
                     </a>
                 </div>
 
@@ -35,7 +35,7 @@
                 <div class="footer-nav">
                     <!-- Go To -->
                     <div class="footer-col footer-col--nav">
-                        <h3 class="footer-col-title">GO TO</h3>
+                        <h3 class="footer-col-title"><?php esc_html_e( 'GO TO', 'sweet-pepper' ); ?></h3>
                         <ul class="footer-links">
                             <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'sweet-pepper' ); ?></a></li>
                             <li><a href="<?php echo esc_url( sweet_pepper_menu_url( 'food' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
@@ -46,7 +46,7 @@
                     
                     <!-- Hours -->
                     <div class="footer-col footer-col--hours">
-                        <h3 class="footer-col-title">HOURS</h3>
+                        <h3 class="footer-col-title"><?php esc_html_e( 'HOURS', 'sweet-pepper' ); ?></h3>
                         <div class="footer-hours-list">
                             <?php foreach ( sweet_pepper_bar_hours_rows() as $hours_row ) : // Bar Settings — inc/bar-hours.php ?>
                             <div class="hours-item">
@@ -59,11 +59,11 @@
                     
                     <!-- Visit — on phones a full-width contacts row: phone + address left, socials right -->
                     <div class="footer-col footer-col--visit">
-                        <h3 class="footer-col-title">VISIT</h3>
+                        <h3 class="footer-col-title"><?php esc_html_e( 'VISIT', 'sweet-pepper' ); ?></h3>
                         <div class="footer-contact-list">
                             <div class="contact-item contact-item--address">
                                 <i class="ph ph-map-pin"></i>
-                                <span>Kirova 10/25, Yaroslavl</span>
+                                <span><?php esc_html_e( 'Kirova 10/25, Yaroslavl', 'sweet-pepper' ); ?></span>
                             </div>
                             <div class="contact-item contact-item--phone">
                                 <i class="ph ph-phone"></i>
@@ -93,7 +93,7 @@
             <div class="container footer-bottom-container">
                 <p class="footer-copyright">© <?php echo date('Y'); ?> Sweet Pepper Bar</p>
                 <a href="#page" class="footer-back-to-top">
-                    Back to top <i class="ph-bold ph-arrow-up"></i>
+                    <?php esc_html_e( 'Back to top', 'sweet-pepper' ); ?> <i class="ph-bold ph-arrow-up"></i>
                 </a>
             </div>
         </div>

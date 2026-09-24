@@ -1,0 +1,15 @@
+{
+  "page": "menu/food",
+  "groups": [
+    {
+      "note": "the door paragraph in Russian — navigation-drawers-copy-ru-draft.md → 3 (author, 25 Sep 2026)",
+      "set": [
+        [
+          "menu_door_description_ru",
+          "Фирменные настойки, коктейли без сиропных фокусов, вино и крафтовое пиво — в наш бар приходят и ради него самого.",
+          "Фирменные настойки, коктейли, вино и пиво. А ещё кофе, чай и всё без градуса."
+        ]
+      ]
+    }
+  ]
+}

@@ -21,6 +21,7 @@ $icon_left_svg  = $args['icon_left_svg'] ?? '';
 $icon_right_svg = $args['icon_right_svg'] ?? '';
 $class      = $args['class'] ?? '';
 $id         = $args['id'] ?? '';
+$aria_label = $args['aria_label'] ?? ''; // an accessible name fuller than the label (the drawer's phone button)
 
 $classes = ['btn', 'btn-' . $type];
 if ( ! empty( $class ) ) {
@@ -29,6 +30,7 @@ if ( ! empty( $class ) ) {
 
 $class_attr = 'class="' . esc_attr( implode( ' ', $classes ) ) . '"';
 $id_attr    = ! empty( $id ) ? 'id="' . esc_attr( $id ) . '"' : '';
+$id_attr   .= ! empty( $aria_label ) ? ' aria-label="' . esc_attr( $aria_label ) . '"' : '';
 
 $icon_left_html = '';
 if ( ! empty( $icon_left_svg ) ) {

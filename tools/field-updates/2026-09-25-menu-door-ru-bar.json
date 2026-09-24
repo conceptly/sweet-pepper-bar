@@ -1,0 +1,15 @@
+{
+  "page": "menu/bar",
+  "groups": [
+    {
+      "note": "the door paragraph in Russian — navigation-drawers-copy-ru-draft.md → 3 (author, 25 Sep 2026)",
+      "set": [
+        [
+          "menu_door_description_ru",
+          "Вся кухня — от завтраков до ужина, от супов до десертов. Готовим сами и подаём хоть за стойкой, хоть за столом.",
+          "От завтрака до сытного ужина. Супы, сэндвичи, горячее и что-нибудь на сладкое."
+        ]
+      ]
+    }
+  ]
+}

@@ -12,13 +12,14 @@
 $icons = get_template_directory() . '/assets/icons/';
 $uri   = get_template_directory_uri() . '/assets/icons/';
 
-// Order follows the Figma mockup (Home · About · Menu · Visit).
-// website-brief.md → Top nav → Mobile lists this as open: decided order is Home · Menu · About · Visit.
+// Order: Home · Menu · About · Visit — the header's and the footer's, the order website-brief.md
+// → Top nav → Mobile decided (the Figma mockup drew Home · About · Menu · Visit; reordered 25 Sep
+// 2026 with the Russian drawer copy, navigation-drawers-copy-ru-draft.md → 1).
 // "late\u{2011}night": a non-breaking hyphen, so the description never splits there when it wraps.
 $items = [
     [ 'label' => __( 'Home', 'sweet-pepper' ),  'desc' => __( 'A taste of Sweet Pepper', 'sweet-pepper' ),          'url' => home_url( '/' ),      'current' => is_front_page() ],
-    [ 'label' => __( 'About', 'sweet-pepper' ), 'desc' => __( 'The place, the people, the story', 'sweet-pepper' ), 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) ],
     [ 'label' => __( 'Menu', 'sweet-pepper' ),  'desc' => __( "From breakfast to late\u{2011}night drinks", 'sweet-pepper' ), 'url' => sweet_pepper_menu_url( 'food' ),  'current' => sweet_pepper_is_menu_page() ],
+    [ 'label' => __( 'About', 'sweet-pepper' ), 'desc' => __( 'The place, the people, the story', 'sweet-pepper' ), 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) ],
     [ 'label' => __( 'Visit', 'sweet-pepper' ), 'desc' => __( 'Hours, directions and contacts', 'sweet-pepper' ),   'url' => home_url( '/visit' ), 'current' => is_page_template( 'page-visit.php' ) ],
 ];
 
@@ -33,7 +34,7 @@ $is_dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit
 $arrow  = '';
 $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are here" — the mockup's bare chili
 ?>
-<div id="mobile-drawer" class="mobile-drawer<?php echo $is_dark ? ' mobile-drawer--dark' : ''; ?>" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Menu', 'sweet-pepper' ); ?>" aria-hidden="true" inert>
+<div id="mobile-drawer" class="mobile-drawer<?php echo $is_dark ? ' mobile-drawer--dark' : ''; ?>" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr( _x( 'Menu', 'the navigation drawer dialog', 'sweet-pepper' ) ); ?>" aria-hidden="true" inert>
 
     <div class="mobile-drawer__header">
         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="mobile-drawer__logo">
@@ -45,7 +46,7 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
         </button>
     </div>
 
-    <nav class="mobile-drawer__nav" aria-label="<?php esc_attr_e( 'Main', 'sweet-pepper' ); ?>">
+    <nav class="mobile-drawer__nav" aria-label="<?php echo esc_attr( _x( 'Main', 'the navigation drawer nav', 'sweet-pepper' ) ); ?>">
         <ul class="mobile-drawer__list">
             <?php foreach ( $items as $item ) : ?>
             <li class="mobile-drawer__item">
@@ -63,19 +64,20 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
 
     <div class="mobile-drawer__card">
         <div class="mobile-drawer__card-row mobile-drawer__card-row--directions">
-            <span class="mobile-drawer__card-label">Get Directions</span>
+            <span class="mobile-drawer__card-label"><?php esc_html_e( 'Get Directions', 'sweet-pepper' ); ?></span>
             <a href="https://yandex.ru/maps/?rtext=~57.626100%2C39.884500" target="_blank" rel="noopener" class="mobile-drawer__card-link">
-                Kirova 10/25
+                <?php esc_html_e( 'Kirova 10/25', 'sweet-pepper' ); ?>
                 <span class="mobile-drawer__card-link-icon" aria-hidden="true"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-navigate.svg' ); ?></span>
             </a>
         </div>
         <div class="mobile-drawer__card-row">
-            <span class="mobile-drawer__card-label">News &amp; Events</span>
+            <span class="mobile-drawer__card-label"><?php esc_html_e( 'News & Events', 'sweet-pepper' ); ?></span>
             <span class="mobile-drawer__socials">
-                <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="VK">
+                <?php // The icons open the pages; the buttons below write. The names say which (navigation-drawers-copy-ru-draft.md → 5). ?>
+                <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
                     <img src="<?php echo $uri; ?>vk.svg" alt="" width="24" height="24">
                 </a>
-                <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="Instagram">
+                <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
                     <img src="<?php echo $uri; ?>insta.svg" alt="" width="24" height="24">
                 </a>
             </span>
@@ -88,7 +90,8 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
         <h2 class="mobile-drawer__cta-title"><?php esc_html_e( 'Book your table', 'sweet-pepper' ); ?></h2>
         <?php
         get_template_part( 'template-parts/components/button', null, [
-            'label'         => 'Call 911-202',
+            'label'         => __( 'Call 911-202', 'sweet-pepper' ),
+            'aria_label'    => __( 'Call Sweet Pepper', 'sweet-pepper' ),
             'type'          => 'primary-green',
             'icon_left_svg' => 'icons/c-phone.svg',
             'url'           => 'tel:+74852911202',

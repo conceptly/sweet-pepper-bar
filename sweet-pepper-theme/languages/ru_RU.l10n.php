@@ -11,7 +11,8 @@
  * Sources: about-page-copy-ru-draft.md (buttons, marked ✔), home-copy-ru-draft.md (the home
  * page's buttons and chips, 25 Sep 2026); the
  * accessibility boilerplate (skip link, open / close, back) is conventional wording, not
- * voice. Not translated on purpose: the nav (no Russian in the drafts yet), the team
+ * voice. The nav, the drawers and the footer follow navigation-drawers-copy-ru-draft.md
+ * (25 Sep 2026). Not translated on purpose: the team
  * form (deferred by the draft), the Visit contact card's booking group — Message, DM, Write,
  * the call label (deferred by visit-page-copy-ru-draft.md), image alt texts, "Says".
  */
@@ -50,20 +51,15 @@ return [
         'Drinks'                                     => 'Напитки',
         'FOOD'                                       => 'ЕДА',
         'DRINKS'                                     => 'НАПИТКИ',
-        'More plates'                                => 'Ещё блюда',
-        'More pours'                                 => 'Ещё напитки',
+        'More plates'                                => 'Разделы меню', // the button opens the list of sections (navigation-drawers-copy-ru-draft.md → 3)
+        'More pours'                                 => 'Разделы меню',
         'Menu sections'                              => 'Разделы меню',
         'Food Menu'                                  => 'Меню кухни', // mine — the desktop jump-nav tab
         'Drinks Menu'                                => 'Барное меню', // mine
         'Food Menu sections'                         => 'Разделы меню кухни',
         'Drinks Menu sections'                       => 'Разделы барного меню',
         'Jump to a menu section'                     => 'Перейти к разделу меню', // mine
-        'Close menu sections'                        => 'Закрыть разделы меню', // mine
-        // The hero's door to the other menu — mine, the draft has none
-        "Pepper's Breakfast"                         => 'Завтрак от Перцев',
-        'Cappuccino & Gelato'                        => 'Капучино с мороженым',
-        'The full kitchen — breakfast to dinner, soups to desserts, all cooked fresh and served at the bar or the table.' => 'Вся кухня — от завтрака до ужина, от супов до десертов. Готовим сами и подаём к стойке или к столику.',
-        'House-made infusions, natural cocktails, local wines, and craft beer — the bar is a destination on its own. No syrup shortcuts.' => 'Домашние настойки, коктейли, вино и крафтовое пиво — в бар стоит прийти ради самого бара. Без сиропов-полуфабрикатов.',
+        'Close menu sections'                        => 'Закрыть список разделов', // navigation-drawers-copy-ru-draft.md → 3
         // Menu page — location and the phone closer (headline + body come from About's fields)
         'Find the Pepper'                            => 'ВАМ СЮДА',
         'Sweet Pepper restaurant entrance on Kirova Street' => 'Вход в Sweet Pepper',
@@ -72,7 +68,7 @@ return [
         'Reserve a table'                            => 'Забронировать',
         // Header and drawer (✔ home-copy-ru-draft.md)
         "What's new"                                 => 'Что нового',
-        'Book your table'                            => 'Забронировать',
+        'Book your table'                            => 'Ваш столик', // the drawer's booking heading (navigation-drawers-copy-ru-draft.md → 2)
         // Visit page (✔ visit-page-copy-ru-draft.md, 24 Sep 2026)
         'More about Sweet Pepper'                    => 'Больше о Sweet Pepper',
         'Directions'                                 => 'К карте',
@@ -82,7 +78,7 @@ return [
         'Copy'                                       => 'Скопировать',
         'Copy address'                               => 'Скопировать адрес',
         'Address copied'                             => 'Адрес скопирован',
-        'Copied!'                                    => 'Скопировано!', // mine — the contact chip's success state
+        'Copied!'                                    => 'Скопировано', // the contact chip and the ticket (navigation-drawers-copy-ru-draft.md → 4)
         // Opening hours rows — Visit hours card and the footer (✔ visit-page-copy-ru-draft.md → Часы работы;
         // the Mon–Thu / Fri–Sat split is mine, for a weekend with its own closing time)
         'Mon–Sat'                                    => 'Пн–сб',
@@ -99,7 +95,7 @@ return [
         'Read the full story'                        => 'Больше о Перце',
         "See what's on VK"                           => 'Новости в VK',
         'View Instagram'                             => 'Новости в Instagram',
-        'VK message'                                 => 'Написать во ВКонтакте',
+        'VK message'                                 => 'Написать в ВК',
         'Instagram DM'                               => 'Написать в Instagram',
         'Usually answer in 20 minutes'               => 'Обычно отвечаем в течение 20 минут', // mine — the RU review asks not to promise a time until the team confirms one
         'Copied'                                     => 'Скопировано',
@@ -113,10 +109,45 @@ return [
         'See it on VK'                               => 'Смотреть во ВКонтакте', // mine
         'See it on Instagram'                        => 'Смотреть в Instagram',  // mine
         'Today!'                                     => 'Сегодня!',
+        // Navigation and the drawers (✔ navigation-drawers-copy-ru-draft.md, the author's first draft, 25 Sep 2026)
+        'Home'                                       => 'Главная',
+        'Menu'                                       => 'Меню',
+        'About'                                      => 'О баре',
+        'Visit'                                      => 'В гости', // author, 25 Sep 2026 — was «Как добраться»
+        'A taste of Sweet Pepper'                    => 'Коротко о самом важном',
+        "From breakfast to late\u{2011}night drinks" => 'Кухня, бар и сезонные новинки',
+        'The place, the people, the story'           => 'Люди, идея и немного истории',
+        'Hours, directions and contacts'             => 'Часы работы, карта, контакты', // author, 25 Sep 2026
+        "the navigation drawer dialog\4Menu"         => 'Меню сайта',
+        "the navigation drawer nav\4Main"            => 'Основная навигация',
+        'Get Directions'                             => 'Маршрут',
+        'Kirova 10/25'                               => 'Кирова, 10/25',
+        'News & Events'                              => 'Что нового',
+        'Sweet Pepper on VK'                         => 'Sweet Pepper во ВКонтакте',
+        'Sweet Pepper on Instagram'                  => 'Sweet Pepper в Instagram',
+        'Call 911-202'                               => 'Позвонить 911-202',
+        'Call Sweet Pepper'                          => 'Позвонить в Sweet Pepper',
+        'Close drawer'                               => 'Закрыть бронирование',
+        'YOUR TABLE'                                 => 'ВАШ СТОЛИК',
+        'STEAL THE LINE'                             => 'СКОПИРОВАТЬ СООБЩЕНИЕ!',
+        'Hi! A table for two, tomorrow around 21:00 — doable?' => 'Здравствуйте! Можно столик на двоих завтра около 21:00?',
+        'Copied to your clipboard!'                  => 'Номер скопирован',
+        'Walk-ins always welcome — booking matters Friday–Saturday evenings.' => 'Можно и без брони. На вечер пятницы и субботы лучше договориться о столике заранее.',
+        'We’re open — tonight, just walk in or write ahead.' => 'Бар открыт. Заглядывайте или напишите заранее.',
+        'Full house tonight — writing beats calling.' => 'Собираетесь в гости? Вечером пятницы и субботы лучше написать заранее.',
+        'Closed for the night. Send a message, we’ll respond from {opens}!' => 'Бар спит. Написать можно уже сейчас, а позвонить — с {opens}.',
+        'All good — admin is on the phone'           => 'Можно позвонить',
+        'Might take a minute, it’s loud in here.'    => 'Не дозвонились? Напишите сообщение.',
+        'We’ll pick up from {opens}.'                => 'Звонки — с {opens}',
+        'GO TO'                                      => 'На сайте',
+        'HOURS'                                      => 'Часы работы',
+        'VISIT'                                      => 'Контакты', // the footer column — not the nav word again (author, 25 Sep 2026)
+        'Top'                                        => 'Наверх',
+        'Back to top'                                => 'Наверх',
         // Accessibility boilerplate — conventional, not voice
         'Skip to content'                            => 'Перейти к содержимому',
-        'Open menu'                                  => 'Открыть меню',
-        'Close menu'                                 => 'Закрыть меню',
+        'Open menu'                                  => 'Открыть меню сайта',
+        'Close menu'                                 => 'Закрыть меню сайта',
         'Close'                                      => 'Закрыть',
         'Back'                                       => 'Назад',
         'Language'                                   => 'Язык',

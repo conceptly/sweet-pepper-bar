@@ -15,6 +15,10 @@
  *                   about-team, about-careers, about-location, about-cta). Photos go into the
  *                   media library (assets/images/… → uploads), once — a re-seed finds them by
  *                   their source path and does not upload twice.
+ *   visit         — every tab of the Visit page from data/visit/*.php (or one: visit-hero,
+ *                   visit-status, visit-hours, visit-contacts, visit-location, visit-cta). The six
+ *                   landmark slots are group fields; the entrance photo goes into the media library
+ *                   as About's photos do.
  *   location      — data/location.php → Bar Settings → «Локация — заголовок»
  *   pairings      — data/pairings.php → the one «Гастробот» record (created if missing)
  *   menu          — the menu pages (inc/menu-page.php). First the shape: the kitchen page (template
@@ -38,7 +42,7 @@ $args    = array_slice( $argv, 1 );
 $force   = in_array( '--force', $args, true );
 $targets = array_values( array_diff( $args, [ '--force' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|location|pairings|menu> [...] [--force]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu> [...] [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -204,6 +208,51 @@ foreach ( $targets as $target ) {
             }
             if ( $all || 'about-cta' === $target ) {
                 echo sp_seed_about_tab( $id, $force, 'about-cta', $t( 'cta' ), 'about_cta_headline_en', [ "{$k}cta_headline" => 'headline', "{$k}cta_body" => 'body' ] ), "\n";
+            }
+            break;
+
+        case 'visit':
+        case 'visit-hero':
+        case 'visit-status':
+        case 'visit-hours':
+        case 'visit-contacts':
+        case 'visit-location':
+        case 'visit-cta':
+            $page = get_page_by_path( 'visit' );
+            if ( ! $page ) {
+                echo "{$target}: no page with the slug `visit`\n";
+                break;
+            }
+            $id = $page->ID;
+            $k  = 'field_sp_visit_';
+            foreach ( [ 'hero', 'status', 'hours', 'contacts', 'location', 'cta' ] as $section ) {
+                if ( 'visit' !== $target && "visit-{$section}" !== $target ) {
+                    continue;
+                }
+                $typed = require $data . "visit/{$section}.php";
+                $keys  = array_keys( array_filter( $typed, 'is_string' ) );
+                $keys  = array_values( array_diff( $keys, [ 'photo' ] ) ); // the CTA photo is an attachment, below
+                $twins = [];
+                foreach ( $keys as $key ) {
+                    $twins[ "{$k}{$section}_{$key}" ] = $key;
+                }
+                $extra = null;
+                if ( 'location' === $section ) {
+                    // One group field per landmark slot, keyed by sub-field key.
+                    $extra = function ( $id ) use ( $typed, $k ) {
+                        foreach ( $typed['landmarks'] as $slot => $l ) {
+                            $value = [];
+                            foreach ( [ 'name', 'hint', 'distance' ] as $key ) {
+                                $value[ "{$k}landmark_{$slot}_{$key}_ru" ] = $l['ru'][ $key ] ?? '';
+                                $value[ "{$k}landmark_{$slot}_{$key}_en" ] = $l[ $key ] ?? '';
+                            }
+                            update_field( "{$k}landmark_{$slot}", $value, $id );
+                        }
+                    };
+                } elseif ( 'cta' === $section ) {
+                    $extra = fn( $id ) => update_field( "{$k}cta_photo", sp_seed_attachment( $typed['photo'] ), $id );
+                }
+                echo sp_seed_about_tab( $id, $force, "visit-{$section}", $typed, "visit_{$section}_{$keys[0]}_en", $twins, [], $extra ), "\n";
             }
             break;
 

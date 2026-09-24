@@ -12,11 +12,17 @@
  * Soft Peppercorn with topic chips. The booking block stays ABOVE the form (fast lane first,
  * visit-page-copy.md → Strategy).
  *
+ * Words and the photo come as args from sweet_pepper_visit_cta() (inc/visit-data.php) — the
+ * Visit page's «Обратная связь» tab. The booking block and the form are deferred by the
+ * Russian draft and stay typed here.
+ *
+ * @param array $args headline · body · photo (URL) · alt.
+ *
  * @package Sweet_Pepper
  */
 ?>
 <section class="visit-cta">
-    <?php get_template_part( 'template-parts/components/connector', null, [ 'set' => 'visit', 'word' => 'dropALittleNote', 'position' => 'head', 'alt' => 'Drop a little note' ] ); ?>
+    <?php get_template_part( 'template-parts/visit/connector', null, [ 'word' => 'dropALittleNote', 'position' => 'head', 'alt' => 'Drop a little note' ] ); ?>
 
     <?php // Phones only (img 1441:72476): the entrance photo as a 21:9 band — the band ratio, not a
           // content card; the desktop keeps the 3:2 photo inside the closure. It sits INSIDE this
@@ -24,7 +30,7 @@
           // the seam (the frame drew the band as the seam itself, before the connectors landed).
           // Decorative: the closure's alt text already names the photo. ?>
     <figure class="visit-band" aria-hidden="true">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/sweet-space/door-entrance.jpg" alt="" loading="lazy">
+        <img src="<?php echo esc_url( $args['photo'] ); ?>" alt="" loading="lazy">
     </figure>
 
     <div class="container">
@@ -33,16 +39,16 @@
             <?php // ── Left: Closure ── ?>
             <div class="visit-cta__closure">
                 <div class="visit-cta__text">
-                    <h2 class="visit-cta__headline molot-text">we're all ears</h2>
+                    <h2 class="visit-cta__headline molot-text"><?php echo esc_html( $args['headline'] ); ?></h2>
                     <div class="visit-cta__photo">
                         <img
-                            src="<?php echo get_template_directory_uri(); ?>/assets/images/sweet-space/door-entrance.jpg"
-                            alt="Sweet Pepper entrance, with the pepper logo on the door"
+                            src="<?php echo esc_url( $args['photo'] ); ?>"
+                            alt="<?php echo esc_attr( $args['alt'] ); ?>"
                             loading="lazy"
                         >
                     </div>
                     <p class="visit-cta__body">
-                        Something to share about your visit, an idea or a question? Leave a note for the team.
+                        <?php echo esc_html( $args['body'] ); ?>
                     </p>
                 </div>
                 <div class="visit-cta__buttons">

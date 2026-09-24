@@ -99,14 +99,14 @@ function sweet_pepper_bar_hours_rows() {
 
     if ( $h['close'] === $h['closeWeekend'] ) {
         return array(
-            array( 'Mon–Sat', $row( $h['open'], $h['close'] ) ),
-            array( 'Sunday', $row( $h['openSun'], $h['close'] ) ),
+            array( __( 'Mon–Sat', 'sweet-pepper' ), $row( $h['open'], $h['close'] ) ),
+            array( __( 'Sunday', 'sweet-pepper' ), $row( $h['openSun'], $h['close'] ) ),
         );
     }
 
     return array(
-        array( 'Mon–Thu', $row( $h['open'], $h['close'] ) ),
-        array( 'Fri–Sat', $row( $h['open'], $h['closeWeekend'] ) ),
-        array( 'Sunday', $row( $h['openSun'], $h['close'] ) ),
+        array( __( 'Mon–Thu', 'sweet-pepper' ), $row( $h['open'], $h['close'] ) ),
+        array( __( 'Fri–Sat', 'sweet-pepper' ), $row( $h['open'], $h['closeWeekend'] ) ),
+        array( __( 'Sunday', 'sweet-pepper' ), $row( $h['openSun'], $h['close'] ) ),
     );
 }

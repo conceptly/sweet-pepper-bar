@@ -804,13 +804,31 @@ html[data-theme="night"] .contact-item__supportive {
     display: block;
 }
 
-/* Force done icon (fire.svg) to use text colour instead of its hardcoded yellow fill */
+/* Icon-only chip (Russian pages — contact-item.php): a 22px square, the text chip's height;
+   the word stays in the button for screen readers only */
+.contact-item__copy-chip--icon {
+    position: relative;     /* anchors the hidden label */
+    padding: 5px;
+}
+
+.contact-item__copy-chip--icon .contact-item__chip-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* The done icon (checkmark; the fire until 24 Sep 2026) takes the text colour */
 .contact-item__chip-icon--done svg,
 .contact-item__chip-icon--done svg path {
     fill: currentColor;
 }
 
-/* Done icon (fire) hidden by default */
+/* Done icon hidden by default */
 .contact-item__chip-icon--done {
     display: none;
 }

@@ -785,6 +785,13 @@
   min-width: 0;
 }
 
+/* The "Good to know" slip borrows the menu's deal card, whose main line holds one line and
+   sets the column's width. The card here is a fixed 348, so the line wraps instead: the
+   Russian «Кирова — пешеходная улица.» ran past the card's edge (24 Sep 2026). */
+.visit-location .menu-section__deal-desc-main {
+  white-space: normal;
+}
+
 .visit-location__badge-name {
   font-weight: 600;
   color: var(--soft-peppercorn);
@@ -1539,6 +1546,20 @@
 
   .visit-location__badge-icon {
     display: none;
+  }
+
+  /* A name wraps rather than ending in "…" — at 143px the tile cut four of the six Russian
+     names (Знаменская ба…, Советская пло…) and two English ones (24 Sep 2026). A row of
+     tiles takes the taller one's height. */
+  .visit-location__badge-name {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  /* The Russian social heading, АКЦИИ, НОВОСТИ, ВЕЧЕРИНКИ, needs 363 of the card's 322. */
+  .visit-hero__hours-title {
+    white-space: normal;
   }
 
   .visit-location__badge.is-active .visit-location__badge-hint {

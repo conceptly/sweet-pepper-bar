@@ -22,6 +22,10 @@
  *
  * URL override: ?visit-state=open|last-orders|bar-snacks|last-call|closed
  *
+ * The words are the page's (the Visit page's «Статус бара» tab, inc/visit-data.php →
+ * sweet_pepper_visit_status()), handed over in the band's data-visit-words in the
+ * request's language; the English below stands in if the attribute is missing.
+ *
  * @package Sweet_Pepper
  */
 
@@ -30,7 +34,7 @@ import { getBarStatus } from './bar-clock.js';
 /**
  * Determine bar and kitchen state from current Moscow time.
  *
- * @returns {{ bar: string, kitchen: string, bandLead: string }}
+ * @returns {{ bar: string, kitchen: string, lead: string }}
  */
 function getVenueState() {
     // Allow URL override for testing: ?visit-state=closed
@@ -46,25 +50,25 @@ function getVenueState() {
     const t = mins / 60;
 
     if (!open) {
-        return { bar: 'closed', kitchen: 'closed', bandLead: 'See you soon' };
+        return { bar: 'closed', kitchen: 'closed', lead: 'closed' };
     }
     // Open before today's opening = last night is still on
     const lastNight = mins < opens;
 
     // 22:00 – 01:00  →  bar open, kitchen last-orders
     if (t >= 22 || (lastNight && t < 1)) {
-        return { bar: 'open', kitchen: 'last-orders', bandLead: 'Still time to eat' };
+        return { bar: 'open', kitchen: 'last-orders', lead: 'last-orders' };
     }
     // 01:00 – 01:30  →  bar wrapping, kitchen bar-snacks
     if (lastNight && t < 1.5) {
-        return { bar: 'wrapping', kitchen: 'bar-snacks', bandLead: 'Winding down' };
+        return { bar: 'wrapping', kitchen: 'bar-snacks', lead: 'winding' };
     }
     // 01:30 – close  →  bar wrapping, kitchen closed
     if (lastNight) {
-        return { bar: 'wrapping', kitchen: 'closed', bandLead: 'Winding down' };
+        return { bar: 'wrapping', kitchen: 'closed', lead: 'winding' };
     }
     // opening – 22:00  →  bar open, kitchen on
-    return { bar: 'open', kitchen: 'open', bandLead: 'Good news!' };
+    return { bar: 'open', kitchen: 'open', lead: 'open' };
 }
 
 /**
@@ -72,33 +76,55 @@ function getVenueState() {
  */
 function getStateFromOverride(key) {
     const states = {
-        'open':         { bar: 'open',     kitchen: 'open',        bandLead: 'Good news!' },
-        'last-orders':  { bar: 'open',     kitchen: 'last-orders', bandLead: 'Still time to eat' },
-        'bar-snacks':   { bar: 'open',     kitchen: 'bar-snacks',  bandLead: 'Something to nibble' },
-        'last-call':    { bar: 'wrapping', kitchen: 'bar-snacks',  bandLead: 'Winding down' },
-        'closed':       { bar: 'closed',   kitchen: 'closed',      bandLead: 'See you soon' },
+        'open':         { bar: 'open',     kitchen: 'open',        lead: 'open' },
+        'last-orders':  { bar: 'open',     kitchen: 'last-orders', lead: 'last-orders' },
+        'bar-snacks':   { bar: 'open',     kitchen: 'bar-snacks',  lead: 'bar-snacks' },
+        'last-call':    { bar: 'wrapping', kitchen: 'bar-snacks',  lead: 'winding' },
+        'closed':       { bar: 'closed',   kitchen: 'closed',      lead: 'closed' },
     };
     return states[key] || states['open'];
 }
 
 /**
- * Bar state → label text.
+ * State → words: the band lead, the bar label, the kitchen label. English stand-ins for
+ * a page without data-visit-words.
  */
-const BAR_LABELS = {
-    'open':     "bar's open",
-    'wrapping': "bar's winding down",
-    'closed':   "bar's closed",
+const WORDS = {
+    lead: {
+        'open':        'Good news!',
+        'last-orders': 'Still time to eat',
+        'bar-snacks':  'Something to nibble',
+        'winding':     'Winding down',
+        'closed':      'See you soon',
+    },
+    bar: {
+        'open':     "bar's open",
+        'wrapping': "bar's winding down",
+        'closed':   "bar's closed",
+    },
+    kitchen: {
+        'open':        "kitchen's on",
+        'last-orders': "kitchen last orders",
+        'bar-snacks':  "bar snacks only",
+        'closed':      "kitchen's closed",
+    },
 };
 
 /**
- * Kitchen state → label text.
+ * The page's words over the stand-ins, group by group.
  */
-const KITCHEN_LABELS = {
-    'open':        "kitchen's on",
-    'last-orders': "kitchen last orders",
-    'bar-snacks':  "bar snacks only",
-    'closed':      "kitchen's closed",
-};
+function readWords(band) {
+    try {
+        const page = JSON.parse(band.dataset.visitWords || '{}');
+        return {
+            lead:    { ...WORDS.lead, ...page.lead },
+            bar:     { ...WORDS.bar, ...page.bar },
+            kitchen: { ...WORDS.kitchen, ...page.kitchen },
+        };
+    } catch (e) {
+        return WORDS;
+    }
+}
 
 /**
  * Apply the current state to the DOM.
@@ -108,10 +134,11 @@ function updateVisitHero() {
     if (!band) return;
 
     const state = getVenueState();
+    const words = readWords(band);
 
     // Band lead word
     const leadEl = band.querySelector('[data-band-lead]');
-    if (leadEl) leadEl.textContent = state.bandLead;
+    if (leadEl) leadEl.textContent = words.lead[state.lead] || words.lead['open'];
 
     // Bar / kitchen pills — the desktop band and every group of the phone rail
     // (the rail repeats the pair three times so it can run), so query the whole hero.
@@ -120,13 +147,13 @@ function updateVisitHero() {
     hero.querySelectorAll('[data-bar-state]').forEach((barPill) => {
         barPill.dataset.barState = state.bar;
         const label = barPill.querySelector('[data-bar-label]');
-        if (label) label.textContent = BAR_LABELS[state.bar] || BAR_LABELS['open'];
+        if (label) label.textContent = words.bar[state.bar] || words.bar['open'];
     });
 
     hero.querySelectorAll('[data-kitchen-state]').forEach((kitchenPill) => {
         kitchenPill.dataset.kitchenState = state.kitchen;
         const label = kitchenPill.querySelector('[data-kitchen-label]');
-        if (label) label.textContent = KITCHEN_LABELS[state.kitchen] || KITCHEN_LABELS['open'];
+        if (label) label.textContent = words.kitchen[state.kitchen] || words.kitchen['open'];
     });
 }
 

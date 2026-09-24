@@ -184,7 +184,7 @@ function initCopyButtons() {
             // → Generic copy control, visit-page-copy-en.md → Copy feedback.
             const label = btn.querySelector('.chip-label');
             const originalLabel = label ? label.textContent : '';
-            if (label) label.textContent = btn.dataset.copiedLabel || 'Copied';
+            if (label) label.textContent = btn.dataset.copiedLabel || 'Copied!';
             btn.classList.add('is-copied');
             btn.style.pointerEvents = 'none';
 
@@ -208,6 +208,7 @@ function initContactItemCopy() {
         const item = btn.closest('.js-contact-item');
         const label = btn.querySelector('.contact-item__chip-label');
         if (!item || !label) return;
+        const idle = label.textContent; // the page's word (Copy / Скопировать), restored after
 
         btn.addEventListener('click', async () => {
             const text = btn.dataset.copyText;
@@ -215,12 +216,12 @@ function initContactItemCopy() {
             await copyToClipboard(text);
 
             // Enter success state
-            label.textContent = btn.dataset.copiedLabel || 'Copied';
+            label.textContent = btn.dataset.copiedLabel || 'Copied!';
             item.classList.add('is-copied');
             btn.style.pointerEvents = 'none';
 
             setTimeout(() => {
-                label.textContent = 'Copy';
+                label.textContent = idle;
                 item.classList.remove('is-copied');
                 btn.style.pointerEvents = '';
             }, 2000);

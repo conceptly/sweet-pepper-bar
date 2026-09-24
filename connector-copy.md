@@ -77,10 +77,10 @@ Connectors here are seams, as on About: the word ends a section, its reflection 
 
 | Seam | EN (as drawn) | RU | Notes |
 |---|---|---|---|
-| Hero → Getting here | YOUR ROUTE TO PEPPER | 🔶 not yet voiced | The copy doc's own example of the guest-perspective rule ("Your route to Pepper," not "Find us") |
-| Getting here → We're all ears | DROP A LITTLE NOTE | 🔶 not yet voiced | Names the slow lane; on phones the section opens with the fast lane (Call · VK · IG) before the form — fine while the booking block stays short |
+| Hero → Getting here | YOUR ROUTE TO PEPPER | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ | The copy doc's own example of the guest-perspective rule ("Your route to Pepper," not "Find us") |
+| Getting here → We're all ears | DROP A LITTLE NOTE | СКАЗАТЬ ПАРУ ЛАСКОВЫХ | Names the slow lane; on phones the section opens with the fast lane (Call · VK · IG) before the form — fine while the booking block stays short |
 
-RU twins to be written natively as register twins, not translated (rule 5 above); 20-character ceiling per the length note under About.
+RU: author choices, provisional; SVGs exported 24 Sep 2026 into `assets/sectionLinks/visit/ru/`; **wired 24 Sep 2026** — `template-parts/visit/connector.php` swaps each EN stem for its RU twin on a Russian request, as About's wrapper does. ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ is also About #8, which opens the same Location section; judge the repeat at final review. Editable table: [visit-page-copy-ru-draft.md → Коннекторы](visit-page-copy-ru-draft.md).
 
 ## Filling this file
 

@@ -100,6 +100,11 @@ require_once get_template_directory() . '/inc/images.php';
 require_once get_template_directory() . '/inc/about-data.php';
 
 /**
+ * Visit page content: the page's fields → template-part args (fallback: data/visit/).
+ */
+require_once get_template_directory() . '/inc/visit-data.php';
+
+/**
  * Menu page section word lists (hero nav, jump-nav, mobile rail).
  */
 require_once get_template_directory() . '/inc/menu-sections.php';

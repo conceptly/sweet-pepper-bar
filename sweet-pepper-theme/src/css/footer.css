@@ -141,15 +141,18 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 
 /* Hours */
 .footer-hours-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    /* One grid for all rows, so the times line up in one column however long the day
+       name: «Воскресенье» needs 103 of the 72 drawn for "Sunday" and ran into its time
+       (24 Sep 2026). The English stays at 72. */
+    display: grid;
+    grid-template-columns: minmax(72px, max-content) auto;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 8px;
 }
 
 .hours-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: contents;
 }
 
 .hours-day {
@@ -158,8 +161,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     font-weight: 400;
     color: var(--soft-peppercorn);
     line-height: 1.4;
-    width: 72px;
-    flex-shrink: 0;
+    /* its width is the grid column's (.footer-hours-list) */
 }
 
 .hours-time {
@@ -378,10 +380,14 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     }
 
     .footer-hours-list {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;   /* not the desktop grid's centre */
         gap: 6px;
     }
 
     .hours-item {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 1px;

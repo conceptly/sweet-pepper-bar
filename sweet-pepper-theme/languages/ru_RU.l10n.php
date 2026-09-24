@@ -11,8 +11,8 @@
  * Sources: about-page-copy-ru-draft.md (buttons, marked ✔), home-copy-ru-draft.md; the
  * accessibility boilerplate (skip link, open / close, back) is conventional wording, not
  * voice. Not translated on purpose: the nav (no Russian in the drafts yet), the team
- * form (deferred by the draft), the Visit CTA buttons (its block is deferred), image alt
- * texts, "Says".
+ * form (deferred by the draft), the Visit contact card's booking group — Message, DM, Write,
+ * the call label (deferred by visit-page-copy-ru-draft.md), image alt texts, "Says".
  */
 return [
     'domain'       => 'sweet-pepper',
@@ -72,6 +72,22 @@ return [
         // Header and drawer (✔ home-copy-ru-draft.md)
         "What's new"                                 => 'Что нового',
         'Book your table'                            => 'Забронировать',
+        // Visit page (✔ visit-page-copy-ru-draft.md, 24 Sep 2026)
+        'More about Sweet Pepper'                    => 'Больше о Sweet Pepper',
+        'Directions'                                 => 'К карте',
+        'Route in Yandex Maps'                       => 'Построить маршрут в Яндекс Картах',
+        'Copy email address'                         => 'Скопировать email',
+        'Email address copied'                       => 'Email скопирован',
+        'Copy'                                       => 'Скопировать',
+        'Copy address'                               => 'Скопировать адрес',
+        'Address copied'                             => 'Адрес скопирован',
+        'Copied!'                                    => 'Скопировано!', // mine — the contact chip's success state
+        // Opening hours rows — Visit hours card and the footer (✔ visit-page-copy-ru-draft.md → Часы работы;
+        // the Mon–Thu / Fri–Sat split is mine, for a weekend with its own closing time)
+        'Mon–Sat'                                    => 'Пн–сб',
+        'Sunday'                                     => 'Воскресенье',
+        'Mon–Thu'                                    => 'Пн–чт',
+        'Fri–Sat'                                    => 'Пт–сб',
         // Accessibility boilerplate — conventional, not voice
         'Skip to content'                            => 'Перейти к содержимому',
         'Open menu'                                  => 'Открыть меню',

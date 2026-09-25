@@ -259,7 +259,7 @@ Before any `git add -A`: scan the staged list for lock files, licensed material 
 | **Что попробовать** | header ⇄; **three cards**: a Relationship to one dish / drink (name, price, photo from the record, link to its section) + the card's own short name ⇄ and line ⇄, or a typed category (photo, price ⇄, description ⇄, section); tag icon + word ⇄ | the two menu buttons, the connectors |
 | **Настойки · Обед** | title ⇄, photo (3:2) + alt ⇄, caption ⇄, a Relationship of three items — printed as menu rows, all highlighted | layout side, the CTA |
 | **О баре** | header ⇄, photo + alt ⇄, founding year (the years are counted), rating ⇄ | the button |
-| **Что нового** | header ⇄; cards ×5 (cover 4:5, caption ⇄, date, label, source, link, pinned, alt ⇄); the «Ещё во ВКонтакте» tile | the Follow buttons and their links (the launch's static social entrance; News CPT still Phase 2) |
+| **Что нового** | header ⇄; the English page's cards ×5 (cover 4:5, caption EN, date, label, source, link, pinned, alt EN); the «Ещё во ВКонтакте» tile | the Follow buttons and their links; the Russian page's cards — imported from the VK wall into «Посты ВКонтакте» (inc/vk-feed.php; built 25 Sep 2026), where the team can hide one or retype its caption |
 | **Визит и связь** | header ⇄ + the phone paragraph ⇄, the map heading ⇄, «Перед визитом» heading + text ⇄ | phone, VK, Instagram, the address and the map (Bar Settings, later), the form |
 | **Поиск** | tab title ⇄ (site name appended), meta description ⇄ | — |
 
@@ -341,28 +341,48 @@ Second reason, recorded so it isn't reopened: the project exists to produce a re
 
 ## News/social feed — content plan
 
-Content goes into the News post type manually, by the team, mirroring what they already post to Instagram and VK — not pulled live via API.
+### Current decision — VK for RU, manual for EN (author, 24 September 2026)
 
-- Instagram's Graph API requires Business Verification + App Review — a heavier process for a business tied to a blocked jurisdiction, with no guarantee of a smooth review.
-- A Russia-hosted server may sit behind the same network-level blocks affecting ordinary users reaching Meta's API — a live pull could silently fail at the infrastructure level, independent of any API permissions.
-- The team already writes this content in-house for Instagram/VK; pasting it a second time into WordPress costs seconds and has zero dependency on either platform's API surviving.
+**Two independent home-page feeds:** `/` imports VK posts automatically; `/en/` keeps manually curated WordPress cards for the portfolio. No mandatory translation, no matching RU/EN card pairs, and no Russian-card fallback on the English page. The team already publishes to VK frequently and cannot take on daily website editing; seasonal menu editing is a different workload.
 
-Despite Instagram being blocked in Russia since 2022, VPN adoption is high (~41–46% of Russian users) and Instagram retains real reach among Sweet Pepper's audience — so it stays a genuine content source, just not a live technical integration.
+**Publishing in VK is the approval step for RU.** Import eligible posts directly into the visible feed, without a second draft-approval task in WordPress. This explicitly supersedes the July plan below: the human review happens at the source. Keep a manual hide/override for exceptions, preserved across imports. The About reviews pipeline still requires its own human approval; this exception is for social posts only.
 
-If partial automation is wanted later: VK's simpler, non-sanctioned API (register an app, `wall.get` with a token) is realistic to auto-pull from a Russian server. Instagram content would stay manual.
+**Built 25 Sep 2026** (`report.md` → *VK feed built*): `inc/vk-feed.php` imports the wall into `news` records («Посты ВКонтакте»); `sweet_pepper_home_events()` serves those on `/` and the «Что нового» tab's rows on `/en/` — the tab is English-only now. The importer, the hide switch, the retyped-caption rule, the missing-post rule and the failure fallback are tested against a saved wall; the live wall, real image URLs and the hourly run on hosting are not yet.
 
-**Launch phasing (decided Jul 2026)** — the News/Events page is deferred so the launch stays small and the team learns WordPress on low-stakes content:
-1. **Launch:** no News page, no feed. The home section ships as a static *social entrance* — own-design colour-block section, 3–4 evergreen bar photos, chips out to VK (leading) and Instagram. News drops out of the nav until its page exists (no dead nav items). Zero API dependencies at launch.
-2. **Phase 2:** News CPT + manual cards on home (this *is* the team's WordPress practice — pasting posts they already wrote for VK/IG). Events page follows if the content cadence proves out.
-3. **Phase 3:** importers as crons feeding the News CPT **as drafts** (human approves; automation is an importer behind our components, never an embedded widget). Two sources, same pipeline:
-   - **VK** — `wall.get` direct from the RU server (non-sanctioned, simple).
-   - **Instagram** (added Jul 2026 — the site doubles as a portfolio project for a Canadian audience, so automated IG is worth pursuing): a small proxy *outside* Russia (edge function) holds the token and pulls posts; WP cron fetches from the proxy. Importing self-hosts the images, so IG content becomes visible to RU guests too — the one approach that serves both audiences. Route: Instagram API with Instagram Login (Basic Display is dead since Dec 2024); risk is Meta's app review for a RU-tied business + token upkeep. If access fails, VK alone feeds the pipeline.
-   
-   **Never ship a live Instagram embed** — blocked for RU visitors without VPN regardless of API status; the importer supersedes it for every purpose, portfolio included.
+**Initial importer plan — to validate on the first preview:**
+
+- Scheduled server-side `wall.get`, initially hourly; render saved WordPress content, never call VK during a guest's page request. No embedded widget.
+- Show the latest five eligible original community posts with photos; skip reposts and video-only/empty posts initially. Fetch enough posts to fill five eligible slots; filter before limiting the visible cards.
+- Download a cover into the media library; review which photo to select from multi-photo posts and its 4:5 crop with the author. Imported media lives in WordPress uploads, not the source/theme photo-sync folders.
+- Title from shortened opening text; publication date, not an inferred event date. Do not invent event/promotion categories, expiry dates or “Today!” labels from unstructured captions.
+- Whole card links to `https://vk.com/wall-64582467_POST_ID`. Store community + post IDs for duplicate prevention and updating existing previews; preserve manual hides/overrides.
+- Retain the last successful feed if VK is unavailable; record a safe last-success/error status for maintenance. Decide and test source-deletion handling before enabling unattended refresh; a failed request must never be treated as an empty/deleted feed.
+- EN cards remain independently editable (photo, title, date if appropriate, destination link); imports must never overwrite them.
+
+No separate News/Events archive is required for this work. Links continue out to the source, VK leads the social buttons, and the “More on VK” tile goes to the community. Instagram automation is deferred; no live Instagram embed.
+
+### API access and test evidence — 24 September 2026
+
+- **Community:** `64582467`. The existing community key with photos/wall permissions was not the tested credential. VK's official `wall.get` schema lists user/service tokens, not group tokens: [VK API schema](https://github.com/VKCOM/vk-api-schema/blob/master/wall/methods.json).
+- **Application:** the author created a VK mini-app and obtained its **service key**. VK's own [mini-app backend example](https://github.com/VKCOM/vk-mini-apps-course-backend/blob/main/README.md) identifies this key in application settings. The application is an API credential source; no visitor-facing launch button is needed.
+- **Local test — passed:** read-only `wall.get`, API `5.199`, `owner_id=-64582467`, `filter=owner`, `count=10`. Returned ten posts; nine had photos and text, one had neither. Photo attachments ranged from one to ten. This checks metadata access, not image downloads or card rendering.
+- **Timeweb test — passed, author screenshot:** PHP cURL from the hosting SSH console returned `SUCCESS: received 10 posts from VK.` This proves server connectivity and API access with the then-current service key. No WordPress configuration, importer or schedule was installed.
+- **Credential replacement:** the first tested service key became visible in a screenshot. The author created a replacement, revoked the first (author, 25 Sep 2026) and tested the replacement locally with the same ten-post call. Not yet on Timeweb: nothing there holds a key — the SSH test kept the earlier key only for that request.
+- **Secret storage:** `define( 'SWEET_PEPPER_VK_SERVICE_KEY', '…' )` in each site's `wp-config.php` (local, test, live), placed by the author; the importer reads the constant (or, for a CLI run, the environment) and refuses to run without it, sends it in the request body and scrubs it from VK's error text. No key values in docs, Git, screenshots, browser code or logs.
+
+### Next steps — 25 September 2026
+
+1. ~~Build the local importer and separate RU/EN sources~~ — built 25 Sep (`inc/vk-feed.php`, `tools/vk-import.php`; `report.md` → *VK feed built*). Duplicate prevention, source-edit updates, a durable hide and a retyped caption, the failure fallback: in, tested against a saved wall.
+2. ~~First live run, locally~~ — done 25 Sep (8 posts, real covers). **The author's look** at the five cards on `/` — the photo chosen from a multi-photo post (the first one today), its 4:5 crop, the caption cuts, the month's abbreviation. Adjust the title rule or the photo rule from that look, not before.
+3. Deploy to the **test site**: the theme, SCF *Sync available* for «ВКонтакте» and «Главная», the key in its `wp-config.php`, one run by hand — real image downloads through WordPress on the server.
+4. On the test site: a repeat run, an edited post, a deleted post, a failed request (a wrong key, briefly), a hidden card, `/en/` untouched, the page cache. Checklist: `testing.md` → *VK home feed*.
+5. `DISABLE_WP_CRON` and an hourly system cron on `wp-cron.php`; one run with no page visits; the status line above «Посты ВКонтакте». Public-site rollout follows the existing deliberate manual deployment process.
+
+**Superseded July plan (history):** static social entrance → manual News cards → VK/Instagram importers producing drafts for human approval; Instagram through an outside-Russia proxy. The daily manual step and shared-language pipeline no longer fit the author's needs. The earlier “copying costs seconds” estimate omitted selection, cropping, titling and translation. Do not revive that plan as a prerequisite for the RU importer.
 
 ## "How it feels" — reviews pipeline (decided Sep 2026)
 
-Spec for the section itself (word cloud + quote wheel, tiers, one clock) is in `about-page-copy.md` → How it feels. This section is **where the words and quotes come from** and how the build is split. Same principle as the News feed: an importer behind our components, never an embedded widget; a human approves what ships.
+Spec for the section itself (word cloud + quote wheel, tiers, one clock) is in `about-page-copy.md` → How it feels. This section is **where the words and quotes come from** and how the build is split. Like the social feed, this uses our own components rather than an embedded widget. Unlike automatic RU social imports, reviews still require a human to approve what ships.
 
 ### Why not live
 
@@ -936,7 +956,7 @@ From `eventsSection-mobile` 2048:127051, as drawn. 48px rhythm: connector → ti
 **Open:**
 
 - **Trailing icon in the card component.** Two of its three states (day, night-pinned) trail the Instagram mark; night-default trails a 12px arrow. Built with the brand mark in every state — an icon that changes with the theme would read as a bug — and the arrow means "this word is the action" (Interaction rule), which the mark avoids. Re-sync night-default in Figma, or say the arrow is wanted and it's one line to flip.
-- **Launch phasing still applies:** the section ships as the static social entrance — chips out to VK and Instagram, no News page behind "See all events" (it links to the VK community). The rail is ready for Phase 2 cards without changes.
+- **Content plan updated 24 Sep:** the same rail will show automatic VK previews on RU and independent manual cards on EN (News/social feed → Current decision; importer not built). No News page behind "See all events"; it links to the VK community.
 
 ## Mobile — Contacts (built Sep 2026)
 
@@ -1395,7 +1415,7 @@ The image component ships six fixed ratios — one per content job, not one per 
 | **1:1** | Square, general use. |
 | **21:9** | Cinematic full-bleed banners only (≈2.35:1 — functionally the same, cleaner CSS fraction). Reserved for wide environment shots — bar counter, terrace, full room — not tight action shots (a pour, a close-up), which get squeezed or cropped out at this ratio. Never used for content cards. *Exception (Sep 2026): the menu hero's photo stack in the tablet band (768–991) runs 21:9 with a focal point per photo — judged in the browser against 3:2, which overran the viewport at 991, and 4:1, which is a divider; see Tablet — Menu page.* |
 | **4:1** | Section divider bands on information-dense pages — the menu's per-section hero image (added Aug 2026). Same subject rules as 21:9 (wide environment and dish-in-context shots, never a content card), but chosen where 21:9's height pushes a long list too far down the page: at 4:1 the photograph reads as a divider and the text keeps the lead. Desktop-first; it can carry other band jobs where the same "photo serves the copy" logic applies. |
-| **4:5 (Instagram)** | Default for News/social-feed cards specifically. These are reposts/links out to Instagram rather than our own photography, so the ratio follows current creator norm instead of the house system. |
+| **4:5 (Instagram)** | Default for News/social-feed cards specifically. These are social previews linking out to VK (automatic RU feed) or a manually chosen source (EN); the established 4:5 card shape stays when the importer lands. |
 
 **Deliberately excluded:**
 - **16:9** — redundant middle ground between 3:2 and 21:9; no video-embed use case to justify a sixth ratio.

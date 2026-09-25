@@ -6,6 +6,24 @@
 
 ---
 
+## VK home feed — connection evidence and pending integration checks (24 September 2026)
+
+Plan: `website-brief.md` → *News/social feed*. RU automatic VK previews; EN manual and independent. No importer built yet.
+
+| Check | Status / evidence |
+|---|---|
+| Local API access | Passed: service key, `wall.get` 5.199, community 64582467, owner filter, ten returned posts. Nine had photos and text; one had neither. |
+| Timeweb PHP API access | Passed with the earlier key: author's SSH-console screenshot shows `SUCCESS: received 10 posts from VK.` |
+| Replacement credential | Passed locally with ten posts; the exposed first key revoked (author, 25 Sep). Not on Timeweb yet — nothing there holds a key; it goes into `wp-config.php` at the test-site deploy. Never include key values in evidence. |
+| Image download and card preview | **Passed (live wall, 25 Sep):** 8 real covers downloaded from VK's CDN through `media_handle_sideload`, the 4:5 size (720×900) served, one attachment per photo id; a changed photo replaces the cover (fixture). **Pending:** the author's look at five real cards (multi-photo cover = the first photo, crop, caption cuts, the month abbreviation on `/`). |
+| Repeat imports and source edits | **Passed (fixture, 25 Sep):** re-run → 3 unchanged, no new records or media; an edited post → 1 updated; a caption retyped by hand survived the edit; a hidden record left the cards. Repeat on the test site with the live wall. |
+| Filtering and source deletions | **Passed (fixture, 25 Sep):** repost, wordless and photo-less posts skipped before the five are chosen; a post gone from the wall → marked, Draft on the second successful miss, back to publish when it returned. A failed request marks nothing (it never reaches that step). Repeat on the test site. |
+| API/image failure | **Built, not yet provoked:** a failed or key-less request writes nothing and records `sp_vk_last_error`; the page keeps the records; the status line above «Посты ВКонтакте» shows the last success and the error without secrets; a failed photo download leaves the record without a hash so the next run retries it. Provoke on the test site (a wrong key, briefly). |
+| Language isolation | **Built:** `/en/` reads the tab's rows and never the feed; `/` reads the feed and falls back to the rows only before the first import. **Pending:** eyes on both pages after the first live run. |
+| Scheduling and caching | Pending on test hosting: key in `wp-config.php`; `DISABLE_WP_CRON` + hourly system cron on `wp-cron.php`; one run with no page visits; no duplicate events (`wp_next_scheduled` guard); WP Super Cache purged after a change (built, untested). |
+
+---
+
 ## Open — planned, not yet run
 
 | Question | Affects | Plan | Prediction on record |

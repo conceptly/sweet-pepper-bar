@@ -52,24 +52,33 @@ function sweet_pepper_register_cpt() {
         'not_found'     => 'Напитков нет',
     ), 7, 'dashicons-coffee' ) );
 
-    // 2. News CPT (Phase 2)
-    $labels_news = array(
-        'name'                  => _x( 'News', 'Post Type General Name', 'sweet-pepper' ),
-        'singular_name'         => _x( 'News Item', 'Post Type Singular Name', 'sweet-pepper' ),
-        'menu_name'             => __( 'News', 'sweet-pepper' ),
-        'all_items'             => __( 'All News', 'sweet-pepper' ),
-        'add_new_item'          => __( 'Add New News Item', 'sweet-pepper' ),
-    );
-    $args_news = array(
-        'label'                 => __( 'News Item', 'sweet-pepper' ),
-        'labels'                => $labels_news,
-        'supports'              => array( 'title', 'thumbnail' ), // Photo and caption (ACF)
-        'public'                => true,
-        'has_archive'           => true,
-        'menu_icon'             => 'dashicons-megaphone',
-        'show_in_rest'          => false,
-    );
-    register_post_type( 'news', $args_news );
+    // 2. «Посты ВКонтакте» — one record per post imported from the community wall
+    // (inc/vk-feed.php): the Russian home page's «Что нового» cards. Made by the importer,
+    // never by hand; the team can hide one («Скрыть с сайта», acf-json/group_sp_news.json) or
+    // retype its caption. Draft is the importer's own state for a post that left the wall.
+    // Never a public URL — the card links to the post on VK. (The `news` slug is the old
+    // Phase-2 News CPT's; the records stay in that table.)
+    register_post_type( 'news', array(
+        'label'         => 'Пост ВКонтакте',
+        'labels'        => array(
+            'name'          => 'Посты ВКонтакте',
+            'singular_name' => 'Пост ВКонтакте',
+            'menu_name'     => 'Посты ВКонтакте',
+            'all_items'     => 'Все посты',
+            'edit_item'     => 'Пост ВКонтакте',
+            'search_items'  => 'Найти пост',
+            'not_found'     => 'Постов нет — импорт ещё не запускался',
+        ),
+        'supports'      => array( 'title', 'thumbnail' ), // the caption; the cover is the featured image
+        'public'        => false,
+        'show_ui'       => true,
+        'menu_position' => 8,
+        'menu_icon'     => 'dashicons-megaphone',
+        'show_in_rest'  => false,
+        'map_meta_cap'  => true,
+        // Records come from the importer: the team edits them, nobody adds one by hand.
+        'capabilities'  => array( 'create_posts' => 'do_not_allow' ),
+    ) );
 
     // 3. Pairings — ONE record («Гастробот»; «Подбор пары» until 23 Sep 2026 — a team member's name for it): the dish picker's rows, for the menu page's
     // pairing station and the About page's Concept picker at once (inc/pairings.php,

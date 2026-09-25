@@ -2671,13 +2671,13 @@
                 "class": "",
                 "id": ""
             },
-            "message": "До пяти карточек, порядок строк — порядок на сайте: то, что уже выложено в соцсети. Фото вертикальное 4:5. Дата — необязательна: сегодняшняя показывается как «Сегодня!». «Закрепить» выделяет карточку рамкой.",
+            "message": "<strong>Карточки английской страницы</strong> (/en/). На русской главной карточки приходят из ВКонтакте сами — «Посты ВКонтакте» в меню слева. До пяти карточек, порядок строк — порядок на сайте. Фото вертикальное 4:5. Дата — необязательна: сегодняшняя показывается как «Today!». «Закрепить» выделяет карточку рамкой.",
             "new_lines": "",
             "esc_html": 0
         },
         {
             "key": "field_sp_home_event_cards",
-            "label": "Карточки",
+            "label": "Карточки (EN)",
             "name": "home_event_cards",
             "aria-label": "",
             "type": "repeater",
@@ -2693,7 +2693,7 @@
             "pagination": 0,
             "min": 0,
             "max": 5,
-            "collapsed": "field_sp_home_event_title_ru",
+            "collapsed": "field_sp_home_event_title_en",
             "button_label": "Добавить карточку",
             "rows_per_page": 20,
             "sub_fields": [
@@ -2724,34 +2724,13 @@
                     "parent_repeater": "field_sp_home_event_cards"
                 },
                 {
-                    "key": "field_sp_home_event_title_ru",
-                    "label": "Подпись",
-                    "name": "title_ru",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_sp_home_event_cards"
-                },
-                {
                     "key": "field_sp_home_event_title_en",
                     "label": "Подпись (EN)",
                     "name": "title_en",
                     "aria-label": "",
                     "type": "text",
                     "instructions": "",
-                    "required": 0,
+                    "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
                         "width": "25",
@@ -2880,29 +2859,8 @@
                     "parent_repeater": "field_sp_home_event_cards"
                 },
                 {
-                    "key": "field_sp_home_event_alt_ru",
-                    "label": "Описание фото (alt)",
-                    "name": "alt_ru",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "50",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "пусто — как подпись",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_sp_home_event_cards"
-                },
-                {
                     "key": "field_sp_home_event_alt_en",
-                    "label": "Описание фото (alt) (EN)",
+                    "label": "Описание фото (alt, EN)",
                     "name": "alt_en",
                     "aria-label": "",
                     "type": "text",
@@ -2910,7 +2868,7 @@
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "50",
+                        "width": "25",
                         "class": "",
                         "id": ""
                     },
@@ -3533,5 +3491,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790273397
+    "modified": 1790294918
 }

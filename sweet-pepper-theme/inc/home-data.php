@@ -226,14 +226,19 @@ function sweet_pepper_home_about( $page_id ) {
 }
 
 /**
- * What's on: header, the cards (five at most) and the «More on VK» tile.
+ * What's on: header, the cards (five at most) and the «More on VK» tile. Two feeds, one
+ * component (website-brief.md → News/social feed → Current decision): the Russian page's cards
+ * are the community's VK posts, imported hourly (inc/vk-feed.php); the English page's are the
+ * «Что нового» tab's rows, typed by hand.
  */
 function sweet_pepper_home_events( $page_id ) {
     $typed = sweet_pepper_home_typed( 'events' );
     $text  = sweet_pepper_page_text( $page_id, 'home_events', $typed );
+    // Russian: the community's posts, imported (inc/vk-feed.php) — until the first import lands,
+    // the tab's cards. English: the tab's cards, always; never the Russian feed.
+    $cards = 'ru' === sweet_pepper_lang() && function_exists( 'sweet_pepper_vk_cards' ) ? sweet_pepper_vk_cards( 5 ) : [];
     [ $saved, $rows ] = sweet_pepper_page_rows( $page_id, 'home_event_cards', $typed['cards'], [ 'title', 'alt' ] );
-    $cards = [];
-    foreach ( array_slice( $rows, 0, 5 ) as $row ) {
+    foreach ( $cards ? [] : array_slice( $rows, 0, 5 ) as $row ) {
         $title = sweet_pepper_pick( $row, 'title' );
         $src   = sweet_pepper_photo_url( $saved ? ( $row['cover'] ?? '' ) : '', 'sp-4x5', $saved ? '' : (string) ( $row['cover'] ?? '' ) );
         if ( '' === $title || ! $src ) {

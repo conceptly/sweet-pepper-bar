@@ -4,8 +4,9 @@
  * tile as typed before the page moved into WordPress. Fallback for sweet_pepper_home_events()
  * and the seed source.
  *
- * The typed cards are placeholders (website-brief.md → News/social feed → Launch phasing: the
- * section ships static; the team pastes real posts in admin). The first card's date is today,
+ * The typed cards are the ENGLISH page's placeholders (website-brief.md → News/social feed →
+ * Current decision: `/` imports the VK wall, inc/vk-feed.php; `/en/` keeps hand-made cards, the
+ * team pastes real posts in admin). The first card's date is today,
  * so the "Today!" state shows in the fallback; the SEEDED cards carry no date and name VK as
  * the source, as their links do (home-copy-ru-review.md → 6: no invented dates, one platform
  * per card) — the team fills in real posts.

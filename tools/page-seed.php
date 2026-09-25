@@ -578,17 +578,16 @@ foreach ( $targets as $target ) {
             echo sp_seed_about_tab( $id, $force, 'home-events', $typed, 'home_event_cards', $hdr( 'events' ), [], function ( $id ) use ( $k, $typed ) {
                 $rows = [];
                 foreach ( $typed['cards'] as $card ) {
-                    // Placeholders until the team pastes real posts: no invented date, the source the link names.
+                    // The English page's cards (the Russian page imports VK, inc/vk-feed.php). Placeholders
+                    // until the team pastes real posts: no invented date, the source the link names.
                     $rows[] = [
                         "{$k}event_cover"    => sp_seed_attachment( $card['cover'] ),
-                        "{$k}event_title_ru" => $card['ru']['title'] ?? '',
                         "{$k}event_title_en" => $card['title'],
                         "{$k}event_date"     => '',
                         "{$k}event_category" => $card['category'],
                         "{$k}event_source"   => 'vk',
                         "{$k}event_url"      => $card['url'],
                         "{$k}event_pinned"   => empty( $card['pinned'] ) ? 0 : 1,
-                        "{$k}event_alt_ru"   => '',
                         "{$k}event_alt_en"   => $card['alt'],
                     ];
                 }

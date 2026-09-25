@@ -18,6 +18,7 @@
  *     @type string $url         Link to VK/IG post.
  *     @type string $source      'instagram' or 'vk' — drives CTA text.
  *     @type bool   $pinned      Whether the card is in the pinned (featured) state.
+ *     @type bool   $plain_date  The date is when the post was published, not an event's day: no "Today!" (the VK feed).
  * }
  */
 
@@ -43,7 +44,7 @@ $cta_text = $source === 'vk' ? __( 'See it on VK', 'sweet-pepper' ) : __( 'See i
 
 // "Today!" detection
 $is_today = false;
-if ( $date ) {
+if ( $date && empty( $args['plain_date'] ) ) {
     $date_timestamp = strtotime( $date );
     if ( $date_timestamp && date( 'Y-m-d', $date_timestamp ) === date( 'Y-m-d' ) ) {
         $is_today = true;

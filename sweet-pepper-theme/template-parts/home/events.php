@@ -13,8 +13,13 @@
  */
 ?>
 
+    <?php
+    // Trial flag (25 Sep 2026): `?title-lines=2` lets the card captions run to two lines instead of
+    // one, to judge on the live page; remove with the decision (events.css → Title).
+    $title_lines = isset( $_GET['title-lines'] ) ? max( 1, min( 3, (int) $_GET['title-lines'] ) ) : 1;
+    ?>
     <!-- Events / News Section -->
-    <section id="events" class="home-events">
+    <section id="events" class="home-events"<?php echo 1 !== $title_lines ? ' style="--event-title-lines: ' . (int) $title_lines . '"' : ''; ?>>
         <div class="container">
             <!-- Top Section Link Word (SEE WHAT'S NEW — reflection, shared seam with About) -->
             <?php 

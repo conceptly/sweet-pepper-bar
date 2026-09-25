@@ -288,7 +288,10 @@ html[data-theme="night"] .event-card-date--today span {
 
 /* ── Title ── */
 /* Molot H3 18px / 1.35 / tracking 0.9px.
-   Day: olive. Night: paper. */
+   Day: olive. Night: paper.
+   ONE line, cut with an ellipsis (25 Sep 2026): the body is a fixed 98px (82 on phones — date row
+   + one line), drawn for a caption like «DJ-сет: вечер пятницы»; a VK caption is a sentence.
+   `--event-title-lines` is the knob — the section sets 2 for the `?title-lines=2` trial. */
 
 .event-card-title {
     font-size: var(--text-h3);
@@ -297,6 +300,11 @@ html[data-theme="night"] .event-card-date--today span {
     color: var(--olive);
     margin: 0;
     word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--event-title-lines, 1);
+    line-clamp: var(--event-title-lines, 1);
+    overflow: hidden;
 }
 
 html[data-theme="night"] .event-card-title {

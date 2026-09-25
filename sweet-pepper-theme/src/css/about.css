@@ -22,7 +22,7 @@
 }
 
 .about-section--dark .section-headline {
-    color: var(--chili);
+    color: var(--paprika);
 }
 
 .about-section--dark .section-headline-2 {
@@ -71,7 +71,7 @@
 }
 
 .about-section--light .section-headline {
-    color: var(--chili);
+    color: var(--paprika);
 }
 
 .about-section--light .section-headline-2 {
@@ -130,7 +130,7 @@
     font-size: var(--text-display); /* was a raw 76px: the tablet mode could not reach it */
     letter-spacing: 0.04em;
     line-height: 1.1;
-    color: var(--chili);
+    color: var(--paprika); /* Chili on its first line — components.css → Title lines */
 }
 
 .about-hero__lead {
@@ -366,7 +366,7 @@
 }
 
 .about-concept .section-headline {
-    color: var(--chili);
+    color: var(--paprika);
 }
 
 .about-concept .section-headline-2 {
@@ -2795,6 +2795,20 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
         margin: 0;
     }
 
+    /* Title lines (components.css): the parts are inline here, so ::first-line goes on the
+       group and the first part takes its colour from it; headline_2 keeps its own Paprika */
+    .about-guests .section-headline-group {
+        color: var(--paprika);
+    }
+
+    .about-guests .section-headline-group::first-line {
+        color: var(--chili);
+    }
+
+    .about-guests .section-headline-group > .section-headline {
+        color: inherit;
+    }
+
     /* Russian: the headline's parts are inline here, so the room for Й / Ё
        (components.css → Cyrillic) goes on the group, which carries the size */
     :lang(ru) .about-guests .section-eyebrow + .section-headline-group {
@@ -3096,6 +3110,20 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     .about-story .section-headline-group > * {
         display: inline;
         margin: 0;
+    }
+
+    /* Title lines (components.css): the parts are inline here, so ::first-line goes on the
+       group and the first part takes its colour from it; headline_2 keeps its own Paprika */
+    .about-story .section-headline-group {
+        color: var(--paprika);
+    }
+
+    .about-story .section-headline-group::first-line {
+        color: var(--chili);
+    }
+
+    .about-story .section-headline-group > .section-headline {
+        color: inherit;
     }
 
     /* Russian: the headline's parts are inline here, so the room for Й / Ё

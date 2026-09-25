@@ -60,6 +60,22 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  /* Eyebrow → title as the About hero (author, 25 Sep 2026: «compare with the About
+     headline»): 20 here, 12 in the tablet band, 16 on phones. It had none — the eyebrow
+     sat on the title with only the line-height as air. */
+  gap: 20px;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .visit-hero__title-block {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .visit-hero__title-block {
+    gap: 16px;
+  }
 }
 
 .visit-hero__eyebrow {
@@ -71,7 +87,7 @@
 }
 
 .visit-hero__headline {
-  color: var(--chili, #e34314);
+  color: var(--paprika); /* Chili on its first line — components.css → Title lines */
   font-family: var(--font-display);
   font-size: var(--text-h1);
   letter-spacing: 0.04em; /* was 2.56px — 7% at the phone 36, 5.3% at the tablet 48 */
@@ -673,7 +689,7 @@
 }
 
 .visit-location__headline-line1 {
-  color: var(--chili);
+  color: var(--paprika); /* Chili on its first line — components.css → Title lines */
   display: block;
 }
 
@@ -917,7 +933,8 @@
 }
 
 .visit-cta__headline {
-  color: var(--lime);
+  color: var(--paprika); /* Chili on its first line — components.css → Title lines. Was Lime,
+                            a Figma experiment (author, 25 Sep 2026) */
   font-family: var(--font-display);
   font-size: var(--text-h1);
   letter-spacing: 0.04em;

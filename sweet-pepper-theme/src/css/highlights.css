@@ -49,9 +49,10 @@ html[data-theme="night"] .home-highlights {
     border-radius: 12px;
     overflow: hidden;
     background-color: var(--paper);
-    box-shadow: 1px 1px 4px 0px rgba(21, 19, 23, 0.15);
+    box-shadow: var(--card-shadow-rest);
     cursor: pointer;
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: box-shadow var(--card-duration) var(--card-easing),
+                border-color var(--card-duration) var(--card-easing);
 }
 
 html[data-theme="night"] .highlight-card {
@@ -76,26 +77,27 @@ html[data-theme="night"] .highlight-card:focus-visible {
     outline-color: var(--lime);
 }
 
-/* Hover — shadow expands */
-.highlight-card:hover {
-    box-shadow: 4px 4px 16px 0px rgba(21, 19, 23, 0.15);
+/* States — the shared card recipe (components.css → Card states). Night hover was a 0.5px
+   Lime stroke with no glow, the event cards a glow with no stroke; both now take both. */
+@media (hover: hover) {
+    .highlight-card:hover {
+        box-shadow: var(--card-shadow-hover);
+    }
+
+    html[data-theme="night"] .highlight-card:hover {
+        border-color: var(--card-stroke-night);
+        box-shadow: var(--card-glow-hover);
+    }
 }
 
-/* Night hover — add lime stroke to make shadow visible on dark bg */
-html[data-theme="night"] .highlight-card:hover {
-    border: 0.5px solid var(--lime);
-}
-
-/* Pressed — paper bg with inset shadow (depressed look) */
 .highlight-card:active {
-    box-shadow: inset 2px -2px 8px 0px rgba(21, 19, 23, 0.25);
-    background-color: var(--paper);
+    box-shadow: var(--card-shadow-pressed);
+    transition-duration: var(--card-press-duration);
 }
 
-/* Night pressed — lime stroke 1px + inset shadow */
 html[data-theme="night"] .highlight-card:active {
-    background-color: var(--peppercorn);
-    border: 1px solid var(--lime);
+    border-color: var(--card-stroke-night);
+    box-shadow: var(--card-shadow-pressed); /* the night hover's glow outranks the rule above */
 }
 
 

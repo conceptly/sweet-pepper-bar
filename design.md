@@ -182,6 +182,7 @@ For posters/flyers, **don't pair Molot — let it run alone.** Build hierarchy f
 - **Editorial exception:** Golos for body copy in brochures and menus — type for *reading*, not *seeing*.
 - Keep the mood playful-industrial, not severe — warm tones and the pepper motif are the counterweight.
 - Molot reads better at **moderate sizes** in blocks (texture/architecture) than at huge sizes.
+- **Section titles on the website: the first line Chili, every line after it Paprika (author, 25 Sep 2026).** The colour follows the *rendered* line, not the field: a one-field title that wraps on a phone (КАК ЗДЕСЬ / БЫВАЕТ) turns Paprika on its second line; a two-field title reads as before; a third line stays Paprika (a field is never split into two colours). Built as CSS `::first-line` (components.css → *Title lines*), so it re-flows with the width and language without script. Covers every section title, the About / Visit hero titles, the Location titles, the pairing station and the Visit CTA (Lime until 25 Sep — a Figma experiment). Not covered: the home hero (its own daypart-word colours), card titles, and **the closers** — About's «До встречи в перце» / Come sit with us stays Lime, a closing kept different on purpose (author, 25 Sep 2026). The pairing station follows the rule by night too (was Lime).
 
 ### 3.3 Scale (synced with Figma text styles)
 
@@ -285,6 +286,7 @@ Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `desig
 - **One focal point** per view — a dish, a drink, an event, a headline.
 - **Colour-block, don't decorate** — solid bands replace shadows/outlines/glows.
 - **Flat by default** — if an effect is needed, one subtle shadow, never three.
+- **Card states on the website — one recipe for every card that is a link (author, 25 Sep 2026).** Hover lifts (the shadow expands by day; a Lime stroke and glow by night), pressed sinks (an inset shadow, fast; the Lime stroke stays by night). A card that is not a link gets no pressed state and no night stroke. Pinned-paper cards (Visit contacts, quotes, vacancies) keep their own un-tilt vocabulary. Values: `website-brief.md` → Interaction rule → *Card states*.
 
 The concrete grid (1120px content width, 12 columns, 24px gutter) and the body-copy width cap live in `website-brief.md` → Grid — not duplicated here.
 

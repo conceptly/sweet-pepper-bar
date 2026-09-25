@@ -143,12 +143,13 @@ html[data-theme="night"] .section-eyebrow {
     margin-top: -8px; /* 16px gap − 8px = effective 8px from eyebrow */
 }
 
-/* Headline line 1 — Molot var(--text-h1) / 1.05 / tracking 4%, Chili */
+/* Headline line 1 — Molot var(--text-h1) / 1.05 / tracking 4%. Chili on its first line,
+   Paprika after (Title lines, below) */
 .section-headline {
     font-size: var(--text-h1);
     line-height: 1.05;
     letter-spacing: 0.04em;
-    color: var(--chili);
+    color: var(--paprika);
 }
 
 /* Headline line 2 — same typography, Paprika (lighter red) */
@@ -158,6 +159,47 @@ html[data-theme="night"] .section-eyebrow {
     letter-spacing: 0.04em;
     color: var(--paprika);
     margin: 0;
+}
+
+/* ── Card states: one recipe for every card that is a link (author, 25 Sep 2026) ──
+   Rest    day: the card shadow · night: a 1px stroke held (transparent, or the card's own).
+   Hover   day: the shadow expands · night: the stroke turns Lime + the Lime glow.
+           Pointer input only (`hover: hover`) — on touch a tapped card keeps a sticky hover.
+   Pressed both: the card sinks — drop shadow off, inset shadow on, fast (100ms) so it
+           answers the finger · night: the stroke stays Lime, the glow goes.
+   Figma effects: Drop Shadow Cards, Drop-ShadowCards-Hover, Card-Glow-Hover, the pressed
+   inset already shared by the guests, careers and filmstrip cards (about.css). Where a
+   photo fills the card and would cover the inset, a ::after on top carries it. */
+:root {
+    --card-shadow-rest: 1px 1px 4px 0 rgba(21, 19, 23, 0.15);
+    --card-shadow-hover: 4px 4px 16px 0 rgba(21, 19, 23, 0.15);
+    --card-glow-hover: 0 0 16px 0 rgba(212, 230, 113, 0.5);
+    --card-shadow-pressed: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
+    --card-stroke-night: var(--lime);
+    --card-press-duration: 100ms;
+}
+
+/* ── Title lines: the first line Chili, every line after it Paprika (author, 25 Sep 2026) ──
+   The two-colour rule used to live in the fields (headline / headline_2), so a one-field
+   title that wrapped on a phone (КАК ЗДЕСЬ / БЫВАЕТ) ran two Chili lines, and a first field
+   that wrapped ran two Chili lines over a Paprika one. Where a title breaks depends on the
+   width and the language, so the colour follows the rendered line instead: each title's
+   own colour is Paprika and its ::first-line is Chili — no script, re-flows by itself.
+   A two-field title reads as before (line 2 is its own Paprika element); a third line stays
+   Paprika (В САМОМ СЕРДЦЕ / ЛЮБИМОГО / ГОРОДА at 360), so a field is never split in two
+   colours. ::first-line reaches into the first block child's first line, so the Location
+   and About hero spans are covered by their <h2>/<h1>. Not here: the home hero (its own
+   daypart-word colours) and card titles. */
+:is(
+    .section-headline,
+    .about-hero__headline,
+    .location__title,
+    .visit-location__headline,
+    .visit-hero__headline,
+    .visit-cta__headline,
+    .pairing-station__title
+)::first-line {
+    color: var(--chili);
 }
 
 /* ── Cyrillic: room for Й and Ё above a headline under an eyebrow (author, 23 Sep 2026;

@@ -41,7 +41,7 @@
     font-size: var(--text-h1);
     line-height: 1.05;
     letter-spacing: 0.04em; /* 4% of the size — 1.44 at the phone 36 */
-    color: var(--chili);
+    color: var(--paprika); /* Chili on its first line — components.css → Title lines */
     margin: 0;
 }
 
@@ -498,10 +498,8 @@ html[data-theme="night"] .dish-picker__card {
    Card bg → cream (#FFF689)
    ═══════════════════════════════════════════════════════════════ */
 
-/* Title: chili → lime */
-html[data-theme="night"] .pairing-station__title {
-    color: var(--lime);
-}
+/* Title: Chili / Paprika by night too, as every section title (author, 25 Sep 2026 —
+   was Lime; components.css → Title lines) */
 
 /* Bottom rugged edge: must match card bg (cream) at night.
    !important needed to override inline style from rugged-edge.php */

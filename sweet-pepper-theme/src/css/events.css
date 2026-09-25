@@ -87,12 +87,49 @@ html[data-theme="night"] .event-card {
 /* Day: drop shadow 4px 4px 16px.
    Night: lime glow 0 0 16px. */
 
-.event-card:hover {
-    box-shadow: 4px 4px 16px 0px rgba(21, 19, 23, 0.15);
+/* The shared card recipe (components.css → Card states), for the event cards and the
+   "See all events" tile alike: by night the Mushroom stroke turns Lime on hover and press
+   (a pinned card keeps its Lemon); pressed sinks. The photo fills the card and would cover
+   an inset shadow, so a ::after on top carries it. */
+.event-card::after,
+.events-link-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: box-shadow var(--card-duration) var(--card-easing);
 }
 
-html[data-theme="night"] .event-card:hover {
-    box-shadow: 0px 0px 16px 0px rgba(212, 230, 113, 0.5);
+@media (hover: hover) {
+    .event-card:hover,
+    .events-link-card:hover {
+        box-shadow: var(--card-shadow-hover);
+    }
+
+    html[data-theme="night"] :is(.event-card, .events-link-card):hover {
+        box-shadow: var(--card-glow-hover);
+    }
+
+    html[data-theme="night"] :is(.event-card:not(.event-card--pinned), .events-link-card):hover {
+        border-color: var(--card-stroke-night);
+    }
+}
+
+:is(.event-card, .events-link-card):active,
+html[data-theme="night"] :is(.event-card, .events-link-card):active {
+    box-shadow: none;
+    transition-duration: var(--card-press-duration);
+}
+
+:is(.event-card, .events-link-card):active::after {
+    box-shadow: var(--card-shadow-pressed);
+    transition-duration: var(--card-press-duration);
+}
+
+html[data-theme="night"] :is(.event-card:not(.event-card--pinned), .events-link-card):active {
+    border-color: var(--card-stroke-night);
 }
 
 
@@ -371,13 +408,7 @@ html[data-theme="night"] .events-link-card {
     border-color: var(--mushroom);
 }
 
-.events-link-card:hover {
-    box-shadow: 4px 4px 16px 0px rgba(21, 19, 23, 0.15);
-}
-
-html[data-theme="night"] .events-link-card:hover {
-    box-shadow: 0px 0px 16px 0px rgba(212, 230, 113, 0.5);
-}
+/* States: with the event cards above (Card states) */
 
 .events-link-card-img {
     position: absolute;

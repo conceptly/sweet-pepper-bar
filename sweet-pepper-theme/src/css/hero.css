@@ -210,18 +210,58 @@ body.admin-bar .home-hero {
    the shadow expands by day, a Lime glow by night, and the dimmed photo lifts halfway so the
    tile answers the pointer. The active tile already has its keyline and sheets and answers
    nothing more. Pointer input only — the phone bento has no hover. */
+/* Stroke and pressed (author, 25 Sep 2026: "a stroke + a pressed state", as the highlight
+   card by night) — the shared recipe, components.css → Card states. The photo fills the
+   wrapper, so the stroke and the inset ride a ::after above the overlay. */
+.daypart-tile:not(.is-active) .tile-img-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
 @media (hover: hover) {
     .daypart-tile:not(.is-active):hover .tile-img-wrapper {
-        box-shadow: 4px 4px 16px 0 rgba(21, 19, 23, 0.15);
+        box-shadow: var(--card-shadow-hover);
     }
 
     html[data-theme="night"] .daypart-tile:not(.is-active):hover .tile-img-wrapper {
-        box-shadow: 0 0 16px 0 rgba(212, 230, 113, 0.5);
+        box-shadow: var(--card-glow-hover);
+    }
+
+    html[data-theme="night"] .daypart-tile:not(.is-active):hover .tile-img-wrapper::after {
+        border-color: var(--card-stroke-night);
     }
 
     .daypart-tile:not(.is-active):hover .tile-overlay {
         opacity: 0.5;
     }
+}
+
+/* Pressed — sinks: the drop shadow / glow off, the inset on; Lime stroke by night. Touch
+   too: it is the tap's only answer before the tile opens. */
+.daypart-tile:not(.is-active):active .tile-img-wrapper,
+html[data-theme="night"] .daypart-tile:not(.is-active):active .tile-img-wrapper {
+    box-shadow: none;
+    transition-duration: var(--card-press-duration);
+}
+
+.daypart-tile:not(.is-active):active .tile-img-wrapper::after {
+    box-shadow: var(--card-shadow-pressed);
+    transition-duration: var(--card-press-duration);
+}
+
+html[data-theme="night"] .daypart-tile:not(.is-active):active .tile-img-wrapper::after {
+    border-color: var(--card-stroke-night);
+}
+
+/* The dim comes back as it sinks — over a photo the inset alone barely reads */
+.daypart-tile:not(.is-active):active .tile-overlay {
+    opacity: 1;
+    transition-duration: var(--card-press-duration);
 }
 
 /* Keyboard focus: the cards' outline — Chili by day, Lime by night — on the photo, not the button box */

@@ -76,7 +76,17 @@
     padding-right: var(--rail-overshoot);
     scroll-padding-inline-end: var(--rail-overshoot);
 
-    padding-bottom: 4px; /* room for shadow below cards */
+    /* Room for the card states (components.css → Card states; 25 Sep 2026): a scroller
+       clips on every side, and with only 4px below it cut the hover shadow, the night glow
+       and the tilted corners at the top and left. 20px all round, handed back by margins,
+       so nothing moves; the snap still lands on the column's edge. */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin-top: -20px;
+    margin-bottom: -16px; /* the old 4px below the cards stays in the section's height */
+    margin-left: -20px;
+    scroll-padding-inline-start: 20px;
     /* Hide scrollbar — the peeking cards ARE the scroll hint */
     scrollbar-width: none; /* Firefox */
 }
@@ -115,15 +125,36 @@
     width: 262px;
     border-radius: 8px;
     background-color: var(--paper);
-    box-shadow: 1px 1px 4px 0px rgba(21, 19, 23, 0.15);
-    cursor: pointer;
+    box-shadow: var(--card-shadow-rest);
+    color: inherit;
+    text-decoration: none;
     transition: transform 0.8s var(--ease-gentle),
-                box-shadow 0.8s var(--ease-gentle-flat);
+                box-shadow 0.8s var(--ease-gentle-flat),
+                border-color 0.8s var(--ease-gentle-flat);
 }
 
 html[data-theme="night"] .menu-highlight-card__inner {
     background-color: var(--peppercorn);
     box-shadow: none;
+}
+
+/* The whole card is the link to its dish section (author, 25 Sep 2026) — it takes the
+   shared card states (components.css → Card states). A card without one is a plain card. */
+.menu-highlight-card__inner.is-link {
+    cursor: pointer;
+}
+
+html[data-theme="night"] .menu-highlight-card__inner.is-link {
+    border: 1px solid transparent; /* held for the Lime stroke */
+}
+
+.menu-highlight-card__inner.is-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+html[data-theme="night"] .menu-highlight-card__inner.is-link:focus-visible {
+    outline-color: var(--lime);
 }
 
 .menu-highlight-card__inner--tilt-left {
@@ -139,18 +170,41 @@ html[data-theme="night"] .menu-highlight-card__inner {
    Day hover: Drop-ShadowCards-Hover (4px 4px 16px), card goes flat.
    Night hover: Card-Glow-Hover (0 0 16px lime glow), card goes flat. */
 
-.menu-highlight-card__inner:hover {
+@media (hover: hover) {
+    .menu-highlight-card__inner.is-link:hover {
+        transform: rotate(0deg);
+        box-shadow: var(--card-shadow-hover);
+    }
+
+    html[data-theme="night"] .menu-highlight-card__inner.is-link:hover {
+        border-color: var(--card-stroke-night);
+        box-shadow: var(--card-glow-hover);
+    }
+
+    /* Title turns Chili on hover (both day and night); the link line takes its own hover */
+    .menu-highlight-card__inner.is-link:hover .menu-highlight-card__title {
+        color: var(--chili);
+    }
+
+    .menu-highlight-card__inner.is-link:hover .menu-highlight-card__link {
+        color: var(--avocado);
+    }
+
+    html[data-theme="night"] .menu-highlight-card__inner.is-link:hover .menu-highlight-card__link {
+        color: var(--lemon);
+    }
+}
+
+/* Pressed — sinks, flat (the un-tilt holds), Lime stroke by night */
+.menu-highlight-card__inner.is-link:active,
+html[data-theme="night"] .menu-highlight-card__inner.is-link:active {
     transform: rotate(0deg);
-    box-shadow: 4px 4px 16px 0px rgba(21, 19, 23, 0.15);
+    box-shadow: var(--card-shadow-pressed);
+    transition-duration: var(--card-press-duration);
 }
 
-html[data-theme="night"] .menu-highlight-card__inner:hover {
-    box-shadow: 0px 0px 16px 0px rgba(212, 230, 113, 0.5);
-}
-
-/* Title turns Chili on hover (both day and night) */
-.menu-highlight-card__inner:hover .menu-highlight-card__title {
-    color: var(--chili);
+html[data-theme="night"] .menu-highlight-card__inner.is-link:active {
+    border-color: var(--card-stroke-night);
 }
 
 
@@ -221,16 +275,8 @@ html[data-theme="night"] .menu-highlight-card__title {
     transition: color 0.2s ease;
 }
 
-.menu-highlight-card__link:hover {
-    color: var(--avocado);
-}
-
 html[data-theme="night"] .menu-highlight-card__link {
     color: var(--lime);
-}
-
-html[data-theme="night"] .menu-highlight-card__link:hover {
-    color: var(--lemon);
 }
 
 .menu-highlight-card__link-label {
@@ -305,9 +351,8 @@ html[data-theme="night"] .menu-highlight-card__link:hover {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 24px;
-        margin-right: 0;
-        padding-right: 0;
-        padding-bottom: 0;
+        margin: 0;
+        padding: 0;
         overflow: visible;
         scroll-snap-type: none;
     }

@@ -101,6 +101,8 @@ return [
         'View Instagram'                             => 'Новости в Instagram',
         'VK message'                                 => 'Написать в ВК',
         'Instagram DM'                               => 'Написать в Instagram',
+        "short label, phone two-up row\4VK message"   => 'ВКонтакте', // author, 25 Sep 2026; the full «Написать в …» stays in aria-label
+        "short label, phone two-up row\4Instagram DM" => 'Instagram',
         'Usually answer in 20 minutes'               => 'Обычно отвечаем в течение 20 минут', // mine — the RU review asks not to promise a time until the team confirms one
         'Copied'                                     => 'Скопировано',
         "home map chip — opens directions to the bar\4Directions" => 'Маршрут', // mine — the desktop chip is short (the full action, «Построить маршрут», is its aria name); a context, because "Directions" means «К карте» on the Visit page

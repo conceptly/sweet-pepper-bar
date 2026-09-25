@@ -21,6 +21,24 @@
     outline: none;
 }
 
+.btn-label--mobile {
+    display: none;
+}
+
+/* Phone-only short label (button.php → label_mobile): the RU messenger pair
+   «Написать в ВК · Написать в Instagram» overflows a two-up row, so phones
+   read «ВКонтакте · Instagram» (author, 25 Sep 2026 — 85 / 78px of the 94 a
+   360 drawer button leaves; navigation-drawers-copy-ru-draft.md §2). */
+@media (max-width: 767px) {
+    .btn-label--desktop {
+        display: none;
+    }
+
+    .btn-label--mobile {
+        display: inline;
+    }
+}
+
 .btn-icon {
     display: inline-flex;
     font-size: 16px;

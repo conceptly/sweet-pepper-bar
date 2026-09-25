@@ -80,12 +80,14 @@
                             // Short labels, the drawers' and the Visit CTA's: the long pair ("Message on …")
                             // overflowed the two-up row on phones (Sep 2026)
                             'label'         => __( 'VK message', 'sweet-pepper' ),
+                            'label_mobile'  => _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ),
                             'type'          => 'secondary',
                             'icon_left_svg' => 'icons/vk.svg',
                             'url'           => 'https://vk.me/barsweetpepper',
                         ] );
                         get_template_part( 'template-parts/components/button', null, [
                             'label'         => __( 'Instagram DM', 'sweet-pepper' ),
+                            'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
                             'type'          => 'secondary',
                             'icon_left_svg' => 'icons/insta.svg',
                             'url'           => 'https://ig.me/m/barsweetpepper',

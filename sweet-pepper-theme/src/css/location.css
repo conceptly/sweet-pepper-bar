@@ -119,13 +119,13 @@
     display: block;
 }
 
-/* Title line 1: chili */
+/* Title line 1: Chili on its first line, Paprika if it wraps (components.css → Title lines) */
 .location__title-line1 {
     font-family: var(--font-display);
     font-size: inherit; /* the fitted size on .location__title */
     line-height: 1.05;
     letter-spacing: 0.04em; /* H1 tracking is 4% — 2.56 at 64, 1.44 at the phone 36 */
-    color: var(--chili);
+    color: var(--paprika);
     text-transform: uppercase;
 }
 

@@ -24,6 +24,22 @@ Plan: `website-brief.md` → *News/social feed*. RU automatic VK previews; EN ma
 
 ---
 
+## Vacancies — the term, the archive, the contacts (25 September 2026)
+
+Plan: `website-brief.md` → Content editing → *Vacancies*. Built and CLI-tested locally; the admin screens and the hosting cron are pending.
+
+| Check | Status / evidence |
+|---|---|
+| Term rules | **Passed (CLI, 25 Sep):** same term re-saved → dates unchanged; 2 → 4 weeks → counted again from today; «В архиве» → closed now, `until` 0; a term on an archived record → open again, `closed` 0. |
+| Sweep | **Passed (CLI):** a posting with a past date was closed at render time before the sweep, and flipped to «В архиве» by `sweet_pepper_vacancy_sweep()` (1 closed, `closed` = its date). Event scheduled daily. **Pending on hosting:** the system cron on `wp-cron.php` (the VK feed's), a posting left to expire, the page cache purged. |
+| The About list | **Passed:** three records → three cards linking to their pages; one closed → two; the row wraps at four. |
+| Closed page | **Passed:** `/en/vacancies/cleaner/` kept its URL, printed the "filled" line and the two open roles, `noindex`; JobPosting JSON-LD only while open. |
+| Contacts | **Passed:** the bar's channels from Bar Settings (seeded), a person from the list with the bar as second block (a test row, removed), a pick whose row is gone → the bar. **Pending:** the admin form — the «Контакт» dropdown listing the people, the note under «На сайте», the Открытые / Архив views (no login from the CLI). |
+| Languages | **Passed:** `/` and `/en/` at 1440 / 834 / 402, Russian strings for the page's own labels; the card's Message / DM / Write follow the Visit card's open decision. |
+| Slug | **Passed:** «Менеджер зала» + "Floor manager" → `floor-manager`. **Pending:** a record saved with no English title (→ `role-<id>`), and the team typing a Russian title first and the English later (the slug is set on the first save with a Latin result). |
+
+---
+
 ## Open — planned, not yet run
 
 | Question | Affects | Plan | Prediction on record |

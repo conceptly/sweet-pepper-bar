@@ -29,7 +29,7 @@
 
 const SWEET_PEPPER_LANGS           = [ 'ru' => 'ru_RU', 'en' => 'en_US' ];
 const SWEET_PEPPER_DEFAULT_LANG    = 'ru'; // the unprefixed URL
-const SWEET_PEPPER_REWRITE_VERSION = 2; // 2: the `news` type stopped being public (inc/cpt.php, VK feed)
+const SWEET_PEPPER_REWRITE_VERSION = 3; // 3: the `vacancy` type, public at /vacancies/ (inc/cpt.php); 2: `news` stopped being public
 
 /**
  * The request path relative to the site's home path, without the language prefix:

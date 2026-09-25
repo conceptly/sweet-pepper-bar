@@ -2,7 +2,9 @@
  * Menu Hero — Nav hover ↔ photo/copy swap
  *
  * On hover:  active state transfers to the hovered nav item,
- *            photo cross-fades, caption + description update.
+ *            photo crossfades (a ghost of the outgoing photo fades over the incoming
+ *            one, as the dish picker's roll), the stack flips its tilt and fan,
+ *            caption + description update.
  * On leave:  reverts to the default (server-rendered) section.
  * On click:  smooth-scrolls to the section anchor on the page.
  * On load:   the opening frame is the daypart answer, not the server's default.
@@ -61,6 +63,12 @@ export function initMenuHero() {
 
     if (!photoImg || !photoPill || !description) return;
 
+    const cssMs = (name) => { // the minifier rewrites 1100ms as 1.1s, so read the unit
+        const v = getComputedStyle(hero).getPropertyValue(name).trim();
+        return (parseFloat(v) || 0) * (/\d\s*s$/.test(v) && !v.endsWith('ms') ? 1000 : 1);
+    };
+    const cssEase = (name) => getComputedStyle(hero).getPropertyValue(name).trim() || 'ease';
+
     // ── Preload images into browser cache ──
     Object.values(sections).forEach(sec => {
         const img = new Image();
@@ -93,6 +101,19 @@ export function initMenuHero() {
     let demoOver       = false;
     hero.dataset.currentSection = currentSection;
 
+    // ── The stack's direction (menu-hero.css → Photo Stack, the home tile's --dir) ──
+    // Alternates with the word's position in the list, so the sweep and a hover down the
+    // list lean each photo against the last; the door's preview (not in the list) leans
+    // against whatever was up. The PHP prints the first frame's (data-dir on the section;
+    // the CSS derives --dir and the colour recipe from it).
+    const order = Array.from(navItems, (item) => item.dataset.section);
+    let dir = hero.dataset.dir === '-1' ? -1 : 1;
+    function setDir(slug) {
+        const i = order.indexOf(slug);
+        dir = i >= 0 ? (i % 2 ? -1 : 1) : -dir;
+        hero.dataset.dir = dir;
+    }
+
     /** Phones: the full-width commit button follows the section on show. */
     function updateCommit(slug) {
         const sec = sections[slug];
@@ -103,21 +124,41 @@ export function initMenuHero() {
     }
 
     /**
-     * Swap the hero content to a given section with cross-fade.
+     * Swap the hero content to a given section with a crossfade.
+     *
+     * The outgoing photo is cloned as a ghost over the incoming one and fades out on the
+     * flat curve over --menu-photo-dur once the new file has decoded (the dish picker's
+     * roll does the same with a slide). Ghosts stack under rapid hovers — each is a
+     * snapshot of what was on show — and all of them fade when the newest photo is
+     * ready. The pill dips for 300 ms around its text change; the description changes
+     * when the new photo starts to show. Reduced motion, or the silent daypart swap
+     * during the entrance: everything changes at once.
      */
+    let swapRun   = 0;
+    let pillTimer = null;
+    const GHOSTS  = 3; // ghosts kept at most — more than this and the oldest just goes
+
+    function fadeGhost(ghost) {
+        ghost.classList.add('is-fading');
+        ghost.animate({ opacity: [1, 0] }, {
+            duration: cssMs('--menu-photo-dur'),
+            easing:   cssEase('--ease-gentle-flat'),
+            fill:     'forwards',
+        }).finished.then(() => ghost.remove()).catch(() => {});
+    }
+
     function showSection(slug, animate = true) {
         const sec = sections[slug] && atTheme(sections[slug]);
         if (!sec || slug === currentSection) return;
 
         currentSection = slug;
         hero.dataset.currentSection = slug;
+        setDir(slug);
 
-        const swap = () => {
+        const setPhoto = () => {
             photoImg.src = sec.image;
             photoImg.style.objectPosition = sec.focus || ''; // tablet 21:9 crop
             photoImg.alt = sec.caption;
-            photoPill.textContent = sec.caption;
-            description.textContent = sec.description;
             // The card links to what it shows. The door's preview is not a section of this
             // page, so the link keeps its last section through it.
             if (photoFrame && document.getElementById(slug)) {
@@ -125,17 +166,47 @@ export function initMenuHero() {
                 photoFrame.setAttribute('aria-label', sec.label);
             }
         };
+        const setWords = () => {
+            photoPill.textContent = sec.caption;
+            description.textContent = sec.description;
+        };
 
-        if (animate && photoFrame) {
-            // Fade out, swap content mid-fade (half the 500ms CSS fade), fade in
-            photoFrame.classList.add('is-fading');
-            setTimeout(() => {
-                swap();
-                photoFrame.classList.remove('is-fading');
-            }, 250);
-        } else {
-            swap();
+        if (!animate || reducedMotion.matches || !photoFrame) {
+            clearTimeout(pillTimer);
+            photoFrame?.classList.remove('is-swapping');
+            setPhoto();
+            setWords();
+            return;
         }
+
+        // Snapshot what is on show, newest ghost lowest (right after the img, under the
+        // older ghosts and under the pill)
+        const ghost = photoImg.cloneNode(false);
+        ghost.className = 'menu-hero__photo-ghost';
+        ghost.alt = '';
+        ghost.setAttribute('aria-hidden', 'true');
+        ghost.removeAttribute('loading');
+        photoImg.after(ghost);
+        const ghosts = photoFrame.querySelectorAll('.menu-hero__photo-ghost');
+        for (let i = 0; i < ghosts.length - GHOSTS; i++) ghosts[i].remove();
+
+        setPhoto(); // parked under the ghost while it decodes
+
+        // Pill: out over 300 ms, the caption changes, back in
+        photoFrame.classList.add('is-swapping');
+        clearTimeout(pillTimer);
+        pillTimer = setTimeout(() => {
+            photoPill.textContent = sec.caption;
+            photoFrame.classList.remove('is-swapping');
+        }, 300);
+
+        const run   = ++swapRun;
+        const ready = photoImg.decode ? photoImg.decode().catch(() => {}) : Promise.resolve();
+        ready.then(() => {
+            if (run !== swapRun) return; // a newer swap fades this ghost with its own
+            description.textContent = sec.description;
+            photoFrame.querySelectorAll('.menu-hero__photo-ghost:not(.is-fading)').forEach(fadeGhost);
+        });
     }
 
     /**
@@ -243,10 +314,6 @@ export function initMenuHero() {
     // beats the photo's entrance the swap is silent and the word's fill stays on schedule;
     // if it arrives late, the swap plays as an ordinary preview.
     // ?daypart= is honoured so every frame can be checked at any hour.
-    const cssMs = (name) => { // the minifier rewrites 1100ms as 1.1s, so read the unit
-        const v = getComputedStyle(hero).getPropertyValue(name).trim();
-        return (parseFloat(v) || 0) * (/\d\s*s$/.test(v) && !v.endsWith('ms') ? 1000 : 1);
-    };
     const sinceFirstPaint = () => {
         const fcp = performance.getEntriesByName('first-contentful-paint')[0];
         return fcp ? performance.now() - fcp.startTime : 0;
@@ -284,7 +351,6 @@ export function initMenuHero() {
     }
 
     if (desktopMq.matches && !reducedMotion.matches && navItems.length > 1) {
-        const order = Array.from(navItems, (item) => item.dataset.section);
         let inView = true;
 
         new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }, { threshold: 0.5 })

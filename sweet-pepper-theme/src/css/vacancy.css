@@ -1,0 +1,543 @@
+/* ===========================================================================
+   Vacancy page — /vacancies/<slug>/ (single-vacancy.php, built 25 Sep 2026)
+
+   A fixed composition, like About and Visit: Peppercorn head → Soft Peppercorn body →
+   Peppercorn foot → the Lime footer (its bites take Peppercorn: footer.css). No daypart
+   theming, so the night-only colour rules the components rely on are set here by hand,
+   as visit.css does for its contact card.
+
+   Head: the Careers connector's reflection, then back link · eyebrow · H1 · meta row.
+   Body: the 12-column grid — the copy in columns 1–7 (643px, the section-description
+   measure), the contact card sticky in 8–12 (website-brief.md → Grid: short copy
+   flush-left, the leftover columns given a job; four columns left the Visit card's rows
+   — handle, copy chip, verb — no room, the phone number wrapped). Tablets (768–991) stack: the card is a
+   full-width band under the head, its rows in two columns. Phones: single column, the
+   card in the flow after the copy, and a Call · Write bar pinned to the bottom.
+   Foot: the other open roles as the Careers cards (about.css → Careers), the CV row.
+   =========================================================================== */
+
+.page-vacancy {
+    background-color: var(--peppercorn);
+    color: var(--parchment);
+}
+
+/* ── Connector: the About page's rules for a reflection over a dark ground (about.css →
+   Connectors), so the word reads exactly as it does over the Careers section ── */
+.page-vacancy .about-connector--head {
+    margin-bottom: 80px;
+}
+
+.page-vacancy .section-link--auto.section-link--reflection {
+    --section-link-ink: var(--paper);
+    opacity: 0.3;
+}
+
+.page-vacancy .section-link--auto .section-link__text {
+    background-image: linear-gradient(to top, var(--peppercorn), rgba(21, 19, 23, 0));
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── 1. Head ── */
+.vacancy-head {
+    padding: 104px 0 80px; /* 80 of air under the 24px-padded header (the header is an absolute overlay here: header.css) */
+}
+
+.vacancy-head__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Back link — the card link's vocabulary (Lime, semibold), the arrow turned round */
+.vacancy-head__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--lime);
+    text-decoration: none;
+    margin-bottom: 8px;
+    transition: opacity 300ms ease;
+}
+
+.vacancy-head__back:hover {
+    opacity: 0.8;
+}
+
+.vacancy-head__back-icon {
+    display: inline-flex;
+    width: 12px;
+    height: 12px;
+    transform: scaleX(-1);
+}
+
+.vacancy-head__back-icon svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+/* Eyebrow — H3, Cream, as the Careers section's own (about.css → .about-careers .section-eyebrow) */
+.vacancy-head__eyebrow {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--cream);
+    margin: 0;
+}
+
+/* The role — H1, Chili, on the 8-column title measure */
+.vacancy-head__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--chili);
+    max-width: 739px;
+    margin: 0;
+}
+
+/* Cyrillic room under the eyebrow (components.css → Cyrillic): Й / Ё rise above the capitals */
+:lang(ru) .vacancy-head__eyebrow + .vacancy-head__title {
+    padding-top: calc(var(--cyrillic-room) * 1em);
+}
+
+/* Meta row — the pill, then Caption 13 in Mushroom */
+.vacancy-head__meta {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+    margin: 8px 0 0;
+    padding: 0;
+}
+
+.vacancy-head__meta-item {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--mushroom);
+}
+
+/* The department pill: the Careers card's pill (Lemon on Peppercorn) — on a Peppercorn
+   ground the fill vanishes, so the Ash hairline of the card recipe draws it instead */
+.vacancy-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--lemon);
+    white-space: nowrap;
+}
+
+/* Closed: one line where the meta row was */
+.vacancy-head__closed {
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--parchment);
+    max-width: 643px;
+    margin: 8px 0 0;
+}
+
+/* ── 2. Body ── */
+.vacancy-body {
+    background-color: var(--soft-peppercorn);
+    padding: 80px 0;
+}
+
+.vacancy-body__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+}
+
+.vacancy-copy {
+    grid-column: 1 / span 7;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.vacancy-copy__lead {
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--parchment);
+    margin: 0;
+}
+
+.vacancy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* List titles — H2 in Paprika, the night rule for subsection titles (menu-section.css) */
+.vacancy-list__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--paprika);
+    margin: 0;
+}
+
+.vacancy-list__items {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--parchment);
+}
+
+.vacancy-list__items li::marker {
+    color: var(--lime);
+}
+
+.vacancy-aside {
+    grid-column: 8 / span 5;
+    min-width: 0;
+}
+
+/* ── The contact card — the Visit hero's contact card on the body's ground: Peppercorn
+   over Soft Peppercorn (the Visit card is the other way round), the Ash hairline, the
+   Chili pin, at rest tilted a degree and straightening on hover (visit.css). Sticky, so it
+   rides beside the copy. ── */
+.vacancy-card {
+    position: sticky;
+    top: 24px;
+    background-color: var(--peppercorn);
+    border: 1px solid var(--ash);
+    border-radius: 8px;
+    padding: 40px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transform: rotate(-1deg);
+    transition: transform 0.8s var(--ease-bouncy),
+                filter 0.8s var(--ease-bouncy);
+}
+
+.vacancy-card::before {
+    content: '';
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    width: 48px;
+    height: 24px;
+    background-color: var(--chili);
+    border-radius: 4px;
+    transition: transform 0.8s var(--ease-bouncy);
+}
+
+@media (hover: hover) {
+    .vacancy-card:hover {
+        transform: rotate(0deg);
+        filter: drop-shadow(0 0 4px rgba(212, 230, 113, 0.5));
+    }
+
+    .vacancy-card:hover::before {
+        transform: translateX(-50%) rotate(1deg);
+    }
+}
+
+.vacancy-card__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--lemon);
+    margin: 0;
+}
+
+.vacancy-card__section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.vacancy-card__heading {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--cream);
+    margin: 0;
+}
+
+/* The person: name in Body semibold, the role under it in Caption */
+.vacancy-card__person {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0 0 4px;
+}
+
+.vacancy-card__name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--paper);
+}
+
+.vacancy-card__role {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--mushroom);
+}
+
+/* Rows: the contact item, the action on the right */
+.vacancy-card__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 0;
+}
+
+.vacancy-card__row .contact-item,
+.vacancy-card__row .contact-item__body {
+    min-width: 0;
+}
+
+.vacancy-card__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-top: 4px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--lime);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 300ms ease;
+}
+
+.vacancy-card__action:hover {
+    opacity: 0.8;
+}
+
+.vacancy-card__action-icon,
+.vacancy-card__action-icon svg {
+    width: 12px;
+    height: 12px;
+    display: inline-flex;
+    color: var(--lime);
+}
+
+/* contact-item on a dark ground without data-theme (the Visit card's overrides) */
+.vacancy-card .contact-item__icon {
+    color: var(--lime);
+}
+
+.vacancy-card .contact-item__text {
+    color: var(--paper);
+    white-space: normal; /* a long handle wraps at a space rather than pushing the verb out */
+}
+
+.vacancy-card .contact-item__supportive {
+    color: var(--mushroom);
+}
+
+.vacancy-card__hh {
+    padding-top: 24px;
+    border-top: 1px solid var(--ash);
+}
+
+.vacancy-card__hh-btn {
+    width: 100%;
+}
+
+/* Secondary buttons on the dark ground (buttons.css keys them to data-theme) */
+.page-vacancy .btn-secondary {
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+.page-vacancy .btn-secondary:hover,
+.page-vacancy .btn-secondary:active {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+/* ── 3. Foot ── */
+.vacancy-foot {
+    padding: 80px 0;
+}
+
+/* Closed: no body between head and foot, both Peppercorn — one 80, not two */
+.page-vacancy--closed .vacancy-foot {
+    padding-top: 0;
+}
+
+.vacancy-foot__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.vacancy-foot__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--cream);
+    margin: 0 0 -24px; /* 24 to the cards, 48 between the other blocks */
+}
+
+/* ── The phone contact bar (phones only) ── */
+.vacancy-bar {
+    display: none;
+}
+
+/* ── Tablets (768–991): the card is a band under the head, its rows in two columns ── */
+@media (max-width: 991px) {
+    .vacancy-head {
+        padding-top: 48px; /* the header is a fixed bar; the body carries its 76px */
+    }
+
+    .vacancy-body__grid {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    .vacancy-aside {
+        order: -1;
+    }
+
+    .vacancy-card {
+        position: static;
+        top: auto;
+        transform: rotate(0deg);
+    }
+
+    .vacancy-card__section {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 24px;
+    }
+
+    .vacancy-card__person {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ── Phones ── */
+@media (max-width: 767px) {
+    .page-vacancy .about-connector--head {
+        margin-bottom: 48px;
+    }
+
+    .vacancy-head {
+        padding: 24px 0 48px;
+    }
+
+    .vacancy-head__inner {
+        gap: 12px;
+    }
+
+    .vacancy-head__meta {
+        gap: 8px 16px;
+    }
+
+    .vacancy-body,
+    .vacancy-foot {
+        padding: 48px 0;
+    }
+
+    .vacancy-copy {
+        gap: 36px;
+    }
+
+    .vacancy-aside {
+        order: 0; /* after the copy: the bar at the bottom is the contact at hand */
+    }
+
+    .vacancy-card {
+        padding: 36px 24px 24px;
+        transform: rotate(1deg);
+        gap: 20px;
+    }
+
+    .vacancy-card__section {
+        display: flex;
+    }
+
+    /* Rows: the handle and the trailing glyph; the verb goes, as on the Visit card's phone rows */
+    .vacancy-card__row {
+        position: relative;
+        min-height: 48px;
+    }
+
+    .vacancy-card__action-label {
+        display: none;
+    }
+
+    .vacancy-card__action::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+    }
+
+    .vacancy-foot__jobs .about-careers__card {
+        max-width: none;
+    }
+
+    .vacancy-foot__title {
+        margin-bottom: -24px;
+    }
+
+    /* The bar: Call · Write, pinned; the footer gives it room so the last row is not covered */
+    .vacancy-bar {
+        display: flex;
+        gap: 12px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 90;
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+        background-color: var(--soft-peppercorn);
+        border-top: 1px solid var(--ash);
+    }
+
+    .vacancy-bar__btn {
+        flex: 1 0 0;
+        min-width: 0;
+        white-space: nowrap;
+    }
+
+    .page-vacancy--open + .site-footer {
+        padding-bottom: 76px;
+    }
+}

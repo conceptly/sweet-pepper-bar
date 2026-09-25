@@ -1882,12 +1882,14 @@
 
 .about-careers__jobs {
     display: flex;
+    flex-wrap: wrap; /* a fourth role starts a second row (was the open item "four roles break the row", 25 Sep 2026) */
     gap: 24px;
 }
 
-/* Position card */
+/* Position card — a third of the row, and never wider: one or two roles leave the rest empty */
 .about-careers__card {
-    flex: 1 0 0;
+    flex: 1 1 calc((100% - 48px) / 3);
+    max-width: calc((100% - 48px) / 3);
     min-width: 0;
     background-color: var(--soft-peppercorn);
     border: 1px solid var(--ash);
@@ -2958,6 +2960,7 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 
     .about-careers__card {
         flex: none;
+        max-width: none;
         height: auto;
         min-height: 240px;
     }

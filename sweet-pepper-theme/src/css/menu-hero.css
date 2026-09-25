@@ -308,10 +308,67 @@ body.admin-bar .menu-hero {
 
 /* ==========================================================================
    Photo Stack
-   3:2 photo on top, layered color sheets behind at varying rotations.
-   The entire stack is contained — sheets do NOT bleed past the 
-   parent's bounds (the 80px right padding is on .menu-hero__inner).
+   3:2 photo on top, three colour sheets behind it — the home tile's colour stack
+   (hero.css → Active tile colour stack), ported whole. The stack is contained — the
+   80px right padding is on .menu-hero__inner.
+
+   .menu-hero__stack is the tile: the photo at its top-left, an 8px pocket right and
+   below (padding), the sheets the stack's width at 3:2 — 8px wider than the photo —
+   pinned at its top-left and fanned by rotation about their own centre with a few px
+   of shift. The three SLOTS (near / mid / far) keep fixed geometry; --dir mirrors the
+   fan about the PHOTO and flips its tilt (--dir: 1 → −1°, fan below-left; −1 → +1°,
+   fan below-right), so the sheets always belong to the photo's tilt; the colour in
+   each slot is the recipe. --dir alternates with the word's position in the list
+   (data-dir: menu-hero.php prints the first frame's, menu-hero.js keeps it in step),
+   so the sweep and a hover down the list lean each photo against the last; the
+   door's preview leans against whatever was up.
+
+   Colours — the home's four recipes, chosen by the direction and the section's Figma
+   component (imgContainer-menuFood / -menuBar; Recipe B = Salads, Soups, Desserts,
+   Beer, No Buzz): A −1° Lime · Lemon · Chili (breakfast) · A +1° Lemon · Lime · Chili
+   (lunch) · B −1° Lime · Chili · Lemon (dinner) · B +1° Chili · Lime · Lemon (party).
+   Below 992px the phone stack keeps its own inset fan and its two recipes (below).
    ========================================================================== */
+
+.menu-hero {
+    --dir: 1;
+    --tilt: calc(var(--dir) * -1deg);
+    --sheet-near: var(--lemon);
+    --sheet-mid: var(--lime);
+    --sheet-far: var(--chili);
+    --menu-photo-dur: 1100ms;  /* the crossfade — in step with the words' --menu-word-dur */
+    --menu-fan-dur: 900ms;     /* tilt and fan — the arrow's --menu-arrow-dur, the entrance fan */
+}
+
+.menu-hero[data-dir="-1"] {
+    --dir: -1;
+}
+
+/* Recipe B, every width (the phone's, since Sep 2026): Chili nearest, Lemon at the back */
+.menu-hero:is([data-current-section="salads"], [data-current-section="soups"],
+              [data-current-section="desserts"], [data-current-section="beer"],
+              [data-current-section="no-buzz"]) {
+    --sheet-near: var(--chili);
+    --sheet-mid: var(--lime);
+    --sheet-far: var(--lemon);
+}
+
+/* Desktop, −1° (dir 1): the home's breakfast and dinner recipes; +1° keeps lunch / party above */
+@media (min-width: 992px) {
+    .menu-hero:not([data-dir="-1"]) {
+        --sheet-near: var(--lime);
+        --sheet-mid: var(--lemon);
+        --sheet-far: var(--chili);
+    }
+
+    .menu-hero:not([data-dir="-1"]):is([data-current-section="salads"], [data-current-section="soups"],
+                  [data-current-section="desserts"], [data-current-section="beer"],
+                  [data-current-section="no-buzz"]) {
+        --sheet-near: var(--lime);
+        --sheet-mid: var(--chili);
+        --sheet-far: var(--lemon);
+    }
+}
 
 .menu-hero__photo {
     position: relative;
@@ -321,9 +378,14 @@ body.admin-bar .menu-hero {
     isolation: isolate;
     min-height: 0;
     flex-shrink: 1;
+    padding: 16px 0; /* the column's air above and below the stack */
+}
 
-    /* Space for the sheet offsets — keeps everything inside the padding */
-    padding: 16px 20px 16px 0;
+/* The tile: photo + the 8px pocket the sheets peek into (Figma imgContainer: pr-8 pb-8) */
+.menu-hero__stack {
+    position: relative;
+    width: 100%;
+    padding: 0 8px 8px 0;
 }
 
 /* Photo frame — the actual image container */
@@ -336,7 +398,7 @@ body.admin-bar .menu-hero {
     border: 2px solid var(--peppercorn);
     border-radius: 4px;
     overflow: hidden;
-    transform: rotate(-1deg);
+    transform: rotate(var(--tilt));
     z-index: 4;
 }
 
@@ -346,7 +408,21 @@ body.admin-bar .menu-hero {
     object-fit: cover;
     display: block;
     border-radius: 4px;
-    transition: opacity 0.5s ease;
+}
+
+/* The outgoing photo, cloned by menu-hero.js on a swap and laid over the incoming one; it
+   fades out on the flat curve over --menu-photo-dur (Web Animations), so the change is a
+   true crossfade — the old one-layer fade dipped to 30% and cut the src mid-way (brief →
+   Menu page → Word transitions). Sits under the pill by DOM order; no entrance keyframes. */
+.menu-hero__photo-ghost {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+    pointer-events: none;
 }
 
 .menu-hero__photo-frame:focus-visible {
@@ -356,15 +432,6 @@ body.admin-bar .menu-hero {
 
 [data-theme="night"] .menu-hero__photo-frame:focus-visible {
     outline-color: var(--lime);
-}
-
-/* Cross-fade state — applied by JS during image swap */
-.menu-hero__photo-frame.is-fading .menu-hero__photo-img {
-    opacity: 0.3;
-}
-
-.menu-hero__photo-frame.is-fading .menu-hero__photo-pill {
-    opacity: 0;
 }
 
 /* Yellow pill caption — bottom right per Figma reference */
@@ -383,45 +450,64 @@ body.admin-bar .menu-hero {
     letter-spacing: 0.52px;
     color: var(--peppercorn);
     white-space: nowrap;
-    transition: opacity 0.5s ease;
+    /* Dips out while the caption changes, early in the crossfade (menu-hero.js) */
+    transition: opacity 300ms var(--ease-gentle-flat);
 }
 
-/* ── Offset color sheets ──
-   Each is positioned relative to the photo container, slightly 
-   offset and rotated. They stay inside the padded area. */
+.menu-hero__photo-frame.is-swapping .menu-hero__photo-pill {
+    opacity: 0;
+}
+
+/* ── Colour sheets — the home tile's slots (hero.css → .tile-bg) ──
+   The mirror is taken about the PHOTO, not the stack (the pocket sits right/bottom
+   only): a sheet at x peeks −x on the left and x+8 on the right, so its mirror sits
+   at −(x+8). --sx does that: dir 1 → x, dir −1 → −(x+8). Angles flip sign, y stays. */
 
 .menu-hero__photo-sheet {
+    --sx: calc(var(--dir) * var(--x) - (1 - var(--dir)) * 4px);
     position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--menu-hero-ratio, 3 / 2);
     border-radius: 2px;
     pointer-events: none;
-
-    /* Match the photo frame size approximately */
-    width: calc(100% - 20px);
-    aspect-ratio: var(--menu-hero-ratio, 3 / 2);
+    transform: translate(var(--sx), var(--y)) rotate(calc(var(--dir) * var(--a)));
 }
 
-.menu-hero__photo-sheet--lemon {
+.menu-hero__photo-sheet--near {
+    --x: -6px; --y: -4px; --a: -1deg;
     z-index: 3;
-    background: var(--lemon);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-1.5deg) translate(4px, 3px);
+    background: var(--sheet-near);
+    border-radius: 4px; /* matches the photo it sits against; mid and far stay 2 */
 }
 
-.menu-hero__photo-sheet--lime {
+.menu-hero__photo-sheet--mid {
+    --x: -4px; --y: -2px; --a: -1.5deg;
     z-index: 2;
-    background: var(--lime);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-1deg) translate(6px, 5px);
+    background: var(--sheet-mid);
 }
 
-.menu-hero__photo-sheet--chili {
+.menu-hero__photo-sheet--far {
+    --x: -2px; --y: 0px; --a: -2deg;
     z-index: 1;
-    background: var(--chili);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-2deg) translate(8px, 7px);
+    background: var(--sheet-far);
+}
+
+/* A section change moves the stack: the tilt flips and the fan mirrors on the spring, the
+   sheets' colours crossfade on the flat curve at the photo's pace. Desktop only — the
+   phone fan below is set by insets and switches recipe in place, as before. Gated on
+   .is-settled so the silent daypart swap during the entrance does not animate. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 992px) {
+    .menu-hero.is-settled .menu-hero__photo-frame {
+        transition: transform var(--menu-fan-dur) var(--ease-gentle);
+    }
+
+    .menu-hero.is-settled .menu-hero__photo-sheet {
+        transition: transform var(--menu-fan-dur) var(--ease-gentle),
+                    background-color var(--menu-photo-dur) var(--ease-gentle-flat);
+    }
 }
 
 /* ==========================================================================
@@ -452,6 +538,11 @@ body.admin-bar .menu-hero {
     max-width: 1280px;
     width: 100%;
     margin: 0 auto;
+    /* Its box is the content column (Figma 708:19546: the wordmark takes the content's
+       width, not the page's): the nav's 440 + the 48 gap on the left, the inner's 80 on
+       the right → 712px from 1280 up, 100vw − 568 below. The English word is far shorter
+       than the column; the Russian line is sized to fill it (below). */
+    padding-left: 488px;
     padding-right: 80px;
     text-align: right;
     overflow: hidden;           /* Clip the bottom bleed */
@@ -462,9 +553,23 @@ body.admin-bar .menu-hero {
 .menu-hero__wordmark .molot-text {
     font-size: 122px;
     line-height: 0.75;
-    letter-spacing: 4.88px;
+    letter-spacing: 0.04em;     /* = the 4.88px of the 122px word; scales with the Russian sizes */
     color: var(--avocado);
     text-align: right;
+    white-space: nowrap;
+}
+
+/* Russian: КУХНЯ ОТ ПЕРЦЕВ / БАР ОТ ПЕРЦЕВ (the hero connector words, author 24 Sep 2026) — a
+   line sized to the content column: font-size = column width ÷ the line's width-to-size
+   ratio (measured in Molot at 0.04em: 9.11 for the kitchen's 15 characters, 7.89 for the
+   bar's 13; the divisors carry 1% of slack). 78px / 90px from 1280 up. If a word changes,
+   re-measure: width at 122px ÷ 122. */
+:lang(ru) .menu-hero__wordmark .molot-text {
+    font-size: calc((min(100vw, 1280px) - 568px) / 9.2);
+}
+
+:lang(ru) [data-menu-state="drinks"] .menu-hero__wordmark .molot-text {
+    font-size: calc((min(100vw, 1280px) - 568px) / 7.97);
 }
 
 /* ==========================================================================
@@ -698,10 +803,10 @@ body.admin-bar .menu-hero {
         gap: 24px;
     }
 
-    /* Photo stack: photo level, sheets fanned to the bottom-right inside an
+    /* Photo stack: photo level, sheets fanned to the bottom-right inside the stack's
        8px pocket (Figma imgContainer-menu: pb-8 pr-8; net angles 0 / −0.5 / −1). */
     .menu-hero__photo {
-        padding: 0 8px 8px 0;
+        padding: 0;
     }
 
     .menu-hero__photo-frame {
@@ -717,21 +822,22 @@ body.admin-bar .menu-hero {
         width: calc(100% - 8px);
         top: auto;
         left: auto;
+        transform: none;
     }
 
-    .menu-hero__photo-sheet--lime {
+    .menu-hero__photo-sheet--mid {
         right: 4px;
         bottom: 4px;
         transform: none;
     }
 
-    .menu-hero__photo-sheet--lemon {
+    .menu-hero__photo-sheet--near {
         right: 0;
         top: 0;
         transform: rotate(-0.5deg);
     }
 
-    .menu-hero__photo-sheet--chili {
+    .menu-hero__photo-sheet--far {
         right: -4px;
         bottom: 0;
         transform: rotate(-1deg);
@@ -739,12 +845,12 @@ body.admin-bar .menu-hero {
 
     /* Recipe B — the components alternate the fan per section (Figma
        imgContainer-menuFood / -menuBar): Salads, Soups, Desserts, Beer and
-       No Buzz put Chili in the mid slot peeking bottom-left and Lemon at the
-       back on the right. The hero carries data-current-section (menu-hero.js). */
+       No Buzz put Chili nearest, peeking bottom-left, and Lemon at the back on
+       the right. The colours come from the recipe on .menu-hero (above); the fan
+       is set here by hand. The hero carries data-current-section (menu-hero.js). */
     .menu-hero:is([data-current-section="salads"], [data-current-section="soups"],
                   [data-current-section="desserts"], [data-current-section="beer"],
-                  [data-current-section="no-buzz"]) .menu-hero__photo-sheet--lemon {
-        z-index: 1;
+                  [data-current-section="no-buzz"]) .menu-hero__photo-sheet--far {
         top: auto;
         right: 0;
         bottom: 0;
@@ -753,8 +859,8 @@ body.admin-bar .menu-hero {
 
     .menu-hero:is([data-current-section="salads"], [data-current-section="soups"],
                   [data-current-section="desserts"], [data-current-section="beer"],
-                  [data-current-section="no-buzz"]) .menu-hero__photo-sheet--chili {
-        z-index: 3;
+                  [data-current-section="no-buzz"]) .menu-hero__photo-sheet--near {
+        top: auto;
         right: auto;
         left: 4px;
         bottom: 0;
@@ -827,9 +933,8 @@ body.admin-bar .menu-hero {
 @keyframes menu-sheet-in  { from { translate: -100% 0; } }
 @keyframes menu-word-in   { from { opacity: 0; translate: 0 12px; } }
 @keyframes menu-word-fill { from { color: transparent; --menu-word-stroke: 1.5px; -webkit-text-stroke-color: var(--menu-word-outline); } }
-/* Sheets start squared up behind the photo (the frame sits 10px left of the stack's centre,
-   at −1°) and fan to their own offsets */
-@keyframes menu-sheet-fan { from { transform: translate(-50%, -50%) translate(-10px, 0) rotate(-1deg); } }
+/* Sheets start squared up behind the photo, at its tilt, and fan to their own offsets —
+   hero-sheet-fan (hero.css), the home tile's */
 
 @media (prefers-reduced-motion: no-preference) {
     .menu-hero {
@@ -888,8 +993,8 @@ body.admin-bar .menu-hero {
         animation: hero-fade 200ms var(--ease-gentle-flat) backwards;
         animation-delay: calc(var(--in-photo) + 520ms);
     }
-    .menu-hero__photo-sheet--lime  { animation-delay: calc(var(--in-photo) + 590ms); }
-    .menu-hero__photo-sheet--chili { animation-delay: calc(var(--in-photo) + 660ms); }
+    .menu-hero__photo-sheet--mid { animation-delay: calc(var(--in-photo) + 590ms); }
+    .menu-hero__photo-sheet--far { animation-delay: calc(var(--in-photo) + 660ms); }
 
     .menu-hero__photo-pill {
         animation: hero-pop 500ms var(--ease-bouncy) calc(var(--in-photo) + 760ms) backwards;
@@ -920,10 +1025,10 @@ body.admin-bar .menu-hero {
 @media (prefers-reduced-motion: no-preference) and (min-width: 992px) {
     .menu-hero__photo-sheet {
         animation: hero-fade 200ms var(--ease-gentle-flat) backwards,
-                   menu-sheet-fan 900ms var(--ease-gentle) backwards;
+                   hero-sheet-fan 900ms var(--ease-gentle) backwards;
         animation-delay: calc(var(--in-photo) + 520ms);
     }
-    .menu-hero__photo-sheet--lime  { animation-delay: calc(var(--in-photo) + 590ms); }
-    .menu-hero__photo-sheet--chili { animation-delay: calc(var(--in-photo) + 660ms); }
+    .menu-hero__photo-sheet--mid { animation-delay: calc(var(--in-photo) + 590ms); }
+    .menu-hero__photo-sheet--far { animation-delay: calc(var(--in-photo) + 660ms); }
 }
 

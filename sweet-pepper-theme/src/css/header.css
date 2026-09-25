@@ -207,7 +207,8 @@ html[data-theme="night"] .lang-switch .lang-option.active {
     /* About + Visit: the desktop header is a transparent absolute overlay on the dark hero;
        fixed on mobile it needs its own ground once the page scrolls — Peppercorn, same as the hero */
     .page-template-page-about .site-header,
-    .page-template-page-visit .site-header {
+    .page-template-page-visit .site-header,
+    .single-vacancy .site-header {
         position: fixed;
         background-color: var(--peppercorn);
     }
@@ -215,7 +216,8 @@ html[data-theme="night"] .lang-switch .lang-option.active {
     /* Same pages: the page ground under the bar's 8px corners and the 76px body offset
        is Peppercorn too, or the corners cut a Paper notch into the dark hero (Sep 2026) */
     body.page-template-page-about,
-    body.page-template-page-visit {
+    body.page-template-page-visit,
+    body.single-vacancy {
         background-color: var(--peppercorn);
     }
 
@@ -267,7 +269,8 @@ html[data-theme="night"] .lang-switch .lang-option.active {
 
     html[data-theme="night"] .menu-toggle,
     .page-template-page-about .menu-toggle,
-    .page-template-page-visit .menu-toggle {
+    .page-template-page-visit .menu-toggle,
+    .single-vacancy .menu-toggle {
         color: var(--lemon);
     }
 }
@@ -278,7 +281,8 @@ html[data-theme="night"] .lang-switch .lang-option.active {
    transparent over the body's Paper offset. */
 @media (min-width: 992px) {
     .page-template-page-about .site-header,
-    .page-template-page-visit .site-header {
+    .page-template-page-visit .site-header,
+    .single-vacancy .site-header {
         background-color: transparent;
         position: absolute;
         top: 0;
@@ -288,45 +292,54 @@ html[data-theme="night"] .lang-switch .lang-option.active {
 }
 
 .page-template-page-about .main-navigation a,
-.page-template-page-visit .main-navigation a {
+.page-template-page-visit .main-navigation a,
+.single-vacancy .main-navigation a {
     color: var(--paper);
 }
 
 .page-template-page-about .main-navigation a:hover,
-.page-template-page-visit .main-navigation a:hover {
+.page-template-page-visit .main-navigation a:hover,
+.single-vacancy .main-navigation a:hover {
     color: var(--cream);
 }
 
 .page-template-page-about .main-navigation .current-menu-item a,
 .page-template-page-about .main-navigation .current_page_item a,
 .page-template-page-visit .main-navigation .current-menu-item a,
-.page-template-page-visit .main-navigation .current_page_item a {
+.single-vacancy .main-navigation .current-menu-item a,
+.page-template-page-visit .main-navigation .current_page_item a,
+.single-vacancy .main-navigation .current_page_item a {
     color: var(--lemon);
     font-weight: 750;
 }
 
 .page-template-page-about .whats-on-chip,
-.page-template-page-visit .whats-on-chip {
+.page-template-page-visit .whats-on-chip,
+.single-vacancy .whats-on-chip {
     border-color: var(--ash);
 }
 
 .page-template-page-about .whats-on-chip .label,
-.page-template-page-visit .whats-on-chip .label {
+.page-template-page-visit .whats-on-chip .label,
+.single-vacancy .whats-on-chip .label {
     color: var(--lime-light, #d4e671);
 }
 
 .page-template-page-about .lang-switch,
-.page-template-page-visit .lang-switch {
+.page-template-page-visit .lang-switch,
+.single-vacancy .lang-switch {
     border-color: rgba(252, 247, 232, 0.3);
     padding: 4px;
 }
 
 .page-template-page-about .lang-switch .lang-option,
-.page-template-page-visit .lang-switch .lang-option {
+.page-template-page-visit .lang-switch .lang-option,
+.single-vacancy .lang-switch .lang-option {
     color: var(--mushroom);
 }
 
 .page-template-page-about .lang-switch .lang-option.active,
-.page-template-page-visit .lang-switch .lang-option.active {
+.page-template-page-visit .lang-switch .lang-option.active,
+.single-vacancy .lang-switch .lang-option.active {
     color: var(--cream);
 }

@@ -43,6 +43,12 @@
  *                   «Поиск»; photos as attachments. Also, once: the seed's placeholders on the
  *                   three infusions the bar preview points at give way to the home copy's lines.
  *
+ *   contacts      — data/contacts.php → Bar Settings → «Контакты» (the bar's channels; the hiring
+ *                   contacts are never seeded — nobody's phone number belongs in the theme)
+ *   vacancies     — data/vacancies.php → three placeholder `vacancy` records (25 Sep 2026), each
+ *                   published with its term, the slug from the English title; skipped while any
+ *                   vacancy record exists unless --force (which re-fills the seeded three by title).
+ *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
  * Field keys: tools/page-field-groups.py.
@@ -52,7 +58,7 @@ $args    = array_slice( $argv, 1 );
 $force   = in_array( '--force', $args, true );
 $targets = array_values( array_diff( $args, [ '--force' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu|home> [...] [--force]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu|home|contacts|vacancies> [...] [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -293,6 +299,55 @@ foreach ( $targets as $target ) {
             sp_seed_twins( 'field_sp_location_headline', $typed, 'headline', 'option' );
             sp_seed_twins( 'field_sp_location_headline_2', $typed, 'headline_2', 'option' );
             echo "location: seeded\n";
+            break;
+
+        case 'contacts':
+            $k = 'field_sp_contacts_';
+            if ( '' !== trim( (string) get_field( 'contacts_phone', 'option' ) . get_field( 'contacts_email', 'option' ) ) && ! $force ) {
+                echo "contacts: already saved — left alone (--force to overwrite)\n";
+                break;
+            }
+            $typed = require $data . 'contacts.php';
+            foreach ( [ 'phone', 'email', 'telegram', 'vk', 'instagram' ] as $key ) {
+                update_field( "{$k}{$key}", $typed[ $key ], 'option' );
+            }
+            echo "contacts: seeded\n";
+            break;
+
+        case 'vacancies':
+            $k = 'field_sp_vacancy_';
+            $existing = get_posts( [ 'post_type' => 'vacancy', 'post_status' => 'any', 'posts_per_page' => -1 ] );
+            if ( $existing && ! $force ) {
+                echo 'vacancies: ' . count( $existing ) . " record(s) exist — left alone (--force to re-fill the seeded ones)\n";
+                break;
+            }
+            $by_title = [];
+            foreach ( $existing as $post ) {
+                $by_title[ $post->post_title ] = $post->ID;
+            }
+            $seeded = 0;
+            foreach ( require $data . 'vacancies.php' as $row ) {
+                $title = $row['ru']['title'];
+                $id    = $by_title[ $title ] ?? wp_insert_post( [ 'post_type' => 'vacancy', 'post_status' => 'publish', 'post_title' => $title ] );
+                if ( ! $id || is_wp_error( $id ) ) {
+                    echo "vacancies: could not create «{$title}»\n";
+                    continue;
+                }
+                update_field( "{$k}title_en", $row['title'], $id );
+                update_field( "{$k}department", $row['department'], $id );
+                update_field( "{$k}show", $row['show'], $id );
+                update_field( "{$k}hh", '', $id );
+                update_field( "{$k}contact", 'bar', $id );
+                foreach ( [ 'schedule', 'pay', 'card', 'lead', 'duties', 'requirements', 'offer' ] as $key ) {
+                    update_field( "{$k}{$key}_en", $row[ $key ] ?? '', $id );
+                    update_field( "{$k}{$key}_ru", $row['ru'][ $key ] ?? '', $id );
+                }
+                delete_post_meta( $id, '_sp_vacancy_until' ); // a re-seed opens the term afresh
+                sweet_pepper_vacancy_apply_show( $id );
+                sweet_pepper_vacancy_slug( $id );
+                $seeded++;
+            }
+            echo "vacancies: seeded {$seeded}\n";
             break;
 
         case 'pairings':

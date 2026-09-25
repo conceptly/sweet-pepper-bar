@@ -80,7 +80,39 @@ function sweet_pepper_register_cpt() {
         'capabilities'  => array( 'create_posts' => 'do_not_allow' ),
     ) );
 
-    // 3. Pairings — ONE record («Гастробот»; «Подбор пары» until 23 Sep 2026 — a team member's name for it): the dish picker's rows, for the menu page's
+    // 3. «Вакансии» — one record per job opening (inc/vacancies.php, acf-json/group_sp_vacancy.json):
+    // the only post type with a PUBLIC URL — /vacancies/<slug>/ and its /en/ twin — because a
+    // posting is made to be shared (the team's own network first, hh.ru when needed; author,
+    // 25 Sep 2026). The About page's Careers section lists the open ones. The title is the
+    // Russian name of the role; the English one is a field, and the slug is made from it on save
+    // so the address stays Latin. «На сайте» (a term of 1 / 2 / 4 weeks, or «В архиве») is the
+    // status; a closed posting keeps its URL and says so. Draft is the ordinary "not written yet".
+    register_post_type( 'vacancy', array(
+        'label'         => 'Вакансия',
+        'labels'        => array(
+            'name'               => 'Вакансии',
+            'singular_name'      => 'Вакансия',
+            'menu_name'          => 'Вакансии',
+            'all_items'          => 'Все вакансии',
+            'add_new'            => 'Добавить вакансию',
+            'add_new_item'       => 'Новая вакансия',
+            'edit_item'          => 'Вакансия',
+            'view_item'          => 'Открыть на сайте',
+            'search_items'       => 'Найти вакансию',
+            'not_found'          => 'Вакансий нет',
+            'not_found_in_trash' => 'В корзине вакансий нет',
+        ),
+        'supports'      => array( 'title', 'revisions' ),
+        'public'        => true,
+        'has_archive'   => false, // the list is the About page's Careers section
+        'rewrite'       => array( 'slug' => 'vacancies', 'with_front' => false ),
+        'menu_position' => 8,
+        'menu_icon'     => 'dashicons-businessperson',
+        'show_in_rest'  => false,
+        'exclude_from_search' => true,
+    ) );
+
+    // 4. Pairings — ONE record («Гастробот»; «Подбор пары» until 23 Sep 2026 — a team member's name for it): the dish picker's rows, for the menu page's
     // pairing station and the About page's Concept picker at once (inc/pairings.php,
     // acf-json/group_sp_pairings.json). A post for the same reasons as a menu list:
     // revisions, the edit lock, the cache purge on save. Never a public URL.
@@ -98,7 +130,7 @@ function sweet_pepper_register_cpt() {
         'capabilities' => array( 'create_posts' => 'do_not_allow' ),
     ) );
 
-    // (4. «Разделы меню» — `menu_list`, one record per section holding its subsections and
+    // (5. «Разделы меню» — `menu_list`, one record per section holding its subsections and
     // words — was retired on 24 Sep 2026: the sections live as tabs on the two menu pages,
     // inc/menu-page.php. The old records stay in the database, unregistered, until the author
     // deletes them; tools/page-seed.php menu read them once into the pages.)

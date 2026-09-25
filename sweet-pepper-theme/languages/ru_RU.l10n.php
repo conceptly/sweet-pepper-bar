@@ -49,8 +49,12 @@ return [
         // Menu page (✔ menu-copy-ru-draft.md → Навигация и подписи, 23 Sep 2026; «mine» = not in the draft)
         'Food'                                       => 'Еда',
         'Drinks'                                     => 'Напитки',
-        'FOOD'                                       => 'ЕДА',
-        'DRINKS'                                     => 'НАПИТКИ',
+        // The room wordmark (desktop hero) says the place, as the phone's hero connector does —
+        // the author's connector words (menu-copy-ru-draft.md → Коннекторы; author, 24 Sep 2026).
+        // The doors below stay «Еда» / «Напитки»: doors name contents, wordmarks name places
+        // (website-brief.md → Doors).
+        'FOOD'                                       => 'КУХНЯ ОТ ПЕРЦЕВ',
+        'DRINKS'                                     => 'БАР ОТ ПЕРЦЕВ',
         'More plates'                                => 'Разделы меню', // the button opens the list of sections (navigation-drawers-copy-ru-draft.md → 3)
         'More pours'                                 => 'Разделы меню',
         'Menu sections'                              => 'Разделы меню',
@@ -144,6 +148,23 @@ return [
         'VISIT'                                      => 'Контакты', // the footer column — not the nav word again (author, 25 Sep 2026)
         'Top'                                        => 'Наверх',
         'Back to top'                                => 'Наверх',
+        // Vacancy page (single-vacancy.php, 25 Sep 2026) — mine, for the author's pass; the
+        // card's verbs Message / DM / Write follow the Visit card's pending decision
+        'See the role'                               => 'Подробнее',
+        'All roles'                                  => 'Все вакансии',
+        'Open since %s'                              => 'Открыта с %s',
+        'This role is filled. Have a look at the open ones below.' => 'Вакансия закрыта — посмотрите открытые ниже.',
+        "What you'll do"                             => 'Что делать',
+        "Who we're looking for"                      => 'Кого ищем',
+        'What you get'                               => 'Что предлагаем',
+        'Your contact'                               => 'Ваш контакт',
+        'Or the bar'                                 => 'Или в бар',
+        'Call'                                       => 'Позвонить',
+        'Write to %s'                                => 'Написать: %s',
+        "the vacancy page's bottom bar\4Write"     => 'Написать', // context: the Visit card's own Write is left English by the draft
+        'Apply on hh.ru'                             => 'Откликнуться на hh.ru',
+        'Other open roles'                           => 'Другие вакансии',
+
         // Accessibility boilerplate — conventional, not voice
         'Skip to content'                            => 'Перейти к содержимому',
         'Open menu'                                  => 'Открыть меню сайта',

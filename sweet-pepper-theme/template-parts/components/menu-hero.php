@@ -64,6 +64,12 @@ $default_sec   = $sections[ $section ];
 $default_image = $default_sec['image_url'];
 $default_focus = $default_sec['focus'] ?? '50% 50%';
 
+// The photo stack's direction for the first frame (menu-hero.css → Photo Stack, the home
+// tile's --dir): the tilt and fan alternate with the word's position in the list, so
+// neighbours lean apart; menu-hero.js keeps it in step with every swap.
+$default_index = (int) array_search( $section, array_keys( $sections ), true );
+$default_dir   = ( $default_index % 2 ) ? -1 : 1;
+
 // Phone and tablet strings (≤ 991px, Figma menu-one-photo-hero-kitchen-day-stacked-mobile 2109:130201).
 // The nav panel is gone there; a flush-left Lime button opens the jump-nav panel instead
 // ("More plates" as drawn; the drinks twin is a placeholder — see website-brief.md → Mobile — Menu page),
@@ -74,6 +80,12 @@ $connector    = $is_drinks
     ? [ 'day' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'night' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'alt' => 'DRINKS MENU' ]
     : [ 'day' => 'assets/sectionLinks/menu/kitchen-day/foodMenu.svg', 'night' => 'assets/sectionLinks/menu/kitchen-night/foodMenu.svg', 'alt' => 'FOOD MENU' ];
 
+// The room wordmark (desktop): FOOD / DRINKS, in Russian КУХНЯ ОТ ПЕРЦЕВ / БАР ОТ ПЕРЦЕВ
+// (languages/ru_RU.l10n.php). Below 992px the foot connector stands in for it — an SVG pair
+// like every connector; the Russian twins come from the author's exports through
+// sweet_pepper_menu_connector_lang() (inc/menu-sections.php) once the files exist.
+$wordmark = $is_drinks ? __( 'DRINKS', 'sweet-pepper' ) : __( 'FOOD', 'sweet-pepper' );
+
 // Door config — the other menu's page (inc/menu-page.php: /menu/ ⇄ /menu/bar/)
 $door_label = $door['label'];
 $door_href  = $door['href'];
@@ -81,6 +93,7 @@ $door_slug  = $door['slug'];
 ?>
 
 <section class="menu-hero"
+         data-dir="<?php echo (int) $default_dir; ?>"
          data-menu-state="<?php echo esc_attr( $menu_state ); ?>"
          data-default-section="<?php echo esc_attr( $section ); ?>">
 
@@ -150,10 +163,13 @@ $door_slug  = $door['slug'];
 
             <!-- Photo stack -->
             <div class="menu-hero__photo">
-                <!-- Colored offset sheets (behind the photo) -->
-                <div class="menu-hero__photo-sheet menu-hero__photo-sheet--chili" aria-hidden="true"></div>
-                <div class="menu-hero__photo-sheet menu-hero__photo-sheet--lime" aria-hidden="true"></div>
-                <div class="menu-hero__photo-sheet menu-hero__photo-sheet--lemon" aria-hidden="true"></div>
+              <div class="menu-hero__stack">
+                <!-- Colour sheets (behind the photo) — the home tile's stack: three slots, far →
+                     near; the colour in each slot and the fan's direction are the section's
+                     recipe (menu-hero.css → Photo Stack) -->
+                <div class="menu-hero__photo-sheet menu-hero__photo-sheet--far" aria-hidden="true"></div>
+                <div class="menu-hero__photo-sheet menu-hero__photo-sheet--mid" aria-hidden="true"></div>
+                <div class="menu-hero__photo-sheet menu-hero__photo-sheet--near" aria-hidden="true"></div>
 
                 <!-- Photo with keyline — the card is the link to the section on show (brief → Menu
                      page → Hero → Anatomy); menu-hero.js keeps href and label in step with the swap.
@@ -170,6 +186,7 @@ $door_slug  = $door['slug'];
                         <?php echo esc_html( $default_sec['caption'] ); ?>
                     </span>
                 </a>
+              </div>
             </div>
 
             <!-- Description -->
@@ -210,7 +227,7 @@ $door_slug  = $door['slug'];
 
     <!-- FOOD/DRINKS wordmark — positioned absolute at bottom of hero -->
     <div class="menu-hero__wordmark">
-        <span class="molot-text"><?php echo esc_html( $is_drinks ? __( 'DRINKS', 'sweet-pepper' ) : __( 'FOOD', 'sweet-pepper' ) ); ?></span>
+        <span class="molot-text"><?php echo esc_html( $wordmark ); ?></span>
     </div>
 </section>
 

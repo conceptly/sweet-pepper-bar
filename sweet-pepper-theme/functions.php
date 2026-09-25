@@ -90,6 +90,11 @@ require_once get_template_directory() . '/inc/fields.php';
 require_once get_template_directory() . '/inc/location.php';
 
 /**
+ * The bar's contact channels and the hiring contacts (Bar Settings; fallback: data/contacts.php).
+ */
+require_once get_template_directory() . '/inc/contacts.php';
+
+/**
  * Team-replaceable photos: hard-cropped sizes (1:1, 3:2) and a URL from an image field.
  */
 require_once get_template_directory() . '/inc/images.php';
@@ -117,7 +122,8 @@ require_once get_template_directory() . '/inc/menu-data-dishes.php';
 require_once get_template_directory() . '/inc/dish-quick-edit.php'; // size and price in the Dishes / Drinks tables' Quick Edit
 require_once get_template_directory() . '/inc/menu-page.php';       // the two menu pages: state, URLs, door, Highlights, title
 require_once get_template_directory() . '/inc/home-data.php';       // the home page: the front page's fields → each part's args (fallback: data/home/)
-require_once get_template_directory() . '/inc/vk-feed.php';         // the Russian home page's «Что нового» cards: imported from the VK wall, hourly
+require_once get_template_directory() . '/inc/vk-feed.php';
+require_once get_template_directory() . '/inc/vacancies.php';       // «Вакансии»: one record per opening, its page, the term and the archive, the About list         // the Russian home page's «Что нового» cards: imported from the VK wall, hourly
 require_once get_template_directory() . '/inc/admin-photo-preview.php'; // admin: photo fields previewed at the site's crop, sliders live
 
 /**
@@ -144,7 +150,7 @@ require_once get_template_directory() . '/inc/acf-setup.php';
  * Disable the block editor (Gutenberg) for pages so only ACF fields show.
  * ACF experiment — remove to restore the block editor on pages.
  */
-add_filter( 'use_block_editor_for_post_type', fn( $use, $type ) => $type === 'page' ? false : $use, 10, 2 );
+add_filter( 'use_block_editor_for_post_type', fn( $use, $type ) => in_array( $type, [ 'page', 'vacancy' ], true ) ? false : $use, 10, 2 );
 
 // Also drop the classic content box so pages show only the title and ACF fields.
 add_action( 'init', fn() => remove_post_type_support( 'page', 'editor' ) );

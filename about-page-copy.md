@@ -211,7 +211,7 @@ These are wording examples for the existing placeholders, not confirmed vacancie
 | Cleaner | Help keep the rooms ready for the next guests, from the first table to the last detail. |
 | Sous-chef | Support the chef, keep the kitchen organised and help every plate leave as it should. |
 
-**CTA to a listing:** View role on hh.ru
+**CTA to a listing:** View role on hh.ru *(25 Sep 2026: the card now links to the posting's own page — "See the role" / «Подробнее»; hh.ru, when set, is the page's "Apply on hh.ru" button, the wording the copy review suggested for a direct application)*
 
 **CTA only when the destination starts an application:** Apply on hh.ru
 

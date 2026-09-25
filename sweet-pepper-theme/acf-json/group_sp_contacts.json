@@ -1,0 +1,349 @@
+{
+    "key": "group_sp_contacts",
+    "title": "Контакты",
+    "fields": [
+        {
+            "key": "field_sp_contacts_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "new_lines": "",
+            "esc_html": 0,
+            "message": "Контакты бара — одни на весь сайт. Пока их читает страница вакансии; страница «Как добраться», главная и подвал перейдут на них следующим шагом. Пустое поле — контакт не показывается."
+        },
+        {
+            "key": "field_sp_contacts_phone",
+            "label": "Телефон",
+            "name": "contacts_phone",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "+7 (4852) 911-202",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_contacts_email",
+            "label": "Почта",
+            "name": "contacts_email",
+            "aria-label": "",
+            "type": "email",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "hello@sweetpepper.bar",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_contacts_telegram",
+            "label": "Telegram",
+            "name": "contacts_telegram",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "@sweetpepperbar или ссылка",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_contacts_vk",
+            "label": "ВКонтакте",
+            "name": "contacts_vk",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://vk.com/sweetpepperbar"
+        },
+        {
+            "key": "field_sp_contacts_instagram",
+            "label": "Instagram",
+            "name": "contacts_instagram",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://instagram.com/barsweetpepper"
+        },
+        {
+            "key": "field_sp_contacts_hiring_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "new_lines": "",
+            "esc_html": 0,
+            "message": "Кто отвечает за вакансии. В каждой вакансии выбирается один человек из этого списка — или «Бар», тогда на странице вакансии стоят контакты бара сверху. Телефон вводится один раз здесь и меняется во всех вакансиях сразу. Удалённый человек — его вакансии возвращаются к контактам бара."
+        },
+        {
+            "key": "field_sp_contacts_hiring",
+            "label": "Кто отвечает за вакансии",
+            "name": "hiring_contacts",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "field_sp_contacts_hiring_name_ru",
+            "button_label": "Добавить человека",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_contacts_hiring_id",
+                    "label": "ID",
+                    "name": "id",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "sp-field-hidden",
+                        "id": ""
+                    },
+                    "readonly": 1,
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                },
+                {
+                    "key": "field_sp_contacts_hiring_name_ru",
+                    "label": "Имя",
+                    "name": "name_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                },
+                {
+                    "key": "field_sp_contacts_hiring_name_en",
+                    "label": "Имя (EN)",
+                    "name": "name_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                },
+                {
+                    "key": "field_sp_contacts_hiring_role_ru",
+                    "label": "Кто это",
+                    "name": "role_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "шеф · бар-менеджер",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                },
+                {
+                    "key": "field_sp_contacts_hiring_role_en",
+                    "label": "Кто это (EN)",
+                    "name": "role_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "chef · bar manager",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                },
+                {
+                    "key": "field_sp_contacts_hiring_phone",
+                    "label": "Телефон",
+                    "name": "phone",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "34",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "+7 900 000-00-00",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                },
+                {
+                    "key": "field_sp_contacts_hiring_telegram",
+                    "label": "Telegram",
+                    "name": "telegram",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "@имя или ссылка",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                },
+                {
+                    "key": "field_sp_contacts_hiring_email",
+                    "label": "Почта",
+                    "name": "email",
+                    "aria-label": "",
+                    "type": "email",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_contacts_hiring"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "sweet-pepper-settings"
+            }
+        ]
+    ],
+    "menu_order": 2,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "The bar's contact channels and the people who answer for vacancies. Generated by tools/page-field-groups.py; read by inc/contacts.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1790307944
+}

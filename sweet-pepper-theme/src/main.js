@@ -20,6 +20,7 @@ import './css/dish-picker.css';
 import './css/location.css';
 import './css/about.css';
 import './css/visit.css';
+import './css/vacancy.css';
 import './css/reveal.css';
 import { initDaypartEngine } from './js/daypart-engine';
 import { initMobileDrawer } from './js/mobile-drawer';

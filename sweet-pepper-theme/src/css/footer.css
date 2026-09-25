@@ -38,14 +38,16 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 
 /* About + Visit pages: closing section is always Peppercorn (fixed composition, no daypart) */
 .page-template-page-about .footer-rugged-top .rugged-edge,
-.page-template-page-visit .footer-rugged-top .rugged-edge {
+.page-template-page-visit .footer-rugged-top .rugged-edge,
+.single-vacancy .footer-rugged-top .rugged-edge {
     --rugged-color: var(--peppercorn) !important;
 }
 
 /* Visit on phones ends on the full-bleed contact form (Soft Peppercorn, visit.css → phone
    block), not on the section ground, so the bites take the form's colour there. */
 @media (max-width: 767px) {
-    .page-template-page-visit .footer-rugged-top .rugged-edge {
+    .page-template-page-visit .footer-rugged-top .rugged-edge,
+    .single-vacancy .footer-rugged-top .rugged-edge {
         --rugged-color: var(--soft-peppercorn) !important;
     }
 }

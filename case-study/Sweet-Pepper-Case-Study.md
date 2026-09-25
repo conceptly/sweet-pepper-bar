@@ -1,7 +1,7 @@
 # Sweet Pepper — Brand & UX Case Study
 
 **Gastrobar identity system + website UX · Yaroslavl, Russia**
-Role: Brand & Web Designer (solo) · Timeline: June–September 2026 · Status: theme built through Visit, responsive pass done, style guide live · Updated September 18
+Role: Brand & Web Designer (solo) · Timeline: June–September 2026 · Status: theme on test hosting, RU layer in progress, style guide live · Updated September 24
 
 [IMAGE: cocktail-1.jpg — full-bleed hero]
 
@@ -183,11 +183,21 @@ The responsive pass produced its own findings-on-record. In the 768–991px band
 
 Copy got the same rigor. The Menu and Visit copy reviews open by declaring their evidence limits ("no live Figma inspection is claimed"), caught a shipped row reading "Horseraddish" with the literal word "description" as its copy — corrected in the clean files and flagged for the implementation pass, not hot-fixed — and started the RU layer as register twins: «Для смелых — Ярославль с огоньком» carries the wink of "For the brave — a taste of Yaroslavl's hot side," not its words.
 
+## The Russian layer: a voice, not a translation
+
+The RU side arrived as a system, not a file of translations. A dedicated **voice-and-vocabulary document** distils the bar's own editorial voice — the one the floor team already writes on social media — into rules a drafting session can be checked against, with a per-line test for new copy. RU and EN stay register twins: «Для смелых — Ярославль с огоньком» carries the wink of its English twin, never its words. One tension is recorded openly instead of resolved by fiat: the guest-perspective rule ("your route," "your order") and the venue's natural «мы» collide harder in Russian than in English, and the doc holds the contradiction where future drafts can see it. Even the display layer is bilingual by construction — the giant outlined Molot connectors now exist as separate RU-drawn SVGs for every section rather than swapped strings.
+
+## Content ops, tested for real
+
+Two calls this phase came from evidence gathered on the actual system, not mockups of it. **The admin got usability-tested too:** menu storage — a repeater per section versus dish posts placed by relationship lists — was tested with two team members on the real WordPress admin. Dish posts won: harder to mix up dishes in a table, and the team would rather search than scroll a nested repeater, since price is the edit they actually make. The prediction on record (that the repeater would win the batch reprice) **lost, and the log says so** — a prediction is only honest if it can lose. Small sample, accepted for a reversible choice; the loser archived, not deleted.
+
+And the **VK feed importer** — the launch-phasing plan's automation step — was built for the Russian side with an evidence table before any live run: `wall.get` verified locally and on the host, images self-hosted at the 4:5 card ratio, re-imports idempotent (unchanged posts untouched, hand-edited captions surviving source edits), posts deleted from the wall demoted to draft gently on the second miss, and failures recorded without secrets in the error line. An exposed credential was revoked and replaced the day it happened. The EN feed stays manual and independent by design — the two languages never share a pipeline dependency.
+
 ## Where it stands
 
-**Done:** the full design system, validated, audited, and pruned; all four pages designed and built in both states across phone, the tablet band, and desktop, with both heroes validated by testing; the bilingual style guide live with PDFs, a mobile shell, and an in-page edit mode; the content model settled (three tiers, ACF as the store); the responsive pass done with its recurring faults catalogued; Menu and Visit copy reviewed with the RU layer begun; stack, plugins, maps, and launch phasing closed.
+**Done:** the full design system, validated, audited, and pruned; all four pages designed and built in both states across phone, the tablet band, and desktop; heroes, menu storage, and the admin itself usability-tested; the theme on test hosting with the menu migrated to its decided storage; the VK feed importer built and evidence-verified; the RU voice document and first RU drafts; the bilingual style guide live with PDFs and an edit mode; stack, plugins, maps, and launch phasing closed.
 
-**Next:** ACF extraction and the menu migration script; content entry and the rest of the RU layer; the remaining Figma guide pages; the queued tests (Home label, "Bar Snacks" naming, mobile status rail); the sixteen hero photos and the team shoot; launch phase one.
+**Next:** finish the RU layer; the first live VK run and the pending eyes-on checks; the hours-settings usability test with an Editor-role manager; the remaining Figma guide pages; the queued tests (Home label, "Bar Snacks" naming, mobile status rail); the sixteen hero photos and the team shoot; launch phase one.
 
 ## Reflection
 
@@ -202,6 +212,7 @@ Copy got the same rigor. The Menu and Visit copy reviews open by declaring their
 - **The mechanic is the idea, not the widget.** When a participant called the spice slider "too complicated," the slider died and nothing important was lost — heat = time, the state model, and the status copy all survived into the tile grid. Holding the concept loosely at the widget level is what let the concept survive at all.
 - **Recompute your own claims.** The docs said "colour-blind safe"; re-deriving from the hex values said otherwise, and the price colour failed AA in the exact rows it was assigned to. An audit that changes nothing silently — findings sequenced against the build, calls left to the author — turned out to be the cheapest QA the project ran.
 - **If a rule gets missed, draw it.** The clear-space rule existed in text and a teammate missed it; the fix was a figure constructed at load time from the artwork itself. Documentation failures are design problems, not reader problems — and a guide that obeys its own grid is the proof its rules are usable.
+- **A prediction is only honest if it can lose.** The testing log records a prediction before every test — and the menu-storage test proved one wrong: the repeater didn't win, dish posts did, and the log admits it. A log that only ever confirms its author isn't evidence; it's decoration.
 - **Development is a design review you can't argue with.** Being heavily involved in the build phase surfaced real-world limitations no mockup shows — a page cache that forces the daypart engine client-side, touch input that can't carry hover's double duty, sheet offsets that collapse into colour fringing at mobile sizes — and design decisions I was attached to had to be reconsidered because of them. The decisions that survived are stronger for having met the constraints; the ones that didn't were never going to survive contact with guests either.
 - **AI accelerates divergence, judgment still curates convergence.** Six working slider prototypes from Claude in one afternoon — but half of them quietly broke a rule the project had already earned, like reintroducing a literal clock. The skill wasn't prompting; it was knowing which three to discard.
 

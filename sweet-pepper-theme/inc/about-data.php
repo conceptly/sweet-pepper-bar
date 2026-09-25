@@ -26,9 +26,14 @@ function sweet_pepper_about_departments() {
 /**
  * Careers: section header, open roles, the CV row and the no-openings box.
  *
- * No "we are hiring" switch: no visible role IS the empty state. "Never saved" and
- * "saved with no roles" differ, so the typed roles stand in only while the repeater
- * has no value at all.
+ * No "we are hiring" switch: no visible role IS the empty state.
+ *
+ * The roles are `vacancy` records since 25 Sep 2026 (inc/vacancies.php → the open ones,
+ * each card linking to its page) as soon as one record exists, whatever its state. Before
+ * that — a site the seeder has not reached — the tab's «Вакансии» repeater still renders,
+ * and before the tab was ever saved, the typed roles ("never saved" and "saved with no
+ * roles" differ). The repeater is retired once the records are in: the tab keeps the
+ * header, the CV row and the no-openings texts.
  *
  * @param int $page_id The About page.
  * @return array Args of template-parts/about/careers.php.
@@ -37,6 +42,21 @@ function sweet_pepper_about_careers( $page_id ) {
     $typed = require get_template_directory() . '/data/about/careers.php';
     $lang  = sweet_pepper_lang();
     $text  = fn( $key ) => sp_field( "about_careers_{$key}", sweet_pepper_typed( $typed, $key ), $page_id );
+
+    if ( function_exists( 'sweet_pepper_vacancies_exist' ) && sweet_pepper_vacancies_exist() ) {
+        [ $headline, $headline_2 ] = sp_headline( 'about_careers_headline', $typed, $page_id );
+        return [
+            'eyebrow'     => $text( 'eyebrow' ),
+            'headline'    => $headline,
+            'headline_2'  => $headline_2,
+            'description' => $text( 'description' ),
+            'positions'   => sweet_pepper_vacancy_positions(),
+            'cta_title'   => $text( 'cta_title' ),
+            'cta_text'    => $text( 'cta_text' ),
+            'empty_title' => $text( 'empty_title' ),
+            'empty_text'  => $text( 'empty_text' ),
+        ];
+    }
 
     $saved = function_exists( 'get_field' ) && metadata_exists( 'post', $page_id, 'about_positions' );
     $rows  = $saved ? ( get_field( 'about_positions', $page_id ) ?: [] ) : []; // no rows comes back as false
@@ -64,6 +84,8 @@ function sweet_pepper_about_careers( $page_id ) {
             'meta'       => sweet_pepper_pick( $row, 'meta' ),
             'desc'       => sweet_pepper_pick( $row, 'description' ),
             'url'        => (string) ( $row['url'] ?? '' ),
+            'link_label' => __( 'View role on hh.ru', 'sweet-pepper' ),
+            'external'   => true,
         ];
     }
 

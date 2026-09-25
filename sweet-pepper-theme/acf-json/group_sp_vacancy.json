@@ -1,0 +1,443 @@
+{
+    "key": "group_sp_vacancy",
+    "title": "Вакансия",
+    "fields": [
+        {
+            "key": "field_sp_vacancy_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "new_lines": "",
+            "esc_html": 0,
+            "message": "Заголовок записи — должность по-русски («Менеджер зала»). Срок «На сайте» считается с сохранения; по его концу вакансия сама уходит в архив и пропадает со страницы «О баре» — ссылка на неё остаётся рабочей и показывает «вакансия закрыта». Чтобы открыть заново — выберите срок и нажмите «Обновить». Смена срока у открытой вакансии считает его заново с сегодня."
+        },
+        {
+            "key": "field_sp_vacancy_title_en",
+            "label": "Должность (EN)",
+            "name": "vacancy_title_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "40",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_vacancy_department",
+            "label": "Отдел",
+            "name": "vacancy_department",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "service": "Зал",
+                "kitchen": "Кухня",
+                "bar": "Бар"
+            },
+            "default_value": "service",
+            "allow_null": 0,
+            "return_format": "value",
+            "multiple": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_sp_vacancy_show",
+            "label": "На сайте",
+            "name": "vacancy_show",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "archive": "В архиве",
+                "1": "1 неделя",
+                "2": "2 недели",
+                "4": "4 недели"
+            },
+            "default_value": "2",
+            "allow_null": 0,
+            "return_format": "value",
+            "multiple": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_sp_vacancy_hh",
+            "label": "Ссылка на hh.ru",
+            "name": "vacancy_hh",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "если вакансия есть и там"
+        },
+        {
+            "key": "field_sp_vacancy_schedule_ru",
+            "label": "График",
+            "name": "vacancy_schedule_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Полный день · 2/2",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_vacancy_schedule_en",
+            "label": "График (EN)",
+            "name": "vacancy_schedule_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Полный день · 2/2",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_vacancy_pay_ru",
+            "label": "Оплата",
+            "name": "vacancy_pay_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "от 45 000 ₽ — можно не указывать",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_vacancy_pay_en",
+            "label": "Оплата (EN)",
+            "name": "vacancy_pay_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "от 45 000 ₽ — можно не указывать",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_vacancy_card_ru",
+            "label": "Коротко · на карточке",
+            "name": "vacancy_card_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Одна-две строки на карточке вакансии — на странице «О баре» и под другими вакансиями.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_card_en",
+            "label": "Коротко · на карточке (EN)",
+            "name": "vacancy_card_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Одна-две строки на карточке вакансии — на странице «О баре» и под другими вакансиями.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_lead_ru",
+            "label": "Вступление",
+            "name": "vacancy_lead_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Абзац в начале страницы вакансии.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_lead_en",
+            "label": "Вступление (EN)",
+            "name": "vacancy_lead_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Абзац в начале страницы вакансии.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_duties_ru",
+            "label": "Что делать",
+            "name": "vacancy_duties_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Каждый пункт с новой строки. Пустое поле — раздела нет.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_duties_en",
+            "label": "Что делать (EN)",
+            "name": "vacancy_duties_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Каждый пункт с новой строки. Пустое поле — раздела нет.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_requirements_ru",
+            "label": "Кого ищем",
+            "name": "vacancy_requirements_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Каждый пункт с новой строки.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_requirements_en",
+            "label": "Кого ищем (EN)",
+            "name": "vacancy_requirements_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Каждый пункт с новой строки.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_offer_ru",
+            "label": "Что предлагаем",
+            "name": "vacancy_offer_ru",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Каждый пункт с новой строки.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_offer_en",
+            "label": "Что предлагаем (EN)",
+            "name": "vacancy_offer_en",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Каждый пункт с новой строки.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_sp_vacancy_contact",
+            "label": "Контакт",
+            "name": "vacancy_contact",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Люди в списке — «Настройки бара» → «Контакты». Контакты бара остаются на странице второй строкой.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "bar": "Бар — контакты как на странице «Как добраться»"
+            },
+            "default_value": "bar",
+            "allow_null": 0,
+            "return_format": "value",
+            "multiple": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "vacancy"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "One job opening: the role, its texts in two languages, who answers, how long it shows. Generated by tools/page-field-groups.py; read by inc/vacancies.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1790307944
+}

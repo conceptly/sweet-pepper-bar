@@ -136,6 +136,25 @@ add_filter( 'locale', function ( $locale ) {
     return SWEET_PEPPER_LANGS[ sweet_pepper_lang() ];
 } );
 
+// WordPress loaded its OWN strings — the month and weekday names a date prints through
+// get_the_date() / date_i18n() — for the site language, long before functions.php could say
+// which language the request is in (wp-settings.php loads the default text domain first).
+// Reload them for the request's locale and rebuild WP_Locale, which copied the names at load;
+// otherwise a Russian page prints «17 Sep» (the VK cards, 25 Sep 2026).
+add_action( 'after_setup_theme', function () {
+    if ( is_admin() || wp_doing_ajax() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+        return;
+    }
+    $wanted = SWEET_PEPPER_LANGS[ sweet_pepper_lang() ];
+    $loaded = get_option( 'WPLANG' ) ?: 'en_US';
+    if ( $wanted === $loaded ) {
+        return;
+    }
+    unload_textdomain( 'default' );
+    load_default_textdomain( $wanted );
+    $GLOBALS['wp_locale'] = new WP_Locale();
+}, 0 );
+
 /**
  * 4. Internal links carry the language: `home_url( '/menu' )` → `/en/menu` on `/en/…`.
  * Not in admin, and never for the parts of WordPress that are not pages.

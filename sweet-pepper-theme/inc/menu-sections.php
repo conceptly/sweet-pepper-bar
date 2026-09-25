@@ -359,7 +359,7 @@ function sweet_pepper_menu_connectors_ru( $state = 'food' ) {
     ];
     if ( 'drinks' === $state ) {
         return [
-            'drinksMenu'        => [ 'барОтПерцев', 'Бар от Перцев' ], // the hero's foot word + reflection (bar/ru/, author's export to come — 24 Sep 2026)
+            'drinksMenu'        => [ 'барОтПерцев', 'Бар от Перцев' ], // the hero's foot word + reflection (bar/ru/, author's export 25 Sep 2026)
             'getItWhileItLasts' => [ 'толькоЭтойОсенью', 'Только этой осенью' ],
             'houseSecret'       => [ 'позвольтеНастоять', 'Позвольте настоять' ],
             'thebestinthecity'  => [ 'лучшиеКоктейлиВГороде', 'Лучшие коктейли в городе' ],
@@ -370,7 +370,7 @@ function sweet_pepper_menu_connectors_ru( $state = 'food' ) {
         ] + $picker;
     }
     return [
-        'foodMenu'          => [ 'кухняОтПерцев', 'Кухня от Перцев' ], // the hero's foot word + reflection (kitchen-day/ru + kitchen-night/ru, author's export to come — 24 Sep 2026)
+        'foodMenu'          => [ 'кухняОтПерцев', 'Кухня от Перцев' ], // the hero's foot word + reflection (kitchen-day/ru + kitchen-night/ru, author's export 25 Sep 2026)
         'getItWhileItLasts' => [ 'толькоЭтойОсенью', 'Только этой осенью' ],
         'yummyMorning'      => [ 'начатьДеньСоВкусом', 'Начать день со вкусом' ],
         'theBestInTheCity'  => [ 'лучшиеОбедыВГороде', 'Лучшие обеды в городе' ],

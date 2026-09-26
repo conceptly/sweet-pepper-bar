@@ -5,6 +5,9 @@
 
 ---
 
+## Main site up as a copy of the test site; the VK cron on both — 26 September 2026
+
+The author stood up `sweetpepper.bar` from a copy of the test site's database (`cb47162573_sweetpepperlive`, WordPress in `~/public_html`; search engines discouraged on purpose until tested) and the theme with the 25 Sep commits — hover states, the VK feed and the one-line captions show live. Two Timeweb cron tasks (PHP 8.2, hourly) call each site's `wp-cron.php`; each site's `wp-config.php` carries the key and `DISABLE_WP_CRON`. **Main-site checks from the SSH console, all passed:** both `wp-config.php` lines present (counted, never printed), 65 `vk-*` cover files in uploads, the importer's dry run against `~/public_html` matched all eight copied records — the next real run updates, never duplicates. **Open:** the first automatic run on either site (the status line under «Посты ВКонтакте» an hour after the task's start); the test site's own key line and importer run, not shown; how the theme was copied into `~/public_html` — unrecorded, to be written down as the main site's update routine (`website-brief.md` → Test site → Main site). Docs: the brief's main-site paragraph (the 19 Sep plan superseded), `testing.md` → VK home feed (two rows), Next Up 8.
 ## SEO & accessibility pass — alt text, icons, headings, search and sharing — 25 September 2026
 
 Author: "review each page and asset in WordPress and improve them for SEO and accessibility, especially the alt text for icons and images." Audited the ten rendered pages (5 × RU / EN) and all 63 Media Library items.
@@ -50,9 +53,6 @@ The team's fall menu (`menu-source/menu_fall-2026.md`; English working copy and 
 - No descriptions yet: Альфредо, alla Norma, Барбариска, the melon drinks, Absolut, Woodford; Camden Park is «Полусухое.» only. No weight for the two seasonal salads. Caponata's feta is in the name, not the ingredients.
 - The typed fallbacks (`data/menu/*.php`, the six placeholder cards in `data/menu/page.php`) are still summer; they show only with an empty database.
 - The turkey and shrimp rolls' EN descriptions say "chicken filling" (a copy-paste slip, left as the rule says).
-## Main site up as a copy of the test site; the VK cron on both — 26 September 2026
-
-The author stood up `sweetpepper.bar` from a copy of the test site's database (`cb47162573_sweetpepperlive`, WordPress in `~/public_html`; search engines discouraged on purpose until tested) and the theme with the 25 Sep commits — hover states, the VK feed and the one-line captions show live. Two Timeweb cron tasks (PHP 8.2, hourly) call each site's `wp-cron.php`; each site's `wp-config.php` carries the key and `DISABLE_WP_CRON`. **Main-site checks from the SSH console, all passed:** both `wp-config.php` lines present (counted, never printed), 65 `vk-*` cover files in uploads, the importer's dry run against `~/public_html` matched all eight copied records — the next real run updates, never duplicates. **Open:** the first automatic run on either site (the status line under «Посты ВКонтакте» an hour after the task's start); the test site's own key line and importer run, not shown; how the theme was copied into `~/public_html` — unrecorded, to be written down as the main site's update routine (`website-brief.md` → Test site → Main site). Docs: the brief's main-site paragraph (the 19 Sep plan superseded), `testing.md` → VK home feed (two rows), Next Up 8.
 ## About RU connector: ПРОДУМАНО ДО МЕЛОЧЕЙ — 25 September 2026
 
 Author: СО ВКУСОМ ВО ВСЕХ ОТНОШЕНИЯХ (Reviews → Perks) was too long for the connector and to take in. Weighed: ДЕЛО В ДЕТАЛЯХ, ВСЁ ДЕЛО В ДЕТАЛЯХ, УДОБНО, УЮТНО, РАДУШНО (the author's idea: the cloud's words as proof, the perks as the key — but it reads as a repeat); the author chose **ПРОДУМАНО ДО МЕЛОЧЕЙ**, tried it on the page and kept it.

@@ -50,7 +50,7 @@ Connectors here are seams: the word ends a section, its reflection opens the nex
 |---|---|---|---|---|---|
 | 1 | Hero | The Concept | BETTER TOGETHER | ЗДЕСЬ МОЖНО ВСЁ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
 | 2 | The Concept | How it feels | WORD OF MOUTH | СЛОВО ЛЮБИМЫМ ГОСТЯМ | EN built — the eyebrow under it became PEOPLE SPEAK so the pair doesn't repeat; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
-| 3 | How it feels | Perks | LITTLE THINGS MATTER | СО ВКУСОМ ВО ВСЕХ ОТНОШЕНИЯХ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
+| 3 | How it feels | Perks | LITTLE THINGS MATTER | ПРОДУМАНО ДО МЕЛОЧЕЙ | EN built; RU author choice 25 Sep (kept after trial), replacing СО ВКУСОМ ВО ВСЕХ ОТНОШЕНИЯХ — too long for the connector (the smallest word on the page) and to take in; SVG exported + wired 25 Sep. §1.1: impersonal — no «мы», reads like French «on» — so it stays |
 | 4 | Perks | The Story | BACK TO THE FIRST POUR | САГА О ПЕРЦАХ И НАСТОЙКАХ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
 | 5 | The Story | Guests | IN GOOD COMPANY | ГЛАВНЫЕ ГЕРОИ ЗА СТОЛИКАМИ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
 | 6 | Guests | Team | THE USUAL SUSPECTS | ЗВЁЗДЫ КАЖДОЙ СМЕНЫ | EN built; RU provisional author choice, 22 Sep; RU SVG exported + wired 22 Sep |

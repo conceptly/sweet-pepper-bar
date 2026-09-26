@@ -48,7 +48,7 @@ if ( ! empty( $icon_left_svg ) ) {
         $icon_left_html = '<span class="btn-icon btn-icon-left">' . $svg . '</span>';
     }
 } elseif ( ! empty( $icon_left ) ) {
-    $icon_left_html = '<span class="btn-icon btn-icon-left"><i class="ph-fill ph-' . esc_attr( $icon_left ) . '"></i></span>';
+    $icon_left_html = '<span class="btn-icon btn-icon-left"><i class="ph-fill ph-' . esc_attr( $icon_left ) . '" aria-hidden="true"></i></span>';
 }
 
 $icon_right_html = '';
@@ -58,7 +58,7 @@ if ( ! empty( $icon_right_svg ) ) {
         $icon_right_html = '<span class="btn-icon btn-icon-right">' . $svg . '</span>';
     }
 } elseif ( ! empty( $icon_right ) ) {
-    $icon_right_html = '<span class="btn-icon btn-icon-right"><i class="ph-fill ph-' . esc_attr( $icon_right ) . '"></i></span>';
+    $icon_right_html = '<span class="btn-icon btn-icon-right"><i class="ph-fill ph-' . esc_attr( $icon_right ) . '" aria-hidden="true"></i></span>';
 }
 
 $label_html = $label_mobile

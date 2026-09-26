@@ -49,11 +49,11 @@
                 <div class="whats-on-chip">
                     <span class="label"><?php esc_html_e( "What's new", 'sweet-pepper' ); ?></span>
                     <div class="social-icons">
-                        <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="social-icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="Instagram" width="24" height="24">
+                        <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="social-icon" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="" width="24" height="24">
                         </a>
-                        <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="social-icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="VK" width="24" height="24">
+                        <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="social-icon" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="" width="24" height="24">
                         </a>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
 
             <!-- Mobile Menu Toggle -->
             <button class="menu-toggle js-drawer-open" aria-controls="mobile-drawer" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open menu', 'sweet-pepper' ); ?>">
-                <?php echo file_get_contents( get_template_directory() . '/assets/icons/c-hamburger.svg' ); ?>
+                <?php echo sweet_pepper_inline_svg( 'assets/icons/c-hamburger.svg' ); ?>
             </button>
         </div><!-- .header-container -->
     </header><!-- #masthead -->

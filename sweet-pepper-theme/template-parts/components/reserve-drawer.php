@@ -38,7 +38,7 @@ $reserve_strings = [
     
     <script type="application/json" class="reserve-drawer__strings"><?php echo wp_json_encode( $reserve_strings ); ?></script>
     <button type="button" class="reserve-drawer-close js-reserve-close" aria-label="<?php esc_attr_e( 'Close drawer', 'sweet-pepper' ); ?>">
-        <i class="ph ph-x"></i>
+        <i class="ph ph-x" aria-hidden="true"></i>
     </button>
     
     <div class="reserve-drawer-content">

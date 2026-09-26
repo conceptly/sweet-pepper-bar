@@ -99,7 +99,7 @@ if ( $pinned ) {
 
             <div class="event-card-cta">
                 <span class="event-card-cta-text"><?php echo esc_html( $cta_text ); ?></span>
-                <svg class="event-card-cta-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="event-card-cta-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>

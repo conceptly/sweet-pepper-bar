@@ -27,6 +27,15 @@ $seasonal_label = $args['seasonal_label'] ?? '';
 $options        = $args['options'] ?? [];
 $highlight      = $args['highlight'] ?? false;
 
+// The four dish icons have fixed meanings (design.md → Dish icons) and nothing else on the
+// row says them, so each is announced by name.
+$icon_labels = [
+    'veg'            => __( 'Vegetarian', 'sweet-pepper' ),
+    'fire'           => __( 'House hit', 'sweet-pepper' ),
+    'Pepper'         => __( 'Spicy', 'sweet-pepper' ),
+    'yaroslavl-logo' => __( 'Local Yaroslavl dish', 'sweet-pepper' ),
+];
+
 $row_class  = 'dish-row' . ( $highlight ? ' dish-row--highlight' : '' );
 $name_class = 'dish-name' . ( $highlight ? ' dish-name--highlight' : '' );
 ?>
@@ -38,7 +47,7 @@ $name_class = 'dish-name' . ( $highlight ? ' dish-name--highlight' : '' );
             <?php foreach ( $icons as $icon_name ) : 
                 $icon_path = get_template_directory() . '/assets/icons/' . $icon_name . '.svg';
                 if ( file_exists( $icon_path ) ) : ?>
-                    <span class="dish-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/' . $icon_name . '.svg' ); ?></span>
+                    <span class="dish-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/' . $icon_name . '.svg', $icon_labels[ $icon_name ] ?? '' ); ?></span>
                 <?php endif;
             endforeach; ?>
             

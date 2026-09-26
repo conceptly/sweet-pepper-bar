@@ -31,6 +31,39 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Screen-reader-only text — the WordPress convention, kept in the theme so it never depends on
+   a core stylesheet. The skip link comes back into view when it takes keyboard focus. */
+.screen-reader-text {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+    word-wrap: normal !important;
+}
+
+.skip-link.screen-reader-text:focus {
+    top: 8px;
+    left: 8px;
+    z-index: 100000;
+    width: auto;
+    height: auto;
+    padding: 12px 20px;
+    clip: auto;
+    clip-path: none;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-decoration: none;
+    outline: 2px solid currentColor;
+}
+
 /* Base typography */
 h1, h2, h3, .molot-text {
     font-family: var(--font-display);

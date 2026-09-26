@@ -369,7 +369,9 @@ function sweet_pepper_vk_cards( $limit = 5 ) {
         if ( ! $src || '' === trim( $record->post_title ) ) {
             continue;
         }
+        // The card's own «Описание фото», else the photo's alt in the Media Library, else the caption.
         $alt     = function_exists( 'get_field' ) ? trim( (string) get_field( 'news_alt', $record->ID ) ) : '';
+        $alt     = $alt ?: trim( (string) get_post_meta( get_post_thumbnail_id( $record->ID ), '_wp_attachment_image_alt', true ) );
         $cards[] = [
             'image_url'  => $src,
             'image_alt'  => $alt ?: $record->post_title,

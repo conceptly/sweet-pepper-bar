@@ -15,9 +15,9 @@
 return [
     'title' => 'HOUSE INFUSIONS',
     'photo' => 'bar/cocktails/shot-drinks.jpg',
-    'alt'   => 'Home made infusions — colourful shots and cocktails',
+    'alt'   => 'Five layered shots lined up on the lit bar',
     'badge' => 'Community hit!',
-    'ru'    => [ 'title' => 'ДОМАШНИЕ НАСТОЙКИ', 'badge' => 'Хит у гостей!' ],
+    'ru'    => [ 'alt' => 'Пять слоёных шотов на подсвеченной стойке', 'title' => 'ДОМАШНИЕ НАСТОЙКИ', 'badge' => 'Хит у гостей!' ],
     'items' => [
         [ 'drink', 'Солёная Карамель', 'infusions' ],
         [ 'drink', 'Хреновуха', 'infusions' ],

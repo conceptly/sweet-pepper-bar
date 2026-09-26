@@ -55,7 +55,7 @@ $card_attributes = $url ? ' href="' . esc_url( $url ) . '"' : '';
                 <?php if ( $tag_icon ) : 
                     $icon_path = get_template_directory() . '/assets/icons/' . $tag_icon . '.svg';
                     if ( file_exists( $icon_path ) ) : ?>
-                        <span class="tag-icon"><?php echo file_get_contents( $icon_path ); ?></span>
+                        <span class="tag-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/' . $tag_icon . '.svg' ); ?></span>
                     <?php endif;
                 endif; ?>
                 <span class="tag-label"><?php echo esc_html( $tag_label ); ?></span>

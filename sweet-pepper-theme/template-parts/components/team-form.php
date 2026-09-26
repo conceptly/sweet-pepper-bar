@@ -21,7 +21,7 @@
 
     <!-- Close button -->
     <button class="team-form-dialog__close js-team-form-close" type="button" aria-label="<?php echo esc_attr_x( 'Close', 'team form', 'sweet-pepper' ); ?>">
-        <i class="ph ph-x"></i>
+        <i class="ph ph-x" aria-hidden="true"></i>
     </button>
 
     <!-- ── Compose state ── -->
@@ -152,7 +152,7 @@
 
         <!-- Reset button -->
         <button type="button" class="btn btn-secondary team-form__reset-btn js-team-form-reset">
-            <span class="btn-icon"><?php echo file_get_contents( get_template_directory() . '/assets/icons/c-mail.svg' ); ?></span>
+            <span class="btn-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
             <?php esc_html_e( 'Send another message', 'sweet-pepper' ); ?>
         </button>
 

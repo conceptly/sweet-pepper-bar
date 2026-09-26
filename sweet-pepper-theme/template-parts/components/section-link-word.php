@@ -30,12 +30,18 @@ if ( function_exists( 'sweet_pepper_home_connector_lang' ) ) {
     [ $day_img, $night_img, $alt ] = sweet_pepper_home_connector_lang( $day_img, $night_img, $alt );
 }
 
+// A reflection repeats the word just read above it — it is drawn, not said again.
+$is_reflection = false !== strpos( $class, 'section-link-word--reflection' );
+if ( $is_reflection ) {
+    $alt = '';
+}
+
 $link_word_images = [
     'link-word-day'   => $day_img,
     'link-word-night' => $night_img,
 ];
 ?>
-<div class="section-link-word <?php echo esc_attr( $class ); ?>">
+<div class="section-link-word <?php echo esc_attr( $class ); ?>"<?php echo $is_reflection ? ' aria-hidden="true"' : ''; ?>>
     <?php foreach ( $link_word_images as $img_class => $img_path ) : ?>
         <?php
         if ( ! $img_path ) {

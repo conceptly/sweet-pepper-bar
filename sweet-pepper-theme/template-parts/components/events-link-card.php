@@ -7,7 +7,8 @@
  *
  * @param array $args {
  *     @type string $image_url  URL of the background photo.
- *     @type string $image_alt  Alt text for the image.
+ *     @type string $image_alt  Unused: the photo is a backdrop for the link's own words, so it is
+ *                              decorative (alt="") — an alt would be read before the label.
  *     @type string $label      Link text (e.g. "See all events →").
  *     @type string $url        Link to VK community page.
  * }
@@ -20,7 +21,7 @@ $url       = $args['url'] ?? '#';
 ?>
 <a class="events-link-card" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer">
     <?php if ( $image_url ) : ?>
-        <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="events-link-card-img" loading="lazy">
+        <img src="<?php echo esc_url( $image_url ); ?>" alt="" class="events-link-card-img" loading="lazy">
     <?php endif; ?>
 
     <div class="events-link-card-overlay"></div>

@@ -17,7 +17,7 @@
 
 <section class="about-section about-section--dark about-visit-cta">
     <div class="container">
-        <h1 class="about-visit-cta__headline molot-text"><?php echo esc_html( $args['headline'] ); ?></h1>
+        <h2 class="about-visit-cta__headline molot-text"><?php echo esc_html( $args['headline'] ); ?></h2>
         <p class="about-visit-cta__body"><?php echo esc_html( $args['body'] ); ?></p>
         <div class="about-visit-cta__buttons">
             <?php

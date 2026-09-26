@@ -14,7 +14,7 @@ return [
     'photo' => 'food/lunch/bagel-lunch-1.jpg',
     'alt'   => 'Bagel with a patty, potato wedges and fresh vegetables',
     'badge' => '',
-    'ru'    => [ 'title' => 'С ОБЕДОМ РЕШЕНО' ],
+    'ru'    => [ 'alt' => 'Бейгл с котлетой, картофель по-деревенски и свежие овощи', 'title' => 'С ОБЕДОМ РЕШЕНО' ],
     'items' => [
         [ 'dish', 'Тыквенный суп', 'lunch' ],
         [ 'dish', 'Кесадилья', 'lunch' ],

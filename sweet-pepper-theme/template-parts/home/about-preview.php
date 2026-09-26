@@ -40,13 +40,13 @@
                     <div class="about-preview-stats">
                         <?php if ( '' !== $args['years'] ) : ?>
                         <span class="stat-chip">
-                            <i class="ph-fill ph-pepper stat-chip-icon"></i>
+                            <i class="ph-fill ph-pepper stat-chip-icon" aria-hidden="true"></i>
                             <span class="stat-chip-label" data-count-up><?php echo esc_html( $args['years'] ); ?></span>
                         </span>
                         <?php endif; ?>
                         <?php if ( '' !== $args['rating'] ) : ?>
                         <span class="stat-chip">
-                            <i class="ph-fill ph-star stat-chip-icon"></i>
+                            <i class="ph-fill ph-star stat-chip-icon" aria-hidden="true"></i>
                             <span class="stat-chip-label"><?php echo esc_html( $args['rating'] ); ?></span>
                         </span>
                         <?php endif; ?>

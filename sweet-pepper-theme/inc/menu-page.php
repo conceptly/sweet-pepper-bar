@@ -327,17 +327,4 @@ function sweet_pepper_menu_document_title( $parts ) {
 }
 add_filter( 'document_title_parts', 'sweet_pepper_menu_document_title' );
 
-/**
- * The description search engines show for a menu page.
- */
-function sweet_pepper_menu_meta_description() {
-    $state = sweet_pepper_menu_state();
-    if ( ! $state ) {
-        return;
-    }
-    $text = sweet_pepper_menu_page_text( $state, 'seo', 'description' );
-    if ( '' !== $text ) {
-        echo '<meta name="description" content="' . esc_attr( $text ) . '">' . "\n";
-    }
-}
-add_action( 'wp_head', 'sweet_pepper_menu_meta_description', 1 );
+// The description search engines show: inc/seo.php prints it for every page (menu_seo_description).

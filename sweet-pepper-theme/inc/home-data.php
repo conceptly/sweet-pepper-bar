@@ -321,20 +321,7 @@ function sweet_pepper_home_document_title( $parts ) {
 }
 add_filter( 'document_title_parts', 'sweet_pepper_home_document_title' );
 
-/**
- * The description search engines show for the front page.
- */
-function sweet_pepper_home_meta_description() {
-    if ( ! is_front_page() ) {
-        return;
-    }
-    $typed = sweet_pepper_home_typed( 'seo' );
-    $text  = sp_field( 'home_seo_description', sweet_pepper_typed( $typed, 'description' ), sweet_pepper_home_id() );
-    if ( '' !== $text ) {
-        echo '<meta name="description" content="' . esc_attr( $text ) . '">' . "\n";
-    }
-}
-add_action( 'wp_head', 'sweet_pepper_home_meta_description', 1 );
+// The description search engines show: inc/seo.php prints it for every page (home_seo_description).
 
 // The pickers show size, price and the start of the description beside a name, as the
 // menu pages' do (inc/menu-data-dishes.php).

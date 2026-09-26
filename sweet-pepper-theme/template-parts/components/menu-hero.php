@@ -77,8 +77,8 @@ $default_dir   = ( $default_index % 2 ) ? -1 : 1;
 // commit are two objects on touch). Connector SVGs: foodMenu / drinksMenu.
 $open_label   = $is_drinks ? __( 'More pours', 'sweet-pepper' ) : __( 'More plates', 'sweet-pepper' );
 $connector    = $is_drinks
-    ? [ 'day' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'night' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'alt' => 'DRINKS MENU' ]
-    : [ 'day' => 'assets/sectionLinks/menu/kitchen-day/foodMenu.svg', 'night' => 'assets/sectionLinks/menu/kitchen-night/foodMenu.svg', 'alt' => 'FOOD MENU' ];
+    ? [ 'day' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'night' => 'assets/sectionLinks/menu/bar/drinksMenu.svg', 'alt' => __( 'Drinks menu', 'sweet-pepper' ) ]
+    : [ 'day' => 'assets/sectionLinks/menu/kitchen-day/foodMenu.svg', 'night' => 'assets/sectionLinks/menu/kitchen-night/foodMenu.svg', 'alt' => __( 'Food menu', 'sweet-pepper' ) ];
 
 // The room wordmark (desktop): FOOD / DRINKS, in Russian КУХНЯ ОТ ПЕРЦЕВ / БАР ОТ ПЕРЦЕВ
 // (languages/ru_RU.l10n.php). Below 992px the foot connector stands in for it — an SVG pair
@@ -96,6 +96,11 @@ $door_slug  = $door['slug'];
          data-dir="<?php echo (int) $default_dir; ?>"
          data-menu-state="<?php echo esc_attr( $menu_state ); ?>"
          data-default-section="<?php echo esc_attr( $section ); ?>">
+
+    <?php // The page's one <h1>: the hero shows a word list, a photo and the FOOD / DRINKS wordmark,
+    // none of them a heading, so the page's search title («Меню кухни» / «Барное меню») names the
+    // page for screen readers and search engines without changing the design. ?>
+    <h1 class="screen-reader-text"><?php echo esc_html( sweet_pepper_menu_page_text( $menu_state, 'seo', 'title' ) ?: ( $is_drinks ? __( 'Drinks menu', 'sweet-pepper' ) : __( 'Food menu', 'sweet-pepper' ) ) ); ?></h1>
 
     <!-- Section data for JS -->
     <script type="application/json" class="menu-hero__data"><?php echo wp_json_encode( $sections_json ); ?></script>

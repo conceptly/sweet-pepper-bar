@@ -56,7 +56,7 @@
             },
             "default_value": "",
             "maxlength": "",
-            "placeholder": "пусто — как подпись",
+            "placeholder": "пусто — из медиатеки, иначе как подпись",
             "prepend": "",
             "append": ""
         }
@@ -82,5 +82,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790294918
+    "modified": 1790309767
 }

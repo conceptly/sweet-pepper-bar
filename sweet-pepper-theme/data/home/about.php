@@ -20,6 +20,7 @@ return [
     'since'       => 2014,
     'rating'      => '5.0 on Yandex',
     'ru'          => [
+        'alt'         => 'Бармен разливает зелёные шоты из шейкера',
         'eyebrow'     => 'ПОЗНАКОМЬТЕСЬ С ПЕРЦЕМ',
         'headline'    => 'SHAKE & COOK',
         'headline_2'  => 'С 2014 ГОДА',

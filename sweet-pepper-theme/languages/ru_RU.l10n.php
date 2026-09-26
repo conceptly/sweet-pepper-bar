@@ -14,7 +14,8 @@
  * voice. The nav, the drawers and the footer follow navigation-drawers-copy-ru-draft.md
  * (25 Sep 2026). Not translated on purpose: the team
  * form (deferred by the draft), the Visit contact card's booking group — Message, DM, Write,
- * the call label (deferred by visit-page-copy-ru-draft.md), image alt texts, "Says".
+ * the call label (deferred by visit-page-copy-ru-draft.md), "Says". Image alt texts joined on
+ * 25 Sep 2026 (the SEO & accessibility pass).
  */
 return [
     'domain'       => 'sweet-pepper',
@@ -235,5 +236,19 @@ return [
         'Page sections'                              => 'Разделы страницы',
         'Sweet Pepper perks'                         => 'Что есть в Sweet Pepper',
         'Sweet Pepper Bar location map'              => 'Карта: где находится Sweet Pepper',
+        // Image alt texts and icon names (SEO & accessibility pass, 25 Sep 2026) — descriptive, not voice
+        'Vegetarian'                                 => 'Вегетарианское',
+        'House hit'                                  => 'Хит',
+        'Spicy'                                      => 'Острое',
+        'Local Yaroslavl dish'                       => 'Ярославское блюдо',
+        'Sweet Pepper — Good Food & Drink Since 2014' => 'Sweet Pepper — вкусная еда и напитки с 2014 года',
+        'Photo of %s'                                => 'Фото: %s',
+        'Sweet Pepper team group photo, %s'          => 'Команда Sweet Pepper, %s',
+        'Entrance to Sweet Pepper Gastrobar, Kirova St. 10/25' => 'Вход в гастробар Sweet Pepper, Кирова, 10/25',
+        'Pepper’s Breakfast — fried eggs, a patty, toast and salad' => 'Завтрак от Перцев: глазунья, котлета, тосты и салат',
+        'Cranberry infusion in three shot glasses with berries and mint' => 'Клюквенная настойка в трёх стопках с ягодами и мятой',
+        'The Sweet Pepper team behind the bar, 2025'  => 'Команда Sweet Pepper за стойкой, 2025',
+        'Five layered shots lined up on the lit bar'  => 'Пять слоёных шотов на подсвеченной стойке',
+        'The Sweet Pepper entrance: a glass door with the pepper logo' => 'Вход в Sweet Pepper: стеклянная дверь с логотипом-перцем',
     ],
 ];

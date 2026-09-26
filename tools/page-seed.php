@@ -649,7 +649,6 @@ foreach ( $targets as $target ) {
                 update_field( "{$k}event_cards", $rows, $id );
                 update_field( "{$k}events_more_photo", sp_seed_attachment( $typed['more']['photo'] ), $id );
                 sp_seed_twins( "{$k}events_more_label", $typed['more'], 'label', $id );
-                update_field( "{$k}events_more_url", $typed['more']['url'], $id );
                 echo '  ' . count( $rows ) . " cards (placeholders, no dates)\n";
             } ), "\n";
 

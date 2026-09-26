@@ -11,8 +11,14 @@
  *
  * Error text lives in the label row (right-aligned) per Figma,
  * so the form height stays constant regardless of error state.
+ *
+ * Russian (25 Sep 2026): every string goes through the theme's dictionary — forms-copy-ru-draft.md
+ * for the shared fields, errors and success; home-copy-ru-review.md §9 for the home title and
+ * subtitle. Generic words carry the 'contact form' context so they never meet another "Message".
+ * The success screen still shows on valid fields alone — nothing is sent yet (draft §6).
  */
-$subtitle = ! empty( $args['subtitle'] ) ? $args['subtitle'] : "We'll get back to you within 24 hours.";
+$title    = ! empty( $args['title'] ) ? $args['title'] : __( 'Send a message', 'sweet-pepper' );
+$subtitle = ! empty( $args['subtitle'] ) ? $args['subtitle'] : __( "We'll get back to you within 24 hours.", 'sweet-pepper' );
 // Phones on the Visit page (formContact-dark-mobile 1477:76531): "or Send a message" ties the
 // form to the booking block above it; the prefix is hidden above 767px.
 $title_prefix_mobile = $args['title_prefix_mobile'] ?? '';
@@ -27,13 +33,13 @@ $topics = $args['topics'] ?? [];
 
         <!-- Header -->
         <div class="contact-form__header">
-            <h3 class="contact-form__title"><?php if ( $title_prefix_mobile ) : ?><span class="contact-form__title-prefix"><?php echo esc_html( $title_prefix_mobile ); ?></span><?php endif; ?>Send a message</h3>
+            <h3 class="contact-form__title"><?php if ( $title_prefix_mobile ) : ?><span class="contact-form__title-prefix"><?php echo esc_html( $title_prefix_mobile ); ?></span><?php endif; ?><?php echo esc_html( $title ); ?></h3>
             <p class="contact-form__subtitle"><?php echo esc_html( $subtitle ); ?></p>
         </div>
 
         <?php if ( $topics ) : ?>
         <!-- Topic chips — one active, mirrored into a hidden field for the email subject -->
-        <div class="contact-form__topics" role="group" aria-label="Topic">
+        <div class="contact-form__topics" role="group" aria-label="<?php esc_attr_e( 'What is it about?', 'sweet-pepper' ); ?>">
             <?php foreach ( $topics as $i => $topic ) : ?>
             <button type="button" class="contact-form__topic<?php echo 0 === $i ? ' is-active' : ''; ?>" data-topic="<?php echo esc_attr( $topic ); ?>" aria-pressed="<?php echo 0 === $i ? 'true' : 'false'; ?>"><?php echo esc_html( $topic ); ?></button>
             <?php endforeach; ?>
@@ -50,9 +56,9 @@ $topics = $args['topics'] ?? [];
             <div class="contact-field" data-field="name">
                 <div class="contact-field__label-row">
                     <label class="contact-field__label" for="contact-name">
-                        Name<span class="contact-field__asterisk">*</span>
+                        <?php echo esc_html_x( 'Name', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
                     </label>
-                    <span class="contact-field__error-text">Please enter your name</span>
+                    <span class="contact-field__error-text"><?php esc_html_e( 'Please enter your name', 'sweet-pepper' ); ?></span>
                 </div>
                 <div class="contact-field__input-wrap">
                     <input
@@ -73,9 +79,9 @@ $topics = $args['topics'] ?? [];
                 <div class="contact-toggle-group__field contact-field" data-field="email" data-contact-type="email">
                     <div class="contact-field__label-row">
                         <label class="contact-field__label" for="contact-email">
-                            Email<span class="contact-field__asterisk">*</span>
+                            <?php echo esc_html_x( 'Email', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
                         </label>
-                        <span class="contact-field__error-text">Please enter a valid email</span>
+                        <span class="contact-field__error-text"><?php esc_html_e( 'Please enter a valid email', 'sweet-pepper' ); ?></span>
                     </div>
                     <div class="contact-field__input-wrap">
                         <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
@@ -94,9 +100,9 @@ $topics = $args['topics'] ?? [];
                 <div class="contact-toggle-group__field contact-field" data-field="phone" data-contact-type="phone" hidden>
                     <div class="contact-field__label-row">
                         <label class="contact-field__label" for="contact-phone">
-                            Phone<span class="contact-field__asterisk">*</span>
+                            <?php echo esc_html_x( 'Phone', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
                         </label>
-                        <span class="contact-field__error-text">Please enter your phone number</span>
+                        <span class="contact-field__error-text"><?php esc_html_e( 'Please enter your phone number', 'sweet-pepper' ); ?></span>
                     </div>
                     <div class="contact-field__input-wrap">
                         <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
@@ -113,9 +119,9 @@ $topics = $args['topics'] ?? [];
 
                 <!-- Toggle pills -->
                 <div class="contact-toggle">
-                    <button type="button" class="contact-toggle__pill contact-toggle__pill--active" data-toggle="email">Email</button>
-                    <button type="button" class="contact-toggle__pill" data-toggle="phone">Phone</button>
-                    <span class="contact-toggle__helper">Please, pick the preferred contact method</span>
+                    <button type="button" class="contact-toggle__pill contact-toggle__pill--active" data-toggle="email"><?php echo esc_html_x( 'Email', 'contact form', 'sweet-pepper' ); ?></button>
+                    <button type="button" class="contact-toggle__pill" data-toggle="phone"><?php echo esc_html_x( 'Phone', 'contact form', 'sweet-pepper' ); ?></button>
+                    <span class="contact-toggle__helper"><?php esc_html_e( 'Please, pick the preferred contact method', 'sweet-pepper' ); ?></span>
                 </div>
 
             </div>
@@ -124,9 +130,9 @@ $topics = $args['topics'] ?? [];
             <div class="contact-field" data-field="message">
                 <div class="contact-field__label-row">
                     <label class="contact-field__label" for="contact-message">
-                        Message<span class="contact-field__asterisk">*</span>
+                        <?php echo esc_html_x( 'Message', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
                     </label>
-                    <span class="contact-field__error-text">Please enter a message</span>
+                    <span class="contact-field__error-text"><?php esc_html_e( 'Please enter a message', 'sweet-pepper' ); ?></span>
                 </div>
                 <div class="contact-field__input-wrap contact-field__input-wrap--textarea">
                     <textarea
@@ -143,7 +149,7 @@ $topics = $args['topics'] ?? [];
         </form>
 
         <!-- Submit -->
-        <button type="submit" form="contact-form-el" class="btn btn-primary contact-form__submit">Submit</button>
+        <button type="submit" form="contact-form-el" class="btn btn-primary contact-form__submit"><?php echo esc_html_x( 'Submit', 'contact form', 'sweet-pepper' ); ?></button>
 
     </div>
 
@@ -152,19 +158,19 @@ $topics = $args['topics'] ?? [];
 
         <!-- Badge -->
         <div class="contact-form__success-badge">
-            <span class="success-badge-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+            <span class="success-badge-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/checkmark-outline.svg' ); // the outlined one — Figma icon-badge ?></span>
         </div>
 
         <!-- Content -->
         <div class="contact-form__success-content">
-            <h3 class="contact-form__success-title">Message has been sent!</h3>
+            <h3 class="contact-form__success-title"><?php esc_html_e( 'Message has been sent!', 'sweet-pepper' ); ?></h3>
             <p class="contact-form__success-body">
-                We appreciate you taking the time to write to us. A real human from the bar will read your message and respond directly to your inbox within 24 hours.
+                <?php esc_html_e( 'We appreciate you taking the time to write to us. A real human from the bar will read your message and respond directly to your inbox within 24 hours.', 'sweet-pepper' ); ?>
             </p>
 
             <!-- Direct contact email -->
             <div class="contact-form__info-box">
-                <p class="contact-form__info-label">Direct contact email</p>
+                <p class="contact-form__info-label"><?php esc_html_e( 'Direct contact email', 'sweet-pepper' ); ?></p>
                 <?php get_template_part( 'template-parts/components/contact-item', null, [
                     'icon_svg' => 'icons/c-mail.svg',
                     'contact'  => 'hello@sweetpepper.bar',
@@ -173,7 +179,7 @@ $topics = $args['topics'] ?? [];
 
             <!-- Phone -->
             <div class="contact-form__info-box">
-                <p class="contact-form__info-label">Need instant assistance? Give us a call!</p>
+                <p class="contact-form__info-label"><?php esc_html_e( 'Need instant assistance? Give us a call!', 'sweet-pepper' ); ?></p>
                 <?php get_template_part( 'template-parts/components/contact-item', null, [
                     'icon_svg' => 'icons/c-phone.svg',
                     'contact'  => '+7 (4852) 911-202',
@@ -185,7 +191,7 @@ $topics = $args['topics'] ?? [];
         <!-- Reset button -->
         <button type="button" class="btn btn-secondary contact-form__reset-btn js-form-reset">
             <span class="btn-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
-            Send another message
+            <?php esc_html_e( 'Send another message', 'sweet-pepper' ); ?>
         </button>
 
     </div>

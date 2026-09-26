@@ -20,7 +20,7 @@ Brand voice follows `design.md` §1.1; component behaviour and layout follow `we
 
 A proper meal, a favourite drink and a place to settle in. Get to know the people, the stories and the room behind Sweet Pepper.
 
-**Section navigation:** Food & drink · Story · People · Careers · Location
+**Section navigation:** Gastrobar · Story · People · Careers · Location *(25 Sep 2026, author: "Gastrobar" replaces "Food & drink" — the first card opens the concept, the perks and the reviews, not only the menu; "Idea" is the second option.)*
 
 *Final review: Figma/default copy says 2014; the inspected local field says 2018. Keep the headline wording and settle the year later. Check the longer Food & drink label on mobile. People leads to Guests, followed by Team.*
 

@@ -20,7 +20,7 @@
 <div class="team-form-dialog" id="team-form-dialog" data-form-state="compose" aria-modal="true" role="dialog" aria-label="<?php esc_attr_e( 'Write to the team', 'sweet-pepper' ); ?>">
 
     <!-- Close button -->
-    <button class="team-form-dialog__close js-team-form-close" type="button" aria-label="<?php esc_attr_e( 'Close', 'sweet-pepper' ); ?>">
+    <button class="team-form-dialog__close js-team-form-close" type="button" aria-label="<?php echo esc_attr_x( 'Close', 'team form', 'sweet-pepper' ); ?>">
         <i class="ph ph-x"></i>
     </button>
 
@@ -34,15 +34,21 @@
             <span class="team-form__to-label"><?php esc_html_e( 'To:', 'sweet-pepper' ); ?></span>
             <div class="team-form__chips">
                 <button type="button" class="team-form__chip is-active" data-recipient="all">
-                    <span><?php esc_html_e( 'All', 'sweet-pepper' ); ?></span>
+                    <span><?php echo esc_html_x( 'All', 'team form recipients', 'sweet-pepper' ); ?></span>
                     <svg class="team-form__chip-dismiss" width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                     </svg>
                 </button>
                 <?php
-                $recipients = [ 'Lera', 'Lenya', 'Iura', 'Anton' ];
-                foreach ( $recipients as $name ) : ?>
-                    <button type="button" class="team-form__chip" data-recipient="<?php echo esc_attr( strtolower( $name ) ); ?>">
+                // The id stays Latin; the chip reads «Кому: Лере» in Russian (dative, forms-copy-ru-draft.md §3)
+                $recipients = [
+                    'lera'  => _x( 'Lera', 'team form recipient', 'sweet-pepper' ),
+                    'lenya' => _x( 'Lenya', 'team form recipient', 'sweet-pepper' ),
+                    'iura'  => _x( 'Iura', 'team form recipient', 'sweet-pepper' ),
+                    'anton' => _x( 'Anton', 'team form recipient', 'sweet-pepper' ),
+                ];
+                foreach ( $recipients as $id => $name ) : ?>
+                    <button type="button" class="team-form__chip" data-recipient="<?php echo esc_attr( $id ); ?>">
                         <span><?php echo esc_html( $name ); ?></span>
                         <svg class="team-form__chip-dismiss" width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -86,7 +92,7 @@
             <div class="contact-field" data-field="message">
                 <div class="contact-field__label-row">
                     <label class="contact-field__label" for="team-message">
-                        <?php esc_html_e( 'Message', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
+                        <?php echo esc_html_x( 'Message', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
                     </label>
                     <span class="contact-field__error-text"><?php esc_html_e( 'Please enter a message', 'sweet-pepper' ); ?></span>
                 </div>
@@ -102,7 +108,7 @@
         <div class="team-form__cta-row">
             <span class="team-form__cta-hint"><?php esc_html_e( 'We answer within a day — faster by DM (VK / Telegram).', 'sweet-pepper' ); ?></span>
             <button type="submit" form="team-form-el" class="btn btn-primary-green team-form__submit">
-                <span><?php esc_html_e( 'Send', 'sweet-pepper' ); ?></span>
+                <span><?php echo esc_html_x( 'Send', 'contact form', 'sweet-pepper' ); ?></span>
                 <span class="btn-icon btn-icon-right"><?php echo sweet_pepper_inline_svg( 'assets/icons/send.svg' ); ?></span>
             </button>
         </div>
@@ -114,7 +120,7 @@
 
         <!-- Badge -->
         <div class="team-form__success-badge">
-            <span class="success-badge-icon"><?php echo file_get_contents( get_template_directory() . '/assets/icons/c-checkmark.svg' ); ?></span>
+            <span class="success-badge-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/checkmark-outline.svg' ); // the outlined one — Figma icon-badge ?></span>
         </div>
 
         <!-- Content -->

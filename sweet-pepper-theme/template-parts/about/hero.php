@@ -19,31 +19,33 @@
 $img_base = get_template_directory_uri() . '/assets/images/';
 
 
-// Filmstrip nav items — about-page-copy.md → Hero: Food & drink · Story · People · Careers · Location
-// (the doc flags the longer first label for a mobile fit check).
+// Filmstrip nav items — about-page-copy.md → Hero. Gastrobar · Story · People · Careers · Location
+// (author, 25 Sep 2026: "Gastrobar" over "Food & drink" — the card opens the concept, perks and
+// reviews; «Идея» / "Idea" is the author's second option). Russian: Гастробар · История · Люди ·
+// Работа · Адрес.
 $filmstrip = [
     [
-        'label' => 'Food & drink',
+        'label' => _x( 'Gastrobar', 'About filmstrip', 'sweet-pepper' ),
         'image' => $img_base . 'bar/cocktails/cocktail-5.jpg',
         'href'  => '#concept',
     ],
     [
-        'label' => 'Story',
+        'label' => _x( 'Story', 'About filmstrip', 'sweet-pepper' ),
         'image' => $img_base . 'food/lunch/pumpkin.png',
         'href'  => '#story',
     ],
     [
-        'label' => 'People',
+        'label' => _x( 'People', 'About filmstrip', 'sweet-pepper' ),
         'image' => $img_base . 'bar/cocktails/moscow-mull-2.jpg',
         'href'  => '#guests',
     ],
     [
-        'label' => 'Careers',
+        'label' => _x( 'Careers', 'About filmstrip', 'sweet-pepper' ),
         'image' => $img_base . 'food/dinner/zharkoe-1.jpg',
         'href'  => '#careers',
     ],
     [
-        'label' => 'Location',
+        'label' => _x( 'Location', 'About filmstrip', 'sweet-pepper' ),
         'image' => $img_base . 'sweet-space/door-entrance.jpg',
         'href'  => '#location',
     ],

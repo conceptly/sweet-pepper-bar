@@ -22,6 +22,9 @@ import './css/about.css';
 import './css/visit.css';
 import './css/vacancy.css';
 import './css/reveal.css';
+// iOS Safari fires :active only when the page listens for touches — without this every pressed
+// state (cards, buttons, the language switch) was invisible on an iPhone (25 Sep 2026).
+document.addEventListener('touchstart', () => {}, { passive: true });
 import { initDaypartEngine } from './js/daypart-engine';
 import { initMobileDrawer } from './js/mobile-drawer';
 import { initReserveDrawer } from './js/reserve-drawer';

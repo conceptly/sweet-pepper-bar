@@ -286,6 +286,7 @@ Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `desig
 - **One focal point** per view — a dish, a drink, an event, a headline.
 - **Colour-block, don't decorate** — solid bands replace shadows/outlines/glows.
 - **Flat by default** — if an effect is needed, one subtle shadow, never three.
+- **Language switch states (author, 25 Sep 2026):** the highlight takes the active option's colour — Paprika beside the Chili header, Avocado / Lime in the drawer; hover lifts (drop shadow), pressed sinks (keyline + inner shadow over the label). Values: `website-brief.md` → Interaction rule → *Language switch states*.
 - **Card states on the website — one recipe for every card that is a link (author, 25 Sep 2026).** Hover lifts (the shadow expands by day; a Lime stroke and glow by night), pressed sinks (an inset shadow, fast; the Lime stroke stays by night). A card that is not a link gets no pressed state and no night stroke. Pinned-paper cards (Visit contacts, quotes, vacancies) keep their own un-tilt vocabulary. Values: `website-brief.md` → Interaction rule → *Card states*.
 
 The concrete grid (1120px content width, 12 columns, 24px gutter) and the body-copy width cap live in `website-brief.md` → Grid — not duplicated here.

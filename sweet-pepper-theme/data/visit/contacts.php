@@ -6,8 +6,8 @@
  * sweet_pepper_visit_contacts() and the seed source.
  *
  *   ru — from visit-page-copy-ru-draft.md → Карточка контактов. The booking group's heading is
- *        the author's (24 Sep 2026); the phone / VK / Instagram notes are left for the draft's
- *        final pass: they borrow the English until then.
+ *        the author's (24 Sep 2026); the phone / VK / Instagram notes are mine (25 Sep 2026, for
+ *        the draft's final pass) — no response time promised (home-copy-ru-review.md §8).
  *
  * @package Sweet_Pepper
  */
@@ -26,6 +26,9 @@ return [
     'ru'            => [
         'title'         => 'НА СВЯЗИ',
         'book_heading'  => 'СТОЛИКИ И ОТЗЫВЫ',
+        'phone_note'    => 'Вечером бывает шумно — можно и написать',
+        'vk_note'       => 'Обычно так быстрее всего',
+        'ig_note'       => 'Сообщения и свежие новости',
         'email_heading' => 'НАПИСАТЬ ПИСЬМО',
         'email_note'    => 'Отзывы, идеи, сотрудничество.',
         'place_heading' => 'ВАМ СЮДА',

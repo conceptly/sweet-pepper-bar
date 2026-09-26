@@ -50,8 +50,8 @@ $row = function ( $icon, $text, $copy, $label, $href, $external = false ) {
 };
 
 $phone_row = fn( $c ) => $row( 'c-phone.svg', $c['phone'], $c['tel'] ?: $c['phone'], __( 'Call', 'sweet-pepper' ), $c['tel'] ? 'tel:' . $c['tel'] : '' );
-$tg_row    = fn( $c ) => $row( 'send.svg', $c['telegram'], $c['telegram_url'] ?: $c['telegram'], __( 'Write', 'sweet-pepper' ), $c['telegram_url'], true );
-$mail_row  = fn( $c ) => $row( 'c-mail.svg', $c['email'], $c['email'], __( 'Write', 'sweet-pepper' ), $c['email'] ? 'mailto:' . $c['email'] : '' );
+$tg_row    = fn( $c ) => $row( 'send.svg', $c['telegram'], $c['telegram_url'] ?: $c['telegram'], _x( 'Write', 'a contact row action', 'sweet-pepper' ), $c['telegram_url'], true );
+$mail_row  = fn( $c ) => $row( 'c-mail.svg', $c['email'], $c['email'], _x( 'Write', 'a contact row action', 'sweet-pepper' ), $c['email'] ? 'mailto:' . $c['email'] : '' );
 ?>
 <div class="vacancy-card">
     <h2 class="vacancy-card__title molot-text"><?php esc_html_e( 'Your contact', 'sweet-pepper' ); ?></h2>
@@ -78,8 +78,8 @@ $mail_row  = fn( $c ) => $row( 'c-mail.svg', $c['email'], $c['email'], __( 'Writ
             <?php
             $phone_row( $bar );
             $tg_row( $bar );
-            $row( 'vk.svg', $bar['vk_label'], $bar['vk'], __( 'Message', 'sweet-pepper' ), $bar['vk'], true );
-            $row( 'insta.svg', $bar['instagram_label'], $bar['instagram'], __( 'DM', 'sweet-pepper' ), $bar['instagram'], true );
+            $row( 'vk.svg', $bar['vk_label'], $bar['vk'], _x( 'Message', 'a contact row action', 'sweet-pepper' ), $bar['vk'], true );
+            $row( 'insta.svg', $bar['instagram_label'], $bar['instagram'], _x( 'DM', 'a contact row action', 'sweet-pepper' ), $bar['instagram'], true );
             $mail_row( $bar );
             ?>
         </div>

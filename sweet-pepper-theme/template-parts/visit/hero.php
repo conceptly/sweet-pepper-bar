@@ -189,20 +189,20 @@ $is_ru    = ( 'ru' === sweet_pepper_lang() );
                                     'copy_text'       => 'https://vk.ru/sweetpepperbar',
                                     'supportive_text' => $contacts['vk_note'],
                                 ] ); ?>
-                                <a href="https://vk.ru/sweetpepperbar" target="_blank" rel="noopener" class="visit-hero__contact-action" aria-label="<?php esc_attr_e( 'Message on VK', 'sweet-pepper' ); ?>">
-                                    <span class="visit-hero__contact-action-label"><?php esc_html_e( 'Message', 'sweet-pepper' ); ?></span>
+                                <a href="https://vk.ru/sweetpepperbar" target="_blank" rel="noopener" class="visit-hero__contact-action" aria-label="<?php esc_attr_e( 'VK message', 'sweet-pepper' ); ?>">
+                                    <span class="visit-hero__contact-action-label"><?php echo esc_html_x( 'Message', 'a contact row action', 'sweet-pepper' ); ?></span>
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
                             </div>
                             <div class="visit-hero__contact-row visit-hero__contact-row--with-action">
                                 <?php get_template_part( 'template-parts/components/contact-item', null, [
                                     'icon_svg'        => 'icons/insta.svg',
-                                    'contact'         => '@sweetpepperbar',
+                                    'contact'         => '@barsweetpepper', // the account: instagram.com/barsweetpepper (author, 25 Sep 2026)
                                     'copy_text'       => 'https://instagram.com/barsweetpepper',
                                     'supportive_text' => $contacts['ig_note'],
                                 ] ); ?>
-                                <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="visit-hero__contact-action" aria-label="<?php esc_attr_e( 'DM on Instagram', 'sweet-pepper' ); ?>">
-                                    <span class="visit-hero__contact-action-label"><?php esc_html_e( 'DM', 'sweet-pepper' ); ?></span>
+                                <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="visit-hero__contact-action" aria-label="<?php esc_attr_e( 'Instagram DM', 'sweet-pepper' ); ?>">
+                                    <span class="visit-hero__contact-action-label"><?php echo esc_html_x( 'DM', 'a contact row action', 'sweet-pepper' ); ?></span>
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
                             </div>
@@ -218,7 +218,7 @@ $is_ru    = ( 'ru' === sweet_pepper_lang() );
                                     'supportive_text' => $contacts['email_note'],
                                 ] ); ?>
                                 <a href="mailto:hello@sweetpepper.bar" class="visit-hero__contact-action visit-hero__contact-action--desktop-only">
-                                    <span class="visit-hero__contact-action-label"><?php esc_html_e( 'Write', 'sweet-pepper' ); ?></span>
+                                    <span class="visit-hero__contact-action-label"><?php echo esc_html_x( 'Write', 'a contact row action', 'sweet-pepper' ); ?></span>
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
                                 <button type="button" class="visit-hero__contact-action visit-hero__contact-action--phone-only js-copy" data-copy-text="hello@sweetpepper.bar" data-copied-label="<?php esc_attr_e( 'Email address copied', 'sweet-pepper' ); ?>" aria-label="<?php esc_attr_e( 'Copy email address', 'sweet-pepper' ); ?>">

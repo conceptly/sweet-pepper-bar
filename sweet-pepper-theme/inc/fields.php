@@ -117,3 +117,18 @@ function sweet_pepper_page_rows( $page_id, $field, $typed, $twins ) {
 function sweet_pepper_page_text( $page_id, $prefix, $typed ) {
     return fn( $key ) => sp_field( "{$prefix}_{$key}", sweet_pepper_typed( $typed, $key ), $page_id );
 }
+
+/**
+ * The browser tab on About and Visit (25 Sep 2026): their WordPress titles are English
+ * ("About", "Visit"); the Russian page takes the nav word instead — О баре · В гости.
+ * Home, the menu pages and the vacancies set their own (inc/home-data.php, menu-page.php,
+ * vacancies.php).
+ */
+add_filter( 'document_title_parts', function ( $parts ) {
+    if ( is_page( 'about' ) ) {
+        $parts['title'] = __( 'About', 'sweet-pepper' );
+    } elseif ( is_page( 'visit' ) ) {
+        $parts['title'] = __( 'Visit', 'sweet-pepper' );
+    }
+    return $parts;
+} );

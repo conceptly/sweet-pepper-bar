@@ -607,7 +607,7 @@ html[data-theme="night"] .contact-form__success-badge {
 
 .contact-form__success-badge .success-badge-icon {
     display: flex;
-    color: var(--avocado);
+    color: var(--olive); /* Figma icon-badge, day: the outlined check in Olive on the Avocado ring */
 }
 
 html[data-theme="night"] .contact-form__success-badge .success-badge-icon {
@@ -1297,7 +1297,7 @@ html[data-theme="night"] .contact-item__supportive {
 
 .team-form__success-badge .success-badge-icon {
     display: flex;
-    color: var(--avocado);
+    color: var(--olive);
 }
 
 .team-form__success-badge .success-badge-icon svg {
@@ -1354,6 +1354,31 @@ html[data-theme="night"] .contact-item__supportive {
 /* Reset button */
 .team-form__reset-btn {
     width: 100%;
+}
+
+/* The dialog is Paper in both modes, so its success keeps the day frame (FormContactLight,
+   contact=success 1819:128609) by night too — the night theme had turned the contact rows
+   Paper on Parchment and the reset button Lime on Paper (found 25 Sep 2026). */
+/* Contact icons stay Avocado, as every contact row on the site (author, 25 Sep 2026 — the
+   frame's contactItem-day draws Olive; kept for consistency) */
+.team-form-dialog .team-form__success .contact-item__icon {
+    color: var(--avocado);
+}
+
+.team-form-dialog .team-form__success .contact-item__text {
+    color: var(--soft-peppercorn);
+}
+
+html[data-theme="night"] .team-form__reset-btn {
+    border-color: var(--olive);
+    color: var(--olive);
+}
+
+html[data-theme="night"] .team-form__reset-btn:hover,
+html[data-theme="night"] .team-form__reset-btn:active {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
 }
 
 /* ── State switching ── */

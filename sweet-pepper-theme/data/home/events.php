@@ -37,8 +37,7 @@ return [
     'more'        => [
         'photo' => 'bar/cocktails/shots-3.jpg',
         'alt'   => 'See all events at Sweet Pepper',
-        'label' => 'More on VK →',
-        'url'   => 'https://vk.com/sweet_pepper_bar',
-        'ru'    => [ 'label' => 'Ещё во ВКонтакте →' ],
+        'label' => 'More on Instagram →', // the English page's feed side (author, 25 Sep 2026); the URL is Bar Settings'
+        'ru'    => [ 'label' => 'Ещё во ВКонтакте →', 'alt' => 'Все события Sweet Pepper' ],
     ],
 ];

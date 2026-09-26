@@ -662,10 +662,9 @@ events_home = [
           ec("event_pinned", "Закрепить", "pinned", "true_false", 25, **toggle),
           ec("event_alt_en", "Описание фото (alt, EN)", "alt_en", "text", 25, **{**text, "placeholder": "пусто — как подпись"}),
       ]),
-    hhint("events_more", "<strong>Последняя плитка</strong> — ссылка на сообщество."),
+    hhint("events_more", "<strong>Последняя плитка</strong> — ссылка на ленту: русская страница ведёт во ВКонтакте, английская — в Instagram (адреса — Настройки бара → «Контакты»)."),
     h("events_more_photo", "Фото", "home_events_more_photo", "image", 34, instructions="Вертикальное, 4:5; на сайте затемнено.", **image),
     *[dict(f, wrapper={"width": "33", "class": "", "id": ""}) for f in twins(h, "events_more_label", "Слова на плитке", "home_events_more_label")],
-    h("events_more_url", "Ссылка", "home_events_more_url", "url", "", **url),
 ]
 
 # 7. Contacts — the words; the channels (phone, VK, Instagram, the address, the map) are the theme's until Bar Settings holds them.

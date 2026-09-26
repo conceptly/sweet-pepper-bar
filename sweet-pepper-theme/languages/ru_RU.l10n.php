@@ -167,6 +167,64 @@ return [
         'Apply on hh.ru'                             => 'Откликнуться на hh.ru',
         'Other open roles'                           => 'Другие вакансии',
 
+        // Forms — forms-copy-ru-draft.md (25 Sep 2026): the Visit and home contact form, the About
+        // team form. Home title and subtitle from home-copy-ru-review.md §9. The success words are
+        // written for a confirmed send; the forms do not send yet (draft §6).
+        'Send a message'                             => 'Написать сообщение',
+        "the Visit page form\4Send a message"        => 'Написать Перцам',
+        "the Visit form title, phones\4or "          => 'или ',
+        "We'll get back to you within 24 hours."     => 'Выберите, как вам удобнее получить ответ.',
+        "Feedback, partnerships, events, or anything that's not a reservation. We'll get back to you within 24 hours!" => 'Отзыв, идея, праздник в Перце или предложение о сотрудничестве? Рассказывайте. А о столике лучше договориться по телефону или в сообщениях.',
+        'What is it about?'                          => 'О чём сообщение?',
+        'Private event'                              => 'Мероприятие', // draft: «Праздник в Перце» is the open alternative
+        'Press & Partners'                           => 'Пресса и партнёры',
+        'Feedback'                                   => 'Отзыв',
+        'Any questions'                              => 'Вопрос',
+        "contact form\4Name"                         => 'Ваше имя',
+        'Your name'                                  => 'Ваше имя',
+        "contact form\4Email"                        => 'Почта',
+        'Your Email'                                 => 'Почта',
+        "contact form\4Phone"                        => 'Телефон',
+        "contact form\4Message"                      => 'Сообщение',
+        'Please, pick the preferred contact method'  => 'Как с вами связаться?',
+        "contact form\4Submit"                       => 'Отправить',
+        "contact form\4Send"                         => 'Отправить',
+        'Please enter your name'                     => 'Укажите имя',
+        'Please enter a valid email'                 => 'Проверьте адрес почты',
+        'Please enter your phone number'             => 'Укажите номер телефона',
+        'Please enter a message'                     => 'Напишите сообщение',
+        'Message has been sent!'                     => 'Сообщение отправлено!',
+        'message has been sent!'                     => 'Сообщение отправлено!',
+        'We appreciate you taking the time to write to us. A real human from the bar will read your message and respond directly to your inbox within 24 hours.' => 'Спасибо, что написали Перцам. Если понадобится ответ, команда свяжется с вами по оставленным контактам.',
+        'Direct contact email'                       => 'Можно написать и на почту:',
+        'Need instant assistance? Give us a call!'   => 'Вопрос срочный? Лучше позвонить.',
+        'need instant assistance? give us a call!'   => 'Вопрос срочный? Лучше позвонить.',
+        'Send another message'                       => 'Написать ещё',
+        'WRITE TO THE TEAM'                          => 'Пара слов команде',
+        'To:'                                        => 'Кому:',
+        "team form recipients\4All"                  => 'Всей команде',
+        "team form recipient\4Lera"                  => 'Лере',
+        "team form recipient\4Lenya"                 => 'Лёне',
+        "team form recipient\4Iura"                  => 'Юре',
+        "team form recipient\4Anton"                 => 'Антону',
+        'We answer within a day — faster by DM (VK / Telegram).' => 'Оставьте почту для ответа.', // the draft drops the unconfirmed day / Telegram promise
+        "team form\4Close"                           => 'Закрыть форму',
+
+        // The rest of the English on Russian pages (25 Sep 2026). Filmstrip: the author's; the
+        // contact-row actions, alts and the entrance alt: mine, for review.
+        "About filmstrip\4Gastrobar"                 => 'Гастробар', // author's second option: «Идея»
+        "About filmstrip\4Story"                     => 'История',
+        "About filmstrip\4People"                    => 'Люди',
+        "About filmstrip\4Careers"                   => 'Работа',
+        "About filmstrip\4Location"                  => 'Адрес',
+        'Sweet Pepper team group photo, %s'          => 'Команда Sweet Pepper, %s',
+        'Photo of %s'                                => 'Фото: %s',
+        'Entrance to Sweet Pepper Gastrobar, Kirova St. 10/25' => 'Вход в гастробар Sweet Pepper, ул. Кирова, 10/25',
+        "a contact row action\4Message"              => 'Написать',
+        "a contact row action\4DM"                   => 'Написать',
+        "a contact row action\4Write"                => 'Написать',
+        'Call %s'                                    => 'Позвонить: %s',
+
         // Accessibility boilerplate — conventional, not voice
         'Skip to content'                            => 'Перейти к содержимому',
         'Open menu'                                  => 'Открыть меню сайта',

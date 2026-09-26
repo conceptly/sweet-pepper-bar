@@ -62,7 +62,8 @@ export function initLocationMap() {
         iframe.src = url;
         iframe.allowFullscreen = true;
         iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-        iframe.setAttribute('title', 'Sweet Pepper Bar on the map');
+        // The page's language, not a string from PHP: the embed is built here (25 Sep 2026)
+        iframe.setAttribute('title', document.documentElement.lang.startsWith('ru') ? 'Sweet Pepper на карте' : 'Sweet Pepper Bar on the map');
 
         container.dataset.provider = provider;
         container.appendChild(iframe);

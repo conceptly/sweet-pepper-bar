@@ -1,0 +1,11 @@
+{
+  "page": "home",
+  "groups": [
+    {
+      "note": "the English page's last events tile goes to Instagram now, so its words follow (author, 25 Sep 2026); the tile's URL field is retired — both links come from Bar Settings → «Контакты»",
+      "set": [
+        [ "home_events_more_label_en", "More on VK →", "More on Instagram →" ]
+      ]
+    }
+  ]
+}

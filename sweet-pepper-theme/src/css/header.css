@@ -343,3 +343,148 @@ html[data-theme="night"] .lang-switch .lang-option.active {
 .single-vacancy .lang-switch .lang-option.active {
     color: var(--cream);
 }
+
+/* ── Language switch states (author, 25 Sep 2026) ──
+   Figma LangSwitchLeft (2640:71404): four sets — desktop / drawer × light / dark. The dark
+   desktop set is the night header and the always-dark About / Visit / vacancy headers.
+   Rest changes too: the light desktop's inactive option on Parchment with a Mushroom keyline,
+   the dark one on Soft Peppercorn, the light drawer's active option Avocado (was Olive).
+   The highlight takes the active option's colour (author): Paprika beside the Chili header.
+     desktop light  hover: Paprika label, drop 1px 1px 4px 33% (the keyline stays Mushroom —
+                    the author's words; the frame also strokes it Paprika)
+                    pressed: Paprika keyline + label, inset 1px 1px 2px 33%
+     desktop dark   hover: Cream label, Cream glow 0 0 4px 50%
+                    pressed: Cream 0.5px keyline + label, inset 1px 1px 7px 80%
+     drawer light   pressed: Avocado keyline + label, inset 1px 1px 2px 33% (no hover drawn)
+     drawer dark    pressed: Lime 0.5px keyline + label, inset 1px 1px 7px 80% (no hover drawn)
+   Every pressed inset is laid OVER the label (::after), the frames' layer order (2646:71408,
+   71551, 71527, 71535) — the shadow reaches the letters, not only the box.
+   Keylines are inset box-shadows in the header, so nothing changes size; the drawer's options
+   already carry a 1px border. Timing: the buttons' 0.8s Gentle-flat (author). Tried behind
+   ?langstates first (Button look, then the author's frames), promoted the same day. */
+html .lang-switch {
+    --ls-bg: var(--parchment);
+    --ls-ring: inset 0 0 0 1px var(--mushroom);
+    --ls-hover-t: var(--paprika);
+    --ls-hover: inset 0 0 0 1px var(--mushroom), 1px 1px 4px 0 rgba(21, 19, 23, 0.33);
+    --ls-press-t: var(--paprika);
+    --ls-press: inset 0 0 0 1px var(--paprika);
+    --ls-press-over: inset 1px 1px 2px 0 rgba(21, 19, 23, 0.33);
+    --ls-active-bg: var(--chili);
+    --ls-active-t: var(--parchment);
+}
+
+html[data-theme="night"] .site-header .lang-switch,
+html body:is(.page-template-page-about, .page-template-page-visit, .single-vacancy) .site-header .lang-switch {
+    --ls-bg: var(--soft-peppercorn);
+    --ls-ring: 0 0 0 0 transparent;
+    --ls-hover-t: var(--cream);
+    --ls-hover: 0 0 4px 0 rgba(255, 246, 137, 0.5);
+    --ls-press-t: var(--cream);
+    --ls-press: inset 0 0 0 0.5px var(--cream);
+    --ls-press-over: inset 1px 1px 7px 0 rgba(21, 19, 23, 0.8);
+    --ls-active-t: var(--cream);
+}
+
+html .lang-switch--green {
+    --ls-ring: 0 0 0 0 transparent; /* the drawer's options draw their keyline as a border */
+    --ls-press-t: var(--avocado);
+    --ls-press: none; /* the keyline is the option's own border (Avocado on press) */
+    --ls-press-over: inset 1px 1px 2px 0 rgba(21, 19, 23, 0.33);
+    --ls-active-bg: var(--avocado);
+}
+
+html[data-theme="night"] .lang-switch--green,
+html .mobile-drawer--dark .lang-switch--green {
+    --ls-bg: var(--soft-peppercorn);
+    --ls-press-t: var(--lime);
+    --ls-press: inset 0 0 0 0.5px var(--lime);
+    --ls-press-over: inset 1px 1px 7px 0 rgba(21, 19, 23, 0.8);
+    --ls-active-bg: var(--lime);
+    --ls-active-t: var(--peppercorn);
+}
+
+html .lang-switch .lang-option {
+    transition: background-color 0.8s var(--ease-gentle-flat),
+                border-color 0.8s var(--ease-gentle-flat),
+                color 0.8s var(--ease-gentle-flat),
+                box-shadow 0.8s var(--ease-gentle-flat);
+}
+
+html .lang-switch a.lang-option,
+html[data-theme="night"] .lang-switch a.lang-option,
+html body .lang-switch a.lang-option {
+    background-color: var(--ls-bg);
+    color: var(--mushroom);
+    box-shadow: var(--ls-ring);
+}
+
+html .lang-switch .lang-option.active,
+html[data-theme="night"] .lang-switch .lang-option.active,
+html body .lang-switch .lang-option.active {
+    background-color: var(--ls-active-bg);
+    color: var(--ls-active-t);
+}
+
+/* The drawer's options keep their own 1px border: Mushroom at rest by day, none by night */
+html .lang-switch--green .lang-option.active {
+    border-color: var(--ls-active-bg);
+}
+
+html[data-theme="night"] body .lang-switch--green a.lang-option,
+html body .mobile-drawer--dark .lang-switch--green a.lang-option {
+    border-color: transparent;
+}
+
+@media (hover: hover) {
+    html body .site-header .lang-switch a.lang-option:hover {
+        color: var(--ls-hover-t);
+        box-shadow: var(--ls-hover);
+    }
+}
+
+html body .lang-switch a.lang-option:active,
+html body .site-header .lang-switch a.lang-option:active { /* outranks the header's :hover — a press is also a hover */
+    color: var(--ls-press-t);
+    box-shadow: var(--ls-press);
+}
+
+/* The pressed inner shadow sits over the label as well as the box (the frames' layer order);
+   a box-shadow alone paints under the text */
+html .lang-switch a.lang-option {
+    position: relative;
+}
+
+html .lang-switch a.lang-option::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: none;
+    transition: box-shadow 0.8s var(--ease-gentle-flat);
+}
+
+html body .lang-switch a.lang-option:active::after {
+    box-shadow: var(--ls-press-over);
+}
+
+html body .lang-switch--green a.lang-option:active {
+    border-color: var(--avocado);
+}
+
+html body .mobile-drawer--dark .lang-switch--green a.lang-option:active,
+html[data-theme="night"] body .lang-switch--green a.lang-option:active {
+    border-color: transparent;
+}
+
+html .lang-switch a.lang-option:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+html[data-theme="night"] .lang-switch a.lang-option:focus-visible,
+html body:is(.page-template-page-about, .page-template-page-visit, .single-vacancy) .lang-switch a.lang-option:focus-visible,
+html .mobile-drawer--dark .lang-switch a.lang-option:focus-visible {
+    outline-color: var(--lime);
+}

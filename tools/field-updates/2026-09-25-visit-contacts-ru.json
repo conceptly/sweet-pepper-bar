@@ -1,0 +1,13 @@
+{
+  "page": "visit",
+  "groups": [
+    {
+      "note": "the contact card's phone / VK / Instagram notes in Russian — mine, for the draft's final pass (visit-page-copy-ru-draft.md → Карточка контактов; no response time promised)",
+      "set": [
+        [ "visit_contacts_phone_note_ru", "", "Вечером бывает шумно — можно и написать" ],
+        [ "visit_contacts_vk_note_ru", "", "Обычно так быстрее всего" ],
+        [ "visit_contacts_ig_note_ru", "", "Сообщения и свежие новости" ]
+      ]
+    }
+  ]
+}

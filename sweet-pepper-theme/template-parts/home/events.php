@@ -51,7 +51,7 @@
                         'type'          => 'secondary',
                         'icon_left_svg' => 'icons/insta.svg',
                         'icon_right_svg'=> 'icons/c-arrow-right-outline.svg',
-                        'url'           => 'https://www.instagram.com/sweet_pepper_bar/',
+                        'url'           => 'https://www.instagram.com/barsweetpepper/', // was /sweet_pepper_bar/ — not the account (author, 25 Sep 2026)
                     ],
                 ]
             ] ); 

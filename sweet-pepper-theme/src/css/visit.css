@@ -1018,8 +1018,12 @@
 }
 
 /* Success state overrides */
+/* Success — the night frame whole (FormContactDark, contact=success 1819:128441; author,
+   25 Sep 2026): the section is dark in both modes, so it cannot wait for data-theme. It had
+   a solid Avocado badge, Parchment body and Parchment boxes with dark contact text. */
 .visit-cta .contact-form__success-badge {
-  background-color: var(--avocado);
+  border-color: var(--lime);
+  background: rgba(193, 219, 52, 0.15);
 }
 
 .visit-cta .contact-form__success-badge .success-badge-icon {
@@ -1031,15 +1035,35 @@
 }
 
 .visit-cta .contact-form__success-body {
-  color: var(--parchment);
+  color: var(--paper);
 }
 
 .visit-cta .contact-form__info-box {
-  border-color: var(--ash);
+  background-color: var(--soft-peppercorn);
 }
 
 .visit-cta .contact-form__info-label {
   color: var(--mushroom);
+}
+
+.visit-cta .contact-form__success .contact-item__icon {
+  color: var(--lime);
+}
+
+.visit-cta .contact-form__success .contact-item__text {
+  color: var(--paper);
+}
+
+.visit-cta .contact-form__reset-btn {
+  border-color: var(--lime);
+  color: var(--lime);
+}
+
+.visit-cta .contact-form__reset-btn:hover,
+.visit-cta .contact-form__reset-btn:active {
+  background-color: var(--cream);
+  border-color: var(--lime);
+  color: var(--peppercorn);
 }
 
 /* --------------------------------------------------------------------------

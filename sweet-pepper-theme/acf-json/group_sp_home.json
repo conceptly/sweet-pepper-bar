@@ -2895,7 +2895,7 @@
                 "class": "",
                 "id": ""
             },
-            "message": "<strong>Последняя плитка</strong> — ссылка на сообщество.",
+            "message": "<strong>Последняя плитка</strong> — ссылка на ленту: русская страница ведёт во ВКонтакте, английская — в Instagram (адреса — Настройки бара → «Контакты»).",
             "new_lines": "",
             "esc_html": 0
         },
@@ -2963,23 +2963,6 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
-        },
-        {
-            "key": "field_sp_home_events_more_url",
-            "label": "Ссылка",
-            "name": "home_events_more_url",
-            "aria-label": "",
-            "type": "url",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": ""
         },
         {
             "key": "field_sp_home_contacts_tab",
@@ -3491,5 +3474,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790294918
+    "modified": 1790381789
 }

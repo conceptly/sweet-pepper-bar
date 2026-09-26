@@ -13,8 +13,8 @@
  * visit-page-copy.md → Strategy).
  *
  * Words and the photo come as args from sweet_pepper_visit_cta() (inc/visit-data.php) — the
- * Visit page's «Обратная связь» tab. The booking block and the form are deferred by the
- * Russian draft and stay typed here.
+ * Visit page's «Обратная связь» tab. The booking block and the form's words go through the
+ * dictionary (25 Sep 2026 — the drawer's booking words; forms-copy-ru-draft.md §2).
  *
  * @param array $args headline · body · photo (URL) · alt.
  *
@@ -76,22 +76,24 @@
                 <?php // Phones only — the booking block. .phone-cta-wrapper is the bar-state hook
                       // (reserve-drawer.js applyBarState sets data-bar-state on every wrapper). ?>
                 <div class="visit-cta__booking phone-cta-wrapper" data-bar-state="available">
-                    <h3 class="visit-cta__booking-title molot-text">Book your table</h3>
+                    <h3 class="visit-cta__booking-title molot-text"><?php esc_html_e( 'Book your table', 'sweet-pepper' ); ?></h3>
                     <a href="tel:+74852911202" class="btn btn-primary-green visit-cta__call">
                         <span class="btn-icon btn-icon-left"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
-                        <span class="btn-label">Call 911-202</span>
+                        <span class="btn-label"><?php esc_html_e( 'Call 911-202', 'sweet-pepper' ); ?></span>
                     </a>
                     <div class="visit-cta__booking-row">
                         <?php
                         get_template_part( 'template-parts/components/button', null, [
-                            'label'         => 'VK message',
+                            'label'         => __( 'VK message', 'sweet-pepper' ),
+                            'label_mobile'  => _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ),
                             'type'          => 'secondary',
                             'class'         => 'btn-secondary--dark',
                             'icon_left_svg' => 'icons/vk.svg',
                             'url'           => 'https://vk.me/barsweetpepper',
                         ] );
                         get_template_part( 'template-parts/components/button', null, [
-                            'label'         => 'Instagram DM',
+                            'label'         => __( 'Instagram DM', 'sweet-pepper' ),
+                            'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
                             'type'          => 'secondary',
                             'class'         => 'btn-secondary--dark',
                             'icon_left_svg' => 'icons/insta.svg',
@@ -105,9 +107,10 @@
             <?php // ── Right: Contact form (dark variant) ── ?>
             <div class="visit-cta__form-wrap">
                 <?php get_template_part( 'template-parts/components/contact-form', null, [
-                    'subtitle'            => "Feedback, partnerships, events, or anything that's not a reservation. We'll get back to you within 24 hours!",
-                    'title_prefix_mobile' => 'or ',
-                    'topics'              => [ 'Private event', 'Press & Partners', 'Feedback', 'Any questions' ],
+                    'title'               => _x( 'Send a message', 'the Visit page form', 'sweet-pepper' ),
+                    'subtitle'            => __( "Feedback, partnerships, events, or anything that's not a reservation. We'll get back to you within 24 hours!", 'sweet-pepper' ),
+                    'title_prefix_mobile' => _x( 'or ', 'the Visit form title, phones', 'sweet-pepper' ),
+                    'topics'              => [ __( 'Private event', 'sweet-pepper' ), __( 'Press & Partners', 'sweet-pepper' ), __( 'Feedback', 'sweet-pepper' ), __( 'Any questions', 'sweet-pepper' ) ],
                 ] ); ?>
             </div>
 

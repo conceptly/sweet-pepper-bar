@@ -262,7 +262,12 @@ function sweet_pepper_home_events( $page_id ) {
         ];
     }
     $more = sweet_pepper_page_text( $page_id, 'home_events_more', $typed['more'] );
-    $url  = $page_id && function_exists( 'get_field' ) ? (string) get_field( 'home_events_more_url', $page_id ) : '';
+    // The tile goes where the page's feed comes from (author, 25 Sep 2026): the Russian page's
+    // cards are VK posts, the English page's the Instagram side — both addresses from Bar
+    // Settings → «Контакты», the one place they are kept. It had its own URL field, which
+    // held a third VK address (vk.com/sweet_pepper_bar) and sent the English page to VK too.
+    $bar  = sweet_pepper_bar_contacts();
+    $url  = 'ru' === sweet_pepper_lang() ? $bar['vk'] : $bar['instagram'];
     [ $headline, $headline_2 ] = sp_headline( 'home_events_headline', $typed, $page_id );
     return [
         'eyebrow'     => $text( 'eyebrow' ),
@@ -272,9 +277,9 @@ function sweet_pepper_home_events( $page_id ) {
         'cards'       => $cards,
         'more'        => [
             'image_url' => sweet_pepper_home_photo( $page_id, 'home_events_more_photo', 'sp-4x5', $typed['more']['photo'] ),
-            'image_alt' => $typed['more']['alt'],
+            'image_alt' => sweet_pepper_typed( $typed['more'], 'alt' ),
             'label'     => $more( 'label' ),
-            'url'       => $url ?: $typed['more']['url'],
+            'url'       => $url,
         ],
     ];
 }

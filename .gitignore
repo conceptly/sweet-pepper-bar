@@ -36,3 +36,7 @@ Molot-fontfacekit/
 Molot-fontfacekit.zip
 case-study/.~lock.*
 design/old-chili-peppers-pattern/
+
+# Database dumps — never in git (the test site dump landed in the repo root on 25 Sep 2026)
+*.sql
+*.sql.gz

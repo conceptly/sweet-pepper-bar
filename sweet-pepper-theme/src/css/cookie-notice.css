@@ -27,6 +27,11 @@
     display: none;
 }
 
+/* The inner box is invisible to layout everywhere but the desktop bottom card (below) */
+.cookie-notice__box {
+    display: contents;
+}
+
 .cookie-notice__title {
     margin: 0;
     font-family: var(--font-display);
@@ -213,6 +218,120 @@ html[data-theme="night"] .cookie-notice[data-variant="band"] .btn-secondary:hove
     .cookie-notice[data-variant="band"][data-pos="bottom"] {
         top: auto;
         padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ── Tablets (768–991): the word on its own row, then the sentence and the button in one row,
+   as on desktop — the author's first try (27 Sep 2026); if the row proves too tight the
+   fallback is the phone layout with a full-width button. Both notices. ── */
+@media (min-width: 768px) and (max-width: 991px) {
+    .cookie-notice[data-variant] {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: "title ok" "text ok"; /* the button spans both rows, so the sentence row is only as tall as the sentence and the word sits right on it (author: the gap read as the padding while the button set the row's height) */
+        align-items: center;
+        column-gap: 24px;
+        row-gap: 0;
+    }
+
+    .cookie-notice[data-variant] .cookie-notice__title {
+        grid-area: title;
+    }
+
+    .cookie-notice[data-variant] .cookie-notice__text--short {
+        grid-area: text;
+        display: block;
+    }
+
+    .cookie-notice[data-variant] .cookie-notice__ok {
+        grid-area: ok;
+        align-self: center;
+        justify-self: end;
+    }
+}
+
+/* ── Phones: 16px on every side (author: 12 read tight against the 16 gutters), the button
+   full width under the sentence — both notices ── */
+@media (max-width: 767px) {
+    .cookie-notice[data-variant] {
+        padding: 16px;
+    }
+
+    .cookie-notice[data-variant="band"][data-pos="bottom"] {
+        padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .cookie-notice[data-variant] .cookie-notice__ok {
+        flex: 1 1 100%;
+        width: 100%;
+        align-self: stretch;
+    }
+}
+
+/* ── Desktop, the bottom card (author, 27 Sep 2026): the 420px card bottom-right did not read
+   well at the foot of a wide page, and a card wider than the content column did not either.
+   Now the aside is a GLASS WRAPPER hugging the card — the page ground at 70% behind a blur, 24px of
+   padding, not full width — and the box inside is the card, matched to the content column (1120px, the
+   .container's 1280 less the gutters), in the tablet layout with the full sentence. One
+   deliberate exception to "flat by default" (design.md §6): the blur is what separates the
+   note from the page it floats over. The top card keeps its 420px. ── */
+@media (min-width: 992px) {
+    /* Not full width (author, 27 Sep 2026): a glass wrapper that hugs the card — the card's
+       1120 plus 8px of padding a side (24 at first; 8 reads as a wide stroke rather than another
+       container — author, 27 Sep 2026), centred, 16px off the bottom edge, 8px corners as the
+       phone header's. Narrower windows cap it at the gutters. */
+    .cookie-notice[data-variant="corner"][data-pos="bottom"] {
+        left: 0;
+        right: 0;
+        bottom: 16px;
+        width: min(1136px, 100% - 2 * var(--gutter));
+        margin-inline: auto;
+        padding: 8px;
+        border: 0;
+        border-radius: 8px;
+        background: color-mix(in srgb, var(--parchment) 70%, transparent); /* Parchment by day (author, 27 Sep 2026 — was the Paper ground, invisible over Paper) */
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+    }
+
+    html[data-theme="night"] .cookie-notice[data-variant="corner"][data-pos="bottom"],
+    .cookie-notice--dark[data-variant="corner"][data-pos="bottom"] {
+        background: color-mix(in srgb, var(--peppercorn) 70%, transparent);
+    }
+
+    .cookie-notice[data-variant="corner"][data-pos="bottom"] .cookie-notice__box {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: "title ok" "text ok";
+        align-items: center;
+        column-gap: 24px;
+        row-gap: 0;
+        box-sizing: border-box;
+        max-width: 1120px;
+        margin-inline: auto;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--text-muted);
+        border-radius: 4px;
+    }
+
+    .cookie-notice--dark[data-variant="corner"][data-pos="bottom"] .cookie-notice__box {
+        background: var(--soft-peppercorn);
+        border-color: var(--mushroom);
+    }
+
+    .cookie-notice[data-variant="corner"][data-pos="bottom"] .cookie-notice__title {
+        grid-area: title;
+    }
+
+    .cookie-notice[data-variant="corner"][data-pos="bottom"] .cookie-notice__text--full {
+        grid-area: text;
+    }
+
+    .cookie-notice[data-variant="corner"][data-pos="bottom"] .cookie-notice__ok {
+        grid-area: ok;
+        align-self: center;
+        justify-self: end;
     }
 }
 

@@ -25,6 +25,7 @@ $policy_url  = sweet_pepper_lang_root( sweet_pepper_lang() ) . 'privacy-policy/'
 $policy_link = '<a href="' . esc_url( $policy_url ) . '">' . esc_html__( 'privacy policy', 'sweet-pepper' ) . '</a>';
 ?>
 <aside class="cookie-notice<?php echo $dark ? ' cookie-notice--dark' : ''; ?>" data-variant="<?php echo esc_attr( $variant ); ?>" data-pos="<?php echo esc_attr( $pos ); ?>" role="region" aria-labelledby="cookie-notice-title" hidden>
+    <div class="cookie-notice__box"><?php // display: contents, except the desktop bottom card, where the aside is a glass strip and this is the card ?>
     <p class="cookie-notice__title" id="cookie-notice-title"><?php esc_html_e( 'No one’s keeping tabs', 'sweet-pepper' ); ?></p>
     <p class="cookie-notice__text cookie-notice__text--full">
         <?php
@@ -37,4 +38,5 @@ $policy_link = '<a href="' . esc_url( $policy_url ) . '">' . esc_html__( 'privac
         <a href="<?php echo esc_url( $policy_url ); ?>"><?php esc_html_e( 'Details', 'sweet-pepper' ); ?></a>
     </p>
     <button type="button" class="btn btn-secondary cookie-notice__ok"><?php esc_html_e( 'Got it', 'sweet-pepper' ); ?></button>
+    </div>
 </aside>

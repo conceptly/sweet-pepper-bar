@@ -102,6 +102,8 @@
 
 <?php get_template_part('template-parts/components/reserve-drawer'); ?>
 
+<?php get_template_part( 'template-parts/components/cookie-notice' ); // prototype, prints only with ?notice= ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

@@ -22,6 +22,7 @@ import './css/about.css';
 import './css/visit.css';
 import './css/vacancy.css';
 import './css/reveal.css';
+import './css/cookie-notice.css';
 // iOS Safari fires :active only when the page listens for touches — without this every pressed
 // state (cards, buttons, the language switch) was invisible on an iPhone (25 Sep 2026).
 document.addEventListener('touchstart', () => {}, { passive: true });
@@ -45,6 +46,7 @@ import { initGentleScroll } from './js/gentle-scroll';
 import { initSectionLinks } from './js/section-link';
 import { initReveal } from './js/reveal';
 import { initCountUp } from './js/count-up';
+import { initCookieNotice } from './js/cookie-notice';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -107,4 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Numbers that count up once as their block reveals (after initReveal: it needs the arming)
     initCountUp();
+
+    // Cookie notice — prototype behind ?notice= (cookie-notice-plan.md)
+    initCookieNotice();
 });

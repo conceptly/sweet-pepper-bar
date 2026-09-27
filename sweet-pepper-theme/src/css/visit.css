@@ -994,6 +994,8 @@
 }
 
 .visit-cta .contact-field__input-wrap {
+  --field-bg: var(--peppercorn); /* the autofill override paints over the browser's tint with this */
+  --field-text: var(--paper);
   background-color: transparent;
 }
 
@@ -1001,12 +1003,22 @@
   color: var(--paper);
 }
 
-.visit-cta .contact-field__input:-webkit-autofill,
-.visit-cta .contact-field__input:-webkit-autofill:hover,
-.visit-cta .contact-field__input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--peppercorn) inset;
-  -webkit-text-fill-color: var(--paper);
-  caret-color: var(--paper);
+/* Field icon and status take Lime here, as by night (contacts.css → Field states) */
+.visit-cta .contact-field__input-wrap:focus-within .contact-field__icon,
+.visit-cta .contact-field.is-valid .contact-field__icon,
+.visit-cta .contact-field__status {
+  color: var(--lime);
+}
+
+@media (hover: hover) {
+  .visit-cta .contact-field__input-wrap:hover .contact-field__icon {
+    color: var(--lime);
+  }
+}
+
+.visit-cta .contact-field--error .contact-field__icon,
+.visit-cta .contact-field__status--error {
+  color: var(--paprika);
 }
 
 .visit-cta .contact-field__counter {
@@ -1736,7 +1748,39 @@
 
   .visit-cta .contact-field__input-wrap,
   .visit-cta .contact-field__input-wrap:focus-within {
+    --field-bg: var(--soft-peppercorn); /* the phone form's ground */
     background-color: transparent;
+  }
+
+  /* Success state: the info boxes are Soft Peppercorn on the Soft Peppercorn form, so their
+     16px inset only held the two blocks 56px apart (author, 27 Sep 2026) — no inset, the
+     content gap (24) is the rhythm. Restored with the card below, where the ground differs. */
+  .visit-cta .contact-form__info-box {
+    padding: 0;
+  }
+}
+
+/* Wide phones and small tablets (600–767: an iPad mini is 744): the full-bleed phone form ran
+   the whole width and read too wide on the device (author, 27 Sep 2026) — the form takes the
+   desktop card back (Mushroom hairline, 8px radius, 32 inset, Peppercorn ground, the card's
+   shadow) inside the phone composition; the booking block and the topic chips stay. */
+@media (min-width: 600px) and (max-width: 767px) {
+  .visit-cta .contact-form {
+    margin: 0;
+    padding: 32px;
+    border: 1px solid var(--mushroom);
+    border-radius: 8px;
+    box-shadow: 1px 1px 4px rgba(21, 19, 23, 0.15);
+    background-color: var(--peppercorn);
+  }
+
+  .visit-cta .contact-field__input-wrap,
+  .visit-cta .contact-field__input-wrap:focus-within {
+    --field-bg: var(--peppercorn); /* the card's ground again */
+  }
+
+  .visit-cta .contact-form__info-box {
+    padding: 16px; /* Soft Peppercorn on the Peppercorn card: the inset is visible again */
   }
 }
 

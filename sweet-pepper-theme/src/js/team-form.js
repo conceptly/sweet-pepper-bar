@@ -3,13 +3,16 @@
  *
  * Open/close: .js-team-form-trigger → .is-open on overlay + dialog.
  * Name chips: toggle active state ("All" toggles all individual chips).
- * Validation: mirrors contact-form.js (name required, email regex, message required).
+ * Validation: mirrors contact-form.js (name required, email regex, message required);
+ * the live state (accent icon, checkmark) comes from field-state.js as on the contact form.
  * Counter: textarea character count.
  * Submit: client-side only → success state.
  * Reset: "Send another message" → compose state.
  *
  * @module team-form
  */
+
+import { watchFieldState, isValidEmail } from './field-state';
 
 export function initTeamForm() {
     const overlay  = document.querySelector('.team-form-overlay');
@@ -27,6 +30,8 @@ export function initTeamForm() {
     const chips      = dialog.querySelectorAll('.team-form__chip');
     const allChip    = dialog.querySelector('.team-form__chip[data-recipient="all"]');
     const resetBtn   = dialog.querySelector('.js-team-form-reset');
+
+    watchFieldState(dialog);
 
     // ── Open / close ──────────────────────────────────────────────────────
 
@@ -112,8 +117,6 @@ export function initTeamForm() {
 
     // ── Validation + submit ───────────────────────────────────────────────
 
-    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     function setFieldError(field) {
         field.classList.add('contact-field--error');
     }
@@ -138,7 +141,7 @@ export function initTeamForm() {
             }
 
             // Email
-            if (!emailInput.value.trim() || !EMAIL_RE.test(emailInput.value)) {
+            if (!isValidEmail(emailInput.value)) {
                 setFieldError(emailInput.closest('.contact-field'));
                 valid = false;
             }

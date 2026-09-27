@@ -12,6 +12,11 @@
  * Error text lives in the label row (right-aligned) per Figma,
  * so the form height stays constant regardless of error state.
  *
+ * Field states (27 Sep 2026, Figma field-singleLine 265:3459 / 466:19366): each single-line
+ * field carries two trailing status marks — the checkmark once the value passes, the "!" on
+ * error — shown by contacts.css from `.is-valid` / `.contact-field--error`, which
+ * js/field-state.js keeps live as the visitor types (or the browser autofills).
+ *
  * Russian (25 Sep 2026): every string goes through the theme's dictionary — forms-copy-ru-draft.md
  * for the shared fields, errors and success; home-copy-ru-review.md §9 for the home title and
  * subtitle. Generic words carry the 'contact form' context so they never meet another "Message".
@@ -69,6 +74,8 @@ $topics = $args['topics'] ?? [];
                         autocomplete="name"
                         required
                     >
+                    <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                    <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                 </div>
             </div>
 
@@ -93,6 +100,8 @@ $topics = $args['topics'] ?? [];
                             autocomplete="email"
                             required
                         >
+                        <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                        <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                     </div>
                 </div>
 
@@ -114,6 +123,8 @@ $topics = $args['topics'] ?? [];
                             autocomplete="tel"
                             required
                         >
+                        <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                        <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                     </div>
                 </div>
 

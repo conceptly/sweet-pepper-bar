@@ -7,6 +7,8 @@
  *   "success" → confirmation view
  */
 
+import { watchFieldState, isValidEmail, isValidPhone } from './field-state';
+
 export function initContactForm() {
     const root = document.getElementById('contact-form');
     if (!root) return;
@@ -18,6 +20,9 @@ export function initContactForm() {
     const emailField  = root.querySelector('[data-contact-type="email"]');
     const phoneField  = root.querySelector('[data-contact-type="phone"]');
     const resetBtn    = root.querySelector('.js-form-reset');
+
+    // ── Live field state — accent icon + checkmark once a value passes (field-state.js) ──
+    const refreshFieldState = watchFieldState(root);
 
     // ── Topic chips (Visit page on phones) — one active, mirrored into the hidden field
     //    that becomes the email subject for triage (visit-page-copy.md → Strategy) ──
@@ -58,6 +63,7 @@ export function initContactForm() {
             // Clear any error states on the swapped field
             clearFieldError(emailField);
             clearFieldError(phoneField);
+            refreshFieldState(); // the emptied field drops its checkmark
         });
     });
 
@@ -98,7 +104,7 @@ export function initContactForm() {
                 }
             } else {
                 const phoneInput = root.querySelector('#contact-phone');
-                if (!phoneInput.value.trim()) {
+                if (!isValidPhone(phoneInput.value)) {
                     setFieldError(phoneInput.closest('.contact-field'));
                     valid = false;
                 }
@@ -160,10 +166,6 @@ function clearFieldError(fieldEl) {
         const field = fieldEl.querySelector('.contact-field') || fieldEl;
         field.classList.remove('contact-field--error');
     }
-}
-
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 /**

@@ -380,8 +380,13 @@ html[data-theme="night"] .contact-field__label {
     display: block;
 }
 
-/* Input wrapper */
+/* Input wrapper.
+   --field-bg / --field-text name the ground the field actually sits on and its text colour —
+   the autofill override below paints over the browser's tint with them, so every context that
+   changes the wrap's background (night, the Visit form on both of its grounds) sets them too. */
 .contact-field__input-wrap {
+    --field-bg: var(--parchment);
+    --field-text: var(--peppercorn);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -389,11 +394,13 @@ html[data-theme="night"] .contact-field__label {
     padding: 0 16px;
     border: 1px solid var(--mushroom);
     border-radius: 4px;
-    background-color: var(--parchment);
+    background-color: var(--field-bg);
     transition: border-color 0.15s ease;
 }
 
 html[data-theme="night"] .contact-field__input-wrap {
+    --field-bg: var(--peppercorn); /* the card's own ground shows through */
+    --field-text: var(--paper);
     background-color: transparent;
 }
 
@@ -420,6 +427,72 @@ html[data-theme="night"] .contact-field__input-wrap {
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    transition: color 0.15s ease;
+}
+
+/* Field states (Figma field-singleLine 265:3459 night / 466:19366 day). The leading icon takes
+   the accent — Avocado by day, Lime by night — while the field is hovered or focused, and keeps
+   it once the value passes (state=filled-passed, `.is-valid` from field-state.js); the error
+   state paints it Paprika with the error text. Hover only where a pointer can hover. */
+.contact-field__input-wrap:focus-within .contact-field__icon,
+.contact-field.is-valid .contact-field__icon {
+    color: var(--avocado);
+}
+
+@media (hover: hover) {
+    .contact-field__input-wrap:hover .contact-field__icon {
+        color: var(--avocado);
+    }
+}
+
+html[data-theme="night"] .contact-field__input-wrap:focus-within .contact-field__icon,
+html[data-theme="night"] .contact-field.is-valid .contact-field__icon {
+    color: var(--lime);
+}
+
+@media (hover: hover) {
+    html[data-theme="night"] .contact-field__input-wrap:hover .contact-field__icon {
+        color: var(--lime);
+    }
+}
+
+.contact-field--error .contact-field__icon,
+html[data-theme="night"] .contact-field--error .contact-field__icon {
+    color: var(--paprika);
+}
+
+/* Trailing status (Figma trailingIcon, 12px): the checkmark once the value passes
+   (state=focused-text / filled-passed), the "!" in the error state. Both decorative — the label
+   row's error text and the field itself carry the meaning. */
+.contact-field__status {
+    display: none;
+    flex-shrink: 0;
+    align-items: center;
+    color: var(--avocado);
+}
+
+.contact-field__status svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+}
+
+.contact-field__status svg path {
+    fill: currentColor; /* exclamation.svg ships a Lemon fill */
+}
+
+html[data-theme="night"] .contact-field__status {
+    color: var(--lime);
+}
+
+.contact-field__status--error,
+html[data-theme="night"] .contact-field__status--error {
+    color: var(--paprika);
+}
+
+.contact-field.is-valid:not(.contact-field--error) .contact-field__status--ok,
+.contact-field--error .contact-field__status--error {
+    display: flex;
 }
 
 /* The actual input element */
@@ -427,7 +500,7 @@ html[data-theme="night"] .contact-field__input-wrap {
     flex: 1;
     border: none;
     outline: none;
-    background: transparent;
+    background: transparent !important; /* Chrome for iOS sets its autofill tint inline on the element */
     font-family: var(--font-body);
     font-size: var(--text-body);
     font-weight: 400;
@@ -445,22 +518,28 @@ html[data-theme="night"] .contact-field__input {
     color: var(--mushroom);
 }
 
-/* Autofill override — prevent browser blue background */
+/* Autofill override. Browsers paint an autofilled value on their own tint (Chrome blue, Safari
+   yellow) with a UA !important, so the tint is covered by an inset shadow in the field's own
+   ground and the text re-coloured — --field-bg / --field-text come from the wrap, so one rule
+   serves the day card, the night card and the Visit form on both of its grounds (a fixed
+   Peppercorn shadow used to show as a black box on the phone's Soft Peppercorn form).
+   The two selectors stay in separate rules: one a browser does not know would drop both. */
 .contact-field__input:-webkit-autofill,
 .contact-field__input:-webkit-autofill:hover,
 .contact-field__input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px var(--parchment) inset;
-    -webkit-text-fill-color: var(--peppercorn);
+    -webkit-box-shadow: 0 0 0 1000px var(--field-bg) inset;
+    box-shadow: 0 0 0 1000px var(--field-bg) inset;
+    -webkit-text-fill-color: var(--field-text);
+    caret-color: var(--field-text);
     transition: background-color 5000s ease-in-out 0s;
-    caret-color: var(--peppercorn);
 }
 
-html[data-theme="night"] .contact-field__input:-webkit-autofill,
-html[data-theme="night"] .contact-field__input:-webkit-autofill:hover,
-html[data-theme="night"] .contact-field__input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px var(--peppercorn) inset;
-    -webkit-text-fill-color: var(--paper);
-    caret-color: var(--paper);
+.contact-field__input:autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--field-bg) inset;
+    box-shadow: 0 0 0 1000px var(--field-bg) inset;
+    -webkit-text-fill-color: var(--field-text);
+    caret-color: var(--field-text);
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 /* ── Textarea field ──────────────────────────── */

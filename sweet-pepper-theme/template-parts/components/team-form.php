@@ -71,6 +71,8 @@
                 </div>
                 <div class="contact-field__input-wrap">
                     <input class="contact-field__input" type="text" id="team-name" name="name" autocomplete="name" required>
+                    <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                    <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                 </div>
             </div>
 
@@ -85,6 +87,8 @@
                 <div class="contact-field__input-wrap">
                     <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
                     <input class="contact-field__input" type="email" id="team-email" name="email" autocomplete="email" required>
+                    <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                    <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                 </div>
             </div>
 

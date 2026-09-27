@@ -102,7 +102,7 @@
 
 <?php get_template_part('template-parts/components/reserve-drawer'); ?>
 
-<?php get_template_part( 'template-parts/components/cookie-notice' ); // the band by default (27 Sep 2026); ?notice=corner for the card, ?notice=off for none ?>
+<?php get_template_part( 'template-parts/components/cookie-notice' ); // the bottom band by default (27 Sep 2026); ?notice=corner for the card, &pos=top to compare, ?notice=off for none ?>
 
 <?php wp_footer(); ?>
 </body>

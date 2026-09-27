@@ -216,9 +216,9 @@ html[data-theme="night"] .cookie-notice[data-variant="band"] .btn-secondary:hove
     }
 }
 
-/* ── `&pos=bottom` — the same two notes at the foot of the viewport, to compare against the top
-   (author, 27 Sep 2026). They rise from below the edge. The band covers the section foot
-   words and the phone hero's Reserve while it is up. ── */
+/* ── The foot of the viewport — THE DEFAULT position since 27 Sep 2026 (author; `&pos=top`
+   hangs the note under the header to compare). They rise from below the edge. The band covers
+   the section foot words and the phone hero's Reserve while it is up. ── */
 .cookie-notice[data-pos="bottom"] {
     top: auto;
     bottom: 16px;

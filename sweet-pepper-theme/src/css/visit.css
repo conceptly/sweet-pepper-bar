@@ -1584,10 +1584,13 @@
     letter-spacing: 0.04em;
   }
 
-  /* Two apps + "Copy address" measured 374 against the 338 available (Sep 2026), which is why
-     the copy chip used to be desktop-only. The chip now drops to "Copy" on phones — the
-     long half rides .visit-location__chip-long, the accessible name stays "Copy address" —
-     so the compact Copy · Yandex · Google row fits (visit-copy-review-en.md → Map actions). */
+  /* The copy chip is desktop-only again (author, 27 Sep 2026): the two apps are the phone's
+     row. (History: Copy address + two apps measured 374 against 338, so the chip was
+     desktop-only; on 25 Sep it came back as "Copy" via .visit-location__chip-long; the author
+     took it off the phone row.) */
+  .visit-location__map-bar .js-copy {
+    display: none;
+  }
 
   /* Badges (locationBadge-mobile): name over distance, no arrow; the door's hint is its
      second line at rest and the active hint stays hidden — two lines per tile */

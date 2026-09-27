@@ -220,6 +220,7 @@ html[data-theme="night"] .btn-copy-ticket {
 /* ── Phone CTA: 3 bar states ─────────────────────── */
 .btn-call {
     color: var(--peppercorn);
+    text-decoration: none; /* the home Contacts block's call is a tel: link (27 Sep 2026) */
     border: none;
     padding: 8px 16px;
     border-radius: 4px;

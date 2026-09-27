@@ -55,15 +55,16 @@
 
             <!-- Phones only (Figma Contacts 1198:53132): the reserve drawer's booking block in the
                  flow — phone leads, messengers second. Same classes as the drawer, so the bar-state
-                 engine (reserve-drawer.js) and the copy buttons drive it. -->
+                 engine (reserve-drawer.js) drives it. The phone button is a call, not a copy
+                 (author, 27 Sep 2026): on a phone the number is dialled, as the nav drawer's
+                 «Позвонить» and the Visit booking block do — a tel: link with the number as its
+                 label, no copy icon. -->
             <div class="contacts-reserve">
                 <div class="phone-cta-wrapper" data-bar-state="available">
-                    <button type="button" class="btn-call js-copy" data-copy-text="+74852911202">
+                    <a href="tel:+74852911202" class="btn-call" aria-label="<?php echo esc_attr( sprintf( __( 'Call %s', 'sweet-pepper' ), '+7 (4852) 911-202' ) ); ?>">
                         <span class="btn-call-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
                         <span class="btn-call-label">+7 (4852) 911-202</span>
-                        <span class="btn-copy-icon btn-copy-icon--copy"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-copy.svg' ); ?></span>
-                        <span class="btn-copy-icon btn-copy-icon--done"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
-                    </button>
+                    </a>
                     <div class="call-status">
                         <span class="call-status-icon">
                             <span class="call-status-icon--available"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>

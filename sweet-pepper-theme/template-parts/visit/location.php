@@ -121,8 +121,9 @@ $landmarks = $args['landmarks'];
                           // address and the hints. Two map apps + Copy address: the apps follow the page
                           // language, as the hero CTA does (Instagram / VK) — RU guests get Yandex and
                           // 2GIS (the country's first and second map services), everyone else Google and
-                          // Yandex. Phones show the two apps only, in the 13px chip style — "Copy address"
-                          // does not fit the row at 370 and "Copy" misreads beside the route badges. ?>
+                          // Yandex. Phones show the two apps only, in the 13px chip style (author, 27 Sep
+                          // 2026 — the copy chip had come back to phones as "Copy" on 25 Sep; it is
+                          // rendered and hidden ≤ 767, visit.css → Chip bar). ?>
                     <?php
                     // Names: 'Yandex' + ' Maps' / 'Яндекс' + ' Карты' — the long part drops on phones.
                     $is_ru = ( 'ru' === sweet_pepper_lang() );

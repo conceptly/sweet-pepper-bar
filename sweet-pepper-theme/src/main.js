@@ -40,6 +40,7 @@ import { initAboutPerks } from './js/about-perks';
 import { initHowItFeels } from './js/how-it-feels';
 import { initAboutStory } from './js/about-story';
 import { initAboutTeam } from './js/about-team';
+import { initAboutDrift } from './js/about-drift';
 import { initTeamForm } from './js/team-form';
 import { initVisitHero } from './js/visit-hero';
 import { initGentleScroll } from './js/gentle-scroll';
@@ -91,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Dream Team card message toggle
     initAboutTeam();
+    initAboutDrift(); // the wall strip: wheel → sideways, one drift on entrance
 
     // Initialize "Write to the team" form modal
     initTeamForm();

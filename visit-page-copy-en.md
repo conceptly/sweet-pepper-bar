@@ -105,12 +105,14 @@ Lunch on Kirova, a drink after a walk, or an evening with friends. Check the hou
 
 | Badge | Hint | Distance/time |
 |---|---|---|
-| The door | Kirova 10/25 | — |
+| Sweet Pepper Bar | Kirova 10/25 | — |
 | Znamenskaya Tower | Towards Pervomaiskaya | {verified distance} · {walking time} |
 | Sovetskaya Square | Across Andropova, past the fountains | {verified distance} · {walking time} |
-| Strelka | Where the rivers meet | {verified distance} · {walking time} |
-| Bogoyavlenskaya Square | — | {verified distance} · {walking time} |
+| Yaroslavl Strelka | Where the rivers meet | {verified distance} · {walking time} |
+| Epiphany Square | — | {verified distance} · {walking time} |
 | Nearest bus stop | {confirmed stop name} | {verified distance} · {walking time} |
+
+*Badge names revised 27 Sep 2026 (author): two lines each on a phone. "The door" → the bar's name; "Strelka" → Yaroslavl Strelka (the Russian «Ярославская Стрелка»); "Bogoyavlenskaya Square" → Epiphany Square — the transliterated word is wider than a 375px tile and was already cut on desktop, so the badge carries the translation and the screen-reader name keeps both ("Epiphany (Bogoyavlenskaya) Square"). The "sq." abbreviations are gone.*
 
 **Desktop actions:** Copy · Yandex Maps · Google Maps
 

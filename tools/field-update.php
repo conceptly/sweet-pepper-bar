@@ -60,8 +60,14 @@ foreach ( $spec['groups'] as $group ) {
         continue;
     }
     foreach ( $group['set'] as [ $name, , $new ] ) {
+        // A field that has been saved carries a reference (_name → key): write it BY NAME, so
+        // SCF keeps the saved name. Writing a group's sub-field by its key saves it under the
+        // bare sub-field name ("name_ru", not "visit_landmark_door_name_ru") — 27 Sep 2026, the
+        // landmark names reported "applied" twice and never changed. The key is for a field
+        // never saved on this page (no reference yet); a repeater row's field has neither.
         $key = 'field_sp_' . $name;
-        update_field( acf_get_field( $key ) ? $key : $name, $new, $page->ID );
+        $ref = function_exists( 'acf_get_reference' ) ? acf_get_reference( $name, $page->ID ) : '';
+        update_field( ( ! $ref && acf_get_field( $key ) ) ? $key : $name, $new, $page->ID );
     }
     echo "applied  {$label}\n";
 }

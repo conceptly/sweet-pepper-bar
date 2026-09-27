@@ -808,12 +808,15 @@
   white-space: normal;
 }
 
+/* A name wraps rather than ending in "…" — desktop too since 27 Sep 2026: «Ярославская
+   Стрелка» and «Богоявленская площадь» need more than the 360 column's 172px cell, and the
+   ellipsis cut them (the brief's open item). Measured at 1440 / 1200 / 992: the two wrapped
+   badges make the Russian column 425px against the map's 440 — it still fits beside the map;
+   the English column is unchanged (every name fits one line). */
 .visit-location__badge-name {
   font-weight: 600;
   color: var(--soft-peppercorn);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .visit-location__badge-hint {
@@ -1604,13 +1607,18 @@
     display: none;
   }
 
-  /* A name wraps rather than ending in "…" — at 143px the tile cut four of the six Russian
-     names (Знаменская ба…, Советская пло…) and two English ones (24 Sep 2026). A row of
-     tiles takes the taller one's height. */
+  /* A name wraps rather than ending in "…" (24 Sep 2026 — at 143px the tile cut four of the
+     six Russian names; the wrap is the base rule now). A row of tiles takes the taller one's
+     height.
+     Two lines each (author, 27 Sep 2026): the names were rewritten to wrap in two on a phone
+     (data/visit/location.php, the «Как добраться» fields), but a wrap point moves with the
+     tile — at 393 the name cell is 139px and "Sweet Pepper Bar" sits on one line, at 375 it is
+     130 and wraps. So the name's width is capped at the 375 cell, and every phone from 375 up
+     wraps alike; the two-line floor keeps the six tiles one height where a name still lands
+     on one line (narrow phones, or a shorter name typed later). */
   .visit-location__badge-name {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
+    max-width: 130px;
+    min-height: 2.8em; /* two lines at the tile's 1.4 line-height */
   }
 
   /* The Russian social heading, АКЦИИ, НОВОСТИ, ВЕЧЕРИНКИ, needs 363 of the card's 322. */

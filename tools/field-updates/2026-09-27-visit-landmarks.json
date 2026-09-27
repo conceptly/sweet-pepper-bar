@@ -1,0 +1,16 @@
+{
+  "page": "visit",
+  "groups": [
+    {
+      "note": "landmark badge names — two lines each on phones (author, 27 Sep 2026): the door is the bar's name, Стрелка gets its full name; EN drops the sq. abbreviations and takes the translated Epiphany Square (Bogoyavlenskaya is wider than a 375px tile)",
+      "set": [
+        [ "visit_landmark_door_name_ru", "Вход", "Sweet Pepper Bar" ],
+        [ "visit_landmark_door_name_en", "The door", "Sweet Pepper Bar" ],
+        [ "visit_landmark_strelka_name_ru", "Стрелка", "Ярославская Стрелка" ],
+        [ "visit_landmark_strelka_name_en", "Strelka", "Yaroslavl Strelka" ],
+        [ "visit_landmark_square_name_en", "Sovetskaya sq.", "Sovetskaya Square" ],
+        [ "visit_landmark_kremlin_name_en", "Bogoyavlenskaya sq.", "Epiphany Square" ]
+      ]
+    }
+  ]
+}

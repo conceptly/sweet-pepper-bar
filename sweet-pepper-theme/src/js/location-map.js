@@ -39,6 +39,21 @@ function isRussianLocale() {
 }
 
 /**
+ * TEMPORARY (27 Sep 2026): the author is testing whether the Google embed works for Russian
+ * guests. While this is 'google' every visitor gets Google Maps; set it back to null to
+ * restore the detection above. `?map=yandex` / `?map=google` on any page with a map
+ * overrides both, for comparing the two on one device.
+ */
+const TEST_PROVIDER = 'google';
+
+function pickProvider() {
+    const asked = new URLSearchParams(window.location.search).get('map');
+    if (asked === 'google' || asked === 'yandex') return asked;
+    if (TEST_PROVIDER) return TEST_PROVIDER;
+    return isRussianLocale() ? 'yandex' : 'google';
+}
+
+/**
  * Initialize the location map.
  * Finds the map container and injects the appropriate iframe.
  */
@@ -49,7 +64,7 @@ export function initLocationMap() {
     containers.forEach(container => {
         if (container.querySelector('iframe')) return;
 
-        const provider = isRussianLocale() ? 'yandex' : 'google';
+        const provider = pickProvider();
         const url = MAP_URLS[provider];
 
         const iframe = document.createElement('iframe');

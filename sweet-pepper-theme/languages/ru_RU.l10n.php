@@ -231,6 +231,14 @@ return [
         'Open menu'                                  => 'Открыть меню сайта',
         'Close menu'                                 => 'Закрыть меню сайта',
         'Close'                                      => 'Закрыть',
+
+        // Cookie notice — prototype (cookie-notice-plan.md §4, the working choice; author to edit)
+        'No one’s keeping tabs'                      => 'За своими не следят',
+        'This site sets no tracking cookies and remembers only your choice, in this browser. Yandex and Google maps load when you ask for them. Details in the %s.' => 'Сайт не ставит следящих cookies и запоминает только ваш выбор в этом браузере. Карты Яндекса и Google загружаются по вашему клику. Подробнее — в %s.',
+        'privacy policy'                             => 'политике конфиденциальности',
+        'No tracking cookies. Maps load only when you ask.' => 'Никаких следящих cookies. Карты — только по вашему клику.',
+        'Details'                                    => 'Подробнее',
+        'Got it'                                     => 'Понятно',
         'Back'                                       => 'Назад',
         'Language'                                   => 'Язык',
         'Page sections'                              => 'Разделы страницы',

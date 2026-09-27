@@ -217,6 +217,18 @@
     transform: scale(1);
 }
 
+/* Pressed pill: the hover's inversion (Lemon ground, Peppercorn label), fast — on a phone
+   this is the only state the caption shows (27 Sep 2026) */
+.about-hero__filmstrip-item:active .about-hero__filmstrip-pill {
+    background-color: var(--lemon);
+    transition-duration: 100ms;
+}
+
+.about-hero__filmstrip-item:active .about-hero__filmstrip-label {
+    color: var(--peppercorn);
+    transition-duration: 100ms;
+}
+
 /* Pill label — bottom-left, Peppercorn bg at 90% opacity */
 .about-hero__filmstrip-pill-area {
     position: relative;
@@ -2563,18 +2575,12 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
         grid-column: span 3;
     }
 
-    /* Touch has no hover, so the rest state is the lit one: full-strength photo,
-       Lemon caption label (the desktop hover look). Dimmed would read as inactive. */
+    /* Touch has no hover, so the photo rests lit: full strength, no dim (dimmed would read
+       as inactive). The caption pill keeps the desktop rest — Peppercorn ground, Lemon label
+       (author, 27 Sep 2026; until then the phone pill wore the hover's Lemon at rest, which
+       left the press with nothing to show). Lemon is the pressed state now, every width. */
     .about-hero__filmstrip-overlay {
         background-color: transparent;
-    }
-
-    .about-hero__filmstrip-pill {
-        background-color: var(--lemon);
-    }
-
-    .about-hero__filmstrip-label {
-        color: var(--peppercorn);
     }
 
     /* 48 to the connector, as the other phone heroes (home: 36 + the connector's 12) */

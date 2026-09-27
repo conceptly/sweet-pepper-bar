@@ -86,7 +86,8 @@
     display: none;
 }
 
-/* ── C · band: under the header, full width, from behind the header ── */
+/* ── C · band: under the header, full width, from behind the header — THE DEFAULT since
+   27 Sep 2026 (author; the corner card stays behind ?notice=corner while it is judged) ── */
 .cookie-notice[data-variant="band"] {
     top: var(--cookie-top, 0px);
     left: 0;
@@ -98,6 +99,26 @@
     border-width: 0 0 1px;
     border-radius: 0;
     transform: translateY(-100%);
+}
+
+/* Desktop: the Lime tape runs edge to edge, but its row sits on the content column — the
+   .container's 1280 with the gutters (1120 of content at 1280+), centred — so the word, the
+   sentence and the button line up with the page under them; on a wide screen the full-width
+   row read unbalanced (author, 27 Sep 2026). The box is `display: contents` everywhere else. */
+@media (min-width: 992px) {
+    .cookie-notice[data-variant="band"] {
+        padding-inline: 0;
+    }
+
+    .cookie-notice[data-variant="band"] .cookie-notice__box {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        width: 100%;
+        max-width: 1280px;
+        margin-inline: auto;
+        padding-inline: var(--gutter);
+    }
 }
 
 .cookie-notice[data-variant="band"] .cookie-notice__text--full {

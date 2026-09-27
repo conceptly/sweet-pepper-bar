@@ -178,7 +178,9 @@ html[data-theme="night"] .contacts-map__address-text {
        shipped with was the one transition on the site off the Gentle curve (Sep 2026) */
     transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
                 border-color var(--dur-gentle) var(--ease-gentle-flat),
-                color var(--dur-gentle) var(--ease-gentle-flat);
+                color var(--dur-gentle) var(--ease-gentle-flat),
+                box-shadow var(--dur-gentle) var(--ease-gentle-flat),
+                font-weight var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .contacts-chip .chip-icon {
@@ -205,21 +207,61 @@ html[data-theme="night"] .contacts-map__address-text {
     display: inline-flex;
 }
 
-.contacts-chip.is-copied {
-    background-color: var(--lemon);
-    border-color: var(--lemon);
-    color: var(--peppercorn);
-}
-
 html[data-theme="night"] .contacts-chip {
     border-color: var(--lime);
     color: var(--lime);
 }
 
-.contacts-chip:hover {
-    background-color: var(--lemon);
+/* Chip states (27 Sep 2026 — Figma chipBtn 460:19075 as the reference; the recipe the site
+   already carries: the About team chip's hover — Paprika keyline + Paprika SemiBold label — and
+   the buttons' / language switch's pressed, the Tapped-btn inset). The Lemon fill this chip
+   shipped with was a stray, and by night the theme's rest rule outranked :hover, so the label
+   stayed Lime on Lemon (the author's screenshot). No fill in any state: the frame's hover fill
+   is the bar's own ground.
+   Hover (pointer only): day — Paprika keyline + label, the frame's 1px 1px 2px lift;
+                         night — Lemon keyline + label, the Lime glow (Icon-Glow-Dark, radius 4).
+   Pressed (touch too, fast): the same colours, lift / glow off, the inset on.
+   Copied: holds the hover colours for the two seconds the label reads "Copied" (brief →
+   Chip success state). Every night rule carries the theme selector so it outranks the rest. */
+@media (hover: hover) {
+    .contacts-chip:hover {
+        border-color: var(--paprika);
+        color: var(--paprika);
+        font-weight: 600;
+        box-shadow: 1px 1px 2px rgba(21, 19, 23, 0.15);
+    }
+
+    html[data-theme="night"] .contacts-chip:hover {
+        border-color: var(--lemon);
+        color: var(--lemon);
+        box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
+    }
+}
+
+.contacts-chip:active,
+html[data-theme="night"] .contacts-chip:active {
+    border-color: var(--paprika);
+    color: var(--paprika);
+    font-weight: 600;
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms;
+}
+
+html[data-theme="night"] .contacts-chip:active {
     border-color: var(--lemon);
-    color: var(--peppercorn);
+    color: var(--lemon);
+}
+
+.contacts-chip.is-copied,
+html[data-theme="night"] .contacts-chip.is-copied {
+    border-color: var(--paprika);
+    color: var(--paprika);
+    font-weight: 600;
+}
+
+html[data-theme="night"] .contacts-chip.is-copied {
+    border-color: var(--lemon);
+    color: var(--lemon);
 }
 
 /* ═══════════════════════════════════════════════
@@ -610,13 +652,52 @@ html[data-theme="night"] .contact-field__counter {
     line-height: 1.4;
     letter-spacing: 0.52px;
     color: var(--avocado);
-    transition: all 0.15s ease;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                border-color var(--dur-gentle) var(--ease-gentle-flat),
+                color var(--dur-gentle) var(--ease-gentle-flat),
+                box-shadow var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .contact-toggle__pill--active {
     background-color: var(--lime);
     border-color: var(--lime);
     color: var(--peppercorn);
+}
+
+/* States (27 Sep 2026, author): the inactive pill takes the chip recipe (→ Chip states above;
+   Figma chipBtn-Secondary 467:19875 draws it Chili by day — one chip vocabulary here, Paprika).
+   Hover, pointer only: Paprika keyline + label with the lift by day; Lemon + the Lime glow by
+   night and on the Visit form. Pressed (touch too, fast): the colours, the inset, lift / glow
+   off. The active pill is the current choice — a click there does nothing, so it answers
+   nothing. The label is Medium at rest already, so no weight change. */
+@media (hover: hover) {
+    .contact-toggle__pill:not(.contact-toggle__pill--active):hover {
+        border-color: var(--paprika);
+        color: var(--paprika);
+        box-shadow: 1px 1px 2px rgba(21, 19, 23, 0.15);
+    }
+
+    html[data-theme="night"] .contact-toggle__pill:not(.contact-toggle__pill--active):hover,
+    .visit-cta .contact-toggle__pill:not(.contact-toggle__pill--active):hover {
+        border-color: var(--lemon);
+        color: var(--lemon);
+        box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
+    }
+}
+
+.contact-toggle__pill:not(.contact-toggle__pill--active):active,
+html[data-theme="night"] .contact-toggle__pill:not(.contact-toggle__pill--active):active,
+.visit-cta .contact-toggle__pill:not(.contact-toggle__pill--active):active {
+    border-color: var(--paprika);
+    color: var(--paprika);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms;
+}
+
+html[data-theme="night"] .contact-toggle__pill:not(.contact-toggle__pill--active):active,
+.visit-cta .contact-toggle__pill:not(.contact-toggle__pill--active):active {
+    border-color: var(--lemon);
+    color: var(--lemon);
 }
 
 .contact-toggle__helper {

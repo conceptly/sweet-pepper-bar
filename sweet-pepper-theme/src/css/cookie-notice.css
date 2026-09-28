@@ -363,19 +363,17 @@ html[data-theme="night"] .cookie-notice[data-variant="band"] .btn-secondary:hove
     opacity: 1;
 }
 
-/* ── Touch screens (27 Sep 2026): the bottom band sits on the viewport foot (main.css), which
-   owns everything under Safari's bar with viewport-fit=cover — so the band keeps its own
-   padding and the inset is the foot's, not the note's; the page's ground stays under the bar
-   beneath the Lime band. Last in the file: it outranks the two inset paddings above. ── */
-@media (pointer: coarse) {
-    .cookie-notice[data-variant="band"][data-pos="bottom"] {
-        bottom: calc(var(--foot-h, 4px) + env(safe-area-inset-bottom, 0px));
-        padding-bottom: 12px;
-    }
+/* ── Safari on an iPhone (html[data-foot="safari"], 27 Sep 2026): the bottom band sits on the
+   viewport foot (main.css), which owns everything under Safari's bar — so the band keeps its
+   own padding and the inset is the foot's, not the note's; the page's ground stays under the
+   bar beneath the Lime band. Last in the file: it outranks the two inset paddings above. ── */
+html[data-foot="safari"] .cookie-notice[data-variant="band"][data-pos="bottom"] {
+    bottom: calc(var(--foot-h, 4px) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 12px;
 }
 
-@media (pointer: coarse) and (max-width: 767px) {
-    .cookie-notice[data-variant="band"][data-pos="bottom"] {
+@media (max-width: 767px) {
+    html[data-foot="safari"] .cookie-notice[data-variant="band"][data-pos="bottom"] {
         padding-bottom: 16px;
     }
 }

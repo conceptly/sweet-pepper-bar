@@ -102,6 +102,13 @@ function sweet_pepper_daypart_head() {
         (<?php echo $themes_by_hour; // phpcs:ignore WordPress.Security.EscapeOutput -- literal true/false ?> && !/^(breakfast|lunch)$/.test(dp) && night.test(now))) {
         d.dataset.theme = 'night';
     }
+    // The viewport foot (main.css) is for Safari on an iPhone only (author, 27 Sep 2026: Chrome
+    // for iOS ends the page above its own bar and showed the strip as a line; an iPad's Safari
+    // keeps its address bar at the top). Chrome, Firefox, Edge, Opera, DuckDuckGo, Yandex and
+    // the Google app name themselves in the user agent; an in-app web view has no "Safari"
+    // token; an iPad reports itself as a Mac since iPadOS 13, so "iPhone" alone is the test.
+    var ua = navigator.userAgent;
+    if (/iPhone|iPod/.test(ua) && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|OPT\/|DuckDuckGo|YaBrowser|GSA\//.test(ua)) { d.dataset.foot = 'safari'; }
     // The chrome's colour follows the theme decided above (bar-color.js keeps it in step later)
     var bar = document.querySelector('meta[name="theme-color"]');
     if (q.get('bar') === 'dark') { d.dataset.bar = 'dark'; }

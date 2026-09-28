@@ -36,10 +36,13 @@
    bar; the earlier sampled sliver, its FIRST colour (Safari takes it once, so a repaint never
    reached the bar). Hence a 4px strip in the page's canvas colour, static: Paper by day,
    Peppercorn by night and on the fixed dark pages — the page appears to end above the bar, as
-   Chrome for iOS draws it. Touch screens only (a desktop window has no such bar; on Chrome
-   for iOS it is a hairline above the browser's own bar). The bottom notice lifts by the same
-   4px (cookie-notice.css) so the strip stays the bottom-most element and the bar stays dark
-   under the Lime band. `--foot-h` is the one number; `?bar=dark` holds Peppercorn by day. */
+   Chrome for iOS draws it. Safari on an iPhone only — html[data-foot="safari"], set by the
+   head script (inc/daypart-head.php) from the user agent: Chrome for iOS ends the page above
+   its own bar and showed the strip as a stray line, an iPad's Safari keeps its address bar at
+   the top, a desktop window has no such bar (author, 27 Sep 2026). The bottom notice lifts by
+   the same 4px (cookie-notice.css) so the strip stays the bottom-most element and the bar
+   stays dark under the Lime band. `--foot-h` is the one number; `?bar=dark` holds Peppercorn
+   by day. */
 :root {
     --foot-h: 4px;
 }
@@ -67,10 +70,8 @@
     background-color: var(--bg);
 }
 
-@media (pointer: coarse) {
-    .viewport-foot {
-        display: block;
-    }
+html[data-foot="safari"] .viewport-foot {
+    display: block;
 }
 
 .page-template-page-about .viewport-foot,

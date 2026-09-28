@@ -229,6 +229,14 @@ html[data-theme="night"] .cookie-notice[data-variant="band"] .btn-secondary:hove
     bottom: 0;
 }
 
+/* Touch screens: the band sits on the viewport foot (main.css), not under it, so Safari's bar
+   keeps the page's dark ground under the Lime band (27 Sep 2026) */
+@media (pointer: coarse) {
+    .cookie-notice[data-variant="band"][data-pos="bottom"] {
+        bottom: var(--foot-h, 4px);
+    }
+}
+
 @media (max-width: 991px) {
     .cookie-notice[data-variant="corner"][data-pos="bottom"] {
         top: auto;

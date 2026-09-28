@@ -22,9 +22,48 @@
     box-sizing: border-box;
 }
 
-/* ?bar=dark (27 Sep 2026): the canvas itself Peppercorn — Safari 26 fills its floating bar
-   from the document's ground, so a day page gets a dark bar to compare on the phone; the
-   overscroll beyond the header goes dark with it, which is the trade to judge */
+/* ── Viewport foot (27 Sep 2026) ──
+   Safari 26 on the iPhone runs the page under its floating bar and extends the colour of the
+   fixed element touching the viewport's bottom edge under the bar — the author's screenshots:
+   nothing fixed there, the page shows through the glass; the Lime notice up, Lime under the
+   bar; the earlier sampled sliver, its FIRST colour (Safari takes it once, so a repaint never
+   reached the bar). Hence a 4px strip in the page's canvas colour, static: Paper by day,
+   Peppercorn by night and on the fixed dark pages — the page appears to end above the bar, as
+   Chrome for iOS draws it. Touch screens only (a desktop window has no such bar; on Chrome
+   for iOS it is a hairline above the browser's own bar). The bottom notice lifts by the same
+   4px (cookie-notice.css) so the strip stays the bottom-most element and the bar stays dark
+   under the Lime band. `--foot-h` is the one number; `?bar=dark` holds Peppercorn by day. */
+:root {
+    --foot-h: 4px;
+}
+
+.viewport-foot {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--foot-h);
+    z-index: 98; /* under the notice (99), the header (100) and the drawers */
+    pointer-events: none;
+    background-color: var(--bg);
+}
+
+@media (pointer: coarse) {
+    .viewport-foot {
+        display: block;
+    }
+}
+
+.page-template-page-about .viewport-foot,
+.page-template-page-visit .viewport-foot,
+.single-vacancy .viewport-foot,
+html[data-bar="dark"] .viewport-foot {
+    background-color: var(--peppercorn);
+}
+
+/* ?bar=dark (27 Sep 2026): the canvas itself Peppercorn too, so a day page gets a dark bar to
+   compare on the phone; the overscroll beyond the header goes dark with it — the trade to judge */
 html[data-bar="dark"] {
     background-color: var(--peppercorn);
 }

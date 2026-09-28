@@ -5,7 +5,7 @@
  * One document, two languages (website-brief.md → Content editing & languages →
  * Language model): every page exists once, holds both languages in its fields, and
  * PHP prints ONE language per request, chosen by the URL segment. No plugin: what
- * Polylang did by itself is the five small jobs in this file —
+ * Polylang did by itself is the small jobs in this file —
  *
  *   1. sweet_pepper_lang() — the one answer to "which language", read from the request
  *      URI (needed before WordPress has parsed the request: the locale is set first).
@@ -19,9 +19,11 @@
  *      login and uploads are left alone.
  *   5. Head tags — hreflang for both languages and x-default; the twin URL for the
  *      EN / RU pill (sweet_pepper_lang_url()).
+ *   6. The guest's language — the browser's proposes on entry, a tap on the pill is
+ *      remembered (localStorage) and wins from then on; a tiny head script.
  *
  * Cache-safe: the language is on the URL, so a page cache holds one copy per language
- * and never serves the wrong one (the first-visit `navigator.language` nudge stays
+ * and never serves the wrong one (the language redirect in 6 stays
  * client-side — website-brief.md → Top nav → EN/RU switch).
  *
  * @package Sweet_Pepper
@@ -190,6 +192,60 @@ add_action( 'wp_head', function () {
     }
     printf( '<link rel="alternate" hreflang="x-default" href="%s">' . "\n", esc_url( sweet_pepper_lang_url( SWEET_PEPPER_DEFAULT_LANG ) ) );
 }, 2 );
+
+/**
+ * 6. The guest's language, remembered (website-brief.md → Top nav → EN/RU switch): "the
+ * system proposes, memory disposes". A tiny inline script, first thing in <head>, so the
+ * wrong page never paints:
+ *
+ *   - a tap on the EN / RU pill is stored (localStorage `sp-lang`) and wins from then on;
+ *   - with nothing stored, the browser's languages propose one — Russian or a neighbouring
+ *     language where Russian is widely read (be, uk, kk, ky) → RU, anything else → EN;
+ *   - if that answer is not the page's language, the twin URL replaces this one.
+ *
+ * Never on back/forward (the guest went there on purpose, and a redirect would trap the
+ * Back button), never for crawlers and headless tools (each URL must stay indexable in its
+ * own language — hreflang does that job for them), never in the Customizer. Nothing is
+ * stored until the guest taps: a proposal is not a choice.
+ *
+ * Cache-safe: both twin URLs are a function of the URL, so the cached page is the same for
+ * everyone and the decision is made in the browser.
+ */
+add_action( 'wp_head', function () {
+    if ( is_customize_preview() ) {
+        return;
+    }
+    $twins = [];
+    foreach ( array_keys( SWEET_PEPPER_LANGS ) as $code ) {
+        $twins[ $code ] = sweet_pepper_lang_url( $code );
+    }
+    ?>
+<script>
+(function () {
+    var here = <?php echo wp_json_encode( sweet_pepper_lang() ); ?>, twins = <?php echo wp_json_encode( $twins ); ?>, KEY = 'sp-lang';
+    function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a.lang-option[hreflang]');
+        if (a) { try { localStorage.setItem(KEY, a.getAttribute('hreflang')); } catch (e2) {} }
+    });
+    if (/bot|crawl|spider|slurp|yandex|googl|bing|baidu|duckduck|lighthouse|headless|preview/i.test(navigator.userAgent) || navigator.webdriver) return;
+    var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    if (nav && nav.type === 'back_forward') return;
+    var want = get();
+    if (!twins[want]) {
+        var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+        want = 'en';
+        for (var i = 0; i < list.length; i++) {
+            var l = String(list[i]).toLowerCase().split('-')[0];
+            if (/^(ru|be|uk|kk|ky)$/.test(l)) { want = 'ru'; break; }
+            if (l === 'en') break;
+        }
+    }
+    if (want !== here && twins[want]) location.replace(twins[want] + location.hash);
+})();
+</script>
+    <?php
+}, -1 );
 
 /**
  * The EN / RU pill — both codes always visible, the active one filled (website-brief.md

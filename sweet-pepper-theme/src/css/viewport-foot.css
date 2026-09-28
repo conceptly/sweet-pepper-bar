@@ -9,8 +9,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /* Safari's word on the bar's height; &h= overrides it while the report is being tested */
-    height: var(--foot-h, env(safe-area-inset-bottom, 0px));
+    /* A 4px sliver: Safari 26 extends the page's bottom-most colour under its bar by itself
+       (author's phone, 27 Sep 2026) and reports no bottom safe area; &h= overrides, and a
+       browser that does report one gets that */
+    height: var(--foot-h, max(4px, env(safe-area-inset-bottom, 0px)));
     z-index: 98; /* under the cookie notice (99), the header (100) and the drawers */
     pointer-events: none;
     background-color: var(--foot-ground, var(--bg));

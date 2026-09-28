@@ -7,22 +7,29 @@
  * reach the browser chrome, but it can own the strip beneath it: a fixed band at the foot of
  * the viewport, in the ground of the section that is passing under it.
  *
+ * What the phone showed (author, 27 Sep 2026, three screenshots): Safari 26 anchors
+ * `bottom: 0` at the TOP of its bar and then extends the page's bottom-most colour under the
+ * bar by itself. So a 4px sliver is all the band needs — Safari copies its colour down; a 90px
+ * band stood 90px above the bar with the copy beneath. Safari's copy is solid, so a blur on
+ * the band reaches the sliver only — the glass switch cannot cover the bar's area and stays
+ * for the record. `env(safe-area-inset-bottom)` reported nothing, with or without
+ * viewport-fit=cover (`&cover=1`), hence the fixed default.
+ *
  * Behind URL switches until the author has judged it on the phone (the house way — the rail
  * tremble, the language switch, the cookie notice):
- *   ?foot=solid   the band in the section's ground — the page appears to end above the bar
- *   ?foot=glass   the same ground at 70% over a blur — the bar's own glass, one tone darker
- *   &h=<px>       the band's height, when the browser reports no bottom safe area
- *                 (without it: env(safe-area-inset-bottom), which is what Safari says)
- *   &cover=1      adds viewport-fit=cover to the viewport meta — on iOS the safe-area insets
- *                 are only reported with it; the switch tests whether Safari 26 then names
- *                 the bar's height
- *   &tint=1       also keeps <meta name="theme-color"> at the sampled ground (Safari tints
- *                 its chrome from it on some versions)
+ *   ?foot=solid   the sliver in the section's ground — the page appears to end above the bar
+ *   ?foot=glass   the same ground at 70% over a blur (the sliver only — see above)
+ *   &h=<px>       the band's height (default 4; `env(safe-area-inset-bottom)` when it says more)
+ *   &cover=1      adds viewport-fit=cover to the viewport meta (did nothing on iOS 26)
+ *   &tint=1       also keeps <meta name="theme-color"> at the sampled ground
  *
- * The ground is sampled, not typed: on every scroll the element at the band's top edge is
- * asked for the first opaque background up its ancestor chain (the section's, under a photo
- * or a headline alike), so the band follows the page's alternating grounds and the day /
- * night theme without a table. Nothing runs without the switch.
+ * The ground is sampled, not typed: on every scroll the layers under the band's top edge are
+ * asked for the first opaque background that is a GROUND — at least 90% of the viewport wide,
+ * so a button, a card or a chip at the fold never lends its colour (the Paprika band in the
+ * author's first screenshot was the Reserve button's) — and fixed layers (the cookie notice,
+ * the header) are skipped so the band shows the page's ground even while a note is up. The
+ * band follows the alternating grounds and the day / night theme without a table. Nothing
+ * runs without the switch.
  */
 
 export function initViewportFoot() {
@@ -53,17 +60,33 @@ export function initViewportFoot() {
         if (!tint.parentNode) document.head.appendChild(tint);
     }
 
-    // The first opaque background up from the element at the band's top edge
+    const opaque = (el) => {
+        const bg = getComputedStyle(el).backgroundColor;
+        const m = bg.match(/rgba?\(([^)]+)\)/);
+        if (!m) return null;
+        const parts = m[1].split(',').map(parseFloat);
+        return parts.length < 4 || parts[3] > 0.9 ? bg : null;
+    };
+    // A ground is full-width and not a control: on phones a button spans the gutters too
+    // (the Visit booking block's Call), and its Chili is not the page's ground
+    const isGround = (el) => el.getBoundingClientRect().width >= window.innerWidth * 0.9
+        && !el.matches('a, button, [role="button"], input, select, textarea, label');
+    const inFixedLayer = (el) => {
+        for (let e = el; e && e !== document.body; e = e.parentElement) {
+            const pos = getComputedStyle(e).position;
+            if (pos === 'fixed' || pos === 'sticky') return true;
+        }
+        return false;
+    };
+
+    // The first opaque, full-width background up from the first in-flow element under the
+    // band's top edge (fixed layers — the notice, the header, the band itself — skipped)
     function groundAt(x, y) {
-        let el = document.elementFromPoint(x, y);
-        while (el && el !== html) {
-            const bg = getComputedStyle(el).backgroundColor;
-            const m = bg.match(/rgba?\(([^)]+)\)/);
-            if (m) {
-                const parts = m[1].split(',').map(parseFloat);
-                if (parts.length < 4 || parts[3] > 0.9) return bg;
-            }
-            el = el.parentElement;
+        const layers = document.elementsFromPoint(x, y);
+        const start = layers.find((el) => el !== band && !inFixedLayer(el)) || document.body;
+        for (let el = start; el && el !== html; el = el.parentElement) {
+            const bg = opaque(el);
+            if (bg && isGround(el)) return bg;
         }
         return getComputedStyle(document.body).backgroundColor;
     }
@@ -88,6 +111,7 @@ export function initViewportFoot() {
     window.addEventListener('resize', look);
     window.addEventListener('reveal:check', look);
     document.addEventListener('visibilitychange', look);
+    document.addEventListener('transitionend', look); // a note sliding in or out, a theme fade
     look();
     setTimeout(look, 600); // after the page-load entrances have settled
 }

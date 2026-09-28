@@ -1452,7 +1452,7 @@
      (16 / 352). Still symmetric at any width; only this card, the 548 desktop card keeps
      the component default. */
   .visit-hero__hours-card-container .rugged-edge {
-    background-position: calc(50% + 24px) top;
+    background-position: calc(50% + 24px) -12px; /* -12: the component's lower-half tile (components.css) */
   }
 
   /* Next Up: name → detail → time in one column (Figma event 1441:73426) */

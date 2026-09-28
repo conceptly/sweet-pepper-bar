@@ -47,6 +47,7 @@ return [
         'Pick a plate — the bar takes care of the rest.'     => 'Выберите блюдо — и получите рекомендацию от бара!',
         'Pick a drink — the kitchen takes care of the rest.' => 'Выберите напиток — и получите рекомендацию от кухни!',
         'See this drink'                             => 'О напитке',
+        'See this dish'                              => 'О блюде',
         // Menu page (✔ menu-copy-ru-draft.md → Навигация и подписи, 23 Sep 2026; «mine» = not in the draft)
         'Food'                                       => 'Еда',
         'Drinks'                                     => 'Напитки',
@@ -56,8 +57,8 @@ return [
         // (website-brief.md → Doors).
         'FOOD'                                       => 'КУХНЯ ОТ ПЕРЦЕВ',
         'DRINKS'                                     => 'БАР ОТ ПЕРЦЕВ',
-        'More plates'                                => 'Разделы меню', // the button opens the list of sections (navigation-drawers-copy-ru-draft.md → 3)
-        'More pours'                                 => 'Разделы меню',
+        'More plates'                                => 'Всё меню', // the button opens the list of sections (author, 28 Sep 2026; «Разделы меню» before — navigation-drawers-copy-ru-draft.md → 3)
+        'More pours'                                 => 'Вся барная карта',
         'Menu sections'                              => 'Разделы меню',
         'Food Menu'                                  => 'Меню кухни', // mine — the desktop jump-nav tab
         'Drinks Menu'                                => 'Барное меню', // mine
@@ -161,6 +162,13 @@ return [
         "Who we're looking for"                      => 'Кого ищем',
         'What you get'                               => 'Что предлагаем',
         'Your next step'                             => 'Следующий шаг', // the card's title, for now (author, 28 Sep 2026: encouraging, short, no «we»; to be revisited) — «Ваш контакт» read as the guest's own
+        'Quickest by phone or a message on VK'       => 'Быстрее всего — звонок или сообщение ВКонтакте', // under the card title (the team, 28 Sep 2026)
+        'Schedule'                                   => 'График', // the vacancy ticket's rows
+        'Pay'                                        => 'Оплата',
+        // Privacy policy page (page-privacy.php, 28 Sep 2026)
+        "the privacy page eyebrow\4Documents"        => 'Документы',
+        'Version of %s'                              => 'Редакция от %s',
+        "the privacy page contents list\4Contents"   => 'Содержание',
         'Or the bar'                                 => 'Или в бар',
         'Call'                                       => 'Позвонить',
         'Write to %s'                                => 'Написать: %s',

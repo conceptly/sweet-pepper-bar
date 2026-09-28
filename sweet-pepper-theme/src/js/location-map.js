@@ -1,43 +1,71 @@
-/**
- * Location Map — Google My Maps for every guest (27 Sep 2026).
- *
- * Until this date the provider was picked by the visitor's timezone and language: Russian
- * zones and ru-* got the Yandex widget, everyone else the custom Google My Map. The team
- * checked the Google embed from Russia on 27 Sep 2026 and it works, and the walking routes
- * on the Visit page are Google My Maps (one map per landmark, initVisitMapRoutes below),
- * which the Yandex widget could never show — so Google is the one map, on both languages.
- * The `TEST_PROVIDER` switch and the `?map=` override that carried the test are gone.
- */
+import { mapAllowed, setMapPermission } from './map-permission';
 
 const MAP_URL = 'https://www.google.com/maps/d/embed?mid=1yEPiD45iDKxBcyhGVZagMvjYmjBl7NY&ehbc=2E312F';
 
-/**
- * Initialize the location map.
- * Finds the map container and injects the iframe.
- */
 export function initLocationMap() {
-    const containers = document.querySelectorAll('.location__map, #about-map, .about-location__map');
-    if (!containers.length) return;
-
+    const containers = [...document.querySelectorAll('.location__map, .contacts-map__embed')];
+    const title = document.documentElement.lang.startsWith('ru') ? 'Sweet Pepper на карте' : 'Sweet Pepper Bar on the map';
     containers.forEach(container => {
-        if (container.querySelector('iframe')) return;
-
-        const iframe = document.createElement('iframe');
-        // Eager on purpose (Sep 2026): a script-inserted iframe with loading="lazy"
-        // is only fetched once the browser decides it is near the viewport, and that
-        // check is unreliable for inserted frames (WebKit) and stalls entirely in a
-        // hidden document — the container then shows as an empty dark box. The map is
-        // the page's last block; one eager embed per view is what the home page's
-        // Contacts map already costs.
-        iframe.src = MAP_URL;
-        iframe.allowFullscreen = true;
-        iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-        // The page's language, not a string from PHP: the embed is built here (25 Sep 2026)
-        iframe.setAttribute('title', document.documentElement.lang.startsWith('ru') ? 'Sweet Pepper на карте' : 'Sweet Pepper Bar on the map');
-
-        container.dataset.provider = 'google';
-        container.appendChild(iframe);
+        const button = container.querySelector('[data-map-allow]');
+        if (button) {
+            button.hidden = false;
+            button.addEventListener('click', () => {
+                setMapPermission(true);
+                container.querySelector('iframe')?.focus();
+            });
+        }
     });
+    // The message fades rather than cuts (privacy.css → states and easing): out once the map is
+    // allowed, back in if maps are switched off; `hidden` follows when the fade has run.
+    const fade = (placeholder, show) => {
+        if (!placeholder || placeholder.hidden === !show && !placeholder.classList.contains('is-leaving')) return;
+        if (show) {
+            placeholder.hidden = false;
+            placeholder.classList.add('is-leaving');
+            placeholder.getBoundingClientRect(); // commit the faded state, then transition from it
+            placeholder.classList.remove('is-leaving');
+            return;
+        }
+        placeholder.classList.add('is-leaving');
+        const done = () => { if (placeholder.classList.contains('is-leaving')) placeholder.hidden = true; };
+        placeholder.addEventListener('transitionend', done, { once: true });
+        setTimeout(done, 1200); // no transition (reduced motion) → no transitionend
+    };
+    function sync(event) {
+        const allowed = mapAllowed();
+        containers.forEach(container => {
+            const placeholder = container.querySelector('.map-placeholder');
+            const existing = container.querySelector('iframe');
+            // On load the stored choice applies at once (no fade of a message the guest already
+            // answered); a choice made on the page fades
+            if (!event && placeholder) placeholder.hidden = allowed;
+            else fade(placeholder, !allowed);
+            if (!allowed) {
+                existing?.remove();
+                container.removeAttribute('aria-busy');
+                document.querySelectorAll('[data-visit-routes] button').forEach(button => {
+                    button.classList.remove('is-active');
+                    button.setAttribute('aria-pressed', 'false');
+                });
+                return;
+            }
+            if (existing) return;
+            const iframe = document.createElement('iframe');
+            iframe.src = MAP_URL;
+            iframe.title = title;
+            iframe.referrerPolicy = 'no-referrer';
+            iframe.allowFullscreen = true;
+            // Fades in once Google's map has painted; a load that never reports still shows it
+            iframe.classList.add('is-loading');
+            const shown = () => iframe.classList.remove('is-loading');
+            iframe.addEventListener('load', shown, { once: true });
+            setTimeout(shown, 4000);
+            container.dataset.provider = 'google';
+            container.appendChild(iframe);
+        });
+    }
+    window.addEventListener('sp:map-permission', sync);
+    sync();
 }
 
 /**
@@ -61,7 +89,10 @@ export function initVisitMapRoutes() {
     buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
             const iframe = map.querySelector('iframe');
-            if (!iframe || map.dataset.provider !== 'google') return;
+            if (!mapAllowed() || !iframe || map.dataset.provider !== 'google') {
+                map.querySelector('[data-map-allow]')?.focus();
+                return;
+            }
             if (btn.classList.contains('is-active')) return;
 
             buttons.forEach((b) => {

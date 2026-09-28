@@ -16,6 +16,14 @@
  * Field keys follow tools/page-field-groups.py: key = "field_sp_" . name. A field inside a
  * repeater row has no key of its own — name it as saved, row index included
  * ("about_perks_5_title_ru"); it is then written by name, as the row stores it.
+ *
+ * An image field is named by its theme asset, "asset:bar/wine/red-2.jpg", because attachment
+ * IDs differ between installs: the current value is the attachment's `_sp_source` (what
+ * tools/page-seed.php stamps), the new one is found by it or uploaded from the theme's
+ * assets/images/ as the seeder does. A photo the team replaced in admin has no source, so its
+ * group is skipped. An upload takes its Media Library alt (Russian) and «Тема» from the file's
+ * optional "uploads": { "<asset>": { "alt": "…", "topic": "Бар" } }. Posts only, not the
+ * options page (28 Sep 2026, the Гастробот drink photos).
  */
 
 $file = $argv[1] ?? '';
@@ -23,6 +31,49 @@ if ( ! is_file( $file ) ) {
     exit( "Usage: field-update.php <tools/field-updates/*.json>\n" );
 }
 $spec = json_decode( file_get_contents( $file ), true );
+
+/** The value to compare: the text, or for an "asset:" field the attachment's theme source. */
+function sp_update_current( $name, $post_id, $asset ) {
+    if ( ! $asset ) {
+        return trim( (string) get_field( $name, $post_id ) );
+    }
+    $id = (int) get_post_meta( $post_id, $name, true );
+    return $id ? 'asset:' . get_post_meta( $id, '_sp_source', true ) : '';
+}
+
+/** "asset:<path>" → the attachment ID, uploading the theme file the first time (page-seed.php's sp_seed_attachment). */
+function sp_update_attachment( $value, $uploads = [] ) {
+    $asset = substr( $value, 6 );
+    $found = get_posts( [ 'post_type' => 'attachment', 'post_status' => 'inherit', 'posts_per_page' => 1, 'fields' => 'ids',
+                          'meta_key' => '_sp_source', 'meta_value' => $asset ] );
+    if ( $found ) {
+        return (int) $found[0];
+    }
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+    $file = get_template_directory() . '/assets/images/' . $asset;
+    if ( ! is_file( $file ) ) {
+        exit( "No theme asset {$asset}.\n" );
+    }
+    $up = wp_upload_bits( basename( $asset ), null, file_get_contents( $file ) );
+    if ( ! empty( $up['error'] ) ) {
+        exit( "upload failed for {$asset}: {$up['error']}\n" );
+    }
+    $id = wp_insert_attachment( [
+        'post_mime_type' => $up['type'],
+        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $asset ) ),
+        'post_status'    => 'inherit',
+    ], $up['file'] );
+    wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $up['file'] ) );
+    update_post_meta( $id, '_sp_source', $asset );
+    if ( ! empty( $uploads[ $asset ]['alt'] ) ) {
+        update_post_meta( $id, '_wp_attachment_image_alt', $uploads[ $asset ]['alt'] );
+    }
+    if ( ! empty( $uploads[ $asset ]['topic'] ) && taxonomy_exists( 'media_topic' ) ) {
+        wp_set_object_terms( $id, $uploads[ $asset ]['topic'], 'media_topic' );
+    }
+    echo "uploaded {$asset} as attachment {$id}\n";
+    return (int) $id;
+}
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
 require $wp_root . '/wp-load.php';
@@ -45,7 +96,7 @@ foreach ( $spec['groups'] as $group ) {
     $label = $group['note'] . ' — ' . implode( ', ', array_column( $group['set'], 0 ) );
     $cur   = [];
     foreach ( $group['set'] as [ $name, $old, $new ] ) {
-        $cur[ $name ] = trim( (string) get_field( $name, $page->ID ) );
+        $cur[ $name ] = sp_update_current( $name, $page->ID, 0 === strpos( (string) $new, 'asset:' ) );
     }
     if ( array_filter( $group['set'], fn( $r ) => $cur[ $r[0] ] === $r[2] ) === $group['set'] ) {
         echo "done     {$label}\n";
@@ -65,6 +116,9 @@ foreach ( $spec['groups'] as $group ) {
         // bare sub-field name ("name_ru", not "visit_landmark_door_name_ru") — 27 Sep 2026, the
         // landmark names reported "applied" twice and never changed. The key is for a field
         // never saved on this page (no reference yet); a repeater row's field has neither.
+        if ( 0 === strpos( (string) $new, 'asset:' ) ) {
+            $new = sp_update_attachment( $new, $spec['uploads'] ?? [] );
+        }
         $key = 'field_sp_' . $name;
         $ref = function_exists( 'acf_get_reference' ) ? acf_get_reference( $name, $page->ID ) : '';
         update_field( ( ! $ref && acf_get_field( $key ) ) ? $key : $name, $new, $page->ID );

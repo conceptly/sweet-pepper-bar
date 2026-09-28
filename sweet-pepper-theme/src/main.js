@@ -23,6 +23,8 @@ import './css/visit.css';
 import './css/vacancy.css';
 import './css/reveal.css';
 import './css/cookie-notice.css';
+import './css/privacy.css';
+import './css/privacy-page.css';
 // iOS Safari fires :active only when the page listens for touches — without this every pressed
 // state (cards, buttons, the language switch) was invisible on an iPhone (25 Sep 2026).
 document.addEventListener('touchstart', () => {}, { passive: true });
@@ -47,9 +49,10 @@ import { initGentleScroll } from './js/gentle-scroll';
 import { initSectionLinks } from './js/section-link';
 import { initReveal } from './js/reveal';
 import { initCountUp } from './js/count-up';
+import { initMapPreferences } from './js/map-permission';
 import { initCookieNotice } from './js/cookie-notice';
 import { initBarColor } from './js/bar-color';
-import { initVacancyMetaProto } from './js/vacancy-meta-proto';
+import { initVacancy } from './js/vacancy';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -77,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize dish picker (pairing station)
     initDishPicker();
 
-    // Initialize location map (geo-detected provider)
+    // Optional maps: blocked until a separate visitor choice
+    initMapPreferences();
     initLocationMap();
 
     // Visit page: landmark badges swap the map for a walking route
@@ -118,6 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initCookieNotice();
     initBarColor(); // <meta theme-color> follows the theme — the browser's own chrome takes the page's ground
 
-    // PROTOTYPE: the vacancy meta row as a ticket or two numbers, only with ?meta=ticket|stats
-    initVacancyMetaProto();
+    // Vacancy page: the ticket and the contact card settle from their tilt on phones
+    initVacancy();
 });

@@ -58,7 +58,7 @@ function sweet_pepper_social_label( $url, $network ) {
  * The bar's channels, ready to print: each one '' when not set.
  *
  * @return array{phone:string, tel:string, email:string, telegram:string, telegram_url:string,
- *               vk:string, vk_label:string, instagram:string, instagram_label:string}
+ *               vk:string, vk_label:string, vk_write:string, instagram:string, instagram_label:string}
  */
 function sweet_pepper_bar_contacts() {
     static $contacts = null;
@@ -78,6 +78,11 @@ function sweet_pepper_bar_contacts() {
         'telegram_url'    => $tg_url,
         'vk'              => $get( 'vk' ),
         'vk_label'        => sweet_pepper_social_label( $get( 'vk' ), 'vk' ),
+        // Where a "write to us on VK" action goes: the community's messages (author, 28 Sep
+        // 2026). An empty field falls back to the typed link, then to the profile — a new
+        // field on a site whose Bar Settings were saved before it existed still works.
+        'vk_write'        => ( $saved ? trim( (string) get_field( 'contacts_vk_messages', 'option' ) ) : '' )
+                             ?: ( $typed['vk_messages'] ?? '' ) ?: $get( 'vk' ),
         'instagram'       => $get( 'instagram' ),
         'instagram_label' => sweet_pepper_social_label( $get( 'instagram' ), 'instagram' ),
     ];

@@ -1,0 +1,47 @@
+{
+ "post_type": "pairings",
+ "date": "2026-09-28",
+ "uploads": {
+  "bar/hard-drinks/DSC_7459.jpg": {
+   "alt": "Виски Jack Daniel's со льдом рядом с бутылкой",
+   "topic": "Бар"
+  }
+ },
+ "groups": [
+  {
+   "note": "Гастробот — drink photos as Figma picker-day (860:29519): the soup's buckthorn, the draniki's cranberry",
+   "set": [
+    [
+     "pairs_0_drink_photo",
+     "asset:bar/infusions/infusions-lenya-11.jpg",
+     "asset:bar/infusions/infusions-lenya-09.jpg"
+    ],
+    [
+     "pairs_1_drink_photo",
+     "asset:bar/infusions/infusions-lenya-09.jpg",
+     "asset:bar/infusions/infusions-lenya-11.jpg"
+    ]
+   ]
+  },
+  {
+   "note": "Гастробот — the beefsteak's Jack Daniel's photo",
+   "set": [
+    [
+     "pairs_2_drink_photo",
+     "asset:bar/hard-drinks/jim-beam-1.jpg",
+     "asset:bar/hard-drinks/DSC_7459.jpg"
+    ]
+   ]
+  },
+  {
+   "note": "Гастробот — the pasta's Jim Beam photo (was red wine)",
+   "set": [
+    [
+     "pairs_5_drink_photo",
+     "asset:bar/wine/red-2.jpg",
+     "asset:bar/hard-drinks/jim-beam-1.jpg"
+    ]
+   ]
+  }
+ ]
+}

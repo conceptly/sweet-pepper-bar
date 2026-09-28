@@ -54,7 +54,12 @@ $tg_row    = fn( $c ) => $row( 'send.svg', $c['telegram'], $c['telegram_url'] ?:
 $mail_row  = fn( $c ) => $row( 'c-mail.svg', $c['email'], $c['email'], _x( 'Write', 'a contact row action', 'sweet-pepper' ), $c['email'] ? 'mailto:' . $c['email'] : '' );
 ?>
 <div class="vacancy-card">
-    <h2 class="vacancy-card__title molot-text"><?php esc_html_e( 'Your next step', 'sweet-pepper' ); ?></h2>
+    <div class="vacancy-card__head">
+        <h2 class="vacancy-card__title molot-text"><?php esc_html_e( 'Your next step', 'sweet-pepper' ); ?></h2>
+        <?php if ( ! $person ) : // the team's ask (28 Sep 2026): applicants should call or message on VK — the rows keep that order ?>
+            <p class="vacancy-card__note"><?php esc_html_e( 'Quickest by phone or a message on VK', 'sweet-pepper' ); ?></p>
+        <?php endif; ?>
+    </div>
 
     <?php if ( $person ) : ?>
         <div class="vacancy-card__section">
@@ -78,7 +83,7 @@ $mail_row  = fn( $c ) => $row( 'c-mail.svg', $c['email'], $c['email'], _x( 'Writ
             <?php
             $phone_row( $bar );
             $tg_row( $bar );
-            $row( 'vk.svg', $bar['vk_label'], $bar['vk'], _x( 'Message', 'a contact row action', 'sweet-pepper' ), $bar['vk'], true );
+            $row( 'vk.svg', $bar['vk_label'], $bar['vk'], _x( 'Message', 'a contact row action', 'sweet-pepper' ), $bar['vk_write'], true ); // the verb opens the community's messages; the handle and its copy chip stay the profile
             $row( 'insta.svg', $bar['instagram_label'], $bar['instagram'], _x( 'DM', 'a contact row action', 'sweet-pepper' ), $bar['instagram'], true );
             $mail_row( $bar );
             ?>

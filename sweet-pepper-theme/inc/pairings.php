@@ -26,7 +26,8 @@ function sweet_pepper_pairings_post() {
 /**
  * Each entry: slug, dish (tag label), card_name (ticket name), description,
  * food_img / bar_img (URLs), pairing (the bar's reply), bar_section (drinks anchor),
- * default (opens first). One language, the request's.
+ * default (opens first), dish_en (the English dish name, whatever the language — the bar
+ * picker's key). One language, the request's.
  */
 function sweet_pepper_food_pairings() {
     static $pairings = null;
@@ -72,6 +73,7 @@ function sweet_pepper_food_pairings() {
             'pairing'     => sweet_pepper_pick( $row, 'reply' ),
             'bar_section' => (string) ( $row['drink_section'] ?? 'infusions' ),
             'default'     => ! empty( $row['default'] ),
+            'dish_en'     => (string) ( $row['dish_name_en'] ?? '' ),
         ];
     }
     return $pairings;

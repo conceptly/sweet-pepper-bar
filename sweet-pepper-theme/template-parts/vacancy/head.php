@@ -4,8 +4,8 @@
  *
  * No section connector (author, 28 Sep 2026: the reflection, then the word, tried and
  * dropped — "it doesn't work here"); the Careers eyebrow ties the page to About. Back link → the
- * About list · eyebrow (the Careers section's own) · H1 · the meta row (department pill,
- * schedule, pay, open since). Closed: the meta row gives way to one line.
+ * About list · eyebrow (the Careers section's own) · H1 · the ticket (department pill, open
+ * since, schedule and pay). Closed: the ticket gives way to one line.
  *
  * The photo (28 Sep 2026, author): the posting's VK poster, shot in the bar by the team, in
  * the last four columns beside the text — whole, never cropped, because the words are part
@@ -39,20 +39,30 @@ $photo   = $v['open'] && ! empty( $v['photo'] ) ? $v['photo'] : 0;
             </div>
 
             <?php if ( $v['open'] ) : ?>
-                <ul class="vacancy-head__meta">
-                    <?php if ( $v['department'] ) : ?>
-                        <li class="vacancy-pill"><?php echo esc_html( $v['department'] ); ?></li>
+                <?php // The facts on the bartender's ticket (author's pick, 28 Sep 2026): Parchment, the
+                      // rugged edges, pill + date over a rule, schedule and pay as menu rows. ?>
+                <div class="vacancy-ticket">
+                    <div class="vacancy-ticket__edge vacancy-ticket__edge--top" aria-hidden="true"><?php get_template_part( 'template-parts/components/rugged-edge', null, [ 'color' => 'peppercorn' ] ); ?></div>
+                    <?php if ( $v['department'] || $v['opened'] ) : ?>
+                        <div class="vacancy-ticket__top">
+                            <?php if ( $v['department'] ) : ?>
+                                <span class="vacancy-ticket__pill"><?php echo esc_html( $v['department'] ); ?></span>
+                            <?php endif; ?>
+                            <?php if ( $v['opened'] ) : ?>
+                                <span class="vacancy-ticket__since"><?php echo esc_html( sprintf( __( 'Open since %s', 'sweet-pepper' ), $v['opened'] ) ); ?></span>
+                            <?php endif; ?>
+                        </div>
                     <?php endif; ?>
-                    <?php if ( $v['schedule'] ) : ?>
-                        <li class="vacancy-head__meta-item"><?php echo esc_html( $v['schedule'] ); ?></li>
-                    <?php endif; ?>
-                    <?php if ( $v['pay'] ) : ?>
-                        <li class="vacancy-head__meta-item"><?php echo esc_html( $v['pay'] ); ?></li>
-                    <?php endif; ?>
-                    <?php if ( $v['opened'] ) : ?>
-                        <li class="vacancy-head__meta-item vacancy-head__meta-item--since"><?php echo esc_html( sprintf( __( 'Open since %s', 'sweet-pepper' ), $v['opened'] ) ); ?></li>
-                    <?php endif; ?>
-                </ul>
+                    <?php foreach ( [
+                        [ __( 'Schedule', 'sweet-pepper' ), $v['schedule'], '' ],
+                        [ __( 'Pay', 'sweet-pepper' ), $v['pay'], ' vacancy-ticket__row--pay' ],
+                    ] as [ $label, $value, $mod ] ) : ?>
+                        <?php if ( $value ) : ?>
+                            <p class="vacancy-ticket__row<?php echo $mod; ?>"><span class="vacancy-ticket__label"><?php echo esc_html( $label ); ?></span><span class="vacancy-ticket__wrap"><span class="vacancy-ticket__value"><?php echo esc_html( $value ); ?></span></span></p>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <div class="vacancy-ticket__edge vacancy-ticket__edge--bottom" aria-hidden="true"><?php get_template_part( 'template-parts/components/rugged-edge', null, [ 'color' => 'parchment' ] ); ?></div>
+                </div>
             <?php else : ?>
                 <p class="vacancy-head__closed"><?php esc_html_e( 'This role is filled. Have a look at the open ones below.', 'sweet-pepper' ); ?></p>
             <?php endif; ?>

@@ -23,25 +23,27 @@ $img_base = get_template_directory_uri() . '/assets/images/';
 // (author, 25 Sep 2026: "Gastrobar" over "Food & drink" — the card opens the concept, perks and
 // reviews; «Идея» / "Idea" is the author's second option). Russian: Гастробар · История · Люди ·
 // Работа · Адрес.
+// Photos — Figma `filmstrip-index` (341:15140), author 28 Sep 2026: the Pepper sign and lantern ·
+// the founder at the mic · the 2019 team · Lenya on the phone · the door.
 $filmstrip = [
     [
         'label' => _x( 'Gastrobar', 'About filmstrip', 'sweet-pepper' ),
-        'image' => $img_base . 'bar/cocktails/cocktail-5.jpg',
+        'image' => $img_base . 'sweet-space/light.jpg',
         'href'  => '#concept',
     ],
     [
         'label' => _x( 'Story', 'About filmstrip', 'sweet-pepper' ),
-        'image' => $img_base . 'food/lunch/pumpkin.png',
+        'image' => $img_base . 'team/iura/iura-1.jpg',
         'href'  => '#story',
     ],
     [
         'label' => _x( 'People', 'About filmstrip', 'sweet-pepper' ),
-        'image' => $img_base . 'bar/cocktails/moscow-mull-2.jpg',
+        'image' => $img_base . 'team/group/2019.jpg',
         'href'  => '#guests',
     ],
     [
         'label' => _x( 'Careers', 'About filmstrip', 'sweet-pepper' ),
-        'image' => $img_base . 'food/dinner/zharkoe-1.jpg',
+        'image' => $img_base . 'team/lenya/lenya-1.jpg',
         'href'  => '#careers',
     ],
     [

@@ -123,6 +123,7 @@ require_once get_template_directory() . '/inc/dish-quick-edit.php'; // size and 
 require_once get_template_directory() . '/inc/menu-page.php';       // the two menu pages: state, URLs, door, Highlights, title
 require_once get_template_directory() . '/inc/home-data.php';       // the home page: the front page's fields → each part's args (fallback: data/home/)
 require_once get_template_directory() . '/inc/vk-feed.php';
+require_once get_template_directory() . '/inc/privacy.php';         // the privacy policy page: its text in two languages, the contents list
 require_once get_template_directory() . '/inc/vacancies.php';       // «Вакансии»: one record per opening, its page, the term and the archive, the About list         // the Russian home page's «Что нового» cards: imported from the VK wall, hourly
 require_once get_template_directory() . '/inc/admin-photo-preview.php'; // admin: photo fields previewed at the site's crop, sliders live
 require_once get_template_directory() . '/inc/seo.php';             // «Поиск» on every page, the description, Open Graph, the bar as schema.org data

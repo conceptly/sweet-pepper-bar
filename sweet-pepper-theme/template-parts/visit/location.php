@@ -115,7 +115,7 @@ $landmarks = $args['landmarks'];
             <div class="visit-location__map-column">
                 <div class="visit-location__map">
                     <div class="visit-location__map-embed location__map">
-                        <?php // Hydrated by location-map.js (geo-detection) ?>
+                        <?php get_template_part( 'template-parts/components/map-placeholder' ); ?>
                     </div>
                     <?php // Chip bar on the map's foot (map variant "labels" 2391:76528), in the chip
                           // component's own style on Paper. No address line — the badges carry the

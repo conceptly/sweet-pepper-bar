@@ -17,13 +17,19 @@
        is centre-aligned in its container): circle centres land at W/2 ± 48n, so the
        pattern is symmetric for any card width and the two end circles are never
        chopped unevenly. On a 548px card that is 34px and 514px — the Figma values. */
+    /* The tile is a whole circle, 48 × 24, and the strip shows its LOWER half (-12px):
+       drawn as a 12px tile whose top row was the circles' full-width diameter, a strip
+       inside a composited layer (a transition, a transform — the vacancy ticket's hover)
+       sampled that row again at its bottom edge, a hairline under every scallop (author,
+       28 Sep 2026; gone with the tilt removed only because the transition went too). This
+       tile's top row is empty, so there is nothing to bleed. */
     background-image: radial-gradient(
-        circle at 24px 0,
+        circle at 24px 12px,
         var(--rugged-color) 11.5px,
         transparent 12px
     );
-    background-size: 48px 12px;
-    background-position: center top;
+    background-size: 48px 24px;
+    background-position: center -12px;
     background-repeat: repeat-x;
     
     display: block;

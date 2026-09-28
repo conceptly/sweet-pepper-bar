@@ -111,13 +111,7 @@
                     <h2 class="contacts-subtitle contacts-subtitle--directions molot-text"><?php echo esc_html( $args['map_title'] ); ?></h2>
                     <div class="contacts-map">
                         <div class="contacts-map__embed">
-                            <iframe 
-                                src="https://www.google.com/maps/d/embed?mid=1yEPiD45iDKxBcyhGVZagMvjYmjBl7NY&hl=en&ehbc=2E312F" 
-                                title="<?php esc_attr_e( 'Sweet Pepper Bar location map', 'sweet-pepper' ); ?>"
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
-                                allowfullscreen
-                            ></iframe>
+                            <?php get_template_part( 'template-parts/components/map-placeholder' ); ?>
                         </div>
                         <div class="contacts-map__bar">
                             <div class="contacts-map__address">

@@ -10,6 +10,8 @@
  *   ru          — Russian twins: dish names from menu.md; the pumpkin soup's line, the
  *                 Finlandia / Ararat / sea-buckthorn replies from about-page-copy-ru-draft.md
  *                 → Подбор пары; the other three replies follow their pattern (mine, to review).
+ *   food_img / bar_img — the pairs as Figma picker-day (860:29519) draws them (28 Sep 2026: the soup
+ *                 and draniki had each other's infusion, the beefsteak Jim Beam, the pasta red wine).
  *
  * @package Sweet_Pepper
  */
@@ -21,7 +23,7 @@ return [
         'dish_short'    => '',
         'description'   => 'The legend of the Kirova street',
         'food_img'      => 'food/lunch/pumpkin.png',
-        'bar_img'       => 'bar/infusions/infusions-lenya-11.jpg',
+        'bar_img'       => 'bar/infusions/infusions-lenya-09.jpg',
         'reply'         => 'A shot of the buckthorn infusion',
         'drink_section' => 'infusions',
         'default'       => false,
@@ -33,7 +35,7 @@ return [
         'dish_short'    => '',
         'description'   => 'The legend of the Kirova street',
         'food_img'      => 'food/dinner/draniki-2.jpg',
-        'bar_img'       => 'bar/infusions/infusions-lenya-09.jpg',
+        'bar_img'       => 'bar/infusions/infusions-lenya-11.jpg',
         'reply'         => 'A shot of the cranberry infusion',
         'drink_section' => 'infusions',
         'default'       => false,
@@ -45,7 +47,7 @@ return [
         'dish_short'    => '',
         'description'   => 'The legend of the Kirova street',
         'food_img'      => 'food/dinner/minced-beefsteak-07.jpg',
-        'bar_img'       => 'bar/hard-drinks/jim-beam-1.jpg',
+        'bar_img'       => 'bar/hard-drinks/DSC_7459.jpg',
         'reply'         => 'Jack Daniels on ice',
         'drink_section' => 'spirits',
         'default'       => false,
@@ -81,7 +83,7 @@ return [
         'dish_short'    => '',
         'description'   => 'The legend of the Kirova street',
         'food_img'      => 'food/lunch/chicken-pasta-1.jpg',
-        'bar_img'       => 'bar/wine/red-2.jpg',
+        'bar_img'       => 'bar/hard-drinks/jim-beam-1.jpg',
         'reply'         => 'Jim Beam on ice',
         'drink_section' => 'spirits',
         'default'       => false,

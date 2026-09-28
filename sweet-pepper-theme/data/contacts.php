@@ -16,5 +16,7 @@ return [
     'email'     => 'hello@sweetpepper.bar',
     'telegram'  => '',
     'vk'        => 'https://vk.com/sweetpepperbar',
+    // The community's messages — where «Написать» on VK goes (author, 28 Sep 2026)
+    'vk_messages' => 'https://vk.ru/im/convo/-64582467?entrypoint=community_page&tab=all',
     'instagram' => 'https://instagram.com/barsweetpepper',
 ];

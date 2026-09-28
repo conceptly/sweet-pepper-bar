@@ -12,93 +12,39 @@
  * @package Sweet_Pepper
  */
 
-$img_base = get_template_directory_uri() . '/assets/images/';
-
-// Same pairings as the kitchen version, but viewed from the bar side:
-// the "dish" (tag label) is the drink, the "pairing" is the food.
-$pairings = [
-    [
-        'slug'        => 'buckthorn-infusion',
-        'dish'        => 'Buckthorn Infusion',    // tag label (the drink)
-        'card_name'   => 'Buckthorn Infusion',     // card display name
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'bar/infusions/infusions-lenya-11.jpg',   // left photo (drink)
-        'bar_img'     => 'food/lunch/pumpkin.png',                  // right photo (food)
-        'pairing'     => 'Pumpkin Soup',                            // the food pairing
-        'bar_section' => 'soups',                                   // links to food section
-    ],
-    [
-        'slug'        => 'cranberry-infusion',
-        'dish'        => 'Cranberry Infusion',
-        'card_name'   => 'Cranberry Infusion',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'bar/infusions/infusions-lenya-09.jpg',
-        'bar_img'     => 'food/dinner/draniki-2.jpg',
-        'pairing'     => 'Signature Draniki',
-        'bar_section' => 'hot-dishes',
-    ],
-    [
-        'slug'        => 'jim-beam',
-        'dish'        => 'Jack Daniels on Ice',
-        'card_name'   => 'Jack Daniels on Ice',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'bar/hard-drinks/jim-beam-1.jpg',
-        'bar_img'     => 'food/dinner/minced-beefsteak-07.jpg',
-        'pairing'     => 'Beefsteak with Egg',
-        'bar_section' => 'hot-dishes',
-    ],
-    [
-        'slug'        => 'finlandia',
-        'dish'        => 'A Shot of Finlandia',
-        'card_name'   => 'Shot of Finlandia',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'bar/hard-drinks/finlandia-3.jpg',
-        'bar_img'     => 'food/dinner/zharkoe-1.jpg',
-        'pairing'     => 'Yaroslavl Roast',
-        'bar_section' => 'hot-dishes',
-    ],
-    [
-        'slug'        => 'ararat',
-        'dish'        => 'Ararat Cognac',
-        'card_name'   => 'Ararat Cognac',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'bar/hard-drinks/ararat-1.jpg',
-        'bar_img'     => 'food/dinner/wings-2.jpg',
-        'pairing'     => 'Chicken Wings',
-        'bar_section' => 'hot-dishes',
-    ],
-    [
-        'slug'        => 'red-wine',
-        'dish'        => 'Red Wine',
-        'card_name'   => 'Red Wine',
-        'description' => 'The legend of the Kirova street',
-        'food_img'    => 'bar/wine/red-2.jpg',
-        'bar_img'     => 'food/lunch/chicken-pasta-1.jpg',
-        'pairing'     => 'Chicken Pasta',
-        'bar_section' => 'hot-dishes',
-    ],
+// The kitchen picker's pairs (inc/pairings.php — the «Гастробот» record), seen from the bar:
+// the drink is the tag and the first photo, the dish the reply and the second (author, 28 Sep
+// 2026: "all the pickers have the same pairs, only the order changes on the bar page"). It kept
+// its own typed copy until then, which had drifted — two infusions swapped, red wine for
+// Jim Beam — and printed its photo paths without the theme URL, so no photo loaded.
+//
+// Only the drink's tag name is this picker's own, keyed on the row's English dish name
+// (EN tag · EN ticket · RU tag · RU ticket, from menu-copy-ru-draft.md → Подбор пары) and
+// the kitchen section its link opens. A row the table doesn't know (a pair added in admin)
+// shows the bar's reply as the tag and links to hot dishes.
+$drinks = [
+    'Pumpkin Soup'         => [ 'Buckthorn Infusion', 'Buckthorn Infusion', 'Облепиховая настойка', 'Облепиховая настойка', 'soups' ],
+    'Signature Draniki'    => [ 'Cranberry Infusion', 'Cranberry Infusion', 'Клюквенная настойка', 'Клюквенная настойка', 'hot-dishes' ],
+    'Beefsteak with Egg'   => [ 'Jack Daniels on Ice', 'Jack Daniels on Ice', "Jack Daniel's со льдом", "Jack Daniel's со льдом", 'hot-dishes' ],
+    'Yaroslavl Pork Roast' => [ 'A Shot of Finlandia', 'Shot of Finlandia', 'Стопка водки Finlandia', 'Стопка Finlandia', 'hot-dishes' ],
+    'Smoked Pepper Wings'  => [ 'Ararat Cognac', 'Ararat Cognac', 'Коньяк «Арарат»', 'Коньяк «Арарат»', 'hot-dishes' ],
+    'Chicken Pasta'        => [ 'Jim Beam on Ice', 'Jim Beam on Ice', 'Jim Beam со льдом', 'Jim Beam со льдом', 'hot-dishes' ],
 ];
-
-// Russian twins (23 Sep 2026): drink names from menu-copy-ru-draft.md → Подбор пары, dish
-// names as the «Гастробот» record has them, the dish line the same placeholder as the
-// kitchen picker's. Typed here while this picker's rows are typed (the reversed-pairs
-// question: website-brief.md → Picker pairings).
-if ( 'ru' === sweet_pepper_lang() ) {
-    $ru = [
-        'buckthorn-infusion' => [ 'Облепиховая настойка', 'Облепиховая настойка', 'Тыквенный суп' ],
-        'cranberry-infusion' => [ 'Клюквенная настойка', 'Клюквенная настойка', 'Фирменные драники' ],
-        'jim-beam'           => [ "Jack Daniel's со льдом", "Jack Daniel's со льдом", 'Бифштекс с яйцом' ],
-        'finlandia'          => [ 'Стопка водки Finlandia', 'Стопка Finlandia', 'Жаркое по-ярославски' ],
-        'ararat'             => [ 'Коньяк «Арарат»', 'Коньяк «Арарат»', 'Крылышки-гриль' ],
-        'red-wine'           => [ 'Красное вино', 'Красное вино', 'Фарфалле с курицей' ],
+$ru       = 'ru' === sweet_pepper_lang();
+$pairings = [];
+foreach ( sweet_pepper_food_pairings() as $p ) {
+    $d          = $drinks[ $p['dish_en'] ] ?? null;
+    $pairings[] = [
+        'slug'        => $p['slug'],
+        'dish'        => $d ? $d[ $ru ? 2 : 0 ] : $p['pairing'],
+        'card_name'   => $d ? $d[ $ru ? 3 : 1 ] : $p['pairing'],
+        'description' => $ru ? 'Легенда улицы Кирова' : 'The legend of the Kirova street',
+        'food_img'    => $p['bar_img'],
+        'bar_img'     => $p['food_img'],
+        'pairing'     => $p['card_name'],
+        'bar_section' => $d ? $d[4] : 'hot-dishes',
+        'default'     => $p['default'],
     ];
-    foreach ( $pairings as &$p ) {
-        if ( isset( $ru[ $p['slug'] ] ) ) {
-            [ $p['dish'], $p['card_name'], $p['pairing'] ] = $ru[ $p['slug'] ];
-            $p['description'] = 'Легенда улицы Кирова';
-        }
-    }
-    unset( $p );
 }
 ?>
 
@@ -133,7 +79,8 @@ if ( 'ru' === sweet_pepper_lang() ) {
             <?php
             get_template_part( 'template-parts/components/dish-picker', null, [
                 'pairings'      => $pairings,
-                'default_index' => 3, // Finlandia — matches Figma default
+                'default_index' => sweet_pepper_pairing_index( $pairings ), // the record's first row (Finlandia — matches Figma)
+                'link_menu'     => 'food',
             ] );
             ?>
         </div>

@@ -19,13 +19,15 @@ $uri   = get_template_directory_uri() . '/assets/icons/';
 $items = [
     [ 'label' => __( 'Home', 'sweet-pepper' ),  'desc' => __( 'A taste of Sweet Pepper', 'sweet-pepper' ),          'url' => home_url( '/' ),      'current' => is_front_page() ],
     [ 'label' => __( 'Menu', 'sweet-pepper' ),  'desc' => __( "From breakfast to late\u{2011}night drinks", 'sweet-pepper' ), 'url' => sweet_pepper_menu_url( 'food' ),  'current' => sweet_pepper_is_menu_page() ],
-    [ 'label' => __( 'About', 'sweet-pepper' ), 'desc' => __( 'The place, the people, the story', 'sweet-pepper' ), 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) ],
+    [ 'label' => __( 'About', 'sweet-pepper' ), 'desc' => __( 'The place, the people, the story', 'sweet-pepper' ), 'url' => home_url( '/about' ), 'current' => is_page_template( 'page-about.php' ) || is_singular( 'vacancy' ) ],
     [ 'label' => __( 'Visit', 'sweet-pepper' ), 'desc' => __( 'Hours, directions and contacts', 'sweet-pepper' ),   'url' => home_url( '/visit' ), 'current' => is_page_template( 'page-visit.php' ) ],
 ];
 
 // About and Visit are fixed compositions with a dark hero (website-brief.md → What themes
 // and what doesn't), so their drawer is dark in every theme; Home and Menu follow data-theme.
-$is_dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit.php' );
+// A vacancy page is About's child (its Careers section, /vacancies/…): dark too, with About
+// lit as the section you are in (author, 28 Sep 2026).
+$is_dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit.php' ) || is_singular( 'vacancy' );
 
 // Arrows and × go through sweet_pepper_inline_svg() per instance: this drawer is on every
 // page, sits before the content, and is visibility: hidden on phones — a raw copy here
@@ -50,7 +52,7 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
         <ul class="mobile-drawer__list">
             <?php foreach ( $items as $item ) : ?>
             <li class="mobile-drawer__item">
-                <a href="<?php echo esc_url( $item['url'] ); ?>" class="mobile-drawer__link<?php echo $item['current'] ? ' is-current' : ''; ?>"<?php echo $item['current'] ? ' aria-current="page"' : ''; ?>>
+                <a href="<?php echo esc_url( $item['url'] ); ?>" class="mobile-drawer__link<?php echo $item['current'] ? ' is-current' : ''; ?>"<?php echo $item['current'] ? ' aria-current="' . ( is_singular( 'vacancy' ) ? 'true' : 'page' ) . '"' : ''; ?>>
                     <span class="mobile-drawer__link-title"><?php echo esc_html( $item['label'] ); ?></span>
                     <span class="mobile-drawer__link-meta">
                         <span class="mobile-drawer__link-desc"><?php echo esc_html( $item['desc'] ); ?></span>

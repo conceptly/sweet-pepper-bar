@@ -94,8 +94,9 @@ const VISIT = {
 /* Menu (food and drinks) — header furniture moves, the dish lists never do: 253 rows, and
    time-to-dish is the page's KPI (website-brief.md → Menu lists: "a fast reading surface").
    Each section's photo band slides in with its pill, the eyebrow rises, the title rises
-   behind its mask, the deal slip pops — and the rows are simply there. The Seasonal rail is
-   a horizontal scroller, so it rises as one piece. The pairing station is About's Concept
+   behind its mask, the deal slip and the add-ons card pop (the card whole, its rows inside
+   it — author, 28 Sep 2026: "the same as the deal cards") — and the rows are simply there.
+   The Seasonal rail is a horizontal scroller, so it rises as one piece. The pairing station is About's Concept
    again. On phones only the section on show has a box, so the others are never armed:
    switching sections shows them finished. */
 const MENU = {
@@ -110,12 +111,25 @@ const MENU = {
         'mask-left':  '.menu-section__hero, .dish-picker__photo-food',
         'mask-right': '.dish-picker__photo-bar, .location__map',
         'mask-down':  '.dish-picker__card-wrap',
-        'pop':        '.menu-section__hero-pill, .menu-section__deal, .dish-picker__shake, .menu-entrance-img__pill',
+        'pop':        '.menu-section__hero-pill, .menu-section__deal, .menu-section__addons, .dish-picker__shake, .menu-entrance-img__pill',
     },
     delays: { '.dish-picker__shake': 350, '.dish-picker__card-wrap': 500 },
 };
 
-const PLANS = [HOME, ABOUT, VISIT, MENU];
+/* Vacancy — a service page too, so Visit's register (author, 28 Sep 2026: "the same
+   patterns as the Visit page"): the list titles rise behind their mask, the copy, the
+   contact card and the other roles rise. The head plays its own load entrance
+   (vacancy.css); on phones the card also settles from its 1° as it arrives (vacancy.js). */
+const VACANCY = {
+    scope: '.vacancy-body, .vacancy-foot',
+    plan: {
+        'mask-up':    '.vacancy-list__title, .vacancy-foot__title',
+        'rise':       '.vacancy-copy__lead, .vacancy-list__items, .vacancy-card, ' +
+                      '.vacancy-foot__jobs .about-careers__card, .vacancy-foot__cta',
+    },
+};
+
+const PLANS = [HOME, ABOUT, VISIT, MENU, VACANCY];
 
 const REPLAY = /^mask-(left|right)$/; // containers re-park a screen below the fold — not mask-up (headlines are copy); null = once only
 const STAGGER = 120;      // ms

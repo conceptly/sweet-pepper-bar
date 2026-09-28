@@ -92,6 +92,7 @@
         <div class="footer-bottom">
             <div class="container footer-bottom-container">
                 <p class="footer-copyright">© <?php echo date('Y'); ?> Sweet Pepper Bar</p>
+                <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
                 <a href="#page" class="footer-back-to-top">
                     <?php esc_html_e( 'Back to top', 'sweet-pepper' ); ?> <i class="ph-bold ph-arrow-up" aria-hidden="true"></i>
                 </a>
@@ -101,6 +102,7 @@
 </div><!-- #page -->
 
 <?php get_template_part('template-parts/components/reserve-drawer'); ?>
+<?php get_template_part('template-parts/components/map-preferences'); ?>
 
 <?php get_template_part( 'template-parts/components/cookie-notice' ); // the bottom band by default (27 Sep 2026); ?notice=corner for the card, &pos=top to compare, ?notice=off for none ?>
 <?php // Viewport foot (27 Sep 2026): Safari 26 on the iPhone extends the colour of the fixed element

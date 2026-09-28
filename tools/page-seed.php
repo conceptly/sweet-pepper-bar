@@ -51,6 +51,14 @@
  *                   posters uploaded unattached; skipped while any vacancy record exists unless
  *                   --force, which re-fills the templates by title and moves the `retired`
  *                   placeholders of 25 Sep 2026 to the trash (reversible — never a delete).
+ *   privacy       — privacy-policy-ru-draft.markdown (repo root) → the page «Политика обработки
+ *                   персональных данных» at /privacy-policy/ (template page-privacy.php), **as a
+ *                   draft**: publishing it in admin is the owner's approval (28 Sep 2026). The
+ *                   Markdown's editorial notes (`>` quotes), its title and status lines are left
+ *                   out; `##` → section headings, tables, bold, `code`, links. Also set as
+ *                   WordPress's privacy page (Settings → Privacy). WordPress's own install-time
+ *                   draft at /privacy-policy/ is adopted (Russian title, its sample text cleared);
+ *                   --force re-imports the text into an existing page and keeps its status.
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -61,7 +69,7 @@ $args    = array_slice( $argv, 1 );
 $force   = in_array( '--force', $args, true );
 $targets = array_values( array_diff( $args, [ '--force' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu|home|contacts|vacancies> [...] [--force]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu|home|contacts|vacancies|privacy> [...] [--force]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -96,6 +104,85 @@ function sp_seed_attachment( $asset ) {
 }
 
 /** Write an RU / EN pair by field key; an untyped twin is stored empty and borrows the other. */
+/**
+ * The policy draft's Markdown → the HTML the rich-text field holds. Only what the draft uses:
+ * `##` / `###`, paragraphs, pipe tables, `- ` lists, **bold**, `code`, [links](…) and bare
+ * URLs. Everything before the first `##` (title, status line, notes) and every `>` quote (the
+ * editorial notes for the owner) is left out.
+ */
+function sp_seed_markdown( $md ) {
+    $inline = function ( $t ) {
+        $t = htmlspecialchars( $t, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+        $t = preg_replace( '/`([^`]+)`/u', '<code>$1</code>', $t );
+        $t = preg_replace( '/\*\*(.+?)\*\*/u', '<strong>$1</strong>', $t );
+        $t = preg_replace_callback( '/\[([^\]]+)\]\(([^)\s]+)\)/u', fn( $m ) => '<a href="' . $m[2] . '">' . $m[1] . '</a>', $t );
+        $t = preg_replace( '#(?<![">])\b(https?://[^\s<]+?)(?=[.,;:)]?(?:\s|$|<))#u', '<a href="$1">$1</a>', $t );
+        return $t;
+    };
+    $lines = preg_split( '/\r\n|\r|\n/', $md );
+    $start = 0;
+    while ( $start < count( $lines ) && 0 !== strpos( $lines[ $start ], '## ' ) ) {
+        $start++;
+    }
+    $html  = [];
+    $para  = [];
+    $flush = function () use ( &$para, &$html, $inline ) {
+        if ( $para ) {
+            $html[] = '<p>' . $inline( implode( ' ', $para ) ) . '</p>';
+            $para   = [];
+        }
+    };
+    for ( $i = $start, $n = count( $lines ); $i < $n; $i++ ) {
+        $line = rtrim( $lines[ $i ] );
+        if ( '' === trim( $line ) || 0 === strpos( ltrim( $line ), '>' ) ) {
+            $flush();
+            continue;
+        }
+        if ( preg_match( '/^(#{2,3}) (.+)$/u', $line, $m ) ) {
+            $flush();
+            $tag    = 2 === strlen( $m[1] ) ? 'h2' : 'h3';
+            $html[] = "<{$tag}>" . $inline( $m[2] ) . "</{$tag}>";
+            continue;
+        }
+        if ( 0 === strpos( $line, '|' ) ) {
+            $flush();
+            $rows = [];
+            for ( ; $i < $n && 0 === strpos( rtrim( $lines[ $i ] ), '|' ); $i++ ) {
+                $rows[] = rtrim( $lines[ $i ] );
+            }
+            $i--;
+            $cells = fn( $row ) => array_map( 'trim', explode( '|', trim( $row, '|' ) ) );
+            $t     = '<table><thead><tr>';
+            foreach ( $cells( $rows[0] ) as $c ) {
+                $t .= '<th>' . $inline( $c ) . '</th>';
+            }
+            $t .= '</tr></thead><tbody>';
+            foreach ( array_slice( $rows, 2 ) as $row ) {
+                $t .= '<tr>';
+                foreach ( $cells( $row ) as $c ) {
+                    $t .= '<td>' . $inline( $c ) . '</td>';
+                }
+                $t .= '</tr>';
+            }
+            $html[] = $t . '</tbody></table>';
+            continue;
+        }
+        if ( preg_match( '/^[-*] (.+)$/u', $line ) ) {
+            $flush();
+            $items = [];
+            for ( ; $i < $n && preg_match( '/^[-*] (.+)$/u', rtrim( $lines[ $i ] ), $m ); $i++ ) {
+                $items[] = '<li>' . $inline( $m[1] ) . '</li>';
+            }
+            $i--;
+            $html[] = '<ul>' . implode( '', $items ) . '</ul>';
+            continue;
+        }
+        $para[] = trim( $line );
+    }
+    $flush();
+    return implode( "\n", $html );
+}
+
 function sp_seed_twins( $key, $typed, $name, $post_id ) {
     update_field( "{$key}_en", $typed[ $name ] ?? '', $post_id );
     update_field( "{$key}_ru", $typed['ru'][ $name ] ?? '', $post_id );
@@ -304,6 +391,47 @@ foreach ( $targets as $target ) {
             echo "location: seeded\n";
             break;
 
+        case 'privacy':
+            $md_file = dirname( __DIR__ ) . '/privacy-policy-ru-draft.markdown';
+            if ( ! is_readable( $md_file ) ) {
+                echo "privacy: {$md_file} not found\n";
+                break;
+            }
+            $title = 'Политика обработки персональных данных';
+            $page  = get_page_by_path( 'privacy-policy', OBJECT, 'page' );
+            // WordPress makes a draft «Privacy Policy» at this address on install, with its own sample
+            // text: that page is adopted (it is already Settings → Privacy's page), never duplicated
+            $wp_default = $page && 'Privacy Policy' === $page->post_title && ! get_post_meta( $page->ID, 'privacy_body_ru', true );
+            if ( $page && ! $force && ! $wp_default ) {
+                echo "privacy: the page exists (#{$page->ID}, {$page->post_status}) — left alone (--force to re-import the text)\n";
+                break;
+            }
+            if ( $wp_default ) {
+                wp_update_post( [ 'ID' => $page->ID, 'post_title' => $title, 'post_content' => '' ] ); // the template never prints post_content
+                echo "privacy: adopted WordPress's own draft page #{$page->ID} (its sample text cleared)\n";
+            }
+            $id = $page ? $page->ID : wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'draft', 'post_title' => $title, 'post_name' => 'privacy-policy' ] );
+            if ( ! $id || is_wp_error( $id ) ) {
+                echo "privacy: could not create the page\n";
+                break;
+            }
+            update_post_meta( $id, '_wp_page_template', 'page-privacy.php' );
+            $md   = file_get_contents( $md_file );
+            $body = sp_seed_markdown( $md );
+            update_field( 'field_sp_privacy_body_ru', $body, $id );
+            update_field( 'field_sp_privacy_title_en', 'Privacy Policy', $id );
+            // The version date from the draft's status line («обновлён 28 сентября 2026 года»)
+            $months = [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ];
+            $date   = wp_date( 'Y-m-d' );
+            if ( preg_match( '/обновл[её]н (\d{1,2}) (\S+) (\d{4})/u', $md, $d ) && false !== ( $mi = array_search( $d[2], $months, true ) ) ) {
+                $date = sprintf( '%04d-%02d-%02d', $d[3], $mi + 1, $d[1] );
+            }
+            update_field( 'field_sp_privacy_updated', $date, $id );
+            update_option( 'wp_page_for_privacy_policy', $id );
+            printf( "privacy: #%d «%s» (%s), version %s, %d sections, %d tables — publish it in admin once the owner approves\n",
+                $id, $title, get_post_status( $id ), $date, substr_count( $body, '<h2>' ), substr_count( $body, '<table>' ) );
+            break;
+
         case 'contacts':
             $k = 'field_sp_contacts_';
             if ( '' !== trim( (string) get_field( 'contacts_phone', 'option' ) . get_field( 'contacts_email', 'option' ) ) && ! $force ) {
@@ -311,7 +439,7 @@ foreach ( $targets as $target ) {
                 break;
             }
             $typed = require $data . 'contacts.php';
-            foreach ( [ 'phone', 'email', 'telegram', 'vk', 'instagram' ] as $key ) {
+            foreach ( [ 'phone', 'email', 'telegram', 'vk', 'vk_messages', 'instagram' ] as $key ) {
                 update_field( "{$k}{$key}", $typed[ $key ], 'option' );
             }
             echo "contacts: seeded\n";

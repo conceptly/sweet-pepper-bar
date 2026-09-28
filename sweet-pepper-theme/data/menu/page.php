@@ -20,23 +20,35 @@
  *   seo        — the page's name in the browser tab (the site name is added), and the
  *                description search engines show
  *   cards      — the last resort while the store has no seasonal dish: title, photo,
- *                the section the card links to
+ *                the section the card links to (either menu page's)
  *
  * @package Sweet_Pepper
  */
 
-$cards = [
-    [ 'title' => 'Gazpacho',           'image' => 'food/lunch/pumpkin.png',      'section' => 'soups',      'ru' => [ 'title' => 'Гаспачо' ] ],
-    [ 'title' => 'Okroshka',           'image' => 'food/lunch/cobb-1.jpg',       'section' => 'soups',      'ru' => [ 'title' => 'Окрошка' ] ],
-    [ 'title' => 'Summer Salad',       'image' => 'food/lunch/bagel-lunch-1.jpg', 'section' => 'salads',     'ru' => [ 'title' => 'Летний салат с брынзой' ] ],
-    [ 'title' => 'Fettuccine Corfu',   'image' => 'food/dinner/zharkoe-1.jpg',   'section' => 'hot-dishes', 'ru' => [ 'title' => 'Фетучини Корфу' ] ],
-    [ 'title' => 'Ravioli',            'image' => 'food/dinner/wings-2.jpg',     'section' => 'hot-dishes', 'ru' => [ 'title' => 'Равиоли' ] ],
-    [ 'title' => 'Caramel Cheesecake', 'image' => 'food/dessert/napoleon-1.jpg', 'section' => 'desserts',   'ru' => [ 'title' => 'Карамельный чизкейк' ] ],
+// The fall 2026 strips, six per page, the kitchen's with the bar's lighter drinks (author, 28 Sep
+// 2026: "6 cards by default, a bar/food mix is fine"). Photos: the team's autumn shoot, cropped
+// 3:2 into assets/images/fall-2026/ — the same files tools/menu-updates/2026-09-28-fall-photos.php
+// gives the dishes' «Фото», as placeholders the team replaces.
+$cards_food = [
+    [ 'title' => 'Autumn sweet potato salad', 'image' => 'fall-2026/autumn-salad.jpg',      'section' => 'salads',     'ru' => [ 'title' => 'Осенний салат с бататом' ] ],
+    [ 'title' => 'Caponata with feta',        'image' => 'fall-2026/caponata.jpg',          'section' => 'salads',     'ru' => [ 'title' => 'Капоната с фетой' ] ],
+    [ 'title' => 'Autumn soup of the day',    'image' => 'fall-2026/autumn-soup.jpg',       'section' => 'lunch',      'ru' => [ 'title' => 'Осенний супчик дня' ] ],
+    [ 'title' => 'Seasonal Lemonade',         'image' => 'fall-2026/seasonal-lemonade.jpg', 'section' => 'no-buzz',    'ru' => [ 'title' => 'Сезонный лимонад' ] ],
+    [ 'title' => 'Melon & Strawberry Raf',    'image' => 'fall-2026/melon-raf.jpg',         'section' => 'tea-coffee', 'ru' => [ 'title' => 'Дынный раф с клубникой' ] ],
+    [ 'title' => 'Barberry Tea',              'image' => 'fall-2026/barberry-tea.jpg',      'section' => 'tea-coffee', 'ru' => [ 'title' => 'Барбарисовый' ] ],
+];
+$cards_bar = [
+    [ 'title' => 'Barberry',                     'image' => 'fall-2026/barberry-infusion.jpg', 'section' => 'infusions', 'ru' => [ 'title' => 'Барбариска' ] ],
+    [ 'title' => 'Coquette',                     'image' => 'fall-2026/coquette.jpg',          'section' => 'cocktails', 'ru' => [ 'title' => 'Кокетка' ] ],
+    [ 'title' => 'Red Moscow',                   'image' => 'fall-2026/red-moscow.jpg',        'section' => 'cocktails', 'ru' => [ 'title' => 'Красная Москва' ] ],
+    [ 'title' => 'Barbara Collins',              'image' => 'fall-2026/barbara-collins.jpg',   'section' => 'cocktails', 'ru' => [ 'title' => 'Барбара Коллинз' ] ],
+    [ 'title' => 'Melon & Strawberry Milkshake', 'image' => 'fall-2026/melon-milkshake.jpg',   'section' => 'no-buzz',   'ru' => [ 'title' => 'Дынный с клубникой' ] ],
+    [ 'title' => 'Seasonal Lemonade',            'image' => 'fall-2026/seasonal-lemonade.jpg', 'section' => 'no-buzz',   'ru' => [ 'title' => 'Сезонный лимонад' ] ],
 ];
 
 $highlights = [
     'eyebrow'    => 'delicious & refreshing',
-    'headline'   => 'Summer Menu',
+    'headline'   => 'Autumn Menu', // the fall menu's heading (tools/menu-updates/2026-09-25-fall.php wrote it to the pages)
     'headline_2' => 'Highlights',
     'ru'         => [
         'eyebrow'    => 'вкусно и свежо', // draft — the RU draft has no eyebrow here
@@ -78,7 +90,7 @@ return [
                 'description' => 'Кухня Sweet Pepper в Ярославле: завтраки весь день, обеды, супы, салаты, сэндвичи и бейглы, горячее, десерты и детское меню.', // draft
             ],
         ],
-        'cards'      => $cards,
+        'cards'      => $cards_food,
     ],
     'drinks' => [
         'door' => [
@@ -102,6 +114,6 @@ return [
                 'description' => 'Бар Sweet Pepper в Ярославле: фирменные настойки, коктейли, вино, пиво, крепкое, напитки без алкоголя, чай и кофе.', // draft
             ],
         ],
-        'cards'      => $cards, // the kitchen's picks on the bar page too, as the strip showed them (Sep 2026)
+        'cards'      => $cards_bar,
     ],
 ];

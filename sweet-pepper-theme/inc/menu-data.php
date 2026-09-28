@@ -125,7 +125,9 @@ function sweet_pepper_menu_subsections( $slug ) {
 function sweet_pepper_menu_dish_args( $dish, $lang ) {
     $other = 'ru' === $lang ? 'en' : 'ru';
     $pick  = fn( $row, $key ) => trim( (string) ( $row[ "{$key}_{$lang}" ] ?? '' ) ) ?: trim( (string) ( $row[ "{$key}_{$other}" ] ?? '' ) );
-    $lines = fn( $text ) => array_values( array_filter( array_map( 'trim', preg_split( '/\R/', (string) $text ) ) ) );
+    // `u`: without it \R also breaks on the byte 0x85 — the second half of «х» (D1 85) — so
+    // «…грецким орехом» split mid-letter into an empty bullet and «ом» (28 Sep 2026).
+    $lines = fn( $text ) => array_values( array_filter( array_map( 'trim', preg_split( '/\R/u', (string) $text ) ) ) );
     [ $price, $quantity ] = sweet_pepper_menu_format_sizes( $dish, $lang );
     return [
         'dish_id'        => $dish['dish_id'] ?? '',

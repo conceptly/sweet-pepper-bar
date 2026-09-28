@@ -188,9 +188,10 @@ function initSinglePicker(picker) {
 
             // Update CTA link
             if (ctaLink) {
-                // The bar menu page (/menu/bar/, inc/menu-page.php) in the request's language (inc/lang.php
-                // prints spLang.root) — not the current path, which on About once sent the link to /about/… (21 Sep 2026).
-                ctaLink.href = ((window.spLang && window.spLang.root) || '') + '/menu/bar/#' + pairing.barSection;
+                // Only the anchor changes: PHP printed the menu page the link opens (the bar menu, or the
+                // kitchen's for the bar page's picker) in the request's language — never the current path,
+                // which on About once sent the link to /about/… (21 Sep 2026).
+                ctaLink.href = ctaLink.href.split('#')[0] + '#' + pairing.barSection;
             }
         });
 

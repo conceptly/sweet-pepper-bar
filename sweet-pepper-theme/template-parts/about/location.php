@@ -48,8 +48,8 @@
             </div>
         </div>
 
-        <!-- Right: map (iframe injected by location-map.js based on geo-detection) -->
-        <div class="location__map" id="about-map" aria-label="<?php esc_attr_e( 'Sweet Pepper Bar location map', 'sweet-pepper' ); ?>"></div>
+        <!-- Right: map (iframe loaded only after map permission) -->
+        <div class="location__map" id="about-map" aria-label="<?php esc_attr_e( 'Sweet Pepper Bar location map', 'sweet-pepper' ); ?>"><?php get_template_part( 'template-parts/components/map-placeholder' ); ?></div>
 
     </div>
 

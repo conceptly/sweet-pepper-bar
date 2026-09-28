@@ -6,7 +6,7 @@
    theming, so the night-only colour rules the components rely on are set here by hand,
    as visit.css does for its contact card.
 
-   Head: back link · eyebrow · H1 · meta row (no connector since 28 Sep 2026); the VK
+   Head: back link · eyebrow · H1 · the ticket (no connector since 28 Sep 2026); the VK
    poster beside them on the Russian page.
    Body: the 12-column grid — the copy in columns 1–7 (643px, the section-description
    measure), the contact card sticky in 8–12 (website-brief.md → Grid: short copy
@@ -104,43 +104,6 @@
     padding-top: calc(var(--cyrillic-room) * 1em);
 }
 
-/* Meta row — the pill, then Caption 13 in Mushroom */
-.vacancy-head__meta {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px 24px;
-    margin: 8px 0 0;
-    padding: 0;
-}
-
-.vacancy-head__meta-item {
-    font-family: var(--font-body);
-    font-size: var(--text-caption);
-    font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: 0.52px;
-    color: var(--mushroom);
-}
-
-/* The department pill: the Careers card's pill (Lemon on Peppercorn) — on a Peppercorn
-   ground the fill vanishes, so the Ash hairline of the card recipe draws it instead */
-.vacancy-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 8px;
-    border: 1px solid var(--ash);
-    border-radius: 4px;
-    font-family: var(--font-body);
-    font-size: var(--text-caption);
-    font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: 0.52px;
-    color: var(--lemon);
-    white-space: nowrap;
-}
-
 /* The VK poster (Russian page only): text in columns 1–7, the poster whole in 9–12 */
 .vacancy-head__grid {
     display: grid;
@@ -151,13 +114,6 @@
 
 .vacancy-head__grid .vacancy-head__inner {
     grid-column: 1 / span 6;
-}
-
-/* Beside the poster the meta row stacks, as it wraps on tablets (author, 28 Sep 2026: one
-   long row next to a tall picture looked unbalanced) — the pill and the schedule share
-   the first line, pay and "open since" take one each */
-.vacancy-head__grid .vacancy-head__meta-item ~ .vacancy-head__meta-item {
-    flex-basis: 100%;
 }
 
 .vacancy-head__photo {
@@ -173,21 +129,21 @@
     height: auto;
 }
 
-/* ── Meta prototype (28 Sep 2026, js/vacancy-meta-proto.js — only with ?meta=…) ──
-   B · ticket: Soft Peppercorn, the About ledger's rugged edges — the top scallops in
-   the head's ground bite in, the bottom ones in the ticket's colour hang out; 1° off
-   like the ledger and the quote card. Spacing is the site's two tickets' own (the
-   About ledger on phones, the dish-picker card): 48 top (the 12 scallop + 36), 24 at
-   the sides, 36 at the foot, 16 between rows, the header over a 1px Mushroom rule with
-   16 under it; every value on the 4px scale (website-brief.md → Spacing).
-   C · stats: two Molot numbers over captions. */
-.vm-ticket {
+/* ── The ticket — the facts on the bartender's ticket (author's pick, 28 Sep 2026, after
+   ?meta= trials: a stacked row, two Molot numbers, a Soft Peppercorn ticket). Parchment,
+   as the dark pages' other tickets (the dish-picker card, the About ledger); their
+   spacing: 48 top (the 12 scallop + 36), 24 at the sides, 36 at the foot, 16 between
+   rows, the header over a 1px Mushroom rule with 16 under it. The top scallops are cut in
+   the head's Peppercorn, the bottom ones hang in the ticket's Parchment. 1° off like the
+   ledger; hover = the contact card's (tilt to 0, the Lime glow); on phones it settles to
+   0 as it scrolls in (vacancy.js). ── */
+.vacancy-ticket {
     position: relative;
     width: 100%;
     max-width: 560px;
-    margin-top: 28px; /* 44 under the role with the column's 16 (was 32 — the scallops crowded the H1) */
+    margin-top: 28px; /* 44 under the role with the column's 16 */
     padding: 48px 24px 36px;
-    background-color: var(--soft-peppercorn);
+    background-color: var(--parchment);
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -196,29 +152,28 @@
                 filter 0.8s var(--ease-bouncy);
 }
 
-/* Hover: the contact card's own — the tilt settles to 0 and a soft Lime glow comes up */
 @media (hover: hover) {
-    .vm-ticket:hover {
+    .vacancy-ticket:hover {
         transform: rotate(0deg);
         filter: drop-shadow(0 0 4px rgba(212, 230, 113, 0.5));
     }
 }
 
-.vm-ticket__edge {
+.vacancy-ticket__edge {
     position: absolute;
     left: 0;
     right: 0;
 }
 
-.vm-ticket__edge--top {
+.vacancy-ticket__edge--top {
     top: -1px;
 }
 
-.vm-ticket__edge--bottom {
+.vacancy-ticket__edge--bottom {
     top: calc(100% - 1px);
 }
 
-.vm-ticket__top {
+.vacancy-ticket__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -227,164 +182,83 @@
     border-bottom: 1px solid var(--mushroom);
 }
 
-.vm-since {
+/* The event card's community pill (events.css → .event-card-pill--community): Lime ground,
+   Peppercorn label — the Lemon caption label nearly matches Parchment's lightness and
+   loses its edge; the dark Careers pill read as a hole in the ticket */
+.vacancy-ticket__pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: var(--lime);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    white-space: nowrap;
+}
+
+.vacancy-ticket__since {
     font-family: var(--font-body);
     font-size: var(--text-caption);
     line-height: 1.4;
     letter-spacing: 0.52px;
-    color: var(--mushroom);
+    color: var(--ash);
 }
 
-.vm-ticket__row {
-    /* The menu's dot leader, done the print way: the dots run the whole row at the first
-       line's height, and the label and each line of the value paint the ticket's ground
-       over them — so a wrapped pay line keeps its leader right up to where its first line
-       starts (a leader element stopped at the value's box, not its text: author, 28 Sep) */
-    --vm-ground: var(--soft-peppercorn);
-    --vm-leader: var(--ash);
+/* The menu's dot leader, done the print way: the dots run the whole row at the first
+   line's height, and the label and each line of the value paint the ticket's ground over
+   them — so a wrapped pay line keeps its leader right up to where its first line starts
+   (a leader element stopped at the value's box, not its text) */
+.vacancy-ticket__row {
+    margin: 0;
     font-family: var(--font-body);
     font-size: var(--text-body);
     line-height: 1.4;
     text-align: right;
-    background-image: linear-gradient(to right, var(--vm-leader) 1px, transparent 1px);
+    background-image: linear-gradient(to right, var(--mushroom) 1px, transparent 1px);
     background-size: 4px 1px;
     background-repeat: repeat-x;
     background-position: 0 calc(1.4em - 8px);
 }
 
-.vm-ticket__row::after {
+.vacancy-ticket__row::after {
     content: '';
     display: block;
     clear: both;
 }
 
-.vm-ticket__label {
+.vacancy-ticket__label {
     float: left;
     padding-right: 8px;
-    background-color: var(--vm-ground);
-    color: var(--mushroom);
-}
-
-/* The value wraps at 70% of the row; only its text paints the ground, line by line */
-.vm-ticket__wrap {
-    display: inline-block;
-    max-width: 70%;
-    text-wrap: balance; /* no lone «премии» on a third line (phones) */
-}
-
-.vm-ticket__value {
-    padding-left: 8px;
-    background-color: var(--vm-ground);
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    color: var(--parchment);
-}
-
-.vm-ticket__row--pay .vm-ticket__value {
-    color: var(--lemon);
-    font-weight: 600;
-}
-
-.vm-stats__pair {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px 0;
-    margin-top: 16px;
-}
-
-.vm-stats__item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-right: 24px;
-    max-width: 280px;
-}
-
-.vm-stats__item + .vm-stats__item {
-    padding-left: 24px;
-    border-left: 1px solid var(--ash);
-}
-
-.vm-stats__num {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: var(--text-h2);
-    line-height: 1.25;
-    letter-spacing: 1.2px;
-    color: var(--lemon);
-}
-
-.vm-stats__cap {
-    font-family: var(--font-body);
-    font-size: var(--text-caption);
-    line-height: 1.4;
-    letter-spacing: 0.52px;
-    color: var(--mushroom);
-}
-
-.vm-stats__foot {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 24px 0 0;
-}
-
-@media (max-width: 767px) {
-    .vm-stats__pair {
-        flex-wrap: nowrap;
-    }
-
-    .vm-stats__item {
-        flex: 1 1 0;
-        min-width: 0;
-        padding-right: 16px;
-    }
-
-    .vm-stats__item + .vm-stats__item {
-        padding-left: 16px;
-    }
-}
-
-/* The Parchment try: the light ticket the dark pages use elsewhere (the dish-picker card,
-   the About ledger) — Peppercorn copy, Ash labels and leaders, the event card's Lime
-   pill since a hairline pill vanishes on a light ground; pay in Chili
-   600, the role's own colour, because Lemon does not read on Parchment */
-.vm-ticket--parchment {
     background-color: var(--parchment);
-}
-
-.vm-ticket--parchment .vm-ticket__top {
-    border-bottom-color: var(--mushroom);
-}
-
-.vm-ticket--parchment .vacancy-pill {
-    /* The event card's community pill (events.css → .event-card-pill--community): Lime
-       ground, Peppercorn label — the Lemon caption label nearly matches Parchment's lightness
-       and loses its edge; the dark Careers pill read as a hole in the ticket */
-    background-color: var(--lime);
-    border-color: var(--lime);
-    color: var(--peppercorn);
-}
-
-.vm-ticket--parchment .vm-ticket__row {
-    --vm-ground: var(--parchment);
-    --vm-leader: var(--mushroom);
-}
-
-.vm-ticket--parchment .vm-since,
-.vm-ticket--parchment .vm-ticket__label {
     color: var(--ash);
 }
 
-.vm-ticket--parchment .vm-ticket__value {
+/* The value wraps at 70% of the row, lines balanced; only its text paints the ground */
+.vacancy-ticket__wrap {
+    display: inline-block;
+    max-width: 70%;
+    text-wrap: balance;
+}
+
+.vacancy-ticket__value {
+    padding-left: 8px;
+    background-color: var(--parchment);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
     color: var(--peppercorn);
 }
 
-.vm-ticket--parchment .vm-ticket__row--pay .vm-ticket__value {
+/* Pay in Chili 600, the role's own colour — Lemon does not read on Parchment */
+.vacancy-ticket__row--pay .vacancy-ticket__value {
+    font-weight: 600;
     color: var(--chili);
 }
 
-/* Closed: one line where the meta row was */
+/* Closed: one line where the ticket was */
 .vacancy-head__closed {
     font-family: var(--font-body);
     font-size: 20px;
@@ -500,6 +374,22 @@
     .vacancy-card:hover::before {
         transform: translateX(-50%) rotate(1deg);
     }
+}
+
+.vacancy-card__head {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* The team's preference, as the Visit card's supportive lines: Caption 13, Mushroom */
+.vacancy-card__note {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--mushroom);
 }
 
 .vacancy-card__title {
@@ -716,8 +606,18 @@
         gap: 12px;
     }
 
-    .vacancy-head__meta {
-        gap: 8px 16px;
+    /* Pay in two lines, not three (author, 28 Sep 2026): at 70% the 322 row gave the value
+       ~225 a line. Here the value flows as plain text — its first line beside the label and
+       the leader, the rest under the label at the row's full width, right-aligned: the
+       ticket's own "carried over" line */
+    .vacancy-ticket__wrap {
+        display: inline;
+        max-width: none;
+    }
+
+    /* Resting 1° off, settling to 0 as it scrolls in — the Visit contact card on phones */
+    .vacancy-ticket.is-settled {
+        transform: rotate(0deg);
     }
 
     .vacancy-head__grid {
@@ -746,6 +646,10 @@
         padding: 36px 24px 24px;
         transform: rotate(1deg);
         gap: 24px;
+    }
+
+    .vacancy-card.is-settled {
+        transform: rotate(0deg);
     }
 
     .vacancy-card__section {
@@ -790,6 +694,11 @@
         border-top: 1px solid var(--ash);
     }
 
+    /* The send glyph is drawn Lemon in the file; on the Lime button it takes the label's ink */
+    .vacancy-bar__icon-ink svg path {
+        fill: currentColor;
+    }
+
     .vacancy-bar__btn {
         flex: 1 0 0;
         min-width: 0;
@@ -798,5 +707,57 @@
 
     .page-vacancy--open + .site-footer {
         padding-bottom: 76px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Page-load entrance (28 Sep 2026, author: "the same patterns as the Visit page") — the
+   Visit hero's, shortened for a head with less in it: the back link and the eyebrow rise,
+   the role rises behind its mask, the poster fades up, and the ticket PRINTS from its own
+   top edge (visit.css → visit-print, the Visit hours slip's gesture). The body and the
+   foot come in on scroll (reveal.js → VACANCY). Keyframes are shared (hero.css, visit.css);
+   the ticket owns a transform (its 1° tilt), so the print moves it with translate and
+   clip-path, which compose with it.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+    .vacancy-head {
+        --in-back: 0ms;
+        --in-eyebrow: 60ms;
+        --in-title: 120ms;
+        --in-photo: 300ms;
+        --in-ticket: 480ms;
+    }
+
+    .vacancy-head__back,
+    .vacancy-head__eyebrow,
+    .vacancy-head__closed {
+        animation: hero-fade 400ms var(--ease-gentle-flat) backwards,
+                   hero-lift var(--dur-gentle) var(--ease-gentle) backwards;
+    }
+    .vacancy-head__back    { animation-delay: var(--in-back); }
+    .vacancy-head__eyebrow { animation-delay: var(--in-eyebrow); }
+    .vacancy-head__closed  { animation-delay: var(--in-ticket); }
+
+    .vacancy-head__title {
+        animation: hero-mask-rise 700ms var(--ease-out-expo) var(--in-title) backwards;
+    }
+
+    .vacancy-head__photo {
+        animation: hero-fade 600ms var(--ease-gentle-flat) var(--in-photo) backwards,
+                   hero-lift var(--dur-gentle) var(--ease-gentle) var(--in-photo) backwards;
+    }
+
+    .vacancy-ticket {
+        animation: visit-print var(--dur-gentle) var(--ease-gentle) var(--in-ticket) backwards;
+    }
+}
+
+/* Decorative tilts: reduced motion leaves the ticket and the card flat, as on Visit */
+@media (prefers-reduced-motion: reduce) {
+    .vacancy-ticket,
+    .vacancy-ticket.is-settled,
+    .vacancy-card,
+    .vacancy-card.is-settled {
+        transform: none;
     }
 }

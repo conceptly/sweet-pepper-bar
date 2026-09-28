@@ -54,8 +54,8 @@
             <p class="location__description"><?php echo esc_html( $description ?: "Find us on Kirova Street 10 — Yaroslavl's pedestrian Arbat, a few minutes from the Church of Elijah the Prophet and the Monument to Yaroslav the Wise. Two halls inside, each with its own feel, and a summer terrace with swing-chairs that people remember long after the drink." ); ?></p>
         </div>
 
-        <!-- Right: map (iframe injected by JS based on user locale) -->
-        <div class="location__map" aria-label="<?php esc_attr_e( 'Restaurant location map', 'sweet-pepper' ); ?>"></div>
+        <!-- Right: map (iframe loaded only after map permission) -->
+        <div class="location__map" aria-label="<?php esc_attr_e( 'Restaurant location map', 'sweet-pepper' ); ?>"><?php get_template_part( 'template-parts/components/map-placeholder' ); ?></div>
 
     </div>
 </section>

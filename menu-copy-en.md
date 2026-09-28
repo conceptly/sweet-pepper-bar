@@ -136,6 +136,8 @@ Espresso, cappuccino and signature teas. Start the day, pause after lunch or sta
 
 **Drink action:** See this drink
 
+**Dish action (the bar page's picker, which answers with a dish):** See this dish
+
 **Pumpkin-soup caption:** Started as a special. Stayed by popular demand.
 
 Other dish captions use the official dish name; no repeated “legend” claim.

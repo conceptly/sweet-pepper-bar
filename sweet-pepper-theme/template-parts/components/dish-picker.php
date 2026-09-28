@@ -18,11 +18,14 @@
  *           - pairing       (string) Drink pairing text
  *           - bar_section   (string) Bar section anchor (e.g. 'infusions')
  *     @type int    $default_index  Index of the initially selected pairing. Default: 0.
+ *     @type string $link_menu      The menu the ticket's link opens, 'drinks' | 'food' (the bar
+ *                                  page's picker answers with a dish). Default: 'drinks'.
  * }
  */
 
 $pairings      = $args['pairings'] ?? [];
 $default_index = $args['default_index'] ?? 0;
+$link_menu     = 'food' === ( $args['link_menu'] ?? '' ) ? 'food' : 'drinks';
 
 if ( empty( $pairings ) ) {
     return;
@@ -118,8 +121,8 @@ $default    = $pairings[ $default_index ];
                 </div>
 
                 <a class="dish-picker__cta"
-                   href="<?php echo esc_url( sweet_pepper_menu_url( 'drinks', $default['bar_section'] ) ); ?>">
-                    <span><?php esc_html_e( 'See this drink', 'sweet-pepper' ); ?></span>
+                   href="<?php echo esc_url( sweet_pepper_menu_url( $link_menu, $default['bar_section'] ) ); ?>">
+                    <span><?php 'food' === $link_menu ? esc_html_e( 'See this dish', 'sweet-pepper' ) : esc_html_e( 'See this drink', 'sweet-pepper' ); ?></span>
                     <span class="dish-picker__cta-icon" aria-hidden="true">
                         <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 6H11M11 6L6.5 1.5M11 6L6.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

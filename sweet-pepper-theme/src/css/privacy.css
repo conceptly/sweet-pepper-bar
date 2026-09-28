@@ -1,0 +1,127 @@
+/* Local content until the guest permits the external map. */
+.location__map { position: relative; }
+.map-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: safe center;
+    gap: 16px;
+    padding: 24px;
+    overflow: auto;
+    background: var(--peppercorn);
+    color: var(--paper);
+    font-size: 16px;
+    line-height: 1.45;
+}
+.map-placeholder[hidden], .map-placeholder [hidden], .map-settings-link[hidden] { display: none; }
+.map-placeholder p, .map-preferences p { margin: 0; }
+.map-placeholder__title { font-weight: 700; font-size: 24px; }
+.map-placeholder p a { color: var(--lime); text-decoration: underline; }
+.map-placeholder .btn { flex-shrink: 0; white-space: normal; height: auto; min-height: 44px; }
+.map-settings-link {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 8px 0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.footer-bottom-container { flex-wrap: wrap; gap: 8px 24px; }
+.footer-bottom .map-settings-link { color: var(--peppercorn); font-size: 16px; }
+.map-preferences {
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100dvh - 48px);
+    overflow: auto;
+    margin: auto;
+    padding: 24px;
+    border: 1px solid var(--mushroom);
+    border-radius: 12px;
+    background: var(--paper);
+    color: var(--peppercorn);
+    font-size: 16px;
+    line-height: 1.5;
+}
+.map-preferences::backdrop { background: rgb(21 19 23 / 70%); }
+.map-preferences > :not(:first-child) { margin-top: 16px; }
+.map-preferences h2 { color: var(--peppercorn); margin: 0; font-size: 24px; }
+.map-preferences a { color: var(--chili-deep); text-decoration: underline; }
+.map-preferences__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.map-preferences .btn { background: var(--lime); color: var(--peppercorn); border: 1px solid var(--peppercorn); }
+.map-preferences :focus-visible, .map-placeholder :focus-visible, .map-settings-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
+/* ── The map message's states and easing (author, 28 Sep 2026: "the same patterns as across
+   the website") — the placeholder is always on Peppercorn, so its components take their
+   dark-ground states whatever the theme:
+   · the button is the site's Lime button (buttons.css → .btn-primary-green: Cream on hover,
+     the inset when pressed, on the 0.8s Gentle flat curve) — the Lime repaint that blocked
+     its states is gone;
+   · «Открыть Google Карты» is the map bar's chip (contacts.css → Chip states) in its night
+     colours: Lime keyline and label, Lemon + the Lime glow on hover, the inset when pressed;
+   · the policy link, inline in the copy: Lime underlined, Lemon on hover and press;
+   · the swap: the message fades out once the guest allows the map, the map fades in when it
+     has loaded (location-map.js), and the message fades back in if maps are switched off. */
+.map-placeholder {
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.map-placeholder.is-leaving {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.map-placeholder .contacts-chip {
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+@media (hover: hover) {
+    .map-placeholder .contacts-chip:hover {
+        border-color: var(--lemon);
+        color: var(--lemon);
+        font-weight: 600;
+        box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
+    }
+
+    .map-placeholder p a:hover {
+        color: var(--lemon);
+    }
+}
+
+.map-placeholder .contacts-chip:active {
+    border-color: var(--lemon);
+    color: var(--lemon);
+    font-weight: 600;
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms;
+}
+
+.map-placeholder p a {
+    text-underline-offset: 2px;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.map-placeholder p a:active {
+    color: var(--lemon);
+    transition-duration: 100ms;
+}
+
+.location__map iframe,
+.contacts-map__embed iframe {
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.location__map iframe.is-loading,
+.contacts-map__embed iframe.is-loading {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .map-placeholder,
+    .location__map iframe,
+    .contacts-map__embed iframe {
+        transition: none;
+    }
+}

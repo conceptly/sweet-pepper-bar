@@ -246,7 +246,7 @@ function sweet_pepper_menu_highlight_link_labels( $section ) {
  *
  * Cards, in order of what exists: the page's «Сезонное меню» list → while that is empty, every
  * dish (or drink, on the bar page) of the menu that carries a seasonal label, in menu
- * order, eight at most → while the store has none, the typed cards. The strip never goes
+ * order, six at most (the strip's default count, author 28 Sep 2026) → while the store has none, the typed cards. The strip never goes
  * blank; the two fallbacks are the reason the admin hint says what an empty list shows.
  *
  * @param string $state 'food' | 'drinks'
@@ -268,7 +268,7 @@ function sweet_pepper_menu_highlights( $state ) {
                 $ids[] = $id;
             }
         }
-        $ids    = array_slice( $ids, 0, 8 );
+        $ids    = array_slice( $ids, 0, 6 );
         $source = $ids ? 'seasonal' : 'typed';
     }
     foreach ( $ids as $id ) {

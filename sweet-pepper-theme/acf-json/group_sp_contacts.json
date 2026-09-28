@@ -97,6 +97,23 @@
             "placeholder": "https://vk.com/sweetpepperbar"
         },
         {
+            "key": "field_sp_contacts_vk_messages",
+            "label": "ВКонтакте — сообщения",
+            "name": "contacts_vk_messages",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Куда ведёт «Написать» ВКонтакте — сообщения сообщества. Пустое поле — ссылка по умолчанию.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://vk.ru/im/convo/-64582467?entrypoint=community_page&tab=all"
+        },
+        {
             "key": "field_sp_contacts_instagram",
             "label": "Instagram",
             "name": "contacts_instagram",
@@ -345,5 +362,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790307944
+    "modified": 1790635121
 }

@@ -1288,6 +1288,17 @@
    fought that; the phone rail — no lead, no gutters, the pair running edge to edge —
    softens it (author, Sep 2026). 992–1119 keeps the desktop band for now. Same states,
    same script (visit-hero.js updates every group and pauses the run on touch). */
+/* The 2GIS chip only where the Russian bar holds all four in one row — measured 27 Sep 2026:
+   Google Карты · Яндекс Карты · 2ГИС · Скопировать need 614px and the bar gives 605 at 1150,
+   642 at 1200; on phones Google · Яндекс · 2ГИС fit only at 393 (319 of 327) and wrap from 375
+   down. The author's rule: one row, and 2GIS is the one to go (Google leads — the routes are
+   its; Yandex is the country's own). */
+@media (max-width: 1199px) {
+  .visit-location__chip--extra {
+    display: none;
+  }
+}
+
 @media (max-width: 991px) {
   /* Desktop band out, running rail in: same states, no lead word, no pill grounds.
      Peppercorn ink on Lime (Figma statesContainer-mobile-running). */
@@ -1587,10 +1598,10 @@
     letter-spacing: 0.04em;
   }
 
-  /* The copy chip is desktop-only again (author, 27 Sep 2026): the two apps are the phone's
-     row. (History: Copy address + two apps measured 374 against 338, so the chip was
-     desktop-only; on 25 Sep it came back as "Copy" via .visit-location__chip-long; the author
-     took it off the phone row.) */
+  /* The copy chip is desktop-only again (author, 27 Sep 2026): the apps are the phone's row.
+     (History: Copy address + two apps measured 374 against 338, so the chip was desktop-only;
+     on 25 Sep it came back as "Copy" via .visit-location__chip-long; the author took it off
+     the phone row.) */
   .visit-location__map-bar .js-copy {
     display: none;
   }

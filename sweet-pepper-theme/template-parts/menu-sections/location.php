@@ -4,7 +4,7 @@
  *
  * The last section before the footer on the menu page.
  * Split layout: copy left, interactive map right.
- * Map provider (Google/Yandex) is selected client-side by JS.
+ * The map (Google My Maps, every guest since 27 Sep 2026) is injected client-side by location-map.js.
  *
  * Figma: Location (797:22992)
  *

@@ -6,7 +6,7 @@
  * (location.css) with shared class names.
  *
  * Two-column layout: copy left (subheading, 2-line headline, description),
- * map right (geo-detected iframe injection by location-map.js).
+ * map right (the Google My Maps iframe injected by location-map.js — one map for every guest since 27 Sep 2026).
  *
  * Content comes as args from sweet_pepper_about_location() (inc/about-data.php) — the About page's «Адрес» tab.
  *

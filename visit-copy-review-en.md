@@ -114,7 +114,7 @@ Use consistent proper-name capitalisation: **Znamenskaya Tower · Sovetskaya Squ
 
 **Map actions:** keep compact **Copy · Yandex · Google** on mobile. Use accessible **Copy address**, with **Address copied** feedback. The clipboard value must be **Ярославль, ул. Кирова, 10/25** in both locales under the existing taxi-address decision. The current map button still copies `Кирова 10, Ярославль`; display and copy payload must be reconciled later.
 
-The route badges currently switch Google maps only; the Yandex path returns without changing the map. Russian copy must not promise working route selection until this is resolved. The clean RU therefore includes route labels but no “tap to build your route” instruction. Map providers and routing are outside this wording pass.
+~~The route badges currently switch Google maps only; the Yandex path returns without changing the map.~~ *Settled 27 Sep 2026: the map is Google for every guest, so the routes work on the Russian page too.* Russian copy must not promise working route selection until this is resolved. The clean RU therefore includes route labels but no “tap to build your route” instruction. Map providers and routing are outside this wording pass.
 
 The old prose about the church and convent isn't in the current layout; don't add it back. Likewise, Wi-Fi, kids and terrace belong on About. A short entrance note can be added to Visit if needed, using the selected *Step-free* meaning, but no extra slip is introduced here.
 

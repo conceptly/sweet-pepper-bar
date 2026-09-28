@@ -4,7 +4,7 @@
  *
  * Light section (Parchment bg). Composes:
  *  - Section title: eyebrow + two-line H1 + "Good to know" deal chip
- *  - Full-width map (geo-detected: Yandex for RU, Google otherwise)
+ *  - Full-width map (Google My Maps for every guest since 27 Sep 2026; Yandex for RU until then)
  *  - Address bar with copy/directions chips
  *
  * Phones (mapDirections-mobile 1472:75760): title → Good-to-know slip → map (the same chip
@@ -61,7 +61,8 @@ $landmarks = $args['landmarks'];
               // Maps embed is a cross-origin iframe, so its layer checkboxes cannot be driven from
               // the page — one map per route is the only handle. The door is the base map. Badges
               // without a mid render as plain items until their maps exist. Google only: the
-              // Yandex widget (RU guests) has no My Maps equivalent — visit-page-copy.md. ?>
+              // Yandex widget Russian guests got until 27 Sep 2026 had no My Maps equivalent, which is
+              // one reason the map is Google for everyone now. ?>
         <div class="visit-location__map-container">
 
             <ul class="visit-location__badges" data-visit-routes>
@@ -118,19 +119,20 @@ $landmarks = $args['landmarks'];
                     </div>
                     <?php // Chip bar on the map's foot (map variant "labels" 2391:76528), in the chip
                           // component's own style on Paper. No address line — the badges carry the
-                          // address and the hints. Two map apps + Copy address: the apps follow the page
-                          // language, as the hero CTA does (Instagram / VK) — RU guests get Yandex and
-                          // 2GIS (the country's first and second map services), everyone else Google and
-                          // Yandex. Phones show the two apps only, in the 13px chip style (author, 27 Sep
-                          // 2026 — the copy chip had come back to phones as "Copy" on 25 Sep; it is
-                          // rendered and hidden ≤ 767, visit.css → Chip bar). ?>
+                          // address and the hints. Map apps + Copy address. Google leads on both
+                          // languages (author, 27 Sep 2026: the map with the walking routes is Google's,
+                          // and the team checked it works from Russia), then the country's own apps for
+                          // Russian guests — Yandex and 2GIS. Phones show the apps only, in the 13px chip
+                          // style (the copy chip is rendered and hidden ≤ 767, visit.css → Chip bar);
+                          // where three do not fit one row, 2GIS drops (its chip carries --extra). ?>
                     <?php
                     // Names: 'Yandex' + ' Maps' / 'Яндекс' + ' Карты' — the long part drops on phones.
                     $is_ru = ( 'ru' === sweet_pepper_lang() );
                     $map_apps  = $is_ru
                         ? [
+                            [ 'Google', ' Карты', 'https://maps.google.com/?q=Yaroslavl,+Kirova+10/25' ],
                             [ 'Яндекс', ' Карты', 'https://yandex.ru/maps/?rtext=~57.626100%2C39.884500' ],
-                            [ '2ГИС',   '',       'https://2gis.ru/yaroslavl/search/sweet%20pepper%20bar/firm/70000001006986694/39.888955%2C57.626074?m=39.888937%2C57.626099%2F17.62' ],
+                            [ '2ГИС',   '',       'https://2gis.ru/yaroslavl/search/sweet%20pepper%20bar/firm/70000001006986694/39.888955%2C57.626074?m=39.888937%2C57.626099%2F17.62', 'extra' ],
                         ]
                         : [
                             [ 'Google', ' Maps', 'https://maps.google.com/?q=Yaroslavl,+Kirova+10/25' ],
@@ -139,7 +141,7 @@ $landmarks = $args['landmarks'];
                     ?>
                     <div class="visit-location__map-bar">
                         <?php foreach ( $map_apps as $app ) : ?>
-                        <a class="contacts-chip" href="<?php echo esc_url( $app[2] ); ?>" target="_blank" rel="noopener noreferrer">
+                        <a class="contacts-chip<?php echo ! empty( $app[3] ) ? ' visit-location__chip--extra' : ''; ?>" href="<?php echo esc_url( $app[2] ); ?>" target="_blank" rel="noopener noreferrer">
                             <span class="chip-label"><?php echo esc_html( $app[0] ); ?><?php if ( $app[1] ) : ?><span class="visit-location__chip-long"><?php echo esc_html( $app[1] ); ?></span><?php endif; ?></span>
                             <span class="chip-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                         </a>

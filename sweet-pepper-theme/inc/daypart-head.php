@@ -49,7 +49,16 @@
 function sweet_pepper_daypart_head() {
     $themes_by_hour = is_front_page() ? 'true' : 'false';
     $bar_page       = 'drinks' === sweet_pepper_menu_state() ? 'true' : 'false';
+    // The browser's own chrome takes the page's ground (27 Sep 2026): Safari 26 on the iPhone
+    // fills its floating bar from the document's background once the page scrolls, and
+    // theme-color is the meta Safari, Chrome for Android and the PWA shell read for their
+    // chrome. Paper by day, Peppercorn by night; the fixed dark pages (About, Visit, a
+    // vacancy) are Peppercorn whatever the hour — `data-bar="fixed"` keeps the script off it.
+    // `?bar=dark` also paints the canvas Peppercorn (html[data-bar="dark"], main.css) so a day
+    // page gets a dark bar to compare on the phone.
+    $fixed_dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit.php' ) || is_singular( 'vacancy' );
     ?>
+<meta name="theme-color" content="<?php echo $fixed_dark ? '#151317' : '#FCF7E8'; ?>"<?php echo $fixed_dark ? ' data-bar="fixed"' : ''; ?>>
 <script>
 (function (d) {
     var H = <?php echo wp_json_encode( sweet_pepper_bar_hours() ); ?>;
@@ -93,6 +102,10 @@ function sweet_pepper_daypart_head() {
         (<?php echo $themes_by_hour; // phpcs:ignore WordPress.Security.EscapeOutput -- literal true/false ?> && !/^(breakfast|lunch)$/.test(dp) && night.test(now))) {
         d.dataset.theme = 'night';
     }
+    // The chrome's colour follows the theme decided above (bar-color.js keeps it in step later)
+    var bar = document.querySelector('meta[name="theme-color"]');
+    if (q.get('bar') === 'dark') { d.dataset.bar = 'dark'; }
+    if (bar && bar.dataset.bar !== 'fixed') { bar.content = (d.dataset.theme === 'night' || d.dataset.bar === 'dark') ? '#151317' : '#FCF7E8'; }
 })(document.documentElement);
 </script>
     <?php

@@ -9,7 +9,12 @@
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php // viewport-fit=cover (27 Sep 2026): the page runs to the screen's edges, under Safari 26's
+    // floating bar included, and env(safe-area-inset-*) reports what sits under the chrome — the
+    // foot strip and the bottom notice size themselves by it (main.css → Viewport foot), the
+    // footer, the reserve sheet and the vacancy bar carried the padding already. Without it the
+    // insets read 0 and Safari only copies a colour under its bar once the page scrolls. ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <?php // iOS turns any phone number, date, address or e-mail it finds in plain TEXT into its own
     // link, in its own colour: the Visit page's number went near-black on Peppercorn (author,
     // iPhone, 20 Sep 2026). Every such line here already has a real action beside it — a tel:

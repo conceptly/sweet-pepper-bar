@@ -265,7 +265,7 @@ function sweet_pepper_vacancy_contact( $post_id ) {
  * Everything the posting's page prints, in one language.
  *
  * @return array id · open · title · department · schedule · pay · lead · lists[] (title, items[]) ·
- *               hh · opened · until · contact · others[] (card args)
+ *               hh · photo · opened · until · contact · others[] (card args)
  */
 function sweet_pepper_vacancy( $post_id ) {
     $card = sweet_pepper_vacancy_card( $post_id );
@@ -296,6 +296,8 @@ function sweet_pepper_vacancy( $post_id ) {
         'lead'       => $pick( 'lead' ),
         'lists'      => $lists,
         'hh'         => trim( (string) $get( 'hh' ) ),
+        // The VK poster (28 Sep 2026): Russian words are printed on it, so it shows on `/` only.
+        'photo'      => 'ru' === sweet_pepper_lang() ? (int) $get( 'photo' ) : 0,
         'opened'     => sweet_pepper_vacancy_date( $meta['opened'] ),
         'until'      => $meta['until'],
         'contact'    => sweet_pepper_vacancy_contact( $post_id ),

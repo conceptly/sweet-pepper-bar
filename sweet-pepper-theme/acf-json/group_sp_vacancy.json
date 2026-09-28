@@ -393,6 +393,31 @@
             "new_lines": ""
         },
         {
+            "key": "field_sp_vacancy_photo",
+            "label": "Фото · только на русской странице",
+            "name": "vacancy_photo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Постер из поста ВК, вертикальный (3:4 или 4:5), целиком, без обрезки. Только на русской странице: на постере русский текст. Пустое поле — страница без фото.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium"
+        },
+        {
             "key": "field_sp_vacancy_contact",
             "label": "Контакт",
             "name": "vacancy_contact",
@@ -439,5 +464,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790307944
+    "modified": 1790616460
 }

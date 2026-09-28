@@ -3,9 +3,9 @@
  * Template part for displaying an event/news card
  *
  * Card with 4:5 image and a fixed-height body overlay (98px, absolute bottom).
- * Two content layers crossfade on hover (no layout shift):
- *   - Default layer: date + title
- *   - Hover layer: title + CTA link
+ * One copy stack — date, title, CTA — that re-arranges on hover (no layout shift):
+ *   - Rest: date + title; the CTA waits below the band, transparent
+ *   - Hover: the date fades, the title and the CTA rise 26px
  *
  * Supports 3 states: default (CSS), hover (CSS), pinned (class).
  *
@@ -72,10 +72,11 @@ if ( $pinned ) {
         <?php endif; ?>
     </div>
 
-    <!-- Body overlay (absolute bottom, fixed 98px) -->
+    <!-- Body overlay (absolute bottom, fixed 98px). One stack, as in Figma's auto layout: on hover
+         the date fades, the title rises into its place and the CTA rises in from below the band
+         (Smart Animate, Gentle — events.css → Hover motion). -->
     <div class="event-card-body">
-        <!-- Default layer: date + title (fades out on hover) -->
-        <div class="event-card-default">
+        <div class="event-card-copy">
             <?php if ( $date ) : ?>
                 <div class="event-card-date<?php echo $is_today ? ' event-card-date--today' : ''; ?>">
                     <span><?php echo $display_date; ?></span>
@@ -84,15 +85,11 @@ if ( $pinned ) {
                          decorative — the whole card is the link. -->
                     <img class="event-card-source" src="<?php echo esc_url( get_template_directory_uri() . '/assets/icons/' . ( $source === 'vk' ? 'vk.svg' : 'insta.svg' ) ); ?>" alt="" width="16" height="16" aria-hidden="true">
                 </div>
+            <?php else : ?>
+                <!-- No date: the row still holds its line + 8px, so the title sits where the hover expects it -->
+                <div class="event-card-date event-card-date--empty" aria-hidden="true"></div>
             <?php endif; ?>
 
-            <?php if ( $title ) : ?>
-                <p class="event-card-title molot-text"><?php echo esc_html( $title ); ?></p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Hover layer: title + CTA (fades in on hover) -->
-        <div class="event-card-hover">
             <?php if ( $title ) : ?>
                 <p class="event-card-title molot-text"><?php echo esc_html( $title ); ?></p>
             <?php endif; ?>

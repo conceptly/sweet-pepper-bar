@@ -1868,9 +1868,11 @@
 
 /* ---------------------------------------------------------------------------
    8. Careers
-   Dark section (Peppercorn bg). Two-state jobsContainer:
-   - Default: 3 position cards + CTA row
-   - Empty:   single bordered "not hiring" box
+   Dark section (Peppercorn bg). jobsContainer, Figma 1970:123894 (28 Sep 2026):
+   - 3 roles: the cards + the CTA row
+   - 2 roles: two cards + the CV card in the third column
+   - 1 role:  one card + the wide CV card over columns 2–3 (H2 title)
+   - none:    single bordered "not hiring" box
    --------------------------------------------------------------------------- */
 
 .about-careers {
@@ -1928,6 +1930,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
 }
 
 /* Department pill — Peppercorn bg, Lemon text */
@@ -1947,14 +1950,21 @@
     white-space: nowrap;
 }
 
-/* Employment type / openings count */
+/* Employment type / openings count — the vacancy's «График», typed by the team: a long one
+   wraps, right-aligned, instead of pushing the card wider than its column (28 Sep 2026: a
+   nowrap schedule widened the phone card past the screen and cut the copy under it) */
 .about-careers__card-meta {
     font-family: var(--font-body);
     font-weight: 500;
     font-size: 12px;
     line-height: normal;
     color: var(--mushroom);
-    white-space: nowrap;
+    text-align: right;
+    min-width: 0;
+}
+
+.about-careers__pill {
+    flex-shrink: 0;
 }
 
 /* Card body: title + description */
@@ -2040,7 +2050,71 @@
     box-shadow: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
 }
 
-/* ── CTA row (below cards) ──────────────────────────────────────────────── */
+/* ── CV card: the free columns of the last row (careers.php → $left) ──────
+   The card's box on the section's own Peppercorn — the free column reads as an
+   invitation, not a role; Lemon title, Paper copy, the secondary button (arrow). */
+
+.about-careers__cv {
+    flex: 1 1 calc((100% - 48px) / 3);
+    max-width: calc((100% - 48px) / 3);
+    min-width: 0;
+    background-color: var(--peppercorn);
+    border: 1px solid var(--ash);
+    border-radius: 8px;
+    padding: 32px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.about-careers__cv--wide {
+    flex-basis: calc((100% - 48px) / 3 * 2 + 24px);
+    max-width: calc((100% - 48px) / 3 * 2 + 24px);
+    justify-content: center; /* copy and button as one group, 24 apart, centred in the 240 (Figma 2682:71897) */
+    gap: 24px;
+}
+
+.about-careers__cv-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 640px;
+}
+
+.about-careers__cv-title {
+    font-family: var(--font-body);
+    text-transform: none;
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--lemon);
+    margin: 0;
+}
+
+/* One role: the title is the empty state's H2 */
+.about-careers__cv--wide .about-careers__cv-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+}
+
+.about-careers__cv-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--paper);
+    text-wrap: pretty;
+    margin: 0;
+}
+
+/* ── CTA row (below a full row of cards) ────────────────────────────────── */
 
 .about-careers__cta {
     display: flex;
@@ -2454,6 +2528,23 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     .about-careers__card-meta,
     .about-perks__detail-desc {
         white-space: normal;
+    }
+
+    /* The CV card in a 229–285px column: its copy wraps longer than 240 allows */
+    .about-careers__cv {
+        height: auto;
+        min-height: 240px;
+    }
+
+    /* …and «Отправить резюме →» needs 210 of the column's 181–237: the arrow goes, the label
+       keeps one line */
+    .about-careers__cv:not(.about-careers__cv--wide) .btn {
+        padding-inline: 12px;
+        white-space: nowrap;
+    }
+
+    .about-careers__cv:not(.about-careers__cv--wide) .btn-icon {
+        display: none;
     }
 
     /* …and once the sentence wraps, the centred row floated the ——— TITLE - - - header to
@@ -2983,6 +3074,19 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
         max-width: none;
         height: auto;
         min-height: 240px;
+    }
+
+    /* The CV card after the stacked roles: the empty state's phone recipe */
+    .about-careers__cv,
+    .about-careers__cv--wide {
+        flex: none;
+        max-width: none;
+        height: auto;
+        gap: 24px;
+    }
+
+    .about-careers__cv .btn {
+        width: 100%;
     }
 
     .about-careers__cta {

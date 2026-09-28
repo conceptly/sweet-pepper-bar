@@ -54,7 +54,7 @@ $tg_row    = fn( $c ) => $row( 'send.svg', $c['telegram'], $c['telegram_url'] ?:
 $mail_row  = fn( $c ) => $row( 'c-mail.svg', $c['email'], $c['email'], _x( 'Write', 'a contact row action', 'sweet-pepper' ), $c['email'] ? 'mailto:' . $c['email'] : '' );
 ?>
 <div class="vacancy-card">
-    <h2 class="vacancy-card__title molot-text"><?php esc_html_e( 'Your contact', 'sweet-pepper' ); ?></h2>
+    <h2 class="vacancy-card__title molot-text"><?php esc_html_e( 'Your next step', 'sweet-pepper' ); ?></h2>
 
     <?php if ( $person ) : ?>
         <div class="vacancy-card__section">

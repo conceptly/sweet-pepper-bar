@@ -1,80 +1,99 @@
 <?php
 /**
- * Vacancy seed — the three placeholder roles of data/about/careers.php (about-page-copy.md →
- * Careers), each with the texts a posting's page prints, so the admin form and the page can
- * be looked at with something on them. PLACEHOLDER content in both languages, mine (26 Sep
- * 2026): the team replaces it with real openings. Read by tools/page-seed.php vacancies;
+ * Vacancy seed — the team's three templates (28 Sep 2026): waiter, bartender, cook. One is
+ * posted, the other two wait in the archive; the team republishes, changes the pay or the
+ * schedule and posts again («На сайте» → a term). Read by tools/page-seed.php vacancies;
  * the theme never falls back to this file — no records, no roles.
  *
+ * RU — the bar's own postings (`Job descriptions examples.md`, author, 28 Sep 2026): the
+ * newer VK posts (by the author's trainee, with the author) for the waiter and the bartender,
+ * the older hh.ru posting for the cook; the words kept, the emojis and the «звони 911-202»
+ * lines left out (the contact card on the page does that job). The pay and the schedules are
+ * the hh.ru figures, years old on purpose (author: the team updates them before posting).
+ * EN — a draft, mine; the author refines it.
+ *
  *   department — 'service' | 'kitchen' | 'bar'
- *   show       — '1' | '2' | '4' weeks
+ *   show       — 'archive' | '1' | '2' | '4' weeks
  *   lists      — one item per line, as typed into the textarea
+ *   photo      — [ asset under assets/images/, RU alt ] — the VK poster, Russian page only
+ *   spare      — more posters for the Media Library, not attached (the team can swap)
+ *
+ * `retired` — the placeholder records of 25 Sep 2026; `page-seed.php vacancies --force`
+ * moves them to the trash.
  *
  * @package Sweet_Pepper
  */
 
 return [
-    [
-        'title'        => 'Floor manager',
-        'department'   => 'service',
-        'show'         => '2',
-        'schedule'     => 'Full-time · 2 days on, 2 days off',
-        'pay'          => '',
-        'card'         => 'Keep service running smoothly, support the floor team and make every welcome count.',
-        'lead'         => "The floor is where the bar happens. You keep the shift steady, the team supported and every guest met the way we would meet a friend.",
-        'duties'       => "Run the shift: seating, pace, the handover to the kitchen and the bar\nLook after the floor team — schedules, training, the small things that keep a shift calm\nMeet guests, solve what needs solving, remember the regulars",
-        'requirements' => "Two years on a floor, a year of running one\nA calm head at full house and a warm one at 4 pm\nRussian fluent; English enough to seat a traveller",
-        'offer'        => "2 on, 2 off; the schedule set a month ahead\nStaff meals, a share of the tips\nA small team that stays — most of us have been here for years",
-        'ru'           => [
-            'title'        => 'Менеджер зала',
-            'schedule'     => 'Полный день · график 2/2',
-            'card'         => 'Помогать команде в зале, следить за ходом смены и встречать гостей так, чтобы хотелось вернуться.',
-            'lead'         => 'Зал — это и есть бар. Вы держите смену ровной, команду — в форме, а гостей встречаете так, как встретили бы друзей.',
-            'duties'       => "Вести смену: посадка, темп, связка с кухней и баром\nЗаботиться о команде зала — графики, обучение, мелочи, от которых смена спокойная\nВстречать гостей, решать, что нужно решить, помнить постоянных",
-            'requirements' => "Два года в зале, год — во главе смены\nСпокойная голова при полной посадке и тёплая — в четыре дня\nРусский свободно; английский — чтобы усадить путешественника",
-            'offer'        => "2/2, график известен за месяц\nПитание, доля чаевых\nМаленькая команда, которая остаётся — большинство из нас здесь годами",
+    'retired' => [ 'Менеджер зала', 'Сотрудник по уборке', 'Су-шеф' ],
+    'roles'   => [
+        [
+            'title'        => 'Waiter',
+            'department'   => 'service',
+            'show'         => '4',
+            'schedule'     => '2/2 · from 8:30 am or 6 pm',
+            'pay'          => '90–120 ₽ an hour + tips + daily bonuses',
+            'card'         => 'Not just a waiter — a master of hospitality who makes our cosy gastrobar even warmer.',
+            'lead'         => "Sweet Pepper is looking for that one person. Not just a waiter — a true master of hospitality who helps our cosy gastrobar on Kirova keep its warm, particular atmosphere. No experience? No problem: we'll teach you everything and make you an expert.",
+            'duties'       => '',
+            'requirements' => "You win a guest over from the very first hello\nYou're genuinely hospitable and believe the atmosphere matters as much as the menu\nYou know that real care and attention are what a perfect evening is built on\nYou want to be part of the friendliest, closest team in town",
+            'offer'        => "A place where work feels like a celebration of flavour, conversation and good vibes\nPeople who become a second family and always have your back\nLots of new faces, favourite regulars and loyal guests who keep coming back for the atmosphere\nGood pay (and good tips), training and room to grow\nA flexible schedule: 2 on, 2 off; 8:30 am till 2 am, 6 pm till 2 am and more to choose from",
+            'ru'           => [
+                'title'        => 'Официант',
+                'schedule'     => '2/2 · с 8:30 или с 18:00',
+                'pay'          => 'от 90 до 120 ₽ в час + чаевые + ежедневные премии',
+                'card'         => 'ПЕРЧИК ищет не просто официанта, а мастера гостеприимства, который сделает наш уютный гастробар ещё теплее.',
+                'lead'         => 'ПЕРЧИК ищет того самого человека. А ищет он не просто официанта, а настоящего мастера гостеприимства, который поможет создавать в уютном гастробаре на Кирова особую, тёплую атмосферу. Нет опыта? Не беда — всему обучим, научим и сделаем экспертом своего дела.',
+                'requirements' => "Умеет расположить к себе гостя с первой же встречи!\nПо-настоящему гостеприимен и считает, что атмосфера — это не менее важно, чем меню!\nПонимает, что искренняя забота и внимание — это база безупречного вечера для наших гостей!\nХочет стать частью самой дружелюбной и сплочённой команды!",
+                'offer'        => "Уникальную атмосферу, где работа — это праздник вкуса, общения и вайбовых эмоций!\nКлассных ребят, которые станут для Вас второй семьёй и всегда поддержат!\nМного знакомств, любимых постояшек и лояльных гостей, которые ценят атмосферу бара и приходят снова и снова!\nОтличную заработную плату (и хорошие чаевые), обучения для получения новых знаний и возможности для карьерного роста!\nГибкий график: 2/2, с 08:30 до 2 ночи, с 6 вечера до 2 ночи и др. на выбор",
+            ],
+            'photo'        => [ 'vacancies/waiter-poster-sign.jpg', 'Официант смотрит в бинокль у вывески Sweet Pepper, в облачке — «Где ты, наш официант?»' ],
+            'spare'        => [
+                [ 'vacancies/waiter-poster-cardigan.jpg', 'Официант в бордовом кардигане смотрит в бинокль, надпись — «Где же ты, наш официант?»' ],
+            ],
         ],
-    ],
-    [
-        'title'        => 'Cleaner',
-        'department'   => 'service',
-        'show'         => '2',
-        'schedule'     => 'Full-time',
-        'pay'          => '',
-        'card'         => 'Help keep the rooms ready for the next guests, from the first table to the last detail.',
-        'lead'         => 'Two rooms, a bar and a kitchen that never quite stop. You are the reason they look ready every time the door opens.',
-        'duties'       => "The rooms before opening and between the sittings\nThe bar and kitchen surfaces to the chef's standard\nSupplies noticed before they run out",
-        'requirements' => "Care for the details and a steady pace\nMornings work for you",
-        'offer'        => "Full-time, a fixed schedule\nStaff meals\nA team that says thank you",
-        'ru'           => [
-            'title'        => 'Сотрудник по уборке',
-            'schedule'     => 'Полный день',
-            'card'         => 'Поддерживать чистоту и порядок, чтобы к приходу гостей всё было готово.',
-            'lead'         => 'Два зала, бар и кухня, которые почти не останавливаются. Благодаря вам они выглядят готовыми каждый раз, когда открывается дверь.',
-            'duties'       => "Залы перед открытием и между посадками\nПоверхности бара и кухни — по стандарту шефа\nЗамечать, что заканчивается, до того как закончилось",
-            'requirements' => "Внимание к мелочам и ровный темп\nУтро — ваше время",
-            'offer'        => "Полный день, постоянный график\nПитание\nКоманда, которая говорит спасибо",
+        [
+            'title'        => 'Bartender',
+            'department'   => 'bar',
+            'show'         => 'archive',
+            'schedule'     => '2/2 or 4/2 · from 8 am or 5 pm',
+            'pay'          => '120–150 ₽ an hour + bonuses + a share of the floor tips',
+            'card'         => 'Looking for a bartender who feels the rhythm of the bar like their own pulse.',
+            'lead'         => "We need you. Sweet Pepper is looking for a bartender who feels the rhythm of bar life like their own pulse. If reading this made something flutter in your chest, that's the right kind of nerves — your road leads here.",
+            'duties'       => '',
+            'requirements' => "Warmth, hospitality and a good mood\nThe wish to learn and to love the craft\nWe'll teach you the rest — what matters is the spark, the drive to grow and the joy of the job",
+            'offer'        => "A team that feels like family and will always support, inspire and help\nOur own recipes, the little secrets and years of know-how\nGood money — for inspiration and for the nice things\nDozens of new people and great stories\nShifts 2 on, 2 off or 4 on, 2 off: 8 am to 5 pm or 5 pm to 2 am",
+            'ru'           => [
+                'title'        => 'Бармен',
+                'schedule'     => '2/2 или 4/2 · с 8:00 или с 17:00',
+                'pay'          => '120–150 ₽ в час + премии + % чая с зала',
+                'card'         => 'ПЕРЧИК ищет бармена, для которого ритм барной жизни — как свой пульс.',
+                'lead'         => 'Ты нам нужен! ПЕРЧИК ищет бармена, для которого ритм барной жизни — как свой пульс. Если ты прочитал это и почувствовал небольшое колыхание и трепет в груди — это признак правильного волнения: твой путь лежит к нам.',
+                'requirements' => "Радушие, гостеприимство и позитивный настрой!\nЖелание учиться и гореть делом!\nВсему остальному научим, ведь главное — горящие глаза, стремление развиваться и наслаждаться профессией",
+                'offer'        => "Команда-семья, где всегда поддержат, вдохновят и помогут!\nДоступ к авторским рецептам, секретным фишкам и базе знаний с многолетним опытом!\nДостойный доход для вдохновения и приятных трат!\nДесятки новых знакомств и классных историй!\nСменный график 2/2 или 4/2: с 8:00 утра до 17:00 или с 17:00 до 2:00 ночи",
+            ],
+            'photo'        => [ 'vacancies/bartender-poster.jpg', 'Бармен наливает тоник в бокал с красным коктейлем, надпись — «В поисках бармена!»' ],
         ],
-    ],
-    [
-        'title'        => 'Sous-chef',
-        'department'   => 'kitchen',
-        'show'         => '4',
-        'schedule'     => 'Full-time',
-        'pay'          => '',
-        'card'         => 'Support the chef, keep the kitchen organised and help every plate leave as it should.',
-        'lead'         => "An all-day kitchen with a short, changing menu. You are the chef's second pair of hands and the first person the line looks to when the chef is out.",
-        'duties'       => "Run the line with the chef and without\nPrep lists, orders, the walk-in in order\nTeach the cooks the dishes as they change with the season",
-        'requirements' => "Three years in a kitchen, a year as a sous or senior cook\nA hand for both a breakfast rush and a Friday night\nCare for the product — we cook from what the market has",
-        'offer'        => "Full-time; the schedule agreed with the chef\nStaff meals, the kitchen's own tips\nA say in the menu",
-        'ru'           => [
-            'title'        => 'Су-шеф',
-            'schedule'     => 'Полный день',
-            'card'         => 'Помогать шефу, организовывать работу кухни и следить за каждой тарелкой на выдаче.',
-            'lead'         => 'Кухня на весь день с коротким меню, которое меняется. Вы — вторая пара рук шефа и первый, к кому обращается линия, когда шефа нет.',
-            'duties'       => "Вести линию с шефом и без него\nЗаготовки, заказы, порядок в холодильной\nУчить поваров новым блюдам, когда меню меняется с сезоном",
-            'requirements' => "Три года на кухне, год су-шефом или старшим поваром\nОдинаково уверенно — утренний час и пятничный вечер\nБережное отношение к продукту: готовим из того, что есть на рынке",
-            'offer'        => "Полный день; график — по договорённости с шефом\nПитание, чаевые кухни\nГолос в меню",
+        [
+            'title'        => 'Cook',
+            'department'   => 'kitchen',
+            'show'         => 'archive',
+            'schedule'     => '2/2 or 5/2 · from 8 am or noon',
+            'pay'          => 'from 200 ₽ an hour + bonuses (about +30%)',
+            'card'         => 'An all-round cook for European and signature dishes — for people who hold themselves to high standards.',
+            'lead'         => 'We are taking on an all-round cook, European and signature cuisine, on a competitive basis. We want people who are ready to keep to our standards of quality and service. Sweet Pepper holds high standards for service, the kitchen and hygiene — we want everyone here to be proud of their work.',
+            'duties'       => '',
+            'requirements' => "At least a year of experience\nA culinary education\nCare, reliability, the will to learn\nAn understanding of hospitality and your own high standards for your work\nKnowing the hygiene rules, following them and understanding why they matter",
+            'offer'        => "Work in the very centre of town (Kirova St.)\nA comfortable atmosphere, a close team and room to grow\nProfessional development: regular staff training, trips to national trade fairs (PIR, Metro Expo)\nOfficial employment and a career path\nA ride home after night shifts, staff meals, staff discounts\nShifts 2 on, 2 off: 8 am to 10 pm or noon to 2 am; 5 on, 2 off by agreement",
+            'ru'           => [
+                'title'        => 'Повар-универсал',
+                'schedule'     => '2/2 или 5/2 · с 8:00 или с 12:00',
+                'pay'          => 'от 200 ₽ в час + премии (~+30% к зп)',
+                'card'         => 'Возьмём в команду повара-универсала: европейская и авторская кухня.',
+                'lead'         => 'Возьмём в команду повара-универсала, на конкурсной основе, европейская и авторская кухня. Нужны достойные люди в нашу команду, которые готовы придерживаться стандартов качества и сервиса. В Sweet Pepper высокие стандарты сервиса, кухни, санитарии, мы стремимся сделать так, чтобы сотрудники гордились своей работой.',
+                'requirements' => "Опыт работы от 1 года\nПрофильное образование\nАккуратность, исполнительность, обучаемость\nПонимание задач сферы гостеприимства, собственные высокие стандарты качества работы\nЗнание санитарных норм, умение им следовать, понимание необходимости этого",
+                'offer'        => "Работа в центре города (ул. Кирова)\nКомфортная рабочая атмосфера, дружный коллектив, возможность для самореализации\nПрофессиональное развитие: в Sweet Pepper регулярно проводятся тренинги для персонала, поездки на общероссийские выставки (ПИР, Метро Экспо)\nОфициальное трудоустройство, карьерный рост\nРазвозка ночью, питание, скидки сотрудникам\nГрафик 2/2 с 08 утра до 10 вечера / с 12 дня до 2 ночи, либо 5/2 по договорённости",
+            ],
         ],
     ],
 ];

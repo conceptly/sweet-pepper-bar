@@ -6,7 +6,8 @@
    theming, so the night-only colour rules the components rely on are set here by hand,
    as visit.css does for its contact card.
 
-   Head: the Careers connector's reflection, then back link · eyebrow · H1 · meta row.
+   Head: back link · eyebrow · H1 · meta row (no connector since 28 Sep 2026); the VK
+   poster beside them on the Russian page.
    Body: the 12-column grid — the copy in columns 1–7 (643px, the section-description
    measure), the contact card sticky in 8–12 (website-brief.md → Grid: short copy
    flush-left, the leftover columns given a job; four columns left the Visit card's rows
@@ -21,26 +22,12 @@
     color: var(--parchment);
 }
 
-/* ── Connector: the About page's rules for a reflection over a dark ground (about.css →
-   Connectors), so the word reads exactly as it does over the Careers section ── */
-.page-vacancy .about-connector--head {
-    margin-bottom: 80px;
-}
-
-.page-vacancy .section-link--auto.section-link--reflection {
-    --section-link-ink: var(--paper);
-    opacity: 0.3;
-}
-
-.page-vacancy .section-link--auto .section-link__text {
-    background-image: linear-gradient(to top, var(--peppercorn), rgba(21, 19, 23, 0));
-    -webkit-background-clip: text;
-    background-clip: text;
-}
-
 /* ── 1. Head ── */
 .vacancy-head {
-    padding: 104px 0 80px; /* 80 of air under the 24px-padded header (the header is an absolute overlay here: header.css) */
+    /* The header is an absolute overlay here (header.css) whose row ends at 77 (24 + 53):
+       77 + 80 puts the same 80 under the nav as the section keeps at its foot (author,
+       28 Sep 2026 — was 104, 27 under the nav) */
+    padding: 157px 0 80px;
 }
 
 .vacancy-head__inner {
@@ -80,6 +67,15 @@
     width: 12px;
     height: 12px;
     display: block;
+}
+
+/* Eyebrow + role: their own group, 8 apart — the section header's eyebrow-to-headline
+   step (components.css → .section-headline-group: 16 − 8); the column's 16 was too loose
+   for a pair that reads as one heading (author, 28 Sep 2026) */
+.vacancy-head__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 /* Eyebrow — H3, Cream, as the Careers section's own (about.css → .about-careers .section-eyebrow) */
@@ -143,6 +139,249 @@
     letter-spacing: 0.52px;
     color: var(--lemon);
     white-space: nowrap;
+}
+
+/* The VK poster (Russian page only): text in columns 1–7, the poster whole in 9–12 */
+.vacancy-head__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+}
+
+.vacancy-head__grid .vacancy-head__inner {
+    grid-column: 1 / span 6;
+}
+
+/* Beside the poster the meta row stacks, as it wraps on tablets (author, 28 Sep 2026: one
+   long row next to a tall picture looked unbalanced) — the pill and the schedule share
+   the first line, pay and "open since" take one each */
+.vacancy-head__grid .vacancy-head__meta-item ~ .vacancy-head__meta-item {
+    flex-basis: 100%;
+}
+
+.vacancy-head__photo {
+    grid-column: 8 / span 4; /* centred in the right half: one column free each side (author, 28 Sep 2026) */
+    margin: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.vacancy-head__photo-img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* ── Meta prototype (28 Sep 2026, js/vacancy-meta-proto.js — only with ?meta=…) ──
+   B · ticket: Soft Peppercorn, the About ledger's rugged edges — the top scallops in
+   the head's ground bite in, the bottom ones in the ticket's colour hang out; 1° off
+   like the ledger and the quote card. Spacing is the site's two tickets' own (the
+   About ledger on phones, the dish-picker card): 48 top (the 12 scallop + 36), 24 at
+   the sides, 36 at the foot, 16 between rows, the header over a 1px Mushroom rule with
+   16 under it; every value on the 4px scale (website-brief.md → Spacing).
+   C · stats: two Molot numbers over captions. */
+.vm-ticket {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    margin-top: 28px; /* 44 under the role with the column's 16 (was 32 — the scallops crowded the H1) */
+    padding: 48px 24px 36px;
+    background-color: var(--soft-peppercorn);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transform: rotate(1deg);
+    transition: transform 0.8s var(--ease-bouncy),
+                filter 0.8s var(--ease-bouncy);
+}
+
+/* Hover: the contact card's own — the tilt settles to 0 and a soft Lime glow comes up */
+@media (hover: hover) {
+    .vm-ticket:hover {
+        transform: rotate(0deg);
+        filter: drop-shadow(0 0 4px rgba(212, 230, 113, 0.5));
+    }
+}
+
+.vm-ticket__edge {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.vm-ticket__edge--top {
+    top: -1px;
+}
+
+.vm-ticket__edge--bottom {
+    top: calc(100% - 1px);
+}
+
+.vm-ticket__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--mushroom);
+}
+
+.vm-since {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--mushroom);
+}
+
+.vm-ticket__row {
+    /* The menu's dot leader, done the print way: the dots run the whole row at the first
+       line's height, and the label and each line of the value paint the ticket's ground
+       over them — so a wrapped pay line keeps its leader right up to where its first line
+       starts (a leader element stopped at the value's box, not its text: author, 28 Sep) */
+    --vm-ground: var(--soft-peppercorn);
+    --vm-leader: var(--ash);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.4;
+    text-align: right;
+    background-image: linear-gradient(to right, var(--vm-leader) 1px, transparent 1px);
+    background-size: 4px 1px;
+    background-repeat: repeat-x;
+    background-position: 0 calc(1.4em - 8px);
+}
+
+.vm-ticket__row::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.vm-ticket__label {
+    float: left;
+    padding-right: 8px;
+    background-color: var(--vm-ground);
+    color: var(--mushroom);
+}
+
+/* The value wraps at 70% of the row; only its text paints the ground, line by line */
+.vm-ticket__wrap {
+    display: inline-block;
+    max-width: 70%;
+    text-wrap: balance; /* no lone «премии» on a third line (phones) */
+}
+
+.vm-ticket__value {
+    padding-left: 8px;
+    background-color: var(--vm-ground);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    color: var(--parchment);
+}
+
+.vm-ticket__row--pay .vm-ticket__value {
+    color: var(--lemon);
+    font-weight: 600;
+}
+
+.vm-stats__pair {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 0;
+    margin-top: 16px;
+}
+
+.vm-stats__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 24px;
+    max-width: 280px;
+}
+
+.vm-stats__item + .vm-stats__item {
+    padding-left: 24px;
+    border-left: 1px solid var(--ash);
+}
+
+.vm-stats__num {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--lemon);
+}
+
+.vm-stats__cap {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--mushroom);
+}
+
+.vm-stats__foot {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0 0;
+}
+
+@media (max-width: 767px) {
+    .vm-stats__pair {
+        flex-wrap: nowrap;
+    }
+
+    .vm-stats__item {
+        flex: 1 1 0;
+        min-width: 0;
+        padding-right: 16px;
+    }
+
+    .vm-stats__item + .vm-stats__item {
+        padding-left: 16px;
+    }
+}
+
+/* The Parchment try: the light ticket the dark pages use elsewhere (the dish-picker card,
+   the About ledger) — Peppercorn copy, Ash labels and leaders, the event card's Lime
+   pill since a hairline pill vanishes on a light ground; pay in Chili
+   600, the role's own colour, because Lemon does not read on Parchment */
+.vm-ticket--parchment {
+    background-color: var(--parchment);
+}
+
+.vm-ticket--parchment .vm-ticket__top {
+    border-bottom-color: var(--mushroom);
+}
+
+.vm-ticket--parchment .vacancy-pill {
+    /* The event card's community pill (events.css → .event-card-pill--community): Lime
+       ground, Peppercorn label — the Lemon caption label nearly matches Parchment's lightness
+       and loses its edge; the dark Careers pill read as a hole in the ticket */
+    background-color: var(--lime);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.vm-ticket--parchment .vm-ticket__row {
+    --vm-ground: var(--parchment);
+    --vm-leader: var(--mushroom);
+}
+
+.vm-ticket--parchment .vm-since,
+.vm-ticket--parchment .vm-ticket__label {
+    color: var(--ash);
+}
+
+.vm-ticket--parchment .vm-ticket__value {
+    color: var(--peppercorn);
+}
+
+.vm-ticket--parchment .vm-ticket__row--pay .vm-ticket__value {
+    color: var(--chili);
 }
 
 /* Closed: one line where the meta row was */
@@ -291,7 +530,7 @@
 .vacancy-card__person {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px; /* was 2 — off the 4px grid */
     margin: 0 0 4px;
 }
 
@@ -419,10 +658,28 @@
     display: none;
 }
 
-/* ── Tablets (768–991): the card is a band under the head, its rows in two columns ── */
+/* ── Small desktops (992–1279): five columns leave the contact card too narrow for its
+   widest row (icon · vk.com/sweetpepperbar · its hover Copy chip · Message ↗) — the handle
+   ran into the verb at 1028 (author's screenshot, 28 Sep 2026), and at 1200 the chip's
+   room was still squeezed. Six and six until the container reaches its 1280. ── */
+@media (min-width: 992px) and (max-width: 1279px) {
+    .vacancy-copy {
+        grid-column: 1 / span 6;
+    }
+
+    .vacancy-aside {
+        grid-column: 7 / span 6;
+    }
+}
+
+/* ── Tablets (768–991): the Visit card's stacked recipe (visit.css → Hero split, ≤1119):
+   the card after the copy (author, 28 Sep 2026: below the description, not above it), one
+   column of rows as on desktop, no tilt; not the full 786 — the Visit card is 589–628 in its
+   frame, so this one takes the copy measure (643) and stays flush-left under the text. The
+   earlier band (card above the copy, rows in two columns) read as a confusing grid. ── */
 @media (max-width: 991px) {
     .vacancy-head {
-        padding-top: 48px; /* the header is a fixed bar; the body carries its 76px */
+        padding-top: 80px; /* the header is a fixed bar and the body carries its 76px: 80 under it, as at the foot */
     }
 
     .vacancy-body__grid {
@@ -431,35 +688,28 @@
         gap: 48px;
     }
 
+    .vacancy-head__photo {
+        grid-column: 7 / span 6; /* the right half, whole */
+    }
+
+    /* The column is `align-items: start`; the aside stretches, or the card shrank to its
+       content (334 of 370 on a 402 phone) */
     .vacancy-aside {
-        order: -1;
+        align-self: stretch;
     }
 
     .vacancy-card {
         position: static;
         top: auto;
-        transform: rotate(0deg);
-    }
-
-    .vacancy-card__section {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px 24px;
-    }
-
-    .vacancy-card__person {
-        grid-column: 1 / -1;
+        max-width: 643px;
+        transform: none;
     }
 }
 
 /* ── Phones ── */
 @media (max-width: 767px) {
-    .page-vacancy .about-connector--head {
-        margin-bottom: 48px;
-    }
-
     .vacancy-head {
-        padding: 24px 0 48px;
+        padding: 48px 0; /* 48 under the fixed bar, as at the foot */
     }
 
     .vacancy-head__inner {
@@ -468,6 +718,15 @@
 
     .vacancy-head__meta {
         gap: 8px 16px;
+    }
+
+    .vacancy-head__grid {
+        display: block;
+    }
+
+    .vacancy-head__photo {
+        max-width: 400px;
+        margin-top: 36px;
     }
 
     .vacancy-body,
@@ -479,18 +738,18 @@
         gap: 36px;
     }
 
-    .vacancy-aside {
-        order: 0; /* after the copy: the bar at the bottom is the contact at hand */
-    }
-
+    /* The Visit phone card: full width, 36 / 24 / 24, resting at 1°; 24 under the title.
+       The rows are 48-high targets, so the list takes no gap of its own — with the 12 on
+       top, the space between rows (≈39) outgrew the title's (author, 28 Sep 2026) */
     .vacancy-card {
+        max-width: none;
         padding: 36px 24px 24px;
         transform: rotate(1deg);
-        gap: 20px;
+        gap: 24px;
     }
 
     .vacancy-card__section {
-        display: flex;
+        gap: 0;
     }
 
     /* Rows: the handle and the trailing glyph; the verb goes, as on the Visit card's phone rows */

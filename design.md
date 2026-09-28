@@ -287,7 +287,7 @@ Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `desig
 - **Colour-block, don't decorate** — solid bands replace shadows/outlines/glows.
 - **Flat by default** — if an effect is needed, one subtle shadow, never three.
 - **Language switch states (author, 25 Sep 2026):** the highlight takes the active option's colour — Paprika beside the Chili header, Avocado / Lime in the drawer; hover lifts (drop shadow), pressed sinks (keyline + inner shadow over the label). Values: `website-brief.md` → Interaction rule → *Language switch states*.
-- **Card states on the website — one recipe for every card that is a link (author, 25 Sep 2026).** Hover lifts (the shadow expands by day; a Lime stroke and glow by night), pressed sinks (an inset shadow, fast; the Lime stroke stays by night). A card that is not a link gets no pressed state and no night stroke. Pinned-paper cards (Visit contacts, quotes, vacancies) keep their own un-tilt vocabulary. Values: `website-brief.md` → Interaction rule → *Card states*.
+- **Card states on the website — one recipe for every card that is a link (author, 25 Sep 2026).** Hover lifts (the shadow expands by day; a Lime stroke and glow by night; the home event cards add a 2px Avocado stroke by day and a 1.02 photo lean-in — 28 Sep 2026), pressed sinks (an inset shadow, fast; the Lime stroke stays by night). A card that is not a link gets no pressed state and no night stroke. Pinned-paper cards (Visit contacts, quotes, vacancies) keep their own un-tilt vocabulary. Values: `website-brief.md` → Interaction rule → *Card states*.
 
 The concrete grid (1120px content width, 12 columns, 24px gutter) and the body-copy width cap live in `website-brief.md` → Grid — not duplicated here.
 
@@ -342,6 +342,7 @@ Consistency comes from **setting + grade**, not studio perfection. Casual, sligh
 - **Icons:** ✓ Phosphor Fill (default, outline allowed where it reads better) + official full-colour social logos; bespoke bear/shaker stay custom. Veg label: ✓ Phosphor leaf on the website (the two-tone print leaf is retired).
 - **Logo set:** ✓ clean 2026 SVG family in place with clear-space (X) + min sizes (`design/logos/2026/`).
 - **Cyrillic headline room (23 Sep 2026, §3.3):** carry the +0.15em above RU headlines into the Figma RU frames (H1 +10 / +7 / +5, Display +11 / +10). Measured at 0.25: the RU home hero at **1180×690** ended 7px past the viewport (tile at its 168 floor); at 0.15 the headline gives 8px less, so re-check it before choosing a Russian floor.
+- **Feed card badge row (28 Sep 2026):** `instagram-feed-cards` 238:3699 still draws the date in a 26px row with the text centred; the site sets the date at the top of its line with 8px under it (author's pick, `report.md` → Social cards) — 4px less dead space over the date, same 26px hover lift. Carry into the Figma badge frame (hug + 8px spacing).
 - **Pattern:** design a bespoke pepper pattern to replace the licensed stock one.
 - **Rich black:** confirm print formula (`C15 M23 Y0 K95`) and screen value (`#151317`).
 - **Figma — variables audited Aug 2026.** Collections present: `Color` (17), `Typography` (13, Desktop/Mobile modes), `Sizes`, `Spacing`, `mealTime`. Findings still owed:

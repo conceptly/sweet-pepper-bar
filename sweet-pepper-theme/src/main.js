@@ -49,6 +49,7 @@ import { initReveal } from './js/reveal';
 import { initCountUp } from './js/count-up';
 import { initCookieNotice } from './js/cookie-notice';
 import { initBarColor } from './js/bar-color';
+import { initVacancyMetaProto } from './js/vacancy-meta-proto';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -116,4 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cookie notice — prototype behind ?notice= (cookie-notice-plan.md)
     initCookieNotice();
     initBarColor(); // <meta theme-color> follows the theme — the browser's own chrome takes the page's ground
+
+    // PROTOTYPE: the vacancy meta row as a ticket or two numbers, only with ?meta=ticket|stats
+    initVacancyMetaProto();
 });

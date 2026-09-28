@@ -45,11 +45,12 @@ html[data-theme="night"] .home-events {
      ├── .event-card-img-wrap          ← 4:5 image (drives card height)
      │     ├── img.event-card-img
      │     └── .event-card-pill        ← category badge (top-left)
-     └── .event-card-body              ← absolute bottom, h=98px, gradient bg
-           ├── .event-card-default     ← date + title (visible default, hidden hover)
-           └── .event-card-hover       ← title + CTA (hidden default, visible hover)
-   
-   Animation: 800ms Gentle easing per Figma prototype.
+     └── .event-card-body              ← absolute bottom, h=98px, translucent band
+           └── .event-card-copy        ← one stack: date · title · CTA
+                                          (hover: date fades, title + CTA rise 26px)
+
+   Animation: shadow and stroke on the shared card recipe (800ms); the copy on the
+   prototype's Smart Animate, Gentle 1022ms (Copy stack + hover motion).
    ════════════════════════════════════════════════════ */
 
 /* Figma "Gentle" easing ≈ Material standard */
@@ -84,8 +85,8 @@ html[data-theme="night"] .event-card {
 
 
 /* ── Hover State ── */
-/* Day: drop shadow 4px 4px 16px.
-   Night: lime glow 0 0 16px. */
+/* Day: drop shadow 4px 4px 16px + a 2px Avocado stroke + the photo leans in 1.02.
+   Night: Lime stroke + lime glow 0 0 16px + the photo leans in 1.02. */
 
 /* The shared card recipe (components.css → Card states), for the event cards and the
    "See all events" tile alike: by night the Mushroom stroke turns Lime on hover and press
@@ -115,6 +116,30 @@ html[data-theme="night"] .event-card {
     html[data-theme="night"] :is(.event-card:not(.event-card--pinned), .events-link-card):hover {
         border-color: var(--card-stroke-night);
     }
+
+    /* Day (author, 28 Sep 2026: the shadow alone was not prominent enough): the Mushroom
+       stroke turns Avocado — the day twin of the night Lime — and doubles to 2px, the inner
+       pixel drawn by the ::after so nothing shifts. Pinned keeps its Lemon. */
+    html:not([data-theme="night"]) :is(.event-card:not(.event-card--pinned), .events-link-card):hover {
+        border-color: var(--avocado);
+    }
+
+    html:not([data-theme="night"]) :is(.event-card:not(.event-card--pinned), .events-link-card):hover::after {
+        box-shadow: inset 0 0 0 1px var(--avocado);
+    }
+
+    /* The photo leans in (both themes) — the About guest cards' hover, on the copy's timing */
+    .event-card:hover .event-card-img {
+        transform: scale(1.02);
+    }
+}
+
+html:not([data-theme="night"]) :is(.event-card:not(.event-card--pinned), .events-link-card):active {
+    border-color: var(--avocado);
+}
+
+html:not([data-theme="night"]) :is(.event-card:not(.event-card--pinned), .events-link-card):active::after {
+    box-shadow: inset 0 0 0 1px var(--avocado), var(--card-shadow-pressed);
 }
 
 :is(.event-card, .events-link-card):active,
@@ -165,6 +190,13 @@ html[data-theme="night"] .event-card--pinned {
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform var(--event-copy-duration) var(--ease-gentle);
+}
+
+/* Pressed: the photo returns to scale as the card sinks (the About guest cards) */
+.event-card:active .event-card-img {
+    transform: none;
+    transition-duration: var(--card-press-duration);
 }
 
 
@@ -212,9 +244,12 @@ html[data-theme="night"] .event-card--pinned {
 /* Absolutely positioned at the bottom of the card.
    Fixed height of 98px — never changes between states.
    This prevents any card height shifting on hover.
-   
-   Day gradient: from paper → paper at 75% → transparent
-   Night gradient: from peppercorn at 66% → peppercorn at 30% → transparent */
+
+   Copy ground (Figma instagram-feed-cards 238:3699, 28 Sep 2026): a flat translucent band
+   over the photo instead of the old gradient — the photo stays readable behind it, the
+   band's edge is a hairline with a soft inner shadow under it.
+   Day: Paper 88%, Peppercorn 18% hairline, white 24% inner light.
+   Night: Peppercorn 78%, Paper 16% hairline, black 22% inner shade. */
 
 .event-card-body {
     position: absolute;
@@ -224,61 +259,73 @@ html[data-theme="night"] .event-card--pinned {
     height: 98px;
     z-index: 2;
     padding: 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: linear-gradient(
-        to top,
-        var(--paper) 0%,
-        rgba(252, 247, 232, 0.75) 75.5%,
-        rgba(252, 247, 232, 0) 100%
-    );
+    overflow: hidden; /* the CTA waits below the band */
+    border-top: 1px solid rgba(21, 19, 23, 0.18);
+    background: rgba(252, 247, 232, 0.88);
+    box-shadow: inset 0 1px 3px 0 rgba(255, 255, 255, 0.24);
 }
 
 html[data-theme="night"] .event-card-body {
-    background: linear-gradient(
-        to top,
-        var(--peppercorn) 0%,
-        var(--peppercorn) 65.9%,
-        rgba(21, 19, 23, 0.3) 100%
-    );
+    border-top-color: rgba(252, 247, 232, 0.16);
+    background: rgba(21, 19, 23, 0.78);
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.22);
 }
 
 
-/* ── Default Content (date + title) ── */
-/* Visible by default, fades out on hover. */
+/* ── Copy stack + hover motion ── */
+/* Figma: body-overlay is a top-packed auto layout (badge 26 · title · link) and the hover
+   variant hides the badge, so Smart Animate lifts the title into the badge's place and brings
+   the link up from below the band (y 90 → 48) while it fades in; the badge fades where it is.
+   Timing from the prototype: Gentle, 1022ms — the move on the house spring (--ease-gentle),
+   the fades on the flat curve, as everywhere else on the site. */
 
-.event-card-default {
+:root {
+    --event-copy-duration: 1022ms;
+}
+
+.event-card-copy {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    transition: opacity var(--card-duration) var(--card-easing);
 }
 
-.event-card:hover .event-card-default {
+.event-card-date,
+.event-card-title,
+.event-card-cta {
+    transition: transform var(--event-copy-duration) var(--ease-gentle),
+                opacity var(--event-copy-duration) var(--ease-gentle-flat);
+}
+
+/* Rest: the link sits 16px lower than its slot (Figma y 90, not 74) and transparent */
+.event-card-cta {
     opacity: 0;
+    transform: translateY(16px);
 }
 
+@media (hover: hover) {
+    .event-card:is(:hover, :focus-visible) .event-card-date {
+        opacity: 0;
+    }
 
-/* ── Hover Content (title + CTA) ── */
-/* Hidden by default, fades in on hover.
-   Absolutely positioned to overlap the default content
-   so the two swap without any layout shift. */
+    .event-card:is(:hover, :focus-visible) .event-card-title {
+        transform: translateY(-26px);
+    }
 
-.event-card-hover {
-    position: absolute;
-    bottom: 24px;
-    left: 24px;
-    right: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    opacity: 0;
-    transition: opacity var(--card-duration) var(--card-easing);
+    .event-card:is(:hover, :focus-visible) .event-card-cta {
+        opacity: 1;
+        transform: translateY(-26px);
+    }
 }
 
-.event-card:hover .event-card-hover {
-    opacity: 1;
+@media (prefers-reduced-motion: reduce) {
+    .event-card-date,
+    .event-card-title,
+    .event-card-cta {
+        transition: opacity 200ms linear;
+    }
+
+    .event-card:hover .event-card-img {
+        transform: none;
+    }
 }
 
 
@@ -290,10 +337,20 @@ html[data-theme="night"] .event-card-body {
     display: flex;
     align-items: center;
     gap: 8px;
+    /* Option B (author, 28 Sep 2026): Figma's badge row is 26px with the 18px date centred in
+       it, which left 4px of dead space over the date (ink 34px under the band's edge, 27 under
+       the title). The date sits at the top now and the 8px goes under it: ink 30 / 27, and
+       18.2 + 8 keeps the hover's 26px lift. */
+    margin-bottom: 8px;
 }
 
 .event-card-source {
     display: none; /* phones only — see the ≤ 767px block */
+}
+
+/* A card with no date keeps the date's line, so the title sits where the hover lift expects */
+.event-card-date--empty {
+    height: calc(var(--text-caption) * 1.4);
 }
 
 .event-card-date span {
@@ -446,8 +503,8 @@ html[data-theme="night"] .events-link-card {
    bleeding across the 16px gutters, the cropped card as the affordance. No hover on
    touch, so the card's default layer carries the source's brand mark on its date row
    and the title runs one line with an ellipsis (intentional: social titles are
-   unpredictable). Body overlay is 16px padding (82px tall) and the
-   category pill sits 16 from the corner (Image caption label: 16 on phones).
+   unpredictable). Body overlay is the desktop's translucent band at 16px padding (82px
+   tall) and the category pill sits 16 from the corner (Image caption label: 16 on phones).
    ════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
     .home-events .container {
@@ -498,26 +555,25 @@ html[data-theme="night"] .events-link-card {
 
     /* Body overlay: 16px padding, date row + 8px + one-line title = 82px.
        Gradient per the mobile card: solid Peppercorn to 63%, clear by 90%. */
+    /* Body overlay: the desktop's band (hairline + inner shadow, 28 Sep 2026), 16px padding,
+       date row + 8px + one-line title = 82px */
     .event-card-body {
         height: 82px;
         padding: 16px;
     }
 
-    html[data-theme="night"] .event-card-body {
-        background: linear-gradient(
-            to top,
-            var(--peppercorn) 0%,
-            var(--peppercorn) 63.3%,
-            rgba(21, 19, 23, 0) 90.3%
-        );
+    .event-card-copy {
+        gap: 8px;
     }
 
-    .event-card-default {
-        gap: 8px;
+    .event-card-date--empty,
+    .event-card-cta {
+        display: none;
     }
 
     .event-card-date {
         justify-content: space-between;
+        margin-bottom: 0; /* the copy stack's 8px gap spaces the phone row */
     }
 
     .event-card-source {
@@ -528,17 +584,9 @@ html[data-theme="night"] .events-link-card {
     }
 
     /* Day card (1260:40760): Parchment ground, house shadow, Peppercorn title, Soft Peppercorn
-       caption date; overlay fades from clear at the top to Parchment by 43%. */
+       caption date. */
     .event-card {
         box-shadow: 1px 1px 4px 0px rgba(21, 19, 23, 0.15);
-    }
-
-    .event-card-body {
-        background: linear-gradient(
-            to bottom,
-            rgba(243, 233, 210, 0) 0%,
-            var(--parchment) 42.8%
-        );
     }
 
     .event-card-date span {
@@ -580,29 +628,23 @@ html[data-theme="night"] .events-link-card {
         box-shadow: none;
     }
 
-    html[data-theme="night"] .event-card--pinned .event-card-body {
-        background: linear-gradient(
-            to top,
-            var(--peppercorn) 0%,
-            var(--peppercorn) 65.9%,
-            rgba(21, 19, 23, 0.3) 100%
-        );
-    }
-
+    /* display: block — WebKit (Safari, and every browser on iOS) draws no ellipsis on the
+       desktop's -webkit-box; the caption was cut mid-letter on the phone (28 Sep 2026) */
     .event-card-title {
+        display: block;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         word-break: normal;
     }
 
-    /* Touch: the hover layer never shows, keep it out of the way */
-    .event-card:hover .event-card-default {
+    /* Touch: no hover motion — the date and title stay put (the CTA is hidden above) */
+    .event-card:is(:hover, :focus-visible) .event-card-date {
         opacity: 1;
     }
 
-    .event-card:hover .event-card-hover {
-        opacity: 0;
+    .event-card:is(:hover, :focus-visible) .event-card-title {
+        transform: none;
     }
 
     /* "See all events" tile: blurred photo under a 75% Peppercorn scrim, LinkPrimary text */

@@ -160,7 +160,7 @@ return [
         "What you'll do"                             => 'Что делать',
         "Who we're looking for"                      => 'Кого ищем',
         'What you get'                               => 'Что предлагаем',
-        'Your contact'                               => 'Ваш контакт',
+        'Your next step'                             => 'Следующий шаг', // the card's title, for now (author, 28 Sep 2026: encouraging, short, no «we»; to be revisited) — «Ваш контакт» read as the guest's own
         'Or the bar'                                 => 'Или в бар',
         'Call'                                       => 'Позвонить',
         'Write to %s'                                => 'Написать: %s',

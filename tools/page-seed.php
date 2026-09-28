@@ -45,9 +45,12 @@
  *
  *   contacts      — data/contacts.php → Bar Settings → «Контакты» (the bar's channels; the hiring
  *                   contacts are never seeded — nobody's phone number belongs in the theme)
- *   vacancies     — data/vacancies.php → three placeholder `vacancy` records (25 Sep 2026), each
- *                   published with its term, the slug from the English title; skipped while any
- *                   vacancy record exists unless --force (which re-fills the seeded three by title).
+ *   vacancies     — data/vacancies.php → the team's three templates (waiter · bartender · cook,
+ *                   28 Sep 2026), each with its term or «В архиве», the slug from the English title,
+ *                   the VK poster as the Russian photo (alt in the Media Library) and the spare
+ *                   posters uploaded unattached; skipped while any vacancy record exists unless
+ *                   --force, which re-fills the templates by title and moves the `retired`
+ *                   placeholders of 25 Sep 2026 to the trash (reversible — never a delete).
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -325,8 +328,22 @@ foreach ( $targets as $target ) {
             foreach ( $existing as $post ) {
                 $by_title[ $post->post_title ] = $post->ID;
             }
+            $seed   = require $data . 'vacancies.php';
             $seeded = 0;
-            foreach ( require $data . 'vacancies.php' as $row ) {
+            foreach ( $seed['retired'] as $title ) {
+                if ( isset( $by_title[ $title ] ) && wp_trash_post( $by_title[ $title ] ) ) {
+                    echo "vacancies: «{$title}» → trash\n";
+                }
+            }
+            $poster = function ( $photo ) {
+                [ $asset, $alt ] = $photo;
+                $id = sp_seed_attachment( $asset );
+                if ( '' === (string) get_post_meta( $id, '_wp_attachment_image_alt', true ) ) {
+                    update_post_meta( $id, '_wp_attachment_image_alt', $alt ); // the Media Library alt is Russian (alt-text model)
+                }
+                return $id;
+            };
+            foreach ( $seed['roles'] as $row ) {
                 $title = $row['ru']['title'];
                 $id    = $by_title[ $title ] ?? wp_insert_post( [ 'post_type' => 'vacancy', 'post_status' => 'publish', 'post_title' => $title ] );
                 if ( ! $id || is_wp_error( $id ) ) {
@@ -338,6 +355,10 @@ foreach ( $targets as $target ) {
                 update_field( "{$k}show", $row['show'], $id );
                 update_field( "{$k}hh", '', $id );
                 update_field( "{$k}contact", 'bar', $id );
+                update_field( "{$k}photo", empty( $row['photo'] ) ? '' : $poster( $row['photo'] ), $id );
+                foreach ( $row['spare'] ?? [] as $spare ) {
+                    $poster( $spare );
+                }
                 foreach ( [ 'schedule', 'pay', 'card', 'lead', 'duties', 'requirements', 'offer' ] as $key ) {
                     update_field( "{$k}{$key}_en", $row[ $key ] ?? '', $id );
                     update_field( "{$k}{$key}_ru", $row['ru'][ $key ] ?? '', $id );

@@ -790,6 +790,9 @@ vacancy = group(
         *jt("duties", "Что делать", "duties", "textarea", rows=5, instructions="Каждый пункт с новой строки. Пустое поле — раздела нет."),
         *jt("requirements", "Кого ищем", "requirements", "textarea", rows=5, instructions="Каждый пункт с новой строки."),
         *jt("offer", "Что предлагаем", "offer", "textarea", rows=5, instructions="Каждый пункт с новой строки."),
+        j("photo", "Фото · только на русской странице", "vacancy_photo", "image", 50,
+          instructions="Постер из поста ВК, вертикальный (3:4 или 4:5), целиком, без обрезки. Только на русской странице: "
+                       "на постере русский текст. Пустое поле — страница без фото.", **image),
         j("contact", "Контакт", "vacancy_contact", "select", 50, choices={"bar": "Бар — контакты как на странице «Как добраться»"},
           default_value="bar", allow_null=0, instructions="Люди в списке — «Настройки бара» → «Контакты». Контакты бара остаются "
           "на странице второй строкой.", **select),

@@ -44,15 +44,24 @@
     --foot-h: 4px;
 }
 
+/* Fifth pass (author's phone, 27 Sep 2026): iOS 26 reports no bottom inset even with
+   viewport-fit=cover, and bottom: 0 stays at the bar's TOP while the page is painted under the
+   bar — so Safari only ever copied a colour there, and only once scrolled. A fixed element may
+   run past the layout viewport, and the screen under the bar paints it: the strip overshoots
+   by --foot-under, more than any bar is tall, and owns the bar's area at rest as well. Its
+   visible part above the bar stays --foot-h. Where the page ends above the browser's bar
+   (Chrome for iOS, Android) the overshoot is off-screen. */
+:root {
+    --foot-under: 160px;
+}
+
 .viewport-foot {
     display: none;
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
-    /* the strip's own 4px above the bar plus everything under it — with viewport-fit=cover
-       (header.php) bottom: 0 is the screen's edge and the inset is the bar's height */
-    height: calc(var(--foot-h) + env(safe-area-inset-bottom, 0px));
+    bottom: calc(-1 * var(--foot-under));
+    height: calc(var(--foot-h) + var(--foot-under) + env(safe-area-inset-bottom, 0px));
     z-index: 98; /* under the notice (99), the header (100) and the drawers */
     pointer-events: none;
     background-color: var(--bg);

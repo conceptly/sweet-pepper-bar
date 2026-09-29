@@ -304,6 +304,18 @@
     height: 24px;
 }
 
+/* VK alone (Instagram hidden — inc/geo.php): «ВКонтакте» as a link, the mark trailing like the
+   directions row's pin; one row (the handle needed 301px in English against the card's 293) */
+.mobile-drawer__card-link--vk {
+    min-height: 44px;
+}
+
+.mobile-drawer__card-link--vk img {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
 /* ---- Language switch, green variant (Figma langSwitch-Green) ---- */
 .lang-switch--green .lang-option {
     border: 1px solid var(--mushroom);

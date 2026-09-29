@@ -74,16 +74,23 @@
                                 <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a>
                             </div>
                             <?php // VK leads (website-brief.md → News/social feed: chips out to VK (leading) and Instagram — inc/geo.php decides) ?>
+                            <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
                             <div class="footer-socials">
                                 <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
                                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="" width="24" height="24">
                                 </a>
-                                <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
                                 <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
                                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="" width="24" height="24">
                                 </a>
-                                <?php endif; ?>
                             </div>
+                            <?php else : // VK alone names its address — a lone mark looked empty and hinted at a missing one (author, 28 Sep 2026) ?>
+                            <div class="footer-socials footer-socials--handle">
+                                <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener">
+                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="" width="24" height="24">
+                                    <span>vk.com/barsweetpepper</span>
+                                </a>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -94,7 +101,17 @@
         <div class="footer-bottom">
             <div class="container footer-bottom-container">
                 <p class="footer-copyright">© <?php echo date('Y'); ?> Sweet Pepper Bar</p>
-                <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
+                <?php
+                // The policy beside the map settings (author, 28 Sep 2026) — once the page is published, as in the cookie note
+                $policy_page = get_page_by_path( 'privacy-policy' );
+                $policy_url  = $policy_page && 'publish' === $policy_page->post_status ? get_permalink( $policy_page ) : '';
+                ?>
+                <span class="footer-legal">
+                    <?php if ( $policy_url ) : ?>
+                        <a href="<?php echo esc_url( $policy_url ); ?>" class="footer-legal__link"><?php echo 'ru' === sweet_pepper_lang() ? 'Политика конфиденциальности' : 'Privacy policy'; ?></a>
+                    <?php endif; ?>
+                    <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
+                </span>
                 <a href="#page" class="footer-back-to-top">
                     <?php esc_html_e( 'Back to top', 'sweet-pepper' ); ?> <i class="ph-bold ph-arrow-up" aria-hidden="true"></i>
                 </a>

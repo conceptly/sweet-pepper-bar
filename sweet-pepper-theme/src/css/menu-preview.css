@@ -161,10 +161,12 @@ html[data-theme="night"] .dish-row {
     justify-content: center;
 }
 
-/* Name row — dish name + icons + quantity */
+/* Name row — dish name + icons + quantity. 8px across, 4px down: a wrapped line (the volume,
+   always on its own line on phones) sits as close to the name as the description sits to it
+   (.dish-info's 4px) — the 8px row gap left it floating (author, 28 Sep 2026) */
 .dish-name-row {
     display: flex;
-    gap: 8px;
+    gap: 4px 8px;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -370,6 +372,12 @@ html[data-theme="night"] .dish-option-text {
 /* Phone-only: the tighter section rhythm, the full-width CTA and the 16px label inset
    (website-brief.md → Image caption label: 24px on desktop, 16px on phones). */
 @media (max-width: 767px) {
+    /* The volume always on its own line under the name (author, 28 Sep 2026): wrapping only
+       when the name ran long, it sat inline on one row and below on the next */
+    .dish-quantity {
+        flex-basis: 100%;
+    }
+
     .home-bar-preview .container,
     .home-kitchen-preview .container {
         gap: 48px;

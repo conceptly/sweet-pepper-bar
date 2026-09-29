@@ -31,6 +31,9 @@
 }
 .footer-bottom-container { flex-wrap: wrap; gap: 8px 24px; }
 .footer-bottom .map-settings-link { color: var(--peppercorn); font-size: 16px; }
+/* The policy and the map settings, one pair: same type, 24px apart, wrapping centred on phones */
+.footer-legal { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 24px; }
+.footer-legal__link { padding: 8px 0; font-size: 16px; color: var(--peppercorn); text-decoration: underline; }
 .map-preferences {
     width: min(560px, calc(100vw - 32px));
     max-height: calc(100dvh - 48px);

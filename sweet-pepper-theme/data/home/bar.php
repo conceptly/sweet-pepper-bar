@@ -14,10 +14,10 @@
 
 return [
     'title' => 'HOUSE INFUSIONS',
-    'photo' => 'bar/cocktails/shot-drinks.jpg',
-    'alt'   => 'Five layered shots lined up on the lit bar',
+    'photo' => 'bar/infusions/infusions-lenya-02.jpg', // was the layered shots — not infusions (author, 28 Sep 2026)
+    'alt'   => 'Cranberry, sea buckthorn and blackcurrant infusions in shot glasses, berries and mint on the table',
     'badge' => 'Community hit!',
-    'ru'    => [ 'alt' => 'Пять слоёных шотов на подсвеченной стойке', 'title' => 'ДОМАШНИЕ НАСТОЙКИ', 'badge' => 'Хит у гостей!' ],
+    'ru'    => [ 'alt' => 'Клюквенная, облепиховая и смородиновая настойки в рюмках, на столе — ягоды и мята', 'title' => 'ДОМАШНИЕ НАСТОЙКИ', 'badge' => 'Хит у гостей!' ],
     'items' => [
         [ 'drink', 'Солёная Карамель', 'infusions' ],
         [ 'drink', 'Хреновуха', 'infusions' ],

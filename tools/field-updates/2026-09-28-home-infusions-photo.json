@@ -1,0 +1,83 @@
+{
+  "page": "home",
+  "date": "2026-09-28",
+  "note": "the home page's two infusion photos — «Домашние настойки» and the House Infusions highlight card: berry infusions, not the layered shots (author, 28 Sep 2026 — infusions-lenya-02 in both); the House Infusions card's price in the menu's mark, «От 150-.» (was ₽); the infusions card's line in two lines, the pot roast card's Russian name «Жаркое»",
+  "uploads": {
+    "bar/infusions/infusions-lenya-02.jpg": {
+      "alt": "Клюквенная, облепиховая и смородиновая настойки в рюмках, на столе — ягоды и мята",
+      "topic": "Бар"
+    }
+  },
+  "groups": [
+    {
+      "note": "Home → «Настойки»: the photo and its two alts",
+      "set": [
+        [
+          "home_bar_photo",
+          "asset:bar/cocktails/shot-drinks.jpg",
+          "asset:bar/infusions/infusions-lenya-02.jpg"
+        ],
+        [
+          "home_bar_alt_en",
+          "Five layered shots lined up on the lit bar",
+          "Cranberry, sea buckthorn and blackcurrant infusions in shot glasses, berries and mint on the table"
+        ],
+        [
+          "home_bar_alt_ru",
+          "Пять слоёных шотов на подсвеченной стойке",
+          "Клюквенная, облепиховая и смородиновая настойки в рюмках, на столе — ягоды и мята"
+        ]
+      ]
+    },
+    {
+      "note": "Home → «Фирменное»: the House Infusions card's photo (its alt is the card's title)",
+      "set": [
+        [
+          "home_highlight_cards_0_photo",
+          "asset:bar/cocktails/shot-drinks.jpg",
+          "asset:bar/infusions/infusions-lenya-02.jpg"
+        ]
+      ]
+    },
+    {
+      "note": "Home → «Фирменное»: the House Infusions card's price, «-.» like every price on the site",
+      "set": [
+        [
+          "home_highlight_cards_0_price_ru",
+          "От 150 ₽",
+          "От 150-."
+        ],
+        [
+          "home_highlight_cards_0_price_en",
+          "From 150 ₽",
+          "From 150-."
+        ],
+        [
+          "home_highlight_cards_0_price",
+          "From 150 ₽",
+          "From 150-."
+        ]
+      ]
+    },
+    {
+      "note": "Home → «Фирменное»: the infusions card's line (two lines, as the dish cards') and «Жаркое» on the pot roast card (one line; «Жаркое в горшочке» wraps on tablets)",
+      "set": [
+        [
+          "home_highlight_cards_0_description_ru",
+          "От клюквы до малинового джина.",
+          "От клюквы и облепихи до хреновухи и малины на джине."
+        ],
+        [
+          "home_highlight_cards_0_description_en",
+          "From cranberry to raspberry gin.",
+          "From cranberry and sea buckthorn to horseradish and raspberry gin."
+        ],
+        [
+          "home_highlight_cards_2_title_ru",
+          "",
+          "Жаркое"
+        ]
+      ]
+    }
+  ]
+}

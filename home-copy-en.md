@@ -54,7 +54,7 @@ A little sweet, a little heat. Start with house infusions, grilled wings or Pepp
 
 | Card | Description |
 |---|---|
-| House infusions | From cranberry to raspberry gin. |
+| House infusions | From cranberry and sea buckthorn to horseradish and raspberry gin. |
 | Grilled wings | Honey-glazed wings with sour cream, carrot and celery sticks. |
 | Pepper's pot roast | Pork, potato wedges and vegetables in a spicy cream sauce. |
 

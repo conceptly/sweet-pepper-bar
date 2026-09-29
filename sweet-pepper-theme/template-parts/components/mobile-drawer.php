@@ -74,17 +74,22 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
         </div>
         <div class="mobile-drawer__card-row">
             <span class="mobile-drawer__card-label"><?php esc_html_e( 'News & Events', 'sweet-pepper' ); ?></span>
+            <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
             <span class="mobile-drawer__socials">
                 <?php // The icons open the pages; the buttons below write. The names say which (navigation-drawers-copy-ru-draft.md → 5). ?>
                 <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
                     <img src="<?php echo $uri; ?>vk.svg" alt="" width="24" height="24">
                 </a>
-                <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
                 <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
                     <img src="<?php echo $uri; ?>insta.svg" alt="" width="24" height="24">
                 </a>
-                <?php endif; ?>
             </span>
+            <?php else : // VK alone names itself, as «Маршрут» names its street (author, 28 Sep 2026): «ВКонтакте» fits one row in both languages, the handle does not in English ?>
+            <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__card-link mobile-drawer__card-link--vk">
+                <?php esc_html_e( 'VKontakte', 'sweet-pepper' ); ?>
+                <img src="<?php echo $uri; ?>vk.svg" alt="" width="24" height="24">
+            </a>
+            <?php endif; ?>
         </div>
     </div>
 

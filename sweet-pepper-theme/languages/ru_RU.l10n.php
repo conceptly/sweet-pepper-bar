@@ -131,6 +131,7 @@ return [
         'Get Directions'                             => 'Маршрут',
         'Kirova 10/25'                               => 'Кирова, 10/25',
         'News & Events'                              => 'Что нового',
+        'VKontakte'                                  => 'ВКонтакте', // the drawer's lone VK link (inc/geo.php)
         'Sweet Pepper on VK'                         => 'Sweet Pepper во ВКонтакте',
         'Sweet Pepper on Instagram'                  => 'Sweet Pepper в Instagram',
         'Call 911-202'                               => 'Позвонить 911-202',
@@ -264,7 +265,7 @@ return [
         'Pepper’s Breakfast — fried eggs, a patty, toast and salad' => 'Завтрак от Перцев: глазунья, котлета, тосты и салат',
         'Cranberry infusion in three shot glasses with berries and mint' => 'Клюквенная настойка в трёх стопках с ягодами и мятой',
         'The Sweet Pepper team behind the bar, 2025'  => 'Команда Sweet Pepper за стойкой, 2025',
-        'Five layered shots lined up on the lit bar'  => 'Пять слоёных шотов на подсвеченной стойке',
+        'Cranberry, sea buckthorn and blackcurrant infusions in shot glasses, berries and mint on the table' => 'Клюквенная, облепиховая и смородиновая настойки в рюмках, на столе — ягоды и мята',
         'The Sweet Pepper entrance: a glass door with the pepper logo' => 'Вход в Sweet Pepper: стеклянная дверь с логотипом-перцем',
     ],
 ];

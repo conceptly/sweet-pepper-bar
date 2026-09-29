@@ -227,6 +227,23 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     opacity: 0.7;
 }
 
+/* VK alone (Instagram hidden — inc/geo.php): the mark and the address, set as a contact row */
+.footer-socials--handle a {
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: var(--text-body, 16px);
+    line-height: 1.4;
+    color: var(--peppercorn);
+    text-decoration: none;
+}
+
+/* The mark in the rows' 16px icon column, so the address lines up with the phone and email */
+.footer-socials--handle img {
+    width: 16px;
+    height: 16px;
+}
+
 /* Bottom bar — lime bg with top border */
 .footer-bottom {
     background-color: var(--lime);
@@ -458,6 +475,22 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
         width: 44px;
         height: 44px;
         border-radius: 4px;
+    }
+
+    /* The address does not fit beside the phone: its own row under the street, 44px tall */
+    .footer-socials--handle {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+
+    .footer-socials--handle a {
+        justify-content: flex-start;
+        width: auto;
+    }
+
+    .footer-socials--handle img {
+        width: 24px; /* phones: no icon column, the mark at its drawer size */
+        height: 24px;
     }
 
     /* Bottom row */

@@ -138,17 +138,14 @@ html[data-theme="night"] .highlight-card:active {
 
 
 /* ── Card Title Row ── */
-/* Figma: "title" — flex row, space-between, items-center */
-
-/* Title + price. nowrap held the row together while the titles were short; a long title
-   ("Pepper's pot roast") plus a "From …" category price collided and ran off the card below
-   1440, so the title may now wrap and the price keeps its width. */
+/* Figma drew title and price in one row (space-between). The price now always sits under the
+   title, 4px down (author, 28 Sep 2026): beside it, it wrapped only when the title ran long, so
+   it sat right on one card and below on the next — the dish rows' volume had the same fault. */
 .highlight-card-header {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 4px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
     width: 100%;
 }
 

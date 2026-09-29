@@ -88,7 +88,7 @@ function sweet_pepper_seo_image() {
     } elseif ( 'about' === sweet_pepper_seo_page_slug() ) {
         $pick = [ 'team/group/2025.jpg', 1080, 720, __( 'The Sweet Pepper team behind the bar, 2025', 'sweet-pepper' ) ];
     } elseif ( is_front_page() ) {
-        $pick = [ 'bar/cocktails/shot-drinks.jpg', 1080, 715, __( 'Five layered shots lined up on the lit bar', 'sweet-pepper' ) ];
+        $pick = [ 'bar/infusions/infusions-lenya-02.jpg', 1080, 718, __( 'Cranberry, sea buckthorn and blackcurrant infusions in shot glasses, berries and mint on the table', 'sweet-pepper' ) ]; // the page's own photo again: the shots left it (28 Sep 2026)
     } else {
         $pick = [ 'sweet-space/door-entrance.jpg', 1280, 853, __( 'The Sweet Pepper entrance: a glass door with the pepper logo', 'sweet-pepper' ) ];
     }

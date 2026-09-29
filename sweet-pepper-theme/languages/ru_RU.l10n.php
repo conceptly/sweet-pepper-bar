@@ -210,6 +210,7 @@ return [
         'Need instant assistance? Give us a call!'   => 'Вопрос срочный? Лучше позвонить.',
         'need instant assistance? give us a call!'   => 'Вопрос срочный? Лучше позвонить.',
         'Send another message'                       => 'Написать ещё',
+        'The message could not be sent. Please try again or write to us by email.' => 'Не удалось отправить сообщение. Попробуйте ещё раз или напишите на почту', // forms-copy-ru-draft.md §6; the address follows as a link
         'WRITE TO THE TEAM'                          => 'Пара слов команде',
         'To:'                                        => 'Кому:',
         "team form recipients\4All"                  => 'Всей команде',

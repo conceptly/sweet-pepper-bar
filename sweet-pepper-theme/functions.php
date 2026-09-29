@@ -94,6 +94,7 @@ require_once get_template_directory() . '/inc/location.php';
  * The bar's contact channels and the hiring contacts (Bar Settings; fallback: data/contacts.php).
  */
 require_once get_template_directory() . '/inc/contacts.php';
+require_once get_template_directory() . '/inc/forms.php'; // the contact and team forms → hello@sweetpepper.bar
 
 /**
  * Team-replaceable photos: hard-cropped sizes (1:1, 3:2) and a URL from an image field.

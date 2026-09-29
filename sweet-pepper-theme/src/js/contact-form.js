@@ -4,10 +4,11 @@
  * Manages [data-form-state] on #contact-form:
  *   "email"   → default, email field visible
  *   "phone"   → phone field visible
- *   "success" → confirmation view
+ *   "success" → confirmation view, once inc/forms.php confirms the send (form-send.js)
  */
 
 import { watchFieldState, isValidEmail, isValidPhone } from './field-state';
+import { sendForm } from './form-send';
 
 export function initContactForm() {
     const root = document.getElementById('contact-form');
@@ -20,6 +21,8 @@ export function initContactForm() {
     const emailField  = root.querySelector('[data-contact-type="email"]');
     const phoneField  = root.querySelector('[data-contact-type="phone"]');
     const resetBtn    = root.querySelector('.js-form-reset');
+    const submitBtn   = root.querySelector('.contact-form__submit');
+    const sendError   = root.querySelector('.js-send-error');
 
     // ── Live field state — accent icon + checkmark once a value passes (field-state.js) ──
     const refreshFieldState = watchFieldState(root);
@@ -77,7 +80,7 @@ export function initContactForm() {
 
     // ── Form Submission & Validation ─────────────
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             // Clear previous errors
@@ -117,8 +120,7 @@ export function initContactForm() {
                 valid = false;
             }
 
-            if (valid) {
-                // Transition to success state
+            if (valid && await sendForm(form, { form: 'contact' }, submitBtn, sendError)) {
                 root.dataset.formState = 'success';
             }
         });
@@ -129,6 +131,7 @@ export function initContactForm() {
         resetBtn.addEventListener('click', () => {
             // Reset form values
             if (form) form.reset();
+            if (sendError) sendError.hidden = true;
 
             // Reset char counter
             if (charCount) charCount.textContent = '0';

@@ -1,6 +1,7 @@
 {
   "page": "home",
   "date": "2026-09-28",
+  "note": "the old alts are the servers' (edited in admin; the local seed had other wording — run 1 SKIPPED on both sites)",
   "uploads": {
     "social-en/artyom.jpg": { "alt": "Артём в чёрной кофте на молнии держит бутылку Maker's Mark в вязаном свитере", "topic": "Команда" },
     "social-en/birthday-anya.jpg": { "alt": "Аня с улыбкой обнимает бутылку Jägermeister под вывеской Sweet Pepper", "topic": "Команда" },
@@ -21,7 +22,7 @@
         [ "home_event_cards_0_category", "event", "community" ],
         [ "home_event_cards_0_source", "vk", "instagram" ],
         [ "home_event_cards_0_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/Ddv8UagilvD/" ],
-        [ "home_event_cards_0_alt_en", "Bartender garnishing a copper-mug cocktail with lime", "Artyom in a black zip-up, a Maker's Mark bottle in a knitted jumper under his arm" ]
+        [ "home_event_cards_0_alt_en", "Live DJ set at Sweet Pepper", "Artyom in a black zip-up, a Maker's Mark bottle in a knitted jumper under his arm" ]
       ]
     },
     {
@@ -33,7 +34,7 @@
         [ "home_event_cards_1_category", "promo", "community" ],
         [ "home_event_cards_1_source", "vk", "instagram" ],
         [ "home_event_cards_1_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/DbhlIriqPjY/" ],
-        [ "home_event_cards_1_alt_en", "Five layered shots lined up on the lit bar", "Anya, laughing, hugs a bottle of Jägermeister under the Sweet Pepper sign" ]
+        [ "home_event_cards_1_alt_en", "Shot drinks promo", "Anya, laughing, hugs a bottle of Jägermeister under the Sweet Pepper sign" ]
       ]
     },
     {
@@ -45,7 +46,7 @@
         [ "home_event_cards_2_category", "community", "promo" ],
         [ "home_event_cards_2_source", "vk", "instagram" ],
         [ "home_event_cards_2_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/Dbc4o3JCt3N/" ],
-        [ "home_event_cards_2_alt_en", "Mulled wine with orange and apple on the bar", "Katya at the bar with the Bucephalus cocktail and a bottle of Pogues whiskey" ]
+        [ "home_event_cards_2_alt_en", "Community night at Sweet Pepper", "Katya at the bar with the Bucephalus cocktail and a bottle of Pogues whiskey" ]
       ]
     },
     {
@@ -57,7 +58,7 @@
         [ "home_event_cards_3_category", "community", "promo" ],
         [ "home_event_cards_3_source", "vk", "instagram" ],
         [ "home_event_cards_3_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/DbLFWiCCpE1/" ],
-        [ "home_event_cards_3_alt_en", "Three iced cocktails and coloured pencils on the bar", "The Magnolia cocktail beside a bottle of Pogues cinnamon liqueur, a peach and magnolia petals" ]
+        [ "home_event_cards_3_alt_en", "Community event", "The Magnolia cocktail beside a bottle of Pogues cinnamon liqueur, a peach and magnolia petals" ]
       ]
     },
     {
@@ -68,7 +69,7 @@
         [ "home_event_cards_4_date", "", "20260704" ],
         [ "home_event_cards_4_source", "vk", "instagram" ],
         [ "home_event_cards_4_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/DaX520xCnyQ/" ],
-        [ "home_event_cards_4_alt_en", "Bartender pouring green shots from a shaker", "Anton and Alexandra show their wedding rings outside the bar" ]
+        [ "home_event_cards_4_alt_en", "Community shots night", "Anton and Alexandra show their wedding rings outside the bar" ]
       ]
     }
   ]

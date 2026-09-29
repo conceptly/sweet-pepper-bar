@@ -185,7 +185,7 @@ function sweet_pepper_seo_bar_schema() {
         'hasMenu'                   => [ sweet_pepper_menu_url( 'food' ), sweet_pepper_menu_url( 'drinks' ) ],
         'acceptsReservations'       => true,
         'openingHoursSpecification' => $week,
-        'sameAs'                    => [ 'https://vk.ru/barsweetpepper', 'https://instagram.com/barsweetpepper' ],
+        'sameAs'                    => sweet_pepper_show_instagram() ? [ 'https://vk.ru/barsweetpepper', 'https://instagram.com/barsweetpepper' ] : [ 'https://vk.ru/barsweetpepper' ], // inc/geo.php
     ];
     echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
 }

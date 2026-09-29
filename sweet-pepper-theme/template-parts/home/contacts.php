@@ -34,7 +34,7 @@
                 'headline_2'  => $args['headline_2'],
                 'description' => $args['description'],
                 'description_mobile' => $args['description_mobile'],
-                'ctas'        => [
+                'ctas'        => array_filter( [ // Instagram only outside Russia (inc/geo.php)
                     [
                         'label'         => 'vk.com/sweetpepperbar',
                         'type'          => 'secondary',
@@ -42,14 +42,14 @@
                         'icon_right_svg'=> 'icons/c-arrow-right-outline.svg',
                         'url'           => 'https://vk.com/sweetpepperbar',
                     ],
-                    [
+                    sweet_pepper_show_instagram() ? [
                         'label'         => 'instagram.com/barsweetpepper',
                         'type'          => 'secondary',
                         'icon_left_svg' => 'icons/insta.svg',
                         'icon_right_svg'=> 'icons/c-arrow-right-outline.svg',
                         'url'           => 'https://www.instagram.com/barsweetpepper/',
-                    ],
-                ]
+                    ] : null,
+                ] )
             ] ); 
             ?>
 
@@ -81,18 +81,20 @@
                             // Short labels, the drawers' and the Visit CTA's: the long pair ("Message on …")
                             // overflowed the two-up row on phones (Sep 2026)
                             'label'         => __( 'VK message', 'sweet-pepper' ),
-                            'label_mobile'  => _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ),
+                            'label_mobile'  => sweet_pepper_show_instagram() ? _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ) : __( 'VK message', 'sweet-pepper' ), // the short one only beside Instagram
                             'type'          => 'secondary',
                             'icon_left_svg' => 'icons/vk.svg',
                             'url'           => 'https://vk.me/barsweetpepper',
                         ] );
-                        get_template_part( 'template-parts/components/button', null, [
-                            'label'         => __( 'Instagram DM', 'sweet-pepper' ),
-                            'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
-                            'type'          => 'secondary',
-                            'icon_left_svg' => 'icons/insta.svg',
-                            'url'           => 'https://ig.me/m/barsweetpepper',
-                        ] );
+                        if ( sweet_pepper_show_instagram() ) { // alone, VK takes the row (flex: 1)
+                            get_template_part( 'template-parts/components/button', null, [
+                                'label'         => __( 'Instagram DM', 'sweet-pepper' ),
+                                'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
+                                'type'          => 'secondary',
+                                'icon_left_svg' => 'icons/insta.svg',
+                                'url'           => 'https://ig.me/m/barsweetpepper',
+                            ] );
+                        }
                         ?>
                     </div>
                     <div class="call-status contacts-reserve__status">

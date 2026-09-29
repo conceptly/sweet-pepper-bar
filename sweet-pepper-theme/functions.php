@@ -78,6 +78,7 @@ require_once get_template_directory() . '/inc/inline-svg.php';
  * Language on the URL (`/` RU, `/en/` EN): sweet_pepper_lang(), rewrite twins, locale, links, hreflang.
  */
 require_once get_template_directory() . '/inc/lang.php';
+require_once get_template_directory() . '/inc/geo.php';          // Instagram only outside Russia: never on the Russian page, not for Russian IPs
 
 /**
  * Fields in two languages: sp_field() and the RU / EN twin pick.

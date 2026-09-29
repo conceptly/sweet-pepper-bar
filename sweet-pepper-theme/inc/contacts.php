@@ -83,8 +83,9 @@ function sweet_pepper_bar_contacts() {
         // field on a site whose Bar Settings were saved before it existed still works.
         'vk_write'        => ( $saved ? trim( (string) get_field( 'contacts_vk_messages', 'option' ) ) : '' )
                              ?: ( $typed['vk_messages'] ?? '' ) ?: $get( 'vk' ),
-        'instagram'       => $get( 'instagram' ),
-        'instagram_label' => sweet_pepper_social_label( $get( 'instagram' ), 'instagram' ),
+        // Blank where Instagram may not show (inc/geo.php) — a row with no text prints nothing
+        'instagram'       => sweet_pepper_show_instagram() ? $get( 'instagram' ) : '',
+        'instagram_label' => sweet_pepper_show_instagram() ? sweet_pepper_social_label( $get( 'instagram' ), 'instagram' ) : '',
     ];
     return $contacts;
 }

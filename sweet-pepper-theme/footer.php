@@ -73,14 +73,16 @@
                                 <i class="ph ph-envelope-simple" aria-hidden="true"></i>
                                 <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a>
                             </div>
-                            <!-- VK leads (website-brief.md → News/social feed: chips out to VK (leading) and Instagram) -->
+                            <?php // VK leads (website-brief.md → News/social feed: chips out to VK (leading) and Instagram — inc/geo.php decides) ?>
                             <div class="footer-socials">
                                 <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
                                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="" width="24" height="24">
                                 </a>
+                                <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
                                 <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
                                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="" width="24" height="24">
                                 </a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

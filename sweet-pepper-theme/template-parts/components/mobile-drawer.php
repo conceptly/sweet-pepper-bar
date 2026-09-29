@@ -79,9 +79,11 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
                 <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
                     <img src="<?php echo $uri; ?>vk.svg" alt="" width="24" height="24">
                 </a>
+                <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
                 <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="mobile-drawer__icon-btn" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
                     <img src="<?php echo $uri; ?>insta.svg" alt="" width="24" height="24">
                 </a>
+                <?php endif; ?>
             </span>
         </div>
     </div>
@@ -103,18 +105,20 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
             <?php
             get_template_part( 'template-parts/components/button', null, [
                 'label'         => __( 'VK message', 'sweet-pepper' ),
-                'label_mobile'  => _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ),
+                'label_mobile'  => sweet_pepper_show_instagram() ? _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ) : __( 'VK message', 'sweet-pepper' ), // the short one only beside Instagram
                 'type'          => 'secondary',
                 'icon_left_svg' => 'icons/vk.svg',
                 'url'           => 'https://vk.me/barsweetpepper',
             ] );
-            get_template_part( 'template-parts/components/button', null, [
-                'label'         => __( 'Instagram DM', 'sweet-pepper' ),
-                'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
-                'type'          => 'secondary',
-                'icon_left_svg' => 'icons/insta.svg',
-                'url'           => 'https://ig.me/m/barsweetpepper',
-            ] );
+            if ( sweet_pepper_show_instagram() ) { // alone, VK takes the row (flex: 1)
+                get_template_part( 'template-parts/components/button', null, [
+                    'label'         => __( 'Instagram DM', 'sweet-pepper' ),
+                    'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
+                    'type'          => 'secondary',
+                    'icon_left_svg' => 'icons/insta.svg',
+                    'url'           => 'https://ig.me/m/barsweetpepper',
+                ] );
+            }
             ?>
         </div>
     </div>

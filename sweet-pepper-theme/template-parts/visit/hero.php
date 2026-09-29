@@ -30,7 +30,6 @@ $hero     = $args['hero'];
 $status   = $args['status'];
 $hours    = $args['hours'];
 $contacts = $args['contacts'];
-$is_ru    = ( 'ru' === sweet_pepper_lang() );
 ?>
 <section class="visit-hero">
 
@@ -144,9 +143,9 @@ $is_ru    = ( 'ru' === sweet_pepper_lang() );
                                 </div>
                             </div>
 
-                            <?php // CTA — Instagram (EN) / VK (RU) ?>
+                            <?php // CTA — Instagram (EN) / VK (RU, and Russian IPs on EN — inc/geo.php) ?>
                             <div class="visit-hero__hours-cta">
-                                <?php $cta_url = $is_ru ? 'https://vk.ru/sweetpepperbar' : 'https://instagram.com/barsweetpepper'; ?>
+                                <?php $cta_url = sweet_pepper_show_instagram() ? 'https://instagram.com/barsweetpepper' : 'https://vk.ru/sweetpepperbar'; ?>
                                 <a href="<?php echo esc_url( $cta_url ); ?>" target="_blank" rel="noopener" class="visit-hero__hours-link">
                                     <?php echo esc_html( $hours['social_link'] ); ?>
                                     <span class="visit-hero__hours-link-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-right-outline.svg' ); ?></span>
@@ -194,6 +193,7 @@ $is_ru    = ( 'ru' === sweet_pepper_lang() );
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
                             </div>
+                            <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
                             <div class="visit-hero__contact-row visit-hero__contact-row--with-action">
                                 <?php get_template_part( 'template-parts/components/contact-item', null, [
                                     'icon_svg'        => 'icons/insta.svg',
@@ -206,6 +206,7 @@ $is_ru    = ( 'ru' === sweet_pepper_lang() );
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
                             </div>
+                            <?php endif; ?>
                         </div>
 
                         <?php // Everything Else ?>

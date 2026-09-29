@@ -406,6 +406,13 @@ html[data-theme="night"] .event-card-title {
 }
 
 
+/* A card with no link (an Instagram post where Instagram may not show — inc/geo.php): no hover
+   motion, since nothing opens. Touches pass through to the rail, so it still scrolls. */
+.event-card--static {
+    pointer-events: none;
+}
+
+
 /* ── CTA Link ── */
 /* "See it on Instagram →"
    Golos SemiBold 16px.

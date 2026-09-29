@@ -38,7 +38,7 @@
                 'headline'    => $args['headline'],
                 'headline_2'  => $args['headline_2'],
                 'description' => $args['description'],
-                'ctas'        => [
+                'ctas'        => array_filter( [ // Instagram only outside Russia (inc/geo.php)
                     [
                         'label'         => __( "See what's on VK", 'sweet-pepper' ),
                         'type'          => 'secondary',
@@ -46,14 +46,14 @@
                         'icon_right_svg'=> 'icons/c-arrow-right-outline.svg',
                         'url'           => 'https://vk.com/sweet_pepper_bar',
                     ],
-                    [
+                    sweet_pepper_show_instagram() ? [
                         'label'         => __( 'View Instagram', 'sweet-pepper' ),
                         'type'          => 'secondary',
                         'icon_left_svg' => 'icons/insta.svg',
                         'icon_right_svg'=> 'icons/c-arrow-right-outline.svg',
                         'url'           => 'https://www.instagram.com/barsweetpepper/', // was /sweet_pepper_bar/ — not the account (author, 25 Sep 2026)
-                    ],
-                ]
+                    ] : null,
+                ] )
             ] ); 
             ?>
 

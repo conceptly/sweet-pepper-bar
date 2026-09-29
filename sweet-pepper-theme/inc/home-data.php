@@ -250,15 +250,20 @@ function sweet_pepper_home_events( $page_id ) {
         } elseif ( $saved && $date ) {
             $date = date_i18n( 'j M', strtotime( $date ) );
         }
+        $source = 'vk' === ( $row['source'] ?? '' ) ? 'vk' : 'instagram';
+        $url    = (string) ( $row['url'] ?? '' );
+        if ( ! sweet_pepper_show_instagram() && ( 'instagram' === $source || str_contains( $url, 'instagram.com' ) ) ) {
+            [ $source, $url ] = [ '', '' ]; // the post stays, as a card with no link (inc/geo.php)
+        }
         $cards[] = [
             'image_url' => $src,
             'image_alt' => sweet_pepper_pick( $row, 'alt' ) ?: $title,
             'title'     => $title,
             'date'      => $date,
             'category'  => sanitize_key( (string) ( $row['category'] ?? '' ) ),
-            'source'    => 'vk' === ( $row['source'] ?? '' ) ? 'vk' : 'instagram',
+            'source'    => $source,
             'pinned'    => ! empty( $row['pinned'] ),
-            'url'       => (string) ( $row['url'] ?? '' ),
+            'url'       => $url,
         ];
     }
     $more = sweet_pepper_page_text( $page_id, 'home_events_more', $typed['more'] );
@@ -266,19 +271,21 @@ function sweet_pepper_home_events( $page_id ) {
     // cards are VK posts, the English page's the Instagram side — both addresses from Bar
     // Settings → «Контакты», the one place they are kept. It had its own URL field, which
     // held a third VK address (vk.com/sweet_pepper_bar) and sent the English page to VK too.
+    // Where Instagram may not show (inc/geo.php), the English tile goes to VK with VK's words.
     $bar  = sweet_pepper_bar_contacts();
-    $url  = 'ru' === sweet_pepper_lang() ? $bar['vk'] : $bar['instagram'];
+    $url  = sweet_pepper_show_instagram() ? $bar['instagram'] : $bar['vk'];
+    $label = 'ru' !== sweet_pepper_lang() && ! sweet_pepper_show_instagram() ? 'More on VK →' : $more( 'label' );
     [ $headline, $headline_2 ] = sp_headline( 'home_events_headline', $typed, $page_id );
     return [
         'eyebrow'     => $text( 'eyebrow' ),
         'headline'    => $headline,
         'headline_2'  => $headline_2,
-        'description' => $text( 'description' ),
+        'description' => sweet_pepper_without_instagram( $text( 'description' ) ),
         'cards'       => $cards,
         'more'        => [
             'image_url' => sweet_pepper_home_photo( $page_id, 'home_events_more_photo', 'sp-4x5', $typed['more']['photo'] ),
             'image_alt' => sweet_pepper_typed( $typed['more'], 'alt' ),
-            'label'     => $more( 'label' ),
+            'label'     => $label,
             'url'       => $url,
         ],
     ];

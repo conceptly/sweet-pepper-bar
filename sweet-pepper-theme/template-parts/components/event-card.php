@@ -27,8 +27,8 @@ $image_alt = $args['image_alt'] ?? '';
 $title     = $args['title'] ?? '';
 $date      = $args['date'] ?? '';
 $category  = $args['category'] ?? '';
-$url       = $args['url'] ?? '#';
-$source    = $args['source'] ?? 'instagram';
+$url       = $args['url'] ?? '#'; // '' = no link: an Instagram post where Instagram may not show (inc/geo.php)
+$source    = $args['source'] ?? 'instagram'; // '' with no link: no brand mark, no CTA
 $pinned    = $args['pinned'] ?? false;
 
 // Category labels for the image pill
@@ -57,8 +57,15 @@ $card_classes = 'event-card';
 if ( $pinned ) {
     $card_classes .= ' event-card--pinned';
 }
+if ( '' === $url ) {
+    $card_classes .= ' event-card--static';
+}
 ?>
+<?php if ( '' === $url ) : ?>
+<div class="<?php echo esc_attr( $card_classes ); ?>">
+<?php else : ?>
 <a class="<?php echo esc_attr( $card_classes ); ?>" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer">
+<?php endif; ?>
     <!-- Image (drives card height via 4:5 aspect ratio) -->
     <div class="event-card-img-wrap">
         <?php if ( $image_url ) : ?>
@@ -80,10 +87,12 @@ if ( $pinned ) {
             <?php if ( $date ) : ?>
                 <div class="event-card-date<?php echo $is_today ? ' event-card-date--today' : ''; ?>">
                     <span><?php echo $display_date; ?></span>
-                    <!-- Phones have no hover layer: the source's brand mark rides the date row instead
-                         (Figma instagram-feed-cards-mobile 1260:40711, day + pinned states). Hidden on desktop;
-                         decorative — the whole card is the link. -->
-                    <img class="event-card-source" src="<?php echo esc_url( get_template_directory_uri() . '/assets/icons/' . ( $source === 'vk' ? 'vk.svg' : 'insta.svg' ) ); ?>" alt="" width="16" height="16" aria-hidden="true">
+                    <?php // Phones have no hover layer: the source's brand mark rides the date row instead
+                          // (Figma instagram-feed-cards-mobile 1260:40711, day + pinned states). Hidden on desktop;
+                          // decorative — the whole card is the link. A PHP comment, so the page's source never names Instagram where it may not show. ?>
+                    <?php if ( $source ) : ?>
+                        <img class="event-card-source" src="<?php echo esc_url( get_template_directory_uri() . '/assets/icons/' . ( $source === 'vk' ? 'vk.svg' : 'insta.svg' ) ); ?>" alt="" width="16" height="16" aria-hidden="true">
+                    <?php endif; ?>
                 </div>
             <?php else : ?>
                 <!-- No date: the row still holds its line + 8px, so the title sits where the hover expects it -->
@@ -94,12 +103,14 @@ if ( $pinned ) {
                 <p class="event-card-title molot-text"><?php echo esc_html( $title ); ?></p>
             <?php endif; ?>
 
+            <?php if ( '' !== $url ) : ?>
             <div class="event-card-cta">
                 <span class="event-card-cta-text"><?php echo esc_html( $cta_text ); ?></span>
                 <svg class="event-card-cta-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
+            <?php endif; ?>
         </div>
     </div>
-</a>
+<?php echo '' === $url ? '</div>' : '</a>'; ?>

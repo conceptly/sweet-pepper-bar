@@ -54,9 +54,11 @@
                 <div class="whats-on-chip">
                     <span class="label"><?php esc_html_e( "What's new", 'sweet-pepper' ); ?></span>
                     <div class="social-icons">
+                        <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
                         <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="social-icon" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="" width="24" height="24">
                         </a>
+                        <?php endif; ?>
                         <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="social-icon" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="" width="24" height="24">
                         </a>

@@ -102,6 +102,7 @@ $reserve_strings = [
                 <span class="btn-social-arrow"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
             </a>
             
+            <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
             <a href="https://ig.me/m/barsweetpepper" class="btn-social btn-social-ig" target="_blank" rel="noopener">
                 <div class="btn-social-left">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="Instagram" width="20" height="20" class="btn-social-icon">
@@ -109,6 +110,7 @@ $reserve_strings = [
                 </div>
                 <span class="btn-social-arrow"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
             </a>
+            <?php endif; ?>
         </div>
         
         <p class="reserve-footer-text">

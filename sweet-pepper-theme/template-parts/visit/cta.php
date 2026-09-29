@@ -85,20 +85,22 @@
                         <?php
                         get_template_part( 'template-parts/components/button', null, [
                             'label'         => __( 'VK message', 'sweet-pepper' ),
-                            'label_mobile'  => _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ),
+                            'label_mobile'  => sweet_pepper_show_instagram() ? _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ) : __( 'VK message', 'sweet-pepper' ), // the short one only beside Instagram
                             'type'          => 'secondary',
                             'class'         => 'btn-secondary--dark',
                             'icon_left_svg' => 'icons/vk.svg',
                             'url'           => 'https://vk.me/barsweetpepper',
                         ] );
-                        get_template_part( 'template-parts/components/button', null, [
-                            'label'         => __( 'Instagram DM', 'sweet-pepper' ),
-                            'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
-                            'type'          => 'secondary',
-                            'class'         => 'btn-secondary--dark',
-                            'icon_left_svg' => 'icons/insta.svg',
-                            'url'           => 'https://ig.me/m/barsweetpepper',
-                        ] );
+                        if ( sweet_pepper_show_instagram() ) { // alone, VK takes the row (flex: 1)
+                            get_template_part( 'template-parts/components/button', null, [
+                                'label'         => __( 'Instagram DM', 'sweet-pepper' ),
+                                'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
+                                'type'          => 'secondary',
+                                'class'         => 'btn-secondary--dark',
+                                'icon_left_svg' => 'icons/insta.svg',
+                                'url'           => 'https://ig.me/m/barsweetpepper',
+                            ] );
+                        }
                         ?>
                     </div>
                 </div>

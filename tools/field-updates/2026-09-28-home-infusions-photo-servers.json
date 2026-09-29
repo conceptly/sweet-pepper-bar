@@ -1,0 +1,22 @@
+{
+  "page": "home",
+  "date": "2026-09-28",
+  "note": "the two groups of 2026-09-28-home-infusions-photo.json that the servers SKIPPED: there the English alt had been edited in admin, the Russian alt was empty, and the unused plain price field was empty (the test site's output, 28 Sep 2026). Local reports done.",
+  "groups": [
+    {
+      "note": "Home → «Настойки»: the photo and its two alts (from the servers' values)",
+      "set": [
+        [ "home_bar_photo", "asset:bar/cocktails/shot-drinks.jpg", "asset:bar/infusions/infusions-lenya-02.jpg" ],
+        [ "home_bar_alt_en", "Home made infusions — colourful shots and cocktails", "Cranberry, sea buckthorn and blackcurrant infusions in shot glasses, berries and mint on the table" ],
+        [ "home_bar_alt_ru", "", "Клюквенная, облепиховая и смородиновая настойки в рюмках, на столе — ягоды и мята" ]
+      ]
+    },
+    {
+      "note": "Home → «Фирменное»: the House Infusions card's price, «-.» (the two fields the page prints)",
+      "set": [
+        [ "home_highlight_cards_0_price_ru", "От 150 ₽", "От 150-." ],
+        [ "home_highlight_cards_0_price_en", "From 150 ₽", "From 150-." ]
+      ]
+    }
+  ]
+}

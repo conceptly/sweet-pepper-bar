@@ -142,11 +142,9 @@ The regulars helped shape what followed. Pumpkin soup, berry cheesecake and berr
 
 ### Counter ledger
 
-**Heading:** TWELVE YEARS, COUNTED IN ORDERS
+**Heading:** TWELVE YEARS, COUNTED IN ORDERS — the number of years follows the bar's birthday, 14 January 2014, by itself (`inc/about-data.php` → `sweet_pepper_with_bar_age`).
 
-**Labels:** cappuccinos served · pumpkin soups served · salted caramel shots poured
-
-**Qualifier if the figures are estimates:** Kitchen estimates
+**Figures and labels:** the bar manager's 15, received 29 Sep 2026 — `about-counters-stats.md` (the table, the units, the refresh next autumn). Short labels without a verb — the heading already says "counted in orders": cappuccinos · pumpkin soups · blackcurrant shots · … Shown three at a time in random order, one rolling on every 4 s or on hover.
 
 *Keep the deliberate words-versus-digits treatment in the heading. Confirm the duration alongside the founding year, and use kitchen-approved figures only. This pass supplies no new numbers or motion decisions.*
 

@@ -34,9 +34,9 @@ $heat_start_raw = $milestones[0]['left'];
 $heat_start     = is_numeric( $heat_start_raw ) ? $heat_start_raw . '%' : $heat_start_raw;
 
 /*
- * Counter pool — kitchen-approved estimates, integers only (formatted below).
- * Three slots are shown; if the pool grows past three, JS rotates one slot
- * at a time (~4 s) per about-page-copy.md → Counter ledger.
+ * Counter pool — the bar's sales figures, integers only (formatted below; about-counters-stats.md).
+ * Three slots are shown, the first three rows without JS; with more rows, about-story.js draws
+ * them in random order and rolls one slot at a time (odometer, ~4 s, and on hover / tap).
  */
 $counters = $args['counters'];
 $counter_slots = array_slice( $counters, 0, 3 );

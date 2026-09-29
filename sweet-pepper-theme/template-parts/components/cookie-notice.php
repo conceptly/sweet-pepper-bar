@@ -25,16 +25,19 @@ $dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit.ph
 $policy_page = get_page_by_path( 'privacy-policy' );
 $policy_url = $policy_page && 'publish' === $policy_page->post_status ? get_permalink( $policy_page ) : '';
 $ru = 'ru' === sweet_pepper_lang();
+// US/Canada on the English page: the maps load with the page, so the note says so instead of
+// pointing at a permission (inc/geo.php, author 29 Sep 2026)
+$open = sweet_pepper_maps_open();
 ?>
 <aside class="cookie-notice<?php echo $dark ? ' cookie-notice--dark' : ''; ?>" data-variant="<?php echo esc_attr( $variant ); ?>" data-pos="<?php echo esc_attr( $pos ); ?>" role="region" aria-labelledby="cookie-notice-title" hidden>
     <div class="cookie-notice__box"><?php // display: contents, except the desktop bottom card, where the aside is a glass strip and this is the card ?>
     <p class="cookie-notice__title" id="cookie-notice-title"><?php echo $ru ? 'Все карты на стол' : 'Cards on the table'; ?></p>
     <p class="cookie-notice__text cookie-notice__text--full">
-        <?php echo $ru ? 'Запоминаем язык и настройки интерфейса в этом браузере. Карты Google загружаем только с вашего разрешения. Изменить выбор можно внизу сайта.' : 'We remember your language and interface settings in this browser. Google maps load only with your permission. Change your choice in the footer.'; ?>
+        <?php echo $ru ? 'Запоминаем язык и настройки интерфейса в этом браузере. Карты Google загружаем только с вашего разрешения. Изменить выбор можно внизу сайта.' : ( $open ? 'We remember your language and interface settings in this browser. The maps are Google’s: loading them shares your IP address and browser information with Google.' : 'We remember your language and interface settings in this browser. Google maps load only with your permission. Change your choice in the footer.' ); ?>
         <?php if ( $policy_url ) : ?><a href="<?php echo esc_url( $policy_url ); ?>"><?php esc_html_e( 'privacy policy', 'sweet-pepper' ); ?></a><?php endif; ?>
     </p>
     <p class="cookie-notice__text cookie-notice__text--short">
-        <?php echo $ru ? 'Запоминаем язык. Карты Google — с вашего разрешения. Настройки карт — внизу сайта.' : 'We remember your language. Google maps need your permission. Map settings are in the footer.'; ?>
+        <?php echo $ru ? 'Запоминаем язык. Карты Google — с вашего разрешения. Настройки карт — внизу сайта.' : ( $open ? 'We remember your language. The maps are Google’s and see your IP address.' : 'We remember your language. Google maps need your permission. Map settings are in the footer.' ); ?>
         <?php if ( $policy_url ) : ?><a href="<?php echo esc_url( $policy_url ); ?>"><?php esc_html_e( 'Details', 'sweet-pepper' ); ?></a><?php endif; ?>
     </p>
     <button type="button" class="btn btn-secondary cookie-notice__ok"><?php esc_html_e( 'Got it', 'sweet-pepper' ); ?></button>

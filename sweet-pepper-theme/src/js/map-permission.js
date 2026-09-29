@@ -6,6 +6,8 @@ let memory = null;
 let storageFailed = false;
 
 export function mapAllowed() {
+    // US/Canada on the English page: no permission step (inc/geo.php → sweet_pepper_maps_open)
+    if (document.documentElement.hasAttribute('data-maps-open')) return true;
     let value = memory;
     if (!storageFailed) {
         let raw;

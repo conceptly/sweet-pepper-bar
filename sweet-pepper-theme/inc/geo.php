@@ -9,12 +9,18 @@
  *
  * The country check stays on this server: the IP the request already carries is looked up
  * in data/geo-ru.php (Russia's address blocks from the RIPE NCC registry, written by
- * tools/geo-ru-ranges.php) and forgotten — no third-party service, no cookie, nothing
+ * tools/geo-ranges.php) and forgotten — no third-party service, no cookie, nothing
  * stored. VPN visitors get what their exit country gets; the author accepted that.
  *
  * Because the English page now differs by visitor, it is never page-cached (DONOTCACHEPAGE,
  * which WP Super Cache honours) — a cached copy would hand one visitor's version to all.
  * The Russian page is the same for everyone and caches as before.
+ *
+ * Maps without asking, for the US and Canada (author, 29 Sep 2026). The English page is the
+ * author's portfolio, read mostly by clients there: on /en/ from a US or Canadian IP
+ * (data/geo-na.php, ARIN) the Google maps load with the page — no placeholder, no Map
+ * settings — and the cookie notice says so in a line. The Russian page and every other
+ * visitor keep the permission step.
  *
  * @package Sweet_Pepper
  */
@@ -39,20 +45,21 @@ function sweet_pepper_client_ip() {
 }
 
 /**
- * Whether an IP falls in one of Russia's registered blocks. Binary search over sorted,
- * merged ranges: IPv4 as integers, IPv6 as 32-digit hex (fixed length, so string order is
- * address order).
+ * Whether an IP falls in one of a country list's registered blocks (data/geo-{list}.php:
+ * 'ru', 'na'). Binary search over sorted, merged ranges: IPv4 as integers, IPv6 as 32-digit
+ * hex (fixed length, so string order is address order).
  */
-function sweet_pepper_ip_in_russia( $ip ) {
-    static $ranges = null;
+function sweet_pepper_ip_in( $list, $ip ) {
+    static $lists = [];
     $packed = @inet_pton( (string) $ip );
     if ( false === $packed ) {
         return false;
     }
-    if ( null === $ranges ) {
-        $file   = get_template_directory() . '/data/geo-ru.php';
-        $ranges = is_readable( $file ) ? require $file : [];
+    if ( ! isset( $lists[ $list ] ) ) {
+        $file           = get_template_directory() . "/data/geo-$list.php";
+        $lists[ $list ] = is_readable( $file ) ? require $file : [];
     }
+    $ranges = $lists[ $list ];
     if ( 4 === strlen( $packed ) ) {
         [ $starts, $ends, $key ] = [ $ranges['v4_start'] ?? [], $ranges['v4_end'] ?? [], unpack( 'N', $packed )[1] ];
         $cmp = fn( $a, $b ) => $a <=> $b;
@@ -73,6 +80,10 @@ function sweet_pepper_ip_in_russia( $ip ) {
     return $hit >= 0 && $cmp( $key, $ends[ $hit ] ) <= 0;
 }
 
+function sweet_pepper_ip_in_russia( $ip ) {
+    return sweet_pepper_ip_in( 'ru', $ip );
+}
+
 /**
  * Whether this request may show Instagram at all. Every Instagram icon, CTA, link and
  * mention in the theme goes through this.
@@ -88,6 +99,28 @@ function sweet_pepper_show_instagram() {
     }
     return $show;
 }
+
+/**
+ * Whether this request's Google maps load with the page, without the permission step: the
+ * English page, from a US or Canadian IP. Read by the map placeholder, the Map settings
+ * dialog and footer link, the cookie notice, and <html data-maps-open> for map-permission.js.
+ */
+function sweet_pepper_maps_open() {
+    static $open = null;
+    if ( null === $open ) {
+        // ?ru-test shows the permission step (as for a Russian IP); ?na-test skips it, to check
+        // the US/Canada page from elsewhere — it only changes what the one who typed it sees.
+        $open = 'ru' !== sweet_pepper_lang() && ! isset( $_GET['ru-test'] )
+            && ( isset( $_GET['na-test'] ) || sweet_pepper_ip_in( 'na', sweet_pepper_client_ip() ) );
+        /** Tests: force either answer. */
+        $open = (bool) apply_filters( 'sweet_pepper_maps_open', $open );
+    }
+    return $open;
+}
+
+add_filter( 'language_attributes', function ( $output ) {
+    return ! is_admin() && sweet_pepper_maps_open() ? $output . ' data-maps-open' : $output;
+} );
 
 /**
  * Typed text without its Instagram mention where Instagram may not show. A trailing clause
@@ -132,9 +165,11 @@ add_action( 'wp_footer', function () {
     }
     $ip = sweet_pepper_client_ip();
     printf(
-        "\n<!-- sp-geo: ip %s, Russian IP: %s, Instagram shown: %s -->\n",
+        "\n<!-- sp-geo: ip %s, Russian IP: %s, US/Canadian IP: %s, Instagram shown: %s, maps without asking: %s -->\n",
         esc_html( $ip ),
         sweet_pepper_ip_in_russia( $ip ) ? 'yes' : 'no',
-        sweet_pepper_show_instagram() ? 'yes' : 'no'
+        sweet_pepper_ip_in( 'na', $ip ) ? 'yes' : 'no',
+        sweet_pepper_show_instagram() ? 'yes' : 'no',
+        sweet_pepper_maps_open() ? 'yes' : 'no'
     );
 }, 99 );

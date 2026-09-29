@@ -16,7 +16,7 @@ return [
     'photo'    => 'sweet-space/door-entrance.jpg',
     'alt'      => 'Sweet Pepper entrance, with the pepper logo on the door',
     'ru'       => [
-        'headline' => 'Напишите ПЕРЦАМ!',
+        'headline' => 'Остались вопросы?', // was «Напишите ПЕРЦАМ!» — the form's title says it (author, 29 Sep 2026)
         'body'     => 'Хотите рассказать о визите, поделиться идеей или задать вопрос? Оставьте пару слов для команды.',
         'alt'      => 'Вход в Sweet Pepper: дверь с логотипом-перцем',
     ],

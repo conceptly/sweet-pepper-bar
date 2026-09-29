@@ -1386,17 +1386,10 @@
     color: var(--ash);
 }
 
-/* Slot rotation: out (up, fade) → swap → in (spring from below) */
-.about-story__counter-number,
+/* Slot rotation: the number rolls (odometer below); the label goes out (up, fade) →
+   swaps → comes in (spring from below) */
 .about-story__counter-label {
     transition: opacity 350ms ease, transform 450ms var(--ease-bouncy);
-}
-
-.about-story__counter.is-out .about-story__counter-number,
-.about-story__counter.is-out .about-story__counter-label {
-    opacity: 0;
-    transform: translateY(-8px);
-    transition: opacity 250ms ease, transform 250ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1419,6 +1412,56 @@
     .about-story__counters {
         transition: none;
     }
+}
+
+/* Odometer (odometer.js, 29 Sep 2026). Desktop columns are equal, so a longer figure or
+   label never shifts its neighbours while it rolls; every label fits one line on desktop
+   and phones (checked at 375 and 402, both languages). */
+@media (min-width: 768px) {
+    .about-story__counters-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 32px;
+    }
+}
+
+.about-story__counter-label.is-out {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.odo {
+    display: inline-flex;
+}
+
+.odo__col {
+    display: inline-block;
+    height: 1.25em;
+    overflow: hidden;
+    max-width: 1em;
+    transition: max-width 500ms cubic-bezier(0.22, 1, 0.36, 1), margin-right 500ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease;
+}
+
+.odo__col--gap {
+    margin-right: 0.45em;
+}
+
+.odo__col.is-collapsed {
+    max-width: 0;
+    margin-right: 0;
+    opacity: 0;
+}
+
+.odo__strip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    will-change: transform;
+}
+
+.odo__strip > span {
+    height: 1.25em;
 }
 
 /* ---------------------------------------------------------------------------
@@ -1521,7 +1564,11 @@
     position: relative;
     margin-top: 48px;
     overflow-x: auto;
-    overflow-y: visible;
+    /* Never "visible": beside overflow-x: auto it computes to auto, and the photos' 1° tilt
+       (2px of corner below a phone strip) made the strip a vertical scroller too — a slightly
+       diagonal swipe on iOS dragged it up and down instead of the page (author, 29 Sep 2026).
+       hidden = no vertical scrolling by hand; the paddings keep the pins and corners in. */
+    overflow-y: hidden;
     padding-top: 8px;  /* room for pins above */
     padding-bottom: 24px;
     scrollbar-width: none; /* Firefox */
@@ -2929,7 +2976,8 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 
     .about-team__drift {
         margin-top: 48px;
-        padding-bottom: 0;
+        padding-bottom: 8px; /* the tilted photos' corners (overflow-y: hidden above) */
+        margin-bottom: -8px; /* …without moving what follows */
     }
 
     .about-team__drift-track {
@@ -3371,6 +3419,25 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
         order: 3;
         margin-top: 0;
         font-size: var(--text-body);
+    }
+
+    /* After the first tap (about-story.js): the wit line rises in with each switch while the
+       name scrambles. display: none → block restarts the animation every time. */
+    .about-story.has-switched .about-story__milestone.is-current .about-story__milestone-wit {
+        animation: story-wit-in 450ms var(--ease-bouncy) 120ms both;
+    }
+
+    @keyframes story-wit-in {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-story.has-switched .about-story__milestone.is-current .about-story__milestone-wit {
+            animation: none;
+        }
     }
 
     /* Ledger → ticket-edged card: scallops top (ground colour) and bottom (card

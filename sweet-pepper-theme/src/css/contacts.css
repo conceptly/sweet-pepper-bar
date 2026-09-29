@@ -1230,6 +1230,31 @@ html[data-theme="night"] .contact-item__supportive {
         color: var(--lime);
     }
 
+    /* Figma LinkPrimary (Day 232:3253 · Night 232:3248): Olive → Avocado by day, Lime →
+       Lemon by night, colour only. Pressed takes the hover colour (no pressed in Figma). */
+    .contacts-more__link {
+        transition: color var(--dur-gentle) var(--ease-gentle-flat);
+    }
+
+    .contacts-more__link:active {
+        color: var(--avocado);
+        transition-duration: 100ms;
+    }
+
+    html[data-theme="night"] .contacts-more__link:active {
+        color: var(--lemon);
+    }
+
+    @media (hover: hover) {
+        .contacts-more__link:hover {
+            color: var(--avocado);
+        }
+
+        html[data-theme="night"] .contacts-more__link:hover {
+            color: var(--lemon);
+        }
+    }
+
     .contacts-more__link-icon svg {
         display: block;
         width: 12px;

@@ -5,7 +5,7 @@
  * sweet_pepper_visit_hours() and the seed source.
  *
  *   ru — from visit-page-copy-ru-draft.md → Часы работы / Постоянный блок соцсетей. The link
- *        text is the placeholder until the social feed is connected (author, 24 Sep 2026).
+ *        text: «Афиша ВКонтакте» since 29 Sep 2026 (was the placeholder Friday Cocktail Hour).
  *
  * @package Sweet_Pepper
  */
@@ -19,6 +19,6 @@ return [
         'hours_title'  => 'ЧАСЫ РАБОТЫ',
         'social_title' => 'АКЦИИ, НОВОСТИ, ВЕЧЕРИНКИ',
         'social_text'  => 'Что нового, что выгодного и когда следующая вечеринка — в соцсетях.',
-        'social_link'  => 'Friday Cocktail Hour',
+        'social_link'  => 'Афиша ВКонтакте', // the Russian page's link always opens VK (author, 29 Sep 2026)
     ],
 ];

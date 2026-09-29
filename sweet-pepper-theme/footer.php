@@ -110,7 +110,9 @@
                     <?php if ( $policy_url ) : ?>
                         <a href="<?php echo esc_url( $policy_url ); ?>" class="footer-legal__link"><?php echo 'ru' === sweet_pepper_lang() ? 'Политика конфиденциальности' : 'Privacy policy'; ?></a>
                     <?php endif; ?>
-                    <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
+                    <?php if ( ! sweet_pepper_maps_open() ) : ?>
+                        <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
+                    <?php endif; ?>
                 </span>
                 <a href="#page" class="footer-back-to-top">
                     <?php esc_html_e( 'Back to top', 'sweet-pepper' ); ?> <i class="ph-bold ph-arrow-up" aria-hidden="true"></i>

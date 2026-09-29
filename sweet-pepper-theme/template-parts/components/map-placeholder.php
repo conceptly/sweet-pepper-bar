@@ -1,5 +1,8 @@
 <?php
 /** No remote images, iframe, or request to Google until the visitor chooses. */
+if ( sweet_pepper_maps_open() ) {
+    return; // US/Canada on the English page: the map loads with the page (inc/geo.php)
+}
 $ru = 'ru' === sweet_pepper_lang();
 ?>
 <div class="map-placeholder">

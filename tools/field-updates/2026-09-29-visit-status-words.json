@@ -1,0 +1,37 @@
+{
+  "page": "visit",
+  "date": "2026-09-29",
+  "note": "Visit → «Статус бара»: shorter status words, so the desktop band clears the contacts card (the fork icon says kitchen).",
+  "groups": [
+    {
+      "note": "Visit → «Статус бара»: kitchen last orders, both languages",
+      "set": [
+        [
+          "visit_status_kitchen_last_orders_ru",
+          "ПОСЛЕДНИЕ ЗАКАЗЫ НА КУХНЮ",
+          "ПОСЛЕДНИЕ ЗАКАЗЫ"
+        ],
+        [
+          "visit_status_kitchen_last_orders_en",
+          "kitchen last orders",
+          "last orders"
+        ]
+      ]
+    },
+    {
+      "note": "Visit → «Статус бара»: the Russian last call",
+      "set": [
+        [
+          "visit_status_lead_winding_ru",
+          "ПОТИХОНЬКУ ЗАКРУГЛЯЕМСЯ",
+          "ЗАКРУГЛЯЕМСЯ"
+        ],
+        [
+          "visit_status_bar_wrapping_ru",
+          "БАР СКОРО ЗАКРОЕТСЯ",
+          "БАР ЗАКРЫВАЕТСЯ"
+        ]
+      ]
+    }
+  ]
+}

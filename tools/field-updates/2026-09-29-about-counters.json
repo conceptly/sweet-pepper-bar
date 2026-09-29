@@ -1,0 +1,105 @@
+{
+  "page": "about",
+  "date": "2026-09-29",
+  "note": "About → «История» → the counter ledger: the bar manager's 15 figures (about-counters-stats.md) replace the three placeholders.",
+  "groups": [
+    {
+      "note": "About → «История»: counters",
+      "rows": "about_counters",
+      "old": [
+        {
+          "number": "128400",
+          "label_ru": "чашек капучино",
+          "label_en": "cappuccinos served"
+        },
+        {
+          "number": "41200",
+          "label_ru": "порций тыквенного супа",
+          "label_en": "pumpkin soups served"
+        },
+        {
+          "number": "96700",
+          "label_ru": "стопок «Солёной карамели»",
+          "label_en": "salted caramel shots poured"
+        }
+      ],
+      "new": [
+        {
+          "number": "66768",
+          "label_ru": "чашек капучино",
+          "label_en": "cappuccinos"
+        },
+        {
+          "number": "37944",
+          "label_ru": "порции тыквенного супа",
+          "label_en": "pumpkin soups"
+        },
+        {
+          "number": "101583",
+          "label_ru": "чёрной смородины",
+          "label_en": "blackcurrant shots"
+        },
+        {
+          "number": "53152",
+          "label_ru": "жаркого по-ярославски",
+          "label_en": "Yaroslavl-style roasts"
+        },
+        {
+          "number": "41440",
+          "label_ru": "кобб салатов",
+          "label_en": "Cobb salads"
+        },
+        {
+          "number": "89250",
+          "label_ru": "блинчиков",
+          "label_en": "pancakes"
+        },
+        {
+          "number": "6050",
+          "label_ru": "ягодных коржиков",
+          "label_en": "berry korzhiks"
+        },
+        {
+          "number": "14820",
+          "label_ru": "сицилийских салатов",
+          "label_en": "Sicilian salads"
+        },
+        {
+          "number": "32772",
+          "label_ru": "чашек латте",
+          "label_en": "lattes"
+        },
+        {
+          "number": "10992",
+          "label_ru": "порции брокколи в сухарях",
+          "label_en": "plates of signature broccoli"
+        },
+        {
+          "number": "31896",
+          "label_ru": "порций медовой капусты",
+          "label_en": "plates of cauliflower"
+        },
+        {
+          "number": "74736",
+          "label_ru": "кесадилий",
+          "label_en": "quesadillas"
+        },
+        {
+          "number": "11352",
+          "label_ru": "шота B-52",
+          "label_en": "B-52 shots"
+        },
+        {
+          "number": "24204",
+          "label_ru": "Лонг Айлендов",
+          "label_en": "Long Island Iced Teas"
+        },
+        {
+          "number": "23672",
+          "label_ru": "Воинов Дракона",
+          "label_en": "Dragon Warriors"
+        }
+      ]
+    }
+  ]
+}

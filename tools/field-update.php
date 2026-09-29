@@ -17,6 +17,11 @@
  * repeater row has no key of its own — name it as saved, row index included
  * ("about_perks_5_title_ru"); it is then written by name, as the row stores it.
  *
+ * A whole repeater is replaced with a "rows" group instead of "set" (29 Sep 2026, the About
+ * counter ledger: three rows → fifteen): { "note": "…", "rows": "about_counters", "old": [ {…} ],
+ * "new": [ {…} ] }, each row keyed by sub-field name. Same rule — applied only while the saved
+ * rows equal "old" exactly (values compared as text), "done" when they equal "new".
+ *
  * An image field is named by its theme asset, "asset:bar/wine/red-2.jpg", because attachment
  * IDs differ between installs: the current value is the attachment's `_sp_source` (what
  * tools/page-seed.php stamps), the new one is found by it or uploaded from the theme's
@@ -94,7 +99,51 @@ if ( ! empty( $spec['option'] ) ) {
     }
 }
 
+/** Saved repeater rows as plain text, for comparing with a file's "old" / "new". */
+function sp_update_rows( $name, $post_id ) {
+    $rows = get_field( $name, $post_id, false ) ?: [];
+    $field = acf_get_field( $name ) ?: acf_get_field( 'field_sp_' . $name );
+    $keys = [];
+    foreach ( $field['sub_fields'] ?? [] as $sub ) {
+        $keys[ $sub['key'] ] = $sub['name'];
+    }
+    $out = [];
+    foreach ( $rows as $row ) {
+        $r = [];
+        foreach ( $row as $k => $v ) {
+            $r[ $keys[ $k ] ?? $k ] = trim( (string) $v );
+        }
+        ksort( $r );
+        $out[] = $r;
+    }
+    return $out;
+}
+function sp_update_norm( $rows ) {
+    return array_map( function ( $row ) {
+        $row = array_map( fn( $v ) => trim( (string) $v ), $row );
+        ksort( $row );
+        return $row;
+    }, $rows );
+}
+
 foreach ( $spec['groups'] as $group ) {
+    if ( isset( $group['rows'] ) ) {
+        $name  = $group['rows'];
+        $label = "{$group['note']} — {$name}";
+        $cur   = sp_update_rows( $name, $page->ID );
+        if ( $cur === sp_update_norm( $group['new'] ) ) {
+            echo "done     {$label}\n";
+        } elseif ( $cur !== sp_update_norm( $group['old'] ) ) {
+            echo "SKIPPED  {$label}\n         {$name} now holds " . count( $cur ) . " rows:\n";
+            foreach ( $cur as $row ) {
+                echo '         ' . implode( ' · ', $row ) . "\n";
+            }
+        } else {
+            update_field( acf_get_reference( $name, $page->ID ) ?: 'field_sp_' . $name, $group['new'], $page->ID );
+            echo "applied  {$label} (" . count( $group['new'] ) . " rows)\n";
+        }
+        continue;
+    }
     $label = $group['note'] . ' — ' . implode( ', ', array_column( $group['set'], 0 ) );
     $cur   = [];
     foreach ( $group['set'] as [ $name, $old, $new ] ) {

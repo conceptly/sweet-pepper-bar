@@ -117,19 +117,85 @@ function sweet_pepper_team_chips() {
 }
 
 /**
+ * The bar's birthday — Sweet Pepper opened on 14 January 2014 (author, 29 Sep 2026). Its age
+ * turns over on that day every year, in the site's timezone, with nobody editing anything.
+ */
+const SWEET_PEPPER_BIRTHDAY = '2014-01-14';
+
+/** Whole years since the birthday: 12 until 13 Jan 2027, 13 from the 14th. */
+function sweet_pepper_bar_age() {
+    $born = new DateTimeImmutable( SWEET_PEPPER_BIRTHDAY, wp_timezone() );
+    return $born->diff( current_datetime() )->y;
+}
+
+/** 1–99 in words, lower case: "twenty-one" / «двадцать один». */
+function sweet_pepper_number_words( $n, $lang ) {
+    $ru = 'ru' === $lang;
+    $ones = $ru
+        ? [ '', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать' ]
+        : [ '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen' ];
+    $tens = $ru
+        ? [ 2 => 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто' ]
+        : [ 2 => 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety' ];
+    if ( $n < 20 ) {
+        return $ones[ $n ];
+    }
+    $t = $tens[ intdiv( $n, 10 ) ];
+    return $n % 10 ? $t . ( $ru ? ' ' : '-' ) . $ones[ $n % 10 ] : $t;
+}
+
+/** Russian year word for n: 1 год · 2–4 года · 5–20 лет · 21 год … */
+function sweet_pepper_ru_years_word( $n ) {
+    $mod10  = $n % 10;
+    $mod100 = $n % 100;
+    return ( 1 === $mod10 && 11 !== $mod100 ) ? 'год' : ( ( $mod10 >= 2 && $mod10 <= 4 && ( $mod100 < 12 || $mod100 > 14 ) ) ? 'года' : 'лет' );
+}
+
+/**
+ * Keeps a typed "TWELVE YEARS" / «ДВЕНАДЦАТЬ ЛЕТ» (or "12 years") at the bar's current age:
+ * any years phrase in the text is rewritten to sweet_pepper_bar_age(), in words when it was
+ * typed in words, in the typed letter case. So the ledger heading in admin never needs a touch.
+ */
+function sweet_pepper_with_bar_age( $text, $lang ) {
+    static $pattern = [];
+    if ( '' === (string) $text ) {
+        return $text;
+    }
+    $ru = 'ru' === $lang;
+    if ( ! isset( $pattern[ $lang ] ) ) {
+        $words = [];
+        for ( $i = 1; $i < 100; $i++ ) {
+            $w = sweet_pepper_number_words( $i, $lang );
+            $words[] = preg_quote( $w, '/' );
+            if ( ! $ru ) {
+                $words[] = preg_quote( str_replace( '-', ' ', $w ), '/' );
+            }
+        }
+        usort( $words, fn( $a, $b ) => strlen( $b ) - strlen( $a ) );
+        $unit = $ru ? '(?:лет|года|год)' : '(?:years|year)';
+        $pattern[ $lang ] = '/(?<![\p{L}\d])(\d{1,2}|' . implode( '|', array_unique( $words ) ) . ')\s+' . $unit . '(?![\p{L}])/iu';
+    }
+    $age = sweet_pepper_bar_age();
+    return preg_replace_callback( $pattern[ $lang ], function ( $m ) use ( $age, $ru ) {
+        $num  = ctype_digit( $m[1] ) ? (string) $age : sweet_pepper_number_words( $age, $ru ? 'ru' : 'en' );
+        $unit = $ru ? sweet_pepper_ru_years_word( $age ) : ( 1 === $age ? 'year' : 'years' );
+        $out  = "{$num} {$unit}";
+        return mb_strtoupper( $m[0] ) === $m[0] ? mb_strtoupper( $out ) : $out;
+    }, $text );
+}
+
+/**
  * "8 years" / «8 лет» from the year someone joined — printed, never typed, so it is
  * right next year too. Russian counts: 1 год · 2–4 года · 5–20 лет · 21 год …
  */
 function sweet_pepper_years_since( $since, $lang ) {
-    $n = (int) date( 'Y' ) - (int) $since;
+    // The bar's own founding year counts from its birthday (14 Jan), not from 1 January.
+    $n = (int) $since === (int) substr( SWEET_PEPPER_BIRTHDAY, 0, 4 ) ? sweet_pepper_bar_age() : (int) date( 'Y' ) - (int) $since;
     if ( ! $since || $n < 1 ) {
         return '';
     }
     if ( 'ru' === $lang ) {
-        $mod10 = $n % 10;
-        $mod100 = $n % 100;
-        $word = ( 1 === $mod10 && 11 !== $mod100 ) ? 'год' : ( ( $mod10 >= 2 && $mod10 <= 4 && ( $mod100 < 12 || $mod100 > 14 ) ) ? 'года' : 'лет' );
-        return "{$n} {$word}";
+        return $n . ' ' . sweet_pepper_ru_years_word( $n );
     }
     return 1 === $n ? '1 year' : "{$n} years";
 }
@@ -368,8 +434,8 @@ function sweet_pepper_about_story( $page_id ) {
         'founder_name'     => $fnd( 'name' ),
         'founder_title'    => $fnd( 'title' ),
         'milestones'       => $milestones,
-        'counters_label'   => $label,
-        'counters_label_2' => $label_2,
+        'counters_label'   => sweet_pepper_with_bar_age( $label, sweet_pepper_lang() ),   // TWELVE YEARS → the age today
+        'counters_label_2' => sweet_pepper_with_bar_age( $label_2, sweet_pepper_lang() ),
         'counters'         => $counters,
     ];
 }

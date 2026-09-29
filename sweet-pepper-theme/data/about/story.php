@@ -9,8 +9,9 @@
  *        the founder's name waits for its confirmed Russian spelling (the draft: not a
  *        transliteration) — empty, borrows the English.
  *
- * 🔶 Counter numbers: the template carried 128 400 / 41 200 / 96 700; the brief says confirm
- * the kitchen-approved set with Iurii before launch.
+ * Counters: the bar manager's figures, 29 Sep 2026 (about-counters-stats.md — the source,
+ * the units, the refresh next autumn). Russian labels are the author's, colloquial on purpose
+ * («чашек латте», «Лонг Айлендов»), not agreed with each number.
  *
  * @package Sweet_Pepper
  */
@@ -27,7 +28,7 @@ return [
     'founder_quote'    => 'The main thing is to always know your limit. Otherwise you might drink less.',
     'founder_name'     => 'Iurii Primyshev.',
     'founder_title'    => 'Founder, still behind the bar.',
-    'counters_label'   => 'TWELVE YEARS,',
+    'counters_label'   => 'TWELVE YEARS,', // the age follows the 14 Jan 2014 birthday — sweet_pepper_with_bar_age()
     'counters_label_2' => 'COUNTED IN ORDERS',
     'ru'               => [
         'eyebrow'          => 'ГАСТРОБАРИМ С 2014',
@@ -49,8 +50,20 @@ return [
         [ 'year' => 0,    'name' => 'STILL HERE',   'wit' => 'Same table, probably yours',        'ru' => [ 'name' => 'ВСЁ ТАМ ЖЕ',   'wit' => 'За знакомым столиком. Может, за вашим' ] ],
     ],
     'counters'         => [
-        [ 'number' => 128400, 'label' => 'cappuccinos served',          'ru' => [ 'label' => 'чашек капучино' ] ],
-        [ 'number' => 41200,  'label' => 'pumpkin soups served',        'ru' => [ 'label' => 'порций тыквенного супа' ] ],
-        [ 'number' => 96700,  'label' => 'salted caramel shots poured', 'ru' => [ 'label' => 'стопок «Солёной карамели»' ] ],
+        [ 'number' => 66768,  'label' => 'cappuccinos',                   'ru' => [ 'label' => 'чашек капучино' ] ],
+        [ 'number' => 37944,  'label' => 'pumpkin soups',                 'ru' => [ 'label' => 'порции тыквенного супа' ] ],
+        [ 'number' => 101583, 'label' => 'blackcurrant shots',            'ru' => [ 'label' => 'чёрной смородины' ] ],
+        [ 'number' => 53152,  'label' => 'Yaroslavl-style roasts',        'ru' => [ 'label' => 'жаркого по-ярославски' ] ],
+        [ 'number' => 41440,  'label' => 'Cobb salads',                   'ru' => [ 'label' => 'кобб салатов' ] ],
+        [ 'number' => 89250,  'label' => 'pancakes',                      'ru' => [ 'label' => 'блинчиков' ] ],
+        [ 'number' => 6050,   'label' => 'berry korzhiks',                'ru' => [ 'label' => 'ягодных коржиков' ] ],
+        [ 'number' => 14820,  'label' => 'Sicilian salads',               'ru' => [ 'label' => 'сицилийских салатов' ] ],
+        [ 'number' => 32772,  'label' => 'lattes',                        'ru' => [ 'label' => 'чашек латте' ] ],
+        [ 'number' => 10992,  'label' => 'plates of signature broccoli',  'ru' => [ 'label' => 'порции брокколи в сухарях' ] ],
+        [ 'number' => 31896,  'label' => 'plates of cauliflower',         'ru' => [ 'label' => 'порций медовой капусты' ] ],
+        [ 'number' => 74736,  'label' => 'quesadillas',                   'ru' => [ 'label' => 'кесадилий' ] ],
+        [ 'number' => 11352,  'label' => 'B-52 shots',                    'ru' => [ 'label' => 'шота B-52' ] ],
+        [ 'number' => 24204,  'label' => 'Long Island Iced Teas',         'ru' => [ 'label' => 'Лонг Айлендов' ] ],
+        [ 'number' => 23672,  'label' => 'Dragon Warriors',               'ru' => [ 'label' => 'Воинов Дракона' ] ],
     ],
 ];

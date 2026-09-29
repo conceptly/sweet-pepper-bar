@@ -104,7 +104,7 @@ const WORDS = {
     },
     kitchen: {
         'open':        "kitchen's on",
-        'last-orders': "kitchen last orders",
+        'last-orders': "last orders",
         'bar-snacks':  "bar snacks only",
         'closed':      "kitchen's closed",
     },
@@ -136,9 +136,11 @@ function updateVisitHero() {
     const state = getVenueState();
     const words = readWords(band);
 
-    // Band lead word
+    // Band lead word, and its copies in the phone rail
+    const lead = words.lead[state.lead] || words.lead['open'];
     const leadEl = band.querySelector('[data-band-lead]');
-    if (leadEl) leadEl.textContent = words.lead[state.lead] || words.lead['open'];
+    if (leadEl) leadEl.textContent = lead;
+    document.querySelectorAll('[data-rail-lead]').forEach((el) => { el.textContent = lead; });
 
     // Bar / kitchen pills — the desktop band and every group of the phone rail
     // (the rail repeats the pair three times so it can run), so query the whole hero.
@@ -155,6 +157,24 @@ function updateVisitHero() {
         const label = kitchenPill.querySelector('[data-kitchen-label]');
         if (label) label.textContent = words.kitchen[state.kitchen] || words.kitchen['open'];
     });
+}
+
+/**
+ * Phone rail speed: the loop runs a constant ~17 px/s — the pace the 22 s loop had with the
+ * Russian daytime pair — whatever its words. The lead phrase (29 Sep 2026) and the state
+ * labels change a group's width, so the duration follows the width. A no-op on desktop,
+ * where the rail is display: none (width 0).
+ */
+const RAIL_SPEED = 17; // px per second
+let railWidth = 0;
+function syncRailSpeed() {
+    const track = document.querySelector('[data-visit-rail] .visit-hero__rail-track');
+    const group = track && track.querySelector('.visit-hero__rail-group');
+    if (!group) return;
+    const width = group.getBoundingClientRect().width;
+    if (!width || Math.abs(width - railWidth) < 2) return;
+    railWidth = width;
+    track.style.animationDuration = `${(width / RAIL_SPEED).toFixed(2)}s`;
 }
 
 /**
@@ -202,9 +222,10 @@ export function initVisitHero() {
     if (!document.querySelector('.page-visit')) return;
 
     updateVisitHero();
+    syncRailSpeed();
     initRailPause();
     initCardSettle();
 
     // Refresh every 60 seconds so the band stays current during long sessions
-    setInterval(updateVisitHero, 60_000);
+    setInterval(() => { updateVisitHero(); syncRailSpeed(); }, 60_000);
 }

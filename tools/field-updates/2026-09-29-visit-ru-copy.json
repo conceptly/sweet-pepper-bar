@@ -1,0 +1,27 @@
+{
+  "page": "visit",
+  "date": "2026-09-29",
+  "note": "Visit, Russian copy: the hours card's social link names its destination; the closing section's headline no longer repeats the form's title.",
+  "groups": [
+    {
+      "note": "Visit → «Часы работы»: the Russian social link",
+      "set": [
+        [
+          "visit_hours_social_link_ru",
+          "Friday Cocktail Hour",
+          "Афиша ВКонтакте"
+        ]
+      ]
+    },
+    {
+      "note": "Visit → «Обратная связь»: the Russian headline",
+      "set": [
+        [
+          "visit_cta_headline_ru",
+          "Напишите ПЕРЦАМ!",
+          "Остались вопросы?"
+        ]
+      ]
+    }
+  ]
+}

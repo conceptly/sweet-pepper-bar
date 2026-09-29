@@ -70,9 +70,10 @@ $contacts = $args['contacts'];
                 </div>
             </div>
 
-            <?php // statesContainer-mobile-running (1460:73653) — phones only. The same two states, no
-                  // lead word and no pill grounds, tripled so the band can run. visit-page-copy.md →
-                  // Status rail: both states visible at rest first, pauses on touch, static under
+            <?php // statesContainer-mobile-running (1460:73653) — phones only. The same two states, then
+                  // the desktop band's lead phrase in Ash (author, 29 Sep 2026: after the states, so the
+                  // 2.5 s rest shows both), no pill grounds, tripled so the band can run.
+                  // visit-page-copy.md → Status rail: pauses on touch, static under
                   // prefers-reduced-motion. Only the first group is read out. ?>
             <div class="visit-hero__rail" data-visit-rail>
                 <div class="visit-hero__rail-track">
@@ -88,6 +89,7 @@ $contacts = $args['contacts'];
                             <span class="visit-hero__state-label molot-text" data-kitchen-label><?php echo esc_html( $status['kitchen']['open'] ); ?></span>
                             <span class="visit-hero__state-dot" data-kitchen-dot></span>
                         </span>
+                        <span class="visit-hero__rail-lead molot-text" data-rail-lead><?php echo esc_html( $status['lead']['open'] ); ?></span>
                     </div>
                     <?php endfor; ?>
                 </div>

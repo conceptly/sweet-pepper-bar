@@ -481,6 +481,24 @@
   white-space: nowrap;
 }
 
+/* Figma LinkPrimary-Day (232:3253): Olive → Avocado on hover, colour only (the arrow is
+   currentColor). Pressed takes the hover colour — Figma draws no pressed state, and without
+   it a tap on a phone shows nothing. */
+.visit-hero__hours-link {
+  transition: color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+@media (hover: hover) {
+  .visit-hero__hours-link:hover {
+    color: var(--avocado);
+  }
+}
+
+.visit-hero__hours-link:active {
+  color: var(--avocado);
+  transition-duration: 100ms;
+}
+
 .visit-hero__hours-link-icon {
   width: 12px;
   height: 12px;
@@ -1300,7 +1318,7 @@
 }
 
 @media (max-width: 991px) {
-  /* Desktop band out, running rail in: same states, no lead word, no pill grounds.
+  /* Desktop band out, running rail in: same states and lead (after them), no pill grounds.
      Peppercorn ink on Lime (Figma statesContainer-mobile-running). */
   .visit-hero__band {
     display: none;
@@ -1361,6 +1379,18 @@
 
   .visit-hero__rail .visit-hero__state-label {
     color: var(--peppercorn);
+  }
+
+  /* The desktop lead phrase in the loop, after the two states (author, 29 Sep 2026). Ash, one
+     step quieter than the states' Peppercorn — 5.1:1 on Lime; Olive was 2.9:1, and Chili Deep
+     already means "closed" here. No icon, no dot: a phrase, not a third status. */
+  .visit-hero__rail-lead {
+    flex-shrink: 0;
+    font-size: 16px;       /* .visit-hero__state-label's */
+    letter-spacing: 0.64px;
+    line-height: 1.4;
+    white-space: nowrap;
+    color: var(--ash);
   }
 
   .visit-hero__rail .visit-hero__state-icon {

@@ -30,7 +30,7 @@ Lunch on Kirova, a drink after a walk, or an evening with friends. Check the hou
 | Bar winding down | Bar's winding down |
 | Bar closed | Bar's closed |
 | Kitchen open | Kitchen's on |
-| Kitchen taking last orders | Kitchen last orders |
+| Kitchen taking last orders | Last orders *(was Kitchen last orders — shortened 29 Sep 2026: the fork icon says kitchen, and the desktop band ran under the contacts card)* |
 | Snacks only | Bar snacks only |
 | Kitchen closed | Kitchen's closed |
 

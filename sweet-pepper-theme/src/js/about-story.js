@@ -4,26 +4,51 @@
  * Spec: about-page-copy.md → The Story; website-brief.md → Motion language.
  *
  * Entrance (once, on scroll): axis draws → ticks pop → arrowhead lands →
- * heat runs from the first marker to the arrowhead → counters count up →
- * slot rotation begins (only if the pool has more entries than slots).
+ * heat runs from the first marker to the arrowhead → counters roll up from
+ * zero (odometer.js) → slot rotation begins (only if the pool has more
+ * entries than slots).
+ *
+ * The ledger (29 Sep 2026, author's pick of three prototypes): the pool is
+ * the «История» repeater, drawn in random order from a shuffle bag — every
+ * figure once before any repeats, never one already on screen. Every 4 s one
+ * random slot rolls to the next figure. Hovering a figure (a tap on phones)
+ * rolls that one on; the idle clock is seized while the pointer is on the
+ * ledger and resumes ~8 s after it leaves.
  *
  * Hover a marker: it fills (outline → fill), the heat retracts to it; the
- * ledger dims on markers flagged data-dims-ledger. Hovering the ledger seizes
- * the section clock; it resumes ~8 s after the pointer leaves.
+ * ledger dims on markers flagged data-dims-ledger.
  *
  * No-JS / pre-hydration state is the finished state — the server renders
  * final numbers and the CSS only sets pre-entrance states once .is-armed.
  */
 
+import { odometer } from './odometer';
+import { scrambleTo } from './scramble-text';
+
 const ROTATE_MS   = 4000;
 const SEIZE_MS    = 8000;
-const COUNT_MS    = 1400;
+const ROLL_BUSY   = 1700; // one roll (odometer.js: 1.3 s + stagger), then the slot listens again
 const SWAP_MS     = 260;
 const HEAT_DELAY  = 500;
 const COUNT_DELAY = 1300;
 
-const formatCount = ( n ) => Math.round( n ).toString().replace( /\B(?=(\d{3})+(?!\d))/g, ' ' );
-const easeOutCubic = ( t ) => 1 - Math.pow( 1 - t, 3 );
+/** Draws from `pool` in random order: all once before any repeats, never one in `showing`. */
+function shuffleBag( pool ) {
+    let bag = [];
+    const refill = () => {
+        bag = [ ...pool ];
+        for ( let i = bag.length - 1; i > 0; i-- ) {
+            const j = Math.floor( Math.random() * ( i + 1 ) );
+            [ bag[ i ], bag[ j ] ] = [ bag[ j ], bag[ i ] ];
+        }
+    };
+    return ( showing = [] ) => {
+        if ( ! bag.length ) refill();
+        let i = bag.findIndex( ( p ) => ! showing.includes( p ) );
+        if ( i < 0 ) { refill(); i = bag.findIndex( ( p ) => ! showing.includes( p ) ); }
+        return bag.splice( i, 1 )[ 0 ];
+    };
+}
 
 export function initAboutStory() {
     const section = document.querySelector( '.about-story' );
@@ -77,62 +102,87 @@ export function initAboutStory() {
        the state — the filled segment is the current year. Starts on the
        "now" marker (STILL HERE); a tap on a year makes it current.
        Class-only: on desktop the CSS ignores it.
+
+       On a tap the new name scrambles out of the old one (scramble-text.js,
+       the day-part headlines' change — author, 29 Sep 2026) and the wit
+       line rises in (about.css → .has-switched). The first state is set
+       without either.
        --------------------------------------------------------------- */
     const nowMilestone = milestones.find( ( m ) => m.classList.contains( 'about-story__milestone--now' ) )
         || milestones[ milestones.length - 1 ];
-    const setCurrent = ( target ) => {
+    const nameOf  = ( m ) => m.querySelector( '.about-story__milestone-name' );
+    const names   = new Map( milestones.map( ( m ) => [ m, nameOf( m )?.textContent ?? '' ] ) );
+    let current = null;
+    const setCurrent = ( target, animate = false ) => {
+        if ( target === current ) return;
+        const prev = current;
+        current = target;
         milestones.forEach( ( m ) => m.classList.toggle( 'is-current', m === target ) );
         ledger.classList.toggle( 'is-dim', target.dataset.dimsLedger === '1' && window.innerWidth < 768 );
+        // Only where one milestone shows at a time (≤ 991: display: contents); on desktop
+        // all three names are always there and none of them changes.
+        if ( ! animate || ! prev || getComputedStyle( target ).display !== 'contents' ) return;
+        section.classList.add( 'has-switched' );
+        // The one that left finishes at once (it is hidden); the new one starts from the old word.
+        scrambleTo( nameOf( prev ), names.get( prev ), 1 );
+        const el = nameOf( target );
+        if ( ! el ) return;
+        el.textContent = names.get( prev );
+        scrambleTo( el, names.get( target ), 520 );
     };
     if ( nowMilestone ) setCurrent( nowMilestone );
     milestones.forEach( ( m ) => {
         const year = m.querySelector( '.about-story__milestone-year' );
         if ( ! year ) return;
-        year.addEventListener( 'click', () => setCurrent( m ) );
+        year.addEventListener( 'click', () => setCurrent( m, true ) );
     } );
 
     /* ---------------------------------------------------------------
        Counters
        --------------------------------------------------------------- */
-    const countUp = ( el, target, duration, done ) => {
-        if ( prefersReduced || duration <= 0 ) {
-            el.textContent = formatCount( target );
-            if ( done ) done();
-            return;
-        }
-        const t0 = performance.now();
-        const step = ( now ) => {
-            const p = Math.min( 1, ( now - t0 ) / duration );
-            el.textContent = formatCount( target * easeOutCubic( p ) );
-            if ( p < 1 ) requestAnimationFrame( step ); else if ( done ) done();
-        };
-        requestAnimationFrame( step );
-    };
-
     const slotNumber = ( slot ) => slot.querySelector( '.about-story__counter-number' );
     const slotLabel  = ( slot ) => slot.querySelector( '.about-story__counter-label' );
+
+    const canRotate = () => pool.length > slots.length && ! prefersReduced;
+    const draw = shuffleBag( pool );
+    const odos = slots.map( ( slot ) => odometer( slotNumber( slot ) ) );
+    let showing = [];
+
+    // With more figures than slots, the first three come from the bag too; otherwise the
+    // server's rows stay where they are.
+    slots.forEach( ( slot, i ) => {
+        const item = canRotate() ? draw( showing ) : pool[ i ];
+        showing[ i ] = item;
+        const n = item ? item.number : parseInt( slotNumber( slot ).dataset.count, 10 );
+        if ( item ) slotLabel( slot ).textContent = item.label;
+        odos[ i ].set( Number.isNaN( n ) ? 0 : n, { instant: true } );
+    } );
 
     // Section clock — the ledger rotation is the section's only idle motion.
     let clock = null;
     let resumeTimer = null;
     let entranceDone = false;
-    let nextIdx = slots.length;
-    let slotIdx = 0;
+    let lastSlot = -1;
 
-    const canRotate = () => pool.length > slots.length && ! prefersReduced;
+    // Roll slot i to the next figure from the bag; the label fades across meanwhile.
+    const rollSlot = ( i ) => {
+        const slot = slots[ i ];
+        if ( slot.dataset.busy ) return;
+        slot.dataset.busy = '1';
+        setTimeout( () => { delete slot.dataset.busy; }, ROLL_BUSY );
+        const item = draw( showing );
+        showing[ i ] = item;
+        const label = slotLabel( slot );
+        label.classList.add( 'is-out' );
+        odos[ i ].set( item.number );
+        setTimeout( () => { label.textContent = item.label; label.classList.remove( 'is-out' ); }, SWAP_MS );
+    };
 
     const rotate = () => {
-        const slot = slots[ slotIdx ];
-        const item = pool[ nextIdx % pool.length ];
-        nextIdx++;
-        slotIdx = ( slotIdx + 1 ) % slots.length;
-        slot.classList.add( 'is-out' );
-        setTimeout( () => {
-            slotLabel( slot ).textContent = item.label;
-            slotNumber( slot ).textContent = '0';
-            slot.classList.remove( 'is-out' );
-            countUp( slotNumber( slot ), item.number, 1000 );
-        }, SWAP_MS );
+        let i;
+        do { i = Math.floor( Math.random() * slots.length ); } while ( slots.length > 1 && i === lastSlot );
+        lastSlot = i;
+        rollSlot( i );
     };
 
     const startClock = () => {
@@ -143,6 +193,16 @@ export function initAboutStory() {
         if ( clock ) clearInterval( clock );
         clock = null;
     };
+
+    // The guest drives it too: hovering a figure (a tap on phones) rolls that one on.
+    slots.forEach( ( slot, i ) => {
+        slot.addEventListener( 'pointerenter', ( e ) => {
+            if ( e.pointerType === 'mouse' && entranceDone && canRotate() ) rollSlot( i );
+        } );
+        slot.addEventListener( 'pointerup', ( e ) => {
+            if ( e.pointerType !== 'mouse' && entranceDone && canRotate() ) rollSlot( i );
+        } );
+    } );
 
     // Human seizure: hover pauses the clock, it resumes ~8 s after leaving.
     ledger.addEventListener( 'mouseenter', () => {
@@ -158,16 +218,11 @@ export function initAboutStory() {
        Entrance
        --------------------------------------------------------------- */
     const fillCounters = ( done ) => {
-        let left = slots.length;
-        slots.forEach( ( slot, i ) => {
-            const el = slotNumber( slot );
-            const target = parseInt( el.dataset.count, 10 );
-            if ( Number.isNaN( target ) ) { left--; return; }
-            setTimeout( () => countUp( el, target, COUNT_MS, () => {
-                if ( --left <= 0 && done ) done();
-            } ), prefersReduced ? 0 : i * 120 );
+        showing.forEach( ( item, i ) => {
+            if ( ! item ) return;
+            setTimeout( () => odos[ i ].set( item.number, prefersReduced ? { instant: true } : { fromZero: true } ), prefersReduced ? 0 : i * 120 );
         } );
-        if ( left === 0 && done ) done();
+        setTimeout( done, prefersReduced ? 0 : 1800 );
     };
 
     const runEntrance = () => {
@@ -189,7 +244,7 @@ export function initAboutStory() {
     // Arm pre-entrance states only now that JS is guaranteed to finish them.
     section.classList.add( 'is-armed' );
     if ( ! prefersReduced ) {
-        slots.forEach( ( slot ) => { slotNumber( slot ).textContent = '0'; } );
+        odos.forEach( ( o ) => o.zero() );
     }
 
     // The entrance keys off the timeline, not the section: on phones the section is

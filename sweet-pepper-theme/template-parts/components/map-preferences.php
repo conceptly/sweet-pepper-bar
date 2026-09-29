@@ -1,5 +1,8 @@
 <?php
 /** Always available independently of the dismissible information notice. */
+if ( sweet_pepper_maps_open() ) {
+    return; // no choice to change where the maps load without asking (inc/geo.php)
+}
 $ru = 'ru' === sweet_pepper_lang();
 ?>
 <dialog id="map-preferences" class="map-preferences" aria-labelledby="map-preferences-title">

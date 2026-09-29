@@ -391,6 +391,7 @@ Second reason, recorded so it isn't reopened: the project exists to produce a re
 - Whole card links to `https://vk.com/wall-64582467_POST_ID`. Store community + post IDs for duplicate prevention and updating existing previews; preserve manual hides/overrides.
 - Retain the last successful feed if VK is unavailable; record a safe last-success/error status for maintenance. Decide and test source-deletion handling before enabling unattended refresh; a failed request must never be treated as an empty/deleted feed.
 - EN cards remain independently editable (photo, title, date if appropriate, destination link); imports must never overwrite them.
+- **EN cards are real since 28 Sep 2026:** five of the bar's Instagram posts, each linking to its post, the post's own date and a tag (Event · Promo · Community). Titles are written in English, not translated, and each fits one line on the 240px phone card. Wording, the three spares and the photo files: `home-copy-en.md` → 6. Social entrance.
 
 No separate News/Events archive is required for this work. Links continue out to the source, VK leads the social buttons, and the last tile follows the page's feed (author, 25 Sep 2026): «Ещё во ВКонтакте →» to the VK community on RU, “More on Instagram →” to Instagram on EN — both addresses from Bar Settings → «Контакты» (the tile's own URL field is retired; it held a third VK address and sent EN to VK). Instagram automation is deferred; no live Instagram embed.
 

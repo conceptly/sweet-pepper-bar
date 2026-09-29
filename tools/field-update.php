@@ -23,7 +23,9 @@
  * assets/images/ as the seeder does. A photo the team replaced in admin has no source, so its
  * group is skipped. An upload takes its Media Library alt (Russian) and «Тема» from the file's
  * optional "uploads": { "<asset>": { "alt": "…", "topic": "Бар" } }. Posts only, not the
- * options page (28 Sep 2026, the Гастробот drink photos).
+ * options page (28 Sep 2026, the Гастробот drink photos). Every "uploads" entry is uploaded,
+ * even one no field names yet — spares for the team to pick in admin. A date picker is written
+ * as stored, "20260926".
  */
 
 $file = $argv[1] ?? '';
@@ -98,7 +100,10 @@ foreach ( $spec['groups'] as $group ) {
     foreach ( $group['set'] as [ $name, $old, $new ] ) {
         $cur[ $name ] = sp_update_current( $name, $page->ID, 0 === strpos( (string) $new, 'asset:' ) );
     }
-    if ( array_filter( $group['set'], fn( $r ) => $cur[ $r[0] ] === $r[2] ) === $group['set'] ) {
+    // A date picker reads back formatted ("2026-09-26") but is written as stored ("20260926"):
+    // the raw row counts as done too, so a second run says "done", not SKIPPED.
+    $is_new = fn( $r ) => $cur[ $r[0] ] === $r[2] || ( is_int( $page->ID ) && (string) get_post_meta( $page->ID, $r[0], true ) === (string) $r[2] );
+    if ( array_filter( $group['set'], $is_new ) === $group['set'] ) {
         echo "done     {$label}\n";
         continue;
     }
@@ -124,4 +129,12 @@ foreach ( $spec['groups'] as $group ) {
         update_field( ( ! $ref && acf_get_field( $key ) ) ? $key : $name, $new, $page->ID );
     }
     echo "applied  {$label}\n";
+}
+
+// Every "uploads" entry reaches the Media Library, used or not — spare photos the team can pick
+// in admin (28 Sep 2026, the English page's Instagram posts: eight supplied, five cards).
+if ( empty( $spec['option'] ) ) {
+    foreach ( array_keys( $spec['uploads'] ?? [] ) as $asset ) {
+        sp_update_attachment( 'asset:' . $asset, $spec['uploads'] );
+    }
 }

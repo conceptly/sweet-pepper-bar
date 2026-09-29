@@ -116,6 +116,21 @@ Your next night out starts here. Check VK for news, parties and specials, or tak
 
 **Post cards:** {supplied post caption} · {actual post date}
 
+**Post cards — the bar's Instagram posts (draft, 28 Sep 2026).** English page only (the Russian page imports VK). Eight posts supplied; the section holds five, the other three wait in the Media Library for a swap. A card is one line of Molot, cut with an ellipsis, so the titles stay short — measured to fit the phone card (204px of text; «Happy Birthday, Anya!» ran to 218, «Met Here, Married Now» to 232); the tag is the image pill (Event · Promo · Community). Photos: `assets/images/social-en/`. Dates are the posts' own.
+
+| # | Header | Tag | Date | Post | Photo | Alt |
+|---|---|---|---|---|---|---|
+| 1 · pinned | Stay for Artyom | Community | 26 Sep | [Ddv8UagilvD](https://www.instagram.com/barsweetpepper/p/Ddv8UagilvD/) — the person you stay one more glass for | `artyom.jpg` | Artyom in a black zip-up, a Maker's Mark bottle in a knitted jumper under his arm |
+| 2 | Anya's Birthday! | Community | 2 Aug | [DbhlIriqPjY](https://www.instagram.com/barsweetpepper/p/DbhlIriqPjY/) — Anya's birthday | `birthday-anya.jpg` | Anya, laughing, hugs a bottle of Jägermeister under the Sweet Pepper sign |
+| 3 | Taming Bucephalus | Promo | 31 Jul | [Dbc4o3JCt3N](https://www.instagram.com/barsweetpepper/p/Dbc4o3JCt3N/) — must-try of the week, presented by Katya | `bucephalus.jpg` | Katya at the bar with the Bucephalus cocktail and a bottle of Pogues whiskey |
+| 4 | Magnolia in Bloom | Promo | 24 Jul | [DbLFWiCCpE1](https://www.instagram.com/barsweetpepper/p/DbLFWiCCpE1/) — must-try of the week (Instagram labels the photo *AI content*) | `magnolia.jpg` | The Magnolia cocktail beside a bottle of Pogues cinnamon liqueur, a peach and magnolia petals |
+| 5 | It Started Here | Community | 4 Jul | [DaX520xCnyQ](https://www.instagram.com/barsweetpepper/p/DaX520xCnyQ/) — Anton and Alexandra, who met at the bar | `wedding-anton-alexandra.jpg` | Anton and Alexandra show their wedding rings outside the bar |
+| spare | Meet Galatea | Promo | 17 Jul | [Da5VUeaqRWL](https://www.instagram.com/barsweetpepper/p/Da5VUeaqRWL/) — must-try of the week (Katya again, with Pogues — too close to #3 side by side) | `galatea.jpg` | Katya hands over the Galatea cocktail with a bottle of Pogues whiskey |
+| spare | Lera's Birthday! | Community | 11 Jul | [DapNwbHKrkR](https://www.instagram.com/barsweetpepper/p/DapNwbHKrkR/) — Lera's birthday | `birthday-lera.jpg` | Lera blows a kiss, a glass of beer in hand |
+| spare | Sasha's Birthday! | Community | 31 Jul | [Dbc5lQ9CiKV](https://www.instagram.com/barsweetpepper/p/Dbc5lQ9CiKV/) — Sasha's birthday | `birthday-sasha.jpg` | Sasha raises a glass of white wine on the terrace |
+
+Picked for the grid: newest first, the team, a wedding and the two cocktails of the week; Galatea sits out because it repeats Bucephalus (Katya with the Pogues bottle), the two older birthdays because three birthday cards in five would read as a birthday wall. Swapping a spare in: WordPress → Главная → «Что нового» → the card's photo (Media Library, «Тема»: Команда / Бар) + header, tag, date, link, alt.
+
 ## 7. Contacts
 
 **Eyebrow:** YOUR NEXT STOP: KIROVA

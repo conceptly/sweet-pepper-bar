@@ -1,0 +1,75 @@
+{
+  "page": "home",
+  "date": "2026-09-28",
+  "uploads": {
+    "social-en/artyom.jpg": { "alt": "Артём в чёрной кофте на молнии держит бутылку Maker's Mark в вязаном свитере", "topic": "Команда" },
+    "social-en/birthday-anya.jpg": { "alt": "Аня с улыбкой обнимает бутылку Jägermeister под вывеской Sweet Pepper", "topic": "Команда" },
+    "social-en/bucephalus.jpg": { "alt": "Катя держит коктейль «Буцефал» и бутылку виски Pogues у стойки", "topic": "Бар" },
+    "social-en/magnolia.jpg": { "alt": "Коктейль «Магнолия» рядом с бутылкой ликёра Pogues с корицей, персиком и лепестками магнолии", "topic": "Бар" },
+    "social-en/wedding-anton-alexandra.jpg": { "alt": "Антон и Александра показывают обручальные кольца у входа в бар", "topic": "Гости" },
+    "social-en/galatea.jpg": { "alt": "Катя протягивает коктейль «Галатея» и бутылку виски Pogues", "topic": "Бар" },
+    "social-en/birthday-lera.jpg": { "alt": "Лера посылает воздушный поцелуй с бокалом пива в руке", "topic": "Команда" },
+    "social-en/birthday-sasha.jpg": { "alt": "Саша поднимает бокал белого вина на веранде", "topic": "Команда" }
+  },
+  "groups": [
+    {
+      "note": "EN What's On — card 1: Artyom (Instagram, 26 Sep 2026); home-copy-en.md → 6",
+      "set": [
+        [ "home_event_cards_0_cover", "asset:bar/cocktails/moscow-mull-2.jpg", "asset:social-en/artyom.jpg" ],
+        [ "home_event_cards_0_title_en", "Live DJ Set: Friday Night", "Stay for Artyom" ],
+        [ "home_event_cards_0_date", "", "20260926" ],
+        [ "home_event_cards_0_category", "event", "community" ],
+        [ "home_event_cards_0_source", "vk", "instagram" ],
+        [ "home_event_cards_0_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/Ddv8UagilvD/" ],
+        [ "home_event_cards_0_alt_en", "Bartender garnishing a copper-mug cocktail with lime", "Artyom in a black zip-up, a Maker's Mark bottle in a knitted jumper under his arm" ]
+      ]
+    },
+    {
+      "note": "EN What's On — card 2: Anya's birthday (Instagram, 2 Aug 2026)",
+      "set": [
+        [ "home_event_cards_1_cover", "asset:bar/cocktails/shot-drinks.jpg", "asset:social-en/birthday-anya.jpg" ],
+        [ "home_event_cards_1_title_en", "Live DJ Set: Friday Night", "Anya's Birthday!" ],
+        [ "home_event_cards_1_date", "", "20260802" ],
+        [ "home_event_cards_1_category", "promo", "community" ],
+        [ "home_event_cards_1_source", "vk", "instagram" ],
+        [ "home_event_cards_1_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/DbhlIriqPjY/" ],
+        [ "home_event_cards_1_alt_en", "Five layered shots lined up on the lit bar", "Anya, laughing, hugs a bottle of Jägermeister under the Sweet Pepper sign" ]
+      ]
+    },
+    {
+      "note": "EN What's On — card 3: Bucephalus, the must-try of the week (Instagram, 31 Jul 2026)",
+      "set": [
+        [ "home_event_cards_2_cover", "asset:bar/cocktails/mulled-2.jpg", "asset:social-en/bucephalus.jpg" ],
+        [ "home_event_cards_2_title_en", "Live DJ Set: Friday Night", "Taming Bucephalus" ],
+        [ "home_event_cards_2_date", "", "20260731" ],
+        [ "home_event_cards_2_category", "community", "promo" ],
+        [ "home_event_cards_2_source", "vk", "instagram" ],
+        [ "home_event_cards_2_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/Dbc4o3JCt3N/" ],
+        [ "home_event_cards_2_alt_en", "Mulled wine with orange and apple on the bar", "Katya at the bar with the Bucephalus cocktail and a bottle of Pogues whiskey" ]
+      ]
+    },
+    {
+      "note": "EN What's On — card 4: Magnolia, the must-try of the week (Instagram, 24 Jul 2026)",
+      "set": [
+        [ "home_event_cards_3_cover", "asset:bar/cocktails/students-2.jpg", "asset:social-en/magnolia.jpg" ],
+        [ "home_event_cards_3_title_en", "Live DJ Set: Friday Night", "Magnolia in Bloom" ],
+        [ "home_event_cards_3_date", "", "20260724" ],
+        [ "home_event_cards_3_category", "community", "promo" ],
+        [ "home_event_cards_3_source", "vk", "instagram" ],
+        [ "home_event_cards_3_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/DbLFWiCCpE1/" ],
+        [ "home_event_cards_3_alt_en", "Three iced cocktails and coloured pencils on the bar", "The Magnolia cocktail beside a bottle of Pogues cinnamon liqueur, a peach and magnolia petals" ]
+      ]
+    },
+    {
+      "note": "EN What's On — card 5: Anton and Alexandra's wedding (Instagram, 4 Jul 2026)",
+      "set": [
+        [ "home_event_cards_4_cover", "asset:bar/cocktails/shots-2.jpg", "asset:social-en/wedding-anton-alexandra.jpg" ],
+        [ "home_event_cards_4_title_en", "Live DJ Set: Friday Night", "It Started Here" ],
+        [ "home_event_cards_4_date", "", "20260704" ],
+        [ "home_event_cards_4_source", "vk", "instagram" ],
+        [ "home_event_cards_4_url", "https://vk.com/sweet_pepper_bar", "https://www.instagram.com/barsweetpepper/p/DaX520xCnyQ/" ],
+        [ "home_event_cards_4_alt_en", "Bartender pouring green shots from a shaker", "Anton and Alexandra show their wedding rings outside the bar" ]
+      ]
+    }
+  ]
+}

@@ -247,7 +247,7 @@ function sweet_pepper_home_events( $page_id ) {
         $date = (string) ( $row['date'] ?? '' );
         if ( 'today' === $date ) {
             $date = date( 'j M' ); // the typed placeholder's "Today!" state
-        } elseif ( $saved && $date ) {
+        } elseif ( $date && strtotime( $date ) ) { // saved (Y-m-d) or typed (data/home/events.php, Y-m-d)
             $date = date_i18n( 'j M', strtotime( $date ) );
         }
         $source = 'vk' === ( $row['source'] ?? '' ) ? 'vk' : 'instagram';

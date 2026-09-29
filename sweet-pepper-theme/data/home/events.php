@@ -4,14 +4,12 @@
  * tile as typed before the page moved into WordPress. Fallback for sweet_pepper_home_events()
  * and the seed source.
  *
- * The typed cards are the ENGLISH page's placeholders (website-brief.md → News/social feed →
- * Current decision: `/` imports the VK wall, inc/vk-feed.php; `/en/` keeps hand-made cards, the
- * team pastes real posts in admin). The first card's date is today,
- * so the "Today!" state shows in the fallback; the SEEDED cards carry no date and name VK as
- * the source, as their links do (home-copy-ru-review.md → 6: no invented dates, one platform
- * per card) — the team fills in real posts.
+ * The typed cards are the ENGLISH page's (website-brief.md → News/social feed → Current
+ * decision: `/` imports the VK wall, inc/vk-feed.php; `/en/` keeps hand-made cards, edited in
+ * admin). Real Instagram posts since 28 Sep 2026, each with its own date and link; the database
+ * copy came by tools/field-updates/2026-09-28-home-events-en-instagram.json.
  *
- *   ru — home-copy-ru-draft.md → 6. Что нового; the card captions are mine (`// draft`).
+ *   ru — home-copy-ru-draft.md → 6. Что нового (the header and the tile; the RU cards are VK's).
  *
  * @package Sweet_Pepper
  */
@@ -27,12 +25,15 @@ return [
         'headline_2'  => 'В SWEET PEPPER',
         'description' => 'Что нового в меню, какие акции действуют и когда следующая вечеринка? Всё, ради чего стоит заглянуть в Перец, — в соцсетях. Выбирайте, где удобнее следить за новостями.',
     ],
+    // The bar's Instagram posts, picked from eight the author supplied (28 Sep 2026; the three
+    // spares, the titles and the tags: home-copy-en.md → 6. Social entrance). Photos in
+    // assets/images/social-en/; the date is the post's. English only — the RU page is VK's.
     'cards'       => [
-        [ 'cover' => 'bar/cocktails/moscow-mull-2.jpg', 'alt' => 'Bartender garnishing a copper-mug cocktail with lime', 'title' => 'Live DJ Set: Friday Night', 'date' => 'today', 'category' => 'event',     'source' => 'instagram', 'pinned' => true,  'url' => 'https://vk.com/sweet_pepper_bar', 'ru' => [ 'alt' => 'Бармен украшает лаймом коктейль в медной кружке', 'title' => 'DJ-сет: вечер пятницы' ] ], // draft
-        [ 'cover' => 'bar/cocktails/shot-drinks.jpg',   'alt' => 'Five layered shots lined up on the lit bar', 'title' => 'Live DJ Set: Friday Night', 'date' => '12 Oct', 'category' => 'promo',     'source' => 'instagram', 'pinned' => false, 'url' => 'https://vk.com/sweet_pepper_bar', 'ru' => [ 'alt' => 'Пять слоёных шотов на подсвеченной стойке', 'title' => 'DJ-сет: вечер пятницы' ] ],
-        [ 'cover' => 'bar/cocktails/mulled-2.jpg',      'alt' => 'Mulled wine with orange and apple on the bar', 'title' => 'Live DJ Set: Friday Night', 'date' => '12 Oct', 'category' => 'community', 'source' => 'instagram', 'pinned' => false, 'url' => 'https://vk.com/sweet_pepper_bar', 'ru' => [ 'alt' => 'Глинтвейн с апельсином и яблоком на барной стойке', 'title' => 'DJ-сет: вечер пятницы' ] ],
-        [ 'cover' => 'bar/cocktails/students-2.jpg',    'alt' => 'Three iced cocktails and coloured pencils on the bar', 'title' => 'Live DJ Set: Friday Night', 'date' => '12 Oct', 'category' => 'community', 'source' => 'instagram', 'pinned' => false, 'url' => 'https://vk.com/sweet_pepper_bar', 'ru' => [ 'alt' => 'Три коктейля со льдом и цветные карандаши на стойке', 'title' => 'DJ-сет: вечер пятницы' ] ],
-        [ 'cover' => 'bar/cocktails/shots-2.jpg',       'alt' => 'Bartender pouring green shots from a shaker', 'title' => 'Live DJ Set: Friday Night', 'date' => '12 Oct', 'category' => 'community', 'source' => 'instagram', 'pinned' => false, 'url' => 'https://vk.com/sweet_pepper_bar', 'ru' => [ 'alt' => 'Бармен разливает зелёные шоты из шейкера', 'title' => 'DJ-сет: вечер пятницы' ] ],
+        [ 'cover' => 'social-en/artyom.jpg',                  'alt' => "Artyom in a black zip-up, a Maker's Mark bottle in a knitted jumper under his arm", 'title' => 'Stay for Artyom',       'date' => '2026-09-26', 'category' => 'community', 'source' => 'instagram', 'pinned' => true,  'url' => 'https://www.instagram.com/barsweetpepper/p/Ddv8UagilvD/' ],
+        [ 'cover' => 'social-en/birthday-anya.jpg',           'alt' => 'Anya, laughing, hugs a bottle of Jägermeister under the Sweet Pepper sign',            'title' => "Anya's Birthday!",  'date' => '2026-08-02', 'category' => 'community', 'source' => 'instagram', 'pinned' => false, 'url' => 'https://www.instagram.com/barsweetpepper/p/DbhlIriqPjY/' ],
+        [ 'cover' => 'social-en/bucephalus.jpg',              'alt' => 'Katya at the bar with the Bucephalus cocktail and a bottle of Pogues whiskey',         'title' => 'Taming Bucephalus',     'date' => '2026-07-31', 'category' => 'promo',     'source' => 'instagram', 'pinned' => false, 'url' => 'https://www.instagram.com/barsweetpepper/p/Dbc4o3JCt3N/' ],
+        [ 'cover' => 'social-en/magnolia.jpg',                'alt' => 'The Magnolia cocktail beside a bottle of Pogues cinnamon liqueur, a peach and magnolia petals', 'title' => 'Magnolia in Bloom', 'date' => '2026-07-24', 'category' => 'promo', 'source' => 'instagram', 'pinned' => false, 'url' => 'https://www.instagram.com/barsweetpepper/p/DbLFWiCCpE1/' ],
+        [ 'cover' => 'social-en/wedding-anton-alexandra.jpg', 'alt' => 'Anton and Alexandra show their wedding rings outside the bar',                         'title' => 'It Started Here', 'date' => '2026-07-04', 'category' => 'community', 'source' => 'instagram', 'pinned' => false, 'url' => 'https://www.instagram.com/barsweetpepper/p/DaX520xCnyQ/' ],
     ],
     'more'        => [
         'photo' => 'bar/cocktails/shots-3.jpg',

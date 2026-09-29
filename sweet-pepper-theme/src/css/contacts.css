@@ -719,6 +719,40 @@ html[data-theme="night"] .contact-toggle__helper {
     width: 100%;
 }
 
+.contact-form__submit[aria-busy="true"],
+.team-form__submit[aria-busy="true"] {
+    opacity: 0.6;
+    cursor: progress;
+}
+
+/* ── Delivery (inc/forms.php, js/form-send.js) ──
+   The honeypot: off-screen, never focused; a person never fills it.
+   The delivery error: the field errors' caption in Paprika, above the send button. */
+.form-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.form-send-error {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--paprika);
+}
+
+.form-send-error a {
+    color: inherit;
+}
+
+.form-send-error[hidden] {
+    display: none;
+}
+
 /* ═══════════════════════════════════════════════
    Success State
    ═══════════════════════════════════════════════ */

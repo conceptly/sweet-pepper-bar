@@ -20,7 +20,8 @@
  * Russian (25 Sep 2026): every string goes through the theme's dictionary — forms-copy-ru-draft.md
  * for the shared fields, errors and success; home-copy-ru-review.md §9 for the home title and
  * subtitle. Generic words carry the 'contact form' context so they never meet another "Message".
- * The success screen still shows on valid fields alone — nothing is sent yet (draft §6).
+ * Delivery (29 Sep 2026): contact-form.js posts to inc/forms.php, which mails hello@sweetpepper.bar;
+ * the success screen shows only after the server answers ok, a failure shows .form-send-error (draft §6).
  */
 $title    = ! empty( $args['title'] ) ? $args['title'] : __( 'Send a message', 'sweet-pepper' );
 $subtitle = ! empty( $args['subtitle'] ) ? $args['subtitle'] : __( "We'll get back to you within 24 hours.", 'sweet-pepper' );
@@ -52,7 +53,9 @@ $topics = $args['topics'] ?? [];
         <?php endif; ?>
 
         <!-- Fields -->
-        <form class="contact-form__fields" id="contact-form-el" novalidate>
+        <form class="contact-form__fields" id="contact-form-el" data-endpoint="<?php echo esc_url( sweet_pepper_forms_endpoint() ); ?>" novalidate>
+            <!-- Honeypot: hidden from people, filled by bots (inc/forms.php) -->
+            <div class="form-honeypot" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
             <?php if ( $topics ) : ?>
             <input type="hidden" name="topic" class="js-topic-input" value="<?php echo esc_attr( $topics[0] ); ?>">
             <?php endif; ?>
@@ -158,6 +161,9 @@ $topics = $args['topics'] ?? [];
             </div>
 
         </form>
+
+        <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
+        <p class="form-send-error js-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
 
         <!-- Submit -->
         <button type="submit" form="contact-form-el" class="btn btn-primary contact-form__submit"><?php echo esc_html_x( 'Submit', 'contact form', 'sweet-pepper' ); ?></button>

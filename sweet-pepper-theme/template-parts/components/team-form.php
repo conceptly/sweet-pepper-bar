@@ -59,7 +59,9 @@
         </div>
 
         <!-- Form fields -->
-        <form class="team-form__fields" id="team-form-el" novalidate>
+        <form class="team-form__fields" id="team-form-el" data-endpoint="<?php echo esc_url( sweet_pepper_forms_endpoint() ); ?>" novalidate>
+            <!-- Honeypot: hidden from people, filled by bots (inc/forms.php) -->
+            <div class="form-honeypot" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
             <!-- Name -->
             <div class="contact-field" data-field="name">
@@ -107,6 +109,9 @@
             </div>
 
         </form>
+
+        <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
+        <p class="form-send-error js-team-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
 
         <!-- CTA row -->
         <div class="team-form__cta-row">

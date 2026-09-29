@@ -6,13 +6,14 @@
  * Validation: mirrors contact-form.js (name required, email regex, message required);
  * the live state (accent icon, checkmark) comes from field-state.js as on the contact form.
  * Counter: textarea character count.
- * Submit: client-side only → success state.
+ * Submit: validated, then sent by form-send.js (inc/forms.php) → success state once confirmed.
  * Reset: "Send another message" → compose state.
  *
  * @module team-form
  */
 
 import { watchFieldState, isValidEmail } from './field-state';
+import { sendForm } from './form-send';
 
 export function initTeamForm() {
     const overlay  = document.querySelector('.team-form-overlay');
@@ -30,6 +31,8 @@ export function initTeamForm() {
     const chips      = dialog.querySelectorAll('.team-form__chip');
     const allChip    = dialog.querySelector('.team-form__chip[data-recipient="all"]');
     const resetBtn   = dialog.querySelector('.js-team-form-reset');
+    const submitBtn  = dialog.querySelector('.team-form__submit');
+    const sendError  = dialog.querySelector('.js-team-send-error');
 
     watchFieldState(dialog);
 
@@ -128,7 +131,7 @@ export function initTeamForm() {
     }
 
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             clearAllErrors();
 
@@ -152,7 +155,10 @@ export function initTeamForm() {
                 valid = false;
             }
 
-            if (valid) {
+            const recipients = individualChips
+                .filter(c => c.classList.contains('is-active'))
+                .map(c => c.dataset.recipient);
+            if (valid && await sendForm(form, { form: 'team', recipients }, submitBtn, sendError)) {
                 dialog.dataset.formState = 'success';
             }
         });
@@ -164,6 +170,7 @@ export function initTeamForm() {
         resetBtn.addEventListener('click', () => {
             if (form) form.reset();
             if (charCount) charCount.textContent = '0';
+            if (sendError) sendError.hidden = true;
             clearAllErrors();
 
             // Reset chips to "All" active

@@ -59,6 +59,8 @@
  *                   WordPress's privacy page (Settings → Privacy). WordPress's own install-time
  *                   draft at /privacy-policy/ is adopted (Russian title, its sample text cleared);
  *                   --force re-imports the text into an existing page and keeps its status.
+ *                   privacy-policy-en-draft.md goes into the English twin; a re-import keeps the
+ *                   texts it replaces in hidden meta (_sp_privacy_body_{ru,en}_before_<time>).
  *   consent       — consent-ru-draft.md (repo root) → the page «Согласие на обработку персональных
  *                   данных» at /consent/, the same template and fields as the policy, **as a draft**
  *                   (29 Sep 2026): the forms' consent checkbox links here and each form letter
@@ -435,8 +437,26 @@ foreach ( $targets as $target ) {
             update_post_meta( $id, '_wp_page_template', 'page-privacy.php' );
             $md   = file_get_contents( $md_file );
             $body = sp_seed_markdown( $md );
+            // A re-import keeps what it replaces (29 Sep 2026): the owner may have edited the text in
+            // admin, and field values have no revisions — the old text goes to a hidden meta key
+            foreach ( [ 'ru', 'en' ] as $l ) {
+                $old = (string) get_post_meta( $id, "privacy_body_{$l}", true );
+                if ( '' !== trim( $old ) ) {
+                    update_post_meta( $id, "_sp_privacy_body_{$l}_before_" . wp_date( 'Ymd-His' ), $old );
+                }
+            }
             update_field( 'field_sp_privacy_body_ru', $body, $id );
-            update_field( 'field_sp_privacy_title_en', 'Privacy Policy', $id );
+            // English (29 Sep 2026): privacy-policy-en-draft.md into the English twin, its title from its # line
+            $en_file  = dirname( __DIR__ ) . '/privacy-policy-en-draft.md';
+            $title_en = 'Privacy Policy';
+            if ( is_readable( $en_file ) ) {
+                $md_en = file_get_contents( $en_file );
+                if ( preg_match( '/^# (.+)$/mu', $md_en, $t ) ) {
+                    $title_en = trim( $t[1] );
+                }
+                update_field( 'field_sp_privacy_body_en', sp_seed_markdown( $md_en ), $id );
+            }
+            update_field( 'field_sp_privacy_title_en', $title_en, $id );
             // The version date from the draft's status line («обновлён 28 сентября 2026 года»)
             $months = [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ];
             $date   = wp_date( 'Y-m-d' );
@@ -445,8 +465,9 @@ foreach ( $targets as $target ) {
             }
             update_field( 'field_sp_privacy_updated', $date, $id );
             update_option( 'wp_page_for_privacy_policy', $id );
-            printf( "privacy: #%d «%s» (%s), version %s, %d sections, %d tables — publish it in admin once the owner approves\n",
-                $id, $title, get_post_status( $id ), $date, substr_count( $body, '<h2>' ), substr_count( $body, '<table>' ) );
+            printf( "privacy: #%d «%s» / «%s» (%s), version %s, %d sections, %d tables, EN %s — the replaced text is kept as _sp_privacy_body_*_before_*\n",
+                $id, $title, $title_en, get_post_status( $id ), $date, substr_count( $body, '<h2>' ), substr_count( $body, '<table>' ),
+                is_readable( $en_file ) ? 'imported' : 'missing (privacy-policy-en-draft.md)' );
             break;
 
         case 'consent':

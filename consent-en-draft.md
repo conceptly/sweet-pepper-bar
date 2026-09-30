@@ -38,7 +38,7 @@ Collection, recording, organisation, accumulation, storage, updating, retrieval,
 
 ## 5. Hosting and email
 
-The website is hosted on Timeweb. Form messages are sent through Timeweb’s email service and delivered to hello@sweetpepper.bar. Yandex Mail’s collector automatically retrieves messages from that mailbox and stores them in p020885@yandex.ru for the Operator’s authorised staff. Copies of enquiries also arrive at Constantin742@yandex.ru for replying and handling guests’ questions. Yandex Mail therefore receives and stores copies; it is not merely an interface for reading them.
+The website is hosted on Timeweb. Form messages are sent through Timeweb’s email service and delivered to hello@sweetpepper.bar. Yandex Mail’s collector automatically retrieves messages from that mailbox and stores them in the Operator’s director’s mailbox (p020885@yandex.ru). Copies of enquiries also arrive at the general manager’s work mailbox on Yandex Mail, used for replying to and handling guests’ questions. Yandex Mail therefore receives and stores copies; it is not merely an interface for reading them.
 
 These services receive the enquiry and delivery information, including the consent record, for those purposes. Providers and their roles are described in section 6 of the [Personal Data Processing Policy](https://sweetpepper.bar/en/privacy-policy/). Where processing is entrusted to a provider, the Operator puts the legally required contractual terms in place. This consent does not replace a processing agreement or permit unrestricted disclosure to others.
 

@@ -58,6 +58,13 @@ export function watchFieldState(root) {
         update(); // a value the browser restored or filled before the script ran
     });
 
+    // The consent checkbox: its error clears once ticked (form-send.js → checkConsent)
+    root.querySelectorAll('.contact-consent__input').forEach((box) => {
+        box.addEventListener('change', () => {
+            if (box.checked) box.closest('.contact-field').classList.remove('contact-field--error');
+        });
+    });
+
     const refresh = () => updates.forEach((u) => u());
 
     // form.reset() fires the event before the values clear

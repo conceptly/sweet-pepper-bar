@@ -110,6 +110,8 @@
                     <?php if ( $policy_url ) : ?>
                         <a href="<?php echo esc_url( $policy_url ); ?>" class="footer-legal__link"><?php echo 'ru' === sweet_pepper_lang() ? 'Политика конфиденциальности' : 'Privacy policy'; ?></a>
                     <?php endif; ?>
+                    <?php // The consent text beside the policy (author, 29 Sep 2026) — shown before the page is published, on purpose, to judge its room and states ?>
+                    <a href="<?php echo esc_url( sweet_pepper_consent_url() ); ?>" class="footer-legal__link"><?php echo 'ru' === sweet_pepper_lang() ? 'Согласие на обработку данных' : 'Consent to data processing'; ?></a>
                     <?php if ( ! sweet_pepper_maps_open() ) : ?>
                         <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
                     <?php endif; ?>

@@ -318,9 +318,9 @@ html[data-theme="night"] .contact-form__subtitle {
     color: var(--paper);
 }
 
-/* ── Topic chips (optional; the Visit page passes them) ──
+/* ── Topic chips (optional; the Visit page and the home form pass them) ──
    Figma chipBtn-Secondary: caption 13 in a 4/12 pill, 16px radius, one active. Day colours
-   here; the dark form recolours them (visit.css). The row scrolls sideways rather than wrapping. */
+   here; the dark form recolours them (visit.css). On phones the row scrolls sideways; above, it wraps. */
 
 .contact-form__topics {
     display: flex;
@@ -336,9 +336,20 @@ html[data-theme="night"] .contact-form__subtitle {
     display: none;
 }
 
+/* Above phones the row wraps instead: a hidden-scrollbar strip can't be scrolled with a mouse */
+@media (min-width: 768px) {
+    .contact-form__topics {
+        flex-wrap: wrap;
+        overflow: visible;
+        margin: 0;
+        padding: 0;
+    }
+}
+
 .contact-form__topic {
     flex-shrink: 0;
     display: inline-flex;
+    flex-direction: column; /* the label, then its SemiBold twin (::after) holding the width */
     align-items: center;
     padding: 4px 12px;
     border-radius: 16px;
@@ -352,13 +363,79 @@ html[data-theme="night"] .contact-form__subtitle {
     letter-spacing: 0.52px;
     color: var(--olive);
     white-space: nowrap;
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                border-color var(--dur-gentle) var(--ease-gentle-flat),
+                color var(--dur-gentle) var(--ease-gentle-flat),
+                box-shadow var(--dur-gentle) var(--ease-gentle-flat),
+                font-weight var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+/* The hover label is SemiBold: an invisible SemiBold copy reserves that width at rest, so a
+   hovered chip doesn't grow and push its neighbours to the next line */
+.contact-form__topic::after,
+.team-form__chip-label::after {
+    content: attr(data-label);
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    font-weight: 600;
+    pointer-events: none;
 }
 
 .contact-form__topic.is-active {
     background-color: var(--lime-light);
     border-color: var(--lime-light);
     color: var(--peppercorn);
+}
+
+/* By night (the home form) the chips take the dark Visit form's colours (visit.css) */
+html[data-theme="night"] .contact-form__topic {
+    border-color: var(--lime-light);
+    color: var(--lime);
+}
+
+html[data-theme="night"] .contact-form__topic.is-active {
+    color: var(--peppercorn);
+    box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
+}
+
+/* States (29 Sep 2026) — the site's chip recipe (→ website-brief.md → Chip states, 27 Sep;
+   Figma chipBtn-Secondary 467:19875, whose Chili day hover gives way to the one Paprika), as the
+   Почта / Телефон pills below. Unselected chips only: the selected topic is the current choice,
+   a click on it changes nothing, so it answers nothing.
+   Hover, pointer only: day — Paprika keyline + SemiBold label, the 1px 1px 2px lift; night and
+   the dark Visit form — Lemon keyline + label, the Lime glow. Pressed (touch too, 100ms): the
+   hover colours, the Tapped-btn inset, lift / glow off. No fill in any state. */
+@media (hover: hover) {
+    .contact-form__topic:not(.is-active):hover {
+        border-color: var(--paprika);
+        color: var(--paprika);
+        font-weight: 600;
+        box-shadow: 1px 1px 2px rgba(21, 19, 23, 0.15);
+    }
+
+    html[data-theme="night"] .contact-form__topic:not(.is-active):hover,
+    .visit-cta .contact-form__topic:not(.is-active):hover {
+        border-color: var(--lemon);
+        color: var(--lemon);
+        box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
+    }
+}
+
+.contact-form__topic:not(.is-active):active,
+html[data-theme="night"] .contact-form__topic:not(.is-active):active,
+.visit-cta .contact-form__topic:not(.is-active):active {
+    border-color: var(--paprika);
+    color: var(--paprika);
+    font-weight: 600;
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms;
+}
+
+html[data-theme="night"] .contact-form__topic:not(.is-active):active,
+.visit-cta .contact-form__topic:not(.is-active):active {
+    border-color: var(--lemon);
+    color: var(--lemon);
 }
 
 /* ── Fields Container ────────────────────────── */
@@ -723,6 +800,118 @@ html[data-theme="night"] .contact-toggle__helper {
 .team-form__submit[aria-busy="true"] {
     opacity: 0.6;
     cursor: progress;
+}
+
+/* ── Send block: consent · delivery error · the send button, 16px apart (author, 29 Sep 2026) ── */
+.form-send {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── Consent checkbox (inc/forms.php → sweet_pepper_consent_field; 29 Sep 2026) ──
+   A 20px box drawn like the fields — Mushroom hairline, 4px radius — ticked: Lime fill with the
+   Peppercorn checkmark (c-checkmark.svg); error: the Chili border and the caption below, as a
+   field. The text takes the field label's colour in every context (day, night, the Visit form). */
+.contact-consent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.contact-consent__label {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.contact-consent__input {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.contact-consent__box {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--mushroom);
+    border-radius: 4px;
+    color: var(--peppercorn);
+    /* The house curve (variables.css → Motion), as the chips and the Почта / Телефон pills */
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                border-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.contact-consent__box svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.contact-consent__input:checked + .contact-consent__box {
+    background-color: var(--lime);
+    border-color: var(--lime);
+}
+
+.contact-consent__input:checked + .contact-consent__box svg {
+    opacity: 1;
+}
+
+.contact-consent__input:focus-visible + .contact-consent__box {
+    outline: 2px solid var(--lime);
+    outline-offset: 2px;
+}
+
+.contact-consent.contact-field--error .contact-consent__box {
+    border-color: var(--chili);
+}
+
+.contact-consent__text {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .contact-consent__text,
+.visit-cta .contact-consent__text {
+    color: var(--paper);
+}
+
+.contact-consent__text a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: text-decoration-thickness var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+@media (hover: hover) {
+    .contact-consent__text a:hover {
+        text-decoration-thickness: 2px;
+    }
+}
+
+.contact-consent__text a:active {
+    text-decoration-thickness: 2px;
+    transition-duration: 100ms;
+}
+
+/* The caption sits under the row here, not in a label row */
+.contact-consent .contact-field__error-text {
+    white-space: normal;
+    padding-left: 32px;
 }
 
 /* ── Delivery (inc/forms.php, js/form-send.js) ──
@@ -1428,7 +1617,17 @@ html[data-theme="night"] .contact-item__supportive {
     letter-spacing: 0.52px;
     color: var(--olive);
     white-space: nowrap;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                border-color var(--dur-gentle) var(--ease-gentle-flat),
+                color var(--dur-gentle) var(--ease-gentle-flat),
+                box-shadow var(--dur-gentle) var(--ease-gentle-flat),
+                font-weight var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.team-form__chip-label {
+    display: inline-flex;
+    flex-direction: column; /* the name, then its SemiBold twin holding the width (::after above) */
+    align-items: center;
 }
 
 /* Dismiss × — hidden by default */
@@ -1448,6 +1647,33 @@ html[data-theme="night"] .contact-item__supportive {
 
 .team-form__chip.is-active .team-form__chip-dismiss {
     display: block;
+}
+
+/* States (29 Sep 2026) — the chip recipe (as the topic chips; the dialog is always day). Unlike a
+   topic, a picked name is a toggle — a click drops it — so the picked chip answers too, without
+   leaving its fill: the lift on hover, the inset on press. */
+@media (hover: hover) {
+    .team-form__chip:not(.is-active):hover {
+        border-color: var(--paprika);
+        color: var(--paprika);
+        font-weight: 600;
+        box-shadow: 1px 1px 2px rgba(21, 19, 23, 0.15);
+    }
+
+    .team-form__chip.is-active:hover {
+        box-shadow: 1px 1px 2px rgba(21, 19, 23, 0.15);
+    }
+}
+
+.team-form__chip:active {
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms;
+}
+
+.team-form__chip:not(.is-active):active {
+    border-color: var(--paprika);
+    color: var(--paprika);
+    font-weight: 600;
 }
 
 /* Form fields container */

@@ -110,9 +110,13 @@
             <div class="visit-cta__form-wrap">
                 <?php get_template_part( 'template-parts/components/contact-form', null, [
                     'title'               => _x( 'Send a message', 'the Visit page form', 'sweet-pepper' ),
-                    'subtitle'            => __( "Feedback, partnerships, events, or anything that's not a reservation. We'll get back to you within 24 hours!", 'sweet-pepper' ),
+                    // Author, 29 Sep 2026: tables (and events) by phone or message; Instagram named only where
+                    // it is shown (inc/geo.php — never on the Russian page, not for Russian IPs on /en/)
+                    'subtitle'            => sweet_pepper_show_instagram()
+                        ? __( 'Feedback, a question, an idea? Tell us. For a table, please call or message us on Instagram or VK.', 'sweet-pepper' )
+                        : __( 'Feedback, a question, an idea? Tell us. For a table, please call or message us on VK.', 'sweet-pepper' ),
                     'title_prefix_mobile' => _x( 'or ', 'the Visit form title, phones', 'sweet-pepper' ),
-                    'topics'              => [ __( 'Private event', 'sweet-pepper' ), __( 'Press & Partners', 'sweet-pepper' ), __( 'Feedback', 'sweet-pepper' ), __( 'Any questions', 'sweet-pepper' ) ],
+                    'topics'              => /* The team's three (29 Sep 2026): events stay on the phone and VK for now */ [ __( 'Feedback', 'sweet-pepper' ), __( 'Press & Partners', 'sweet-pepper' ), __( 'Other questions', 'sweet-pepper' ) ],
                 ] ); ?>
             </div>
 

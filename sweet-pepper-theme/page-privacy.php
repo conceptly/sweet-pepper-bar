@@ -3,6 +3,8 @@
  * Template Name: Privacy policy
  *
  * The privacy policy — /privacy-policy/ (inc/privacy.php; fields acf-json/group_sp_privacy.json).
+ * Also the consent to personal data processing, /consent/ (29 Sep 2026): the same fields and
+ * layout, a second page on this template (inc/forms.php links the forms to it).
  *
  * A document to read, so it follows the day / night theme like Home and Menu rather than
  * a fixed dark composition: a head (eyebrow · the title as the site's section headline ·
@@ -26,7 +28,7 @@ get_header();
                 <p class="privacy-head__meta"><?php echo esc_html( sprintf( __( 'Version of %s', 'sweet-pepper' ), $policy['updated'] ) ); ?></p>
             <?php endif; ?>
             <?php if ( $policy['fallback'] ) : ?>
-                <p class="privacy-head__note" lang="en"><?php esc_html_e( 'The policy is published in Russian, and the Russian text is the binding one. An English translation will follow.', 'sweet-pepper' ); ?></p>
+                <p class="privacy-head__note" lang="en"><?php esc_html_e( 'This document is published in Russian, and the Russian text is the binding one. An English translation will follow.', 'sweet-pepper' ); ?></p>
             <?php endif; ?>
         </div>
     </section>

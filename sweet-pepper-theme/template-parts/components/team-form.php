@@ -34,7 +34,7 @@
             <span class="team-form__to-label"><?php esc_html_e( 'To:', 'sweet-pepper' ); ?></span>
             <div class="team-form__chips">
                 <button type="button" class="team-form__chip is-active" data-recipient="all">
-                    <span><?php echo esc_html_x( 'All', 'team form recipients', 'sweet-pepper' ); ?></span>
+                    <span class="team-form__chip-label" data-label="<?php echo esc_attr_x( 'All', 'team form recipients', 'sweet-pepper' ); ?>"><?php echo esc_html_x( 'All', 'team form recipients', 'sweet-pepper' ); ?></span>
                     <svg class="team-form__chip-dismiss" width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                     </svg>
@@ -49,7 +49,7 @@
                 ];
                 foreach ( $recipients as $id => $name ) : ?>
                     <button type="button" class="team-form__chip" data-recipient="<?php echo esc_attr( $id ); ?>">
-                        <span><?php echo esc_html( $name ); ?></span>
+                        <span class="team-form__chip-label" data-label="<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $name ); ?></span>
                         <svg class="team-form__chip-dismiss" width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                         </svg>
@@ -110,16 +110,20 @@
 
         </form>
 
-        <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
-        <p class="form-send-error js-team-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
+        <!-- Send block: consent, the delivery error and the CTA row, 16px apart (as the contact form) -->
+        <div class="form-send">
+            <?php sweet_pepper_consent_field( 'team-consent', 'team-form-el' ); // inc/forms.php — required, unticked ?>
 
-        <!-- CTA row -->
-        <div class="team-form__cta-row">
-            <span class="team-form__cta-hint"><?php esc_html_e( 'We answer within a day — faster by DM (VK / Telegram).', 'sweet-pepper' ); ?></span>
-            <button type="submit" form="team-form-el" class="btn btn-primary-green team-form__submit">
-                <span><?php echo esc_html_x( 'Send', 'contact form', 'sweet-pepper' ); ?></span>
-                <span class="btn-icon btn-icon-right"><?php echo sweet_pepper_inline_svg( 'assets/icons/send.svg' ); ?></span>
-            </button>
+            <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
+            <p class="form-send-error js-team-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
+
+            <div class="team-form__cta-row">
+                <span class="team-form__cta-hint"><?php esc_html_e( 'We answer within a day — faster by DM (VK / Telegram).', 'sweet-pepper' ); ?></span>
+                <button type="submit" form="team-form-el" class="btn btn-primary-green team-form__submit">
+                    <span><?php echo esc_html_x( 'Send', 'contact form', 'sweet-pepper' ); ?></span>
+                    <span class="btn-icon btn-icon-right"><?php echo sweet_pepper_inline_svg( 'assets/icons/send.svg' ); ?></span>
+                </button>
+            </div>
         </div>
 
     </div>

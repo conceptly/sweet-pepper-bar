@@ -150,7 +150,10 @@
 
                 <!-- Form Column -->
                 <div class="contacts-form-wrap">
-                    <?php get_template_part( 'template-parts/components/contact-form' ); ?>
+                    <?php get_template_part( 'template-parts/components/contact-form', null, [
+                        // The Visit form's three (visit/cta.php), since 29 Sep 2026 — the chosen one is the letter's subject
+                        'topics' => [ __( 'Feedback', 'sweet-pepper' ), __( 'Press & Partners', 'sweet-pepper' ), __( 'Other questions', 'sweet-pepper' ) ],
+                    ] ); ?>
                 </div>
 
             </div>

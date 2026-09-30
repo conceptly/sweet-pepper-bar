@@ -8,7 +8,7 @@
  */
 
 import { watchFieldState, isValidEmail, isValidPhone } from './field-state';
-import { sendForm } from './form-send';
+import { sendForm, checkConsent } from './form-send';
 
 export function initContactForm() {
     const root = document.getElementById('contact-form');
@@ -119,6 +119,8 @@ export function initContactForm() {
                 setFieldError(messageInput.closest('.contact-field'));
                 valid = false;
             }
+
+            if (!checkConsent(root)) valid = false;
 
             if (valid && await sendForm(form, { form: 'contact' }, submitBtn, sendError)) {
                 root.dataset.formState = 'success';

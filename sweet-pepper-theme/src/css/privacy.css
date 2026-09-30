@@ -30,10 +30,49 @@
     cursor: pointer;
 }
 .footer-bottom-container { flex-wrap: wrap; gap: 8px 24px; }
-.footer-bottom .map-settings-link { color: var(--peppercorn); font-size: 16px; }
+/* The legal links and the map settings take the copyright's Caption (author, 29 Sep 2026: at Body 16
+   they read heavier and larger than the © beside them) */
+.footer-bottom .map-settings-link { color: var(--peppercorn); font-size: var(--text-caption); line-height: 1.4; letter-spacing: 0.04em; font-weight: 400; }
 /* The policy and the map settings, one pair: same type, 24px apart, wrapping centred on phones */
 .footer-legal { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 24px; }
-.footer-legal__link { padding: 8px 0; font-size: 16px; color: var(--peppercorn); text-decoration: underline; }
+.footer-legal__link { padding: 8px 0; font-size: var(--text-caption); line-height: 1.4; letter-spacing: 0.04em; font-weight: 400; color: var(--peppercorn); text-decoration: underline; }
+
+/* Phones: the ©, then the three links, one flush-left stack with no extra air — 4px between the
+   rows (the links keep 4px of tap padding each, so a row is 26px, clear of the 24px minimum) */
+@media (max-width: 767px) {
+    .footer-bottom-container { gap: 4px; }
+    .footer-legal { flex-direction: column; align-items: flex-start; gap: 0; }
+    .footer-legal__link,
+    .footer-bottom .map-settings-link { padding: 4px 0; }
+}
+
+/* Their states (29 Sep 2026, with the consent link): on the Lime footer Peppercorn has no darker
+   step, so the underline answers — 1px at rest, 2px on hover and press, on the house curve —
+   as the consent checkbox's «согласие» link (contacts.css). Pressed is fast, as everywhere. */
+.footer-legal__link,
+.footer-bottom .map-settings-link {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-thickness var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+@media (hover: hover) {
+    .footer-legal__link:hover,
+    .footer-bottom .map-settings-link:hover {
+        text-decoration-thickness: 2px;
+    }
+}
+
+.footer-legal__link:active,
+.footer-bottom .map-settings-link:active {
+    text-decoration-thickness: 2px;
+    transition-duration: 100ms;
+}
+
+.footer-legal__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
 .map-preferences {
     width: min(560px, calc(100vw - 32px));
     max-height: calc(100dvh - 48px);

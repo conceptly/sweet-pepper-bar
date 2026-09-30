@@ -47,7 +47,7 @@ $topics = $args['topics'] ?? [];
         <!-- Topic chips — one active, mirrored into a hidden field for the email subject -->
         <div class="contact-form__topics" role="group" aria-label="<?php esc_attr_e( 'What is it about?', 'sweet-pepper' ); ?>">
             <?php foreach ( $topics as $i => $topic ) : ?>
-            <button type="button" class="contact-form__topic<?php echo 0 === $i ? ' is-active' : ''; ?>" data-topic="<?php echo esc_attr( $topic ); ?>" aria-pressed="<?php echo 0 === $i ? 'true' : 'false'; ?>"><?php echo esc_html( $topic ); ?></button>
+            <button type="button" class="contact-form__topic<?php echo 0 === $i ? ' is-active' : ''; ?>" data-topic="<?php echo esc_attr( $topic ); ?>" data-label="<?php echo esc_attr( $topic ); ?>" aria-pressed="<?php echo 0 === $i ? 'true' : 'false'; ?>"><?php echo esc_html( $topic ); ?></button>
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
@@ -162,11 +162,16 @@ $topics = $args['topics'] ?? [];
 
         </form>
 
-        <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
-        <p class="form-send-error js-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
+        <!-- Send block: consent, the delivery error and Submit, 16px apart (author, 29 Sep 2026).
+             Outside the <form>, tied to it by form="…" like the button. -->
+        <div class="form-send">
+            <?php sweet_pepper_consent_field( 'contact-consent', 'contact-form-el' ); // inc/forms.php — required, unticked ?>
 
-        <!-- Submit -->
-        <button type="submit" form="contact-form-el" class="btn btn-primary contact-form__submit"><?php echo esc_html_x( 'Submit', 'contact form', 'sweet-pepper' ); ?></button>
+            <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
+            <p class="form-send-error js-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
+
+            <button type="submit" form="contact-form-el" class="btn btn-primary contact-form__submit"><?php echo esc_html_x( 'Submit', 'contact form', 'sweet-pepper' ); ?></button>
+        </div>
 
     </div>
 

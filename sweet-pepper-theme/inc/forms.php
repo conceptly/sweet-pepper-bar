@@ -22,6 +22,12 @@
  * The success screen shows only after the route answers ok; a failure keeps the typed text
  * and shows the delivery error (forms-copy-ru-draft.md §6).
  *
+ * Consent (29 Sep 2026, privacy policy §4.2): both forms carry an unticked, required checkbox
+ * linking to the consent page, /consent/ (page-privacy.php, seeded from consent-ru-draft.md).
+ * The route refuses a message without it, and the letter's last line is the record that it
+ * was given — the consent text's version date, the time and the IP (author: the letter is the
+ * record; the mailbox keeps letters, the policy states for how long).
+ *
  * @package Sweet_Pepper
  */
 
@@ -40,6 +46,53 @@ function sweet_pepper_forms_to() {
  */
 function sweet_pepper_forms_endpoint() {
     return rest_url( 'sweet-pepper/v1/message' );
+}
+
+/**
+ * The consent page, once it is published: [ url, version date 'd.m.Y' ]; [ '', '' ] before.
+ */
+function sweet_pepper_consent_page() {
+    $page = get_page_by_path( 'consent', OBJECT, 'page' );
+    if ( ! $page || 'publish' !== $page->post_status ) {
+        return [ '', '' ];
+    }
+    $ymd = function_exists( 'get_field' ) ? (string) get_field( 'privacy_updated', $page->ID ) : '';
+    $ts  = $ymd ? strtotime( $ymd . ' 12:00:00' ) : 0;
+    return [ get_permalink( $page ), $ts ? wp_date( 'd.m.Y', $ts ) : '' ];
+}
+
+/**
+ * The consent page's address, published or not — /consent/, /en/consent/ on English pages. The
+ * checkbox and the footer link to it even while it is a draft (author, 29 Sep 2026: to see the
+ * link's room and states; a guest gets the 404 page until the owner publishes it).
+ */
+function sweet_pepper_consent_url() {
+    return home_url( '/consent/' );
+}
+
+/**
+ * The checkbox row, shared by both forms: «Даю согласие на обработку персональных данных»,
+ * «согласие» linking to the consent page in a new tab, so the typed message stays.
+ *
+ * @param string $id      the checkbox id, unique on the page
+ * @param string $form_id the form it belongs to — the row sits outside the <form>, in the send block
+ */
+function sweet_pepper_consent_field( $id, $form_id ) {
+    $word = esc_html_x( 'consent', 'the forms consent checkbox, the linked word', 'sweet-pepper' );
+    $link = '<a href="' . esc_url( sweet_pepper_consent_url() ) . '" target="_blank" rel="noopener">' . $word . '</a>';
+    ?>
+    <div class="contact-field contact-consent" data-field="consent">
+        <label class="contact-consent__label" for="<?php echo esc_attr( $id ); ?>">
+            <input class="contact-consent__input" type="checkbox" id="<?php echo esc_attr( $id ); ?>" form="<?php echo esc_attr( $form_id ); ?>" name="consent" value="1" required>
+            <span class="contact-consent__box" aria-hidden="true"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+            <span class="contact-consent__text"><?php
+                /* translators: %s: the word "consent", linked to the consent page */
+                printf( esc_html__( 'I give my %s to the processing of my personal data', 'sweet-pepper' ), $link ); // $link is escaped above
+            ?></span>
+        </label>
+        <span class="contact-field__error-text"><?php esc_html_e( 'Please tick to agree', 'sweet-pepper' ); ?></span>
+    </div>
+    <?php
 }
 
 add_action( 'rest_api_init', function () {
@@ -79,7 +132,7 @@ function sweet_pepper_forms_handle( WP_REST_Request $request ) {
     // The same rules as the browser's checks (field-state.js); the team form has no phone.
     $has_email = '' !== $email && is_email( $email );
     $has_phone = 'contact' === $form && preg_match_all( '/\d/', $phone ) >= 6;
-    if ( '' === $name || '' === trim( $message ) || ! ( $has_email || $has_phone ) ) {
+    if ( '' === $name || '' === trim( $message ) || ! ( $has_email || $has_phone ) || empty( $p['consent'] ) ) {
         return new WP_Error( 'sp_form_invalid', 'Missing or invalid fields.', [ 'status' => 400 ] );
     }
 
@@ -118,6 +171,7 @@ function sweet_pepper_forms_handle( WP_REST_Request $request ) {
         'Форма: ' . ( 'team' === $form ? 'команде (О баре)' : 'обратная связь' ) . ', язык страницы ' . $lang,
         '' !== $page ? 'Страница: ' . $page : null,
         $has_email ? 'Ответ на это письмо уйдёт на почту гостя.' : 'Гость оставил только телефон.',
+        sweet_pepper_forms_consent_line( $ip ),
     ];
     $body = implode( "\n", array_filter( $lines, fn( $l ) => null !== $l ) );
 
@@ -130,6 +184,18 @@ function sweet_pepper_forms_handle( WP_REST_Request $request ) {
         return new WP_Error( 'sp_form_send', 'The message could not be sent.', [ 'status' => 500 ] );
     }
     return [ 'ok' => true ];
+}
+
+/**
+ * The letter's consent record: which text, when, from where.
+ */
+function sweet_pepper_forms_consent_line( $ip ) {
+    [ $url, $version ] = sweet_pepper_consent_page();
+    $text = $url
+        ? sprintf( 'текст %s%s', $version ? 'от ' . $version . ', ' : '', $url )
+        : 'текст согласия ещё не опубликован на сайте';
+    return sprintf( 'Согласие на обработку персональных данных: дано %s (МСК) · %s · IP %s',
+        wp_date( 'd.m.Y H:i', null, new DateTimeZone( 'Europe/Moscow' ) ), $text, $ip ?: '—' );
 }
 
 /**

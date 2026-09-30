@@ -184,12 +184,11 @@ return [
         "the Visit page form\4Send a message"        => 'Написать Перцам',
         "the Visit form title, phones\4or "          => 'или ',
         "We'll get back to you within 24 hours."     => 'Выберите, как вам удобнее получить ответ.',
-        "Feedback, partnerships, events, or anything that's not a reservation. We'll get back to you within 24 hours!" => 'Отзыв, идея, праздник в Перце или предложение о сотрудничестве? Рассказывайте. А о столике лучше договориться по телефону или в сообщениях.',
+        'Feedback, a question, an idea? Tell us. For a table, please call or message us on VK.' => 'Отзыв, вопрос, предложение? Рассказывайте. Столики — по телефону или в сообщениях ВК.', // author, 29 Sep 2026
         'What is it about?'                          => 'О чём сообщение?',
-        'Private event'                              => 'Мероприятие', // draft: «Праздник в Перце» is the open alternative
         'Press & Partners'                           => 'Пресса и партнёры',
         'Feedback'                                   => 'Отзыв',
-        'Any questions'                              => 'Вопрос',
+        'Other questions'                            => 'Другой вопрос', // the team's three topics, 29 Sep 2026 (was Any questions → Вопрос; Private event → Мероприятие dropped)
         "contact form\4Name"                         => 'Ваше имя',
         'Your name'                                  => 'Ваше имя',
         "contact form\4Email"                        => 'Почта',
@@ -210,6 +209,9 @@ return [
         'Need instant assistance? Give us a call!'   => 'Вопрос срочный? Лучше позвонить.',
         'need instant assistance? give us a call!'   => 'Вопрос срочный? Лучше позвонить.',
         'Send another message'                       => 'Написать ещё',
+        'I give my %s to the processing of my personal data' => 'Даю %s на обработку персональных данных', // %s: the linked word below
+        "the forms consent checkbox, the linked word\4consent" => 'согласие',
+        'Please tick to agree'                       => 'Нужно ваше согласие',
         'The message could not be sent. Please try again or write to us by email.' => 'Не удалось отправить сообщение. Попробуйте ещё раз или напишите на почту', // forms-copy-ru-draft.md §6; the address follows as a link
         'WRITE TO THE TEAM'                          => 'Пара слов команде',
         'To:'                                        => 'Кому:',

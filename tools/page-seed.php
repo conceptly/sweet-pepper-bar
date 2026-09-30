@@ -59,6 +59,12 @@
  *                   WordPress's privacy page (Settings → Privacy). WordPress's own install-time
  *                   draft at /privacy-policy/ is adopted (Russian title, its sample text cleared);
  *                   --force re-imports the text into an existing page and keeps its status.
+ *   consent       — consent-ru-draft.md (repo root) → the page «Согласие на обработку персональных
+ *                   данных» at /consent/, the same template and fields as the policy, **as a draft**
+ *                   (29 Sep 2026): the forms' consent checkbox links here and each form letter
+ *                   carries this page's version date (inc/forms.php). --force as for privacy.
+ *                   The opening consent statement is kept (it precedes § 1); consent-en-draft.md
+ *                   goes into the English twin. --publish publishes it too (author, 29 Sep 2026).
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -67,9 +73,10 @@
 
 $args    = array_slice( $argv, 1 );
 $force   = in_array( '--force', $args, true );
-$targets = array_values( array_diff( $args, [ '--force' ] ) );
+$publish = in_array( '--publish', $args, true ); // consent only: publish the page as well (author, 29 Sep 2026)
+$targets = array_values( array_diff( $args, [ '--force', '--publish' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu|home|contacts|vacancies|privacy> [...] [--force]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu|home|contacts|vacancies|privacy|consent> [...] [--force] [--publish]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -110,7 +117,7 @@ function sp_seed_attachment( $asset ) {
  * URLs. Everything before the first `##` (title, status line, notes) and every `>` quote (the
  * editorial notes for the owner) is left out.
  */
-function sp_seed_markdown( $md ) {
+function sp_seed_markdown( $md, $intro_after = '' ) {
     $inline = function ( $t ) {
         $t = htmlspecialchars( $t, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
         $t = preg_replace( '/`([^`]+)`/u', '<code>$1</code>', $t );
@@ -123,6 +130,16 @@ function sp_seed_markdown( $md ) {
     $start = 0;
     while ( $start < count( $lines ) && 0 !== strpos( $lines[ $start ], '## ' ) ) {
         $start++;
+    }
+    // A text whose opening paragraph is part of it (the consent's «Отмечая поле…») starts after
+    // its revision line instead of at the first section
+    if ( '' !== $intro_after ) {
+        foreach ( $lines as $k => $l ) {
+            if ( $k < $start && preg_match( $intro_after, $l ) ) {
+                $start = $k + 1;
+                break;
+            }
+        }
     }
     $html  = [];
     $para  = [];
@@ -430,6 +447,55 @@ foreach ( $targets as $target ) {
             update_option( 'wp_page_for_privacy_policy', $id );
             printf( "privacy: #%d «%s» (%s), version %s, %d sections, %d tables — publish it in admin once the owner approves\n",
                 $id, $title, get_post_status( $id ), $date, substr_count( $body, '<h2>' ), substr_count( $body, '<table>' ) );
+            break;
+
+        case 'consent':
+            $md_file = dirname( __DIR__ ) . '/consent-ru-draft.md';
+            if ( ! is_readable( $md_file ) ) {
+                echo "consent: {$md_file} not found\n";
+                break;
+            }
+            $title = 'Согласие на обработку персональных данных';
+            $page  = get_page_by_path( 'consent', OBJECT, 'page' );
+            if ( $page && ! $force ) {
+                echo "consent: the page exists (#{$page->ID}, {$page->post_status}) — left alone (--force to re-import the text)\n";
+                break;
+            }
+            $id = $page ? $page->ID : wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'draft', 'post_title' => $title, 'post_name' => 'consent' ] );
+            if ( ! $id || is_wp_error( $id ) ) {
+                echo "consent: could not create the page\n";
+                break;
+            }
+            update_post_meta( $id, '_wp_page_template', 'page-privacy.php' );
+            $md   = file_get_contents( $md_file );
+            // The opening statement («Отмечая поле…» / "By selecting…") is the consent itself: kept,
+            // from after the «Редакция:» / "Revision:" line; the title, status and notes are not
+            $body = sp_seed_markdown( $md, '/^(Редакция|Revision):/u' );
+            update_field( 'field_sp_privacy_body_ru', $body, $id );
+            // English (29 Sep 2026): consent-en-draft.md into the English twin, its title from its # line
+            $en_file  = dirname( __DIR__ ) . '/consent-en-draft.md';
+            $title_en = 'Consent to Personal Data Processing';
+            if ( is_readable( $en_file ) ) {
+                $md_en = file_get_contents( $en_file );
+                if ( preg_match( '/^# (.+)$/mu', $md_en, $t ) ) {
+                    $title_en = trim( $t[1] );
+                }
+                update_field( 'field_sp_privacy_body_en', sp_seed_markdown( $md_en, '/^(Редакция|Revision):/u' ), $id );
+            }
+            update_field( 'field_sp_privacy_title_en', $title_en, $id );
+            $months = [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ];
+            $date   = wp_date( 'Y-m-d' );
+            if ( preg_match( '/обновл[её]н (\d{1,2}) (\S+) (\d{4})/u', $md, $d ) && false !== ( $mi = array_search( $d[2], $months, true ) ) ) {
+                $date = sprintf( '%04d-%02d-%02d', $d[3], $mi + 1, $d[1] );
+            }
+            update_field( 'field_sp_privacy_updated', $date, $id );
+            if ( $publish && 'publish' !== get_post_status( $id ) ) {
+                wp_update_post( [ 'ID' => $id, 'post_status' => 'publish' ] );
+            }
+            printf( "consent: #%d «%s» / «%s» (%s), version %s, %d sections, EN %s%s\n",
+                $id, $title, $title_en, get_post_status( $id ), $date, substr_count( $body, '<h2>' ),
+                is_readable( $en_file ) ? 'imported' : 'missing (consent-en-draft.md)',
+                'publish' === get_post_status( $id ) ? '' : ' — publish in admin, or re-run with --publish' );
             break;
 
         case 'contacts':

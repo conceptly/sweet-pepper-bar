@@ -13,7 +13,7 @@
  */
 
 import { watchFieldState, isValidEmail } from './field-state';
-import { sendForm } from './form-send';
+import { sendForm, checkConsent } from './form-send';
 
 export function initTeamForm() {
     const overlay  = document.querySelector('.team-form-overlay');
@@ -154,6 +154,8 @@ export function initTeamForm() {
                 setFieldError(msgInput.closest('.contact-field'));
                 valid = false;
             }
+
+            if (!checkConsent(dialog)) valid = false;
 
             const recipients = individualChips
                 .filter(c => c.classList.contains('is-active'))

@@ -9,6 +9,18 @@
  * @module form-send
  */
 
+/**
+ * The consent checkbox (inc/forms.php → sweet_pepper_consent_field): ticked, or the row shows
+ * its error. The server refuses a message without it too.
+ */
+export function checkConsent(root) {
+    const field = root.querySelector('.contact-consent');
+    if (!field) return true;
+    const ok = field.querySelector('input').checked;
+    field.classList.toggle('contact-field--error', !ok);
+    return ok;
+}
+
 /** Render time, sent as `t`: the server drops sends faster than a person could type. */
 const renderedAt = Date.now();
 

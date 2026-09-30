@@ -1010,6 +1010,21 @@
   color: var(--paper);
 }
 
+/* Topic chips — every width since 29 Sep 2026 (author; were phones only, formContact-dark-mobile).
+   The chosen topic becomes the email subject (inc/forms.php). */
+.visit-cta .contact-form__topic {
+  border-color: var(--lime-light);
+  color: var(--lime);
+}
+
+.visit-cta .contact-form__topic.is-active {
+  background-color: var(--lime-light);
+  border-color: var(--lime-light);
+  color: var(--peppercorn);
+  /* the frame's glow on the active chip (Icon-Glow-Dark, drawn at radius 4 here) */
+  box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
+}
+
 .visit-cta .contact-field__label {
   color: var(--paper);
 }
@@ -1293,7 +1308,6 @@
 .visit-hero__contact-action--phone-only,
 .visit-band,
 .visit-cta__booking,
-.visit-cta .contact-form__topics,
 .visit-cta .contact-form__title-prefix {
   display: none;
 }
@@ -1775,23 +1789,6 @@
 
   .visit-cta .contact-form__title-prefix {
     display: inline;
-  }
-
-  .visit-cta .contact-form__topics {
-    display: flex;
-  }
-
-  .visit-cta .contact-form__topic {
-    border-color: var(--lime-light);
-    color: var(--lime);
-  }
-
-  .visit-cta .contact-form__topic.is-active {
-    background-color: var(--lime-light);
-    border-color: var(--lime-light);
-    color: var(--peppercorn);
-    /* the frame's glow on the active chip (Icon-Glow-Dark, drawn at radius 4 here) */
-    box-shadow: 0 0 4px rgba(212, 230, 113, 0.5);
   }
 
   .visit-cta .contact-toggle__helper {

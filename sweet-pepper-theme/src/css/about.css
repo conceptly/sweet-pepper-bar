@@ -1358,6 +1358,20 @@
     flex-shrink: 0;
 }
 
+/* The heading's first line — the bar's age — in Avocado, the rest Olive (author, 29 Sep 2026,
+   on trial). Colour only: no size or wrap changes, so every layout holds. Avocado on Paper
+   is 3.1:1 (Olive 4.2:1) at Molot 18. */
+.about-story__counters-age {
+    color: var(--avocado);
+}
+
+/* Each half of the heading stays whole: on phones (the <br> hidden) it runs as one line where
+   it fits and breaks between the halves where it doesn't — never «…ЛЕТ ВЫ / ВЫБИРАЕТЕ». */
+.about-story__counters-age,
+.about-story__counters-rest {
+    white-space: nowrap;
+}
+
 .about-story__counters-row {
     display: flex;
     justify-content: space-between;
@@ -1422,6 +1436,14 @@
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 32px;
+    }
+}
+
+/* A rollable figure takes the pepper cursor (variables.css → --cursor-pepper): it answers the
+   pointer by changing, so not the hand, which promises a click (author, 29 Sep 2026). */
+@media (hover: hover) {
+    .about-story__counters.is-rollable .about-story__counter {
+        cursor: var(--cursor-pepper);
     }
 }
 

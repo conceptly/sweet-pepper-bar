@@ -1,0 +1,17 @@
+{
+  "page": "about",
+  "date": "2026-09-29",
+  "note": "About → «История» → the counter ledger's heading, line 2 in Russian.",
+  "groups": [
+    {
+      "note": "About → «История»: the counters heading, line 2 (RU)",
+      "set": [
+        [
+          "about_counters_label_2_ru",
+          "В ЗАКАЗАХ",
+          "ВЫ ВЫБИРАЕТЕ"
+        ]
+      ]
+    }
+  ]
+}

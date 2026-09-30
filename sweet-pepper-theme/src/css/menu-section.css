@@ -395,6 +395,13 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
     pointer-events: none;
 }
 
+/* A card row can be a sentence, not a dish name («Острее или мягче, без лука, другая заправка»,
+   the salads' promise, 30 Sep 2026): it wraps, where dish names elsewhere keep one line. */
+.menu-section__addons-card .dish-name {
+    white-space: normal;
+    text-wrap: pretty;
+}
+
 /* Dish rows inside addons — no bottom border, avocado price color */
 .menu-section__addons-card .dish-row {
     border-bottom: none;
@@ -727,11 +734,14 @@ html[data-theme="night"] .menu-section__remark {
         width: calc(100% - 2px);
     }
 
+    /* Stacked, a subsection needs more than the row rhythm to read as a new group (author,
+       29 Sep 2026): 36px between subsections, and the last dish of each closes it with a 2px
+       line — Olive; Ash under ?enddiv=ash while the two are compared (menu-single-section.js). */
     .menu-section__columns {
         order: 5;
         flex-direction: column;
         align-items: stretch;   /* flex-start let a column shrink to its rows' content */
-        gap: 24px;
+        gap: 36px;
     }
 
     .menu-section__column {
@@ -741,7 +751,30 @@ html[data-theme="night"] .menu-section__remark {
 
     .menu-section__column--left,
     .menu-section__column--right {
-        gap: 24px;
+        gap: 36px;
+    }
+
+    .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+        border-bottom: 2px solid var(--olive);
+    }
+
+    html.enddiv-ash .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+        border-bottom-color: var(--ash);
+    }
+
+    html[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+        border-bottom-color: var(--avocado);
+    }
+
+    html.enddiv-ash[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+        border-bottom-color: var(--mushroom);
+    }
+
+    /* An add-ons card is narrower than a list: its title may wrap, balanced — «ТАК, КАК ВЫ
+       ЛЮБИТЕ» needs 271px and a 320px phone gives the card 240 (30 Sep 2026). */
+    .menu-section__addons-card .menu-section__subsection-title {
+        white-space: normal;
+        text-wrap: balance;
     }
 
     .menu-section__addons-card {

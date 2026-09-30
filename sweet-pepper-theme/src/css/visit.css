@@ -1757,9 +1757,11 @@
     color: #fff;
   }
 
+  /* Closed: Chili with the Lemon label, as the drawer's call button (.btn-call--closed) and every
+     Chili button on the site — it was #fff, carried over from busy (author, 29 Sep 2026) */
   .visit-cta__booking[data-bar-state="closed"] .visit-cta__call {
     background-color: var(--chili);
-    color: #fff;
+    color: var(--lemon);
   }
 
   .visit-cta__booking-row {

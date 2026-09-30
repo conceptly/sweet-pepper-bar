@@ -15,6 +15,16 @@
     color: var(--text);
 }
 
+/* The top nav on the page's own ground (author, 29 Sep 2026: a Parchment strip over the Paper
+   document read as a separate band) — desktop, where the header sits in the flow, as the menu
+   page does (menu-hero.css). --bg is Paper by day, Peppercorn by night. Below 992px the header
+   is the fixed bar and keeps its Parchment, which is what separates it from text scrolling under. */
+@media (min-width: 992px) {
+    body.page-template-page-privacy .site-header {
+        background-color: var(--bg);
+    }
+}
+
 /* ── Head ── */
 .privacy-head {
     padding: 80px 0 64px;

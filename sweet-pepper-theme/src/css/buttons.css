@@ -62,15 +62,18 @@
     color: var(--lemon);
 }
 
+/* Hover deepens the ground, the label stays Lemon (author, 29 Sep 2026 — option B of four).
+   The old hover swapped both colours (Lemon ground, Chili Deep label) over the 0.8s curve, and
+   the two met in the same orange around 260ms: the label vanished (~1:1) before it settled.
+   One colour moving means contrast only rises, 3.4 → 6.5:1, on the same house curve. */
 .btn-primary:hover {
-    background-color: var(--lemon);
-    color: var(--chili-deep);
+    background-color: var(--chili-deep);
 }
 
 .btn-primary:active {
-    background-color: var(--lemon);
-    color: var(--chili-deep);
+    background-color: var(--chili-deep);
     box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms;
 }
 
 /* Secondary Button (Context-Aware for Day/Night) */

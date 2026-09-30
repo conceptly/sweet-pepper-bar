@@ -42,7 +42,7 @@ return [
         'founder_name'     => 'Юрий Примышев.',
         'founder_title'    => 'Основатель, 18 лет за баром.',
         'counters_label'   => 'ДВЕНАДЦАТЬ ЛЕТ',
-        'counters_label_2' => 'В ЗАКАЗАХ',
+        'counters_label_2' => 'ВЫ ВЫБИРАЕТЕ', // was В ЗАКАЗАХ (author, 29 Sep 2026)
     ],
     'milestones'       => [
         [ 'year' => 2009, 'name' => 'TABASCO BAR',  'wit' => 'Where the heat started',            'ru' => [ 'name' => 'TABASCO BAR',  'wit' => 'Жаркое начало' ] ],

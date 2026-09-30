@@ -195,6 +195,16 @@ export function initAboutStory() {
     };
 
     // The guest drives it too: hovering a figure (a tap on phones) rolls that one on.
+    // The pepper cursor marks a rollable figure (about.css → .is-rollable), and a click rolls
+    // it again — one roll at a time, so the click right after the hover roll waits its turn.
+    if ( canRotate() ) {
+        ledger.classList.add( 'is-rollable' );
+        slots.forEach( ( slot, i ) => {
+            slot.addEventListener( 'click', ( e ) => {
+                if ( e.pointerType !== 'touch' && entranceDone ) rollSlot( i ); // a tap already rolls on pointerup
+            } );
+        } );
+    }
     slots.forEach( ( slot, i ) => {
         slot.addEventListener( 'pointerenter', ( e ) => {
             if ( e.pointerType === 'mouse' && entranceDone && canRotate() ) rollSlot( i );

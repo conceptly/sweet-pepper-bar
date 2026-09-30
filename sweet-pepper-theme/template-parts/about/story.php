@@ -125,7 +125,7 @@ $counter_slots = array_slice( $counters, 0, 3 );
             <div class="about-story__counters-edge about-story__counters-edge--bottom" aria-hidden="true">
                 <?php get_template_part( 'template-parts/components/rugged-edge', null, [ 'color' => 'paper' ] ); ?>
             </div>
-            <h3 class="about-story__counters-label molot-text"><?php echo esc_html( $args['counters_label'] ); ?><?php if ( $args['counters_label_2'] ) : ?> <br aria-hidden="true"><?php echo esc_html( $args['counters_label_2'] ); ?><?php endif; ?></h3>
+            <h3 class="about-story__counters-label molot-text"><span class="about-story__counters-age"><?php echo esc_html( $args['counters_label'] ); ?></span><?php if ( $args['counters_label_2'] ) : ?> <br aria-hidden="true"><span class="about-story__counters-rest"><?php echo esc_html( $args['counters_label_2'] ); ?></span><?php endif; ?></h3>
 
             <div class="about-story__counters-row">
                 <?php foreach ( $counter_slots as $counter ) : ?>

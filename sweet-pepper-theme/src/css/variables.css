@@ -54,6 +54,11 @@
      Use --ease-gentle on things that MOVE (transform, size, position).
      Use --ease-gentle-flat on colour, opacity, shadow, border — a bezier
      that overshoots on those flickers past the end value. Same duration. */
+  /* The pepper cursor (author, 29 Sep 2026): for things that answer the pointer by changing
+     — not links, which keep the hand. The logo symbol at 23 × 32, hotspot on the tip.
+     First on the About counter ledger (about.css); meant for more such components. */
+  --cursor-pepper: url('../../assets/icons/cursor-pepper.svg') 1 31, auto;
+
   --dur-gentle: 800ms;
   --ease-gentle: cubic-bezier(0.33, 0.57, 0.08, 1.19);
   --ease-gentle-flat: cubic-bezier(0.4, 0, 0.2, 1);

@@ -18,6 +18,10 @@
 import { gentleScrollTo } from './gentle-scroll';
 
 export function initMenuSingleSection() {
+    // TEST (29 Sep 2026): the phone subsection's closing line, Olive by default, Ash to compare
+    if (new URLSearchParams(window.location.search).get('enddiv') === 'ash') {
+        document.documentElement.classList.add('enddiv-ash');
+    }
     const hero = document.querySelector('.menu-hero');
     const sections = Array.from(document.querySelectorAll('main section.menu-section[id]'));
     if (!hero || sections.length < 2) return;

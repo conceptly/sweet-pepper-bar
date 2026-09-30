@@ -29,7 +29,7 @@ $guest_cards = $args['cards'];
             'description' => $args['description'],
             'ctas'        => [
                 [
-                    'label'          => __( 'Browse the photo albums', 'sweet-pepper' ),
+                    'label'          => __( 'Photos on VK', 'sweet-pepper' ), // was «Browse the photo albums» — two lines in the button (author, 30 Sep 2026); the RU twin's shape
                     'url'            => 'https://vk.ru/albums-64582467',
                     'variant'        => 'secondary',
                     'type'           => 'secondary',

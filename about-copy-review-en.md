@@ -154,7 +154,7 @@ The pairing with **THE DREAM TEAM** is deliberate and worth keeping. “Dream gu
 
 This includes new guests and avoids promising that every event is photographed. The old copy's separate Photo Library page is no longer what the section offers.
 
-**CTA:** VK Photo albums → **Browse the photo albums**. The VK mark can identify the platform; use **Browse albums on VK** if the label needs to stand alone. Keep the current destination for this pass; future location-dependent routing is already parked.
+**CTA:** VK Photo albums → **Browse the photo albums**. The VK mark can identify the platform; use **Browse albums on VK** if the label needs to stand alone. *(Superseded 30 Sep 2026: the button wrapped to two lines on desktop — the label is now **Photos on VK**, the RU twin's shape.)* Keep the current destination for this pass; future location-dependent routing is already parked.
 
 **Caption cleanup:** keep the short **12th Bday! / 9th Bday!** labels chosen to fit the mobile photos. **St. Valentine 25! → Valentine's 2025**; **Teachers Day! → Teachers' Day**; **Bartenders Day! → Bartenders' Day**; **Halloween 2025! → Halloween 2025**. Use an exclamation where the title benefits from it, rather than making every album shout. Final holiday names/dates follow the actual album. Check Valentine's 2025 in the narrowest tile; do not shrink the established caption type just to accommodate it.
 

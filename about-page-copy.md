@@ -158,7 +158,7 @@ The regulars helped shape what followed. Pumpkin soup, berry cheesecake and berr
 
 Some faces have been here since the early days; others are here for the first time. Together, they make the place. Take a look through the nights, celebrations and familiar faces — you might spot yourself.
 
-**CTA with the VK mark:** Browse the photo albums
+**CTA with the VK mark:** Photos on VK *(30 Sep 2026, author — «Browse the photo albums» wrapped to two lines in the button; now the twin of RU «Фото в VK»)*
 
 **Standalone CTA:** Browse albums on VK
 

@@ -30,7 +30,7 @@ return [
         'Get your table'                             => 'Забронировать',
         'See the menu'                               => 'Смотреть меню',
         'Read the review'                            => 'Читать в источнике',
-        'Browse the photo albums'                    => 'Фото в VK',
+        'Photos on VK'                               => 'Фото в VK', // EN was Browse the photo albums (30 Sep 2026)
         'Write to the team'                          => 'Написать команде',
         'To be continued…'                           => 'Продолжение следует…',
         'View role on hh.ru'                         => 'Вакансия на hh.ru',

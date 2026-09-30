@@ -149,32 +149,49 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 
 /* «Поддать жару!» / "Heat it up!" — a button (it plays the page loader here, it goes nowhere) dressed as the
    links: the list's odd one out. The hand, as on every link. On hover (and keyboard focus)
-   it turns Chili and a 12px Chili flame (the loader's, fire.svg) opens at the list's left
-   edge, the label moving 4px past it (Figma NavItemsFooter heat-on 2750:75217; author,
-   30 Sep 2026 — a pepper first, the flame is the author's lean) — it grows from 0 wide so
-   the label slides rather than jumps. Phones never hover: no flame there. Chili on Lime is 2.65:1 — the hover is a moment's cue beside a label that already
-   reads in Soft Peppercorn. */
+   it turns Chili and a 12px Chili flame (the loader's, fire.svg) appears at the list's left
+   edge, the label moving 16px right past it (Figma NavItemsFooter heat-on 2750:75217;
+   author, 30 Sep 2026 — a pepper first, the flame is the author's lean). Phones never
+   hover: no flame there. Chili on Lime is 2.65:1 — a moment's cue beside a label that
+   already reads in Soft Peppercorn.
+   The column must not grow on hover (author, 30 Sep 2026: the other footer columns moved
+   right): this is its widest item, so the button keeps the hover's room at all times — 16px
+   on the right for the shift, the label as wide as its Medium self (a hidden Medium copy,
+   ::after) — and the label moves by transform, which changes no layout. */
 .footer-links__replay {
-    display: inline-flex;
-    align-items: center;
-    padding: 0;
+    position: relative;
+    display: inline-block;
+    padding: 0 16px 0 0;
     border: 0;
     background: none;
     text-align: left;
     cursor: pointer;
 }
 
-.footer-links__flame {
-    display: flex;
-    flex: none;
-    width: 0;
-    margin-right: 0;
+.footer-links__replay-label {
+    display: inline-grid;
+    transition: translate 0.2s var(--ease-gentle-flat);
+}
+.footer-links__replay-label::after {
+    content: attr(data-label);
+    height: 0;
     overflow: hidden;
+    visibility: hidden;
+    font-weight: 500;
+}
+
+.footer-links__flame {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: flex;
     color: var(--chili);
     opacity: 0;
-    transition: width 0.2s var(--ease-gentle-flat), margin-right 0.2s var(--ease-gentle-flat), opacity 0.2s var(--ease-gentle-flat);
+    translate: -4px -50%;
+    transition: opacity 0.2s var(--ease-gentle-flat), translate 0.2s var(--ease-gentle-flat);
+    pointer-events: none;
 }
-.footer-links__flame svg { flex: none; width: 12px; height: 12px; }
+.footer-links__flame svg { width: 12px; height: 12px; }
 .footer-links__flame path { fill: currentColor; } /* the file is Lemon */
 
 .footer-links__replay:hover,
@@ -183,9 +200,12 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 }
 .footer-links__replay:hover .footer-links__flame,
 .footer-links__replay:focus-visible .footer-links__flame {
-    width: 12px;
-    margin-right: 4px;
     opacity: 1;
+    translate: 0 -50%;
+}
+.footer-links__replay:hover .footer-links__replay-label,
+.footer-links__replay:focus-visible .footer-links__replay-label {
+    translate: 16px 0;
 }
 
 /* Hours */

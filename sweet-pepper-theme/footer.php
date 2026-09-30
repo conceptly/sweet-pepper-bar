@@ -49,7 +49,7 @@
                             <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"<?php echo $sp_here( is_page_template( 'page-about.php' ) || is_singular( 'vacancy' ) ); ?>><?php esc_html_e( 'About', 'sweet-pepper' ); ?></a></li>
                             <li><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>"<?php echo $sp_here( is_page_template( 'page-visit.php' ) ); ?>><?php esc_html_e( 'Visit', 'sweet-pepper' ); ?></a></li>
                             <?php // the list's one voiced name: replays the page loader here (inc/page-loader.php); the flame opens on hover ?>
-                            <li><button type="button" class="footer-links__replay" data-loader-replay><span class="footer-links__flame"><?php echo sweet_pepper_inline_svg( 'assets/icons/fire.svg' ); ?></span><?php esc_html_e( 'Heat it up!', 'sweet-pepper' ); ?></button></li>
+                            <li><button type="button" class="footer-links__replay" data-loader-replay><span class="footer-links__flame"><?php echo sweet_pepper_inline_svg( 'assets/icons/fire.svg' ); ?></span><span class="footer-links__replay-label" data-label="<?php esc_attr_e( 'Heat it up!', 'sweet-pepper' ); ?>"><?php esc_html_e( 'Heat it up!', 'sweet-pepper' ); ?></span></button></li>
                         </ul>
                     </div>
                     

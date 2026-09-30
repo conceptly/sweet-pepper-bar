@@ -276,6 +276,11 @@
         padding-top: 0;
         text-align: left;
     }
+    /* 32px each side: the phone's rounded corners cut the word's outer letters at the
+       16px gutter (author, iPhone, 30 Sep 2026) */
+    .page-loader__word {
+        width: calc(100% - 64px);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

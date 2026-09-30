@@ -41,13 +41,31 @@ const REPLAY_FOR = 6500;  // ms of creep before a replay serves — long enough 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const stopFor = (p) => (p < 0.25 ? 'breakfast' : p < 0.5 ? 'lunch' : p < 0.75 ? 'dinner' : 'party');
 
-function shuffle(n) {
-    const a = Array.from({ length: n }, (_, i) => i);
-    for (let i = n - 1; i > 0; i--) {
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
+}
+
+/* A shuffled order of line positions in which each chain (data-chains: runs of positions,
+   data/page-loader.php → an array) stays whole and in order. `avoid` is a position that
+   must not come first — the line just shown, so no line appears twice in a row. */
+function lineOrder(n, chains, avoid = -1) {
+    const head = new Map();
+    const tail = new Set();
+    chains.forEach((c) => { head.set(c[0], c); c.slice(1).forEach((i) => tail.add(i)); });
+    const units = [];
+    for (let i = 0; i < n; i++) {
+        if (tail.has(i)) continue;
+        units.push(head.get(i) || [i]);
+    }
+    for (let tries = 0; tries < 5; tries++) {
+        const order = shuffle(units.slice()).flat();
+        if (order[0] !== avoid || units.length < 2) return order;
+    }
+    return shuffle(units.slice()).flat();
 }
 
 export function initPageLoader() {
@@ -59,12 +77,13 @@ export function initPageLoader() {
     const lineEl = el.querySelector('.page-loader__line');
     const labelEl = el.querySelector('.page-loader__label');
     const lines = JSON.parse(el.dataset.lines || '[]');
+    const chains = JSON.parse(el.dataset.chains || '[]');
 
     let p = 0;
     let t0 = 0;            // the creep's clock: performance.now() at p = 0
     let raf = 0;
     let lineTimer = 0;
-    let order = shuffle(lines.length);
+    let order = lineOrder(lines.length, chains);
     let k = -1;            // position in `order`; −1 = the first line
     let shown = false;
     let armTimer = 0;
@@ -102,9 +121,7 @@ export function initPageLoader() {
         if (!lines.length) return;
         k = (k + 1) % order.length;
         if (k === 0 && order.length > 1) {
-            const last = order[order.length - 1];
-            order = shuffle(lines.length);
-            if (order[0] === last) order.push(order.shift()); // no line twice in a row
+            order = lineOrder(lines.length, chains, order[order.length - 1]); // no line twice in a row
         }
         const text = lines[order[k]];
         lineEl.classList.add('is-leaving');

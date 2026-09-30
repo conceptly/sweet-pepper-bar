@@ -23,6 +23,18 @@
  */
 
 $copy = $args;
+// The pool, flat, plus its chains as runs of positions (data/page-loader.php → an array is a chain)
+$lines  = [];
+$chains = [];
+foreach ( $copy['lines'] as $entry ) {
+    $start = count( $lines );
+    foreach ( (array) $entry as $text ) {
+        $lines[] = $text;
+    }
+    if ( count( $lines ) - $start > 1 ) {
+        $chains[] = range( $start, count( $lines ) - 1 );
+    }
+}
 $word = mb_strtoupper( $copy['word'] );
 $icon = static function ( $name ) {
     return '<span class="page-loader__icon page-loader__icon--' . esc_attr( $name ) . '">'
@@ -35,7 +47,8 @@ $word_svg = static function ( $class ) use ( $word ) {
 };
 ?>
 <div class="page-loader" data-page-loader hidden
-     data-lines="<?php echo esc_attr( wp_json_encode( array_values( $copy['lines'] ) ) ); ?>"
+     data-lines="<?php echo esc_attr( wp_json_encode( $lines ) ); ?>"
+     data-chains="<?php echo esc_attr( wp_json_encode( $chains ) ); ?>"
      data-done="<?php echo esc_attr( $copy['done'] ); ?>">
     <p class="screen-reader-text" role="status"><?php echo esc_html( $copy['status'] ); ?></p>
 

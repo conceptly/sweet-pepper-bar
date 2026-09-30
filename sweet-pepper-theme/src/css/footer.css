@@ -123,22 +123,69 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     gap: 8px;
 }
 
-.footer-links li a {
+.footer-links li a,
+.footer-links__replay {
     font-family: var(--font-body);
     font-size: var(--text-body, 16px);
+    font-weight: 400;
     color: var(--soft-peppercorn);
     text-decoration: none;
     line-height: 1.4;
     transition: color 0.2s;
 }
 
-.footer-links li:first-child a {
+/* Figma NavItem, mode=footer (57:3227; author, 30 Sep 2026): Regular Soft Peppercorn ·
+   hover Medium Ash · the page you're on SemiBold Ash. Home was bold on every page before. */
+.footer-links li a:hover,
+.footer-links__replay:hover {
+    font-weight: 500;
+    color: var(--ash);
+}
+
+.footer-links li a.is-current {
     font-weight: 600;
     color: var(--ash);
 }
 
-.footer-links li a:hover {
-    color: var(--peppercorn);
+/* «Поддать жару!» / "Heat it up!" — a button (it plays the page loader here, it goes nowhere) dressed as the
+   links: the list's odd one out. The hand, as on every link. On hover (and keyboard focus)
+   it turns Chili and a 12px Chili flame (the loader's, fire.svg) opens at the list's left
+   edge, the label moving 4px past it (Figma NavItemsFooter heat-on 2750:75217; author,
+   30 Sep 2026 — a pepper first, the flame is the author's lean) — it grows from 0 wide so
+   the label slides rather than jumps. Phones never hover: no flame there. Chili on Lime is 2.65:1 — the hover is a moment's cue beside a label that already
+   reads in Soft Peppercorn. */
+.footer-links__replay {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.footer-links__flame {
+    display: flex;
+    flex: none;
+    width: 0;
+    margin-right: 0;
+    overflow: hidden;
+    color: var(--chili);
+    opacity: 0;
+    transition: width 0.2s var(--ease-gentle-flat), margin-right 0.2s var(--ease-gentle-flat), opacity 0.2s var(--ease-gentle-flat);
+}
+.footer-links__flame svg { flex: none; width: 12px; height: 12px; }
+.footer-links__flame path { fill: currentColor; } /* the file is Lemon */
+
+.footer-links__replay:hover,
+.footer-links__replay:focus-visible {
+    color: var(--chili);
+}
+.footer-links__replay:hover .footer-links__flame,
+.footer-links__replay:focus-visible .footer-links__flame {
+    width: 12px;
+    margin-right: 4px;
+    opacity: 1;
 }
 
 /* Hours */
@@ -397,8 +444,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     }
 
     .footer-links li a,
-    .footer-links li:first-child a {
-        font-weight: 400;
+    .footer-links__replay {
         color: var(--peppercorn);
     }
 

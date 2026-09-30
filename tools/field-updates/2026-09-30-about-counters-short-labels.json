@@ -1,0 +1,12 @@
+{
+  "page": "about",
+  "date": "2026-09-30",
+  "note": "About → «История» → counter ledger: shorter labels so every one fits a line at Body 16 (author, 30 Sep 2026). Run after 2026-09-30-about-counters-ru-labels.json. One group per label, so an edit made in admin since skips only its own.",
+  "groups": [
+    { "note": "Counters: RU label 4 — same dish, «в горшочке»", "set": [ [ "about_counters_3_label_ru", "жаркого по-ярославски", "жаркого в горшочке" ] ] },
+    { "note": "Counters: EN label 4", "set": [ [ "about_counters_3_label_en", "Yaroslavl-style roasts", "Yaroslavl roasts" ] ] },
+    { "note": "Counters: EN label 10", "set": [ [ "about_counters_9_label_en", "plates of signature broccoli", "crispy broccoli" ] ] },
+    { "note": "Counters: EN label 11", "set": [ [ "about_counters_10_label_en", "plates of cauliflower", "honey cauliflower" ] ] },
+    { "note": "Counters: EN label 14", "set": [ [ "about_counters_13_label_en", "Long Island Iced Teas", "Long Islands" ] ] }
+  ]
+}

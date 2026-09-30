@@ -1393,10 +1393,11 @@
     white-space: nowrap;
 }
 
+/* Body 16, not Caption 13 (author, 30 Sep 2026): the caption read too small beside the
+   Molot figures. */
 .about-story__counter-label {
-    font-size: var(--text-caption);
+    font-size: var(--text-body);
     line-height: 1.4;
-    letter-spacing: 0.52px;
     color: var(--ash);
 }
 
@@ -3474,6 +3475,14 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
         border-radius: 0;
         overflow: visible;
         transform: rotate(1deg); /* the ticket sits 1° off, as the quote card does */
+        transition: opacity 400ms ease, transform var(--dur-gentle) var(--ease-gentle);
+    }
+
+    /* …and straightens while it is read (author, 30 Sep 2026): about-story.js sets .is-straight
+       while the ticket's middle is in the middle of the screen, and drops it when it leaves, so
+       it tilts back for the next pass. Reduced motion: the ticket keeps its tilt, still. */
+    .about-story__counters.is-straight {
+        transform: rotate(0deg);
     }
 
     .about-story__counters-edge {
@@ -3502,6 +3511,8 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     }
 
     .about-story__counters-row {
+        display: flex; /* the ≥ 768 grid (Odometer, above) put three ruled rows side by side
+                          on tablets, labels wrapping in a third of the ticket (30 Sep 2026) */
         flex-direction: column;
         gap: 16px;
     }

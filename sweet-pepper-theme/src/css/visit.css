@@ -1816,6 +1816,14 @@
    desktop card back (Mushroom hairline, 8px radius, 32 inset, Peppercorn ground, the card's
    shadow) inside the phone composition; the booking block and the topic chips stay. */
 @media (min-width: 600px) and (max-width: 767px) {
+  /* The phone section ends at 0 because its full-bleed form runs into the footer; a card
+     needs ground under it. 64 = the footer's 16px scalloped overlap + the 48 the section
+     opens with (author, iPad mini, 30 Sep 2026 — dev tools' 768 preset never showed it:
+     the tablet band keeps the desktop 80). */
+  .visit-cta {
+    padding-bottom: 64px;
+  }
+
   .visit-cta .contact-form {
     margin: 0;
     padding: 32px;

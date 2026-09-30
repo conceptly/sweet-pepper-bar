@@ -267,8 +267,8 @@
 
 | Название | Цена |
 |---|---|
-| Xepec Tio Toto Cream | 455 ₽ |
-| Xepec Tio Toto Fino | 455 ₽ |
+| Херес Tio Toto Cream | 455 ₽ |
+| Херес Tio Toto Fino | 455 ₽ |
 
 ## ВИНО (125 мл | 750 мл)
 

@@ -444,8 +444,8 @@ APEROL CAMPARI SARTI (Any cocktail from the range) — **425 ₽**
 
 | Item | Serving | Price |
 |---|---|---|
-| Xepec Tio Toto Cream | 100 ml | 455 ₽ |
-| Xepec Tio Toto Fino | 100 ml | 455 ₽ |
+| Sherry Tio Toto Cream | 100 ml | 455 ₽ |
+| Sherry Tio Toto Fino | 100 ml | 455 ₽ |
 | Port | 100 ml | 365 ₽ |
 | Atxa Vermouth — aromatic Spanish vermouth | 40 ml | 150 ₽ |
 

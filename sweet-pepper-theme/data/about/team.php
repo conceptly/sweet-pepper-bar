@@ -39,13 +39,15 @@ return [
     // Longest-tenured first. Lines other than Lera's are PLACEHOLDERS (about-page-copy.md → Team).
     'members'    => [
         [
-            'name'    => 'Kostya',
-            'role'    => 'General Manager',
-            'since'   => 2018,
-            'photo'   => 'team/kostya.jpg',
+            // Was Kostya, General Manager, 2018 (author, 30 Sep 2026: the first card is Ira's —
+            // Figma 326:14845; her own message still to come)
+            'name'    => 'Ira',
+            'role'    => 'Floor Manager',
+            'since'   => 2023,
+            'photo'   => 'team/ira.jpg',
             'chip'    => 'ask',
             'message' => 'Ask me about the terrace swing-chairs. I know which one doesn\'t squeak.',
-            'ru'      => [ 'name' => 'Костя', 'name_gen' => 'Кости', 'role' => 'Управляющий' ],
+            'ru'      => [ 'name' => 'Ира', 'name_gen' => 'Иры', 'role' => 'Менеджер зала' ],
         ],
         [
             'name'    => 'Lera',

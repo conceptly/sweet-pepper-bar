@@ -1,0 +1,100 @@
+<?php
+/**
+ * Page loader — the heat slider as the wait screen (inc/page-loader.php).
+ *
+ * Figma: page-loader-heat 2729:72296 (night / day × three positions), page frames
+ * Page-load-night 2731:72573 / Page-load-day 2731:72838.
+ *
+ * `--p` (0–1) is the only moving part: the knob's place, the track's lit length and the
+ * wordmark's filled share all read it. The knob wears its daypart by `data-stop`
+ * (breakfast → lunch → dinner → party, the hero slider's four stops), set by the script.
+ *
+ * On every page, the same markup for every guest: it arms on a navigation, and the footer's
+ * [data-loader-replay] button plays it on the spot.
+ *
+ * `data-mode` (day | night) is the loader's own, by the hour — see the inline script.
+ *
+ * The inline script after the markup is the new page's half: when the page before it showed
+ * the loader, it opens this one already showing, at the same place, before anything else
+ * paints; src/js/page-loader.js then finishes and lifts it. A CSS timeout lifts it anyway if
+ * the module never runs.
+ *
+ * @package Sweet_Pepper
+ */
+
+$copy = $args;
+$word = mb_strtoupper( $copy['word'] );
+$icon = static function ( $name ) {
+    return '<span class="page-loader__icon page-loader__icon--' . esc_attr( $name ) . '">'
+        . sweet_pepper_inline_svg( "assets/icons/c-{$name}.svg" ) . '</span>';
+};
+$word_svg = static function ( $class ) use ( $word ) {
+    // textLength fits the word to the frame at any width, in either language
+    return '<svg class="page-loader__word-svg ' . $class . '" viewBox="0 0 1100 100" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">'
+        . '<text x="0" y="104" textLength="1100" lengthAdjust="spacingAndGlyphs">' . esc_html( $word ) . '</text></svg>';
+};
+?>
+<div class="page-loader" data-page-loader hidden
+     data-lines="<?php echo esc_attr( wp_json_encode( array_values( $copy['lines'] ) ) ); ?>"
+     data-done="<?php echo esc_attr( $copy['done'] ); ?>">
+    <p class="screen-reader-text" role="status"><?php echo esc_html( $copy['status'] ); ?></p>
+
+    <div class="page-loader__stage" aria-hidden="true">
+        <div class="page-loader__slider">
+            <span class="page-loader__track"></span>
+            <span class="page-loader__rest"></span>
+            <span class="page-loader__knob" data-stop="breakfast">
+                <span class="page-loader__romb">
+                    <?php echo $icon( 'coffee' ) . $icon( 'soup' ) . $icon( 'wine' ) . $icon( 'cocktail' ); // one shows per stop ?>
+                </span>
+            </span>
+        </div>
+        <div class="page-loader__foot">
+            <p class="page-loader__label"><?php echo esc_html( $copy['label'] ); ?></p>
+            <p class="page-loader__message">
+                <span class="page-loader__fire"><?php echo sweet_pepper_inline_svg( 'assets/icons/fire.svg' ); ?></span>
+                <span class="page-loader__line"><?php echo esc_html( $copy['first'] ); ?></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="page-loader__word" aria-hidden="true">
+        <?php echo $word_svg( 'page-loader__word-svg--outline' ); ?>
+        <div class="page-loader__word-heat"><?php echo $word_svg( 'page-loader__word-svg--heat' ); ?></div>
+    </div>
+</div>
+<script>
+(function () {
+    // Its own day and night, not the page's (author, 30 Sep 2026): Paper from 04:00 until
+    // 17:00 on the bar's clock (spBar, inc/daypart-head.php) — the hour the site's home page
+    // turns night (dinner) — Peppercorn after, so the loader
+    // stays one colour from the page it leaves to the page it opens. `?loader=…&mode=day|night`
+    // pins it for this browser tab to review the other one; `&mode=auto` lets go.
+    var el = document.querySelector('[data-page-loader]'), pin;
+    try {
+        pin = new URLSearchParams(location.search).get('mode');
+        if (pin === 'auto') sessionStorage.removeItem('spLoaderMode');
+        else if (/^(day|night)$/.test(pin)) sessionStorage.setItem('spLoaderMode', pin);
+        pin = sessionStorage.getItem('spLoaderMode');
+    } catch (e) { pin = null; }
+    el.spMode = function () {
+        if (pin) return pin;
+        var m = window.spBar ? spBar.status().mins : new Date().getHours() * 60;
+        return m >= 240 && m < 1020 ? 'day' : 'night';
+    };
+    el.dataset.mode = el.spMode();
+
+    // The new page's half: the page before showed the loader → open under it, in place.
+    var s;
+    try { s = JSON.parse(sessionStorage.getItem('spLoader') || 'null'); } catch (e) { s = null; }
+    if (!s || Date.now() - s.at > 20000) return;
+    el.hidden = false;
+    el.classList.add('is-shown', 'is-carried');
+    el.style.setProperty('--p', s.p);
+    el.querySelector('.page-loader__knob').dataset.stop = s.stop || 'breakfast';
+    // by index, not text: the language switch lands on the same line in the other language
+    var line = JSON.parse(el.dataset.lines)[s.line];
+    if (line) el.querySelector('.page-loader__line').textContent = line;
+    document.documentElement.classList.add('is-page-loading');
+})();
+</script>

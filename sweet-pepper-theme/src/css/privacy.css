@@ -46,6 +46,13 @@
     .footer-bottom .map-settings-link { padding: 4px 0; }
 }
 
+/* Small tablets (600–767, an iPad mini is 744): the links have the room to sit in one row under
+   the ©, 24px apart, still flush left — the phone stack read as unused width there (author,
+   30 Sep 2026). A row that doesn't fit wraps rather than overflowing. */
+@media (min-width: 600px) and (max-width: 767px) {
+    .footer-legal { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: 0 24px; }
+}
+
 /* Their states (29 Sep 2026, with the consent link): on the Lime footer Peppercorn has no darker
    step, so the underline answers — 1px at rest, 2px on hover and press, on the house curve —
    as the consent checkbox's «согласие» link (contacts.css). Pressed is fast, as everywhere. */

@@ -122,6 +122,7 @@ return [
         'Menu'                                       => 'Меню',
         'About'                                      => 'О баре',
         'Visit'                                      => 'В гости', // author, 25 Sep 2026 — was «Как добраться»
+        'Heat it up!'                                => 'Поддать жару!', // the footer's page-loader replay (author: shorter, for small screens — was Turn up the heat), 30 Sep 2026
         'A taste of Sweet Pepper'                    => 'Коротко о самом важном',
         "From breakfast to late\u{2011}night drinks" => 'Кухня, бар и сезонные новинки',
         'The place, the people, the story'           => 'Люди, идея и немного истории',

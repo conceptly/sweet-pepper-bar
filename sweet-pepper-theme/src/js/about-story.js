@@ -97,6 +97,33 @@ export function initAboutStory() {
     } );
 
     /* ---------------------------------------------------------------
+       Phones and tablets: the ticket (tilted 1°, about.css) straightens
+       while its middle is in the middle band of the screen — 25–75% of
+       the height — and tilts back when it leaves (author, 30 Sep 2026).
+       Class-only: above 991 the CSS has no tilt, so the class does nothing.
+       Position, not IntersectionObserver: the reveal engine parks
+       elements (local-dev notes → reveal.js triggers by layout too).
+       --------------------------------------------------------------- */
+    if ( ! prefersReduced ) {
+        let queued = false;
+        const level = () => {
+            queued = false;
+            const box = ledger.getBoundingClientRect();
+            const mid = box.top + box.height / 2;
+            const h   = window.innerHeight;
+            ledger.classList.toggle( 'is-straight', mid > h * 0.25 && mid < h * 0.75 );
+        };
+        const look = () => {
+            if ( queued ) return;
+            queued = true;
+            requestAnimationFrame( level );
+        };
+        window.addEventListener( 'scroll', look, { passive: true } );
+        window.addEventListener( 'resize', look );
+        look();
+    }
+
+    /* ---------------------------------------------------------------
        Phones: the timeline is a segmented year control showing one
        milestone at a time (about.css → Story, phones). The control *is*
        the state — the filled segment is the current year. Starts on the

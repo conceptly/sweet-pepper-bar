@@ -18,7 +18,8 @@
 import { gentleScrollTo } from './gentle-scroll';
 
 export function initMenuSingleSection() {
-    // TEST (29 Sep 2026): the phone subsection's closing line, Olive by default, Ash to compare
+    // TEST (29 Sep 2026): the subsection's closing line, Olive by default, Ash to compare — the class
+    // is set here, before the ≤ 991 guard, so it reaches desktop too (the line is there since 30 Sep 2026)
     if (new URLSearchParams(window.location.search).get('enddiv') === 'ash') {
         document.documentElement.classList.add('enddiv-ash');
     }

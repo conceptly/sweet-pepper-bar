@@ -85,13 +85,13 @@ return [
         'column'   => 'right',
         'dishes'   => [
             [
-                'dish_name' => 'Xepec Tio Toto Cream',
+                'dish_name' => 'Sherry Tio Toto Cream', // was «Xepec» — Latin letters imitating «Херес» (30 Sep 2026)
                 'price'     => '455-.',
                 'quantity'  => '100 ml',
                 'ru'        => [ 'dish_name' => 'Херес Tio Toto Cream' ],
             ],
             [
-                'dish_name'   => 'Xepec Tio Toto Fino',
+                'dish_name'   => 'Sherry Tio Toto Fino',
                 'price'       => '455-.',
                 'quantity'    => '100 ml',
                 'description' => 'Light and dry sherry.',

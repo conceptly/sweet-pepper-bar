@@ -13,8 +13,8 @@ return [
     'title' => 'YOUR LUNCH SORTED',
     'photo' => 'food/lunch/bagel-lunch-1.jpg',
     'alt'   => 'Bagel with a patty, potato wedges and fresh vegetables',
-    'badge' => '',
-    'ru'    => [ 'alt' => 'Бейгл с котлетой, картофель по-деревенски и свежие овощи', 'title' => 'С ОБЕДОМ РЕШЕНО' ],
+    'badge' => 'Community hit!', // as the infusions photo (author, 30 Sep 2026)
+    'ru'    => [ 'alt' => 'Бейгл с котлетой, картофель по-деревенски и свежие овощи', 'title' => 'С ОБЕДОМ РЕШЕНО', 'badge' => 'Хит у гостей!' ],
     'items' => [
         [ 'dish', 'Тыквенный суп', 'lunch' ],
         [ 'dish', 'Кесадилья', 'lunch' ],

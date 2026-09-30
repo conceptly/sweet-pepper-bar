@@ -219,13 +219,18 @@ html[data-theme="night"] .dish-icon {
     fill: currentColor;
 }
 
-/* Seasonal badge — lemon bg, slight rotation */
+/* Seasonal badge — Figma menuBadges (847:30705). Leans 1° left at rest; the season in its
+   label picks the colours (inc/menu-data.php → sweet_pepper_badge_season()). A label with no
+   season keeps the original Lemon Bright (Medium 500); the three seasons are SemiBold 600.
+   Both themes take the same colours — the badge is a sticker, not a surface. */
 .dish-seasonal-badge {
+    --badge-bg: var(--lemon);
+    --badge-ink: var(--peppercorn);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--lemon);
-    color: var(--peppercorn);
+    background-color: var(--badge-bg);
+    color: var(--badge-ink);
     font-family: var(--font-body);
     font-weight: 500;
     font-size: var(--text-caption);
@@ -234,7 +239,43 @@ html[data-theme="night"] .dish-icon {
     padding: 4px 8px;
     border-radius: 2px;
     transform: rotate(-1deg);
+    transition: transform var(--dur-gentle) var(--ease-gentle);
     white-space: nowrap;
+}
+
+/* Summer — Lemon + Peppercorn (15.3:1) */
+.dish-seasonal-badge--summer {
+    font-weight: 600;
+}
+
+/* Fall — Paprika + Lemon (author, 30 Sep 2026: the Lemon label keeps Fall and Winter one
+   family). 2.5:1 — under design.md §2.4's bar for text on a saturated fill, taken knowingly
+   for now. Lemon → Paprika → Deep Chili: the badge warms through the year. */
+.dish-seasonal-badge--fall {
+    --badge-bg: var(--paprika);
+    --badge-ink: var(--lemon);
+    font-weight: 600;
+}
+
+/* Winter — Deep Chili + Lemon (6.5:1) */
+.dish-seasonal-badge--winter {
+    --badge-bg: var(--chili-deep);
+    --badge-ink: var(--lemon);
+    font-weight: 600;
+}
+
+/* Hover — the sticker tips the other way (Figma menuBadge_hover 2718:72047: tilt=left →
+   tilt=right on hover, Gentle). Only where hover exists; no transition for reduced motion. */
+@media (hover: hover) {
+    .dish-seasonal-badge:hover {
+        transform: rotate(1deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dish-seasonal-badge {
+        transition: none;
+    }
 }
 
 /* Quantity — Golos Regular 13px/1.4, tracking 0.52px */

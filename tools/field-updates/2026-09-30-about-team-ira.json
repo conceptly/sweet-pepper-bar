@@ -1,0 +1,22 @@
+{
+  "page": "about",
+  "date": "2026-09-30",
+  "note": "About → «Команда»: the first card becomes Ira's (author, 30 Sep 2026; Figma 326:14845 — IRA, Floor manager · 3 years). Photo, name, genitive, role and year; the chip and the English message stay until the author gives Ira's own.",
+  "groups": [
+    {
+      "note": "About → «Команда»: card 1 — Kostya → Ira",
+      "set": [
+        [ "about_team_members_0_photo", "asset:team/kostya.jpg", "asset:team/ira.jpg" ],
+        [ "about_team_members_0_name_ru", "Костя", "Ира" ],
+        [ "about_team_members_0_name_en", "Kostya", "Ira" ],
+        [ "about_team_members_0_name_gen", "Кости", "Иры" ],
+        [ "about_team_members_0_role_ru", "Управляющий", "Менеджер зала" ],
+        [ "about_team_members_0_role_en", "General Manager", "Floor Manager" ],
+        [ "about_team_members_0_since", "2018", "2023" ]
+      ]
+    }
+  ],
+  "uploads": {
+    "team/ira.jpg": { "alt": "Ира в чёрном платье и жемчужном ожерелье у зелёной кирпичной стены", "topic": "Команда" }
+  }
+}

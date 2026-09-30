@@ -12,6 +12,8 @@
  *     @type string   $description     Short dish description. Optional.
  *     @type array    $icons           Array of icon SVG filenames from assets/icons/. Optional.
  *     @type string   $seasonal_label  Seasonal badge text, e.g. "Summer'26!". Optional.
+ *     @type string   $season          'summer' | 'fall' | 'winter' — the badge's colours. Optional:
+ *                                     read from the label when absent (sweet_pepper_badge_season()).
  *     @type array    $options         Array of option strings (bulleted sub-items). Optional.
  *     @type bool     $highlight       Whether the dish name is highlighted (olive/lime). Default false.
  *                                     Set to true for hits, seasonal items, or featured dishes.
@@ -24,6 +26,7 @@ $quantity       = $args['quantity'] ?? '';
 $description    = $args['description'] ?? '';
 $icons          = $args['icons'] ?? [];
 $seasonal_label = $args['seasonal_label'] ?? '';
+$season         = $args['season'] ?? ( function_exists( 'sweet_pepper_badge_season' ) ? sweet_pepper_badge_season( $seasonal_label ) : '' );
 $options        = $args['options'] ?? [];
 $highlight      = $args['highlight'] ?? false;
 
@@ -52,7 +55,7 @@ $name_class = 'dish-name' . ( $highlight ? ' dish-name--highlight' : '' );
             endforeach; ?>
             
             <?php if ( $seasonal_label ) : ?>
-                <span class="dish-seasonal-badge"><?php echo esc_html( $seasonal_label ); ?></span>
+                <span class="dish-seasonal-badge<?php echo $season ? ' dish-seasonal-badge--' . esc_attr( $season ) : ''; ?>"><?php echo esc_html( $seasonal_label ); ?></span>
             <?php endif; ?>
             
             <?php if ( $quantity ) : ?>

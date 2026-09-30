@@ -414,9 +414,13 @@ function sweet_pepper_about_story( $page_id ) {
 
     [ , $rows ] = sweet_pepper_page_rows( $page_id, 'about_counters', $typed['counters'], [ 'label' ] );
     $counters = [];
+    // Labels in sentence case (author, 30 Sep 2026): some began with a name («Лонг Айлендов»,
+    // "Yaroslavl-style roasts") and the rest in lower case, which read messy. The first letter
+    // only, so «кобб салатов» → «Кобб салатов», "B-52 shots" stays; the admin text is untouched.
+    $sentence = fn( $text ) => mb_strtoupper( mb_substr( $text, 0, 1 ) ) . mb_substr( $text, 1 );
     foreach ( $rows as $row ) {
         if ( (int) ( $row['number'] ?? 0 ) > 0 && '' !== sweet_pepper_pick( $row, 'label' ) ) {
-            $counters[] = [ 'number' => (int) $row['number'], 'label' => sweet_pepper_pick( $row, 'label' ) ];
+            $counters[] = [ 'number' => (int) $row['number'], 'label' => $sentence( sweet_pepper_pick( $row, 'label' ) ) ];
         }
     }
 

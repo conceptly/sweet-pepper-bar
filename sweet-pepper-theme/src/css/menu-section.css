@@ -184,6 +184,26 @@ html[data-theme="night"] .menu-section__title-text .section-eyebrow {
     width: 100%;
 }
 
+/* The last dish of a subsection closes it with a 2px line — Olive by day, Avocado by night
+   (author, 29 Sep 2026 on phones; desktop too, 30 Sep 2026). Ash / Mushroom under
+   ?enddiv=ash while the two are compared (menu-single-section.js). Not the add-ons card:
+   it is no .menu-section__subsection. */
+.menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom: 2px solid var(--olive);
+}
+
+html.enddiv-ash .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom-color: var(--ash);
+}
+
+html[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom-color: var(--avocado);
+}
+
+html.enddiv-ash[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom-color: var(--mushroom);
+}
+
 
 /* ── Deal Component ──
    Figma: deal (1405:45154) — coupon-style card with rugged (scalloped) top edge,
@@ -735,8 +755,8 @@ html[data-theme="night"] .menu-section__remark {
     }
 
     /* Stacked, a subsection needs more than the row rhythm to read as a new group (author,
-       29 Sep 2026): 36px between subsections, and the last dish of each closes it with a 2px
-       line — Olive; Ash under ?enddiv=ash while the two are compared (menu-single-section.js). */
+       29 Sep 2026): 36px between subsections; the closing line under its last dish is in the
+       base rules above (desktop too since 30 Sep 2026). */
     .menu-section__columns {
         order: 5;
         flex-direction: column;
@@ -752,22 +772,6 @@ html[data-theme="night"] .menu-section__remark {
     .menu-section__column--left,
     .menu-section__column--right {
         gap: 36px;
-    }
-
-    .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
-        border-bottom: 2px solid var(--olive);
-    }
-
-    html.enddiv-ash .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
-        border-bottom-color: var(--ash);
-    }
-
-    html[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
-        border-bottom-color: var(--avocado);
-    }
-
-    html.enddiv-ash[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
-        border-bottom-color: var(--mushroom);
     }
 
     /* An add-ons card is narrower than a list: its title may wrap, balanced — «ТАК, КАК ВЫ

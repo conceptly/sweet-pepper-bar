@@ -25,6 +25,7 @@ import './css/reveal.css';
 import './css/cookie-notice.css';
 import './css/privacy.css';
 import './css/privacy-page.css';
+import './css/page-loader.css';
 // iOS Safari fires :active only when the page listens for touches — without this every pressed
 // state (cards, buttons, the language switch) was invisible on an iPhone (25 Sep 2026).
 document.addEventListener('touchstart', () => {}, { passive: true });
@@ -54,6 +55,7 @@ import { initCookieNotice } from './js/cookie-notice';
 import { initLangNudge } from './js/lang-nudge';
 import { initBarColor } from './js/bar-color';
 import { initVacancy } from './js/vacancy';
+import { initPageLoader } from './js/page-loader';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -126,4 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Vacancy page: the ticket and the contact card settle from their tilt on phones
     initVacancy();
+
+    // Page loader — the heat slider while the next page is slow; the footer's replay
+    initPageLoader();
 });

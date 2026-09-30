@@ -137,9 +137,34 @@ function sweet_pepper_menu_dish_args( $dish, $lang ) {
         'description'    => $pick( $dish, 'description' ),
         'icons'          => array_slice( (array) ( $dish['icons'] ?? [] ), 0, 2 ),
         'seasonal_label' => $pick( $dish, 'seasonal' ),
+        'season'         => sweet_pepper_badge_season( ( $dish['seasonal_ru'] ?? '' ) . ' ' . ( $dish['seasonal_en'] ?? '' ) ),
         'options'        => $lines( $pick( $dish, 'options' ) ),
         'highlight'      => ! empty( $dish['highlight'] ),
     ];
+}
+
+/**
+ * The season a badge label names — its colours follow it (Figma menuBadges 847:30705:
+ * Summer / Fall / Winter, 30 Sep 2026). Read from the label the team already types
+ * («Лето’26!», «Autumn'26!»), so there is no field to keep in step; both languages
+ * are passed in, whichever is filled. A label that names no season (or spring, which
+ * has no variant yet) keeps the original Lemon badge.
+ *
+ * @param string $label One or both badge labels.
+ * @return string 'summer' | 'fall' | 'winter' | ''.
+ */
+function sweet_pepper_badge_season( $label ) {
+    $seasons = [
+        'summer' => 'лето|летн|summer', // not bare «лет»: «10 лет!» is no summer
+        'fall'   => 'осен|autumn|fall',
+        'winter' => 'зим|winter',
+    ];
+    foreach ( $seasons as $season => $stems ) {
+        if ( preg_match( '/(?<!\p{L})(?:' . $stems . ')/iu', (string) $label ) ) {
+            return $season;
+        }
+    }
+    return '';
 }
 
 /**

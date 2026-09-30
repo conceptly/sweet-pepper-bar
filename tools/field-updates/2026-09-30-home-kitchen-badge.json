@@ -1,0 +1,14 @@
+{
+  "page": "home",
+  "date": "2026-09-30",
+  "note": "Home → «Обед»: the kitchen photo takes the same caption badge as the infusions photo above it (author, 30 Sep 2026).",
+  "groups": [
+    {
+      "note": "Home → «Обед»: photo badge",
+      "set": [
+        [ "home_kitchen_badge_ru", "", "Хит у гостей!" ],
+        [ "home_kitchen_badge_en", "", "Community hit!" ]
+      ]
+    }
+  ]
+}

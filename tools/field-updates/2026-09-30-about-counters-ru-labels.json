@@ -1,0 +1,42 @@
+{
+  "page": "about",
+  "date": "2026-09-30",
+  "note": "About → «История» → counter ledger (author, 30 Sep 2026): two Russian labels without «порции», «медовой капусты» without «порций» (the guests' name for the dish), \"berry korzhiks\" → \"berry pastries\" (English readers don't know the korzhik). Sentence case is the theme's job (inc/about-data.php), not the text's.",
+  "groups": [
+    {
+      "note": "About → «История»: counters, RU labels 2 and 10",
+      "set": [
+        [
+          "about_counters_1_label_ru",
+          "порции тыквенного супа",
+          "тыквенных супов"
+        ],
+        [
+          "about_counters_9_label_ru",
+          "порции брокколи в сухарях",
+          "брокколи в сухарях"
+        ]
+      ]
+    },
+    {
+      "note": "About → «История»: counters, RU label 11",
+      "set": [
+        [
+          "about_counters_10_label_ru",
+          "порций медовой капусты",
+          "медовой капусты"
+        ]
+      ]
+    },
+    {
+      "note": "About → «История»: counters, EN label 7",
+      "set": [
+        [
+          "about_counters_6_label_en",
+          "berry korzhiks",
+          "berry pastries"
+        ]
+      ]
+    }
+  ]
+}

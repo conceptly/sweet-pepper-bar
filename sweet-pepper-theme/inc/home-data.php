@@ -195,6 +195,18 @@ function sweet_pepper_home_preview( $page_id, $key ) {
             $dishes[] = [ 'dish_name' => sweet_pepper_typed( $row, 'dish_name' ), 'description' => sweet_pepper_typed( $row, 'description' ) ] + $row;
         }
     }
+    // The home page is a taste, not the menu (author, 30 Sep 2026): no portions, and an item sold
+    // in two sizes shows its smaller price as «от 150-.» / "from 150-." — the kitchen rows beside
+    // it carry one price and no portion either. The menu pages keep both sizes.
+    foreach ( $dishes as &$row ) {
+        $row['quantity'] = '';
+        $prices          = explode( ' / ', (string) ( $row['price'] ?? '' ) );
+        if ( count( $prices ) > 1 ) {
+            $row['price'] = ( 'ru' === $lang ? 'от ' : 'from ' ) . $prices[0];
+        }
+    }
+    unset( $row );
+
     return [
         'title'       => $text( 'title' ),
         'image_url'   => sweet_pepper_home_photo( $page_id, "home_{$key}_photo", 'sp-3x2', $typed['photo'] ),

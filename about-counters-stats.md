@@ -59,24 +59,24 @@ The bar's birthday is **14 January 2014**. The heading's «ДВЕНАДЦАТЬ 
 
 ### Labels (on the site since 29 Sep 2026 — «История» repeater; `data/about/story.php` is the fallback)
 
-One line each at 375 px and on desktop, in both languages. Russian column edited by the author, 29 Sep 2026 — the colloquial forms are deliberate («чёрной смородины», «жаркого по-ярославски» count shots and portions without saying so).
+Typed in lower case; the site shows them in sentence case (30 Sep 2026). One line each at 375 px and on desktop — at Caption 13, and at Body 16 (30 Sep 2026) after five shorter names (`tools/field-updates/2026-09-30-about-counters-short-labels.json`) — «жаркого в горшочке» is the same dish as «по-ярославски», English keeps "Yaroslavl roasts". On 30 Sep 2026 three RU labels lost «порции / порций» («медовой капусты» is the guests' own name for the dish) and "berry korzhiks" became "berry pastries" (English readers don't know the korzhik) (`tools/field-updates/2026-09-30-about-counters-ru-labels.json`). Russian column edited by the author, 29 Sep 2026 — the colloquial forms are deliberate («чёрной смородины», «жаркого в горшочке» count shots and portions without saying so).
 
 | Figure | EN | RU |
 |---:|---|---|
 | 66 768 | cappuccinos | чашек капучино |
-| 37 944 | pumpkin soups | порции тыквенного супа |
+| 37 944 | pumpkin soups | тыквенных супов |
 | 101 583 | blackcurrant shots | чёрной смородины |
-| 53 152 | Yaroslavl-style roasts | жаркого по-ярославски |
+| 53 152 | Yaroslavl roasts | жаркого в горшочке |
 | 41 440 | Cobb salads | кобб салатов |
 | 89 250 | pancakes | блинчиков |
-| 6 050 | berry korzhiks | ягодных коржиков |
+| 6 050 | berry pastries | ягодных коржиков |
 | 14 820 | Sicilian salads | сицилийских салатов |
 | 32 772 | lattes | чашек латте |
-| 10 992 | plates of signature broccoli | порции брокколи в сухарях |
-| 31 896 | plates of cauliflower | порций медовой капусты |
+| 10 992 | crispy broccoli | брокколи в сухарях |
+| 31 896 | honey cauliflower | медовой капусты |
 | 74 736 | quesadillas | кесадилий |
 | 11 352 | B-52 shots | шота B-52 |
-| 24 204 | Long Island Iced Teas | Лонг Айлендов |
+| 24 204 | Long Islands | Лонг Айлендов |
 | 23 672 | Dragon Warriors | Воинов Дракона |
 
 ### Direction (author, 29 Sep 2026)

@@ -129,6 +129,7 @@ require_once get_template_directory() . '/inc/privacy.php';         // the priva
 require_once get_template_directory() . '/inc/vacancies.php';       // «Вакансии»: one record per opening, its page, the term and the archive, the About list         // the Russian home page's «Что нового» cards: imported from the VK wall, hourly
 require_once get_template_directory() . '/inc/admin-photo-preview.php'; // admin: photo fields previewed at the site's crop, sliders live
 require_once get_template_directory() . '/inc/seo.php';             // «Поиск» on every page, the description, Open Graph, the bar as schema.org data
+require_once get_template_directory() . '/inc/page-loader.php';     // the heat slider while the next page is slow, and its footer replay
 
 /**
  * Media topics — «Темы» on images: labels and filters instead of folders.

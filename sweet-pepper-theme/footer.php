@@ -36,11 +36,20 @@
                     <!-- Go To -->
                     <div class="footer-col footer-col--nav">
                         <h3 class="footer-col-title"><?php esc_html_e( 'GO TO', 'sweet-pepper' ); ?></h3>
+                        <?php
+                        // The page you're on is the active item (Figma NavItem, mode=footer, 57:3227) —
+                        // the same tests as the header nav.
+                        $sp_here = static function ( $is ) {
+                            return $is ? ' class="is-current" aria-current="page"' : '';
+                        };
+                        ?>
                         <ul class="footer-links">
-                            <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'sweet-pepper' ); ?></a></li>
-                            <li><a href="<?php echo esc_url( sweet_pepper_menu_url( 'food' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
-                            <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"><?php esc_html_e( 'About', 'sweet-pepper' ); ?></a></li>
-                            <li><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>"><?php esc_html_e( 'Visit', 'sweet-pepper' ); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"<?php echo $sp_here( is_front_page() ); ?>><?php esc_html_e( 'Home', 'sweet-pepper' ); ?></a></li>
+                            <li><a href="<?php echo esc_url( sweet_pepper_menu_url( 'food' ) ); ?>"<?php echo $sp_here( sweet_pepper_is_menu_page() ); ?>><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"<?php echo $sp_here( is_page_template( 'page-about.php' ) || is_singular( 'vacancy' ) ); ?>><?php esc_html_e( 'About', 'sweet-pepper' ); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>"<?php echo $sp_here( is_page_template( 'page-visit.php' ) ); ?>><?php esc_html_e( 'Visit', 'sweet-pepper' ); ?></a></li>
+                            <?php // the list's one voiced name: replays the page loader here (inc/page-loader.php); the flame opens on hover ?>
+                            <li><button type="button" class="footer-links__replay" data-loader-replay><span class="footer-links__flame"><?php echo sweet_pepper_inline_svg( 'assets/icons/fire.svg' ); ?></span><?php esc_html_e( 'Heat it up!', 'sweet-pepper' ); ?></button></li>
                         </ul>
                     </div>
                     

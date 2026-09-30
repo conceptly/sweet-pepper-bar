@@ -21,7 +21,7 @@
 
     <!-- Close button -->
     <button class="team-form-dialog__close js-team-form-close" type="button" aria-label="<?php echo esc_attr_x( 'Close', 'team form', 'sweet-pepper' ); ?>">
-        <i class="ph ph-x" aria-hidden="true"></i>
+        <?php echo sweet_pepper_ph( 'x' ); ?>
     </button>
 
     <!-- ── Compose state ── -->

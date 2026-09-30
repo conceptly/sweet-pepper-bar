@@ -43,6 +43,30 @@ function sweet_pepper_inline_svg( string $rel_path, string $label = '' ): string
 }
 
 /**
+ * A Phosphor icon, drawn from the theme's own copy (assets/icons/ph/<weight>/<name>.svg, MIT —
+ * assets/icons/ph/LICENSE, from @phosphor-icons/core 2.1.1).
+ *
+ * Until 30 Sep 2026 these came from Phosphor's web font: a blocking script from unpkg.com in
+ * <head> that pulled six stylesheets (every weight, thousands of glyphs) from jsdelivr — ahead
+ * of every first paint, from abroad, for 13 glyphs. Same glyphs, same sizes: the SVG is 1em
+ * square inside the old <i>, so every `font-size` rule written for the font still sizes it
+ * (.ph-icon in components.css). Add a glyph by copying it from the package into its weight
+ * folder. A glyph that changes with state is several SVGs, CSS showing one (button.php → icon_set).
+ *
+ * @param string $name   Phosphor name without the weight suffix, e.g. 'map-pin'.
+ * @param string $weight 'regular' | 'bold' | 'fill'.
+ * @param string $class  Extra classes for the <i>.
+ * @return string <i class="ph-icon …"><svg…></i>, or '' when the file is missing.
+ */
+function sweet_pepper_ph( string $name, string $weight = 'regular', string $class = '' ): string {
+    $svg = sweet_pepper_inline_svg( "assets/icons/ph/{$weight}/{$name}.svg" );
+    if ( '' === $svg ) {
+        return '';
+    }
+    return '<i class="ph-icon' . ( '' !== $class ? ' ' . esc_attr( $class ) : '' ) . '" aria-hidden="true">' . $svg . '</i>';
+}
+
+/**
  * Mark an SVG's root element decorative (no label) or as a named image (label).
  *
  * @param string $svg   SVG markup.

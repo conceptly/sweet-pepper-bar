@@ -71,15 +71,15 @@
                         <h3 class="footer-col-title"><?php esc_html_e( 'VISIT', 'sweet-pepper' ); ?></h3>
                         <div class="footer-contact-list">
                             <div class="contact-item contact-item--address">
-                                <i class="ph ph-map-pin" aria-hidden="true"></i>
+                                <?php echo sweet_pepper_ph( 'map-pin' ); ?>
                                 <span><?php esc_html_e( 'Kirova 10/25, Yaroslavl', 'sweet-pepper' ); ?></span>
                             </div>
                             <div class="contact-item contact-item--phone">
-                                <i class="ph ph-phone" aria-hidden="true"></i>
+                                <?php echo sweet_pepper_ph( 'phone' ); ?>
                                 <a href="tel:+74852911202">+7 (4852) 911-202</a>
                             </div>
                             <div class="contact-item contact-item--email">
-                                <i class="ph ph-envelope-simple" aria-hidden="true"></i>
+                                <?php echo sweet_pepper_ph( 'envelope-simple' ); ?>
                                 <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a>
                             </div>
                             <?php // VK leads (website-brief.md → News/social feed: chips out to VK (leading) and Instagram — inc/geo.php decides) ?>
@@ -126,7 +126,7 @@
                     <?php endif; ?>
                 </span>
                 <a href="#page" class="footer-back-to-top">
-                    <?php esc_html_e( 'Back to top', 'sweet-pepper' ); ?> <i class="ph-bold ph-arrow-up" aria-hidden="true"></i>
+                    <?php esc_html_e( 'Back to top', 'sweet-pepper' ); ?> <?php echo sweet_pepper_ph( 'arrow-up', 'bold' ); ?>
                 </a>
             </div>
         </div>

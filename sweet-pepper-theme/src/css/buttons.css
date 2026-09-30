@@ -56,6 +56,14 @@
     display: block;
 }
 
+/* A button with a glyph per state (button.php → icon_set; the home hero's menu button): every
+   glyph is in the markup, the button's data-icon picks the one shown — no JS touches an icon */
+.btn-icon-set .ph-icon { display: none; }
+.btn[data-icon="coffee"] .ph-icon--coffee,
+.btn[data-icon="fork-knife"] .ph-icon--fork-knife,
+.btn[data-icon="wine"] .ph-icon--wine,
+.btn[data-icon="martini"] .ph-icon--martini { display: inline-block; }
+
 /* Primary Button */
 .btn-primary {
     background-color: var(--chili);

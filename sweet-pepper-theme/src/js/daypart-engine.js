@@ -261,9 +261,9 @@ export function initDaypartEngine() {
         // Update menu button label + icon
         if (menuBtn) {
             const labelSpan = menuBtn.querySelector('.btn-label');
-            const iconSpan = menuBtn.querySelector('.btn-icon i');
             if (labelSpan) labelSpan.textContent = data.btnText;
-            if (iconSpan) iconSpan.className = `ph-fill ph-${data.btnIcon}`;
+            // the button holds all four glyphs (hero.php → icon_set); CSS shows the one named here
+            menuBtn.dataset.icon = data.btnIcon;
             if (data.btnHref) menuBtn.href = ((window.spLang && window.spLang.root) || '') + data.btnHref; // the language prefix (inc/lang.php)
         }
     }

@@ -457,3 +457,24 @@ html[data-theme="night"] .section-description {
         --section-link-size: 34px;       /* SectionLinkMobile; the fit pass overrides */
     }
 }
+
+/* ── Phosphor icons as SVG (30 Sep 2026; sweet_pepper_ph(), inc/inline-svg.php) ──
+   The <i> the web font drew into stays, the glyph inside it is an SVG: 1em square, so every
+   `font-size` written for the font still sizes it, and currentColor keeps each rule's colour.
+   vertical-align is the font's own: Phosphor's glyphs sit 1/16em below the baseline (descent
+   64 of 1024) — -0.125em, the usual icon-font guess, put the reserve drawer's × 1.5px low. */
+.ph-icon {
+    display: inline-block;
+    flex: none;
+    width: 1em;
+    height: 1em;
+    font-style: normal;
+    line-height: 1;
+    vertical-align: -0.0625em;
+}
+
+.ph-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}

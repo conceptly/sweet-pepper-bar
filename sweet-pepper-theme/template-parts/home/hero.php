@@ -69,6 +69,7 @@ foreach ( $args['closed'] as $window => $c ) {
                         'label' => $first['button'],
                         'type'  => 'secondary',
                         'icon'  => 'coffee',
+                        'icon_set' => [ 'coffee', 'fork-knife', 'wine', 'martini' ], // the dayparts' glyphs; daypart-engine.js sets data-icon
                         'id'    => 'hero-menu-btn',
                         // Matches the server-rendered breakfast label; daypart-engine.js
                         // swaps both label and href once it knows the real daypart.

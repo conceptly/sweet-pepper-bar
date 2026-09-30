@@ -74,7 +74,7 @@ $tab_icon  = $is_drinks ? 'martini' : 'fork-knife';
         <div class="menu-hero__nav-bg menu-hero__nav-bg--parchment" aria-hidden="true"></div>
 
         <button type="button" class="menu-jump__close js-menu-jump-close" aria-label="<?php esc_attr_e( 'Close menu sections', 'sweet-pepper' ); ?>">
-            <i class="ph ph-x" aria-hidden="true"></i>
+            <?php echo sweet_pepper_ph( 'x' ); ?>
         </button>
 
         <!-- Scroll region: word list + door. Centred when there is room,

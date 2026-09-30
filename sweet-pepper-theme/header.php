@@ -22,7 +22,7 @@
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <?php wp_head(); ?>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <?php // Phosphor's unpkg script is gone (30 Sep 2026): its 13 glyphs are theme SVGs — sweet_pepper_ph(), inc/inline-svg.php ?>
 </head>
 
 <body <?php body_class(); ?>>

@@ -19,6 +19,7 @@ $url        = $args['url'] ?? '';
 $type       = $args['variant'] ?? ( $args['type'] ?? 'primary' );
 $icon_left  = $args['icon_left'] ?? ( $args['icon'] ?? '' );
 $icon_right = $args['icon_right'] ?? '';
+$icon_set   = $args['icon_set'] ?? []; // several left glyphs, one shown by the button's data-icon (the home hero's menu button)
 $icon_left_svg  = $args['icon_left_svg'] ?? '';
 $icon_right_svg = $args['icon_right_svg'] ?? '';
 $class      = $args['class'] ?? '';
@@ -40,6 +41,7 @@ if ( ! empty( $class ) ) {
 $class_attr = 'class="' . esc_attr( implode( ' ', $classes ) ) . '"';
 $id_attr    = ! empty( $id ) ? 'id="' . esc_attr( $id ) . '"' : '';
 $id_attr   .= ! empty( $aria_label ) ? ' aria-label="' . esc_attr( $aria_label ) . '"' : '';
+$id_attr   .= ! empty( $icon_set ) ? ' data-icon="' . esc_attr( $icon_left ) . '"' : '';
 
 $icon_left_html = '';
 if ( ! empty( $icon_left_svg ) ) {
@@ -47,8 +49,16 @@ if ( ! empty( $icon_left_svg ) ) {
     if ( $svg ) {
         $icon_left_html = '<span class="btn-icon btn-icon-left">' . $svg . '</span>';
     }
+} elseif ( ! empty( $icon_set ) ) {
+    // Every glyph inlined, CSS shows the one data-icon names (buttons.css): an icon changes by
+    // CSS showing one of its SVGs, never by JS editing it (design.md → Icons → Delivery)
+    $icon_left_html = '<span class="btn-icon btn-icon-left btn-icon-set">';
+    foreach ( $icon_set as $icon_name ) {
+        $icon_left_html .= sweet_pepper_ph( $icon_name, 'fill', 'ph-icon--' . $icon_name );
+    }
+    $icon_left_html .= '</span>';
 } elseif ( ! empty( $icon_left ) ) {
-    $icon_left_html = '<span class="btn-icon btn-icon-left"><i class="ph-fill ph-' . esc_attr( $icon_left ) . '" aria-hidden="true"></i></span>';
+    $icon_left_html = '<span class="btn-icon btn-icon-left">' . sweet_pepper_ph( $icon_left, 'fill' ) . '</span>';
 }
 
 $icon_right_html = '';
@@ -58,7 +68,7 @@ if ( ! empty( $icon_right_svg ) ) {
         $icon_right_html = '<span class="btn-icon btn-icon-right">' . $svg . '</span>';
     }
 } elseif ( ! empty( $icon_right ) ) {
-    $icon_right_html = '<span class="btn-icon btn-icon-right"><i class="ph-fill ph-' . esc_attr( $icon_right ) . '" aria-hidden="true"></i></span>';
+    $icon_right_html = '<span class="btn-icon btn-icon-right">' . sweet_pepper_ph( $icon_right, 'fill' ) . '</span>';
 }
 
 $label_html = $label_mobile

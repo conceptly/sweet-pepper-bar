@@ -554,7 +554,7 @@ html[data-theme="night"] .lang-nudge strong {
     /* No eyebrow, no second CTA on mobile (website-brief.md → Mobile — home hero) */
     .hero-eyebrow,
     #hero-menu-btn,
-    html.lang-nudge-on .lang-nudge-wrapper { /* not in the mobile frames: the header's floating nudge serves the bento (header.css) */
+    html.lang-nudge-on .lang-nudge-wrapper { /* no nudge on the bento at all (author, 30 Sep 2026; header.css hides the float too) */
         display: none;
     }
 

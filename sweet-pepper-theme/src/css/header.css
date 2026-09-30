@@ -490,11 +490,11 @@ html .mobile-drawer--dark .lang-switch a.lang-option:focus-visible {
 }
 
 /* ── Language nudge, floating (inc/lang.php → sweet_pepper_lang_nudge( true ), 29 Sep 2026) ──
-   On every page where the guest first lands, English only, under the language switch (under
-   the menu button on phones): the hero nudge's outline family on the raised surface, as the
-   cookie notice's corner card. Absolute in the header, so it scrolls away with the page on
-   desktop; on phones the header is fixed, so lang-nudge.js sends it off after half a screen.
-   The home page keeps its in-flow hero nudge wherever that one shows (hero.css) — one per page. */
+   On every page where the guest first lands, English only, under the language switch: the
+   hero nudge's outline family on the raised surface, as the cookie notice's corner card.
+   Absolute in the header, so it scrolls away with the page. Never on phones, nor on the home
+   bento (author, 30 Sep 2026: no nudge on mobile at all); the home page keeps its in-flow hero
+   nudge on the desktop hero (hero.css) — one per page. */
 .header-container {
     position: relative;
 }
@@ -514,14 +514,15 @@ html.lang-nudge-on .lang-nudge--float {
     display: flex;
 }
 
-/* The home page's own nudge covers the desktop hero; the float serves the bento layout only */
+/* The home page's own nudge covers the desktop hero; the bento gets none (hero.css) */
 html.lang-nudge-on body.home .lang-nudge--float {
     display: none;
 }
 
-@media (max-width: 767px), (min-width: 768px) and (max-width: 991px) and (min-height: 1000px) {
-    html.lang-nudge-on body.home .lang-nudge--float {
-        display: flex;
+/* No nudge on phones (author, 30 Sep 2026) */
+@media (max-width: 767px) {
+    html.lang-nudge-on .lang-nudge--float {
+        display: none;
     }
 }
 
@@ -558,12 +559,6 @@ html.lang-nudge-on body.home .lang-nudge--float {
 .page-template-page-visit .lang-nudge--float button,
 .single-vacancy .lang-nudge--float button {
     color: var(--mushroom);
-}
-
-@media (max-width: 767px) {
-    .lang-nudge--float {
-        max-width: calc(100vw - 2 * var(--gutter));
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

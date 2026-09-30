@@ -51,6 +51,7 @@ import { initReveal } from './js/reveal';
 import { initCountUp } from './js/count-up';
 import { initMapPreferences } from './js/map-permission';
 import { initCookieNotice } from './js/cookie-notice';
+import { initLangNudge } from './js/lang-nudge';
 import { initBarColor } from './js/bar-color';
 import { initVacancy } from './js/vacancy';
 
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cookie notice — prototype behind ?notice= (cookie-notice-plan.md)
     initCookieNotice();
+    initLangNudge();
     initBarColor(); // <meta theme-color> follows the theme — the browser's own chrome takes the page's ground
 
     // Vacancy page: the ticket and the contact card settle from their tilt on phones

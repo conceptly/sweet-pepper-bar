@@ -1,0 +1,42 @@
+{
+  "page": "visit",
+  "date": "2026-09-29",
+  "note": "Visit → «Статус бара», Russian: the author's second pass on the leads and the closed states.",
+  "groups": [
+    {
+      "note": "Visit → «Статус бара»: Russian leads and closed states",
+      "set": [
+        [
+          "visit_status_lead_open_ru",
+          "ХОРОШИЕ НОВОСТИ!",
+          "ЖДЁМ В ГОСТИ!"
+        ],
+        [
+          "visit_status_lead_last_orders_ru",
+          "ЕЩЁ МОЖНО ПОЕСТЬ",
+          "УСПЕВАЙТЕ!"
+        ],
+        [
+          "visit_status_lead_bar_snacks_ru",
+          "ЕСТЬ ЧЕМ ЗАКУСИТЬ",
+          "НА ПОСОШОК"
+        ],
+        [
+          "visit_status_lead_closed_ru",
+          "ДО СКОРОЙ ВСТРЕЧИ",
+          "ДО ВСТРЕЧИ!"
+        ],
+        [
+          "visit_status_bar_closed_ru",
+          "БАР ЗАКРЫТ",
+          "БАР ОТДЫХАЕТ"
+        ],
+        [
+          "visit_status_kitchen_closed_ru",
+          "КУХНЯ ЗАКРЫТА",
+          "КУХНЯ ОТДЫХАЕТ"
+        ]
+      ]
+    }
+  ]
+}

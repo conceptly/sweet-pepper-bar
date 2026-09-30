@@ -4,7 +4,8 @@
  * state of the bar's clock (src/js/visit-hero.js decides the state; these are its words).
  * Fallback for sweet_pepper_visit_status() and the seed source.
  *
- *   ru — from visit-page-copy-ru-draft.md → Вводная строка статуса / Состояния бара и кухни.
+ *   ru — from visit-page-copy-ru-draft.md → Вводная строка статуса / Состояния бара и кухни
+ *        (the author's second pass, 29 Sep 2026).
  *
  * Keys are the engine's states: lead_<scene>, bar_<state>, kitchen_<state>.
  *
@@ -25,17 +26,17 @@ return [
     'kitchen_bar_snacks'  => 'bar snacks only',
     'kitchen_closed'      => "kitchen's closed",
     'ru'                  => [
-        'lead_open'           => 'ХОРОШИЕ НОВОСТИ!',
-        'lead_last_orders'    => 'ЕЩЁ МОЖНО ПОЕСТЬ',
-        'lead_bar_snacks'     => 'ЕСТЬ ЧЕМ ЗАКУСИТЬ',
+        'lead_open'           => 'ЖДЁМ В ГОСТИ!',
+        'lead_last_orders'    => 'УСПЕВАЙТЕ!',
+        'lead_bar_snacks'     => 'НА ПОСОШОК',
         'lead_winding'        => 'ЗАКРУГЛЯЕМСЯ',
-        'lead_closed'         => 'ДО СКОРОЙ ВСТРЕЧИ',
+        'lead_closed'         => 'ДО ВСТРЕЧИ!',
         'bar_open'            => 'БАР ОТКРЫТ',
         'bar_wrapping'        => 'БАР ЗАКРЫВАЕТСЯ',
-        'bar_closed'          => 'БАР ЗАКРЫТ',
+        'bar_closed'          => 'БАР ОТДЫХАЕТ',
         'kitchen_open'        => 'КУХНЯ РАБОТАЕТ',
         'kitchen_last_orders' => 'ПОСЛЕДНИЕ ЗАКАЗЫ',
         'kitchen_bar_snacks'  => 'ТОЛЬКО ЗАКУСКИ',
-        'kitchen_closed'      => 'КУХНЯ ЗАКРЫТА',
+        'kitchen_closed'      => 'КУХНЯ ОТДЫХАЕТ',
     ],
 ];

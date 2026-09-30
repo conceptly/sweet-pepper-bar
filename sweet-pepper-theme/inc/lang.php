@@ -208,6 +208,15 @@ add_action( 'wp_head', function () {
  * own language — hreflang does that job for them), never in the Customizer. Nothing is
  * stored until the guest taps: a proposal is not a choice.
  *
+ * The language nudge (author, 29 Sep 2026) — asked only when the site guessed: on the
+ * English page, with no choice stored, on the page where the guest first lands this
+ * session (sessionStorage `sp-landed`), and not within 30 days of a × (localStorage
+ * `sp-nudge-off`). That is the case the browser can't see — a Russian reader behind an
+ * English system. The Russian page never asks: the browser already said Russian. A tap on
+ * «Переключить» is a choice like the pill; the × turns down the question, not a language.
+ * The answer is a class on <html> (`lang-nudge-on`), set before paint, so the in-flow hero
+ * nudge never shifts the page. Markup: sweet_pepper_lang_nudge() below.
+ *
  * Cache-safe: both twin URLs are a function of the URL, so the cached page is the same for
  * everyone and the decision is made in the browser.
  */
@@ -225,7 +234,7 @@ add_action( 'wp_head', function () {
     var here = <?php echo wp_json_encode( sweet_pepper_lang() ); ?>, twins = <?php echo wp_json_encode( $twins ); ?>, KEY = 'sp-lang';
     function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
     document.addEventListener('click', function (e) {
-        var a = e.target.closest && e.target.closest('a.lang-option[hreflang]');
+        var a = e.target.closest && e.target.closest('a.lang-option[hreflang], a.lang-nudge__link[hreflang]');
         if (a) { try { localStorage.setItem(KEY, a.getAttribute('hreflang')); } catch (e2) {} }
     });
     if (/bot|crawl|spider|slurp|yandex|googl|bing|baidu|duckduck|lighthouse|headless|preview/i.test(navigator.userAgent) || navigator.webdriver) return;
@@ -241,7 +250,12 @@ add_action( 'wp_head', function () {
             if (l === 'en') break;
         }
     }
-    if (want !== here && twins[want]) location.replace(twins[want] + location.hash);
+    if (want !== here && twins[want]) { location.replace(twins[want] + location.hash); return; }
+    if (!<?php echo sweet_pepper_lang_nudge_here() ? 'true' : 'false'; ?>) return; // pages without the nudge don't use up the visit's one ask
+    var first = false, off = 0;
+    try { first = !sessionStorage.getItem('sp-landed'); sessionStorage.setItem('sp-landed', '1'); } catch (e) {}
+    try { off = +localStorage.getItem('sp-nudge-off') || 0; } catch (e) {}
+    if (first && here === 'en' && !twins[get()] && Date.now() - off > 2592e6) document.documentElement.classList.add('lang-nudge-on');
 })();
 </script>
     <?php
@@ -265,4 +279,39 @@ function sweet_pepper_lang_switch( $class = '' ) {
         }
     }
     echo '</nav>';
+}
+
+/**
+ * Where the nudge may ask. The rule is "wherever the guest first lands", but for now the
+ * home page only (author, 29 Sep 2026: the floating card's spacing on the other pages needs
+ * refining before it goes out). Set to true to ask on every page again. Elsewhere nothing
+ * prints and the visit's one ask is kept for the home page — a guest landing on /en/about/
+ * is asked when they reach /en/.
+ */
+const SWEET_PEPPER_NUDGE_EVERYWHERE = false;
+
+function sweet_pepper_lang_nudge_here() {
+    return SWEET_PEPPER_NUDGE_EVERYWHERE || is_front_page();
+}
+
+/**
+ * The language nudge — «Удобнее по-русски? Переключить →» and a ×, on the English page only
+ * (the rule is in the head script above). Hidden until <html> carries `lang-nudge-on`.
+ * Two places: in the home hero's footer on desktop (template-parts/home/hero.php, in flow),
+ * and floating under the header's language switch everywhere else (header.php), which the
+ * CSS hides on the home page wherever the hero's own is showing — one nudge per page.
+ * Behaviour: src/js/lang-nudge.js.
+ *
+ * @param bool $float The header's floating card, rather than the hero's.
+ */
+function sweet_pepper_lang_nudge( $float = false ) {
+    if ( 'en' !== sweet_pepper_lang() || ! sweet_pepper_lang_nudge_here() ) {
+        return;
+    }
+    ?>
+<div class="lang-nudge<?php echo $float ? ' lang-nudge--float' : ''; ?>" data-lang-nudge>
+    <a class="lang-nudge__link" href="<?php echo esc_url( sweet_pepper_lang_url( 'ru' ) ); ?>" hreflang="ru" lang="ru">Удобнее по-русски? <strong>Переключить &rarr;</strong></a>
+    <button type="button" class="lang-nudge__close" data-lang-nudge-close aria-label="<?php esc_attr_e( 'Close', 'sweet-pepper' ); ?>">&times;</button>
+</div>
+    <?php
 }

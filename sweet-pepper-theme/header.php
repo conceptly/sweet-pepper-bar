@@ -71,6 +71,7 @@
             <button class="menu-toggle js-drawer-open" aria-controls="mobile-drawer" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open menu', 'sweet-pepper' ); ?>">
                 <?php echo sweet_pepper_inline_svg( 'assets/icons/c-hamburger.svg' ); ?>
             </button>
+            <?php sweet_pepper_lang_nudge( true ); // floats under the language switch (inc/lang.php) ?>
         </div><!-- .header-container -->
     </header><!-- #masthead -->
 

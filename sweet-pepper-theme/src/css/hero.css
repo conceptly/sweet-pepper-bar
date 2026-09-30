@@ -429,7 +429,7 @@ html[data-theme="night"] .daypart-tile:focus-visible .tile-img-wrapper {
    height and pushes the foot word down instead. Dismissal still collapses the wrapper
    (daypart-engine.js animates its height to 0), so the word rides up when it goes. */
 .lang-nudge-wrapper {
-    display: flex;
+    display: none; /* shown by the head script's rule (inc/lang.php → `lang-nudge-on`), English page only */
     justify-content: flex-end;
     margin-bottom: 16px;
     overflow: hidden;
@@ -466,6 +466,10 @@ html[data-theme="night"] .daypart-tile:focus-visible .tile-img-wrapper {
 .lang-nudge__link:hover strong,
 .lang-nudge__link:focus-visible strong {
     text-decoration: underline;
+}
+
+html.lang-nudge-on .lang-nudge-wrapper {
+    display: flex;
 }
 
 /* Slide out to the right (masked by wrapper overflow:hidden) */
@@ -550,7 +554,7 @@ html[data-theme="night"] .lang-nudge strong {
     /* No eyebrow, no second CTA on mobile (website-brief.md → Mobile — home hero) */
     .hero-eyebrow,
     #hero-menu-btn,
-    .lang-nudge-wrapper { /* nudge not in the mobile frames — open */
+    html.lang-nudge-on .lang-nudge-wrapper { /* not in the mobile frames: the header's floating nudge serves the bento (header.css) */
         display: none;
     }
 

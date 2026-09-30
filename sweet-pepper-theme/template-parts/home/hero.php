@@ -23,7 +23,6 @@ foreach ( $dayparts as $dp => $d ) {
 foreach ( $args['closed'] as $window => $c ) {
     $json['closed'][ $window ] = [ 'headline' => $c['headline'], 'subhead' => $c['body'] ];
 }
-$other_lang = 'ru' === sweet_pepper_lang() ? 'en' : 'ru'; // the nudge proposes the OTHER language
 ?>
 
     <!-- Hero Section with Daypart Tile Grid -->
@@ -81,18 +80,9 @@ $other_lang = 'ru' === sweet_pepper_lang() ? 'en' : 'ru'; // the nudge proposes 
             
             <!-- Hero footer: lang-nudge (in flow, right-aligned) + section link word -->
             <div class="hero-footer">
+                <?php // The language nudge, English page only, shown by the head script's rule (inc/lang.php) ?>
                 <div class="lang-nudge-wrapper">
-                    <div class="lang-nudge" id="lang-nudge">
-                        <?php // The twin language's own words (home-copy-en.md → 8; the draft's RU counterpart), a link to this page in it ?>
-                        <a class="lang-nudge__link" href="<?php echo esc_url( sweet_pepper_lang_url( $other_lang ) ); ?>" hreflang="<?php echo esc_attr( $other_lang ); ?>" lang="<?php echo esc_attr( $other_lang ); ?>">
-                            <?php if ( 'ru' === $other_lang ) : ?>
-                                Удобнее по-русски? <strong>Переключить &rarr;</strong>
-                            <?php else : ?>
-                                Prefer English? <strong>Switch to English &rarr;</strong>
-                            <?php endif; ?>
-                        </a>
-                        <button id="lang-nudge-close" aria-label="<?php esc_attr_e( 'Close', 'sweet-pepper' ); ?>">&times;</button>
-                    </div>
+                    <?php sweet_pepper_lang_nudge(); ?>
                 </div>
                 
                 <?php 

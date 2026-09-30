@@ -488,3 +488,87 @@ html body:is(.page-template-page-about, .page-template-page-visit, .single-vacan
 html .mobile-drawer--dark .lang-switch a.lang-option:focus-visible {
     outline-color: var(--lime);
 }
+
+/* ── Language nudge, floating (inc/lang.php → sweet_pepper_lang_nudge( true ), 29 Sep 2026) ──
+   On every page where the guest first lands, English only, under the language switch (under
+   the menu button on phones): the hero nudge's outline family on the raised surface, as the
+   cookie notice's corner card. Absolute in the header, so it scrolls away with the page on
+   desktop; on phones the header is fixed, so lang-nudge.js sends it off after half a screen.
+   The home page keeps its in-flow hero nudge wherever that one shows (hero.css) — one per page. */
+.header-container {
+    position: relative;
+}
+
+.lang-nudge.lang-nudge--float { /* two classes: hero.css's .lang-nudge sets display: flex */
+    display: none;
+    position: absolute;
+    top: calc(100% + 16px);
+    right: var(--gutter);
+    z-index: 1;
+    background: var(--surface);
+    box-shadow: 0 4px 16px rgba(21, 19, 23, 0.12);
+    animation: lang-nudge-float-in var(--dur-gentle) var(--ease-gentle) 1.2s backwards;
+}
+
+html.lang-nudge-on .lang-nudge--float {
+    display: flex;
+}
+
+/* The home page's own nudge covers the desktop hero; the float serves the bento layout only */
+html.lang-nudge-on body.home .lang-nudge--float {
+    display: none;
+}
+
+@media (max-width: 767px), (min-width: 768px) and (max-width: 991px) and (min-height: 1000px) {
+    html.lang-nudge-on body.home .lang-nudge--float {
+        display: flex;
+    }
+}
+
+@keyframes lang-nudge-float-in {
+    from {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+}
+
+/* Leaving: out to the right, as the hero's (the header clips nothing, so it fades as it goes) */
+.lang-nudge--float.is-dismissed {
+    transform: translateX(24px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* The fixed dark pages (About, Visit, a vacancy): the night recipe whatever the hour */
+.page-template-page-about .lang-nudge--float,
+.page-template-page-visit .lang-nudge--float,
+.single-vacancy .lang-nudge--float {
+    color: var(--mushroom);
+    background: var(--soft-peppercorn);
+    border-color: var(--mushroom);
+}
+
+.page-template-page-about .lang-nudge.lang-nudge--float strong, /* both classes: outranks hero.css's day Olive */
+.page-template-page-visit .lang-nudge.lang-nudge--float strong,
+.single-vacancy .lang-nudge.lang-nudge--float strong {
+    color: var(--lime);
+}
+
+.page-template-page-about .lang-nudge--float button,
+.page-template-page-visit .lang-nudge--float button,
+.single-vacancy .lang-nudge--float button {
+    color: var(--mushroom);
+}
+
+@media (max-width: 767px) {
+    .lang-nudge--float {
+        max-width: calc(100vw - 2 * var(--gutter));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lang-nudge--float {
+        animation: none;
+    }
+}
+

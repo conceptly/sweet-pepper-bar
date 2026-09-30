@@ -319,27 +319,4 @@ export function initDaypartEngine() {
             activateOnLoad(nowTile);
         }
     }
-
-    /* ── Lang nudge — slide-out dismiss ────────────── */
-    const langNudge = document.getElementById('lang-nudge');
-    const langNudgeClose = document.getElementById('lang-nudge-close');
-    if (langNudge && langNudgeClose) {
-        langNudgeClose.addEventListener('click', () => {
-            // Add dismiss class to trigger slide-out
-            langNudge.classList.add('is-dismissed');
-            // After animation, collapse the wrapper
-            langNudge.addEventListener('transitionend', () => {
-                const wrapper = langNudge.closest('.lang-nudge-wrapper');
-                if (wrapper) {
-                    wrapper.style.height = wrapper.offsetHeight + 'px';
-                    // Force reflow
-                    wrapper.offsetHeight;
-                    wrapper.style.transition = 'height 0.3s ease, margin 0.3s ease';
-                    wrapper.style.height = '0';
-                    wrapper.style.marginBottom = '0';
-                    wrapper.style.overflow = 'hidden';
-                }
-            }, { once: true });
-        });
-    }
 }

@@ -21,7 +21,7 @@
     --loader-fire: var(--olive);
     --loader-word: var(--chili);
     --loader-word-stroke: 1.5px;
-    --loader-label: var(--chili);
+    --loader-label: var(--chili);                            /* both modes, full strength — Figma's 75% at night read as Chili Deep on the iPhone; Paprika tried, Chili picked (author, 30 Sep 2026) */
     --loader-track: linear-gradient(90deg, var(--lime) 0%, var(--chili) 60%, var(--chili-deep) 100%);
     --loader-glow: 0 0 6px 0 rgb(227 67 20 / 0.35);          /* Chili, soft */
     --loader-glow-first: 0 0 6px 0 rgb(227 67 20 / 0.35);
@@ -47,7 +47,6 @@
     --loader-fire: var(--lemon);
     --loader-word: var(--lemon);
     --loader-word-stroke: 1px;
-    --loader-label: var(--paprika);                         /* Chili at 75% read too dark on Peppercorn (author, iPhone, 30 Sep 2026) */
     --loader-track: linear-gradient(90deg, var(--lemon) 0%, var(--lime) 33.173%, var(--chili) 65.865%, var(--chili-deep) 100%);
     --loader-glow: 0 0 8px 0 var(--lemon);                  /* Figma GlowYellow */
     --loader-glow-first: 1px 1px 8px 0 var(--lemon);

@@ -334,7 +334,7 @@ With or without a side, as you like.
 | San Sebastián cheesecake — Creamy with a baked crust | 150 g | 335 ₽ |
 | Peanut cake — with cocoa & sour-cream frosting | 125 g | 325 ₽ |
 | Caramel cheesecake — Creamy with peanuts | 130 g | 325 ₽ |
-| Kids' dessert — with seasonal berries & cream | 110 g | 175 ₽ |
+| Danish dessert — with seasonal berries & cream | 110 g | 175 ₽ |
 | Ice cream — Cream; or Chocolate; or Pistachio | 50 g | 95 ₽ |
 
 ## Breakfast

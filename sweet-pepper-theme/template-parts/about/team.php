@@ -5,7 +5,8 @@
  * Light section (Parchment bg).
  * Section header: eyebrow, headline, "Write to the team" CTA.
  * Drift strip: horizontally scrolling row of pinned wall/group photos
- *   + "To be continued…" end card.
+ *   + "To be continued…" end card. A click on a photo opens the wall lightbox
+ *   (template-parts/about/team-lightbox.php, rendered after the section).
  * Team card grid: 4×2, each card has default (photo + name + role + chip)
  *   and active (message reveal) states toggled by JS.
  *
@@ -13,7 +14,7 @@
  * page's «Команда» tab: 6 or 8 members (an even count is validated on save), tenure
  * printed from the year each joined, the chip's wording from a preset.
  *
- * @param array $args eyebrow · headline · headline_2 · wall[] (src, label) ·
+ * @param array $args eyebrow · headline · headline_2 · wall[] (src, full, label) ·
  *                    members[] (name, role, photo, chip, message)
  *
  * @package Sweet_Pepper
@@ -141,4 +142,7 @@ $team_members = $args['members'];
 
 <?php // Render the "Write to the Team" form modal (fixed-position overlay)
 get_template_part( 'template-parts/components/team-form' );
+
+// The wall lightbox (fixed-position overlay): the strip's photos, large
+get_template_part( 'template-parts/about/team-lightbox', null, [ 'wall' => $wall_photos ] );
 ?>

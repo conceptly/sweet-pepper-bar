@@ -225,7 +225,11 @@ function sweet_pepper_about_team( $page_id ) {
         if ( ! $src ) {
             continue;
         }
-        $wall[] = [ 'src' => $src, 'label' => (string) ( $row['year'] ?? '' ) ];
+        // The lightbox's print (template-parts/about/team-lightbox.php): the 1440 × 960 crop where
+        // the upload is that large, else the upload itself — WordPress hands back the original
+        // when a size was never cut. 960px wide on a desktop, so 1440 is its 1.5×.
+        $full   = sweet_pepper_photo_url( $row['photo'] ?? '', 'sp-hero', $row['fallback'] ?? '' );
+        $wall[] = [ 'src' => $src, 'full' => $full ?: $src, 'label' => (string) ( $row['year'] ?? '' ) ];
     }
 
     $chips   = sweet_pepper_team_chips();

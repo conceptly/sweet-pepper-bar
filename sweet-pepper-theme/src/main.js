@@ -20,6 +20,7 @@ import './css/menu-nav-bar.css';
 import './css/dish-picker.css';
 import './css/location.css';
 import './css/about.css';
+import './css/team-lightbox.css';
 import './css/visit.css';
 import './css/vacancy.css';
 import './css/reveal.css';
@@ -48,6 +49,7 @@ import { initHowItFeels } from './js/how-it-feels';
 import { initAboutStory } from './js/about-story';
 import { initAboutTeam } from './js/about-team';
 import { initAboutDrift } from './js/about-drift';
+import { initTeamLightbox } from './js/team-lightbox';
 import { initTeamForm } from './js/team-form';
 import { initVisitHero } from './js/visit-hero';
 import { initGentleScroll } from './js/gentle-scroll';
@@ -113,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Dream Team card message toggle
     initAboutTeam();
     initAboutDrift(); // the wall strip: wheel → sideways, one drift on entrance
+    initTeamLightbox(); // …and a click on a print opens the wall, closer
 
     // Initialize "Write to the team" form modal
     initTeamForm();

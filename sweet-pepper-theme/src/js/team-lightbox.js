@@ -1,84 +1,52 @@
 /**
- * About — Dream Team wall lightbox. PROTOTYPE behind ?lightbox (1 Oct 2026).
+ * About — Dream Team wall lightbox: the wall, closer (author, 1 Oct 2026).
  *
- * A click on a print of the wall strip (.about-team__drift) opens the wall, closer: the same
- * prints at lightbox scale on a dark see-through ground, each with its pin, tilt and year pill
- * (team-lightbox.css). Sideways from 768 up, a column on phones (author). Without the flag the
- * page is untouched — no listener, no markup.
+ * A click on a print of the wall strip (.about-team__drift) opens the same prints at lightbox
+ * scale on a dark see-through ground, each with its pin, tilt and year pill — sideways from
+ * 768 up, a column on phones with the open print edge to edge (team-lightbox.css). The dialog
+ * is in the page (template-parts/about/team-lightbox.php); this script makes the strip's
+ * prints the way in, so without it they stay photos.
  *
- *   ?lightbox            the defaults: a1 · p4 on the cord · grow (author, 1 Oct 2026)
- *   ?lightbox=a2         the page blurred behind the ground (a1: the ground alone)
- *   ?lightbox=p3         phone column with every print 16px in from the edges, on the cord
- *                        (p4: the open print edge to edge, the neighbours at 80%, on the cord;
- *                        nocord takes the cord away)
- *   ?lightbox=fade       the open print settles in the middle
- *                        (grow: it grows from its own place on the strip, and goes back there)
- *   Combine with a dash: ?lightbox=a1-p3-fade
- *
- * Moving: a swipe or a trackpad scrolls the wall natively (scroll-snap); a click on a waiting
- * year, the arrow keys, Home / End and a mouse wheel roll to it. Esc, the × and a click on
- * the ground close; the strip is left on the year the guest was looking at, and focus goes
- * to that print.
- *
- * Prototype shortcuts, to settle in the real build: the markup is made here (the labels are
- * typed in both languages below, not in the .po), the larger file is guessed from the crop's
- * name, and this is wired from about-drift.js so main.js stays untouched.
+ *   Opening   The print flies from its place on the strip to the middle; on closing the strip
+ *             is rolled to the year the guest was looking at and the print flies back onto
+ *             its own pin. Under prefers-reduced-motion it is simply there.
+ *   Moving    The scroller is native (scroll-snap): a swipe, a trackpad and a touch drag work
+ *             by themselves. A click on a waiting year, the arrow keys, Home / End and a
+ *             mouse wheel (one year per gesture) roll to it on the house spring.
+ *   Closing   Esc, the ×, a click on the ground. Focus goes to the strip's print of the year
+ *             last looked at.
+ *   Photos    Nothing loads until the first opening. Phones show the strip's own crop
+ *             (already in the cache); from 768 up the larger file, lazily — the open year
+ *             and its neighbours first — over the crop until it arrives.
  *
  * @module team-lightbox
  */
 
-import '../css/team-lightbox.css';
+import { gentleEase } from './gentle-ease';
 
 const ROLL_MS = 700;
 const CLOSE_MS = 400; // team-lightbox.css → .is-closing
 
-const X = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-
-// --ease-gentle, solved for a scroll tween (how-it-feels.js → gentleEase; one copy when this is built)
-function gentleEase(t) {
-    const x1 = 0.33, y1 = 0.57, x2 = 0.08, y2 = 1.19;
-    const bx = (u) => 3 * x1 * u * (1 - u) * (1 - u) + 3 * x2 * u * u * (1 - u) + u * u * u;
-    const by = (u) => 3 * y1 * u * (1 - u) * (1 - u) + 3 * y2 * u * u * (1 - u) + u * u * u;
-    let u = t;
-    for (let i = 0; i < 6; i++) {
-        const dx = 3 * x1 * (1 - u) * (1 - 3 * u) + 3 * x2 * u * (2 - 3 * u) + 3 * u * u;
-        if (Math.abs(dx) < 1e-6) break;
-        u = Math.min(1, Math.max(0, u - (bx(u) - t) / dx));
-    }
-    return by(u);
-}
-
-function readFlag() {
-    const raw = new URLSearchParams(window.location.search).get('lightbox');
-    if (raw === null) return null;
-    const tokens = raw.toLowerCase().split(/[^a-z0-9]+/);
-    return {
-        blur: tokens.includes('a2'),
-        bleed: !tokens.includes('p3'),
-        cord: !tokens.includes('nocord'),
-        grow: !tokens.includes('fade'),
-    };
-}
-
 export function initTeamLightbox() {
-    const flag = readFlag();
     const strip = document.querySelector('.about-team__drift');
-    if (!flag || !strip) return;
+    const box = document.getElementById('team-lightbox');
+    if (!strip || !box) return;
 
     const sources = [...strip.querySelectorAll('.about-team__wall-card:not(.about-team__wall-card--tbc)')];
-    if (!sources.length) return;
+    const view = box.querySelector('.team-lightbox__view');
+    const cards = [...box.querySelectorAll('.team-lightbox__card')];
+    const closeBtn = box.querySelector('.team-lightbox__close');
+    if (!sources.length || sources.length !== cards.length) return;
 
-    const ru = document.documentElement.lang.toLowerCase().startsWith('ru');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const column = window.matchMedia('(max-width: 767px)');
 
-    let box = null;     // the dialog, made on the first opening
-    let view = null;    // its scroller
-    let cards = [];
     let current = -1;
     let isOpen = false;
+    let loaded = false;
     let rollRaf = 0;
     let wheelLock = 0;
+    let closeTimer = 0;
 
     // ── The strip's prints are the way in ──
     strip.classList.add('has-lightbox');
@@ -96,75 +64,36 @@ export function initTeamLightbox() {
         });
     });
 
-    function build() {
-        box = document.createElement('div');
-        box.className = 'team-lightbox'
-            + (flag.blur ? ' team-lightbox--blur' : '')
-            + (flag.bleed ? ' team-lightbox--bleed' : '')
-            + (flag.cord ? ' team-lightbox--cord' : '')
-            + (flag.grow ? ' team-lightbox--grow' : ' team-lightbox--fade');
-        box.setAttribute('role', 'dialog');
-        box.setAttribute('aria-modal', 'true');
-        box.setAttribute('aria-label', ru ? 'Командные фото по годам' : 'Team photos by year');
-        box.tabIndex = -1; // a pointer's opening parks focus here: no ring lit by a click (mail-chooser.js)
+    cards.forEach((card, i) => card.addEventListener('click', () => { if (i !== current) go(i); }));
+    closeBtn.addEventListener('click', close);
+    // A click on the ground — anywhere that is not a print — closes
+    view.addEventListener('click', (e) => { if (!e.target.closest('.team-lightbox__card')) close(); });
+    view.addEventListener('scroll', onScroll, { passive: true });
+    view.addEventListener('wheel', onWheel, { passive: false });
+    ['touchstart', 'pointerdown'].forEach((type) => view.addEventListener(type, cancelRoll, { passive: true }));
+    box.addEventListener('keydown', onKey);
 
-        view = document.createElement('div');
-        view.className = 'team-lightbox__view';
-        const track = document.createElement('div');
-        track.className = 'team-lightbox__track';
-
-        cards = sources.map((source, i) => {
-            const img = source.querySelector('img');
-            const year = source.querySelector('.about-team__wall-pill span');
-            const paprika = source.querySelector('.about-team__wall-pin--paprika');
-            const card = document.createElement('button');
-            card.type = 'button';
-            card.className = 'team-lightbox__card ' + (source.classList.contains('about-team__wall-card--v2') ? 'team-lightbox__card--v2' : 'team-lightbox__card--v1');
-            card.setAttribute('aria-label', img.alt);
-            // The print is its own box inside the button: the flight below transforms it, and a
-            // transformed snap target would drag the scroller after it
-            card.innerHTML = `<span class="team-lightbox__print"><span class="team-lightbox__pin team-lightbox__pin--${paprika ? 'paprika' : 'lime'}"></span>`
-                + `<span class="team-lightbox__photo"><img alt="" decoding="async"><span class="team-lightbox__pill"></span></span></span>`;
-            card.querySelector('.team-lightbox__pill').textContent = year ? year.textContent.trim() : '';
-
-            // The strip's crop is already in the cache: it is the picture on phones, and the
-            // ground under the larger file elsewhere (the upload itself — guessed from the
-            // crop's -WxH name, kept only if it loads)
-            const small = img.currentSrc || img.src;
+    // The photos, on the first opening. The strip's crop is the ground under the larger file
+    // and takes its place if that one fails.
+    function loadPhotos() {
+        if (loaded) return;
+        loaded = true;
+        cards.forEach((card) => {
             const photo = card.querySelector('.team-lightbox__photo');
-            const big = card.querySelector('img');
-            const full = small.replace(/-\d+x\d+(?=\.\w+$)/, '');
-            photo.style.backgroundImage = `url("${small}")`;
-            if (column.matches || full === small) {
-                big.src = small;
+            const { src, full } = photo.dataset;
+            const img = document.createElement('img');
+            img.alt = ''; // the button carries the name
+            img.decoding = 'async';
+            photo.style.backgroundImage = `url("${src}")`;
+            if (column.matches || !full || full === src) {
+                img.src = src;
             } else {
-                big.loading = 'lazy';
-                big.addEventListener('error', () => { big.src = small; }, { once: true });
-                big.src = full;
+                img.loading = 'lazy'; // the open year and its neighbours now, the rest as the wall is rolled to them
+                img.addEventListener('error', () => { img.src = src; }, { once: true });
+                img.src = full;
             }
-
-            card.addEventListener('click', () => { if (i !== current) go(i); });
-            track.append(card);
-            return card;
+            photo.prepend(img);
         });
-
-        const closeBtn = document.createElement('button');
-        closeBtn.type = 'button';
-        closeBtn.className = 'team-lightbox__close';
-        closeBtn.setAttribute('aria-label', ru ? 'Закрыть' : 'Close');
-        closeBtn.innerHTML = X;
-        closeBtn.addEventListener('click', close);
-
-        view.append(track);
-        box.append(view, closeBtn);
-        document.body.append(box);
-
-        // A click on the ground — anywhere that is not a print — closes
-        view.addEventListener('click', (e) => { if (!e.target.closest('.team-lightbox__card')) close(); });
-        view.addEventListener('scroll', onScroll, { passive: true });
-        view.addEventListener('wheel', onWheel, { passive: false });
-        ['touchstart', 'pointerdown'].forEach((type) => view.addEventListener(type, cancelRoll, { passive: true }));
-        box.addEventListener('keydown', onKey);
     }
 
     // ── Where a print sits in the scroller ──
@@ -272,14 +201,16 @@ export function initTeamLightbox() {
         }
         if (e.key === 'Tab') {
             // two stops: the open print and the ×
-            const stops = [cards[current], box.querySelector('.team-lightbox__close')];
+            const stops = [cards[current], closeBtn];
             const at = stops.indexOf(document.activeElement);
             e.preventDefault();
             stops[(at + (e.shiftKey ? stops.length - 1 : 1) + stops.length) % stops.length].focus({ preventScroll: true });
         }
     }
 
-    // ── grow: the open print leaves from, and returns to, its place on the strip ──
+    // ── The flight: the open print leaves from, and returns to, its place on the strip. It
+    //    moves the print inside the button — a transformed snap target would drag the
+    //    scroller after it ──
     const printOf = (card) => card.querySelector('.team-lightbox__print');
 
     function flightFrom(print, source) {
@@ -303,29 +234,29 @@ export function initTeamLightbox() {
 
     function open(i, byKey) {
         if (isOpen) return;
-        if (!box) build();
         isOpen = true;
+        loadPhotos();
         document.body.style.overflow = 'hidden';
         measure();
         current = -1;
         jump(i);
 
+        clearTimeout(closeTimer); // a reopening inside the closing flight
         box.classList.remove('is-closing');
+        cards.forEach((c) => { printOf(c).style.transform = ''; });
         const card = cards[i];
         const print = printOf(card);
-        if (flag.grow && !reducedMotion.matches) {
+        if (!reducedMotion.matches) {
             print.classList.add('is-flying');
             print.style.transform = flightFrom(print, sources[i]);
             void print.offsetWidth; // the start is painted before the print lets go
-            box.classList.add('is-open');
-            requestAnimationFrame(() => {
-                print.classList.remove('is-flying');
-                print.style.transform = '';
-            });
-        } else {
-            box.classList.add('is-open', 'is-opening');
-            setTimeout(() => box.classList.remove('is-opening'), 900);
         }
+        box.classList.add('is-open');
+        requestAnimationFrame(() => {
+            print.classList.remove('is-flying');
+            print.style.transform = '';
+        });
+        // A pointer's opening parks focus on the dialog: no ring lit by a click (mail-chooser.js)
         (byKey ? card : box).focus({ preventScroll: true });
     }
 
@@ -338,11 +269,11 @@ export function initTeamLightbox() {
         const print = printOf(cards[i]);
         showOnStrip(i); // the strip is left on the year the guest was looking at
 
-        box.classList.remove('is-open', 'is-opening');
-        if (flag.grow && !reducedMotion.matches) {
+        box.classList.remove('is-open');
+        if (!reducedMotion.matches) {
             box.classList.add('is-closing');
             print.style.transform = flightFrom(print, sources[i]);
-            setTimeout(() => {
+            closeTimer = setTimeout(() => {
                 box.classList.remove('is-closing');
                 print.style.transform = '';
             }, CLOSE_MS + 20);

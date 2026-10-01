@@ -33,6 +33,7 @@ return [
         'Photos on VK'                               => 'Фото в VK', // EN was Browse the photo albums (30 Sep 2026)
         'Write to the team'                          => 'Написать команде',
         'To be continued…'                           => 'Продолжение следует…',
+        'Team photos by year'                        => 'Командные фото по годам', // the wall lightbox's name for screen readers (1 Oct 2026) — mine, descriptive
         'View role on hh.ru'                         => 'Вакансия на hh.ru',
         'Send your CV'                               => 'Отправить резюме',
         'YOUR DESTINATION'                           => 'ВАМ СЮДА',

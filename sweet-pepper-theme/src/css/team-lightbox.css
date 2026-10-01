@@ -1,21 +1,20 @@
 /* ===========================================================================
-   Dream Team wall lightbox — PROTOTYPE behind ?lightbox (1 Oct 2026, team-lightbox.js)
+   Dream Team wall lightbox — the wall, closer (author, 1 Oct 2026)
+   template-parts/about/team-lightbox.php · team-lightbox.js
 
-   The wall, closer: the drift strip at lightbox scale. Same pin, same line, same 1° tilt,
-   same Lemon year pill; the years on either side wait under a veil of the ground colour
-   (the prints stay opaque — the page never shows through a photo).
+   The drift strip at lightbox scale. Same pin, same line, same 1° tilt, same Lemon year
+   pill; the years on either side wait under a veil of the ground colour (the prints stay
+   opaque — the page never shows through a photo). Always dark, on a see-through
+   Peppercorn ground, no blur (the author's pick of A1 over the blurred A2).
 
-   ≥768   sideways, as the strip runs: the open print centred, a neighbour's edge each side
-   ≤767   a column (author): the years above and below the open one
-            --bleed   the open print edge to edge, the neighbours at 80% (p4, the default;
-                      without it every print sits 16px in — p3)
-            --cord    one vertical line through every pin (on by default; nocord)
-   --blur  the page blurred behind the ground (a2); without it — the default, a1 — the
-           strip's own prints show through in the gaps
+   ≥768   sideways, as the strip runs: the open print centred, a neighbour's edge each
+          side, the Olive line behind the pins
+   ≤767   a column (author): the years above and below the open one; the open print edge
+          to edge, the others at 80%, one vertical line — the cord — through every pin
    =========================================================================== */
 
-/* The strip's prints become the way in — the hand: a print promises a click (author,
-   1 Oct 2026; the pepper cursor was tried first). */
+/* The strip's prints become the way in (team-lightbox.js adds the class) — the hand: a
+   print promises a click (author, 1 Oct 2026; the pepper cursor was tried first). */
 .about-team__drift.has-lightbox .about-team__wall-card:not(.about-team__wall-card--tbc) {
     cursor: pointer;
 }
@@ -29,6 +28,8 @@
 .team-lightbox {
     --lb-gap: clamp(32px, 5.5vw, 80px);
     --lb-peek: clamp(48px, 11vw, 160px);
+    /* 960 at most; never wider than the screen less a neighbour's edge each side, never taller
+       than the screen less 160 (--lb-vh: the dialog's own height, set on opening) */
     --lb-w: min(960px, 100vw - 2 * (var(--lb-gap) + var(--lb-peek)), (var(--lb-vh, 100dvh) - 160px) * 1.5);
     --lb-h: calc(var(--lb-w) / 1.5);
     --lb-pin-w: 96px;
@@ -46,18 +47,13 @@
 }
 
 .team-lightbox:focus {
-    outline: none;
+    outline: none; /* a pointer's opening parks focus here (team-lightbox.js) */
 }
 
 .team-lightbox.is-open {
     opacity: 1;
     visibility: visible;
     transition-delay: 0s;
-}
-
-.team-lightbox--blur {
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
 }
 
 /* The scroller: a native one, so a swipe, a trackpad and a drag all move the wall */
@@ -114,7 +110,8 @@
 }
 
 .team-lightbox__card.is-current {
-    cursor: default;
+    z-index: 2; /* over the waiting years while it flies */
+    cursor: default; /* a click on the open print does nothing */
 }
 
 .team-lightbox__card:focus-visible {
@@ -129,6 +126,18 @@
     position: relative;
     display: block;
     transition: transform var(--dur-gentle) var(--ease-gentle);
+}
+
+.team-lightbox__print.is-flying {
+    transition: none;
+}
+
+.team-lightbox.is-closing .team-lightbox__card.is-current .team-lightbox__print {
+    transition: transform 400ms var(--ease-gentle-flat);
+}
+
+.team-lightbox.is-closing {
+    transition: opacity 250ms var(--ease-gentle-flat) 150ms, visibility 0s 400ms;
 }
 
 .team-lightbox__pin {
@@ -239,6 +248,7 @@
     border-radius: 50%;
     background-color: color-mix(in srgb, var(--peppercorn) 70%, transparent); /* it can sit on a print */
     color: var(--paper);
+    font-size: 24px; /* the × (.ph-icon is 1em) */
     cursor: pointer;
     transition: background-color 0.3s var(--ease-gentle-flat), scale 0.3s var(--ease-bouncy);
 }
@@ -256,40 +266,12 @@
     outline-offset: 2px;
 }
 
-/* ── Opening ── */
-
-/* fade (B): the open print settles from a shade smaller */
-.team-lightbox--fade.is-opening .team-lightbox__card.is-current .team-lightbox__print {
-    animation: team-lightbox-settle var(--dur-gentle) var(--ease-gentle) both;
-}
-
-@keyframes team-lightbox-settle {
-    from { transform: scale(0.94); }
-}
-
-/* grow (C): team-lightbox.js starts the open print on its place on the strip and lets go */
-.team-lightbox__print.is-flying {
-    transition: none;
-}
-
-.team-lightbox.is-closing .team-lightbox__card.is-current .team-lightbox__print {
-    transition: transform 400ms var(--ease-gentle-flat);
-}
-
-.team-lightbox__card.is-current {
-    z-index: 2; /* over the waiting years while it flies */
-}
-
-.team-lightbox.is-closing {
-    transition: opacity 250ms var(--ease-gentle-flat) 150ms, visibility 0s 400ms;
-}
-
-/* ── Phones: a column ── */
+/* ── Phones: a column, the open print edge to edge, on the cord ── */
 
 @media (max-width: 767px) {
     .team-lightbox {
-        --lb-w: calc(100vw - 32px);
-        --lb-gap: 40px;
+        --lb-w: 100vw;
+        --lb-gap: 12px;
         --lb-pin-w: 48px;
         --lb-pin-top: -4px;
         --lb-line: 4px;
@@ -310,13 +292,8 @@
         padding-block: calc((var(--lb-vh, 100dvh) - var(--lb-h)) / 2); /* the first and the last year can reach the middle */
     }
 
-    .team-lightbox__track::before {
-        display: none;
-    }
-
     /* The cord: one line down through every pin */
-    .team-lightbox--cord .team-lightbox__track::before {
-        display: block;
+    .team-lightbox__track::before {
         top: 0;
         bottom: 0;
         left: calc(50% - var(--lb-line) / 2);
@@ -325,13 +302,7 @@
         height: auto;
     }
 
-    /* p4 — the open print edge to edge, the years around it at 80% */
-    .team-lightbox--bleed {
-        --lb-w: 100vw;
-        --lb-gap: 12px;
-    }
-
-    .team-lightbox--bleed .team-lightbox__card:not(.is-current) {
+    .team-lightbox__card:not(.is-current) {
         transform: scale(0.8);
     }
 }
@@ -342,9 +313,5 @@
     .team-lightbox__photo,
     .team-lightbox.is-closing .team-lightbox__card.is-current .team-lightbox__print {
         transition: none;
-    }
-
-    .team-lightbox--fade.is-opening .team-lightbox__card.is-current .team-lightbox__print {
-        animation: none;
     }
 }

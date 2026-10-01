@@ -99,29 +99,21 @@ Seen in headless Chrome only (402 to 1920 wide). Owed: Safari, a real phone, red
 
 ---
 
-## Team wall lightbox — a prototype behind `?lightbox` (1 October 2026)
+## Team wall lightbox — built (1 October 2026)
 
-Build record: `report.md` → *Team wall lightbox*; rules and open points: `website-brief.md` → *Team wall lightbox — on trial*. Click a group photo on the About wall. Below 768px wide the lightbox is a column — narrow the window to see it on a computer.
-
-| What | RU | EN |
-|---|---|---|
-| The defaults — A1, P4 on the cord, grow | `http://sweet-pepper-bar.local/about/?lightbox` | `http://sweet-pepper-bar.local/en/about/?lightbox` |
-| A2 — the page blurred behind | `…/about/?lightbox=a2` | `…/en/about/?lightbox=a2` |
-| P3 — phone prints 16px in, one size | `…/about/?lightbox=p3` | `…/en/about/?lightbox=p3` |
-| The phone column without the cord | `…/about/?lightbox=nocord` | `…/en/about/?lightbox=nocord` |
-| The other opening | `…/about/?lightbox=fade` | `…/en/about/?lightbox=fade` |
+Build record: `report.md` → *Team wall lightbox* (built, and the prototype under it); rules: `website-brief.md` → *Team wall lightbox*. Click a group photo on the About wall: `http://sweet-pepper-bar.local/about/` · `http://sweet-pepper-bar.local/en/about/`. Below 768px wide the lightbox is a column — narrow the window to see it on a computer. The prototype's `?lightbox` switch is gone.
 
 | Question | Result |
 |---|---|
 | Which direction of the five | **A — the wall, closer (author, 1 Oct, from the contact sheet)** |
-| The ground | **Dark, see-through, no blur — A1 (author, 1 Oct, in the browser);** A2 kept behind `a2` |
-| The phone layout | **A column, the open print edge to edge, on the cord — P4 + cord (author, 1 Oct, in the browser);** P3 and `nocord` kept to compare |
+| The ground | **Dark, see-through, no blur (author, 1 Oct, in the browser)** — the blurred version was tried and dropped |
+| The phone layout | **A column, the open print edge to edge, on the cord (author, 1 Oct, in the browser)** — prints 16px in, and no cord, were tried and dropped |
 | The cursor on the prints | **The hand (author, 1 Oct)** — the pepper cursor was built first |
-| The opening — the print flies from the strip, or settles in the middle | Open — `grow` is the default |
+| The opening | **The print flies from the strip (author, 1 Oct)** — settling in the middle was tried and dropped |
 | Does 1.7× on a phone show the faces | Open — a real phone; a sideways pan at 3.3× was the alternative on the first sheet |
-| Photo sharpness at 960px | Open — the uploads are 1080 × 720 |
+| Photo sharpness at 960px | Open — the uploads are 1080 × 720; 1440 or more wanted |
 
-Seen in headless Chrome only (375 to 1440 wide, RU and EN; reduced motion and touch emulated). Owed: Safari, a real phone, a screen reader, the test site (not deployed).
+Seen in headless Chrome only (375 to 1440 wide, RU and EN; reduced motion, touch and no-JS emulated). Owed: Safari, a real phone, a screen reader, the test and main sites after the deploy.
 
 ---
 

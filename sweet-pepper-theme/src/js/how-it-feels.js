@@ -15,26 +15,12 @@
  * @package Sweet_Pepper
  */
 
+import { gentleEase } from './gentle-ease'; // --ease-gentle, solved for the quote roll's scrollTop tween
+
 const CLOCK_INTERVAL = 5000;  // was 3500 — slower heartbeat (author, Sep 2026)
 const SEIZED_PAUSE   = 8000;  // after a human touch: the visual release (undim / ease home); the clock never restarts
 const ROLL_MS        = 900;   // quote roll duration, on the house spring (--ease-gentle)
 
-// cubic-bezier(0.33, 0.57, 0.08, 1.19) — the --ease-gentle token, solved for scrollTop
-// tweens (a scroll can't take a CSS easing). Overshoots past 1, so the roll lands with a
-// small settle like the FLIPs elsewhere.
-function gentleEase( t ) {
-    const x1 = 0.33, y1 = 0.57, x2 = 0.08, y2 = 1.19;
-    const bx = ( u ) => 3 * x1 * u * ( 1 - u ) * ( 1 - u ) + 3 * x2 * u * u * ( 1 - u ) + u * u * u;
-    const by = ( u ) => 3 * y1 * u * ( 1 - u ) * ( 1 - u ) + 3 * y2 * u * u * ( 1 - u ) + u * u * u;
-    let u = t;
-    for ( let i = 0; i < 6; i++ ) {
-        const dx = 3 * x1 * ( 1 - u ) * ( 1 - 3 * u ) + 3 * x2 * u * ( 2 - 3 * u ) + 3 * u * u;
-        if ( Math.abs( dx ) < 1e-6 ) break;
-        u -= ( bx( u ) - t ) / dx;
-        u = Math.min( 1, Math.max( 0, u ) );
-    }
-    return by( u );
-}
 const GAP            = 24;
 const FIELD_INSET    = 16;   // px inset from container edges
 const WORD_GAP       = 12;   // px gap between placed words

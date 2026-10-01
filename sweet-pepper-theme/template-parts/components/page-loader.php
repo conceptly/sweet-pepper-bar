@@ -6,7 +6,7 @@
  * Page-load-night 2731:72573 / Page-load-day 2731:72838.
  *
  * `--p` (0–1) is the only moving part: the knob's place, the track's lit length and the
- * wordmark's filled share all read it. The knob wears its daypart by `data-stop`
+ * name's filled share all read it — the knob stands on the heat's edge. The knob wears its daypart by `data-stop`
  * (breakfast → lunch → dinner → party, the hero slider's four stops), set by the script.
  *
  * On every page, the same markup for every guest: it arms on a navigation, and the footer's
@@ -35,15 +35,21 @@ foreach ( $copy['lines'] as $entry ) {
         $chains[] = range( $start, count( $lines ) - 1 );
     }
 }
-$word = mb_strtoupper( $copy['word'] );
 $icon = static function ( $name ) {
     return '<span class="page-loader__icon page-loader__icon--' . esc_attr( $name ) . '">'
         . sweet_pepper_inline_svg( "assets/icons/c-{$name}.svg" ) . '</span>';
 };
-$word_svg = static function ( $class ) use ( $word ) {
-    // textLength fits the word to the frame at any width, in either language
-    return '<svg class="page-loader__word-svg ' . $class . '" viewBox="0 0 1100 100" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">'
-        . '<text x="0" y="104" textLength="1100" lengthAdjust="spacingAndGlyphs">' . esc_html( $word ) . '</text></svg>';
+// The bar's name, the same in both languages: one SVG per word, so they sit in a row on a
+// wide screen and in two lines, each fitted to the column, on a phone held upright. A word's
+// viewBox is its own cap box — Molot at 100: caps 70 high, SWEET 286.7 wide, PEPPER 343.7 —
+// and textLength holds it to that box whatever font answers.
+$word_svgs = static function ( $class ) {
+    $out = '';
+    foreach ( [ 'sweet' => '286.7', 'pepper' => '343.7' ] as $word => $w ) {
+        $out .= '<svg class="page-loader__word-svg page-loader__word-svg--' . $word . ' ' . $class . '" viewBox="0 0 ' . $w . ' 70" aria-hidden="true" focusable="false">'
+            . '<text x="0" y="70" textLength="' . $w . '" lengthAdjust="spacingAndGlyphs">' . strtoupper( $word ) . '</text></svg>';
+    }
+    return $out;
 };
 ?>
 <div class="page-loader" data-page-loader hidden
@@ -66,14 +72,14 @@ $word_svg = static function ( $class ) use ( $word ) {
             <p class="page-loader__label"><?php echo esc_html( $copy['label'] ); ?></p>
             <p class="page-loader__message">
                 <span class="page-loader__fire"><?php echo sweet_pepper_inline_svg( 'assets/icons/fire.svg' ); ?></span>
-                <span class="page-loader__line"><?php echo esc_html( $copy['first'] ); ?></span>
+                <span class="page-loader__line"></span><?php // the script opens each run on a pool line ?>
             </p>
         </div>
     </div>
 
     <div class="page-loader__word" aria-hidden="true">
-        <?php echo $word_svg( 'page-loader__word-svg--outline' ); ?>
-        <div class="page-loader__word-heat"><?php echo $word_svg( 'page-loader__word-svg--heat' ); ?></div>
+        <div class="page-loader__word-lines"><?php echo $word_svgs( 'page-loader__word-svg--outline' ); ?></div>
+        <div class="page-loader__word-lines page-loader__word-heat"><?php echo $word_svgs( 'page-loader__word-svg--heat' ); ?></div>
     </div>
 </div>
 <script>
@@ -96,6 +102,16 @@ $word_svg = static function ( $class ) use ( $word ) {
         return m >= 240 && m < 1020 ? 'day' : 'night';
     };
     el.dataset.mode = el.spMode();
+
+    // TRIAL (1 Oct 2026): `?fill=words` heats the phone's name a word at a time, for this
+    // browser tab; `?fill=together` lets go (page-loader.css → phones held upright). One of
+    // the two goes after the check on the phone.
+    try {
+        var fill = new URLSearchParams(location.search).get('fill');
+        if (fill === 'together') sessionStorage.removeItem('spLoaderFill');
+        else if (fill === 'words') sessionStorage.setItem('spLoaderFill', fill);
+        if (sessionStorage.getItem('spLoaderFill')) el.dataset.fill = 'words';
+    } catch (e) { /* private mode */ }
 
     // The new page's half: the page before showed the loader → open under it, in place.
     var s;

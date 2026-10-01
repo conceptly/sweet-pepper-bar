@@ -10,12 +10,13 @@ Voice: the bar is answering, so the lines speak as "we" (`design.md` §1.1 → s
 |---|---|---|
 | Molot label, while loading | Разогреваем! | Heating up! |
 | Molot label, when the page is ready (fills letter by letter) | Подано! | Served! |
-| First line, always (1.2 s) | кухня работает — не спешите | the kitchen’s on — no rush |
-| Wordmark along the bottom | SWEET PEPPER BAR | AT SWEET PEPPER |
+| The bar’s name under the slider — the same in both languages since 1 Oct 2026 (was SWEET PEPPER BAR / AT SWEET PEPPER along the bottom) | SWEET PEPPER | SWEET PEPPER |
 | Screen readers only | Загружаем страницу | Loading the page |
 | Footer item that replays the loader (`ru_RU.l10n.php`) | Поддать жару! | Heat it up! |
 
-## The pool — after the first line, one every 2.2 s, in random order
+## The pool — in random order; a run opens on its first line for 1.2 s, then one every 2.2 s
+
+*No fixed opener since 30 Sep 2026 (author): «кухня работает — не спешите» / "the kitchen’s on — no rush" showed while the kitchen was closed.*
 
 Characters in the last column (RU / EN). **One row needs up to ~35 characters** (measured on phones from 375px and on desktop: 34 RU / 40 EN fit; the 46-character «Пересолили. Готовим заново — придётся подождать» took two rows and made the slider jump). A **chain** (↳) always plays whole and in this order; in the data file a chain is a bracketed group. Keep RU and EN in the same order and shape — the language switch carries a line by its position.
 

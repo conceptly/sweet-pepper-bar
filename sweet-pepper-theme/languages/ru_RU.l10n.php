@@ -149,6 +149,7 @@ return [
         'All good — admin is on the phone'           => 'Можно позвонить',
         'Might take a minute, it’s loud in here.'    => 'Не дозвонились? Напишите сообщение.',
         'We’ll pick up from {opens}.'                => 'Звонки — с {opens}',
+        'We’ll reply from {opens}.'                  => 'Ответим с {opens}', // mine, 30 Sep 2026 — the messenger line while the bar is closed (home Contacts)
         'GO TO'                                      => 'На сайте',
         'HOURS'                                      => 'Часы работы',
         'VISIT'                                      => 'Контакты', // the footer column — not the nav word again (author, 25 Sep 2026)

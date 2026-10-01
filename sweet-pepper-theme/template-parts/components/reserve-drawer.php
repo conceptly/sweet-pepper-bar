@@ -23,6 +23,8 @@ $reserve_strings = [
         'busy'      => [ 'subtitle' => __( 'Full house tonight — writing beats calling.', 'sweet-pepper' ), 'statusText' => __( 'Might take a minute, it’s loud in here.', 'sweet-pepper' ) ],
         'closed'    => [ 'subtitle' => __( 'Closed for the night. Send a message, we’ll respond from {opens}!', 'sweet-pepper' ), 'statusText' => __( 'We’ll pick up from {opens}.', 'sweet-pepper' ) ],
     ],
+    // The home Contacts' messenger line (contacts.php → .contacts-reserve__status)
+    'reply'       => [ 'open' => __( 'Usually answer in 20 minutes', 'sweet-pepper' ), 'closed' => __( 'We’ll reply from {opens}.', 'sweet-pepper' ) ],
     'copy'        => __( 'Copy', 'sweet-pepper' ),
     'copied'      => __( 'Copied!', 'sweet-pepper' ),
     'phoneCopied' => __( 'Copied to your clipboard!', 'sweet-pepper' ),

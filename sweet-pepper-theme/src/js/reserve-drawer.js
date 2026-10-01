@@ -141,6 +141,16 @@ function applyBarState() {
         const statusText = wrapper.querySelector('.call-status-text');
         if (statusText) statusText.textContent = fill(cfg.statusText);
     });
+
+    // The messenger line under VK / Instagram: the reply time while the bar is open (busy
+    // included), the next opening while it is closed
+    const reply = { open: 'Usually answer in 20 minutes', closed: 'We’ll reply from {opens}.', ...WORDS.reply };
+    document.querySelectorAll('.contacts-reserve__status').forEach((line) => {
+        const closed = state === 'closed';
+        line.dataset.barState = closed ? 'closed' : 'available';
+        const text = line.querySelector('.call-status-text');
+        if (text) text.textContent = fill(closed ? reply.closed : reply.open);
+    });
 }
 
 /* ── Init ──────────────────────────────────────────────────── */

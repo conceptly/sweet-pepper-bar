@@ -131,6 +131,11 @@ const VACANCY = {
 
 const PLANS = [HOME, ABOUT, VISIT, MENU, VACANCY];
 
+// Swipe rails whose cards would deal one by one on a wider screen: on phones the rail slides
+// in from the right as one piece instead of rising — it says "there is more this way" (the home
+// highlights, author 30 Sep 2026: the rise was easy to miss). Other rails still rise.
+const RAIL_SLIDES = '.highlight-card';
+
 const REPLAY = /^mask-(left|right)$/; // containers re-park a screen below the fold — not mask-up (headlines are copy); null = once only
 const STAGGER = 120;      // ms
 const NESTED_AFTER = 550; // ms — a nested reveal plays as its parent lands
@@ -159,7 +164,7 @@ export function initReveal() {
     if (reducedMotion.matches) return;
 
     // Plan → data-reveal. Cards inside a swipe rail (phones) are not dealt one by one —
-    // the rail would reveal them mid-swipe; the rail itself rises instead.
+    // the rail would reveal them mid-swipe; the rail itself rises instead (or slides, RAIL_SLIDES).
     const extraDelay = new WeakMap(); // el → ms added to its batch stagger (a plan's `delays`)
 
     PLANS.forEach((page) => {
@@ -168,7 +173,7 @@ export function initReveal() {
                 section.querySelectorAll(selector).forEach((el) => {
                     if (el.dataset.reveal) return;
                     if (effect.startsWith('mask-') && isRail(el)) {
-                        el.parentElement.dataset.reveal = 'rise';
+                        el.parentElement.dataset.reveal = el.matches(RAIL_SLIDES) ? 'mask-right' : 'rise';
                     } else if (getComputedStyle(el).display === 'inline') {
                         // A two-part title flowing as one line (phones, tablets): inline boxes
                         // take neither translate nor clip-path, so the line's block plays instead

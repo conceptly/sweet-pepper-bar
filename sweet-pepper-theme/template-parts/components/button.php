@@ -43,6 +43,13 @@ $id_attr    = ! empty( $id ) ? 'id="' . esc_attr( $id ) . '"' : '';
 $id_attr   .= ! empty( $aria_label ) ? ' aria-label="' . esc_attr( $aria_label ) . '"' : '';
 $id_attr   .= ! empty( $icon_set ) ? ' data-icon="' . esc_attr( $icon_left ) . '"' : '';
 
+// A link that leaves the site — VK, Instagram, a messenger, a map — opens in a new tab, so the
+// guest's place here stays one tab away (author, 30 Sep 2026; the site's hand-written external
+// links already did). Our own pages, tel: and mailto: keep the tab.
+$host     = $url ? wp_parse_url( $url, PHP_URL_HOST ) : '';
+$external = $host && preg_match( '#^https?://#i', $url ) && strcasecmp( $host, (string) wp_parse_url( home_url(), PHP_URL_HOST ) ) !== 0;
+$link_attr = $external ? 'target="_blank" rel="noopener"' : '';
+
 $icon_left_html = '';
 if ( ! empty( $icon_left_svg ) ) {
     $svg = sweet_pepper_inline_svg( 'assets/' . $icon_left_svg );
@@ -78,7 +85,7 @@ $label_html = $label_mobile
 
 if ( ! empty( $url ) ) {
     ?>
-    <a href="<?php echo esc_url( $url ); ?>" <?php echo $id_attr; ?> <?php echo $class_attr; ?>>
+    <a href="<?php echo esc_url( $url ); ?>" <?php echo $id_attr; ?> <?php echo $class_attr; ?> <?php echo $link_attr; ?>>
         <?php echo $icon_left_html; ?>
         <?php echo $label_html; ?>
         <?php echo $icon_right_html; ?>

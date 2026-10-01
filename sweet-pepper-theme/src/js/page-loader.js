@@ -29,7 +29,7 @@ const KEY = 'spLoader';
 const SHOW_AFTER = 700;   // ms — a navigation faster than this never sees the loader
 const CAP = 0.9;          // the creep's ceiling: the last tenth is the page's to give
 const TAU = 3000;         // ms — the creep's pace (half the track ≈ 3 s)
-const FIRST_FOR = 1200;   // ms on the first line — a 3 s wait still reaches a second one (author, 30 Sep 2026)
+const FIRST_FOR = 1200;   // ms on a run's opening line — a 3 s wait still reaches a second one (author, 30 Sep 2026)
 const LINE_EVERY = 2200;  // ms per line after it
 const FINISH_BY = 2500;   // ms — the new page lifts the loader by then, loaded or not
 const RUN_OUT = 450;      // ms — the knob's run to the end
@@ -84,7 +84,8 @@ export function initPageLoader() {
     let raf = 0;
     let lineTimer = 0;
     let order = lineOrder(lines.length, chains);
-    let k = -1;            // position in `order`; −1 = the first line
+    let k = -1;            // position in `order` of the line on show
+    let opening = true;    // that line opened the run: it gets FIRST_FOR, every later one LINE_EVERY
     let shown = false;
     let armTimer = 0;
     let replay = null;     // { timer, from } while a replay runs
@@ -124,6 +125,7 @@ export function initPageLoader() {
             order = lineOrder(lines.length, chains, order[order.length - 1]); // no line twice in a row
         }
         const text = lines[order[k]];
+        opening = false;
         lineEl.classList.add('is-leaving');
         setTimeout(() => {
             lineEl.textContent = text;
@@ -132,6 +134,16 @@ export function initPageLoader() {
             lineEl.offsetHeight; // commit the start before sliding in
             lineEl.classList.remove('is-entering');
         }, 180);
+    }
+
+    // A run opens on a pool line — the shuffled order's first (no fixed opener: «кухня работает»
+    // showed while the kitchen was closed, author 30 Sep 2026), never the line just shown
+    function openLine() {
+        if (!lines.length) return;
+        if (k >= 0) order = lineOrder(lines.length, chains, order[k]);
+        k = 0;
+        opening = true;
+        lineEl.textContent = lines[order[0]];
     }
 
     function startLines(first = FIRST_FOR) {
@@ -169,7 +181,7 @@ export function initPageLoader() {
             el.classList.add('is-shown');
         }
         startCreep(from);
-        startLines(k < 0 ? FIRST_FOR : LINE_EVERY); // a carried page is past its first line
+        startLines(opening ? FIRST_FOR : LINE_EVERY); // a carried page is past its opening line
     }
 
     function hide() {
@@ -208,6 +220,12 @@ export function initPageLoader() {
     try { carried = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { /* private mode */ }
     try { sessionStorage.removeItem(KEY); } catch (e) { /* private mode */ }
 
+    // A carried run already shows the line it left on (the part's inline script); any other
+    // run starts on a pool line
+    const carriedRun = el.classList.contains('is-carried') && carried && carried.k >= 0
+        && Array.isArray(carried.order) && carried.order.length === lines.length;
+    if (!carriedRun) openLine();
+
     const params = new URLSearchParams(location.search);
     const stay = params.get('loader') === 'stay';
     if (stay) {
@@ -218,9 +236,10 @@ export function initPageLoader() {
         if (params.has('p')) { cancelAnimationFrame(raf); setP(Math.max(0, Math.min(1, Number(params.get('p'))))); }
         if (params.has('done')) setTimeout(finish, 1200); // run to the end and hold «Подано!»
     } else if (el.classList.contains('is-carried') && carried) {
-        if (Array.isArray(carried.order) && carried.order.length === lines.length) {
+        if (carriedRun) {
             order = carried.order;
-            k = carried.k ?? -1;
+            k = carried.k;
+            opening = false;
         }
         show({ fade: false, from: Number(carried.p) || 0 });
         el.classList.add('is-shown');
@@ -243,9 +262,8 @@ export function initPageLoader() {
         if (shown) return;
         clearTimeout(lineTimer);
         resetWords();
-        k = -1;
         lineEl.classList.remove('is-leaving', 'is-entering');
-        lineEl.textContent = lineEl.dataset.first;
+        openLine();
         setP(0);
         replay = { from, timer: setTimeout(finish, reduced() ? 3000 : REPLAY_FOR) };
         show();
@@ -277,7 +295,6 @@ export function initPageLoader() {
     });
 
     labelEl.dataset.label = labelEl.textContent;
-    lineEl.dataset.first = lineEl.textContent;
 
     window.addEventListener('pagehide', () => {
         clearTimeout(armTimer);

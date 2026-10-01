@@ -10,11 +10,20 @@
    Night is the Figma frame: Peppercorn, Cream line, Lemon words, the full gradient on the track;
    the wordmark heats in solid Chili as by day (author, 30 Sep 2026 — no gradient).
    The mode is the loader's own (data-mode, by the hour: day 04:00–17:00, as the site), not the page's theme.
+
+   One group (author, 1 Oct 2026): the words, the slider, then the bar's name, SWEET PEPPER in
+   both languages. The slider is as wide as the name and the knob's centre runs the whole
+   track, so the heat's edge in the letters is exactly under the knob — the eye the big word
+   catches lands on the action. In the middle of a wide screen (the author's pick over the
+   bottom edge, checked with a guest on a desktop, 1 Oct 2026); standing on the bottom edge of
+   a phone held upright. Before, the Figma frame's layout: a 520px slider in the middle, the
+   words under it, and a one-line word (SWEET PEPPER BAR / AT SWEET PEPPER) along the bottom
+   edge, heating at its own pace.
    ========================================================================== */
 
 .page-loader {
     --p: 0;
-    --knob: 39.6px;                 /* the 28px romb, turned 45° */
+    --knob: 50.9px;                 /* the 36px romb, turned 45° */
     --loader-bg: var(--paper);
     --loader-rest: var(--olive);
     --loader-message: var(--ash);
@@ -30,9 +39,12 @@
     inset: 0;
     z-index: 10000;                 /* over the header, the drawers and the notice */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-inline: var(--gutter);
+    /* never under 32px: a phone's (and an iPad's) rounded corners cut the name's outer
+       letters at the 16px gutter (author, iPhone, 30 Sep 2026) */
+    padding-inline: max(32px, var(--gutter));
     background: var(--loader-bg);
     color: var(--text);
     opacity: 0;
@@ -64,24 +76,25 @@
     to { opacity: 0; visibility: hidden; }
 }
 
+/* The words sit above the slider: a line that wraps lifts the label, the slider stays put */
 .page-loader__stage {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: min(520px, 100%);
+    flex-direction: column-reverse;
+    gap: 16px;
+    width: min(825px, 100%);
 }
 
 /* ── The slider ── */
 .page-loader__slider {
     position: relative;
-    height: 40px;
+    height: 52px;
 }
 
 .page-loader__track,
 .page-loader__rest {
     position: absolute;
     top: 50%;
-    height: 8px;
+    height: 12px;
     border-radius: 100px;
     translate: 0 -50%;
 }
@@ -94,7 +107,7 @@
 
 /* The unheated rest of the track, from the knob's centre to the end */
 .page-loader__rest {
-    left: calc(var(--knob) / 2 + var(--p) * (100% - var(--knob)));
+    left: calc(var(--p) * 100%);
     right: 0;
     border: 1px solid var(--loader-rest);
     background: var(--loader-bg);
@@ -103,7 +116,7 @@
 .page-loader__knob {
     position: absolute;
     top: 50%;
-    left: calc(var(--p) * (100% - var(--knob)));
+    left: calc(var(--p) * 100% - var(--knob) / 2);   /* its centre runs the whole track, half over each end */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,10 +130,10 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     border: 2px solid var(--lemon);
-    border-radius: 4px;
+    border-radius: 5px;
     background: var(--chili);
     box-shadow: var(--loader-glow);
     color: var(--lemon);
@@ -157,11 +170,11 @@
 
 .page-loader__icon {
     display: none;
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     rotate: -45deg;
 }
-.page-loader__icon svg { display: block; width: 12px; height: 12px; }
+.page-loader__icon svg { display: block; width: 16px; height: 16px; }
 
 .page-loader__knob[data-stop="breakfast"] .page-loader__icon--coffee,
 .page-loader__knob[data-stop="lunch"] .page-loader__icon--soup,
@@ -170,7 +183,7 @@
     display: block;
 }
 
-/* ── Under the track: the label and the line ── */
+/* ── Over the track: the label and the line ── */
 .page-loader__foot {
     display: flex;
     align-items: flex-start;
@@ -226,22 +239,32 @@
 .page-loader__line.is-leaving { opacity: 0; top: -4px; }
 .page-loader__line.is-entering { opacity: 0; top: 4px; transition: none; }
 
-/* ── The wordmark along the bottom edge: outline, heating from the left ── */
+/* ── The bar's name under the slider: outline, heating from the left, under the knob ── */
 .page-loader__word {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: min(1100px, 100% - 2 * var(--gutter));
-    translate: -50% 0;
+    position: relative;
+    width: min(825px, 100%);        /* letters 85px tall at full width */
+    margin-top: 12px;
+}
+
+/* Two SVGs, one per word (the part), so the same markup sits in a row here and in two fitted
+   lines on a phone. In the row they share the width as Molot sets them: 286.7 and 343.7 with
+   the 49 of a word space between — 7.212% of the 679.4 in all. */
+.page-loader__word-lines {
+    display: flex;
+    align-items: flex-start;
+    gap: 7.212%;
 }
 
 .page-loader__word-svg {
     display: block;
-    width: 100%;
+    min-width: 0;
     height: auto;
+    overflow: visible;              /* the outline's outer half */
     font-family: var(--font-display);
-    font-size: 122px;
+    font-size: 100px;
 }
+.page-loader__word-svg--sweet { flex: 286.7 1 0; }
+.page-loader__word-svg--pepper { flex: 343.7 1 0; }
 
 .page-loader__word-svg--outline text {
     fill: none;
@@ -260,11 +283,14 @@
     fill: var(--chili);             /* solid Chili, day and night */
 }
 
-/* Phones: the words stack — the label, then the line under it at full width, left-aligned
-   (author, 30 Sep 2026). Beside the label, 9 of 14 Russian lines broke in two at 375 and the
-   centred slider jumped ~9px each time a line changed height; stacked, every line holds one
-   row from 360 up (only «Пересчитываем горошины в перечнице» breaks at 320). */
-@media (max-width: 767px) {
+/* Phones held upright: the group stands on the bottom edge, the name in two lines, each
+   fitted to the column (author, 1 Oct 2026 — in one line it was 26px tall, 3% of the screen),
+   and the words stacked — the label, then the
+   line under it, left-aligned (author, 30 Sep 2026: beside the label 9 of 14 Russian lines
+   broke in two at 375; stacked, every line holds one row from 375 up at Body 16). A phone on
+   its side has the width for the row and not the height for two lines. */
+@media (max-width: 767px) and (orientation: portrait) {
+    .page-loader { justify-content: flex-end; }
     .page-loader__foot {
         flex-direction: column;
         gap: 4px;
@@ -273,10 +299,26 @@
         padding-top: 0;
         text-align: left;
     }
-    /* 32px each side: the phone's rounded corners cut the word's outer letters at the
-       16px gutter (author, iPhone, 30 Sep 2026) */
-    .page-loader__word {
-        width: calc(100% - 64px);
+
+    .page-loader__word { margin-bottom: -5px; }   /* the last line stands 5px into the edge */
+    .page-loader__word-lines {
+        flex-direction: column;
+        gap: calc((100vw - 64px) * 0.0414);   /* 14px at 402, with the letters */
+    }
+    .page-loader__word-svg {
+        flex: none;
+        width: 100%;
+    }
+
+    /* TRIAL (author's idea, 1 Oct 2026): `?fill=words` heats the name a word at a time —
+       SWEET over the first half of the track, PEPPER over the second — instead of both under
+       the knob. One of the two goes after the check on the phone. */
+    .page-loader[data-fill="words"] .page-loader__word-heat { clip-path: none; }
+    .page-loader[data-fill="words"] .page-loader__word-heat svg:nth-child(1) {
+        clip-path: inset(0 calc(100% - clamp(0, var(--p) * 2, 1) * 100%) 0 0);
+    }
+    .page-loader[data-fill="words"] .page-loader__word-heat svg:nth-child(2) {
+        clip-path: inset(0 calc(100% - clamp(0, var(--p) * 2 - 1, 1) * 100%) 0 0);
     }
 }
 

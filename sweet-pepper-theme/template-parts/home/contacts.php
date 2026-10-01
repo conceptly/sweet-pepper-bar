@@ -97,8 +97,14 @@
                         }
                         ?>
                     </div>
-                    <div class="call-status contacts-reserve__status">
-                        <span class="call-status-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                    <?php // The reply time is a daytime promise: while the bar is closed the line says when
+                          // the answers start (reserve-drawer.js → applyBarState; author, 30 Sep 2026 — it
+                          // read "answer in 20 minutes" at night). Busy keeps the daytime line. ?>
+                    <div class="call-status contacts-reserve__status" data-bar-state="available">
+                        <span class="call-status-icon">
+                            <span class="call-status-icon--available"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                            <span class="call-status-icon--closed"><?php echo sweet_pepper_inline_svg( 'assets/icons/sleep.svg' ); ?></span>
+                        </span>
                         <span class="call-status-text"><?php esc_html_e( 'Usually answer in 20 minutes', 'sweet-pepper' ); ?></span>
                     </div>
                 </div>

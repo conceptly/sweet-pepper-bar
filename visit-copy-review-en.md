@@ -106,7 +106,7 @@ Keep the short **The door** in the built component. “Just show me the door” 
 Use consistent proper-name capitalisation: **Znamenskaya Tower · Sovetskaya Square · Strelka · Bogoyavlenskaya Square · Nearest bus stop**. “Nearest” is a small, natural improvement over “Closest.” A full place name can be supplied as an accessible label if the visible badge must abbreviate Square to Sq.
 
 - Door hint: **Kirova 10/25**.
-- Strelka hint: **Where the rivers meet** — retain as orientation, subject to the route check.
+- Strelka hint: **Where the rivers meet** — retain as orientation, subject to the route check. *(Superseded 30 Sep 2026: **Where the city began** / «У истоков города» — the Russian line took two rows in the badge.)*
 - **Author follow-up, 16 September:** keep the existing Znamenskaya Tower hint **Towards Pervomaiskaya** / **В сторону Первомайской**. The earlier recommendation to omit it is withdrawn.
 - **Sovetskaya Square — working hint from the author's direction:** **Across Andropova, past the fountains** / **Через Андропова, мимо фонтанов**. This is the shorter option for the badge. The author also supplied the regional government building as a landmark; a longer alternative is **Across Andropova, behind the regional government building** / **Через Андропова, за зданием областного правительства**. Keep the full institutional name out of the compact hint unless testing shows it is needed. These are author-supplied directions, not independently measured routes.
 - “and the old Kremlin” is incomplete and doesn't explain how to reach the bar. Omit rather than inventing a sightseeing description.

@@ -108,7 +108,7 @@ Lunch on Kirova, a drink after a walk, or an evening with friends. Check the hou
 | Sweet Pepper Bar | Kirova 10/25 | — |
 | Znamenskaya Tower | Towards Pervomaiskaya | {verified distance} · {walking time} |
 | Sovetskaya Square | Across Andropova, past the fountains | {verified distance} · {walking time} |
-| Yaroslavl Strelka | Where the rivers meet | {verified distance} · {walking time} |
+| Yaroslavl Strelka | Where the city began *(30 Sep 2026, author — was Where the rivers meet)* | {verified distance} · {walking time} |
 | Epiphany Square | — | {verified distance} · {walking time} |
 | Nearest bus stop | {confirmed stop name} | {verified distance} · {walking time} |
 

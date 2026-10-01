@@ -28,8 +28,8 @@ return [
                       'ru' => [ 'name' => 'Знаменская башня', 'hint' => 'В сторону Первомайской', 'distance' => '350 м · 5 мин', 'aria' => 'Показать пеший маршрут от Знаменской башни' ] ],
         'square' => [ 'name' => 'Sovetskaya Square', 'hint' => 'Past the fountains', 'distance' => '350 m · 5 min', 'aria' => 'Show the walking route from Sovetskaya Square',
                       'ru' => [ 'name' => 'Советская площадь', 'hint' => 'Через Андропова, мимо фонтанов', 'distance' => '350 м · 5 мин', 'aria' => 'Показать пеший маршрут от Советской площади' ] ],
-        'strelka' => [ 'name' => 'Yaroslavl Strelka', 'hint' => 'Where the rivers meet', 'distance' => '1.3 km · 16 min', 'aria' => 'Show the walking route from the Yaroslavl Strelka',
-                      'ru' => [ 'name' => 'Ярославская Стрелка', 'hint' => 'Там, где встречаются реки', 'distance' => '1,3 км · 16 мин', 'aria' => 'Показать пеший маршрут от Ярославской Стрелки' ] ],
+        'strelka' => [ 'name' => 'Yaroslavl Strelka', 'hint' => 'Where the city began', 'distance' => '1.3 km · 16 min', 'aria' => 'Show the walking route from the Yaroslavl Strelka',
+                      'ru' => [ 'name' => 'Ярославская Стрелка', 'hint' => 'У истоков города', 'distance' => '1,3 км · 16 мин', 'aria' => 'Показать пеший маршрут от Ярославской Стрелки' ] ],
         'kremlin' => [ 'name' => 'Epiphany Square', 'hint' => 'And the old Kremlin', 'distance' => '900 m · 12 min', 'aria' => 'Show the walking route from Epiphany (Bogoyavlenskaya) Square',
                       'ru' => [ 'name' => 'Богоявленская площадь', 'hint' => 'Старый Кремль', 'distance' => '900 м · 12 мин', 'aria' => 'Показать пеший маршрут от Богоявленской площади' ] ],
         // Stands in for parking for now (several car parks — open). 250 m · 4 min is computed, not measured.

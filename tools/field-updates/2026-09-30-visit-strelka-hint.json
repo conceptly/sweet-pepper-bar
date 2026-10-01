@@ -1,0 +1,14 @@
+{
+  "page": "visit",
+  "date": "2026-09-30",
+  "note": "Visit → «Как добраться» → the Strelka badge's hint (author, 30 Sep 2026): «Там, где встречаются реки» took two lines in the 170px hint cell; «У истоков города» / \"Where the city began\" hold one. One default on local, test and main until the final publishing.",
+  "groups": [
+    {
+      "note": "Strelka badge hint, RU + EN",
+      "set": [
+        [ "visit_landmark_strelka_hint_ru", "Там, где встречаются реки", "У истоков города" ],
+        [ "visit_landmark_strelka_hint_en", "Where the rivers meet", "Where the city began" ]
+      ]
+    }
+  ]
+}

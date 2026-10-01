@@ -135,6 +135,7 @@
 
 <?php get_template_part('template-parts/components/reserve-drawer'); ?>
 <?php get_template_part('template-parts/components/map-preferences'); ?>
+<?php get_template_part( 'template-parts/components/mail-chooser' ); // what an e-mail link opens on a desktop (src/js/mail-chooser.js) ?>
 
 <?php get_template_part( 'template-parts/components/cookie-notice' ); // the bottom band by default (27 Sep 2026); ?notice=corner for the card, &pos=top to compare, ?notice=off for none ?>
 <?php // Viewport foot (27 Sep 2026): Safari 26 on the iPhone extends the colour of the fixed element

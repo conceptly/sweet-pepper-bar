@@ -26,13 +26,14 @@ import './css/cookie-notice.css';
 import './css/privacy.css';
 import './css/privacy-page.css';
 import './css/page-loader.css';
+import './css/mail-chooser.css';
 // iOS Safari fires :active only when the page listens for touches — without this every pressed
 // state (cards, buttons, the language switch) was invisible on an iPhone (25 Sep 2026).
 document.addEventListener('touchstart', () => {}, { passive: true });
 import { initDaypartEngine } from './js/daypart-engine';
 import { initMobileDrawer } from './js/mobile-drawer';
 import { initReserveDrawer } from './js/reserve-drawer';
-import { initContactForm } from './js/contact-form';
+import { initContactForm, initContactItemCopy } from './js/contact-form';
 import { initMenuHero } from './js/menu-hero';
 import { initMenuJumpNav } from './js/menu-jump-nav';
 import { initMenuSingleSection } from './js/menu-single-section';
@@ -56,6 +57,7 @@ import { initLangNudge } from './js/lang-nudge';
 import { initBarColor } from './js/bar-color';
 import { initVacancy } from './js/vacancy';
 import { initPageLoader } from './js/page-loader';
+import { initMailChooser } from './js/mail-chooser';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -69,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize contact form
     initContactForm();
+    initContactItemCopy(); // every contact-item's copy chip, on every page
 
     // Initialize menu hero hover interactions
     initMenuHero();
@@ -131,4 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Page loader — the heat slider while the next page is slow; the footer's replay
     initPageLoader();
+
+    // E-mail links on a desktop open the mail chooser (phones keep mailto:)
+    initMailChooser();
 });

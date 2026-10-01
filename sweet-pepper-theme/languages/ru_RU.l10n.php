@@ -244,6 +244,8 @@ return [
         'Open menu'                                  => 'Открыть меню сайта',
         'Close menu'                                 => 'Закрыть меню сайта',
         'Close'                                      => 'Закрыть',
+        'Write from…'                                => 'Откуда напишете?', // the mail chooser's title (30 Sep 2026) — a twin, not a translation
+        'A new letter opens there, already addressed.' => 'Там откроется письмо — адрес уже вписан.',
 
         // Cookie notice — prototype (cookie-notice-plan.md §4, the working choice; author to edit)
         'No one’s keeping tabs'                      => 'За своими не следят',

@@ -157,7 +157,6 @@ export function initContactForm() {
     initCopyButtons();
 
     // ── Contact-item copy interaction ──────────────
-    initContactItemCopy();
 }
 
 // ── Helpers ──────────────────────────────────────
@@ -210,7 +209,7 @@ function initCopyButtons() {
  *
  * States: Default → Hover (chip visible) → Click (Copied! + pepper icon) → Revert
  */
-function initContactItemCopy() {
+export function initContactItemCopy() { // main.js — every page (the footer's mail chooser has one too)
     document.querySelectorAll('.js-contact-copy').forEach(btn => {
         const item = btn.closest('.js-contact-item');
         const label = btn.querySelector('.contact-item__chip-label');

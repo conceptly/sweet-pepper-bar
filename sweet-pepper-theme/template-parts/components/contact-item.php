@@ -21,6 +21,8 @@
  *     @type string $contact         Contact text (e.g. "hello@sweetpepper.bar"). Required.
  *     @type string $copy_text       Text to copy to clipboard. Defaults to $contact.
  *     @type string $supportive_text Secondary line of text. Omit to hide.
+ *     @type bool   $icon_only       The icon chip in either language (default: Russian pages only).
+ *                                   The mail chooser's popover uses it — no room for the word.
  * }
  */
 
@@ -28,7 +30,7 @@ $icon_svg        = $args['icon_svg'] ?? '';
 $contact         = $args['contact'] ?? '';
 $copy_text       = $args['copy_text'] ?? $contact;
 $supportive_text = $args['supportive_text'] ?? '';
-$icon_only       = ( 'ru' === sweet_pepper_lang() );
+$icon_only       = $args['icon_only'] ?? ( 'ru' === sweet_pepper_lang() );
 ?>
 <div class="contact-item js-contact-item">
     <?php if ( $icon_svg ) : ?>

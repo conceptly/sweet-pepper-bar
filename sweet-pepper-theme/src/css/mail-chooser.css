@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Mail chooser — e-mail links on a desktop (live since 30 Sep 2026)
+   template-parts/components/mail-chooser.php · src/js/mail-chooser.js
+   Figma draft mailto-popup 2756:75238, as a popover (the author's pick over the centred
+   modal — "less distracting"): Peppercorn, radius 8, Molot title in Lemon. Dark in both
+   themes, so the rows and the contact item take their night colours whatever the page wears.
+   ========================================================================== */
+
+.mail-chooser {
+    position: absolute;
+    z-index: 9000;                      /* over the header and drawers, under the page loader */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    width: 360px;
+    padding: 24px;
+    border: 1px solid rgb(243 233 210 / 0.12);   /* holds the panel's edge on a dark page */
+    border-radius: 8px;
+    background: var(--peppercorn);
+    box-shadow: 0 8px 24px rgba(21, 19, 23, 0.3);
+    color: var(--parchment);
+    opacity: 0;
+    translate: 0 4px;
+    transition: opacity 160ms var(--ease-gentle-flat), translate 160ms var(--ease-gentle-flat);
+}
+.mail-chooser[hidden] { display: none; }
+.mail-chooser.is-open { opacity: 1; translate: 0 0; }
+
+.mail-chooser__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    padding: 4px;
+    border: 0;
+    background: none;
+    color: var(--mushroom);
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s var(--ease-gentle-flat);
+}
+.mail-chooser__close:hover { color: var(--parchment); }
+
+.mail-chooser__head {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 24px;                /* clear of the × */
+}
+
+.mail-chooser__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+    color: var(--lemon);
+}
+
+.mail-chooser__line {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    color: var(--mushroom);
+}
+
+/* ── The services ── */
+.mail-chooser__list {
+    display: flex;
+    flex-direction: column;
+    margin: 0 -12px;
+    padding: 0;
+    list-style: none;
+}
+.mail-chooser__list li[hidden] { display: none; }
+
+.mail-chooser__option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--parchment);
+    text-decoration: none;
+    transition: background-color 0.2s var(--ease-gentle-flat), color 0.2s var(--ease-gentle-flat);
+}
+.mail-chooser__option:hover {
+    background: var(--soft-peppercorn);
+    color: var(--lemon);
+}
+.mail-chooser__name { flex: 1; }
+.mail-chooser__logo { display: flex; flex: none; }
+.mail-chooser__logo svg { width: 16px; height: 16px; }
+.mail-chooser__out { display: flex; flex: none; color: var(--lime); }
+.mail-chooser__out svg { width: 12px; height: 12px; }
+.mail-chooser__out path { fill: currentColor; }
+
+.mail-chooser :focus-visible {
+    outline: 2px solid var(--lemon);
+    outline-offset: 2px;
+}
+
+/* ── The address: the contact item (contacts.css), at its night colours ── */
+.mail-chooser__address {
+    padding-top: 16px;
+    border-top: 1px solid rgb(243 233 210 / 0.15);
+}
+.mail-chooser .contact-item__icon { color: var(--lime); }
+.mail-chooser .contact-item__text {
+    color: var(--paper);
+    white-space: normal;                /* a person's longer address wraps rather than overflow */
+    overflow-wrap: anywhere;
+}
+/* keyboard: the chip shows while focus is in the row, as hover shows it */
+.mail-chooser .contact-item:focus-within .contact-item__copy-chip {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mail-chooser { transition: none; }
+}

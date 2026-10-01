@@ -14,7 +14,8 @@
    One group (author, 1 Oct 2026): the words, the slider, then the bar's name, SWEET PEPPER in
    both languages. The slider is as wide as the name and the knob's centre runs the whole
    track, so the heat's edge in the letters is exactly under the knob — the eye the big word
-   catches lands on the action. In the middle of a wide screen (the author's pick over the
+   catches lands on the action (where the name heats a word at a time, the edge leaves the
+   knob — see the options below). In the middle of a wide screen (the author's pick over the
    bottom edge, checked with a guest on a desktop, 1 Oct 2026); standing on the bottom edge of
    a phone held upright. Before, the Figma frame's layout: a 520px slider in the middle, the
    words under it, and a one-line word (SWEET PEPPER BAR / AT SWEET PEPPER) along the bottom
@@ -24,6 +25,8 @@
 .page-loader {
     --p: 0;
     --knob: 50.9px;                 /* the 36px romb, turned 45° */
+    --col: min(825px, 100%);        /* the group's width — slider and name; letters 85px at 825 */
+    --words: 2;                     /* lines that heat in turn when the fill is a word at a time */
     --loader-bg: var(--paper);
     --loader-rest: var(--olive);
     --loader-message: var(--ash);
@@ -81,7 +84,7 @@
     display: flex;
     flex-direction: column-reverse;
     gap: 16px;
-    width: min(825px, 100%);
+    width: var(--col);
 }
 
 /* ── The slider ── */
@@ -239,21 +242,47 @@
 .page-loader__line.is-leaving { opacity: 0; top: -4px; }
 .page-loader__line.is-entering { opacity: 0; top: 4px; transition: none; }
 
-/* ── The bar's name under the slider: outline, heating from the left, under the knob ── */
+/* ── The bar's name under the slider: outline, heating from the left ──
+   One SVG per word (the part): SWEET, PEPPER, BAR. Two attributes choose the look, set by the
+   part's inline script from the screen's default or a `?pick=` (TRIAL, 1 Oct 2026 — the
+   author is testing; the losers go after the verdict):
+
+     data-name   short    SWEET PEPPER — a row; two fitted lines on a phone held upright
+                 poster   SWEET / PEPPER / BAR, three lines, each fitted to the column
+                 row      SWEET PEPPER BAR in one row, 1100px (wide screens only)
+     data-fill   together every line under the knob
+                 words    a word at a time, each 1 / --words of the track
+
+     pick   a short · together     c poster · together     e row · together
+            b short · words        d poster · words        f row · words
+     default: phones held upright d (3 of 3 testers, from the films) · tablets, 600–991, b
+     (author) · desktops a. Without the script: short, together. */
+.page-loader[data-name="poster"] {
+    --words: 3;
+    /* a column the three lines and the slider fit under each other on a short screen: the
+       lines are 0.92 of the column tall, the words and the slider 132px, 49px of air each side */
+    --stack: min(520px, max(240px, (100vh - 230px) / 0.92));
+    --col: min(var(--stack), 100%);
+}
+.page-loader[data-name="row"] {
+    --words: 3;
+    --col: min(1100px, 100%);       /* letters 85px, the first desktop frame's size */
+}
+
 .page-loader__word {
     position: relative;
-    width: min(825px, 100%);        /* letters 85px tall at full width */
+    width: var(--col);
     margin-top: 12px;
 }
 
-/* Two SVGs, one per word (the part), so the same markup sits in a row here and in two fitted
-   lines on a phone. In the row they share the width as Molot sets them: 286.7 and 343.7 with
-   the 49 of a word space between — 7.212% of the 679.4 in all. */
+/* In a row the words share the width as Molot sets them — 286.7, 343.7 (and 179.1) with the
+   49 of a word space between: 7.212% of 679.4 for two words, 5.399% of 907.5 for three. */
 .page-loader__word-lines {
     display: flex;
     align-items: flex-start;
     gap: 7.212%;
 }
+.page-loader[data-name="row"] .page-loader__word-lines { gap: 5.399%; }
 
 .page-loader__word-svg {
     display: block;
@@ -265,6 +294,28 @@
 }
 .page-loader__word-svg--sweet { flex: 286.7 1 0; }
 .page-loader__word-svg--pepper { flex: 343.7 1 0; }
+.page-loader__word-svg--bar { display: none; flex: 179.1 1 0; }
+.page-loader[data-name="row"] .page-loader__word-svg--bar,
+.page-loader[data-name="poster"] .page-loader__word-svg--bar { display: block; }
+
+/* The poster: lines under each other, each as wide as the column */
+.page-loader[data-name="poster"] .page-loader__word-lines {
+    flex-direction: column;
+    gap: calc(var(--stack) * 0.0414);     /* 14px in a 338px column, with the letters */
+}
+.page-loader[data-name="poster"] .page-loader__word-svg {
+    flex: none;
+    width: 100%;
+}
+/* …and its words stack as on a phone: beside the label a line wraps in a narrow column */
+.page-loader[data-name="poster"] .page-loader__foot {
+    flex-direction: column;
+    gap: 4px;
+}
+.page-loader[data-name="poster"] .page-loader__message {
+    padding-top: 0;
+    text-align: left;
+}
 
 .page-loader__word-svg--outline text {
     fill: none;
@@ -278,19 +329,29 @@
     inset: 0;
     clip-path: inset(0 calc(100% - var(--p) * 100%) 0 0);
 }
+/* A word at a time: each line's share of the track is 1 / --words */
+.page-loader[data-fill="words"] .page-loader__word-heat { clip-path: none; }
+.page-loader[data-fill="words"] .page-loader__word-heat svg:nth-child(1) { clip-path: inset(0 calc(100% - clamp(0, var(--p) * var(--words), 1) * 100%) 0 0); }
+.page-loader[data-fill="words"] .page-loader__word-heat svg:nth-child(2) { clip-path: inset(0 calc(100% - clamp(0, var(--p) * var(--words) - 1, 1) * 100%) 0 0); }
+.page-loader[data-fill="words"] .page-loader__word-heat svg:nth-child(3) { clip-path: inset(0 calc(100% - clamp(0, var(--p) * var(--words) - 2, 1) * 100%) 0 0); }
 
 .page-loader__word-svg--heat text {
     fill: var(--chili);             /* solid Chili, day and night */
 }
 
-/* Phones held upright: the group stands on the bottom edge, the name in two lines, each
-   fitted to the column (author, 1 Oct 2026 — in one line it was 26px tall, 3% of the screen),
-   and the words stacked — the label, then the
-   line under it, left-aligned (author, 30 Sep 2026: beside the label 9 of 14 Russian lines
-   broke in two at 375; stacked, every line holds one row from 375 up at Body 16). A phone on
-   its side has the width for the row and not the height for two lines. */
-@media (max-width: 767px) and (orientation: portrait) {
-    .page-loader { justify-content: flex-end; }
+/* Phones held upright (up to 599): the group stands on the bottom edge, the name's lines are
+   always under each other and as wide as the screen allows (in one line the name was 26px
+   tall, 3% of the screen), and the words stack — the label, then the line under it,
+   left-aligned (author, 30 Sep 2026: beside the label 9 of 14 Russian lines broke in two at
+   375; stacked, every line holds one row from 375 up at Body 16). From 600 — small tablets,
+   a phone on its side — the wide layout: there is the width for the row. */
+@media (max-width: 599px) and (orientation: portrait) {
+    .page-loader,
+    .page-loader[data-name] {
+        --stack: calc(100vw - 64px);
+        --col: 100%;
+        justify-content: flex-end;
+    }
     .page-loader__foot {
         flex-direction: column;
         gap: 4px;
@@ -301,24 +362,14 @@
     }
 
     .page-loader__word { margin-bottom: -5px; }   /* the last line stands 5px into the edge */
+    .page-loader[data-name="poster"] .page-loader__word { margin-bottom: -6px; }
     .page-loader__word-lines {
         flex-direction: column;
-        gap: calc((100vw - 64px) * 0.0414);   /* 14px at 402, with the letters */
+        gap: calc(var(--stack) * 0.0414);
     }
     .page-loader__word-svg {
         flex: none;
         width: 100%;
-    }
-
-    /* TRIAL (author's idea, 1 Oct 2026): `?fill=words` heats the name a word at a time —
-       SWEET over the first half of the track, PEPPER over the second — instead of both under
-       the knob. One of the two goes after the check on the phone. */
-    .page-loader[data-fill="words"] .page-loader__word-heat { clip-path: none; }
-    .page-loader[data-fill="words"] .page-loader__word-heat svg:nth-child(1) {
-        clip-path: inset(0 calc(100% - clamp(0, var(--p) * 2, 1) * 100%) 0 0);
-    }
-    .page-loader[data-fill="words"] .page-loader__word-heat svg:nth-child(2) {
-        clip-path: inset(0 calc(100% - clamp(0, var(--p) * 2 - 1, 1) * 100%) 0 0);
     }
 }
 

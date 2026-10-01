@@ -6,7 +6,7 @@
  * Page-load-night 2731:72573 / Page-load-day 2731:72838.
  *
  * `--p` (0–1) is the only moving part: the knob's place, the track's lit length and the
- * name's filled share all read it — the knob stands on the heat's edge. The knob wears its daypart by `data-stop`
+ * name's filled share all read it. The knob wears its daypart by `data-stop`
  * (breakfast → lunch → dinner → party, the hero slider's four stops), set by the script.
  *
  * On every page, the same markup for every guest: it arms on a navigation, and the footer's
@@ -40,12 +40,13 @@ $icon = static function ( $name ) {
         . sweet_pepper_inline_svg( "assets/icons/c-{$name}.svg" ) . '</span>';
 };
 // The bar's name, the same in both languages: one SVG per word, so they sit in a row on a
-// wide screen and in two lines, each fitted to the column, on a phone held upright. A word's
-// viewBox is its own cap box — Molot at 100: caps 70 high, SWEET 286.7 wide, PEPPER 343.7 —
-// and textLength holds it to that box whatever font answers.
+// row or in lines, each fitted to the column, and BAR shows only in the looks that carry it
+// (page-loader.css → data-name). A word's viewBox is its own cap box —
+// Molot at 100: caps 70 high, SWEET 286.7 wide, PEPPER 343.7, BAR 179.1 — and textLength
+// holds it to that box whatever font answers.
 $word_svgs = static function ( $class ) {
     $out = '';
-    foreach ( [ 'sweet' => '286.7', 'pepper' => '343.7' ] as $word => $w ) {
+    foreach ( [ 'sweet' => '286.7', 'pepper' => '343.7', 'bar' => '179.1' ] as $word => $w ) {
         $out .= '<svg class="page-loader__word-svg page-loader__word-svg--' . $word . ' ' . $class . '" viewBox="0 0 ' . $w . ' 70" aria-hidden="true" focusable="false">'
             . '<text x="0" y="70" textLength="' . $w . '" lengthAdjust="spacingAndGlyphs">' . strtoupper( $word ) . '</text></svg>';
     }
@@ -103,15 +104,29 @@ $word_svgs = static function ( $class ) {
     };
     el.dataset.mode = el.spMode();
 
-    // TRIAL (1 Oct 2026): `?fill=words` heats the phone's name a word at a time, for this
-    // browser tab; `?fill=together` lets go (page-loader.css → phones held upright). One of
-    // the two goes after the check on the phone.
+    // TRIAL (1 Oct 2026): the name's look — data-name and data-fill, read by page-loader.css
+    // (the table is there). Each screen has its default: phones held upright the poster a
+    // word at a time (d), tablets SWEET PEPPER a word at a time (b), desktops SWEET PEPPER
+    // under the knob (a). `?pick=a…f` shows one look on every screen for this browser tab,
+    // `?pick=auto` lets go. On a phone the row with BAR (e, f) is the poster.
+    var LOOKS = { a: ['short', 'together'], b: ['short', 'words'], c: ['poster', 'together'], d: ['poster', 'words'], e: ['row', 'together'], f: ['row', 'words'] },
+        phone = window.matchMedia('(max-width: 599px) and (orientation: portrait)'),
+        desktop = window.matchMedia('(min-width: 992px)'),
+        picked = null;
     try {
-        var fill = new URLSearchParams(location.search).get('fill');
-        if (fill === 'together') sessionStorage.removeItem('spLoaderFill');
-        else if (fill === 'words') sessionStorage.setItem('spLoaderFill', fill);
-        if (sessionStorage.getItem('spLoaderFill')) el.dataset.fill = 'words';
-    } catch (e) { /* private mode */ }
+        picked = (new URLSearchParams(location.search).get('pick') || '').toLowerCase();
+        if (picked === 'auto') sessionStorage.removeItem('spLoaderPick');
+        else if (LOOKS[picked]) sessionStorage.setItem('spLoaderPick', picked);
+        picked = sessionStorage.getItem('spLoaderPick');
+    } catch (e) { picked = null; }
+    function look() {
+        var l = LOOKS[picked] || LOOKS[phone.matches ? 'd' : desktop.matches ? 'a' : 'b'];
+        el.dataset.name = l[0] === 'row' && phone.matches ? 'poster' : l[0];
+        el.dataset.fill = l[1];
+    }
+    look();
+    // a turned phone, a resized window
+    [phone, desktop].forEach(function (m) { m.addEventListener ? m.addEventListener('change', look) : m.addListener(look); });
 
     // The new page's half: the page before showed the loader → open under it, in place.
     var s;

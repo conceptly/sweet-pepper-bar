@@ -22,8 +22,8 @@
  *                          &p=0.5 parks the knob, &done runs it to the end and holds
  *                          «Подано!», Esc lifts it
  *   &mode=day|night|auto   pins the loader's day / night for this tab (the part's script)
- *   ?fill=words|together   TRIAL (1 Oct 2026): the phone's name heats a word at a time, for
- *                          this tab (the part's script) — one of the two goes after the check
+ *   ?pick=a…f|auto         TRIAL (1 Oct 2026): one look of the name on every screen, for
+ *                          this tab (the part's script; the table is in page-loader.css)
  *
  * @package Sweet_Pepper
  */

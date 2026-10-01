@@ -10,7 +10,7 @@ Voice: the bar is answering, so the lines speak as "we" (`design.md` §1.1 → s
 |---|---|---|
 | Molot label, while loading | Разогреваем! | Heating up! |
 | Molot label, when the page is ready (fills letter by letter) | Подано! | Served! |
-| The bar’s name under the slider — the same in both languages since 1 Oct 2026 (was SWEET PEPPER BAR / AT SWEET PEPPER along the bottom) | SWEET PEPPER | SWEET PEPPER |
+| The bar’s name under the slider — the same in both languages since 1 Oct 2026 (was SWEET PEPPER BAR / AT SWEET PEPPER along the bottom). Phones held upright add BAR: SWEET / PEPPER / BAR | SWEET PEPPER | SWEET PEPPER |
 | Screen readers only | Загружаем страницу | Loading the page |
 | Footer item that replays the loader (`ru_RU.l10n.php`) | Поддать жару! | Heat it up! |
 

@@ -16,6 +16,7 @@ import './css/menu-hero.css';
 import './css/menu-jump-nav.css';
 import './css/menu-highlights.css';
 import './css/menu-section.css';
+import './css/menu-nav-bar.css';
 import './css/dish-picker.css';
 import './css/location.css';
 import './css/about.css';
@@ -27,6 +28,7 @@ import './css/privacy.css';
 import './css/privacy-page.css';
 import './css/page-loader.css';
 import './css/mail-chooser.css';
+import './css/not-found.css';
 // iOS Safari fires :active only when the page listens for touches — without this every pressed
 // state (cards, buttons, the language switch) was invisible on an iPhone (25 Sep 2026).
 document.addEventListener('touchstart', () => {}, { passive: true });
@@ -36,6 +38,7 @@ import { initReserveDrawer } from './js/reserve-drawer';
 import { initContactForm, initContactItemCopy } from './js/contact-form';
 import { initMenuHero } from './js/menu-hero';
 import { initMenuJumpNav } from './js/menu-jump-nav';
+import { initMenuNavBar } from './js/menu-nav-bar';
 import { initMenuSingleSection } from './js/menu-single-section';
 import { initMenuRailNudge } from './js/menu-rail-nudge';
 import { initDishPicker } from './js/dish-picker';
@@ -75,6 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize menu hero hover interactions
     initMenuHero();
+
+    // Phone menu navigation: the drawer's opener as a bar at the foot of the screen
+    // (?nav=rail: the earlier sticky rail) — before the jump-nav, which binds the openers
+    // it finds, and before the rail nudge, which runs only for the draft
+    initMenuNavBar();
 
     // Initialize menu jump-nav (edge tab + panel, menu page only)
     initMenuJumpNav();

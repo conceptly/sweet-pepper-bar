@@ -1,0 +1,172 @@
+/* ==========================================================================
+   Menu nav bar — the phone menu page's navigation (src/js/menu-nav-bar.js)
+   Default since 1 Oct 2026, on trial; `?nav=rail` shows the earlier sticky rail.
+
+   Phones and tablets (≤ 991px). The jump-nav drawer's own sheet, peeking at the
+   foot of the screen: the Lime edge, the hero's opener (kebab + label) at the
+   left, the word of the section on show at the right. It replaces the sticky section rail, which
+   steps back to a plain headline: those rules apply unless html.nav-rail is set
+   (the draft), so the default needs no script to look right. The bar itself is
+   built by the script — without it there is no drawer to open either.
+   ========================================================================== */
+
+.menu-nav-bar {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .menu-nav-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 90; /* the vacancy bar's layer: under the notice (99) and the header (100) */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+        margin: 0;
+        padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom, 0px));
+        border: 0;
+        border-top: 8px solid var(--lime);
+        border-radius: 4px 4px 0 0;
+        background-color: var(--parchment);
+        /* The spring overshoots the rise by a few px: the sheet's colour continues below */
+        box-shadow: 0 32px 0 var(--parchment);
+        cursor: pointer;
+        text-align: left;
+        -webkit-tap-highlight-color: transparent;
+        transform: translateY(100%);
+        visibility: hidden;
+        transition: transform var(--dur-gentle) var(--ease-gentle),
+                    visibility 0s linear var(--dur-gentle);
+    }
+
+    .menu-nav-bar.is-visible {
+        transform: translateY(0);
+        visibility: visible;
+        transition: transform var(--dur-gentle) var(--ease-gentle),
+                    visibility 0s;
+    }
+
+    html[data-theme="night"] .menu-nav-bar {
+        background-color: var(--soft-peppercorn);
+        box-shadow: 0 32px 0 var(--soft-peppercorn);
+    }
+
+    /* The section on show, at the right edge: the rail's filled word, a step down (28 on a 36px line) */
+    .menu-nav-bar__word {
+        flex: 0 1 auto;
+        min-width: 0;
+        text-align: right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 28px;
+        line-height: 36px;
+        letter-spacing: 1.12px;
+        color: var(--chili); /* a headline's first line (components.css → Title lines), both themes */
+    }
+
+    /* The hero's opener, as a text link at the left edge: kebab + label, the hero's order
+       (LinkPrimary's colours) */
+    .menu-nav-bar__more {
+        flex: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.6;
+        white-space: nowrap;
+        color: var(--olive);
+        transition: color 0.8s var(--ease-gentle-flat);
+    }
+
+    html[data-theme="night"] .menu-nav-bar__more {
+        color: var(--lime);
+    }
+
+    .menu-nav-bar__more svg {
+        flex: none;
+        width: 14px;
+        height: 14px;
+    }
+
+    .menu-nav-bar__more svg path {
+        fill: currentColor;
+    }
+
+    .menu-nav-bar.is-tight .menu-nav-bar__label {
+        display: none;
+    }
+
+    /* Hover and pressed as separate rules: the build guards every :hover for touch */
+    .menu-nav-bar:hover .menu-nav-bar__more {
+        color: var(--avocado);
+    }
+
+    .menu-nav-bar:active .menu-nav-bar__more {
+        color: var(--avocado);
+    }
+
+    html[data-theme="night"] .menu-nav-bar:hover .menu-nav-bar__more {
+        color: var(--lemon);
+    }
+
+    html[data-theme="night"] .menu-nav-bar:active .menu-nav-bar__more {
+        color: var(--lemon);
+    }
+
+    .menu-nav-bar:active .menu-nav-bar__more {
+        transition-duration: 100ms; /* the press answers the finger */
+    }
+
+    .menu-nav-bar:focus-visible {
+        outline: 2px solid var(--olive);
+        outline-offset: -6px;
+    }
+
+    html[data-theme="night"] .menu-nav-bar:focus-visible {
+        outline-color: var(--lime);
+    }
+
+    /* ── The rail steps back to a headline: in place, not sticky, the section's own
+       (long) headline, free to wrap; the other words are the drawer's job now.
+       Under html.nav-rail (the draft) menu-section.css's rail stands as it was ── */
+    html:not(.nav-rail) .menu-section-rail {
+        position: static;
+    }
+
+    html:not(.nav-rail) .menu-section-rail__nav {
+        padding-right: var(--gutter);
+        overflow: visible;
+        scroll-snap-type: none;
+    }
+
+    html:not(.nav-rail) .menu-section-rail__link {
+        display: none;
+    }
+
+    html:not(.nav-rail) .menu-section-rail__item {
+        flex: 0 1 auto;
+        white-space: normal;
+    }
+
+    html:not(.nav-rail) .menu-section-rail__long {
+        display: inline;
+    }
+
+    html:not(.nav-rail) .menu-section-rail__long ~ .menu-section-rail__short {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menu-nav-bar,
+    .menu-nav-bar.is-visible {
+        transition: none;
+    }
+}

@@ -269,8 +269,9 @@
 }
 
 /* ── Phones (≤ 767px) ──
-   Between sections the rail in every section headline does the jumping
-   (menu-section.css). The panel itself goes full width. */
+   Between sections the bar at the foot of the screen opens this panel
+   (menu-nav-bar.css; the rail in every section headline under ?nav=rail).
+   The panel itself goes full width. */
 @media (max-width: 767px) {
 
     /* Figma kitchen-drawer-day 1341:49297: the sheet fills the viewport with

@@ -59,6 +59,7 @@ export function initMenuSingleSection() {
         // same spot), and reveal.js only looks again on scroll: a headline it parked earlier
         // stayed parked, so the rail opened with no current word (20 Sep 2026).
         window.dispatchEvent(new Event('reveal:check'));
+        document.dispatchEvent(new CustomEvent('menu-section:change', { detail: { slug } })); // the nav bar's word (menu-nav-bar.js)
         return true;
     }
 

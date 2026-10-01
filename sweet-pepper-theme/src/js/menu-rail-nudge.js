@@ -27,6 +27,9 @@ const EVERY = 2500; // was 5000: on a phone the pauses read as longer than on a 
 export function initMenuRailNudge() {
     const rails = Array.from(document.querySelectorAll('.menu-section-rail'));
     if (!rails.length) return;
+    // The rail is the draft now (?nav=rail, menu-nav-bar.js); by default the headline is a
+    // plain headline and there is nothing to demo
+    if (!document.documentElement.classList.contains('nav-rail')) return;
 
     const phoneMq = window.matchMedia('(max-width: 991px)');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');

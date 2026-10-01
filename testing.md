@@ -75,6 +75,82 @@ Plan and rules: `website-brief.md` → Motion language → *Page loader* → *On
 
 ---
 
+## 404 page — three layouts on trial (1 October 2026)
+
+Build record: `report.md` → *404 page*; rules and open points: `website-brief.md` → *404 page — on trial*. Any address that doesn't exist shows it; `?nf=` picks the layout (not `?pick=` — that one is the page loader's).
+
+| Layout | RU | EN |
+|---|---|---|
+| 0 — the Figma draft | `http://sweet-pepper-bar.local/nothing/` | `http://sweet-pepper-bar.local/en/nothing/` |
+| a — the ticket | `…/nothing/?nf=a` | `…/en/nothing/?nf=a` |
+| b — the number in the footer | `…/nothing/?nf=b` | `…/en/nothing/?nf=b` |
+| bt — b with the ticket | `…/nothing/?nf=bt` | `…/en/nothing/?nf=bt` |
+
+| Question | Result |
+|---|---|
+| Layout 0 — the notice line above or under the number | **Under (author, 1 Oct, in the browser):** above, it argued with the top nav. Built; the Figma frame follows |
+| Which layout | Open — the author's pick of 0, a, b |
+| Layout b — the Chili level rising in the digits | Open — Claude's suggestion; plain outlines are the alternative |
+| Layout 0 — the digits as an idle loop or on hover | Open — built as a 6 s idle loop (an assumption) |
+| Always dark | Open — assumed |
+| The copy, both languages | Open — drafts in `data/not-found.php` |
+
+Seen in headless Chrome only (402 to 1920 wide). Owed: Safari, a real phone, reduced motion, the test site (not deployed).
+
+---
+
+## Team wall lightbox — a prototype behind `?lightbox` (1 October 2026)
+
+Build record: `report.md` → *Team wall lightbox*; rules and open points: `website-brief.md` → *Team wall lightbox — on trial*. Click a group photo on the About wall. Below 768px wide the lightbox is a column — narrow the window to see it on a computer.
+
+| What | RU | EN |
+|---|---|---|
+| The defaults — A1, P4 on the cord, grow | `http://sweet-pepper-bar.local/about/?lightbox` | `http://sweet-pepper-bar.local/en/about/?lightbox` |
+| A2 — the page blurred behind | `…/about/?lightbox=a2` | `…/en/about/?lightbox=a2` |
+| P3 — phone prints 16px in, one size | `…/about/?lightbox=p3` | `…/en/about/?lightbox=p3` |
+| The phone column without the cord | `…/about/?lightbox=nocord` | `…/en/about/?lightbox=nocord` |
+| The other opening | `…/about/?lightbox=fade` | `…/en/about/?lightbox=fade` |
+
+| Question | Result |
+|---|---|
+| Which direction of the five | **A — the wall, closer (author, 1 Oct, from the contact sheet)** |
+| The ground | **Dark, see-through, no blur — A1 (author, 1 Oct, in the browser);** A2 kept behind `a2` |
+| The phone layout | **A column, the open print edge to edge, on the cord — P4 + cord (author, 1 Oct, in the browser);** P3 and `nocord` kept to compare |
+| The cursor on the prints | **The hand (author, 1 Oct)** — the pepper cursor was built first |
+| The opening — the print flies from the strip, or settles in the middle | Open — `grow` is the default |
+| Does 1.7× on a phone show the faces | Open — a real phone; a sideways pan at 3.3× was the alternative on the first sheet |
+| Photo sharpness at 960px | Open — the uploads are 1080 × 720 |
+
+Seen in headless Chrome only (375 to 1440 wide, RU and EN; reduced motion and touch emulated). Owed: Safari, a real phone, a screen reader, the test site (not deployed).
+
+---
+
+## Phone menu navigation — the bar or the rail (1 October 2026)
+
+Build record: `report.md` → *Phone menu navigation*; rules and open points: `website-brief.md` → *Mobile — Menu page → Navigation between sections*. Phones and tablets up to 991px wide. The choice is remembered for the visit, so the door to the other menu keeps it; open the other link to switch.
+
+| What | RU | EN |
+|---|---|---|
+| The default — the bar at the foot of the screen | `http://sweet-pepper-bar.local/menu/food/` · `…/menu/bar/` | `http://sweet-pepper-bar.local/en/menu/food/` · `…/en/menu/bar/` |
+| The draft — the sticky rail | `…/menu/food/?nav=rail` | `…/en/menu/food/?nav=rail` |
+| Back to the default after the draft | `…/menu/food/?nav=edge` | `…/en/menu/food/?nav=edge` |
+
+| Question | Result |
+|---|---|
+| Which of the ten on the sheet | **The drawer's sheet peeking — "the sheet's edge" (author, 1 Oct, from the contact sheet)** |
+| The drawer — full screen, or a two-column bottom sheet | **Full screen, as it was (author, 1 Oct):** the shorter versions look too dense |
+| Which side the opener sits on | **Left, the section word right (author, 1 Oct, in the browser)** — the drawer comes in from that side, and the hero has its opener there |
+| The bar or the rail | Open — the bar is the default; the author compares the two on devices |
+| Is the bar found without being shown | Open |
+| Two taps to another section (bar → word) against the rail's one — does it slow anyone down | Open |
+| Does the bar sit clear of Safari's own bottom bar and the home indicator | Open — never checked (headless Chrome only) |
+| The bar menu in Russian: the label drops to the kebab alone beside «Без алкоголя» (and «Чай и кофе» on a 360 phone) — noticed? | Open — a shorter label than «Вся барная карта» would remove it |
+| First visit: the cookie notice covers the bar until «Понятно» | Open — watch whether anyone looks for the sections before dismissing it |
+
+Seen in headless Chrome only (320 to 1440 wide, RU and EN). Owed: Safari, real phones and a tablet, the test site (not deployed).
+
+---
+
 ## Open — planned, not yet run
 
 | Question | Affects | Plan | Prediction on record |

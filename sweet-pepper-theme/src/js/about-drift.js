@@ -22,6 +22,8 @@
  * @module about-drift
  */
 
+import { initTeamLightbox } from './team-lightbox'; // PROTOTYPE behind ?lightbox — wired here so main.js stays untouched
+
 const STEP = 96;       // px of drift, about a third of a wall card
 const DURATION = 1400; // ms, there and back
 const LINE = 0.66;     // of the viewport height (menu-rail-nudge.js → LINE)
@@ -29,6 +31,8 @@ const LINE = 0.66;     // of the viewport height (menu-rail-nudge.js → LINE)
 export function initAboutDrift() {
     const strip = document.querySelector('.about-team__drift');
     if (!strip) return;
+
+    initTeamLightbox();
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const maxLeft = () => strip.scrollWidth - strip.clientWidth;

@@ -1,0 +1,358 @@
+/* ══════════════════════════════════════════════════════════════════════
+   The 404 page — PROTOTYPE, 1 Oct 2026 (404.php, inc/not-found.php).
+   Three layouts on trial, `?nf=` on any address that doesn't exist:
+
+     .not-found--0    the author's Figma draft ("Lost in the Sauce-404" 2803:78133): the
+                      centred stack, the digits popping in turn (lettersSize 2807:77957)
+     .not-found--a    the bar answers: copy left, the dish picker's ticket right,
+                      centred in the screen under the header
+     .not-found--b    the draft's copy left, the number standing in the footer — the
+                      theater is shorter, so the footer rises into the first screen
+     .not-found--bt   b with the ticket as well
+
+   Always dark (inc/daypart-head.php), so the colours are night's own and literal.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.not-found {
+    /* The header's height: 77px on desktop (24 + the 53px logo), the fixed 76px bar below
+       992 — the body already keeps that room (main.css) */
+    --nf-header: 77px;
+    --nf-pad: 64px;
+}
+
+@media (max-width: 991px) {
+    .not-found {
+        --nf-header: 76px;
+        --nf-pad: 48px;
+    }
+}
+
+.not-found__theater {
+    position: relative;
+}
+
+.not-found__inner {
+    position: relative;
+}
+
+/* ── The words ── */
+
+/* Molot 16 / 1.4 / 4% — Figma Heading/Captions, with the 8px Chili dot */
+.not-found__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    color: var(--lime);
+}
+
+.not-found__dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--chili);
+}
+
+.not-found__headline {
+    margin-top: 16px;
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--lemon);
+    text-wrap: balance;
+}
+
+.not-found__body {
+    margin: 24px 0 0;
+    max-width: 440px;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--mushroom);
+    text-wrap: pretty;
+}
+
+.not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 40px;
+}
+
+/* One arrow glyph in the theme: the way back shows it mirrored */
+.not-found__back .btn-icon {
+    scale: -1 1;
+}
+
+/* ── The number ── */
+
+.not-found__digits {
+    margin: 0;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--chili);
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* Layout 0 — the draft's digits. Molot at 238px sets a digit 140 × 214 (line 0.9), 10px
+   apart, in a 353px room; the popped digit is 165 × 252, i.e. × 1.176, and its neighbours
+   step 12.5px aside. All of it in em, so a phone scales the set whole. */
+.not-found__digits--pop {
+    --nf-step: 0.0525em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.042em;
+    height: 1.483em;
+    font-size: min(238px, 47vw);
+    line-height: 0.9;
+}
+
+.not-found__digits--pop span {
+    display: block;
+}
+
+/* One clock, four beats of 1.5s: rest (Chili) → the first 4 (Lemon) → the 0 (Lime) → the
+   last 4 (Paprika). Each beat opens with the move (the first 8%) and then holds. The
+   digits take Bouncy — the page loader's knob pops on it; the colour takes the flat curve. */
+@media (prefers-reduced-motion: no-preference) {
+    .not-found__digits--pop {
+        animation: nf-hue 6s var(--ease-gentle-flat) infinite;
+    }
+
+    .not-found__digits--pop span {
+        animation: 6s var(--ease-bouncy) infinite;
+    }
+
+    .not-found__digits--pop span:nth-child(1) { animation-name: nf-pop-1; }
+    .not-found__digits--pop span:nth-child(2) { animation-name: nf-pop-2; }
+    .not-found__digits--pop span:nth-child(3) { animation-name: nf-pop-3; }
+}
+
+@keyframes nf-hue {
+    0%        { -webkit-text-stroke-color: var(--paprika); }
+    8%, 25%   { -webkit-text-stroke-color: var(--chili); }
+    33%, 50%  { -webkit-text-stroke-color: var(--lemon); }
+    58%, 75%  { -webkit-text-stroke-color: var(--lime); }
+    83%, 100% { -webkit-text-stroke-color: var(--paprika); }
+}
+
+@keyframes nf-pop-1 {
+    0%        { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+    8%, 25%   { scale: 1;     translate: 0 0; }
+    33%, 50%  { scale: 1.176; translate: 0 0; }
+    58%, 100% { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+}
+
+@keyframes nf-pop-2 {
+    0%        { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+    8%, 25%   { scale: 1;     translate: 0 0; }
+    33%, 50%  { scale: 1;     translate: var(--nf-step) 0; }
+    58%, 75%  { scale: 1.176; translate: 0 0; }
+    83%, 100% { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+}
+
+@keyframes nf-pop-3 {
+    0%        { scale: 1.176; translate: 0 0; }
+    8%, 25%   { scale: 1;     translate: 0 0; }
+    33%, 75%  { scale: 1;     translate: var(--nf-step) 0; }
+    83%, 100% { scale: 1.176; translate: 0 0; }
+}
+
+/* Layouts b / bt — the giant number, standing in the footer. Line 0.7 is Molot's cap
+   height, so the box is the digits; 0.16em of it sits under the footer's edge. */
+.not-found__digits--sunk {
+    position: absolute;
+    right: var(--gutter);
+    bottom: calc(-1 * var(--nf-pad) - 0.16em);
+    margin-right: -0.042em; /* the last digit's own tracking */
+    /* what the copy column (400) and a 10px breath leave of the content width — the
+       container's, which stops growing at 1280 */
+    font-size: calc((min(100vw, 1280px) - 2 * var(--gutter) - 410px) / 1.84);
+    line-height: 0.7;
+    letter-spacing: 0.042em;
+    pointer-events: none;
+}
+
+/* The level: the same digits filled Chili, shown from the footer's edge up */
+.not-found__digits--sunk::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: var(--chili);
+    -webkit-text-stroke: 0 transparent;
+    clip-path: inset(83% 0 -10% 0); /* at rest: under the footer's edge, bites included */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .not-found__digits--sunk::after {
+        animation: nf-level 9s var(--ease-gentle-flat) infinite;
+    }
+}
+
+@keyframes nf-level {
+    0%, 12%   { clip-path: inset(83% 0 -10% 0); }
+    50%       { clip-path: inset(46% 0 -10% 0); }
+    88%, 100% { clip-path: inset(83% 0 -10% 0); }
+}
+
+/* ── Layout 0 — the draft, as drawn: 28 · the digits' room · 26 · label · 26 · headline
+   · 24 · copy · 40 · buttons · 93. The label sat above the digits until 1 Oct 2026 —
+   28px under the header it argued with the top nav (author, in the browser) ── */
+.not-found--0 .not-found__inner {
+    display: flex;
+    justify-content: center;
+    padding-block: 28px 93px;
+}
+
+.not-found--0 .not-found__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(100%, 760px);
+    text-align: center;
+}
+
+.not-found--0 .not-found__digits {
+    margin-bottom: 26px;
+}
+
+.not-found--0 .not-found__headline {
+    margin-top: 26px;
+    font-size: 36px;
+}
+
+.not-found--0 .not-found__body {
+    max-width: 560px;
+}
+
+.not-found--0 .not-found__actions {
+    justify-content: center;
+}
+
+/* ── Layouts a, b, bt — copy left, centred in the theater's height ── */
+.not-found--a .not-found__theater,
+.not-found--b .not-found__theater,
+.not-found--bt .not-found__theater {
+    display: flex;
+    padding-block: var(--nf-pad);
+}
+
+/* a: the theater is the screen under the header, the footer starts at the fold */
+.not-found--a .not-found__theater {
+    min-height: calc(100svh - var(--nf-header));
+}
+
+/* b: 240px shorter, so the footer — hours, phone, links — is in the first screen */
+.not-found--b .not-found__theater,
+.not-found--bt .not-found__theater {
+    min-height: max(520px, calc(100svh - var(--nf-header) - 240px));
+}
+
+.not-found--a .not-found__inner,
+.not-found--b .not-found__inner,
+.not-found--bt .not-found__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+}
+
+.not-found--a .not-found__copy {
+    flex: 1 1 0;
+    max-width: 548px; /* 6 of 12 columns */
+}
+
+.not-found--b .not-found__copy,
+.not-found--bt .not-found__copy {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 400px);
+}
+
+/* The headline may run past the 400px column, to 6 columns: it sits above the digits'
+   tops, and «В СТОП-ЛИСТЕ.» needs the room (at 400 it broke at the hyphen, four lines) */
+.not-found--b .not-found__headline {
+    width: max-content;
+    max-width: 548px;
+}
+
+/* The ticket — the dish picker's card (dish-picker.css) at its own width, 404px */
+.not-found__ticket {
+    flex: none;
+    z-index: 1;
+    width: min(100%, 404px);
+}
+
+.not-found__asked {
+    overflow-wrap: anywhere;
+}
+
+/* ── The footer's edge ──
+   The bites take the page's Peppercorn (night's default is Soft Peppercorn, footer.css).
+   In b the number stands behind the footer, so the bites are real holes there: the Lime is
+   masked instead of painted over, and the digits show through them. */
+html[data-theme="night"] .error404 .footer-rugged-top .rugged-edge {
+    --rugged-color: var(--peppercorn) !important;
+}
+
+html[data-theme="night"] .not-found-pick-b .footer-rugged-top .rugged-edge,
+html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
+    --rugged-color: transparent !important;
+}
+
+.not-found-pick-b .site-footer,
+.not-found-pick-bt .site-footer {
+    -webkit-mask: radial-gradient(circle at 24px 0, transparent 11.5px, #000 12px) center top / 48px 12px repeat-x,
+                  linear-gradient(#000, #000) 0 12px / 100% calc(100% - 12px) no-repeat;
+    mask: radial-gradient(circle at 24px 0, transparent 11.5px, #000 12px) center top / 48px 12px repeat-x,
+          linear-gradient(#000, #000) 0 12px / 100% calc(100% - 12px) no-repeat;
+}
+
+/* ── Tablets and phones (≤ 991): one column ── */
+@media (max-width: 991px) {
+    .not-found--a .not-found__inner,
+    .not-found--b .not-found__inner,
+    .not-found--bt .not-found__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .not-found--a .not-found__copy {
+        flex: none;
+    }
+
+    .not-found--b .not-found__headline {
+        width: auto;
+        max-width: 100%;
+    }
+
+    .not-found--b .not-found__theater,
+    .not-found--bt .not-found__theater {
+        min-height: 0;
+        padding-bottom: 0;
+    }
+
+    /* The number goes under the copy, as wide as the column, still standing in the footer */
+    .not-found__digits--sunk {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        align-self: center;
+        margin-bottom: -0.16em;
+        font-size: min(400px, calc((100vw - 2 * var(--gutter)) / 1.84));
+    }
+}
+
+@media (max-width: 767px) {
+    .not-found--0 .not-found__inner {
+        padding-block: 24px 64px;
+    }
+
+    .not-found__ticket {
+        width: 100%;
+    }
+}

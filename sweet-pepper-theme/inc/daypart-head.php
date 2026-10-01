@@ -37,6 +37,7 @@
  *
  * Mirrors the engine's rules exactly, so the engine finds the theme already right:
  *   the bar menu page, /menu/bar/     → night (the bar is always dark; inc/menu-page.php)
+ *   a 404                             → night (PROTOTYPE, 1 Oct 2026: always dark; inc/not-found.php)
  *   ?menu=drinks                      → night (the same, as a switch on any page)
  *   ?theme=night, ?daypart=dinner|party → night
  *   ?daypart=breakfast|lunch          → day
@@ -48,7 +49,7 @@
 
 function sweet_pepper_daypart_head() {
     $themes_by_hour = is_front_page() ? 'true' : 'false';
-    $bar_page       = 'drinks' === sweet_pepper_menu_state() ? 'true' : 'false';
+    $bar_page       = 'drinks' === sweet_pepper_menu_state() || is_404() ? 'true' : 'false'; // the 404 page is always dark too
     // The browser's own chrome takes the page's ground (27 Sep 2026): Safari 26 on the iPhone
     // fills its floating bar from the document's background once the page scrolls, and
     // theme-color is the meta Safari, Chrome for Android and the PWA shell read for their
@@ -56,7 +57,7 @@ function sweet_pepper_daypart_head() {
     // vacancy) are Peppercorn whatever the hour — `data-bar="fixed"` keeps the script off it.
     // `?bar=dark` also paints the canvas Peppercorn (html[data-bar="dark"], main.css) so a day
     // page gets a dark bar to compare on the phone.
-    $fixed_dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit.php' ) || is_singular( 'vacancy' );
+    $fixed_dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit.php' ) || is_singular( 'vacancy' ) || is_404();
     ?>
 <meta name="theme-color" content="<?php echo $fixed_dark ? '#151317' : '#FCF7E8'; ?>"<?php echo $fixed_dark ? ' data-bar="fixed"' : ''; ?>>
 <script>

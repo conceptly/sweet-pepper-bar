@@ -5,6 +5,8 @@
  * A reusable interactive component: the guest picks a dish tag,
  * the bar answers with a drink pairing on a "printed" ticket card.
  * Used on the menu page (pairing station) and planned for the About page.
+ * The ticket card's markup and classes are also printed, with other words, by the 404 page
+ * on trial (template-parts/not-found/ticket.php, 1 Oct 2026) — change the card here and there.
  *
  * Figma: picker-day (860:29520), picker-night; Shake It! states 2437:71646 / 2437:72125
  *

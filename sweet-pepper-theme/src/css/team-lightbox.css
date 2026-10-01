@@ -1,0 +1,350 @@
+/* ===========================================================================
+   Dream Team wall lightbox — PROTOTYPE behind ?lightbox (1 Oct 2026, team-lightbox.js)
+
+   The wall, closer: the drift strip at lightbox scale. Same pin, same line, same 1° tilt,
+   same Lemon year pill; the years on either side wait under a veil of the ground colour
+   (the prints stay opaque — the page never shows through a photo).
+
+   ≥768   sideways, as the strip runs: the open print centred, a neighbour's edge each side
+   ≤767   a column (author): the years above and below the open one
+            --bleed   the open print edge to edge, the neighbours at 80% (p4, the default;
+                      without it every print sits 16px in — p3)
+            --cord    one vertical line through every pin (on by default; nocord)
+   --blur  the page blurred behind the ground (a2); without it — the default, a1 — the
+           strip's own prints show through in the gaps
+   =========================================================================== */
+
+/* The strip's prints become the way in — the hand: a print promises a click (author,
+   1 Oct 2026; the pepper cursor was tried first). */
+.about-team__drift.has-lightbox .about-team__wall-card:not(.about-team__wall-card--tbc) {
+    cursor: pointer;
+}
+
+.about-team__drift.has-lightbox .about-team__wall-card:focus-visible {
+    outline: 2px solid var(--olive);
+    outline-offset: 6px;
+    border-radius: 4px;
+}
+
+.team-lightbox {
+    --lb-gap: clamp(32px, 5.5vw, 80px);
+    --lb-peek: clamp(48px, 11vw, 160px);
+    --lb-w: min(960px, 100vw - 2 * (var(--lb-gap) + var(--lb-peek)), (var(--lb-vh, 100dvh) - 160px) * 1.5);
+    --lb-h: calc(var(--lb-w) / 1.5);
+    --lb-pin-w: 96px;
+    --lb-pin-top: -8px;
+    --lb-line: 6px;
+    --lb-pill: 24px;
+
+    position: fixed;
+    inset: 0;
+    z-index: 9000; /* over the header and drawers, under the page loader */
+    background-color: color-mix(in srgb, var(--peppercorn) 88%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 300ms var(--ease-gentle-flat), visibility 0s 300ms;
+}
+
+.team-lightbox:focus {
+    outline: none;
+}
+
+.team-lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.team-lightbox--blur {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+
+/* The scroller: a native one, so a swipe, a trackpad and a drag all move the wall */
+.team-lightbox__view {
+    position: absolute;
+    inset: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.team-lightbox__view::-webkit-scrollbar {
+    display: none;
+}
+
+.team-lightbox__track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--lb-gap);
+    width: max-content;
+    min-height: 100%;
+    padding-inline: calc((100vw - var(--lb-w)) / 2); /* the first and the last year can reach the centre */
+}
+
+/* The line, behind the prints as on the strip */
+.team-lightbox__track::before {
+    content: '';
+    position: absolute;
+    top: calc(50% - var(--lb-h) / 2 + var(--lb-pin-top) + var(--lb-pin-w) / 4 - var(--lb-line) / 2); /* through the pins' middle */
+    left: 0;
+    right: 0;
+    height: var(--lb-line);
+    background-color: var(--olive);
+    pointer-events: none;
+}
+
+.team-lightbox__card {
+    position: relative;
+    flex: none;
+    width: var(--lb-w);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    scroll-snap-align: center;
+    cursor: pointer;
+    isolation: isolate;
+    transition: transform var(--dur-gentle) var(--ease-gentle);
+}
+
+.team-lightbox__card.is-current {
+    cursor: default;
+}
+
+.team-lightbox__card:focus-visible {
+    outline: 2px solid var(--lemon);
+    outline-offset: 8px;
+    border-radius: 4px;
+}
+
+/* The print — pin and photo — is what flies on opening and closing (team-lightbox.js); the
+   button around it is the snap target and stays where the layout put it */
+.team-lightbox__print {
+    position: relative;
+    display: block;
+    transition: transform var(--dur-gentle) var(--ease-gentle);
+}
+
+.team-lightbox__pin {
+    position: absolute;
+    top: var(--lb-pin-top);
+    left: 50%;
+    z-index: 2;
+    width: var(--lb-pin-w);
+    height: calc(var(--lb-pin-w) / 2);
+    border-radius: calc(var(--lb-pin-w) / 16);
+    opacity: 0.55;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.team-lightbox__pin--lime {
+    background-color: var(--lime);
+    transform: translateX(-50%) rotate(1deg);
+}
+
+.team-lightbox__pin--paprika {
+    background-color: var(--paprika);
+    transform: translateX(-50%) rotate(-1deg);
+}
+
+.team-lightbox__card.is-current .team-lightbox__pin {
+    opacity: 1;
+}
+
+.team-lightbox__photo {
+    position: relative;
+    z-index: 1;
+    display: block;
+    aspect-ratio: 3 / 2;
+    border-radius: 4px;
+    overflow: hidden;
+    background-size: cover; /* the strip's own crop, until the larger file arrives */
+    background-position: center;
+    transition: transform 800ms var(--ease-bouncy); /* the strip's un-tilt */
+}
+
+.team-lightbox__card--v1 .team-lightbox__photo {
+    transform: rotate(-1deg);
+}
+
+.team-lightbox__card--v2 .team-lightbox__photo {
+    transform: rotate(1deg);
+}
+
+.team-lightbox__card.is-current .team-lightbox__photo {
+    transform: none;
+}
+
+.team-lightbox__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* The veil a waiting year sits under */
+.team-lightbox__photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background-color: var(--peppercorn);
+    opacity: 0.6;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.team-lightbox__card:hover .team-lightbox__photo::after {
+    opacity: 0.4;
+}
+
+.team-lightbox__card.is-current .team-lightbox__photo::after {
+    opacity: 0;
+}
+
+/* The year: the Image caption label, untouched (website-brief.md → the Lemon pill) */
+.team-lightbox__pill {
+    position: absolute;
+    z-index: 1;
+    bottom: var(--lb-pill);
+    left: var(--lb-pill);
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: var(--lemon);
+    opacity: 0.9;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    white-space: nowrap;
+}
+
+.team-lightbox__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--peppercorn) 70%, transparent); /* it can sit on a print */
+    color: var(--paper);
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease-gentle-flat), scale 0.3s var(--ease-bouncy);
+}
+
+.team-lightbox__close:hover {
+    background-color: var(--soft-peppercorn);
+}
+
+.team-lightbox__close:active {
+    scale: 0.92;
+}
+
+.team-lightbox__close:focus-visible {
+    outline: 2px solid var(--lemon);
+    outline-offset: 2px;
+}
+
+/* ── Opening ── */
+
+/* fade (B): the open print settles from a shade smaller */
+.team-lightbox--fade.is-opening .team-lightbox__card.is-current .team-lightbox__print {
+    animation: team-lightbox-settle var(--dur-gentle) var(--ease-gentle) both;
+}
+
+@keyframes team-lightbox-settle {
+    from { transform: scale(0.94); }
+}
+
+/* grow (C): team-lightbox.js starts the open print on its place on the strip and lets go */
+.team-lightbox__print.is-flying {
+    transition: none;
+}
+
+.team-lightbox.is-closing .team-lightbox__card.is-current .team-lightbox__print {
+    transition: transform 400ms var(--ease-gentle-flat);
+}
+
+.team-lightbox__card.is-current {
+    z-index: 2; /* over the waiting years while it flies */
+}
+
+.team-lightbox.is-closing {
+    transition: opacity 250ms var(--ease-gentle-flat) 150ms, visibility 0s 400ms;
+}
+
+/* ── Phones: a column ── */
+
+@media (max-width: 767px) {
+    .team-lightbox {
+        --lb-w: calc(100vw - 32px);
+        --lb-gap: 40px;
+        --lb-pin-w: 48px;
+        --lb-pin-top: -4px;
+        --lb-line: 4px;
+        --lb-pill: 16px;
+    }
+
+    .team-lightbox__view {
+        overflow-x: hidden;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+    }
+
+    .team-lightbox__track {
+        flex-direction: column;
+        width: 100%;
+        min-height: 0;
+        padding-inline: 0;
+        padding-block: calc((var(--lb-vh, 100dvh) - var(--lb-h)) / 2); /* the first and the last year can reach the middle */
+    }
+
+    .team-lightbox__track::before {
+        display: none;
+    }
+
+    /* The cord: one line down through every pin */
+    .team-lightbox--cord .team-lightbox__track::before {
+        display: block;
+        top: 0;
+        bottom: 0;
+        left: calc(50% - var(--lb-line) / 2);
+        right: auto;
+        width: var(--lb-line);
+        height: auto;
+    }
+
+    /* p4 — the open print edge to edge, the years around it at 80% */
+    .team-lightbox--bleed {
+        --lb-w: 100vw;
+        --lb-gap: 12px;
+    }
+
+    .team-lightbox--bleed .team-lightbox__card:not(.is-current) {
+        transform: scale(0.8);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .team-lightbox__card,
+    .team-lightbox__print,
+    .team-lightbox__photo,
+    .team-lightbox.is-closing .team-lightbox__card.is-current .team-lightbox__print {
+        transition: none;
+    }
+
+    .team-lightbox--fade.is-opening .team-lightbox__card.is-current .team-lightbox__print {
+        animation: none;
+    }
+}

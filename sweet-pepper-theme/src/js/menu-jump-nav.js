@@ -58,6 +58,11 @@ export function initMenuJumpNav() {
     // ── Open / close ──
     let isOpen = false;
     let lastFocused = null;
+    // Opened from the bar at the foot of the screen (menu-nav-bar.js), the guest is in a
+    // section, not at the hero — the panel marks the section on show and a word lands on
+    // its section. Under ?nav=rail (the draft) there is no bar and this stays false.
+    let fromBar = false;
+    let openedBy = null;
 
     function focusables() {
         return Array.from(
@@ -65,14 +70,19 @@ export function initMenuJumpNav() {
         ).filter((el) => el.offsetParent !== null);
     }
 
-    function open() {
+    function open(opener) {
         if (isOpen) return;
         isOpen = true;
         lastFocused = document.activeElement;
+        openedBy = opener || null;
+        fromBar = !!(opener && opener.classList.contains('menu-nav-bar'));
 
         // On a phone the panel mirrors the hero's section on show, not the
         // section in view (the guest is at the hero when it opens).
-        if (isPhone() && hero && hero.dataset.currentSection) {
+        const onShow = fromBar && document.querySelector('section.menu-section.is-current');
+        if (isPhone() && onShow) {
+            setActive(onShow.id);
+        } else if (isPhone() && hero && hero.dataset.currentSection) {
             setActive(hero.dataset.currentSection);
         }
 
@@ -80,6 +90,7 @@ export function initMenuJumpNav() {
         panel.setAttribute('aria-hidden', 'false');
         if (scrim) scrim.classList.add('is-open');
         if (tabBtn) tabBtn.setAttribute('aria-expanded', 'true');
+        if (fromBar) openedBy.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
 
         const closeBtn = panel.querySelector('.menu-jump__close');
@@ -96,6 +107,7 @@ export function initMenuJumpNav() {
         panel.setAttribute('aria-hidden', 'true');
         if (scrim) scrim.classList.remove('is-open');
         if (tabBtn) tabBtn.setAttribute('aria-expanded', 'false');
+        if (fromBar) openedBy.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
 
         document.removeEventListener('keydown', onKeydown);
@@ -138,7 +150,7 @@ export function initMenuJumpNav() {
     document.querySelectorAll('.js-menu-jump-open').forEach((opener) => {
         opener.addEventListener('click', (e) => {
             e.preventDefault();
-            open();
+            open(opener);
         });
     });
 
@@ -152,9 +164,14 @@ export function initMenuJumpNav() {
             const slug = item.dataset.section;
             if (isPhone() && hero) {
                 e.preventDefault();
+                const land = fromBar; // close() keeps it; read before anything re-opens
                 close();
                 setActive(slug);
                 hero.dispatchEvent(new CustomEvent('menu-hero:preview', { detail: { slug } }));
+                // From the bar the guest was reading a section: the hero and the page follow
+                // as above, and the ride ends on the picked section's top, as a rail tap did.
+                const target = land && document.getElementById(slug);
+                if (target) gentleScrollTo(target);
                 return;
             }
             const target = document.getElementById(slug);

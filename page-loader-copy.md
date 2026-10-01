@@ -1,6 +1,6 @@
 # Page loader — copy (RU / EN)
 
-The words of the screen a guest sees while the next page is slow (`website-brief.md` → Motion language → Page loader). **The source is `sweet-pepper-theme/data/page-loader.php`** — edit there; this file is the readable copy of it for review (tables generated from the data file, 30 Sep 2026). If the two ever disagree, the data file is what the site shows.
+The words of the screen a guest sees while the next page is slow (`website-brief.md` → Motion language → Page loader). **Since 1 Oct 2026 the pool is edited in admin — «Пасхалка»** (one record, a row per line; `website-brief.md` → Page loader); the site shows what that record holds. `sweet-pepper-theme/data/page-loader.php` keeps the fixed words, and its pool is the record's first filling and the fallback while a site has no record. This file is the readable copy as seeded (tables generated from the data file, 30 Sep 2026) — after the team's edits the admin list is the truth, not this table.
 
 Voice: the bar is answering, so the lines speak as "we" (`design.md` §1.1 → status messages). RU and EN are register twins, not translations; RU lines are Claude's drafts unless marked as the team's — the author's pass is owed (`report.md` → Next Up 2).
 
@@ -54,4 +54,4 @@ Characters in the last column (RU / EN). **One row needs up to ~35 characters** 
 
 From 390 up every line, Russian and English, holds one row. A second row no longer moves the slider (the words sit above it and grow upward), so this is looks only. Shorter candidates if 375px phones matter: «Греем горшочки по-ярославски» (270px), «Торгуемся с медведем с герба» (260px), «Солим. Пробуем. Солим ещё» (246px, the team's to decide), "Salting. Tasting. Salting again" (249px).
 
-**Adding a line:** add it to both the `lines` list and the `ru` → `lines` list in `data/page-loader.php`, at the same position; run the fit check (or look at `?loader=stay` on a phone) — then add the row here. *Considered, not built:* the lines as an admin list («Экран загрузки» on Bar Settings), worth it if the team keeps adding.
+**Adding a line (since 1 Oct 2026):** admin → «Пасхалка» → «Добавить строку»: the Russian line, its English twin (left empty, the English page shows the Russian), «Продолжение» if it must follow the row above, «Скрыть» to keep it for later. The form refuses more than 34 characters in Russian / 40 in English. To see it: the footer's «Поддать жару!» on any page (the shaker brings other lines). The data file's lists no longer need the line — they are the fallback.

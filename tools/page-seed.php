@@ -21,6 +21,8 @@
  *                   as About's photos do.
  *   location      — data/location.php → Bar Settings → «Локация — заголовок»
  *   pairings      — data/pairings.php → the one «Гастробот» record (created if missing)
+ *   loader        — data/page-loader.php → the one «Пасхалка» record (created if missing):
+ *                   the pool of lines, a row per line, a chain's later lines ticked «Продолжение»
  *   menu          — the menu pages (inc/menu-page.php). First the shape: the kitchen page (template
  *                   Menu) becomes «Меню — кухня» at /menu/food/ under a new «Меню» folder page
  *                   (/menu/, template Menu — Index) when it still sits at /menu/ itself, and the
@@ -78,7 +80,7 @@ $force   = in_array( '--force', $args, true );
 $publish = in_array( '--publish', $args, true ); // consent only: publish the page as well (author, 29 Sep 2026)
 $targets = array_values( array_diff( $args, [ '--force', '--publish' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|menu|home|contacts|vacancies|privacy|consent> [...] [--force] [--publish]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|loader|menu|home|contacts|vacancies|privacy|consent> [...] [--force] [--publish]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -624,6 +626,42 @@ foreach ( $targets as $target ) {
             }
             update_field( "{$k}rows", $rows, $id );
             echo 'pairings: seeded ' . count( $rows ) . " pairs on record {$id}\n";
+            break;
+
+        case 'loader':
+            $post = sweet_pepper_page_loader_post();
+            if ( ! $post ) {
+                $id = wp_insert_post( [ 'post_type' => 'page_loader', 'post_status' => 'publish', 'post_title' => 'Пасхалка' ] );
+                echo "loader: record {$id} created\n";
+            } else {
+                $id = $post->ID;
+                // Renamed «Пасхалка» on 1 Oct 2026: a record made before that is renamed, nothing else.
+                if ( 'Экран загрузки' === $post->post_title ) {
+                    wp_update_post( [ 'ID' => $id, 'post_title' => 'Пасхалка' ] );
+                    echo "loader: record {$id} renamed «Пасхалка»\n";
+                }
+                if ( get_field( 'loader_lines', $id ) && ! $force ) {
+                    echo "loader: already saved — left alone (--force to overwrite)\n";
+                    break;
+                }
+            }
+            $k     = 'field_sp_loader_';
+            $typed = require $data . 'page-loader.php';
+            $rows  = [];
+            // RU and EN hold the same shape (data/page-loader.php): an array is a chain
+            foreach ( $typed['lines'] as $i => $entry ) {
+                $ru = (array) ( $typed['ru']['lines'][ $i ] ?? [] );
+                foreach ( (array) $entry as $n => $en ) {
+                    $rows[] = [
+                        "{$k}line_ru" => $ru[ $n ] ?? '',
+                        "{$k}line_en" => $en,
+                        "{$k}follows" => $n ? 1 : 0,
+                        "{$k}hidden"  => 0,
+                    ];
+                }
+            }
+            update_field( "{$k}lines", $rows, $id );
+            echo 'loader: seeded ' . count( $rows ) . " lines on record {$id}\n";
             break;
 
         case 'menu':

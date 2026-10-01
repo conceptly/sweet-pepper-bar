@@ -7,7 +7,11 @@
  *
  *   label  — Molot, under the track's left end, while the page is on its way
  *   done   — the same label once the page is ready and the knob reaches the end
- *   lines  — the Sims-style pool, shown in a random order, one every few seconds; a run
+ *   lines  — SINCE 1 OCT 2026 THE SEED AND THE FALLBACK: the team keeps the pool in admin,
+ *            «Пасхалка» (inc/page-loader.php; seeded from here by tools/page-seed.php
+ *            loader), and these lists render only while a site has no record or the record
+ *            shows nothing. label, done and status are still read from here.
+ *            The Sims-style pool, shown in a random order, one every few seconds; a run
  *            opens on whichever comes first (no fixed opener since 30 Sep 2026 — «кухня
  *            работает — не спешите» showed while the kitchen was closed, author). Each must stand alone: most waits show one or two of them. An array is
  *            a chain — its lines always come together, in order (the team's «Пересолили…»

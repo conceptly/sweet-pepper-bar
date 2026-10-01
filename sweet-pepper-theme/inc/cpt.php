@@ -130,7 +130,26 @@ function sweet_pepper_register_cpt() {
         'capabilities' => array( 'create_posts' => 'do_not_allow' ),
     ) );
 
-    // (5. «Разделы меню» — `menu_list`, one record per section holding its subsections and
+    // 5. «Пасхалка» — ONE record («Экран загрузки» for its first hour — the author's name is easier
+    // for the team): the page loader's pool of lines (inc/page-loader.php,
+    // acf-json/group_sp_loader.json), so the team can add a seasonal greeting or an idea of
+    // their own (author, 1 Oct 2026). A post, not a Bar Settings tab, for Гастробот's reasons:
+    // revisions and the edit lock. Never a public URL — the loader prints the lines.
+    register_post_type( 'page_loader', array(
+        'label'        => 'Пасхалка',
+        'labels'       => array( 'name' => 'Пасхалка', 'singular_name' => 'Пасхалка', 'menu_name' => 'Пасхалка', 'edit_item' => 'Пасхалка', 'all_items' => 'Пасхалка' ),
+        'supports'     => array( 'title', 'revisions' ),
+        'public'       => false,
+        'show_ui'      => true,
+        'menu_position' => 11,
+        'menu_icon'    => 'dashicons-hourglass',
+        'show_in_rest' => false,
+        'map_meta_cap' => true,
+        // One record, made by the seeder: the team edits it, nobody adds a second.
+        'capabilities' => array( 'create_posts' => 'do_not_allow' ),
+    ) );
+
+    // (6. «Разделы меню» — `menu_list`, one record per section holding its subsections and
     // words — was retired on 24 Sep 2026: the sections live as tabs on the two menu pages,
     // inc/menu-page.php. The old records stay in the database, unregistered, until the author
     // deletes them; tools/page-seed.php menu read them once into the pages.)

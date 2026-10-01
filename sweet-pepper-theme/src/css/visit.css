@@ -105,6 +105,24 @@
   margin-block-end: 0.5em;
 }
 
+/* Desktop: the title block never shrinks, so the lead took whatever was left — at 992–1199
+   the Russian «ЗАБЕГАЙТЕ НА ОГОНЁК» (~710px at Display 76) left it 100–280px, a column of one
+   word per line (author's screenshot at 1028, 30 Sep 2026). The row now wraps: the lead keeps
+   a 320px floor beside the title and drops under it when that won't fit, 16 below (the
+   phone's title → lead gap). English (JOIN THE PARTY) stays beside it down to 992. Scoped to
+   the desktop: below 992 the row is a column, where a 320px basis would become a height. */
+@media (min-width: 992px) {
+  .visit-hero__hero-message {
+    flex-wrap: wrap;
+    row-gap: 16px;
+  }
+
+  .visit-hero__description {
+    flex-basis: 320px;
+    max-width: 564px;   /* under the title it would run 830–1040px on one line; 564 is its width beside the English title at 1280 — two lines */
+  }
+}
+
 /* ── Status Band: Lime full-width bar, inside header ── */
 .visit-hero__band {
   background-color: var(--lime, #c1db34);
@@ -768,7 +786,7 @@
    its hint line — the map currently showing, the door at rest. Colour only, on the flat bezier. */
 .visit-location__badge {
   display: flex;
-  align-items: center;
+  align-items: flex-start;   /* the arrow and the distance on the name's first line when it wraps — Figma 945:32243 (author, 30 Sep 2026; was center) */
   gap: 16px;
   flex: 1 1 0;
   min-width: 0;
@@ -803,6 +821,7 @@
   flex-shrink: 0;
   width: 12px;
   height: 12px;
+  margin-top: 6px;           /* a 12px icon on Body's 22.4 line, top-aligned: (22.4 − 12) / 2 = 5.2 → 6 (Figma iconWrapper pt 6; Icon beside text) */
   color: var(--olive);
 }
 

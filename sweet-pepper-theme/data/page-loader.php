@@ -12,8 +12,9 @@
  *            seconds. Each must stand alone: most waits show one or two of them. An array is
  *            a chain — its lines always come together, in order (the team's «Пересолили…»
  *            after «Солим…», 30 Sep 2026). Keep RU and EN in the same shape: the language
- *            switch carries a line by its position. One row each: ~30 characters (a line that
- *            wraps makes the slider jump; measured at 375–1280).
+ *            switch carries a line by its position. One row each: up to ~35 characters (a
+ *            line that wraps makes the slider jump; 34 RU / 40 EN fit from 375 up, 46 didn't).
+ *            The readable copy for review: page-loader-copy.md (repo root).
  *   word   — the outline wordmark along the bottom edge (the home connector and its Russian
  *            twin, inc/home-data.php → sweet_pepper_home_connectors_ru)
  *   status — for screen readers only: the one thing announced

@@ -24,6 +24,8 @@
  *   &mode=day|night|auto   pins the loader's day / night for this tab (the part's script)
  *   ?pick=a…f|auto         TRIAL (1 Oct 2026): one look of the name on every screen, for
  *                          this tab (the part's script; the table is in page-loader.css)
+ *   ?egg=0|1|2|auto        ON TRIAL (1 Oct 2026): the footer's replay as a toy — 0 the plain
+ *                          replay, 1 and 2 the other layouts, for this tab (page-loader.js)
  *
  * @package Sweet_Pepper
  */

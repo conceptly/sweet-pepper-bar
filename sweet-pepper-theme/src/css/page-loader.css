@@ -378,9 +378,181 @@
     }
 }
 
+/* ── ON TRIAL (1 Oct 2026; layout 3 is the default, `?egg=0|1|2` the others): the footer's replay as a toy — page-loader.js ──
+   The knob drags; its nudge is the hint. The controls wait out of sight until the show ends
+   or the slider is touched (`.is-ready`).
+   1 — a row above the words: the shaker at the left (the dish picker's Shake It!, its own
+       markup, so hover, pressed and the night glow come from dish-picker.css) starts the show
+       over; × at the row's right end goes back to the page — in the top corner on phones,
+       where a cross is looked for.
+   2 — wide screens only: two buttons under the name instead of the row (the author's Figma
+       frame 2792:75652); upright screens keep the row.
+   3 — wide screens only: a big shaker above the slider, one button under the name, × in the
+       top corner (Figma 2792:75651).
+   The log: testing.md → Page loader. */
+.page-loader {
+    --shake-fill: var(--lemon);
+    --shake-ground: var(--loader-bg);
+    --shake-border: transparent;
+    --shake-shadow: 1px 1px 4px rgba(21, 19, 23, 0.15);
+    --shake-glow: 0;
+    --shake-size: 48px;
+    --shake-icon: 24px;
+}
+.page-loader[data-mode="night"] {
+    --shake-fill: var(--cream);
+    --shake-border: var(--lemon);
+    --shake-shadow: none;
+}
+@media (hover: hover) {
+    .page-loader[data-mode="night"] { --shake-glow: 1; }
+}
+
+.page-loader__again {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    width: var(--col);
+    margin-bottom: 28px;            /* a wider gap than the words' 16 to the slider: it is not one of them */
+}
+.page-loader.is-egg .page-loader__again { display: flex; }
+.page-loader:not(.is-ready) :is(.page-loader__shake, .page-loader__close, .page-loader__cta .btn) { visibility: hidden; }
+
+/* the shaker pops in on `scale`; its states ride `transform` (dish-picker.css) */
+.page-loader__shake {
+    margin-left: -4px;              /* the disc, not its 4px ring, on the column's edge */
+    scale: 0;
+    transition: transform 0.3s var(--ease-bouncy), background-color 0.3s ease, scale 420ms var(--ease-bouncy);
+}
+.page-loader.is-ready .page-loader__shake { scale: 1; }
+.page-loader .page-loader__shake.is-spinning .dish-picker__shake-icon,
+.page-loader__cta-shake.is-spinning img { animation: page-loader-spin 600ms var(--ease-gentle); }
+@keyframes page-loader-spin {
+    to { rotate: 360deg; }
+}
+
+/* ×: a 48px disc that tints on hover and sinks when pressed */
+.page-loader__close {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    margin-right: -12px;            /* the cross's ink, not its disc, on the column's edge */
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--loader-message);
+    cursor: pointer;
+    opacity: 0;
+    translate: 24px 0;
+    transition: translate 500ms var(--ease-out-expo), opacity 300ms var(--ease-gentle-flat),
+                background-color 0.3s var(--ease-gentle-flat), scale 0.3s var(--ease-bouncy);
+}
+.page-loader.is-ready .page-loader__close {
+    opacity: 1;
+    translate: 0 0;
+}
+.page-loader__close:hover { background-color: color-mix(in srgb, currentColor 18%, transparent); }
+.page-loader__close:active {
+    background-color: color-mix(in srgb, currentColor 28%, transparent);
+    scale: 0.92;
+}
+.page-loader__close:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+@media (max-width: 599px) and (orientation: portrait) {
+    .page-loader__close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        margin-right: 0;
+    }
+}
+
+/* 2 — the Figma buttons, under the name */
+.page-loader__cta {
+    display: none;
+    gap: 24px;
+    margin-top: 48px;
+}
+.page-loader__cta .btn {
+    opacity: 0;
+    translate: 0 8px;
+    transition: background-color 0.8s var(--ease-gentle-flat), color 0.8s var(--ease-gentle-flat),
+                box-shadow 0.8s var(--ease-gentle-flat), border-color 0.8s var(--ease-gentle-flat),
+                opacity 300ms var(--ease-gentle-flat), translate 500ms var(--ease-out-expo);
+}
+.page-loader.is-ready .page-loader__cta .btn {
+    opacity: 1;
+    translate: 0 0;
+}
+.page-loader.is-ready .page-loader__cta .btn + .btn { transition-delay: 0s, 0s, 0s, 0s, 80ms, 80ms; }
+@media (min-width: 1101px), (orientation: landscape) {
+    .page-loader.is-egg-cta:not(.is-egg-big) .page-loader__again { display: none; }
+    .page-loader.is-egg-cta:not(.is-egg-big) .page-loader__cta { display: flex; }
+}
+
+/* 3 — the default (author, 1 Oct 2026). A bigger shaker on every screen: a 64px disc (72 with
+   its ring), the Symbol at 40 — the picker's 40px disc "felt dead" on a phone, and the frame's
+   84 is the name's own cap height on a desktop, where it took the eye from the slider. */
+.page-loader.is-egg-big {
+    --shake-size: 72px;
+    --shake-icon: 40px;
+}
+
+/* …and on wide screens Figma 2792:75651: the shaker centred above the slider, one button
+   under the name, × in the top corner (Parchment by night, as drawn). The disc is Lemon by
+   night here, as drawn — the picker's night disc is Cream with a Lemon keyline. A short
+   window (a phone on its side) keeps the row: the group is about 420px tall. */
+@media (min-width: 1101px) and (min-height: 560px), (orientation: landscape) and (min-height: 560px) {
+    .page-loader.is-egg-big { --shake-fill: var(--lemon); }
+    .page-loader.is-egg-big .page-loader__again {
+        justify-content: center;
+        margin-bottom: 56px;
+    }
+    .page-loader.is-egg-big .page-loader__shake { margin-left: 0; }
+    .page-loader.is-egg-big .page-loader__close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        margin-right: 0;
+    }
+    .page-loader.is-egg-big[data-mode="night"] .page-loader__close { color: var(--parchment); }
+    .page-loader.is-egg-big .page-loader__cta {
+        display: flex;
+        margin-top: 58px;
+    }
+}
+
+.page-loader.is-egg { user-select: none; -webkit-user-select: none; }
+.page-loader.is-egg .page-loader__slider {
+    cursor: grab;
+    touch-action: none;             /* the drag is the knob's, not the page's */
+}
+.page-loader.is-egg.is-dragging .page-loader__slider { cursor: grabbing; }
+
+/* The hint: the knob is pulled left and let go, twice, smaller the second time */
+.page-loader__knob.is-hinting { animation: page-loader-hint 1100ms var(--ease-gentle-flat); }
+@keyframes page-loader-hint {
+    0%   { translate: 0 -50%; }
+    28%  { translate: -22px -50%; }
+    52%  { translate: 0 -50%; }
+    74%  { translate: -10px -50%; }
+    100% { translate: 0 -50%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .page-loader,
     .page-loader__line,
     .page-loader__letter { transition: none; }
-    .page-loader__romb.is-popping { animation: none; }
+    .page-loader__romb.is-popping,
+    .page-loader__knob.is-hinting,
+    .page-loader .page-loader__shake.is-spinning .dish-picker__shake-icon,
+    .page-loader__cta-shake.is-spinning img { animation: none; }
+    .page-loader__shake,
+    .page-loader__close,
+    .page-loader__cta .btn { transition: none; }
 }

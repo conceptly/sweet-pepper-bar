@@ -71,6 +71,7 @@ function lineOrder(n, chains, avoid = -1) {
 export function initPageLoader() {
     const el = document.querySelector('[data-page-loader]');
     if (!el) return;
+    const ru = document.documentElement.lang.toLowerCase().startsWith('ru');
 
     const knob = el.querySelector('.page-loader__knob');
     const romb = el.querySelector('.page-loader__romb');
@@ -89,6 +90,11 @@ export function initPageLoader() {
     let shown = false;
     let armTimer = 0;
     let replay = null;     // { timer, from } while a replay runs
+    let egg = 3;           // ON TRIAL: the replay is a toy (below) — 3 by default, `?egg=0|1|2` for the others
+    let held = false;      // …and the guest has touched it: it no longer lifts by itself
+    let dragging = false;
+    let touched = false;   // …the slider itself: the hint has done its job
+    let hintTimer = 0;
 
     function setP(v) {
         p = v;
@@ -192,10 +198,15 @@ export function initPageLoader() {
             replay = null;
             back?.focus({ preventScroll: true });
         }
+        held = false;
+        dragging = false;
+        touched = false;
+        clearTimeout(hintTimer);
+        knob.classList.remove('is-hinting');
         cancelAnimationFrame(raf);
         clearTimeout(lineTimer);
         clearTimeout(armTimer);
-        el.classList.remove('is-shown', 'is-carried');
+        el.classList.remove('is-shown', 'is-carried', 'is-egg', 'is-egg-cta', 'is-egg-big', 'is-ready', 'is-dragging');
         document.documentElement.classList.remove('is-page-loading');
         setTimeout(() => { if (!shown) el.hidden = true; }, 260);
     }
@@ -210,7 +221,8 @@ export function initPageLoader() {
             const x = Math.min(1, (now - start) / (reduced() ? 1 : RUN_OUT));
             setP(from + (1 - from) * (1 - Math.pow(1 - x, 3)));
             if (x < 1) requestAnimationFrame(run);
-            else if (!stay) setTimeout(hide, HOLD); // `?loader=stay&done` keeps «Подано!» up
+            else if (egg && replay) eggReady();              // the toy stays, and says it can be played with
+            else if (!stay && !held) setTimeout(hide, HOLD); // `?loader=stay&done` keeps «Подано!» up
         };
         requestAnimationFrame(run);
     }
@@ -254,7 +266,178 @@ export function initPageLoader() {
     function resetWords() {
         labelEl.classList.remove('is-served', 'is-filled');
         labelEl.removeAttribute('aria-label');
-        labelEl.textContent = labelEl.dataset.label;
+        // PROTOTYPE `?egg=2|3`: once the guest plays, the label invites (Figma 2792:75652)
+        labelEl.textContent = egg >= 2 && held ? (ru ? 'Выбирай огонёк!' : 'Pick your heat!') : labelEl.dataset.label;
+    }
+
+    /* ── ON TRIAL (1 Oct 2026): the footer's replay as a toy ──
+       A tester tried to drag the knob in the replay — "like an Easter egg" (author). The
+       replay can be played with. Layout 3 is the default (author); `?egg=1` and `?egg=2` show
+       the other two for this browser tab, `?egg=0` the plain replay, `?egg=auto` lets go:
+         · the show plays as before, but it stays on «Подано!»: the shaker and the × slide in
+           and the knob nudges left and back — the hint, repeated until the slider is touched;
+         · the knob drags at any time (or the track is tapped; ← → Home End): the name heats,
+           the knob changes its daypart, every new daypart brings a new line, the end serves
+           «Подано!», dragging back takes it off again. Touching it brings the controls in early;
+         · the shaker (the dish picker's Shake It!, with its states), above the words at the
+           column's left end, starts the show over with other lines; × (or Esc) goes back to
+           the page — at the row's right end on desktops and tablets, in the top corner on
+           phones;
+         · `?egg=2`, wide screens only: instead of the row, two buttons under the name —
+           «Назад» and «Встряхнуть!» — and the label turns to «Выбирай огонёк!» once the
+           guest plays (the author's Figma frame 2792:75652); upright screens keep the row;
+         · `?egg=3`, wide screens only: a big shaker centred above the slider, one button
+           under the name — «Вернуться на сайт» — and × in the top corner (Figma 2792:75651);
+         · on a touch screen or a phone-wide window, the footer's item turns to its heat look
+           0.8 s after it comes into view (Figma NavItemsFooter → delay-mobile).
+       Real waits between pages are not affected. The log is testing.md → Page loader. */
+    try {
+        const ask = params.get('egg');
+        if (ask === 'auto') sessionStorage.removeItem('spLoaderEgg');
+        else if (/^[0-3]$/.test(ask || '')) sessionStorage.setItem('spLoaderEgg', ask);
+        const kept = sessionStorage.getItem('spLoaderEgg');
+        if (kept !== null) egg = Number(kept);
+    } catch (e) { /* private mode: the default */ }
+
+    const slider = el.querySelector('.page-loader__slider');
+    const SERVED_AT = 0.995;
+    const HINT_EVERY = 4000;  // ms between the knob's nudges while nobody has touched it
+
+    // The show is over (or the guest is already playing): bring the controls in
+    function reveal() { el.classList.add('is-ready'); }
+
+    function hint() {
+        clearTimeout(hintTimer);
+        if (touched || reduced() || !replay) return;
+        knob.classList.remove('is-hinting');
+        knob.offsetWidth;
+        knob.classList.add('is-hinting');
+        hintTimer = setTimeout(hint, HINT_EVERY);
+    }
+
+    function eggReady() {
+        reveal();
+        hintTimer = setTimeout(hint, 500); // after «Подано!» has filled
+    }
+
+    // The guest takes over: the show stops running itself
+    function take() {
+        held = true;
+        cancelAnimationFrame(raf);
+        clearTimeout(lineTimer);
+        if (replay) clearTimeout(replay.timer);
+        reveal();
+        if (egg >= 2 && !labelEl.classList.contains('is-served')) resetWords();
+    }
+
+    // …by the slider: no more hints
+    function takeSlider() {
+        take();
+        touched = true;
+        clearTimeout(hintTimer);
+        knob.classList.remove('is-hinting');
+    }
+
+    function drive(v) {
+        const stop = knob.dataset.stop;
+        const served = labelEl.classList.contains('is-served');
+        setP(Math.max(0, Math.min(1, v)));
+        if (knob.dataset.stop !== stop) nextLine();
+        if (p >= SERVED_AT && !served) serve();
+        else if (p < SERVED_AT && served) resetWords();
+    }
+
+    function again(btn) {
+        take();
+        clearTimeout(hintTimer);
+        knob.classList.remove('is-hinting');
+        resetWords();
+        nextLine();
+        btn.classList.remove('is-spinning');
+        btn.offsetWidth;
+        btn.classList.add('is-spinning');
+        // the knob runs home, then the show plays again — and holds on «Подано!»
+        const from = p;
+        const start = performance.now();
+        const home = (now) => {
+            const x = Math.min(1, (now - start) / (reduced() ? 1 : 350));
+            setP(from * Math.pow(1 - x, 3));
+            if (x < 1) { raf = requestAnimationFrame(home); return; }
+            if (!replay) return;
+            startCreep(0);
+            startLines(LINE_EVERY);
+            replay.timer = setTimeout(finish, reduced() ? 3000 : REPLAY_FOR);
+        };
+        raf = requestAnimationFrame(home);
+    }
+
+    let controls = null;
+    function eggControls() {
+        if (controls) return;
+        const main = [...document.scripts].find((sc) => /\/dist\/assets\/main-/.test(sc.src));
+        const symbol = `${main ? main.src.split('/dist/assets/')[0] : ''}/assets/icons/sweetPepperLogo.svg`;
+        const cross = '<svg viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
+        const arrow = '<svg viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>';
+        const back = ru ? 'Вернуться на страницу' : 'Back to the page';
+        // the row above the words: the shaker (the dish picker's markup, so its states) and the ×
+        controls = document.createElement('div');
+        controls.className = 'page-loader__again';
+        controls.innerHTML =
+            `<button type="button" class="dish-picker__shake-it page-loader__shake" aria-label="${ru ? 'Ещё раз' : 'Once more'}">`
+            + `<span class="dish-picker__shake-disc"><span class="dish-picker__shake-icon"><img src="${symbol}" alt="" width="24" height="24"></span></span></button>`
+            + `<button type="button" class="page-loader__close" aria-label="${back}">${cross}</button>`;
+        el.querySelector('.page-loader__stage').before(controls);
+        const [shake, close] = controls.children;
+        shake.addEventListener('click', () => again(shake));
+        close.addEventListener('click', hide);
+        if (egg < 2) return;
+        // the Figma buttons under the name (wide screens): 2 — back and shake; 3 — back alone
+        const cta = document.createElement('div');
+        cta.className = 'page-loader__cta';
+        const backLabel = egg === 3 ? (ru ? 'Вернуться на сайт' : 'Back to the website') : (ru ? 'Назад' : 'Go back');
+        cta.innerHTML =
+            `<button type="button" class="btn btn-secondary${el.dataset.mode === 'night' ? ' btn-secondary--dark' : ''} page-loader__cta-back"><span class="btn-icon">${arrow}</span>${backLabel}</button>`
+            + (egg === 2 ? `<button type="button" class="btn btn-primary-green page-loader__cta-shake"><span class="btn-icon"><img src="${symbol}" alt="" width="16" height="16"></span>${ru ? 'Встряхнуть!' : 'Shake it!'}</button>` : '');
+        el.querySelector('.page-loader__word').after(cta);
+        cta.children[0].addEventListener('click', hide);
+        if (cta.children[1]) cta.children[1].addEventListener('click', () => again(cta.children[1]));
+    }
+
+    const at = (e) => { const r = slider.getBoundingClientRect(); return (e.clientX - r.left) / r.width; };
+    slider.addEventListener('pointerdown', (e) => {
+        if (!egg || !replay || e.button > 0) return;
+        e.preventDefault();
+        takeSlider();
+        dragging = true;
+        el.classList.add('is-dragging');
+        try { slider.setPointerCapture(e.pointerId); } catch (err) { /* a synthetic pointer */ }
+        drive(at(e));
+    });
+    slider.addEventListener('pointermove', (e) => { if (dragging) drive(at(e)); });
+    ['pointerup', 'pointercancel'].forEach((type) => slider.addEventListener(type, () => {
+        dragging = false;
+        el.classList.remove('is-dragging');
+    }));
+    document.addEventListener('keydown', (e) => {
+        if (!egg || !replay || !shown) return;
+        const step = { ArrowLeft: -0.05, ArrowDown: -0.05, ArrowRight: 0.05, ArrowUp: 0.05 }[e.key];
+        if (step) { e.preventDefault(); takeSlider(); drive(p + step); }
+        else if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); takeSlider(); drive(e.key === 'End' ? 1 : 0); }
+    });
+
+    // The footer's item where there is no hover to show its heat look — a touch screen, or a
+    // phone-wide window (so a desktop's responsive mode shows it too): a beat after it shows.
+    // Asked when it comes into view, not at load: the window may have been resized since.
+    if (egg && 'IntersectionObserver' in window) {
+        const heats = () => !window.matchMedia('(any-hover: hover)').matches || window.matchMedia('(max-width: 767px)').matches;
+        document.querySelectorAll('[data-loader-replay]').forEach((btn) => {
+            const io = new IntersectionObserver((entries) => {
+                if (!entries[0].isIntersecting || !heats()) return;
+                io.disconnect();
+                setTimeout(() => btn.classList.add('is-heated'), 800);
+            }, { threshold: 1 });
+            io.observe(btn);
+        });
     }
 
     /* ── Replay: the footer's button ── */
@@ -267,13 +450,14 @@ export function initPageLoader() {
         setP(0);
         replay = { from, timer: setTimeout(finish, reduced() ? 3000 : REPLAY_FOR) };
         show();
+        if (egg) { eggControls(); el.classList.add('is-egg'); el.classList.toggle('is-egg-cta', egg >= 2); el.classList.toggle('is-egg-big', egg === 3); }
     }
     document.querySelectorAll('[data-loader-replay]').forEach((btn) => {
         btn.addEventListener('click', () => play(btn));
     });
     // a click on it serves at once
     el.addEventListener('click', () => {
-        if (!replay || labelEl.classList.contains('is-served')) return;
+        if (egg || !replay || labelEl.classList.contains('is-served')) return; // the toy closes by its ×
         clearTimeout(replay.timer);
         finish();
     });

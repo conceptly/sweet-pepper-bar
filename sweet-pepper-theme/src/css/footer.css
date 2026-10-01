@@ -208,6 +208,24 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     translate: 16px 0;
 }
 
+/* ON TRIAL (1 Oct 2026, with the loader's toy — off with `?egg=0`): on a touch screen or in
+   a phone-wide window the item takes its heat look by itself 0.8 s after it comes into view (page-loader.js), over 0.8 s on the Gentle curve —
+   Figma NavItemsFooter → delay-mobile. */
+.footer-links__replay.is-heated {
+    font-weight: 500;
+    color: var(--chili);
+    transition: color 0.8s var(--ease-gentle);
+}
+.footer-links__replay.is-heated .footer-links__flame {
+    opacity: 1;
+    translate: 0 -50%;
+    transition: opacity 0.8s var(--ease-gentle), translate 0.8s var(--ease-gentle);
+}
+.footer-links__replay.is-heated .footer-links__replay-label {
+    translate: 16px 0;
+    transition: translate 0.8s var(--ease-gentle);
+}
+
 /* Hours */
 .footer-hours-list {
     /* One grid for all rows, so the times line up in one column however long the day

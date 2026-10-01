@@ -27,7 +27,7 @@ Characters in the last column (RU / EN). **One row needs up to ~35 characters** 
 | 3 | Даём настойкам подумать | Letting the infusions think it over | 23 / 35 |
 | 4 | Прогреваем горшочки по-ярославски | Warming the pots for the pot roast | 33 / 34 |
 | 5 | Договариваемся с медведем с герба | Negotiating with the Yaroslavl bear | 33 / 35 |
-| 6 | Пересчитываем горошины в перечнице | Counting peppercorns in the shaker | 34 / 34 |
+| 6 | Считаем горошины в перечнице | Counting peppercorns in the shaker | 28 / 34 |
 | 7 | Успокаиваем крылышки | Reassuring the chicken wings | 20 / 28 |
 | 8 | Натираем бокалы до скрипа | Polishing the glasses twice | 25 / 27 |
 | 9 | Солим по вкусу. Пробуем. Солим ещё | Salting to taste. Tasting. Salting again | 34 / 40 |
@@ -39,6 +39,19 @@ Characters in the last column (RU / EN). **One row needs up to ~35 characters** 
 | 15 | Не трогаем термостат с 2009 года | Ignoring the thermostat since 2009 | 32 / 34 |
 | 16 | Будим бармена с бодуна *(team)* | Waking the hungover bartender | 22 / 29 |
 
-At 320px «Пересчитываем горошины в перечнице» (6) breaks in two even rows; «Считаем горошины в перечнице» would hold one.
+**Line 6 was «Пересчитываем горошины в перечнице» until 1 Oct 2026** — the only line in two rows on a 390–393px phone (author's iPhone), shortened to «Считаем горошины в перечнице».
+
+**Why lines wrap sooner than the first check said (1 Oct 2026):** the loader's side padding grew from 16 to 32px, so a phone's column is its width less 64 — 296px at 360, 311 at 375, 326 at 390, 329 at 393, 338 at 402 — and a line needs its text plus 20px for the flame. Measured (Golos 16):
+
+| Still in two rows | Needs | On phones |
+|---|---|---|
+| Прогреваем горшочки по-ярославски (4) | 320px | 375 and narrower |
+| Договариваемся с медведем с герба (5) | 310px | 375 and narrower |
+| Солим по вкусу. Пробуем. Солим ещё (9, the team's) | 316px | 375 and narrower |
+| Salting to taste. Tasting. Salting again (9) | 312px | 375 and narrower |
+| Convincing the cranberries to infuse (2) | 298px | 360 and narrower |
+| Counting peppercorns in the shaker (6) | 295px | 360 and narrower |
+
+From 390 up every line, Russian and English, holds one row. A second row no longer moves the slider (the words sit above it and grow upward), so this is looks only. Shorter candidates if 375px phones matter: «Греем горшочки по-ярославски» (270px), «Торгуемся с медведем с герба» (260px), «Солим. Пробуем. Солим ещё» (246px, the team's to decide), "Salting. Tasting. Salting again" (249px).
 
 **Adding a line:** add it to both the `lines` list and the `ru` → `lines` list in `data/page-loader.php`, at the same position; run the fit check (or look at `?loader=stay` on a phone) — then add the row here. *Considered, not built:* the lines as an admin list («Экран загрузки» on Bar Settings), worth it if the team keeps adding.

@@ -106,12 +106,12 @@ $word_svgs = static function ( $class ) {
 
     // TRIAL (1 Oct 2026): the name's look — data-name and data-fill, read by page-loader.css
     // (the table is there). Each screen has its default: phones held upright the poster a
-    // word at a time (d), tablets SWEET PEPPER a word at a time (b), desktops SWEET PEPPER
-    // under the knob (a). `?pick=a…f` shows one look on every screen for this browser tab,
-    // `?pick=auto` lets go. On a phone the row with BAR (e, f) is the poster.
+    // word at a time (d), tablets held upright SWEET / PEPPER a word at a time (b), every
+    // other screen SWEET PEPPER under the knob (a). `?pick=a…f` shows one look on every screen
+    // for this browser tab, `?pick=auto` lets go. Upright, the row with BAR (e, f) is the poster.
     var LOOKS = { a: ['short', 'together'], b: ['short', 'words'], c: ['poster', 'together'], d: ['poster', 'words'], e: ['row', 'together'], f: ['row', 'words'] },
-        phone = window.matchMedia('(max-width: 599px) and (orientation: portrait)'),
-        desktop = window.matchMedia('(min-width: 992px)'),
+        upright = window.matchMedia('(max-width: 1100px) and (orientation: portrait)'), // the stacked layout
+        phone = window.matchMedia('(max-width: 599px)'),
         picked = null;
     try {
         picked = (new URLSearchParams(location.search).get('pick') || '').toLowerCase();
@@ -120,13 +120,13 @@ $word_svgs = static function ( $class ) {
         picked = sessionStorage.getItem('spLoaderPick');
     } catch (e) { picked = null; }
     function look() {
-        var l = LOOKS[picked] || LOOKS[phone.matches ? 'd' : desktop.matches ? 'a' : 'b'];
-        el.dataset.name = l[0] === 'row' && phone.matches ? 'poster' : l[0];
+        var l = LOOKS[picked] || LOOKS[!upright.matches ? 'a' : phone.matches ? 'd' : 'b'];
+        el.dataset.name = l[0] === 'row' && upright.matches ? 'poster' : l[0];
         el.dataset.fill = l[1];
     }
     look();
-    // a turned phone, a resized window
-    [phone, desktop].forEach(function (m) { m.addEventListener ? m.addEventListener('change', look) : m.addListener(look); });
+    // a turned screen, a resized window
+    [upright, phone].forEach(function (m) { m.addEventListener ? m.addEventListener('change', look) : m.addListener(look); });
 
     // The new page's half: the page before showed the loader → open under it, in place.
     var s;

@@ -247,16 +247,17 @@
    part's inline script from the screen's default or a `?pick=` (TRIAL, 1 Oct 2026 — the
    author is testing; the losers go after the verdict):
 
-     data-name   short    SWEET PEPPER — a row; two fitted lines on a phone held upright
+     data-name   short    SWEET PEPPER — a row; two fitted lines on an upright screen
                  poster   SWEET / PEPPER / BAR, three lines, each fitted to the column
-                 row      SWEET PEPPER BAR in one row, 1100px (wide screens only)
+                 row      SWEET PEPPER BAR in one row, 1100px (the poster on an upright screen)
      data-fill   together every line under the knob
                  words    a word at a time, each 1 / --words of the track
 
      pick   a short · together     c poster · together     e row · together
             b short · words        d poster · words        f row · words
-     default: phones held upright d (3 of 3 testers, from the films) · tablets, 600–991, b
-     (author) · desktops a. Without the script: short, together. */
+     default: phones held upright d (the testers' and the owner's pick) · tablets held
+     upright b (author) · every screen on its side or wider than 1100, a (desktop testers:
+     three words read as a longer wait). Without the script: short, together. */
 .page-loader[data-name="poster"] {
     --words: 3;
     /* a column the three lines and the slider fit under each other on a short screen: the
@@ -339,16 +340,19 @@
     fill: var(--chili);             /* solid Chili, day and night */
 }
 
-/* Phones held upright (up to 599): the group stands on the bottom edge, the name's lines are
-   always under each other and as wide as the screen allows (in one line the name was 26px
-   tall, 3% of the screen), and the words stack — the label, then the line under it,
-   left-aligned (author, 30 Sep 2026: beside the label 9 of 14 Russian lines broke in two at
-   375; stacked, every line holds one row from 375 up at Body 16). From 600 — small tablets,
-   a phone on its side — the wide layout: there is the width for the row. */
-@media (max-width: 599px) and (orientation: portrait) {
+/* Upright screens up to 1100 — phones and tablets held upright (a 13-inch iPad is 1032): the
+   group stands on the bottom edge and the name's lines are always under each other, each as
+   wide as the screen allows (in one line the name was 26px tall on a phone, 3% of the
+   screen). The words stack — the label, then the line under it, left-aligned (author, 30 Sep
+   2026: beside the label 9 of 14 Russian lines broke in two at 375; stacked, every line holds
+   one row from 375 up at Body 16). Tablets joined on 1 Oct 2026: the author's pick after an
+   iPad mini and an 11-inch iPad Air — upright, the two fitted lines look more balanced than
+   the centred row. On its side a screen takes the wide layout: there is the width for the
+   row and not the height for the lines. */
+@media (max-width: 1100px) and (orientation: portrait) {
     .page-loader,
     .page-loader[data-name] {
-        --stack: calc(100vw - 64px);
+        --stack: calc(100vw - 2 * max(32px, var(--gutter)));   /* the column: the screen less the side padding */
         --col: 100%;
         justify-content: flex-end;
     }
@@ -361,8 +365,9 @@
         text-align: left;
     }
 
-    .page-loader__word { margin-bottom: -5px; }   /* the last line stands 5px into the edge */
-    .page-loader[data-name="poster"] .page-loader__word { margin-bottom: -6px; }
+    /* the last line stands a little into the edge: 5px of 338 — 6 for the poster's taller BAR */
+    .page-loader__word { margin-bottom: calc(var(--stack) * -0.015); }
+    .page-loader[data-name="poster"] .page-loader__word { margin-bottom: calc(var(--stack) * -0.018); }
     .page-loader__word-lines {
         flex-direction: column;
         gap: calc(var(--stack) * 0.0414);

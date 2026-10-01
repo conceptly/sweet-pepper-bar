@@ -41,6 +41,37 @@ Plan: `website-brief.md` → Content editing → *Vacancies*. Built and CLI-test
 
 ---
 
+## Page loader — the name's look on phones, tablets and desktops (1 October 2026)
+
+Plan and rules: `website-brief.md` → Motion language → *Page loader* → *On trial*. Six looks live behind `?pick=a…f` (`?pick=auto` lets go; the pick holds for the browser tab). Films of the four phone options: `Claude outputs/page-loader-videos/` (RU and EN).
+
+| Look | Name | Fill |
+|---|---|---|
+| a | SWEET PEPPER | every line under the knob |
+| b | SWEET PEPPER | a word at a time |
+| c | poster — SWEET / PEPPER / BAR | under the knob |
+| d | poster | a word at a time |
+| e | SWEET PEPPER BAR in one row (wide screens; the poster on a phone) | under the knob |
+| f | the same row | a word at a time |
+
+| Check | Status / evidence |
+|---|---|
+| Phones — which of a–d | **3 of 3 testers picked d from the films** (author, 1 Oct). **On the real site, same day: d again** — "just feels more balanced"; the owner picked it at once, twice, from pairs of films (against a two-line option, then against c). d stays the phone's default. Testing continues. |
+| Phones — the bottom edge | **Pending (never checked — headless Chrome only):** does Safari's toolbar or the home indicator cover the last line? |
+| Desktop — placement | **Decided:** the group in the middle, not on the bottom edge (author + one guest, local site, 1 Oct). |
+| Desktop — BAR or not | **a, the default, after the first day (1 Oct):** participants called the three-word looks too long. The author's observation: the speed is the same — with three words they *expected* a longer wait. The prototypes (c–f) stay behind `?pick=` while testing continues. |
+| Tablets — SWEET PEPPER or the poster | **First day (1 Oct), iPad mini and 11-inch iPad Air: a, or the two fitted lines from the iPad mini screenshot — not the poster.** The author's lean (their own, "biased"): upright, the two fitted lines look more balanced. **Pending: the 13-inch iPad Pro.** A screen recording proved a limited way to test, so the two-line look is now the upright tablets' default (next row) — easier to judge on the big iPads and by resizing a browser. |
+| Tablets held upright — the two fitted lines | **Built as the default, 1 Oct (author):** every upright screen up to 1100 wide takes the stacked layout on the bottom edge — phones d, tablets from 600 **b** (SWEET / PEPPER, a word at a time: 166 / 138px letters on the mini, 185 / 154 on the 11-inch Air, 228 / 190 on the 13-inch Pro). On its side a tablet takes the centred row, a. *How it came:* the author's "I like the sweet pepper version in tablets (word by word)" was said of an iPad mini upright on the build before `fb4f46b`, where the phone layout reached 767; I read it as the centred row and ended the phone layout at 599, which took the look off that iPad. **Pending:** the 13-inch Pro; `?pick=a` (both lines under the knob) against b; whether the poster (`?pick=d`, BAR 295px on the Air) needs a cap if it stays in the running. |
+| The line beside the flame | **Watch:** in that screenshot the line is empty. Most likely caught between two lines (the swap takes ~0.2 s); if it stays empty on a device it is a bug. |
+
+**Links** — open one, scroll to the footer, tap «Поддать жару!» (the full run, as in the films). English: the same with `/en/` before the `?`. Main site: `sweetpepper.bar` in place of `test.sweetpepper.bar`.
+
+- `https://test.sweetpepper.bar/?pick=auto` — the defaults (phones upright d · tablets upright b · everything on its side or wider than 1100 a)
+- `https://test.sweetpepper.bar/?pick=a` · `?pick=b` · `?pick=c` · `?pick=d` · `?pick=e` · `?pick=f`
+- Held open at 50% to study the layout (Esc closes it; on a phone or tablet only Back does): `https://test.sweetpepper.bar/?loader=stay&p=0.5&pick=d` (any letter)
+
+---
+
 ## Open — planned, not yet run
 
 | Question | Affects | Plan | Prediction on record |

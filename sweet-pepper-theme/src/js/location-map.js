@@ -31,6 +31,16 @@ export function initLocationMap() {
         placeholder.addEventListener('transitionend', done, { once: true });
         setTimeout(done, 1200); // no transition (reduced motion) → no transitionend
     };
+    // The door (Sweet Pepper Bar) is the route at rest — active by default, with maps on or off
+    // (author, 30 Sep 2026). Switching maps off used to clear every badge, and allowing them
+    // loaded the door's map with no badge marked.
+    const restRoutes = () => {
+        document.querySelectorAll('[data-visit-routes] button').forEach(button => {
+            const door = button.classList.contains('visit-location__badge--door');
+            button.classList.toggle('is-active', door);
+            button.setAttribute('aria-pressed', door ? 'true' : 'false');
+        });
+    };
     function sync(event) {
         const allowed = mapAllowed();
         containers.forEach(container => {
@@ -43,13 +53,11 @@ export function initLocationMap() {
             if (!allowed) {
                 existing?.remove();
                 container.removeAttribute('aria-busy');
-                document.querySelectorAll('[data-visit-routes] button').forEach(button => {
-                    button.classList.remove('is-active');
-                    button.setAttribute('aria-pressed', 'false');
-                });
+                restRoutes();
                 return;
             }
             if (existing) return;
+            restRoutes(); // the new embed is the door's map
             const iframe = document.createElement('iframe');
             iframe.src = MAP_URL;
             iframe.title = title;

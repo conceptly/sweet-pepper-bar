@@ -40,17 +40,7 @@
     --surface: var(--soft-peppercorn);
 }
 
-.mobile-drawer--dark .btn-secondary {
-    border-color: var(--lime);
-    color: var(--lime);
-}
-
-.mobile-drawer--dark .btn-secondary:hover,
-.mobile-drawer--dark .btn-secondary:active {
-    background-color: var(--cream);
-    border-color: var(--lime);
-    color: var(--peppercorn);
-}
+/* Its secondary buttons: buttons.css → the dark-ground rule */
 
 /* Short viewports (375×667): the sheet scrolls, nothing squashes */
 .mobile-drawer > * {

@@ -800,15 +800,35 @@
   text-align: left;
   color: inherit;
   cursor: pointer;
-  transition: background-color 0.8s var(--ease-gentle-flat);
+  transition: background-color 0.8s var(--ease-gentle-flat),
+              border-color 0.8s var(--ease-gentle-flat),
+              box-shadow 0.8s var(--ease-gentle-flat);
 }
 
 .visit-location__badge--static {
   cursor: default;
 }
 
+/* States (locationBadge 945:32243, author 30 Sep 2026): hover Paper ground + Paprika keyline ·
+   pressed Cream + the pressed inset (Figma "Tapped-btn"), 100ms · active Cream. The text keeps
+   its colours in every state, so nothing can dip mid-fade. The active badge is the map on show
+   — a click on it does nothing (location-map.js), so it takes no hover or press. The hint line
+   opens with hover, press and active — see the hint below. */
+.visit-location__badge:not(.is-active, .visit-location__badge--static):hover {
+  background-color: var(--paper);
+  border-color: var(--paprika);
+}
+
+.visit-location__badge:not(.is-active, .visit-location__badge--static):active {
+  background-color: var(--cream);
+  border-color: var(--olive);
+  box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+  transition-duration: 100ms;
+}
+
 .visit-location__badge.is-active {
   background-color: var(--cream);
+  cursor: default;
 }
 
 .visit-location__badge:focus-visible {
@@ -863,8 +883,30 @@
   color: var(--ash);
 }
 
-.visit-location__badge.is-active .visit-location__badge-hint {
-  display: block;
+/* The hint slides open (author, 30 Sep 2026 — picked over Figma's plain reveal): on hover, press
+   and the active badge, from 768 up. Figma shows it on hover too, but appearing at once it
+   pushed every badge below 18px down in a jump; opening on the house curve, they glide. Flat
+   bezier: the Gentle spring's overshoot would push the list past its place and back. Phones
+   (no hover) keep their own rule: only the door's hint, as its second line. */
+@media (min-width: 768px) {
+  .visit-location__badge-hint {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.8s var(--ease-gentle-flat), opacity 0.8s var(--ease-gentle-flat);
+  }
+
+  .visit-location__badge:not(.visit-location__badge--static):is(:hover, :active, .is-active) .visit-location__badge-hint {
+    max-height: 1.4em; /* one caption line */
+    opacity: 1;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .visit-location__badge-hint {
+    transition: none;
+  }
 }
 
 .visit-location__badge-distance {
@@ -1700,12 +1742,8 @@
     white-space: normal;
   }
 
-  .visit-location__badge.is-active .visit-location__badge-hint {
-    display: none;
-  }
-
   .visit-location__badges .visit-location__badge--door .visit-location__badge-hint {
-    display: block;         /* outranks the is-active hide above — the door is active at rest */
+    display: block;         /* the one hint a phone shows: the door's, as its second line */
     font-size: var(--text-body);
     letter-spacing: 0;
     color: var(--olive);

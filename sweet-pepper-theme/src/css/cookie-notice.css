@@ -69,11 +69,6 @@
     color: var(--lime);
 }
 
-.cookie-notice--dark .btn-secondary {
-    border-color: var(--lime);
-    color: var(--lime);
-}
-
 /* ── B · corner: under the language switch, off the right edge until shown ── */
 .cookie-notice[data-variant="corner"] {
     top: calc(var(--cookie-top, 76px) + 16px); /* 16px of air under the header at every width */
@@ -173,12 +168,25 @@ html[data-theme="night"] .cookie-notice[data-variant="band"] .btn-secondary {
     background: transparent;
 }
 
+/* The night secondary's states turned for the Lime tape (author, 30 Sep 2026): the label stays
+   Peppercorn and the ground takes a Peppercorn tint — 15% on hover, 25% + the inset pressed
+   (the darker one sinks, on a light ground). The old hover swapped the two colours exactly
+   and the label met its ground at ~280ms (1.00:1). Contrast 11.8 · 8.8 · 7.0. */
 .cookie-notice[data-variant="band"] .btn-secondary:hover,
 .cookie-notice--dark[data-variant="band"] .btn-secondary:hover,
 html[data-theme="night"] .cookie-notice[data-variant="band"] .btn-secondary:hover {
-    background: var(--peppercorn);
+    background: rgba(21, 19, 23, 0.15); /* Peppercorn 15% */
     border-color: var(--peppercorn);
-    color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.cookie-notice[data-variant="band"] .btn-secondary:active,
+.cookie-notice--dark[data-variant="band"] .btn-secondary:active,
+html[data-theme="night"] .cookie-notice[data-variant="band"] .btn-secondary:active {
+    background: rgba(21, 19, 23, 0.25); /* Peppercorn 25% */
+    border-color: var(--peppercorn);
+    color: var(--peppercorn);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
 }
 
 /* Phones and tablets (fixed 76px bar): the corner card spans the gutters under the bar and

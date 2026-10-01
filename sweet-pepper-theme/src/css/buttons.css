@@ -103,24 +103,35 @@
     border-color: var(--lime);
     color: var(--peppercorn);
     box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms; /* the press answers the finger, as the primary and the cards */
 }
 
-/* Secondary Button (Night Mode) */
-html[data-theme="night"] .btn-secondary {
+/* Secondary on a dark ground — night, and the grounds that are dark by day too. The one rule
+   for all of them (author, 30 Sep 2026; it was six copies in five files). Lime keyline and
+   label at rest; hover lifts the ground to 25% Lime, pressing sinks it back to 15% with the
+   inset — the label never changes. The old hover swapped both colours (Cream ground,
+   Peppercorn label) on the 0.8s curve and they met in the same olive at ~260ms: the label
+   vanished (1.1:1) on its way in and out, the primary's fault of 29 Sep. Contrast now
+   11.8 at rest · 6.4 hover · 8.5 pressed on Peppercorn (10.6 · 5.7 · 7.4 on Soft Peppercorn).
+   Options compared: Claude outputs/secondary-night-hover/. */
+:is(html[data-theme="night"], .mobile-drawer--dark, .about-section--dark, .page-vacancy, .cookie-notice--dark) .btn-secondary,
+.btn-secondary--dark {
     border-color: var(--lime);
     color: var(--lime);
 }
 
-html[data-theme="night"] .btn-secondary:hover {
-    background-color: var(--cream);
+:is(html[data-theme="night"], .mobile-drawer--dark, .about-section--dark, .page-vacancy, .cookie-notice--dark) .btn-secondary:hover,
+.btn-secondary--dark:hover {
+    background-color: rgba(193, 219, 52, 0.25); /* Lime 25% */
     border-color: var(--lime);
-    color: var(--peppercorn);
+    color: var(--lime);
 }
 
-html[data-theme="night"] .btn-secondary:active {
-    background-color: var(--cream);
+:is(html[data-theme="night"], .mobile-drawer--dark, .about-section--dark, .page-vacancy, .cookie-notice--dark) .btn-secondary:active,
+.btn-secondary--dark:active {
+    background-color: rgba(193, 219, 52, 0.15); /* Lime 15% */
     border-color: var(--lime);
-    color: var(--peppercorn);
+    color: var(--lime);
     box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
 }
 

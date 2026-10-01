@@ -33,23 +33,7 @@
     color: var(--parchment);
 }
 
-.about-section--dark .btn-secondary {
-    border-color: var(--lime);
-    color: var(--lime);
-}
-
-.about-section--dark .btn-secondary:hover {
-    background-color: var(--cream);
-    border-color: var(--lime);
-    color: var(--peppercorn);
-}
-
-.about-section--dark .btn-secondary:active {
-    background-color: var(--cream);
-    border-color: var(--lime);
-    color: var(--peppercorn);
-    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
-}
+/* Secondary buttons here: buttons.css → the dark-ground rule */
 
 /* Surface-dark sections: Guests (Soft Peppercorn bg, Cream eyebrow) */
 .about-section--surface-dark {
@@ -2323,19 +2307,6 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
     justify-content: center;
     gap: 24px;
     margin-top: 40px;
-}
-
-.about-section--dark .btn-secondary,
-.btn-secondary--dark {
-    border-color: var(--lime);
-    color: var(--lime);
-}
-
-.about-section--dark .btn-secondary:hover,
-.btn-secondary--dark:hover {
-    background-color: var(--cream);
-    border-color: var(--lime);
-    color: var(--peppercorn);
 }
 
 

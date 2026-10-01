@@ -505,18 +505,7 @@
     width: 100%;
 }
 
-/* Secondary buttons on the dark ground (buttons.css keys them to data-theme) */
-.page-vacancy .btn-secondary {
-    border-color: var(--lime);
-    color: var(--lime);
-}
-
-.page-vacancy .btn-secondary:hover,
-.page-vacancy .btn-secondary:active {
-    background-color: var(--cream);
-    border-color: var(--lime);
-    color: var(--peppercorn);
-}
+/* Secondary buttons on the dark ground: buttons.css → the dark-ground rule */
 
 /* ── 3. Foot ── */
 .vacancy-foot {

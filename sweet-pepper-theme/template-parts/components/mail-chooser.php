@@ -31,11 +31,7 @@ $services = $ru
     : [ 'gmail' => [ 'Gmail', 'gmail' ] ];
 $out = sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' );
 ?>
-<div class="mail-chooser" data-mail-chooser hidden role="dialog" aria-modal="false" aria-labelledby="mail-chooser-title">
-    <button type="button" class="mail-chooser__close" data-mail-close aria-label="<?php esc_attr_e( 'Close', 'sweet-pepper' ); ?>">
-        <?php echo sweet_pepper_ph( 'x' ); ?>
-    </button>
-
+<div class="mail-chooser" data-mail-chooser hidden role="dialog" aria-modal="false" aria-labelledby="mail-chooser-title" tabindex="-1">
     <div class="mail-chooser__head">
         <p class="mail-chooser__title" id="mail-chooser-title"><?php esc_html_e( 'Write from…', 'sweet-pepper' ); ?></p>
         <p class="mail-chooser__line"><?php esc_html_e( 'A new letter opens there, already addressed.', 'sweet-pepper' ); ?></p>
@@ -79,4 +75,8 @@ $out = sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' );
             'icon_only' => true,
         ] ); ?>
     </div>
+    <?php // Last in the markup, top right on screen: Tab goes from the panel to the first service ?>
+    <button type="button" class="mail-chooser__close" data-mail-close aria-label="<?php esc_attr_e( 'Close', 'sweet-pepper' ); ?>">
+        <?php echo sweet_pepper_ph( 'x' ); ?>
+    </button>
 </div>

@@ -47,7 +47,11 @@ export function initMailChooser() {
         box.style.top = `${Math.round(top + window.scrollY)}px`;
     }
 
-    function open(link) {
+    // `byKeyboard`: opened with Enter on the link (a keyboard click has detail 0) — focus goes
+    // to the first row, ring and all. With a mouse it goes to the panel itself, which shows no
+    // ring: a script-moved focus after a click could light the first row in Lemon as if chosen
+    // (author's screenshots, 30 Sep 2026). Tab still continues inside the panel either way.
+    function open(link, byKeyboard) {
         trigger = link;
         const url = new URL(link.href);
         address = decodeURIComponent(url.pathname);
@@ -63,7 +67,8 @@ export function initMailChooser() {
         box.hidden = false;
         place();
         requestAnimationFrame(() => box.classList.add('is-open'));
-        box.querySelector('li:not([hidden]) .mail-chooser__option')?.focus({ preventScroll: true });
+        const first = box.querySelector('li:not([hidden]) .mail-chooser__option');
+        (byKeyboard ? first : box)?.focus({ preventScroll: true });
     }
 
     function close(returnFocus = true) {
@@ -81,7 +86,7 @@ export function initMailChooser() {
             e.preventDefault();
             if (trigger === link) { close(); return; }
             close(false);
-            open(link);
+            open(link, e.detail === 0);
             return;
         }
         if (!box.hidden && !box.contains(e.target)) close(false);

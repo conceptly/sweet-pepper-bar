@@ -100,6 +100,8 @@
 .mail-chooser__out svg { width: 12px; height: 12px; }
 .mail-chooser__out path { fill: currentColor; }
 
+.mail-chooser:focus { outline: none; }   /* the panel takes focus after a mouse click — no ring (mail-chooser.js → open) */
+
 .mail-chooser :focus-visible {
     outline: 2px solid var(--lemon);
     outline-offset: 2px;

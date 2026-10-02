@@ -344,10 +344,11 @@ html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
    page's reveal. The page opens as before: the number comes up to its place in the footer
    and the level idles, an idle demo that now has its interaction. From the first pixel of
    scroll the number climbs out of the footer to the middle of its column and fills as it
-   goes (wide screens); where it stays in the flow above the footer (≤ 991) the level alone
-   follows. `--nf-p` 0 → 1 is the scroll's share (src/js/not-found.js). A wide screen scrolls
+   goes (wide screens); where it stays in the flow above the footer (≤ 991) it slides up
+   into its place instead. `--nf-p` 0 → 1 is the scroll's share (src/js/not-found.js). A wide screen scrolls
    only 135–172px here — one wheel notch is most of the way — so the number rides the scroll
    on the house spring instead of being pinned to it. Scrolled back, it sinks and empties.
+   On narrow screens the first scroll is held for it — the block after this one.
 
    Reduced motion: no entrance, no idle, no scroll link — the number in the middle, filled.
    Without the script: layout b as it was, the level idling. bt keeps the number in the
@@ -389,6 +390,49 @@ html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
 /* the reveal: from 0.45em under the footer's edge to its place */
 @keyframes nf-come {
     from { translate: 0 0.35em; }
+}
+
+/* ── Narrow screens (≤ 991): the first scroll is the number's (author, 2 Oct 2026) ──
+   The author on a phone: the level by the scroll was "a bit too abrupt", and "it scrolls to
+   the footer, and I want it first scroll the fill / 404 slide in". Here the number and the
+   footer leave together, so the scroll that filled the number was the scroll that took it
+   away.
+
+   So the page holds still for --nf-hold of scroll (#page is sticky inside a body made that
+   much taller — the browser's own pin, no script in the scroll path) while the 404 slides up
+   out of the footer — from 0.45em under the edge, its tops showing, to its place — and
+   fills; then the page scrolls on to the footer. Both ride the house duration, so a flick
+   that crosses the hold in one go still lands as one move. No reveal and no idling level
+   here: the scroll brings the number in.
+
+   `html.nf-live` and `--nf-hold` are the script's (src/js/not-found.js); where scripts are
+   off the number stands in its place with the level idling, as layout b did. Reduced
+   motion: no hold, the number in its place, filled. This is a pinned scene — the thing the
+   brief's service pages avoid; it is one swipe long, the buttons stay live, and it is the
+   author's call. The default so it can be judged on a real iPhone, where it has not been
+   seen: #page carries overflow-x: clip itself (main.css) — a clip ABOVE a sticky element
+   trembled on iOS in September, a clip ON it should not. */
+@media (max-width: 991px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+    html.nf-live body::after {
+        content: "";
+        display: block;
+        height: var(--nf-hold, 0px);
+    }
+
+    html.nf-live #page {
+        position: sticky;
+        top: 76px; /* where it stands: under the body's room for the fixed header (main.css) */
+    }
+
+    .not-found--b .not-found__digits--sunk {
+        animation: none; /* no reveal: the scroll brings it in */
+        translate: 0 calc((1 - var(--nf-p, 0)) * 0.35em);
+    }
+
+    .not-found--b .not-found__digits--sunk::after {
+        animation: none; /* nothing idles under the edge */
+        transition: clip-path var(--dur-gentle) var(--ease-flat);
+    }
 }
 
 /* ── Tablets and phones (≤ 991): one column ── */

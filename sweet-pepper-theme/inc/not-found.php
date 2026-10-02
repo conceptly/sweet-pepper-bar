@@ -12,7 +12,9 @@
  *   ?nf=b               the draft's copy left, the number standing in the footer — and the
  *                       scroll carries it out, to the middle of its column, filling it
  *                       (author, 2 Oct 2026; not-found.css → layout b answers the scroll,
- *                       src/js/not-found.js). Narrow screens: the level alone follows
+ *                       src/js/not-found.js). Narrow screens: the first scroll is the
+ *                       number's — the page holds while it slides up out of the footer
+ *                       and fills, then scrolls on
  *   ?nf=bt              b with the ticket as well (the number stays in the footer)
  *
  * `?nf=`, not `?pick=` (its first hour): the page loader reads `?pick=a…f` on every page and

@@ -20,10 +20,12 @@
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/symbol.svg" alt="" width="24" height="24" class="footer-mini-brand__symbol" aria-hidden="true">
                         <span class="footer-mini-brand__name molot-text">Sweet Pepper Bar</span>
                     </a>
+                    <?php if ( ! is_404() ) : // no way back up on the 404: the page is one screen and a bit, there is no top to return to (author, 1 Oct 2026) ?>
                     <a href="#page" class="footer-top-link">
                         <span class="footer-top-link__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/arrow-up.svg' ); ?></span>
                         <?php esc_html_e( 'Top', 'sweet-pepper' ); ?>
                     </a>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Stamp Logo -->
@@ -125,9 +127,11 @@
                         <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
                     <?php endif; ?>
                 </span>
+                <?php if ( ! is_404() ) : // as the phone's link above ?>
                 <a href="#page" class="footer-back-to-top">
                     <?php esc_html_e( 'Back to top', 'sweet-pepper' ); ?> <?php echo sweet_pepper_ph( 'arrow-up', 'bold' ); ?>
                 </a>
+                <?php endif; ?>
             </div>
         </div>
     </footer><!-- #colophon -->

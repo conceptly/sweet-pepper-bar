@@ -96,6 +96,7 @@ Build record: `report.md` → *404 page*; rules and open points: `website-brief.
 | Layout b — how deep the number stands in the footer | **0.1em (author, 1 Oct: "let's use 0.1em")**, was 0.16; the author's own try was 0.04. The glyphs decide — at 0.16 / 0.13 a stroke lies on the Lime edge, under 0.08 the 0 is cut through its curve. Sheet: `Claude outputs/nf-sink/`. To judge on a phone: the 4's bar is ~6px above the Lime there |
 | Layout 0 on phones — "very messy" (author, 1 Oct, iPhone) | **Rebuilt to the Figma mobile frame** (2827:79374): smaller digits, the gaps above and under them as drawn, balanced copy. Owed: the author's look on a real phone |
 | Layout 0 — the digits as an idle loop or on hover | Open — built as a 6 s idle loop (an assumption) |
+| The footer's «Наверх» / Back to top on the 404 | **Gone (author, 1 Oct):** "it doesn't make sense … on a page without scroll" — neither link is printed on any 404 layout; other pages keep them |
 | Always dark | Open — assumed |
 | The copy, both languages | Open — drafts in `data/not-found.php` |
 

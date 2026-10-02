@@ -132,6 +132,364 @@ html[data-theme="night"] img.link-word-day {
     }
 }
 
+html[data-theme="night"] img.link-word-night {
+    display: block !important;
+}
+
+/* ── Section Header ──────────────────────────── */
+/* Figma: sectionTitleContainer — 1120px row, 24px gap.
+   Left: text column (739px) — eyebrow + headline + description.
+   Right: CTA slot (flex 1) — buttons stacked, right-aligned, vertically centered. */
+
+.section-header {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* ── Left: Title Block ── */
+
+.section-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-shrink: 0;
+    /* The Figma 739px itself, not a percentage that only equals it at a 1120 column.
+       66% held at the design width and squeezed everywhere below it — 549px at a 832
+       content column, which broke the Molot headline to three lines from 992 to 1119. */
+    width: min(100%, 739px);
+}
+
+/* Eyebrow — Molot 18px / 1.35 / tracking 0.9px */
+.section-eyebrow {
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--olive);
+}
+
+html[data-theme="night"] .section-eyebrow {
+    color: var(--cream);
+}
+
+/* Headline group — Figma "titleLines" container.
+   Gap between eyebrow and headline-group is 8px (sectionTitle internal gap).
+   The parent .section-title-block uses gap: 16px, so subtract 8px. */
+.section-headline-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: -8px; /* 16px gap − 8px = effective 8px from eyebrow */
+}
+
+/* Headline line 1 — Molot var(--text-h1) / 1.05 / tracking 4%. Chili on its first line,
+   Paprika after (Title lines, below) */
+.section-headline {
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--paprika);
+}
+
+/* Headline line 2 — same typography, Paprika (lighter red) */
+.section-headline-2 {
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--paprika);
+    margin: 0;
+}
+
+/* ── Card states: one recipe for every card that is a link (author, 25 Sep 2026) ──
+   Rest    day: the card shadow · night: a 1px stroke held (transparent, or the card's own).
+   Hover   day: the shadow expands · night: the stroke turns Lime + the Lime glow.
+           Pointer input only (`hover: hover`) — on touch a tapped card keeps a sticky hover.
+   Pressed both: the card sinks — drop shadow off, inset shadow on, fast (100ms) so it
+           answers the finger · night: the stroke stays Lime, the glow goes.
+   Figma effects: Drop Shadow Cards, Drop-ShadowCards-Hover, Card-Glow-Hover, the pressed
+   inset already shared by the guests, careers and filmstrip cards (about.css). Where a
+   photo fills the card and would cover the inset, a ::after on top carries it. */
+:root {
+    --card-shadow-rest: 1px 1px 4px 0 rgba(21, 19, 23, 0.15);
+    --card-shadow-hover: 4px 4px 16px 0 rgba(21, 19, 23, 0.15);
+    --card-glow-hover: 0 0 16px 0 rgba(212, 230, 113, 0.5);
+    --card-shadow-pressed: inset 2px -2px 8px 0 rgba(21, 19, 23, 0.25);
+    --card-stroke-night: var(--lime);
+    --card-press-duration: 100ms;
+}
+
+/* ── Title lines: the first line Chili, every line after it Paprika (author, 25 Sep 2026) ──
+   The two-colour rule used to live in the fields (headline / headline_2), so a one-field
+   title that wrapped on a phone (КАК ЗДЕСЬ / БЫВАЕТ) ran two Chili lines, and a first field
+   that wrapped ran two Chili lines over a Paprika one. Where a title breaks depends on the
+   width and the language, so the colour follows the rendered line instead: each title's
+   own colour is Paprika and its ::first-line is Chili — no script, re-flows by itself.
+   A two-field title reads as before (line 2 is its own Paprika element); a third line stays
+   Paprika (В САМОМ СЕРДЦЕ / ЛЮБИМОГО / ГОРОДА at 360), so a field is never split in two
+   colours. ::first-line reaches into the first block child's first line, so the Location
+   and About hero spans are covered by their <h2>/<h1>. Not here: the home hero (its own
+   daypart-word colours) and card titles. */
+:is(
+    .section-headline,
+    .about-hero__headline,
+    .location__title,
+    .visit-location__headline,
+    .visit-hero__headline,
+    .visit-cta__headline,
+    .pairing-station__title
+)::first-line {
+    color: var(--chili);
+}
+
+/* ── Cyrillic: room for Й and Ё above a headline under an eyebrow (author, 23 Sep 2026;
+   design.md → Type) ──
+   The breve of Й and the dots of Ё rise 0.245em above Molot's capitals (measured: 15.7px
+   at 64, 8.8 at 36); the room is --cyrillic-room (0.15em — the author's check: the gap the
+   eyebrow already has covers the rest), and every eyebrow-to-headline gap was drawn for Latin capitals — in
+   КОКТЕЙЛИ and ЧАЙ И КОФЕ the breve all but touched the eyebrow. Russian pages only, and
+   every headline under an eyebrow, not only the ones with Й / Ё, so the gap reads the same
+   in every section. In em of the headline itself, so it follows 76 / 64 / 48 / 36. The
+   selectors pair the eyebrow with its headline: a headline without an eyebrow is untouched. */
+:lang(ru) .section-eyebrow + .section-headline-group > :first-child,  /* section-header: Home, About, Menu highlights */
+:lang(ru) .section-eyebrow + .section-headline,                        /* the menu's phone closer */
+:lang(ru) .hero-eyebrow + .hero-headline,                              /* Home hero */
+:lang(ru) .about-hero__eyebrow + .about-hero__headline,
+:lang(ru) .visit-hero__eyebrow + .visit-hero__headline,
+:lang(ru) .visit-location__eyebrow + .visit-location__headline {
+    padding-top: calc(var(--cyrillic-room) * 1em);
+}
+
+/* Location (About, Menu): the <h2> carries the fitted size (location.css), so 1em is right */
+:lang(ru) .location__subheading + .location__title {
+    padding-top: calc(var(--cyrillic-room) * 1em);
+}
+
+/* Menu sections: desktop only — below 992 the headline is a word in the phone rail and the
+   eyebrow sits under it (menu-section.css) */
+@media (min-width: 992px) {
+    :lang(ru) .section-eyebrow + .menu-section-rail .menu-section-rail__current {
+        padding-top: calc(var(--cyrillic-room) * 1em);
+    }
+}
+
+/* Description — Golos Text 16px / 1.4, max-width ≈643px */
+.section-description {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.4;
+    text-wrap: pretty;
+    color: var(--peppercorn); /* was Dark Olive — out of the palette since Jul 2026 (design.md §2.2) */
+    max-width: 643px;
+    margin: 0;
+}
+
+html[data-theme="night"] .section-description {
+    color: var(--paper);
+}
+
+/* ── Right: CTA Slot ── */
+
+.section-ctas {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: flex-end;
+    align-self: stretch;
+    min-width: 0;
+}
+
+/* Buttons inside section-ctas get a fixed width matching Figma (261px) */
+.section-ctas .btn {
+    width: 261px;
+}
+
+/* A section may carry a shorter phone-only description (section-header.php →
+   description_mobile): shown ≤ 767px in place of the desktop paragraph, in the same
+   Body 16 (the 14px Secondary it used to take is retired, Sep 2026). */
+.section-description--mobile {
+    display: none;
+}
+
+/* ── Section header, stacked (768–1151, Sep 2026) ─────────────────────────
+   The same stack as phones — title block full width, CTA slot beneath — with two
+   deliberate differences, which is why this is its own block rather than the phone
+   block widened:
+
+   1. The CTA slot runs as a ROW of equal buttons, not a column of full-width ones.
+      Two stacked full-width buttons across 720–943px read as a form, not as a pair
+      of doors (Interaction rule — a button is one of the three tappable grammars).
+   2. `.section-description` keeps its 643px cap. The phone block drops it because
+      370px is already inside the measure; letting it run 943 here would put body
+      copy far past anything website-brief.md → Grid sanctions.
+
+   This also fixes a real desktop bug at these widths: `.section-ctas .btn` is a fixed
+   261px (the Figma number) inside a slot that is only 221px at 768, so the button
+   overflows its own slot by 40–59px and, being right-aligned, pushes left into the
+   paragraph — measured Sep 2026 at 768: 8px into Highlights, 16px into Contacts,
+   and still 2px into Contacts at 834.
+
+   Upper bound is 1151, not the 991 nav breakpoint, and the number is derived rather
+   than chosen: side by side the header needs 739 (title) + 24 (gap) + 261 (button) =
+   1024 of content, and with the ramped gutter (main.css) the content column is
+   0.75 × viewport + 160, so 1024 arrives at exactly 1152. Below that the two halves do
+   not both fit, and the choice is a squeezed three-line Molot headline or this stack —
+   the headline is the section's identity, so it wins. Re-derive this bound if the
+   gutter ramp, the 739 title or the 261 button ever move; RU labels are longer than
+   EN, so check it again when Polylang lands. */
+@media (min-width: 768px) and (max-width: 1151px) {
+    .section-header {
+        flex-direction: column;
+        gap: 36px;
+    }
+
+    .section-title-block {
+        width: 100%;
+    }
+
+    .section-ctas {
+        flex: none;
+        width: 100%;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+
+    .section-ctas .btn {
+        flex: 1 1 0;
+        width: auto;
+    }
+}
+
+/* ── Section header on phones ─────────────────────────────────────────────
+   Figma sectionTitle-Mobile (in HighlightsSection 2048:126987): the title block runs
+   the full 370, the CTA slot drops under it and its buttons go full width. The Figma
+   mobile component (sectionTitle-Mobile 1164:51509) sets the eyebrow in `Heading/Captions`
+   (Molot 16); the build keeps H3 18 at every width (decided Sep 2026 — tested in the
+   browser, consistent with desktop, and design.md §3.3 has no sanctioned Molot-16 slot).
+   Eyebrow colour is the desktop's at every width (Cream by night — decided Sep 2026; the
+   Highlights frame's Avocado was a stale instance). Where a section needs the CTAs elsewhere in the stack (Highlights:
+   under the cards) the section's own CSS dissolves .section-header with
+   `display: contents` and orders the two blocks itself. */
+@media (max-width: 767px) {
+    .section-header {
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    .section-title-block {
+        width: 100%;
+    }
+
+    .section-description {
+        max-width: none;
+    }
+
+    .section-description--mobile {
+        display: block;
+    }
+
+    .section-title-block:has(.section-description--mobile) .section-description:not(.section-description--mobile) {
+        display: none;
+    }
+
+    .section-ctas {
+        flex: none;
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .section-ctas .btn {
+        width: 100%;
+    }
+}
+
+
+/* ── Section Link — live text (prototype, Sep 2026) ──────────────────────────
+   The Figma `SectionLink` component set (212:2442) rebuilt as HTML text so it can be
+   judged and refined in the browser; template-parts/components/section-link.php.
+   The brief's connector rule (SVG only) still stands — this is the test of it.
+
+   Frame: text left, bottom-aligned; the 1252 frame's 80px gutters are the page
+   container's. Word: 50% opacity, 0.5px Mushroom rule under it. Reflection: the same
+   text flipped, no rule; the site's numbers since 1 Oct 2026 (Section Link Word, above). Text: Molot 122 / 75% / 4%.
+   Strokes in Figma are OUTSIDE; CSS text-stroke is centred, so a Figma 1px reads as
+   ~0.5px outside here — kept at the Figma numbers for the first look. */
+
+.section-link {
+    --section-link-size: 122px;          /* Figma; section-link.js overrides to fit the container */
+    --section-link-stroke: 1px;
+    --section-link-ink: var(--cream);
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    line-height: 0;
+    pointer-events: none;
+    z-index: 1;
+    position: relative;
+}
+
+.section-link__text {
+    display: block;
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: var(--section-link-size);
+    line-height: 0.75;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: var(--section-link-stroke) var(--section-link-ink);
+    text-stroke: var(--section-link-stroke) var(--section-link-ink);
+    text-align: left;
+}
+
+/* Word (Figma "Default"): the site's word opacity, Mushroom hairline under it */
+.section-link--word {
+    opacity: var(--link-word-opacity);
+    border-bottom: 0.5px solid var(--mushroom);
+}
+
+/* Reflection: flipped on its own baseline */
+.section-link--reflection .section-link__text {
+    transform: scaleY(-1);
+    transform-origin: 50% 50%;
+}
+
+/* Dark ground: Cream word, Lime reflection at the dark opacity (Paper at 30% until 1 Oct 2026), Peppercorn fade in the counters */
+.section-link--dark .section-link__text {
+    background-image: linear-gradient(to top, var(--peppercorn), rgba(21, 19, 23, 0));
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.section-link--dark.section-link--word {
+    --section-link-ink: var(--cream);
+}
+
+.section-link--dark.section-link--reflection {
+    --section-link-ink: var(--link-reflection-dark-ink);
+    opacity: var(--link-reflection-dark);
+}
+
+/* Light ground: Olive 2px word, Avocado reflection at the light opacity (Lime at 100% until 1 Oct 2026) */
+.section-link--light.section-link--word {
+    --section-link-ink: var(--olive);
+    --section-link-stroke: 2px;
+}
+
+.section-link--light.section-link--reflection {
+    --section-link-ink: var(--link-reflection-light-ink);
+    opacity: var(--link-reflection-light);
+}
+
+@media (max-width: 767px) {
+    .section-link {
+        --section-link-size: 34px;       /* SectionLinkMobile; the fit pass overrides */
+    }
+}
+
 /* ── Phosphor icons as SVG (30 Sep 2026; sweet_pepper_ph(), inc/inline-svg.php) ──
    The <i> the web font drew into stays, the glyph inside it is an SVG: 1em square, so every
    `font-size` written for the font still sizes it, and currentColor keeps each rule's colour.

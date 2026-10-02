@@ -13,6 +13,7 @@
 - **Shown:** two contact sheets (day, night), six Home seams × current / none / crop 44 / crop 64, shot on sweet-pepper-bar.local with the look's CSS injected — `Claude outputs/connector-phone/sheet-day.png`, `sheet-night.png`; flag shots from the private server in `flag/`.
 - **Verified** (headless Chrome, 402 × 874, private PHP server on this worktree, then sweet-pepper-bar.local after the author copied the files): hidden words leave a 24px box (`visibility: hidden`), `?conn=fit` clears the remembered look; the crops ran 386px from the gutter to the screen edge with no horizontal scroll. Not seen on a device.
 - **Docs:** this entry; `website-brief.md` → Section connectors → Phones — on trial; `testing.md`.
+- **Slip, fixed in the next commit:** 77b5c77's `components.css` lost 370 lines — removing the crop block was done as a slice from the trial comment to the Phosphor comment, which also swallowed the night-image rule, `.section-ctas` and the live-text connector block; the build passed and the local site showed no connectors at night. Restored from 3782a3f with only the flag block re-added; the built bundle's rule set now differs from 3782a3f's by the two `conn-0` rules alone (checked by splitting both bundles on `}`).
 
 ## Menu section headline on phones — the band's top matches its bottom — 2 October 2026
 

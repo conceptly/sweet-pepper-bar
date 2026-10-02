@@ -91,14 +91,15 @@ Build record: `report.md` → *404 page*; rules and open points: `website-brief.
 |---|---|
 | Layout 0 — the notice line above or under the number | **Under (author, 1 Oct, in the browser):** above, it argued with the top nav. Built; the Figma frame follows |
 | Which layout | Open — **the author is between 0 and b (1 Oct, evening):** b "has a better hierarchy, especially on mobile" |
-| Layout b — the Chili level rising in the digits | Open — Claude's suggestion; plain outlines are the alternative |
+| Layout b — the Chili level rising in the digits | **Kept as the idle state at the top of the page (2 Oct)** — the scroll takes it over, see the next row |
+| Layout b — the page answers | **The scroll carries the number (author, 2 Oct: "the scroll+parallax works better for this option"), the default for `?nf=b`** — out of the footer to the middle of its column and filled on wide screens, the level alone on narrow ones. An arrival on the reveal was built beside it and set aside. **To watch with participants:** is the scroll found on a desktop, where it is only 135–172px (one or two wheel notches); on a phone, is the outline at rest enough before the scroll; is a solid Chili 404 too heavy beside the Lemon headline |
 | Layout b — the number against the copy | **Fixed, 1 Oct (author, in the inspector: "there is no 48px gap", then on the Russian page "it looks even negative"):** 48px from the copy column in both languages, 52–54 from the widest line seen; the column is typed per language (400 EN, 480 RU), so the Russian number is smaller (323 against 366 at 1280 and up). Owed: retune when the Russian headline changes |
 | Layout b — how deep the number stands in the footer | **0.1em (author, 1 Oct: "let's use 0.1em")**, was 0.16; the author's own try was 0.04. The glyphs decide — at 0.16 / 0.13 a stroke lies on the Lime edge, under 0.08 the 0 is cut through its curve. Sheet: `Claude outputs/nf-sink/`. To judge on a phone: the 4's bar is ~6px above the Lime there |
 | Layout 0 on phones — "very messy" (author, 1 Oct, iPhone) | **Rebuilt to the Figma mobile frame** (2827:79374): smaller digits, the gaps above and under them as drawn, balanced copy. Owed: the author's look on a real phone |
 | Layout 0 — the digits as an idle loop or on hover | Open — built as a 6 s idle loop (an assumption) |
 | The footer's «Наверх» / Back to top on the 404 | **Gone (author, 1 Oct):** "it doesn't make sense … on a page without scroll" — neither link is printed on any 404 layout; other pages keep them |
 | Always dark | Open — assumed |
-| The copy, both languages | Open — drafts in `data/not-found.php` |
+| The copy, both languages | Open — drafts in `data/not-found.php`. **RU body line: the author's, 2 Oct** («Искали и на кухне, и в подсобке, и за баром. Выберите знакомый маршрут — и закажите что-нибудь вкусное!») |
 
 Seen in headless Chrome (402 to 1920 wide) and, layout b before these fixes, on the author's iPhone on sweetpepper.bar (1 Oct). Owed: Safari on a desktop, reduced motion, a phone look at the new depth.
 
@@ -117,6 +118,7 @@ Build record: `report.md` → *Team wall lightbox* (built, and the prototype und
 | The opening | **The print flies from the strip (author, 1 Oct)** — settling in the middle was tried and dropped |
 | Does 1.7× on a phone show the faces | Open — a real phone; a sideways pan at 3.3× was the alternative on the first sheet |
 | Photo sharpness at 960px | Open — the uploads are 1080 × 720; 1440 or more wanted |
+| The strip with a mouse: is the drag found (2 Oct) | Open — testers with a mouse did not find the wheel; a drag with a glide is built (`report.md` → *Dream Team wall strip — a mouse drags it*). Watch whether they pull it, and whether a pull ever opens a print by mistake. The grab hand shows only between the prints (they keep the pointing hand) — if the drag is still missed, grab over the prints too |
 
 Seen in headless Chrome only (375 to 1440 wide, RU and EN; reduced motion, touch and no-JS emulated). Owed: Safari, a real phone, a screen reader, the test and main sites after the deploy.
 

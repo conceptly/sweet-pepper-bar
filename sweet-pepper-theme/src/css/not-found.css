@@ -7,7 +7,8 @@
      .not-found--a    the bar answers: copy left, the dish picker's ticket right,
                       centred in the screen under the header
      .not-found--b    the draft's copy left, the number standing in the footer — the
-                      theater is shorter, so the footer rises into the first screen
+                      theater is shorter, so the footer rises into the first screen; the
+                      scroll carries the number out to the middle of its column (below)
      .not-found--bt   b with the ticket as well
 
    Always dark (inc/daypart-head.php), so the colours are night's own and literal.
@@ -270,9 +271,14 @@
 }
 
 /* b: 240px shorter, so the footer — hours, phone, links — is in the first screen */
+.not-found--b,
+.not-found--bt {
+    --nf-theater: max(520px, calc(100svh - var(--nf-header) - 240px));
+}
+
 .not-found--b .not-found__theater,
 .not-found--bt .not-found__theater {
-    min-height: max(520px, calc(100svh - var(--nf-header) - 240px));
+    min-height: var(--nf-theater);
 }
 
 .not-found--a .not-found__inner,
@@ -326,6 +332,63 @@ html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
                   linear-gradient(#000, #000) 0 12px / 100% calc(100% - 12px) no-repeat;
     mask: radial-gradient(circle at 24px 0, transparent 11.5px, #000 12px) center top / 48px 12px repeat-x,
           linear-gradient(#000, #000) 0 12px / 100% calc(100% - 12px) no-repeat;
+}
+
+/* ── Layout b answers the scroll (author, 2 Oct 2026) ──
+   The author on the desktop page: "it feels unfinished; it feels like you have to do
+   something with this page but don't get how." The level rising and falling for ever was an
+   idle demo of an interaction that wasn't there (Motion language → Idle self-demo), and a
+   fill that never stays never says "arrived" (→ Outline → fill is the state change).
+
+   So the scroll carries the number — the author's parallax, picked over an arrival on the
+   page's reveal. The page opens as before: the number comes up to its place in the footer
+   and the level idles, an idle demo that now has its interaction. From the first pixel of
+   scroll the number climbs out of the footer to the middle of its column and fills as it
+   goes (wide screens); where it stays in the flow above the footer (≤ 991) the level alone
+   follows. `--nf-p` 0 → 1 is the scroll's share (src/js/not-found.js). A wide screen scrolls
+   only 135–172px here — one wheel notch is most of the way — so the number rides the scroll
+   on the house spring instead of being pinned to it. Scrolled back, it sinks and empties.
+
+   Reduced motion: no entrance, no idle, no scroll link — the number in the middle, filled.
+   Without the script: layout b as it was, the level idling. bt keeps the number in the
+   footer. */
+.not-found--b .not-found__digits--sunk::after {
+    clip-path: inset(calc((100% - var(--nf-sink) + 15px) * (1 - var(--nf-p, 0))) 0 -10% 0);
+}
+
+/* the way up, wide screens: from its place in the footer to the middle of the column — half
+   the theater, less half the number, plus what stood under the edge */
+@media (min-width: 992px) {
+    .not-found--b .not-found__digits--sunk {
+        translate: 0 calc(var(--nf-p, 0) * -1 * (var(--nf-theater) / 2 - 0.35em + var(--nf-sink)));
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .not-found--b .not-found__digits--sunk {
+        animation: nf-come 900ms var(--ease-gentle) 300ms backwards;
+        transition: translate var(--dur-gentle) var(--ease-gentle);
+    }
+
+    .not-found--b .not-found__digits--sunk::after {
+        transition: clip-path 400ms var(--ease-flat);
+    }
+
+    /* the scroll has it: the idle level (nf-level, above) lets go */
+    .not-found--b .not-found__digits--sunk.is-scrolled::after {
+        animation: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .not-found--b .not-found__digits--sunk {
+        --nf-p: 1 !important; /* over the script's inline value */
+    }
+}
+
+/* the reveal: from 0.45em under the footer's edge to its place */
+@keyframes nf-come {
+    from { translate: 0 0.35em; }
 }
 
 /* ── Tablets and phones (≤ 991): one column ── */

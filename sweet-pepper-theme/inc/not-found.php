@@ -9,8 +9,11 @@
  *   (nothing) / ?nf=0   the author's Figma draft — the number, the notice line under it, the
  *                       centred stack; the digits pop in turn
  *   ?nf=a               the bar answers: copy left, the dish picker's ticket right
- *   ?nf=b               the draft's copy left, the number sinking into the footer
- *   ?nf=bt              b with the ticket as well
+ *   ?nf=b               the draft's copy left, the number standing in the footer — and the
+ *                       scroll carries it out, to the middle of its column, filling it
+ *                       (author, 2 Oct 2026; not-found.css → layout b answers the scroll,
+ *                       src/js/not-found.js). Narrow screens: the level alone follows
+ *   ?nf=bt              b with the ticket as well (the number stays in the footer)
  *
  * `?nf=`, not `?pick=` (its first hour): the page loader reads `?pick=a…f` on every page and
  * keeps it for the tab (template-parts/components/page-loader.php), so a 404 opened with

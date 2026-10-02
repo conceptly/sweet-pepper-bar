@@ -1585,6 +1585,21 @@
     display: none;
 }
 
+/* A mouse pulls the strip sideways (about-drift.js → Drag): the open hand on its ground, the
+   closed one while pulling — over the prints too. The labels can't be selected by a pull. */
+@media (pointer: fine) {
+    .about-team__drift {
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .about-team__drift.is-dragging,
+    .about-team__drift.is-dragging * {
+        cursor: grabbing !important;
+    }
+}
+
 .about-team__drift-track {
     display: flex;
     gap: 48px;

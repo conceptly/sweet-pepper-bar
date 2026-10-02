@@ -11,7 +11,8 @@
  *
  * The bar is answering here, so the lines may speak as "we" (design.md §1.1 → status
  * messages). EN is the author's draft and Claude's suggestions; RU is Claude's first draft,
- * register twins rather than translations — the author's pass is owed on both.
+ * register twins rather than translations — the author's pass is owed on both (the Russian
+ * body lines have had it: 2 Oct 2026).
  *
  * @package Sweet_Pepper
  */
@@ -40,12 +41,12 @@ return [
         'sauce'  => [
             'eyebrow'  => 'Кухня сообщает · Столик 404',
             'headline' => 'Эта страница в стоп-листе.',
-            'body'     => 'На кухне искали везде. Выберите знакомый маршрут — и мы подадим что-нибудь хорошее.',
+            'body'     => 'Искали и на кухне, и в подсобке, и за баром. Выберите знакомый маршрут — и закажите что-нибудь вкусное!', // the author's, 2 Oct 2026
         ],
         'menu'   => [
             'eyebrow'  => 'Кухня сообщает · Заказ 404',
             'headline' => 'Такого в меню нет.',
-            'body'     => 'На кухне искали везде. Всё остальное — в меню.',
+            'body'     => 'Искали и на кухне, и в подсобке, и за баром. Всё остальное — в меню.', // the first sentence is the author's (2 Oct 2026), carried from the line above
         ],
         'ticket' => [
             'label' => 'Заказ 404',

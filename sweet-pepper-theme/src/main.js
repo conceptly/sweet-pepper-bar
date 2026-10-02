@@ -63,6 +63,7 @@ import { initBarColor } from './js/bar-color';
 import { initVacancy } from './js/vacancy';
 import { initPageLoader } from './js/page-loader';
 import { initMailChooser } from './js/mail-chooser';
+import { initNotFound } from './js/not-found';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -148,4 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // E-mail links on a desktop open the mail chooser (phones keep mailto:)
     initMailChooser();
+
+    // 404, layout b: the scroll carries the number
+    initNotFound();
 });

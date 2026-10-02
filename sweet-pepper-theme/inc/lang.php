@@ -199,6 +199,9 @@ add_action( 'wp_head', function () {
  * wrong page never paints:
  *
  *   - a tap on the EN / RU pill is stored (localStorage `sp-lang`) and wins from then on;
+ *     the same tap starts the pill's thumb on its way (`lang-leaving` on <html>) and leaves
+ *     the time in sessionStorage (`sp-lang-go`), so the page arriving plays the rest of the
+ *     slide (`lang-arriving`, `--ls-el` = ms already run; src/css/header.css → Language switch);
  *   - with nothing stored, the browser's languages propose one — Russian or a neighbouring
  *     language where Russian is widely read (be, uk, kk, ky) → RU, anything else → EN;
  *   - if that answer is not the page's language, the twin URL replaces this one.
@@ -233,10 +236,32 @@ add_action( 'wp_head', function () {
 (function () {
     var here = <?php echo wp_json_encode( sweet_pepper_lang() ); ?>, twins = <?php echo wp_json_encode( $twins ); ?>, KEY = 'sp-lang';
     function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    var root = document.documentElement, GO = 'sp-lang-go', SLIDE = 500; // ms — the thumb's run in header.css
+    function rest() { root.classList.remove('lang-leaving', 'lang-arriving'); root.style.removeProperty('--ls-el'); }
     document.addEventListener('click', function (e) {
         var a = e.target.closest && e.target.closest('a.lang-option[hreflang], a.lang-nudge__link[hreflang]');
-        if (a) { try { localStorage.setItem(KEY, a.getAttribute('hreflang')); } catch (e2) {} }
+        if (!a) return;
+        try { localStorage.setItem(KEY, a.getAttribute('hreflang')); } catch (e2) {}
+        // The switch's thumb sets off on this page; the time goes with the guest so the next
+        // page can finish the move. Not for a tap that opens another tab or was cancelled.
+        if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        try { sessionStorage.setItem(GO, Date.now()); } catch (e3) {}
+        root.classList.remove('lang-arriving');
+        root.classList.add('lang-leaving');
+        setTimeout(rest, 20000); // a navigation that never leaves (the loader's SAFETY)
     });
+    // Back to this page from the browser's page cache: the thumb is where the markup says
+    window.addEventListener('pageshow', function (e) { if (e.persisted) rest(); });
+    // Arrived by the switch while its thumb was still on the way: pick the move up there.
+    // The first frame corrects the count — the head runs a little before the page paints.
+    var went = 0;
+    try { went = +sessionStorage.getItem(GO) || 0; sessionStorage.removeItem(GO); } catch (e) {}
+    if (went && Date.now() - went >= 0 && Date.now() - went < SLIDE) {
+        root.style.setProperty('--ls-el', Date.now() - went);
+        root.classList.add('lang-arriving');
+        requestAnimationFrame(function () { root.style.setProperty('--ls-el', Date.now() - went); });
+        setTimeout(rest, SLIDE + 400);
+    }
     if (/bot|crawl|spider|slurp|yandex|googl|bing|baidu|duckduck|lighthouse|headless|preview/i.test(navigator.userAgent) || navigator.webdriver) return;
     var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
     if (nav && nav.type === 'back_forward') return;
@@ -265,12 +290,22 @@ add_action( 'wp_head', function () {
  * The EN / RU pill — both codes always visible, the active one filled (website-brief.md
  * → Top nav → EN/RU switch). Links to the twin URL; the active language is text, not a link.
  *
+ * The fill is one thumb for both codes (`data-at`: the half it sits on); it carries its own
+ * copy of the codes in the label colour, so a letter turns where the fill's edge crosses it
+ * (src/css/header.css → Language switch — one thumb). Decorative: hidden from screen readers.
+ *
  * @param string $class Extra class on the switch (the drawer's `lang-switch--green`).
  */
 function sweet_pepper_lang_switch( $class = '' ) {
     $current = sweet_pepper_lang();
     $labels  = [ 'ru' => 'РУС', 'en' => 'EN' ];
-    echo '<nav class="lang-switch' . ( $class ? ' ' . esc_attr( $class ) : '' ) . '" aria-label="' . esc_attr__( 'Language', 'sweet-pepper' ) . '">';
+    $at      = (int) array_search( $current, array_keys( $labels ), true );
+    echo '<nav class="lang-switch' . ( $class ? ' ' . esc_attr( $class ) : '' ) . '" data-at="' . $at . '" aria-label="' . esc_attr__( 'Language', 'sweet-pepper' ) . '">';
+    echo '<span class="lang-switch__thumb" aria-hidden="true"><span class="lang-switch__ghost">';
+    foreach ( $labels as $label ) {
+        echo '<span>' . esc_html( $label ) . '</span>';
+    }
+    echo '</span></span>';
     foreach ( $labels as $code => $label ) {
         if ( $code === $current ) {
             echo '<span class="lang-option active" lang="' . esc_attr( $code ) . '" aria-current="true">' . esc_html( $label ) . '</span>';

@@ -76,7 +76,7 @@ $reserve_strings = [
         <div class="reserve-actions">
             <!-- Phone CTA: 3 bar states (available/busy/closed) -->
             <div class="phone-cta-wrapper" data-bar-state="available">
-                <button type="button" class="btn-call js-copy" data-copy-text="+74852911202">
+                <button type="button" class="btn btn-primary-green btn-call js-copy" data-copy-text="+74852911202">
                     <span class="btn-call-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
                     <span class="btn-call-label">+7 (4852) 911-202</span>
                     <span class="btn-copy-icon btn-copy-icon--copy"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-copy.svg' ); ?></span>
@@ -96,7 +96,9 @@ $reserve_strings = [
                 </div>
             </div>
             
-            <a href="https://vk.me/barsweetpepper" class="btn-social btn-social-vk" target="_blank" rel="noopener">
+            <?php // The messenger links are Secondary buttons (Figma ButtonSecondary) in the drawer's own shape:
+            // colours and states come from buttons.css, the geometry from reserve-drawer.css → .btn-social ?>
+            <a href="https://vk.me/barsweetpepper" class="btn btn-secondary btn-social btn-social-vk" target="_blank" rel="noopener">
                 <div class="btn-social-left">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="VK" width="20" height="20" class="btn-social-icon">
                     <?php esc_html_e( 'VK message', 'sweet-pepper' ); ?>
@@ -105,7 +107,7 @@ $reserve_strings = [
             </a>
             
             <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
-            <a href="https://ig.me/m/barsweetpepper" class="btn-social btn-social-ig" target="_blank" rel="noopener">
+            <a href="https://ig.me/m/barsweetpepper" class="btn btn-secondary btn-social btn-social-ig" target="_blank" rel="noopener">
                 <div class="btn-social-left">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="Instagram" width="20" height="20" class="btn-social-icon">
                     <?php esc_html_e( 'Instagram DM', 'sweet-pepper' ); ?>

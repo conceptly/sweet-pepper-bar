@@ -426,15 +426,25 @@ export function initPageLoader() {
     });
 
     // The footer's item where there is no hover to show its heat look — a touch screen, or a
-    // phone-wide window (so a desktop's responsive mode shows it too): a beat after it shows.
+    // phone-wide window (so a desktop's responsive mode shows it too): it heats and cools, a
+    // beat's rest each way, while it is in view (Figma delay-mobile; author, 1 Oct 2026).
     // Asked when it comes into view, not at load: the window may have been resized since.
     if (egg && 'IntersectionObserver' in window) {
+        const HEAT_REST = 800;  // ms in each state before the next 0.8 s change (footer.css)
+        const HEAT_TURN = 800;  // ms — that change
         const heats = () => !window.matchMedia('(any-hover: hover)').matches || window.matchMedia('(max-width: 767px)').matches;
         document.querySelectorAll('[data-loader-replay]').forEach((btn) => {
+            let timer = 0;
+            const turn = () => {
+                const hot = btn.classList.toggle('is-heated');
+                if (reduced() && hot) { io.disconnect(); return; } // reduced motion: heats once, stays
+                timer = setTimeout(turn, HEAT_TURN + HEAT_REST);
+            };
             const io = new IntersectionObserver((entries) => {
+                clearTimeout(timer);
                 if (!entries[0].isIntersecting || !heats()) return;
-                io.disconnect();
-                setTimeout(() => btn.classList.add('is-heated'), 800);
+                btn.classList.add('is-heat-loop');
+                timer = setTimeout(turn, HEAT_REST);
             }, { threshold: 1 });
             io.observe(btn);
         });

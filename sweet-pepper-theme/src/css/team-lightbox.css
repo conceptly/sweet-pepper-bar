@@ -133,7 +133,7 @@
 }
 
 .team-lightbox.is-closing .team-lightbox__card.is-current .team-lightbox__print {
-    transition: transform 400ms var(--ease-gentle-flat);
+    transition: transform 400ms var(--ease-flat);
 }
 
 .team-lightbox.is-closing {

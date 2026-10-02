@@ -271,6 +271,17 @@ html[data-theme="night"] .event-card-body {
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.22);
 }
 
+/* Trial (1 Oct 2026): `?band=frost` — the band frosted, phones and desktop alike. The photo
+   blurs behind the words, so a label or poster lettering under the band stops reading through
+   the date and title; colours, sizes and the hover are untouched. The band takes the card's
+   inner radius itself: older WebKit lets a backdrop filter escape a rounded, clipping parent.
+   Remove with the decision (template-parts/home/events.php sets the class). */
+.home-events--frost .event-card-body {
+    border-radius: 0 0 7px 7px;
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    backdrop-filter: blur(12px) saturate(1.2);
+}
+
 
 /* ── Copy stack + hover motion ── */
 /* Figma: body-overlay is a top-packed auto layout (badge 26 · title · link) and the hover
@@ -345,7 +356,7 @@ html[data-theme="night"] .event-card-body {
 }
 
 .event-card-source {
-    display: none; /* phones only — see the ≤ 767px block */
+    display: none; /* touch card only — see the ≤ 991px / no-hover block */
 }
 
 /* A card with no date keeps the date's line, so the title sits where the hover lift expects */
@@ -383,7 +394,7 @@ html[data-theme="night"] .event-card-date--today span {
 /* ── Title ── */
 /* Molot H3 18px / 1.35 / tracking 0.9px.
    Day: olive. Night: paper.
-   ONE line, cut with an ellipsis (25 Sep 2026): the body is a fixed 98px (82 on phones — date row
+   ONE line, cut with an ellipsis (25 Sep 2026): the body is a fixed 98px (70 on phones — date row
    + one line), drawn for a caption like «DJ-сет: вечер пятницы»; a VK caption is a sentence.
    `--event-title-lines` is the knob — the section sets 2 for the `?title-lines=2` trial. */
 
@@ -502,75 +513,39 @@ html[data-theme="night"] .events-link-card {
 
 
 /* ═════════════════════════════════════════════════════
-   Phones — Figma eventsSection-mobile 2048:127051
-   48px rhythm: connector → title block → card rail → the two Follow CTAs at full
-   width → connector. The CTAs sit inside .section-header in the markup, so the header
-   is dissolved (display: contents) and the two blocks are ordered here, as on
-   Highlights. Cards are the fixed 240×300 `instagram-feed-cards-mobile`: a snap rail
-   bleeding across the 16px gutters, the cropped card as the affordance. No hover on
-   touch, so the card's default layer carries the source's brand mark on its date row
-   and the title runs one line with an ellipsis (intentional: social titles are
-   unpredictable). Body overlay is the desktop's translucent band at 16px padding (82px
-   tall) and the category pill sits 16 from the corner (Image caption label: 16 on phones).
+   The touch card — phones, the tablet band (≤ 991) and any screen with no hover
+   In the band the 3 × 2 grid stays, but its cards are 229–285px wide — the phone card's
+   240 — so they take the phone card's body (author's iPad, 1 Oct 2026: the desktop band was
+   98px on a 286px card, a third of it, ink 30 / 18 / 27 with 24 at the sides, 14 characters
+   of title, and no link line or source mark, since touch has no hover). Card:
+   `instagram-feed-cards-mobile` 1260:40711. No hover stack here: the default layer carries
+   the source's brand mark on its date row and the title runs one line with an ellipsis
+   (intentional: social titles are unpredictable). The category pill sits 16 from the corner.
+   Wider than 991 the same card goes to every screen with nothing that hovers (author,
+   1 Oct 2026: "I would use the phone body for iPads") — an iPad on its side is 1024–1366
+   wide and gets the desktop grid, but the desktop card keeps its link line and its source
+   behind a hover that never comes. `any-hover: none` is the exact complement of the build's
+   hover guard (vite.config.js), so the hover stack and this card never meet; an iPad with a
+   trackpad attached hovers, and keeps the desktop card.
    ════════════════════════════════════════════════════ */
-@media (max-width: 767px) {
-    .home-events .container {
-        gap: 48px;
-    }
-
-    .home-events .section-header {
-        display: contents;
-    }
-
-    .home-events .section-ctas {
-        order: 1;
-    }
-
-    .home-events .section-link-word:last-child {
-        order: 2;
-    }
-
-    .events-grid {
-        display: flex;
-        gap: 24px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scroll-padding-inline: 16px;
-        overscroll-behavior-x: contain;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        /* Bleed across the gutters; the padding keeps the pinned card's 8px glow unclipped */
-        margin: -8px -16px;
-        padding: 8px 16px;
-    }
-
-    .events-grid::-webkit-scrollbar {
-        display: none;
-    }
-
-    .event-card,
-    .events-link-card {
-        flex: 0 0 240px;
-        width: 240px;
-        scroll-snap-align: start;
-    }
-
+@media (max-width: 991px), (any-hover: none) {
     .event-card-pill {
         top: 16px;
         left: 16px;
     }
 
-    /* Body overlay: 16px padding, date row + 8px + one-line title = 82px.
-       Gradient per the mobile card: solid Peppercorn to 63%, clear by 90%. */
-    /* Body overlay: the desktop's band (hairline + inner shadow, 28 Sep 2026), 16px padding,
-       date row + 8px + one-line title = 82px */
+    /* Body overlay: the desktop's band (hairline + inner shadow, 28 Sep 2026), hugging its copy.
+       Regrouped (author, 1 Oct 2026): at 16px padding and an 8px gap the ink sat 22 under the
+       band's edge, 18 between date and title and 19 over the card's foot — three equal steps,
+       so the two lines never read as one group. 12 / 16 padding and a 2px gap give 17 / 12 / 16
+       with 16 at the sides: one inset all round, the date tied to its title. 70px, was 82. */
     .event-card-body {
-        height: 82px;
-        padding: 16px;
+        height: auto;
+        padding: 12px 16px;
     }
 
     .event-card-copy {
-        gap: 8px;
+        gap: 2px;
     }
 
     .event-card-date--empty,
@@ -580,7 +555,7 @@ html[data-theme="night"] .events-link-card {
 
     .event-card-date {
         justify-content: space-between;
-        margin-bottom: 0; /* the copy stack's 8px gap spaces the phone row */
+        margin-bottom: 0; /* the copy stack's 2px gap spaces the phone row */
     }
 
     .event-card-source {
@@ -652,6 +627,59 @@ html[data-theme="night"] .events-link-card {
 
     .event-card:is(:hover, :focus-visible) .event-card-title {
         transform: none;
+    }
+}
+
+
+/* ═════════════════════════════════════════════════════
+   Phones — Figma eventsSection-mobile 2048:127051
+   48px rhythm: connector → title block → card rail → the two Follow CTAs at full
+   width → connector. The CTAs sit inside .section-header in the markup, so the header
+   is dissolved (display: contents) and the two blocks are ordered here, as on
+   Highlights. Cards are the fixed 240×300 `instagram-feed-cards-mobile`: a snap rail
+   bleeding across the 16px gutters, the cropped card as the affordance. The card's own
+   rules are in the block above (the touch card, ≤ 991).
+   ════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    .home-events .container {
+        gap: 48px;
+    }
+
+    .home-events .section-header {
+        display: contents;
+    }
+
+    .home-events .section-ctas {
+        order: 1;
+    }
+
+    .home-events .section-link-word:last-child {
+        order: 2;
+    }
+
+    .events-grid {
+        display: flex;
+        gap: 24px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 16px;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Bleed across the gutters; the padding keeps the pinned card's 8px glow unclipped */
+        margin: -8px -16px;
+        padding: 8px 16px;
+    }
+
+    .events-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .event-card,
+    .events-link-card {
+        flex: 0 0 240px;
+        width: 240px;
+        scroll-snap-align: start;
     }
 
     /* "See all events" tile: blurred photo under a 75% Peppercorn scrim, LinkPrimary text */

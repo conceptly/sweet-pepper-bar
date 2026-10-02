@@ -13,10 +13,10 @@
     line-height: 1.6;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.8s var(--ease-gentle-flat),
-                color 0.8s var(--ease-gentle-flat),
-                box-shadow 0.8s var(--ease-gentle-flat),
-                border-color 0.8s var(--ease-gentle-flat);
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                color var(--dur-gentle) var(--ease-gentle-flat),
+                box-shadow var(--dur-gentle) var(--ease-gentle-flat),
+                border-color var(--dur-gentle) var(--ease-gentle-flat);
     border: 1px solid transparent; /* default placeholder for outline states */
     outline: none;
 }
@@ -135,7 +135,11 @@
     box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
 }
 
-/* Primary Green Button — softer alternative to red primary */
+/* Primary Green Button — softer alternative to red primary
+   Figma ButtonPrimary-Green-Dark 341:15618: rest Lime + Peppercorn label · hover Cream + Ash
+   label · pressed the hover's colours with the Tapped-btn inset. Both colours move on hover,
+   and that is safe here — two light grounds, two dark labels, 11.8:1 falling to 7.2:1 with no
+   crossing (the Chili primary's and the dark secondary's fault could not happen). */
 .btn-primary-green {
     background-color: var(--lime);
     color: var(--peppercorn);
@@ -150,4 +154,5 @@
     background-color: var(--cream);
     color: var(--ash);
     box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms; /* the press answers the finger, as the other two buttons (1 Oct 2026) */
 }

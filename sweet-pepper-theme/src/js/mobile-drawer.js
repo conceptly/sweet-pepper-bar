@@ -1,57 +1,91 @@
 /**
  * Mobile navigation drawer (template-parts/components/mobile-drawer.php).
- * Open: .js-drawer-open (header hamburger). Close: .js-drawer-close, Escape,
- * or the viewport growing past the nav breakpoint. Focus is trapped while
- * open, body scroll is locked, and focus returns to the opener on close.
+ * One button opens and closes it: .js-drawer-toggle, the header's hamburger, which the
+ * header keeps on screen over the open sheet (header.css → Menu toggle) — its bars cross
+ * into the × off `aria-expanded`, and its name swaps between the two labels it carries.
+ * Also closed by Escape or the viewport growing past the nav breakpoint. While open the
+ * body scroll is locked, everything but the header and the sheet is inert, and Tab runs
+ * round the header's links and the sheet's; focus stays on the button throughout.
+ *
+ * Trial switch (1 Oct 2026): the sheet and the bars run on the site's Gentle; `?drawer=quick`
+ * brings back the first build's 200ms for the visit (sessionStorage), `?drawer=gentle` clears
+ * it. Remove with the decision (mobile-drawer.css → html.drawer-quick).
  */
 const NAV_BREAKPOINT = '(min-width: 992px)';
+const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const TRIAL_KEY = 'spDrawerTrial';
+
+function drawerTrial() {
+    let asked = new URLSearchParams(window.location.search).get('drawer');
+    try {
+        if (asked === 'gentle' || asked === 'off') sessionStorage.removeItem(TRIAL_KEY);
+        else if (asked === 'quick') sessionStorage.setItem(TRIAL_KEY, asked);
+        else asked = sessionStorage.getItem(TRIAL_KEY);
+    } catch (e) { /* private mode: the address alone decides */ }
+    document.documentElement.classList.toggle('drawer-quick', asked === 'quick');
+}
 
 export function initMobileDrawer() {
     const drawer = document.getElementById('mobile-drawer');
-    if (!drawer) return;
+    const toggle = document.querySelector('.js-drawer-toggle');
+    if (!drawer || !toggle) return;
+    drawerTrial();
 
-    const openers = document.querySelectorAll('.js-drawer-open');
-    const closeBtn = drawer.querySelector('.js-drawer-close');
-    let lastFocused = null;
+    const header = toggle.closest('.site-header');
+    let inerted = [];
 
     function focusables() {
-        return Array.from(drawer.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        return [...(header ? header.querySelectorAll(FOCUSABLE) : [toggle]), ...drawer.querySelectorAll(FOCUSABLE)]
             .filter((el) => el.offsetParent !== null);
     }
 
-    function setExpanded(state) {
-        openers.forEach((btn) => btn.setAttribute('aria-expanded', state ? 'true' : 'false'));
+    // The sheet is not a dialog (its close control is in the header), so the page behind it
+    // is taken out of reach by hand: every sibling of the header and the sheet, up to <body>.
+    function setPageInert(on) {
+        if (!on) {
+            inerted.forEach((el) => el.removeAttribute('inert'));
+            inerted = [];
+            return;
+        }
+        const keep = [header, drawer];
+        const page = drawer.parentElement;
+        const around = [...(page ? page.children : []), ...(page && page !== document.body ? document.body.children : [])];
+        inerted = around.filter((el) => el !== page && !keep.includes(el) && el.id !== 'wpadminbar'
+            && !['SCRIPT', 'STYLE', 'LINK'].includes(el.tagName) && !el.hasAttribute('inert'));
+        inerted.forEach((el) => el.setAttribute('inert', ''));
+    }
+
+    function setState(open) {
+        drawer.classList.toggle('is-open', open);
+        drawer.toggleAttribute('inert', !open);
+        drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+        document.documentElement.classList.toggle('drawer-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) || toggle.getAttribute('aria-label'));
+        document.body.style.overflow = open ? 'hidden' : '';
+        setPageInert(open);
     }
 
     function open() {
         if (drawer.classList.contains('is-open')) return;
-        lastFocused = document.activeElement;
-        drawer.removeAttribute('inert');
-        drawer.setAttribute('aria-hidden', 'false');
-        drawer.classList.add('is-open');
-        setExpanded(true);
-        document.body.style.overflow = 'hidden';
+        drawer.scrollTop = 0;
+        setState(true);
         document.addEventListener('keydown', onKeydown);
-        if (closeBtn) closeBtn.focus();
     }
 
     function close() {
         if (!drawer.classList.contains('is-open')) return;
-        drawer.classList.remove('is-open');
-        drawer.setAttribute('aria-hidden', 'true');
-        drawer.setAttribute('inert', '');
-        setExpanded(false);
-        document.body.style.overflow = '';
+        const within = drawer.contains(document.activeElement);
+        setState(false);
         document.removeEventListener('keydown', onKeydown);
-        if (lastFocused && typeof lastFocused.focus === 'function' && lastFocused !== document.body) {
-            lastFocused.focus();
-        }
+        if (within) toggle.focus();
     }
 
     function onKeydown(e) {
         if (e.key === 'Escape') {
             e.preventDefault();
             close();
+            toggle.focus();
             return;
         }
         if (e.key !== 'Tab') return;
@@ -68,8 +102,7 @@ export function initMobileDrawer() {
         }
     }
 
-    openers.forEach((btn) => btn.addEventListener('click', open));
-    if (closeBtn) closeBtn.addEventListener('click', close);
+    toggle.addEventListener('click', () => (drawer.classList.contains('is-open') ? close() : open()));
 
     // Desktop nav takes over past the breakpoint — never leave the sheet open under it.
     const mq = window.matchMedia(NAV_BREAKPOINT);

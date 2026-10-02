@@ -102,7 +102,7 @@
     letter-spacing: 0.52px;
     color: var(--text-muted);
     text-decoration: none;
-    transition: color 300ms ease;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .privacy-toc__list a:hover,

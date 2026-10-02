@@ -142,7 +142,7 @@ body.admin-bar .home-hero {
     overflow: hidden;
     z-index: 4;
     transition: transform 0.4s var(--ease-out-expo),
-                box-shadow 0.3s;
+                box-shadow var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .tile-img {
@@ -159,7 +159,7 @@ body.admin-bar .home-hero {
     position: absolute;
     inset: 0;
     background: rgba(21, 19, 23, 0.33);
-    transition: opacity 0.3s;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* ── Active tile ────────────────────────────────── */
@@ -220,7 +220,7 @@ body.admin-bar .home-hero {
     border: 1px solid transparent;
     border-radius: inherit;
     pointer-events: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: border-color var(--dur-gentle) var(--ease-gentle-flat), box-shadow var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 @media (hover: hover) {
@@ -284,7 +284,7 @@ html[data-theme="night"] .daypart-tile:focus-visible .tile-img-wrapper {
     inset: 0;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Inactive: the (invisible) sheets are --active-w wide and would otherwise push the
@@ -295,7 +295,7 @@ html[data-theme="night"] .daypart-tile:focus-visible .tile-img-wrapper {
    transition-behavior clip immediately, which is what happened before. */
 .daypart-tile:not(.is-active) .tile-color-stack {
     overflow: hidden;
-    transition: opacity 0.3s, overflow 0s 0.3s allow-discrete;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat), overflow 0s var(--dur-gentle) allow-discrete;
 }
 
 .daypart-tile.is-active .tile-color-stack {
@@ -497,7 +497,7 @@ html[data-theme="night"] .lang-nudge strong {
     cursor: pointer;
     font-size: 16px;
     color: var(--text-muted);
-    transition: opacity 0.2s;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
     padding: 0;
     line-height: 1;
 }

@@ -451,7 +451,7 @@
 }
 
 .about-concept .dish-picker__shake-it.is-hinting .dish-picker__shake-disc::after {
-    animation: dish-picker-glow 1s var(--ease-gentle-flat);
+    animation: dish-picker-glow 1s var(--ease-flat);
 }
 
 /* Card uses Parchment bg (not Paper) in the About dark context */
@@ -782,7 +782,7 @@
     text-decoration: underline;
     text-decoration-color: var(--mushroom);
     text-underline-offset: 2px;
-    transition: color 300ms ease, text-decoration-color 300ms ease;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat), text-decoration-color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .about-quote-card__original:hover {
@@ -1220,7 +1220,7 @@
     font-size: var(--text-h3);
     letter-spacing: 0.05em;
     color: var(--chili);
-    transition: color 300ms ease, -webkit-text-stroke-color 300ms ease;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat), -webkit-text-stroke-color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Past = outlined; filled on hover / when lit by JS. Current stays filled. */
@@ -1237,7 +1237,7 @@
 .about-story__milestone-wit {
     font-size: var(--text-caption);
     color: var(--ash);
-    transition: color 300ms ease;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 @media (hover: hover) {
@@ -1795,7 +1795,7 @@
     gap: 16px;
     padding: 0 16px 16px;
     flex: 1;
-    transition: gap 300ms ease;
+    transition: gap var(--dur-gentle) var(--ease-gentle);
 }
 
 .about-team__card-member-info {
@@ -1838,7 +1838,7 @@
     line-height: 1.4;
     color: var(--olive);
     white-space: nowrap;
-    transition: border-color 300ms ease, color 300ms ease, font-weight 300ms ease, padding 300ms ease;
+    transition: border-color var(--dur-gentle) var(--ease-gentle-flat), color var(--dur-gentle) var(--ease-gentle-flat), font-weight var(--dur-gentle) var(--ease-gentle-flat), padding var(--dur-gentle) var(--ease-gentle);
 }
 
 .about-team__card-chip svg {
@@ -2066,7 +2066,7 @@
     line-height: 1.6;
     color: var(--lime);
     white-space: nowrap;
-    transition: opacity 300ms ease;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .about-careers__card-link:hover {
@@ -2319,8 +2319,8 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
    outside stroke, ~1090 wide) and scales to 370 on phones exactly as the home
    files do — that is what keeps the stroke weight equal across pages. About is
    a fixed composition, so one file per word/state serves day and night, and the
-   reflection opacity follows the *ground it opens* rather than data-theme:
-   50% over a light section (the day rule), 30% over a dark one (the night rule).
+   reflection takes the site's light or dark numbers by the ground it opens (components.css;
+   50% / 30% until 1 Oct 2026).
    =========================================================================== */
 
 .page-about .about-connector--head {
@@ -2338,14 +2338,6 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 
 .page-about section:has(> .about-connector--foot) {
     padding-bottom: 0;
-}
-
-.page-about .about-connector--head .section-link-word--reflection {
-    opacity: 0.5;
-}
-
-.page-about .about-section--dark > .about-connector--head .section-link-word--reflection {
-    opacity: 0.3;
 }
 
 /* The hero: the connector sits on the floor of the 100vh section, 80 under the
@@ -2377,8 +2369,8 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
    the ground comes from the section the connector sits in. A head reflection is a
    child of the section it opens, a foot word of the section it ends, so one ancestor
    rule covers both. Light is the default (Concept, Guests and Team carry their own
-   dark/surface classes). Opacities are the component's: word 50, dark reflection 30,
-   light reflection 100 — not the site's SVG rule, deliberately, for the first look. ── */
+   dark/surface classes). Opacities and reflection inks are the site's (components.css →
+   Section Link Word: word 35, reflection 22 Avocado light / 15 Lime dark, 1 Oct 2026). ── */
 
 .page-about .section-link--auto.section-link--word {
     --section-link-ink: var(--olive);
@@ -2386,8 +2378,8 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 }
 
 .page-about .section-link--auto.section-link--reflection {
-    --section-link-ink: var(--lime);
-    opacity: 1;
+    --section-link-ink: var(--link-reflection-light-ink);
+    opacity: var(--link-reflection-light);
 }
 
 .page-about .about-section--dark .section-link--auto.section-link--word {
@@ -2396,8 +2388,8 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 }
 
 .page-about .about-section--dark .section-link--auto.section-link--reflection {
-    --section-link-ink: var(--paper);
-    opacity: 0.3;
+    --section-link-ink: var(--link-reflection-dark-ink);
+    opacity: var(--link-reflection-dark);
 }
 
 .page-about .about-section--dark .section-link--auto .section-link__text {
@@ -2641,9 +2633,7 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 
 @media (max-width: 767px) {
 
-    /* ── Connectors: 48px rhythm; over a dark section the reflection runs at full
-       opacity, as the home page does on phones (the scaled stroke is a third of
-       its weight and 30% read as dark grey — components.css) ── */
+    /* ── Connectors: 48px rhythm ── */
 
     .page-about .about-connector--head {
         margin-bottom: 48px;
@@ -2651,10 +2641,6 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
 
     .page-about .about-connector--foot {
         margin-top: 48px;
-    }
-
-    .page-about .about-section--dark > .about-connector--head .section-link-word--reflection {
-        opacity: 1;
     }
 
     .page-about .about-section {

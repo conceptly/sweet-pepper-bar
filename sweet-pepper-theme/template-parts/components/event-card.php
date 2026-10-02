@@ -87,8 +87,10 @@ if ( '' === $url ) {
             <?php if ( $date ) : ?>
                 <div class="event-card-date<?php echo $is_today ? ' event-card-date--today' : ''; ?>">
                     <span><?php echo $display_date; ?></span>
-                    <?php // Phones have no hover layer: the source's brand mark rides the date row instead
-                          // (Figma instagram-feed-cards-mobile 1260:40711, day + pinned states). Hidden on desktop;
+                    <?php // Touch has no hover layer: the source's brand mark rides the date row instead
+                          // (Figma instagram-feed-cards-mobile 1260:40711, day + pinned states). Shown where the card
+                          // takes the phone body — up to 991 wide and on any screen with no hover (events.css → The
+                          // touch card); hidden on the desktop card;
                           // decorative — the whole card is the link. A PHP comment, so the page's source never names Instagram where it may not show. ?>
                     <?php if ( $source ) : ?>
                         <img class="event-card-source" src="<?php echo esc_url( get_template_directory_uri() . '/assets/icons/' . ( $source === 'vk' ? 'vk.svg' : 'insta.svg' ) ); ?>" alt="" width="16" height="16" aria-hidden="true">

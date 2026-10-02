@@ -1,8 +1,32 @@
 /* Mobile navigation drawer
    Figma: Drawer-4-Home-Day 1341:51991 (day), Drawer-4-Menu-Night 1341:51696 (night).
-   Full-screen sheet on the page ground (--bg), header row aligned to the site
-   header so the logo stays put and the × lands where the hamburger was. Content
-   spreads with space-between as in the mockup; short viewports scroll. */
+   Full-screen sheet on the page ground (--bg), UNDER the site header (1 Oct 2026): the
+   header stays where it is, raised over the sheet while it is open, and its hamburger
+   crosses into the × (header.css → Menu toggle). The sheet has no header row of its own —
+   its copy of the logo sat 8px to the right of the header's (24px padding against the
+   16px gutter) and the whole sheet slid 8px in on the spring, so the logo jumped twice and
+   the Parchment bar vanished. Nothing moves now: the sheet fades in under the bar, on the
+   site's Gentle — 800ms on the spring, half there at ~150ms (author, 1 Oct 2026: "let's
+   try the Gentle one on the drawer too"; the old fade, on the flat curve, was 4% there at
+   100ms and half at 286). The first build ran its own Quick (200ms in, 150 out), kept
+   behind `?drawer=quick` for the comparison (mobile-drawer.js sets `html.drawer-quick`).
+   The sides are the page gutter, so the list, the card and the buttons share the logo's
+   edge and the ×'s. Content spreads with space-between as in the mockup; short viewports
+   scroll. */
+
+:root {
+    --drawer-dur-in: var(--dur-gentle);
+    --drawer-dur-out: var(--dur-gentle);
+    --drawer-ease: var(--ease-gentle-flat);   /* the fade */
+    --drawer-ease-move: var(--ease-gentle);   /* the menu button's bars (header.css) */
+}
+
+html.drawer-quick {
+    --drawer-dur-in: var(--dur-quick);
+    --drawer-dur-out: 150ms;
+    --drawer-ease: var(--ease-quick);
+    --drawer-ease-move: var(--ease-quick);
+}
 
 .mobile-drawer {
     position: fixed;
@@ -13,16 +37,16 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 24px;
-    padding: 16px 24px 34px;
+    /* Top: the fixed header (76px, under the admin bar when there is one) + 8px — with the
+       nav's own 16px the list starts where it did, 100px down */
+    padding: calc(var(--wp-admin--admin-bar--height, 0px) + 84px) var(--gutter) 34px;
     background-color: var(--bg);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-8px);
-    transition: opacity var(--dur-gentle) var(--ease-gentle-flat),
-                transform var(--dur-gentle) var(--ease-gentle),
-                visibility 0s linear var(--dur-gentle);
+    transition: opacity var(--drawer-dur-out) var(--drawer-ease),
+                visibility 0s linear var(--drawer-dur-out);
 }
 
 @media (max-width: 991px) {
@@ -50,62 +74,8 @@
 .mobile-drawer.is-open {
     opacity: 1;
     visibility: visible;
-    transform: none;
-    transition: opacity var(--dur-gentle) var(--ease-gentle-flat),
-                transform var(--dur-gentle) var(--ease-gentle),
+    transition: opacity var(--drawer-dur-in) var(--drawer-ease),
                 visibility 0s;
-}
-
-/* ---- Header row: same geometry as the mobile site header (44px row, 32px lockup) ---- */
-.mobile-drawer__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    min-height: 44px;
-}
-
-.mobile-drawer__logo {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    height: 32px;
-    text-decoration: none;
-}
-
-.mobile-drawer__symbol {
-    width: auto;
-    height: 32px;
-}
-
-.mobile-drawer__wordmark {
-    width: auto;
-    height: 16px;
-}
-
-.mobile-drawer__close {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    border-radius: 4px;
-    background: none;
-    color: var(--ash);
-    cursor: pointer;
-}
-
-.mobile-drawer__close svg {
-    display: block;
-    width: 12px;
-    height: 12px;
-}
-
-:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__close {
-    color: var(--lemon);
 }
 
 /* ---- Nav list: Molot H2 title + Golos caption description + 12px trailing icon ---- */
@@ -306,31 +276,31 @@
     height: 24px;
 }
 
-/* ---- Language switch, green variant (Figma langSwitch-Green) ---- */
-.lang-switch--green .lang-option {
-    border: 1px solid var(--mushroom);
-}
-
-.lang-switch--green .lang-option.active {
-    border-color: var(--olive);
-    background-color: var(--olive);
-    color: var(--parchment);
+/* ---- Language switch in the drawer: the green pair, a 44px target ----
+   The component is in header.css (Language switch — one thumb). Here: Avocado by day, Lime
+   by night, and a face tall enough that the control is 44px; the link's own target reaches
+   the pill's edge. It stays on its own between the card and the booking block (author,
+   1 Oct 2026: fewer accidental taps, hierarchy, proximity). */
+.lang-switch--green {
+    --ls-fill: var(--avocado);
+    --ls-hi: var(--avocado);
 }
 
 :is(html[data-theme="night"], .mobile-drawer--dark) .lang-switch--green {
-    padding: 4px;
-    border-color: var(--mushroom);
+    --ls-fill: var(--lime);
+    --ls-on: var(--peppercorn);
+    --ls-hi: var(--lime);
+    --ls-line: var(--mushroom);
 }
 
-:is(html[data-theme="night"], .mobile-drawer--dark) .lang-switch--green .lang-option {
-    border-color: transparent;
-    background-color: var(--soft-peppercorn);
-    color: var(--mushroom);
+.lang-switch--green .lang-option {
+    padding: 7px 16px;
 }
 
-:is(html[data-theme="night"], .mobile-drawer--dark) .lang-switch--green .lang-option.active {
-    background-color: var(--lime);
-    color: var(--peppercorn);
+.lang-switch--green a.lang-option::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
 }
 
 /* ---- Booking block ---- */
@@ -376,6 +346,5 @@
     .mobile-drawer,
     .mobile-drawer.is-open {
         transition: none;
-        transform: none;
     }
 }

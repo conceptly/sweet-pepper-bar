@@ -63,7 +63,7 @@ Plan and rules: `website-brief.md` → Motion language → *Page loader* → *On
 | Tablets — SWEET PEPPER or the poster | **First day (1 Oct), iPad mini and 11-inch iPad Air: a, or the two fitted lines from the iPad mini screenshot — not the poster.** The author's lean (their own, "biased"): upright, the two fitted lines look more balanced. **Pending: the 13-inch iPad Pro.** A screen recording proved a limited way to test, so the two-line look is now the upright tablets' default (next row) — easier to judge on the big iPads and by resizing a browser. |
 | Tablets held upright — the two fitted lines | **Built as the default, 1 Oct (author):** every upright screen up to 1100 wide takes the stacked layout on the bottom edge — phones d, tablets from 600 **b** (SWEET / PEPPER, a word at a time: 166 / 138px letters on the mini, 185 / 154 on the 11-inch Air, 228 / 190 on the 13-inch Pro). On its side a tablet takes the centred row, a. *How it came:* the author's "I like the sweet pepper version in tablets (word by word)" was said of an iPad mini upright on the build before `fb4f46b`, where the phone layout reached 767; I read it as the centred row and ended the phone layout at 599, which took the look off that iPad. **Pending:** the 13-inch Pro; `?pick=a` (both lines under the knob) against b; whether the poster (`?pick=d`, BAR 295px on the Air) needs a cap if it stays in the running. |
 | The breakpoints, after more testers | **Holding (author):** each screen's default reads as its most balanced option. A participant on the phone picked the three-word poster "because I prefer to see something in the middle of the page, and two words make me think that I need to scroll to the end" — the author's own feeling, put into words. The upright iPad is the same story from the other side: two words put the slider near the middle, three push it high and take all the attention. Few participants own an iPad, so the tablet call rests mostly on the author's observation. |
-| **The footer replay as a toy** | **Open — on by default since 1 Oct (layout 3, the author's pick so far); `?egg=1` and `?egg=2` show the other two for the browser tab, `?egg=0` the plain replay, `?egg=auto` lets go** (`page-loader.js`). A participant opened the loader from the footer, called it "like an Easter egg" and tried to drag the knob. **Common to both:** the show plays as before but stays on «Подано!»; the controls come in then — or at once if the slider is touched — and the knob nudges left and back every 4 s until the slider is touched. The knob drags at any time (or tap the track; ← →); every new daypart brings a new line; the end serves «Подано!». On a touch screen — or in a window up to 767 wide, so it can be checked from a desktop's responsive mode — the footer's «Поддать жару!» takes its heat look 0.8 s after it comes into view (Figma NavItemsFooter → delay-mobile). Real waits between pages are untouched. **`?egg=1`:** a row above the words — the dish picker's Shake It! at the left with its own states (hover 52, pressed with the inset, the night glow; it starts the show over with other lines), × at the row's right end on desktops and tablets, in the top corner on phones; × is a 48px disc that tints on hover and sinks when pressed. **`?egg=2`** (wide screens; upright ones keep the row): the author's Figma frame 2792:75652 — «Назад» / Go back (secondary) and «Встряхнуть!» / Shake it! (Lime) under the name, and the label turns to «Выбирай огонёк!» / Pick your heat! once the guest plays (RU drafts mine). **Layout 3, the default** (wide screens at least 560 tall; the rest keep the row): the author's second frame, 2792:75651 — a shaker centred above the slider (a 64px disc on every screen: the frame's 84 is the name's own cap height and took the eye from the slider; the picker's 40 "felt dead" on a phone), one button under the name, «Вернуться на сайт» / Back to the website, and × in the top corner; the same invite label. Built as drawn where it departs from the system: the disc is Lemon by night (the dish picker's night disc is Cream with a Lemon keyline) and × is Parchment. **The author's concern:** the way back on desktops and tablets — a cross in the top corner is a phone-and-drawer habit. **To find out:** which of the three gets guests back without the browser's Back; with the big shaker, do guests still try the knob or only press the shaker; is the nudge enough to discover the drag; is the shaker read as "again"; does the heated footer item get tapped more. **Still on the table (author's notes):** a hidden button fixed to a screen edge that slides in and hides on a delay — weighed against the point that a button, even a hidden one, stops it being an Easter egg; a mini game; a "you found it" message or a reward to share. |
+| **The footer replay as a toy** | **Open — on by default since 1 Oct (layout 3, the author's pick so far); `?egg=1` and `?egg=2` show the other two for the browser tab, `?egg=0` the plain replay, `?egg=auto` lets go** (`page-loader.js`). A participant opened the loader from the footer, called it "like an Easter egg" and tried to drag the knob. **Common to both:** the show plays as before but stays on «Подано!»; the controls come in then — or at once if the slider is touched — and the knob nudges left and back every 4 s until the slider is touched. The knob drags at any time (or tap the track; ← →); every new daypart brings a new line; the end serves «Подано!». On a touch screen — or in a window up to 767 wide, so it can be checked from a desktop's responsive mode — the footer's «Поддать жару!» heats and cools on and off while it is in view — 0.8 s change, 0.8 s rest (Figma NavItemsFooter → delay-mobile; it heated once and stopped before 1 Oct 2026 — check it keeps going on a phone). Real waits between pages are untouched. **`?egg=1`:** a row above the words — the dish picker's Shake It! at the left with its own states (hover 52, pressed with the inset, the night glow; it starts the show over with other lines), × at the row's right end on desktops and tablets, in the top corner on phones; × is a 48px disc that tints on hover and sinks when pressed. **`?egg=2`** (wide screens; upright ones keep the row): the author's Figma frame 2792:75652 — «Назад» / Go back (secondary) and «Встряхнуть!» / Shake it! (Lime) under the name, and the label turns to «Выбирай огонёк!» / Pick your heat! once the guest plays (RU drafts mine). **Layout 3, the default** (wide screens at least 560 tall; the rest keep the row): the author's second frame, 2792:75651 — a shaker centred above the slider (a 64px disc on every screen: the frame's 84 is the name's own cap height and took the eye from the slider; the picker's 40 "felt dead" on a phone), one button under the name, «Вернуться на сайт» / Back to the website, and × in the top corner; the same invite label. Built as drawn where it departs from the system: the disc is Lemon by night (the dish picker's night disc is Cream with a Lemon keyline) and × is Parchment. **The author's concern:** the way back on desktops and tablets — a cross in the top corner is a phone-and-drawer habit. **To find out:** which of the three gets guests back without the browser's Back; with the big shaker, do guests still try the knob or only press the shaker; is the nudge enough to discover the drag; is the shaker read as "again"; does the heated footer item get tapped more. **Still on the table (author's notes):** a hidden button fixed to a screen edge that slides in and hides on a delay — weighed against the point that a button, even a hidden one, stops it being an Easter egg; a mini game; a "you found it" message or a reward to share. |
 | **The lines in admin — «Пасхалка»** | **Open (built 1 Oct; the admin screen not seen by Claude — it needs a login):** the record opens with 16 filled rows; a row drags; a new line shows on the site after «Обновить» (footer → «Поддать жару!», shake until it comes); a 35-character Russian line is refused with the message; «Скрыть» takes a line off; an Editor (not only an admin) can save. Then the same on the test site and the main site after their sync + seed. |
 | The line beside the flame | **Watch:** in that screenshot the line is empty. Most likely caught between two lines (the swap takes ~0.2 s); if it stays empty on a device it is a bug. |
 
@@ -143,11 +143,76 @@ Seen in headless Chrome only (320 to 1440 wide, RU and EN). Owed: Safari, real p
 
 ---
 
+## Language switch — one thumb (1 October 2026)
+
+Build record: `report.md` → *Language switch — one thumb*; rules: `website-brief.md` → Interaction rule → *Language switch — one thumb*. In the header on a computer, in the drawer on a phone: `http://sweet-pepper-bar.local/` · `http://sweet-pepper-bar.local/en/`. The five ideas it was chosen from: `Claude outputs/lang-switch-ideas/lang-switch-ideas.html`.
+
+| Question | Result |
+|---|---|
+| Which of the five | **A — one thumb (author, 1 Oct, from the board)** |
+| Where it sits in the drawer | **On its own, where it was (author, 1 Oct):** less risk of an accidental tap, hierarchy, proximity — the row inside the venue card was turned down |
+| The move carried over the page load | **Passed in headless Chrome** on real navigations (the arriving page picks the thumb up on the same curve). Open on the test site: a real network, Safari |
+| The press, 100ms | Open — on a phone: is the outline + inset seen under a thumb, and is 100ms right (25 Sep: a fast press read "too fast") |
+| The drawer's tap target, 44px | Open — on a phone |
+| «Переключить» in the language nudge starts the same move | Open — written, not exercised |
+| Keyboard: Enter on the other code | Open — not exercised |
+| The hover outline at the house 0.8s (the board showed 300ms) | Open — the author's eye, on a computer |
+| The drawer's day thumb: Parchment on Avocado, 2.76:1 | Open — Olive gives 3.68:1 |
+
+Seen in headless Chrome only (1440 and 402). Owed: an iPhone, Safari, the test site (not deployed).
+
+---
+
+## Event cards — the frosted band (1 October 2026)
+
+Build record: `report.md` → *Event cards — the phone band regrouped*; rule and open point: `website-brief.md` → *Frosted band — on trial*. Home → «Что нового», phones and desktop. The switch is per address — it is not remembered.
+
+| What | RU | EN |
+|---|---|---|
+| The default — the plain band (phones: regrouped, 70px) | `http://sweet-pepper-bar.local/#events` | `http://sweet-pepper-bar.local/en/#events` |
+| The test — the frosted band | `http://sweet-pepper-bar.local/?band=frost#events` | `http://sweet-pepper-bar.local/en/?band=frost#events` |
+
+| Question | Result |
+|---|---|
+| Phone spacing — does the regrouped band read as balanced? | **Default since 1 Oct (author, from the contact sheet)** — to confirm on a phone |
+| Tablet band (768–991): the phone card's body in the 3 × 2 grid | **Built 1 Oct from the author's iPad screenshot** — to confirm on the iPad |
+| Landscape iPad (≥ 992, touch): the phone card's body wherever nothing hovers | **Built 1 Oct (author: "I would use the phone body for iPads")** — to confirm on the iPad, on its side, with and without a trackpad |
+| Frost or plain, phones | Open |
+| Frost or plain, desktop — at rest and on hover (the photo leans in under the band) | Open |
+| Does the rail scroll as smoothly with five blurred bands (an older iPhone / Android)? | Open |
+| Safari: are the band's bottom corners clean inside the card's radius? | Open |
+
+Seen in headless Chrome only (360, 402, 768, 834, 991, 992 and 1440 wide, RU and EN, day and night; touch emulated at 1024, 1180 and 1366). Owed: Safari, real phones, the test site (not deployed).
+
+---
+
+## Mobile drawer and button hover speed (1 October 2026)
+
+Build record: `report.md` → *Mobile drawer — the header stays*; rules: `website-brief.md` → Mobile — the drawer → *Opening and closing*, Motion language → *Quick*. From a tester's note: hovers and the hamburger menu feel slow against a design that reads fast.
+
+The drawer is the default — any page, the hamburger (phones and tablets up to 991). **The hover trial is closed (1 Oct): the Gentle spring is the site's colour curve, 800ms kept; `?hover=` and `?ease=` are gone.** Tried on the way: 400 / 250 / 150ms on a quick curve, the same on the flat curve, and at 800ms a no-overshoot fit of the spring, expo-out and the spring itself.
+
+| Question | Result |
+|---|---|
+| Drawer: does the bar hold still, and does the icon read as one thing turning? | Built 1 Oct — to confirm on a phone |
+| Drawer: Gentle (the default since later on 1 Oct — 800ms on the spring, half there at ~165ms) or the first build's 200ms in / 150ms out (`…/?drawer=quick`; `…/?drawer=gentle` to go back)? | Open — on a phone |
+| Drawer: the × at 17px in the hamburger's colour (the mockup: 12px, Ash) | Open |
+| Drawer: content on the 16px page gutter (the mockup: 24px) | Open |
+| Hover: which speed and curve? | **The Gentle spring at 800ms, for every colour transition on the site (author, 1 Oct)** — half done at ~150ms, was 281. 250ms: "feels like no easing"; 400ms and the no-overshoot fit set aside |
+| Do nav links, text links, chips and cards follow the buttons? | **Yes — everything on the colour token moved with it.** About forty transitions written with their own time and a plain `ease` did not; a sweep is open |
+| The ≈60 transitions off the house curves — which match, which keep their own? | **38 matched (author, 1 Oct), 25 kept** — the logo's hover among the kept ("feels better than I have in Figma"); the form fields among the matched. To look at by eye: the home hero tiles' hover, a theme change, the form field's keyline on focus |
+| The entrances' fades start faster on the new curve — still right on load? | Open — not judged by eye |
+| The same tester, after the change: does it now match the design's energy? | Open |
+
+Seen in headless Chrome only (360, 402, 768 and 1440 wide, RU and EN, day and night). Owed: Safari, real phones, VoiceOver, the test site (not deployed).
+
+---
+
 ## Open — planned, not yet run
 
 | Question | Affects | Plan | Prediction on record |
 |---|---|---|---|
-| Event cards — could the VK caption run to two lines without breaking the hover layer? | Home → «Что нового», `events.css` → Title | The author's own ideas on `/?title-lines=2` (kept for this); the hover stack (title rises, «Смотреть во ВКонтакте» rises in under it) is the constraint — two lines push it above the 98px band. | One line stays unless the hover layer gets its own treatment (a taller body on hover, or the CTA replacing the date instead of stacking). |
+| Event cards — could the VK caption run to two lines without breaking the hover layer? | Home → «Что нового», `events.css` → Title | The author's own ideas on `/?title-lines=2` (kept for this); the hover stack (title rises, «Смотреть во ВКонтакте» rises in under it) is the constraint — two lines push it above the 98px band. | One line stays unless the hover layer gets its own treatment (a taller body on hover, or the CTA replacing the date instead of stacking). *1 Oct 2026:* the second treatment was mocked on the live page — the link fades in on the date's line, the title stays put, band 98 → 124px (`Claude outputs/event-card-ideas/sheet-desktop.png`, option 2) — and not taken: the author keeps the desktop card ("the hover animation worked well during my testing"). |
 | Bar Settings → hours: can a manager change an opening time and read the four fields without help — and does "a time after midnight is the end of the same night" land? | Platform → *Bar hours settings* (`website-brief.md`) | With the **Editor** role on the test site: "on Friday we close at 4 — set it", then "put it back". Watch for the closing-time fields; note any value the sanity fallback had to catch. Run before the holiday repeater is built, so its form learns from it. | The opening fields are fine; the two closing fields are where a slip happens. |
 | Drop the "Home" nav label and let the interactive logo alone serve as the home link? | Top nav (`website-brief.md`) | Two measures, separately: (1) home-return success from deep pages, label vs. no label; (2) logo-interaction discovery, label on/off × idle-shake on/off | Idle-shake moves discovery more than removing Home does, at zero nav cost — if it holds, keep both |
 | "Bar Snacks" vs. "To Share" vs. "Snacks & Boards" | Menu page → Section labels 🔶 (`website-brief.md`) | Run a "find the cheese plate" task, then decide and propagate in one pass: nav, `menu-hero-copy.md`, `menu-en.md`, RU pairing | — |

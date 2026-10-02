@@ -20,7 +20,7 @@
     border: 1px solid var(--text-muted);
     border-radius: 4px;
     opacity: 0;
-    transition: transform var(--dur-gentle) var(--ease-gentle), opacity 0.3s ease;
+    transition: transform var(--dur-gentle) var(--ease-gentle), opacity var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .cookie-notice[hidden] {

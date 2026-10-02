@@ -68,8 +68,10 @@
             </div>
 
             <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle js-drawer-open" aria-controls="mobile-drawer" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open menu', 'sweet-pepper' ); ?>">
-                <?php echo sweet_pepper_inline_svg( 'assets/icons/c-hamburger.svg' ); ?>
+            <?php // One button for both jobs (1 Oct 2026): the header stays over the open drawer and the three
+            // bars cross into the × in place (header.css → Menu toggle; mobile-drawer.js swaps the name). ?>
+            <button class="menu-toggle js-drawer-toggle" aria-controls="mobile-drawer" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open menu', 'sweet-pepper' ); ?>" data-label-open="<?php esc_attr_e( 'Open menu', 'sweet-pepper' ); ?>" data-label-close="<?php esc_attr_e( 'Close menu', 'sweet-pepper' ); ?>">
+                <span class="menu-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
             </button>
             <?php sweet_pepper_lang_nudge( true ); // floats under the language switch (inc/lang.php) ?>
         </div><!-- .header-container -->

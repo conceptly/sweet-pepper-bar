@@ -422,7 +422,7 @@
 .page-loader__shake {
     margin-left: -4px;              /* the disc, not its 4px ring, on the column's edge */
     scale: 0;
-    transition: transform 0.3s var(--ease-bouncy), background-color 0.3s ease, scale 420ms var(--ease-bouncy);
+    transition: transform 0.3s var(--ease-bouncy), background-color var(--dur-gentle) var(--ease-gentle-flat), scale 420ms var(--ease-bouncy);
 }
 .page-loader.is-ready .page-loader__shake { scale: 1; }
 .page-loader .page-loader__shake.is-spinning .dish-picker__shake-icon,
@@ -535,7 +535,7 @@
 .page-loader.is-egg.is-dragging .page-loader__slider { cursor: grabbing; }
 
 /* The hint: the knob is pulled left and let go, twice, smaller the second time */
-.page-loader__knob.is-hinting { animation: page-loader-hint 1100ms var(--ease-gentle-flat); }
+.page-loader__knob.is-hinting { animation: page-loader-hint 1100ms var(--ease-flat); }
 @keyframes page-loader-hint {
     0%   { translate: 0 -50%; }
     28%  { translate: -22px -50%; }

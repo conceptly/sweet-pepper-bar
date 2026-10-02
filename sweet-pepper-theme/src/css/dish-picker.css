@@ -12,7 +12,7 @@
        header, as the header's 64 to the bottom word. Was 80 to the header, no reflection. */
     padding-top: 0;
     padding-bottom: 0;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Inner container — flex-col with 64px gap between content and link word (Figma: gap-[64px]) */
@@ -110,7 +110,7 @@ html[data-theme="night"] .pairing-station__subtitle {
     letter-spacing: 0.52px;
     color: var(--avocado);
     white-space: nowrap;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat), color var(--dur-gentle) var(--ease-gentle-flat), border-color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Tag pills — active */
@@ -182,7 +182,7 @@ html[data-theme="night"] .dish-picker {
     border-radius: 50%;
     background-color: var(--shake-ground);
     cursor: pointer;
-    transition: transform 0.3s var(--ease-bouncy), background-color 0.3s ease;
+    transition: transform 0.3s var(--ease-bouncy), background-color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .dish-picker__shake-disc {
@@ -233,7 +233,7 @@ html[data-theme="night"] .dish-picker {
     }
 
     .dish-picker__shake-it:hover .dish-picker__shake-icon {
-        animation: dish-picker-rattle 0.6s var(--ease-gentle-flat);
+        animation: dish-picker-rattle 0.6s var(--ease-flat);
     }
 }
 
@@ -252,15 +252,15 @@ html[data-theme="night"] .dish-picker {
 /* Delay — the touch idle hint: swells to 56, rattles, settles; glows by night.
    One beat per 5 s, the section's one clock (dish-picker.js). */
 .dish-picker__shake-it.is-hinting {
-    animation: dish-picker-swell 1s var(--ease-gentle-flat);
+    animation: dish-picker-swell 1s var(--ease-flat);
 }
 
 .dish-picker__shake-it.is-hinting .dish-picker__shake-icon {
-    animation: dish-picker-rattle 0.6s 0.2s var(--ease-gentle-flat);
+    animation: dish-picker-rattle 0.6s 0.2s var(--ease-flat);
 }
 
 html[data-theme="night"] .dish-picker__shake-it.is-hinting .dish-picker__shake-disc::after {
-    animation: dish-picker-glow 1s var(--ease-gentle-flat);
+    animation: dish-picker-glow 1s var(--ease-flat);
 }
 
 @keyframes dish-picker-swell {
@@ -470,7 +470,7 @@ html[data-theme="night"] .dish-picker__card {
     font-weight: 600;
     font-size: var(--text-body);
     line-height: 1.6;
-    transition: color 0.2s ease;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .dish-picker__cta:hover {

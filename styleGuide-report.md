@@ -229,3 +229,14 @@ Why: Etual wanted Webflow-style text editing on the page instead of VS Code + gi
 **Tooling status after the pass.** `style-guide.html` is the only source of both languages. `tools/i18n/strings-ru.json`, `mobile-shell.html` and `style-guide-draft.html` are frozen history — do not sync them to the new copy and never run `inject.py` against the live file (§10). The uncommitted JSON diff on the Mac is the last pre-freeze sync of five h-unit strings; commit or discard, it changes nothing live.
 
 **PDFs** re-rendered 2026-09-12 from the live `style-guide.html` including the two fixes (EN 27 pp, RU 30 pp); commit them together with the HTML.
+
+## 12. Motion — easing (2026-10-01)
+
+**What was added.** Section 06 (Layout & components) ends with a new block, *Motion — easing* / «Анимация — кривые», after the grid note: a paragraph, two panels and a note, in both languages. It records the two curves the website uses, as `design.md` §6 → *Motion* now states them:
+
+- **Gentle** — Figma's spring preset (mass 1 · stiffness 100 · damping 15); in CSS `cubic-bezier(0.33, 0.57, 0.08, 1.19)` over 800 ms. The default for hovers, colour, fades and moves.
+- **easeOutQuint** — `cubic-bezier(0.22, 1, 0.36, 1)`, 500–900 ms, no overshoot: a line being drawn, a counter, anything inside a mask.
+
+**How.** A repo-side edit of `style-guide.html` on `main` (a new block is a layout change — the in-page editor is for wording), commit `6cb70c0`, deployed by the host's cron. Eight new lang-tagged blocks — h3, paragraph, the second panel's sub-label, note, each EN + RU — so the editor now maps **683** (was 675). The panels' names and the monospace values carry no `lang` and are not editable in place, like the spacing and icon scales above them. Rendered and checked in headless Chrome: EN and RU at 1280, RU at 402; no overflow.
+
+**Open.** The Russian is Claude's, not the author's — «кривые», «перелёт» (overshoot), «пружина из набора Figma» want a read. The PDFs were not re-rendered (EN 27 pp / RU 30 pp are from 2026-09-12). The Figma style-guide file has no motion page. The website also carries an expo-out curve (`0.16, 1, 0.3, 1`) for masked entrances — one family with easeOutQuint; the guide names only the latter until the two are folded together.

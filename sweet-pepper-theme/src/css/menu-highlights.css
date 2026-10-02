@@ -272,7 +272,7 @@ html[data-theme="night"] .menu-highlight-card__title {
     align-items: center;
     text-decoration: none;
     color: var(--olive);
-    transition: color 0.2s ease;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 html[data-theme="night"] .menu-highlight-card__link {

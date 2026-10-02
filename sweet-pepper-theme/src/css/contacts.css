@@ -514,7 +514,7 @@ html[data-theme="night"] .contact-field__label {
     border: 1px solid var(--mushroom);
     border-radius: 4px;
     background-color: var(--field-bg);
-    transition: border-color 0.15s ease;
+    transition: border-color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 html[data-theme="night"] .contact-field__input-wrap {
@@ -546,7 +546,7 @@ html[data-theme="night"] .contact-field__input-wrap {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    transition: color 0.15s ease;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Field states (Figma field-singleLine 265:3459 night / 466:19366 day). The leading icon takes
@@ -1165,7 +1165,7 @@ html[data-theme="night"] .contact-item__supportive {
     opacity: 0;
     transform: translateX(8px);
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.15s ease;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat), transform var(--dur-gentle) var(--ease-gentle), background-color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Show chip on row hover */
@@ -1501,12 +1501,14 @@ html[data-theme="night"] .contact-item__supportive {
     z-index: 998;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none; /* closed: clicks pass at once, though it stays "visible" for the fade */
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat), visibility var(--dur-gentle);
 }
 
 .team-form-overlay.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 /* ── Dialog card ── */
@@ -1530,12 +1532,14 @@ html[data-theme="night"] .contact-item__supportive {
     z-index: 999;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s var(--ease-out-expo);
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat), visibility var(--dur-gentle), transform 0.3s var(--ease-out-expo);
+    pointer-events: none; /* closed: clicks pass at once */
 }
 
 .team-form-dialog.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translate(-50%, -50%) scale(1);
 }
 

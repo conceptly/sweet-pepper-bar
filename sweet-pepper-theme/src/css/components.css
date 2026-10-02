@@ -47,40 +47,49 @@
     z-index: 1;
 }
 
-/* Top link words are reflections of the section below — faded at 50% */
-.section-link-word--reflection {
-    opacity: 0.5;
+/* Opacity and ink (author, 1 Oct 2026 — from device tests, then tuned in
+   lab/connector-opacity.html): the word at full strength "ruins the hierarchy", so
+   word 35% on every ground; reflection 22% in Avocado on a light ground, 15% in Lime on a
+   dark one (Figma SectionLink 212:2442). The inks are in the files: the home/menu
+   reflection exports were recoloured the same day (Lime → Avocado by day, Paper → Lime on
+   dark grounds). The bar menu is dark by day too, so it takes the dark numbers. Replaces
+   day 50 / night 30 and the phone/tablet full-strength reflections of Sep 2026. The menu
+   page's upright FOOT words carry --reflection too (reveal.css keeps the same list), so
+   the reflection rule skips them. Tune the numbers in the lab, then here. */
+:root {
+    --link-word-opacity: 0.35;
+    --link-reflection-light: 0.22;
+    --link-reflection-dark: 0.15;
+    --link-reflection-light-ink: var(--avocado);
+    --link-reflection-dark-ink: var(--lime);
 }
 
-html[data-theme="night"] .section-link-word--reflection {
-    opacity: 0.3;
+.section-link-word {
+    opacity: var(--link-word-opacity);
 }
 
-/* Phones: the desktop SVGs scale to 370, so their outlines thin to a third of their
-   weight and the night 30% made them vanish on Peppercorn (author, Sep 2026). The
-   night files carry their own gradient fade, so they run at full opacity on phones;
-   50% still read as dark grey in the browser. */
-@media (max-width: 767px) {
-    html[data-theme="night"] .section-link-word--reflection {
-        opacity: 1;
-    }
+.section-link-word--reflection:not(
+    .menu-hero__connector > *,
+    .menu-highlights__link-word,
+    .menu-section__bottom-link-word,
+    .pairing-station__link-word
+) {
+    opacity: var(--link-reflection-light);
 }
 
-/* Tablets and phones, light ground: full opacity too (author, 20 Sep 2026). The day
-   reflection is Lime on Parchment — 1.29:1 at full strength, 1.15:1 at 50% — and below
-   992px the SVG's hairlines thin with its width, so the 50% erased it. Heads only: the
-   menu page's upright FOOT words borrow this class for their 50% (reveal.css keeps the
-   same list) and stay as they are. About and Visit use the live-text connectors below,
-   whose light-ground reflection is already at 1 at every width. */
-@media (max-width: 991px) {
-    html:not([data-theme="night"]) .section-link-word--reflection:not(
-        .menu-hero__connector > *,
-        .menu-highlights__link-word,
-        .menu-section__bottom-link-word,
-        .pairing-station__link-word
-    ) {
-        opacity: 1;
-    }
+html[data-theme="night"] .section-link-word--reflection:not(
+    .menu-hero__connector > *,
+    .menu-highlights__link-word,
+    .menu-section__bottom-link-word,
+    .pairing-station__link-word
+),
+.page-template-page-menu-bar .section-link-word--reflection:not(
+    .menu-hero__connector > *,
+    .menu-highlights__link-word,
+    .menu-section__bottom-link-word,
+    .pairing-station__link-word
+) {
+    opacity: var(--link-reflection-dark);
 }
 
 .section-link-word img {
@@ -381,7 +390,7 @@ html[data-theme="night"] .section-description {
 
    Frame: text left, bottom-aligned; the 1252 frame's 80px gutters are the page
    container's. Word: 50% opacity, 0.5px Mushroom rule under it. Reflection: the same
-   text flipped, no rule; 30% on dark, 100% on light. Text: Molot 122 / 75% / 4%.
+   text flipped, no rule; the site's numbers since 1 Oct 2026 (Section Link Word, above). Text: Molot 122 / 75% / 4%.
    Strokes in Figma are OUTSIDE; CSS text-stroke is centred, so a Figma 1px reads as
    ~0.5px outside here — kept at the Figma numbers for the first look. */
 
@@ -413,9 +422,9 @@ html[data-theme="night"] .section-description {
     text-align: left;
 }
 
-/* Word (Figma "Default"): 50%, Mushroom hairline under it */
+/* Word (Figma "Default"): the site's word opacity, Mushroom hairline under it */
 .section-link--word {
-    opacity: 0.5;
+    opacity: var(--link-word-opacity);
     border-bottom: 0.5px solid var(--mushroom);
 }
 
@@ -425,7 +434,7 @@ html[data-theme="night"] .section-description {
     transform-origin: 50% 50%;
 }
 
-/* Dark ground: Cream word, Paper reflection at 30%, Peppercorn fade in the counters */
+/* Dark ground: Cream word, Lime reflection at the dark opacity (Paper at 30% until 1 Oct 2026), Peppercorn fade in the counters */
 .section-link--dark .section-link__text {
     background-image: linear-gradient(to top, var(--peppercorn), rgba(21, 19, 23, 0));
     -webkit-background-clip: text;
@@ -437,19 +446,19 @@ html[data-theme="night"] .section-description {
 }
 
 .section-link--dark.section-link--reflection {
-    --section-link-ink: var(--paper);
-    opacity: 0.3;
+    --section-link-ink: var(--link-reflection-dark-ink);
+    opacity: var(--link-reflection-dark);
 }
 
-/* Light ground: Olive 2px word, Lime reflection at full */
+/* Light ground: Olive 2px word, Avocado reflection at the light opacity (Lime at 100% until 1 Oct 2026) */
 .section-link--light.section-link--word {
     --section-link-ink: var(--olive);
     --section-link-stroke: 2px;
 }
 
 .section-link--light.section-link--reflection {
-    --section-link-ink: var(--lime);
-    opacity: 1;
+    --section-link-ink: var(--link-reflection-light-ink);
+    opacity: var(--link-reflection-light);
 }
 
 @media (max-width: 767px) {

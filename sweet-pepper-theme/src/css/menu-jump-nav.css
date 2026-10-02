@@ -73,12 +73,14 @@
     z-index: 998;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none; /* closed: clicks pass at once, though it stays "visible" for the fade */
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat), visibility var(--dur-gentle);
 }
 
 .menu-jump__scrim.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 /* ── Panel ──
@@ -201,7 +203,7 @@
     line-height: 1;
     color: var(--text);
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .menu-jump__close:hover {

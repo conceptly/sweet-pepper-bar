@@ -119,7 +119,7 @@
    digits take Bouncy — the page loader's knob pops on it; the colour takes the flat curve. */
 @media (prefers-reduced-motion: no-preference) {
     .not-found__digits--pop {
-        animation: nf-hue 6s var(--ease-gentle-flat) infinite;
+        animation: nf-hue 6s var(--ease-flat) infinite;
     }
 
     .not-found__digits--pop span {
@@ -188,7 +188,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
     .not-found__digits--sunk::after {
-        animation: nf-level 9s var(--ease-gentle-flat) infinite;
+        animation: nf-level 9s var(--ease-flat) infinite;
     }
 }
 

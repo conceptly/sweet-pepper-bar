@@ -93,7 +93,7 @@ body {
     background-color: var(--bg);
     color: var(--text);
     text-wrap: pretty;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat), color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Screen-reader-only text — the WordPress convention, kept in the theme so it never depends on

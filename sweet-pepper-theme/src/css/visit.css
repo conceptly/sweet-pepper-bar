@@ -1273,8 +1273,8 @@
    name the section BELOW them: on this page a connector band belongs to the section it
    opens (website-brief.md → Section connectors → direction). Rhythm from visit-page
    892:31050: 36 under the hero content, 48 on every other side (About runs 80 on
-   desktop). Visit is a fixed composition, so the reflection opacity follows the ground
-   it opens, not data-theme: 50% over Parchment, 30% over Peppercorn.
+   desktop). Opacity and ink are the site's, light or dark by the
+   ground (components.css; 50% / 30% until 1 Oct 2026).
    -------------------------------------------------------------------------- */
 
 .page-visit .visit-connector--head {
@@ -1316,15 +1316,6 @@
   }
 }
 
-/* SVG reflections: 50% over the light Location, 30% over the dark CTA */
-.page-visit .visit-connector--head .section-link-word--reflection {
-  opacity: 0.5;
-}
-
-.visit-cta > .visit-connector--head .section-link-word--reflection {
-  opacity: 0.3;
-}
-
 /* Live-text prototype (section-link.php, theme "auto"): the ground comes from the section
    the connector sits in — Location light, hero and CTA dark; same numbers as About's. */
 .page-visit .section-link--auto.section-link--word {
@@ -1333,8 +1324,8 @@
 }
 
 .page-visit .section-link--auto.section-link--reflection {
-  --section-link-ink: var(--lime);
-  opacity: 1;
+  --section-link-ink: var(--link-reflection-light-ink);
+  opacity: var(--link-reflection-light);
 }
 
 .visit-hero .section-link--auto.section-link--word,
@@ -1345,8 +1336,8 @@
 
 .visit-hero .section-link--auto.section-link--reflection,
 .visit-cta .section-link--auto.section-link--reflection {
-  --section-link-ink: var(--paper);
-  opacity: 0.3;
+  --section-link-ink: var(--link-reflection-dark-ink);
+  opacity: var(--link-reflection-dark);
 }
 
 .visit-hero .section-link--auto .section-link__text,

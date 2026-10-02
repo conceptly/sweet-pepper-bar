@@ -131,7 +131,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     color: var(--soft-peppercorn);
     text-decoration: none;
     line-height: 1.4;
-    transition: color 0.2s;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 /* Figma NavItem, mode=footer (57:3227; author, 30 Sep 2026): Regular Soft Peppercorn ·
@@ -209,21 +209,30 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 }
 
 /* ON TRIAL (1 Oct 2026, with the loader's toy — off with `?egg=0`): on a touch screen or in
-   a phone-wide window the item takes its heat look by itself 0.8 s after it comes into view (page-loader.js), over 0.8 s on the Gentle curve —
-   Figma NavItemsFooter → delay-mobile. */
+   a phone-wide window the item takes its heat look by itself and gives it back, on and off
+   while it is in view — 0.8 s on the Gentle curve each way, 0.8 s rest between (page-loader.js;
+   Figma NavItemsFooter → delay-mobile, both "After delay" arrows; author, 1 Oct 2026: it heated
+   once and stayed). .is-heat-loop carries the slow curve so the cooling is as slow as the heating.
+   Reduced motion: it heats once and stays. */
+.footer-links__replay.is-heat-loop {
+    transition: color 0.8s var(--ease-gentle);
+}
+.footer-links__replay.is-heat-loop .footer-links__flame {
+    transition: opacity 0.8s var(--ease-gentle), translate 0.8s var(--ease-gentle);
+}
+.footer-links__replay.is-heat-loop .footer-links__replay-label {
+    transition: translate 0.8s var(--ease-gentle);
+}
 .footer-links__replay.is-heated {
     font-weight: 500;
     color: var(--chili);
-    transition: color 0.8s var(--ease-gentle);
 }
 .footer-links__replay.is-heated .footer-links__flame {
     opacity: 1;
     translate: 0 -50%;
-    transition: opacity 0.8s var(--ease-gentle), translate 0.8s var(--ease-gentle);
 }
 .footer-links__replay.is-heated .footer-links__replay-label {
     translate: 16px 0;
-    transition: translate 0.8s var(--ease-gentle);
 }
 
 /* Hours */
@@ -288,7 +297,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 .contact-item a {
     color: var(--peppercorn);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .contact-item a:hover {
@@ -305,7 +314,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
 
 .footer-socials a {
     display: flex;
-    transition: opacity 0.2s;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .footer-socials a:hover {
@@ -361,7 +370,7 @@ html[data-theme="night"] .home .footer-rugged-top .rugged-edge {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: color 0.2s;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .footer-back-to-top:hover {

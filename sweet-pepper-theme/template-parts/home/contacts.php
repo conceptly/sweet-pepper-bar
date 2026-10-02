@@ -61,7 +61,7 @@
                  label, no copy icon. -->
             <div class="contacts-reserve">
                 <div class="phone-cta-wrapper" data-bar-state="available">
-                    <a href="tel:+74852911202" class="btn-call" aria-label="<?php echo esc_attr( sprintf( __( 'Call %s', 'sweet-pepper' ), '+7 (4852) 911-202' ) ); ?>">
+                    <a href="tel:+74852911202" class="btn btn-primary-green btn-call" aria-label="<?php echo esc_attr( sprintf( __( 'Call %s', 'sweet-pepper' ), '+7 (4852) 911-202' ) ); ?>">
                         <span class="btn-call-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
                         <span class="btn-call-label">+7 (4852) 911-202</span>
                     </a>

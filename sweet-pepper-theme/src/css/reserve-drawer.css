@@ -39,12 +39,14 @@
     z-index: 998;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none; /* closed: clicks pass at once, though it stays "visible" for the fade */
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat), visibility var(--dur-gentle);
 }
 
 .reserve-drawer-overlay.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 /* Reserve Drawer
@@ -96,7 +98,7 @@ html[data-theme="night"] .reserve-drawer {
     font-size: 24px;
     color: var(--text);
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .reserve-drawer-close:hover {
@@ -217,39 +219,53 @@ html[data-theme="night"] .btn-copy-ticket {
     gap: 4px;
 }
 
-/* ── Phone CTA: 3 bar states ─────────────────────── */
+/* ── Phone CTA: 3 bar states ───────────────────────
+   The call button is the Lime primary (1 Oct 2026; Figma ButtonPrimary-Green-Dark
+   341:15618): the markup carries `.btn .btn-primary-green`, so the open state's colours
+   and every state's motion are buttons.css's — Lime at rest, Cream with an Ash label on
+   hover, the inset on a press, in 100ms. It used to answer with `opacity: 0.9`, had no
+   pressed state, and ran its own 0.3s / 0.2s. Only the shape is set here: the full row,
+   and no keyline, so the button keeps its 42px. */
 .btn-call {
-    color: var(--peppercorn);
-    text-decoration: none; /* the home Contacts block's call is a tel: link (27 Sep 2026) */
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: var(--text-body, 16px);
-    font-weight: 600;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: background-color 0.3s, opacity 0.2s;
     width: 100%;
-    line-height: 1.6;
+    border: 0;
 }
 
-.btn-call:hover { opacity: 0.9; }
+/* Busy — orange. No frame draws its states: it takes the Chili primary's logic — the
+   ground deepens, the label stays (the orange 15% toward Peppercorn). */
+.btn-call--busy,
+.btn-call--busy:hover,
+.btn-call--busy:active {
+    color: #fff;
+}
 
-/* Available — lime */
-.btn-call--available { background-color: var(--lime); }
-/* Busy — orange */
-.btn-call--busy { background-color: #E8751A; color: #fff; }
-/* Closed — chili, with the primary button's Lemon label and icons (author, 20 Sep 2026; was #fff —
-   pure white is not in the palette, design.md §2.2) */
-.btn-call--closed { background-color: var(--chili); color: var(--lemon); }
+.btn-call--busy {
+    background-color: #E8751A;
+}
 
-/* Night mode */
-html[data-theme="night"] .btn-call--busy { background-color: #E8751A; }
-html[data-theme="night"] .btn-call--closed { background-color: var(--chili); }
+.btn-call--busy:hover,
+.btn-call--busy:active {
+    background-color: #C8661A;
+}
+
+/* Closed — Chili with the primary button's Lemon label and icons (author, 20 Sep 2026; was
+   #fff — pure white is not in the palette, design.md §2.2), and the primary's states: the
+   ground deepens to Chili Deep, the label stays. */
+.btn-call--closed,
+.btn-call--closed:hover,
+.btn-call--closed:active {
+    color: var(--lemon);
+}
+
+.btn-call--closed {
+    background-color: var(--chili);
+}
+
+.btn-call--closed:hover,
+.btn-call--closed:active {
+    background-color: var(--chili-deep);
+}
 
 /* Copy feedback on phone button */
 .btn-call.is-copied {
@@ -277,7 +293,7 @@ html[data-theme="night"] .btn-call--closed { background-color: var(--chili); }
 /* ── Copy button feedback ────────────────────────── */
 .btn-copy-ticket .btn-copy-label,
 .btn-copy-ticket .btn-copy-icon {
-    transition: color 0.2s;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
 
 .btn-copy-ticket.is-copied {
@@ -288,24 +304,18 @@ html[data-theme="night"] .btn-call--closed { background-color: var(--chili); }
     color: var(--olive);
 }
 
+/* Messenger links — Secondary buttons in the drawer's own shape (1 Oct 2026). The markup
+   carries `.btn .btn-secondary`, so the colours and every state are buttons.css's: the
+   Olive keyline with the Cream hover by day, the Lime keyline with the Lime tint on the
+   dark sheet, the pressed inset in 100ms. They used to answer with a Lemon flood in both
+   themes (Lemon is the highlight, not a ground for an action), had no pressed state, and
+   ran `transition: all 0.2s`. Only the geometry is set here: label left, arrow right. */
 .btn-social {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     padding: 14px 16px;
-    border: 1px solid var(--olive);
     border-radius: 8px;
-    color: var(--olive);
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: var(--text-body, 16px);
-    transition: all 0.2s;
-}
-
-html[data-theme="night"] .btn-social {
-    border-color: var(--lime);
-    color: var(--lime);
+    line-height: 1.25; /* a 20px line with the 20px mark: the button stays 50px tall */
 }
 
 .btn-social-left {
@@ -318,18 +328,6 @@ html[data-theme="night"] .btn-social {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-}
-
-.btn-social:hover {
-    background-color: var(--lemon);
-    border-color: var(--lemon);
-    color: var(--peppercorn);
-}
-
-html[data-theme="night"] .btn-social:hover {
-    background-color: var(--lemon);
-    border-color: var(--lemon);
-    color: var(--peppercorn);
 }
 
 /* A sentence, not a status note — Body 16 (14 retired, Sep 2026) */

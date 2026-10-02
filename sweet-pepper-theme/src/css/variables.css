@@ -52,8 +52,18 @@
      (src/js/gentle-scroll.js); CSS transitions use this bezier, fitted to
      the same spring over 800ms (72% at 200ms, ~3% overshoot, settles ~800ms).
      Use --ease-gentle on things that MOVE (transform, size, position).
-     Use --ease-gentle-flat on colour, opacity, shadow, border — a bezier
-     that overshoots on those flickers past the end value. Same duration. */
+     --ease-gentle-flat is the token for colour, opacity, shadow, border. Until 1 Oct 2026
+     it was a flat twin (0.4, 0, 0.2, 1), on the reasoning that an overshoot flickers on a
+     colour. Measured, the twin had lost Gentle's attack with the overshoot: half done at
+     281ms and 95% at 581ms, where the spring is half done at 150 and 95% at 323 — the
+     hovers ran at half the speed of the Figma prototype, and a tester felt it ("the hover
+     animations feel a bit too slow"). The author tried the fits on the live site and chose
+     the spring itself, overshoot and all (3% past the end, clamped where a channel is
+     already at its limit). So the two tokens hold one curve now; the name stays because 140
+     declarations use it, and so colour can be re-pointed alone again.
+     --ease-flat is the old twin, for the few things a spring would spoil: looping and
+     many-step keyframes (the 404's hue and level, the shaker's rattle and swell, the
+     loader knob's hint) and the lightbox print flying home. */
   /* The pepper cursor (author, 29 Sep 2026): for things that answer the pointer by changing
      — not links, which keep the hand. The logo symbol at 23 × 32, hotspot on the tip.
      First on the About counter ledger (about.css); meant for more such components. */
@@ -61,12 +71,19 @@
 
   --dur-gentle: 800ms;
   --ease-gentle: cubic-bezier(0.33, 0.57, 0.08, 1.19);
-  --ease-gentle-flat: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-gentle-flat: cubic-bezier(0.33, 0.57, 0.08, 1.19);
+  --ease-flat: cubic-bezier(0.4, 0, 0.2, 1);
   /* Figma "Bouncy" — only where the Figma prototype says so (menu hero words,
      dish picker, Visit hero pops). */
   --ease-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
   /* Expo-out, no overshoot — the home hero's daypart tiles resize on it. */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Quick (1 Oct 2026) — 200ms, full speed at once, a soft landing: the mobile drawer's first
+     build. The drawer runs on Gentle now; these two serve only its `?drawer=quick` comparison
+     (mobile-drawer.css → html.drawer-quick) and go with that switch. */
+  --dur-quick: 200ms;
+  --ease-quick: cubic-bezier(0, 0, 0.2, 1);
 }
 
 [data-theme="night"] {

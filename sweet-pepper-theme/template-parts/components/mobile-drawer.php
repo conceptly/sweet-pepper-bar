@@ -2,9 +2,12 @@
 /**
  * Mobile navigation drawer (Figma: Drawer-4-Home-Day 1341:51991, Drawer-4-Menu-Night 1341:51696)
  *
- * Full-screen, themed by day/night via the semantic tokens. Opened by
- * `.js-drawer-open` (the header hamburger), closed by `.js-drawer-close`,
- * the Escape key, or resizing past the nav breakpoint (mobile-drawer.js).
+ * Full-screen, themed by day/night via the semantic tokens, under the site header: the
+ * header stays where it is and its hamburger (`.js-drawer-toggle`) turns into the × that
+ * closes — so the sheet has no header row, logo or × of its own (1 Oct 2026; the mockup
+ * draws them). Also closed by the Escape key or resizing past the nav breakpoint
+ * (mobile-drawer.js). Not a dialog: its close control lives outside it, in the header, so it
+ * is the menu button's disclosure — the script makes the rest of the page inert while open.
  *
  * @package Sweet_Pepper
  */
@@ -29,24 +32,14 @@ $items = [
 // lit as the section you are in (author, 28 Sep 2026).
 $is_dark = is_page_template( 'page-about.php' ) || is_page_template( 'page-visit.php' ) || is_singular( 'vacancy' );
 
-// Arrows and × go through sweet_pepper_inline_svg() per instance: this drawer is on every
+// Arrows go through sweet_pepper_inline_svg() per instance: this drawer is on every
 // page, sits before the content, and is visibility: hidden on phones — a raw copy here
 // owned the shared clipPath id and clipped every later raw copy on the page to nothing
 // (menu highlight cards, Sep 2026). $arrow is rendered per item below.
 $arrow  = '';
 $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are here" — the mockup's bare chili
 ?>
-<div id="mobile-drawer" class="mobile-drawer<?php echo $is_dark ? ' mobile-drawer--dark' : ''; ?>" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr( _x( 'Menu', 'the navigation drawer dialog', 'sweet-pepper' ) ); ?>" aria-hidden="true" inert>
-
-    <div class="mobile-drawer__header">
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="mobile-drawer__logo">
-            <img src="<?php echo $uri; ?>symbol.svg" alt="Sweet Pepper" width="23" height="32" class="mobile-drawer__symbol">
-            <img src="<?php echo $uri; ?>wordmark.svg" alt="" width="159" height="16" class="mobile-drawer__wordmark" aria-hidden="true">
-        </a>
-        <button type="button" class="mobile-drawer__close js-drawer-close" aria-label="<?php esc_attr_e( 'Close menu', 'sweet-pepper' ); ?>">
-            <?php echo sweet_pepper_inline_svg( 'assets/icons/c-close.svg' ); ?>
-        </button>
-    </div>
+<div id="mobile-drawer" class="mobile-drawer<?php echo $is_dark ? ' mobile-drawer--dark' : ''; ?>" aria-hidden="true" inert>
 
     <nav class="mobile-drawer__nav" aria-label="<?php echo esc_attr( _x( 'Main', 'the navigation drawer nav', 'sweet-pepper' ) ); ?>">
         <ul class="mobile-drawer__list">

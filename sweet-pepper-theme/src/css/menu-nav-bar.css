@@ -136,8 +136,14 @@
     /* ── The rail steps back to a headline: in place, not sticky, the section's own
        (long) headline, free to wrap; the other words are the drawer's job now.
        Under html.nav-rail (the draft) menu-section.css's rail stands as it was ── */
+    /* 15px on top, not the sticky rail's 8 (author, 2 Oct 2026): the band read tight above the
+       headline — measured at 402, photo → the headline's capitals 14.5px against 21.5 from the
+       eyebrow's capitals to the band's end (Molot's caps leave ~6.5 of the 38px line empty above
+       them, the eyebrow ~5.5 below). 7 more makes the two ends match. The sticky rail
+       (?nav=rail) keeps 8 / 8 — its padding is also its band under the header. */
     html:not(.nav-rail) .menu-section-rail {
         position: static;
+        padding-top: 15px;
     }
 
     html:not(.nav-rail) .menu-section-rail__nav {

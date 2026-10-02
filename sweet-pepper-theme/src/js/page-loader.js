@@ -302,16 +302,37 @@ export function initPageLoader() {
     const slider = el.querySelector('.page-loader__slider');
     const SERVED_AT = 0.995;
     const HINT_EVERY = 4000;  // ms between the knob's nudges while nobody has touched it
+    const SHAKE_AFTER = 1300; // …and the shaker's beat follows the nudge: one clock, two hints in turn
+    const SEIZE = 8000;       // a touch on the slider quiets the shaker's beat this long (the picker's rule)
+    // Where nothing hovers the shaker has no hover state to show it is alive, so it takes the
+    // dish picker's idle beat — swell, rattle, the glow by night (dish-picker.css → .is-hinting)
+    // — until the first shake, which ends it for the page (the guest has found it).
+    const noHover = window.matchMedia('(hover: none)').matches;
+    let shaken = false;
+    let shakeTimer = 0;
 
     // The show is over (or the guest is already playing): bring the controls in
     function reveal() { el.classList.add('is-ready'); }
 
+    function shakeBeat() {
+        const btn = el.querySelector('.page-loader__shake');
+        if (!btn || shaken || reduced() || !replay || !el.classList.contains('is-ready')) return;
+        btn.classList.remove('is-hinting');
+        btn.offsetWidth;
+        btn.classList.add('is-hinting');
+    }
+
     function hint() {
         clearTimeout(hintTimer);
-        if (touched || reduced() || !replay) return;
-        knob.classList.remove('is-hinting');
-        knob.offsetWidth;
-        knob.classList.add('is-hinting');
+        clearTimeout(shakeTimer);
+        const beat = noHover && !shaken;
+        if ((touched && !beat) || reduced() || !replay) return;
+        if (!touched) {
+            knob.classList.remove('is-hinting');
+            knob.offsetWidth;
+            knob.classList.add('is-hinting');
+        }
+        if (beat) shakeTimer = setTimeout(shakeBeat, touched ? 0 : SHAKE_AFTER);
         hintTimer = setTimeout(hint, HINT_EVERY);
     }
 
@@ -330,12 +351,14 @@ export function initPageLoader() {
         if (egg >= 2 && !labelEl.classList.contains('is-served')) resetWords();
     }
 
-    // …by the slider: no more hints
+    // …by the slider: no more nudges, and the shaker waits its turn
     function takeSlider() {
         take();
         touched = true;
         clearTimeout(hintTimer);
+        clearTimeout(shakeTimer);
         knob.classList.remove('is-hinting');
+        if (noHover && !shaken) hintTimer = setTimeout(hint, SEIZE);
     }
 
     function drive(v) {
@@ -349,8 +372,11 @@ export function initPageLoader() {
 
     function again(btn) {
         take();
+        shaken = true;
         clearTimeout(hintTimer);
+        clearTimeout(shakeTimer);
         knob.classList.remove('is-hinting');
+        btn.classList.remove('is-hinting');
         resetWords();
         nextLine();
         btn.classList.remove('is-spinning');

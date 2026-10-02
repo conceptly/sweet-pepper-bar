@@ -427,11 +427,20 @@
 .page-loader.is-ready .page-loader__shake { scale: 1; }
 .page-loader .page-loader__shake.is-spinning .dish-picker__shake-icon,
 .page-loader__cta-shake.is-spinning img { animation: page-loader-spin 600ms var(--ease-gentle); }
+/* Where nothing hovers the shaker takes the picker's idle beat (page-loader.js → shakeBeat):
+   the swell and the rattle are dish-picker.css's `.is-hinting`; the night glow is keyed to the
+   page's theme there, to the loader's own mode here. */
+.page-loader[data-mode="night"] .page-loader__shake.is-hinting .dish-picker__shake-disc::after {
+    animation: dish-picker-glow 1s var(--ease-flat);
+}
 @keyframes page-loader-spin {
     to { rotate: 360deg; }
 }
 
-/* ×: a 48px disc that tints on hover and sinks when pressed */
+/* ×: a 48px disc that tints on hover and sinks when pressed. On the house motion (1 Oct 2026):
+   it slides in and tints on Gentle like every other control, and the press answers in 100ms —
+   it had its own mix (0.5s expo slide, 0.3s fades, a 0.3s Bouncy press that dipped past its
+   mark and sprang back). */
 .page-loader__close {
     display: grid;
     place-items: center;
@@ -447,8 +456,8 @@
     cursor: pointer;
     opacity: 0;
     translate: 24px 0;
-    transition: translate 500ms var(--ease-out-expo), opacity 300ms var(--ease-gentle-flat),
-                background-color 0.3s var(--ease-gentle-flat), scale 0.3s var(--ease-bouncy);
+    transition: translate var(--dur-gentle) var(--ease-gentle), opacity var(--dur-gentle) var(--ease-gentle-flat),
+                background-color var(--dur-gentle) var(--ease-gentle-flat), scale var(--dur-gentle) var(--ease-gentle);
 }
 .page-loader.is-ready .page-loader__close {
     opacity: 1;
@@ -458,6 +467,7 @@
 .page-loader__close:active {
     background-color: color-mix(in srgb, currentColor 28%, transparent);
     scale: 0.92;
+    transition-duration: 100ms; /* the press answers the finger, as the buttons */
 }
 .page-loader__close:focus-visible {
     outline: 2px solid currentColor;
@@ -483,7 +493,7 @@
     translate: 0 8px;
     transition: background-color 0.8s var(--ease-gentle-flat), color 0.8s var(--ease-gentle-flat),
                 box-shadow 0.8s var(--ease-gentle-flat), border-color 0.8s var(--ease-gentle-flat),
-                opacity 300ms var(--ease-gentle-flat), translate 500ms var(--ease-out-expo);
+                opacity var(--dur-gentle) var(--ease-gentle-flat), translate var(--dur-gentle) var(--ease-gentle);
 }
 .page-loader.is-ready .page-loader__cta .btn {
     opacity: 1;

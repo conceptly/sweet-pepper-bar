@@ -90,14 +90,16 @@ Build record: `report.md` → *404 page*; rules and open points: `website-brief.
 | Question | Result |
 |---|---|
 | Layout 0 — the notice line above or under the number | **Under (author, 1 Oct, in the browser):** above, it argued with the top nav. Built; the Figma frame follows |
-| Which layout | Open — the author's pick of 0, a, b |
+| Which layout | Open — **the author is between 0 and b (1 Oct, evening):** b "has a better hierarchy, especially on mobile" |
 | Layout b — the Chili level rising in the digits | Open — Claude's suggestion; plain outlines are the alternative |
+| Layout b — the number against the copy | **Fixed, 1 Oct (author, in the inspector: "there is no 48px gap", then on the Russian page "it looks even negative"):** 48px from the copy column in both languages, 52–54 from the widest line seen; the column is typed per language (400 EN, 480 RU), so the Russian number is smaller (323 against 366 at 1280 and up). Owed: retune when the Russian headline changes |
+| Layout b — how deep the number stands in the footer | **0.1em (author, 1 Oct: "let's use 0.1em")**, was 0.16; the author's own try was 0.04. The glyphs decide — at 0.16 / 0.13 a stroke lies on the Lime edge, under 0.08 the 0 is cut through its curve. Sheet: `Claude outputs/nf-sink/`. To judge on a phone: the 4's bar is ~6px above the Lime there |
 | Layout 0 on phones — "very messy" (author, 1 Oct, iPhone) | **Rebuilt to the Figma mobile frame** (2827:79374): smaller digits, the gaps above and under them as drawn, balanced copy. Owed: the author's look on a real phone |
 | Layout 0 — the digits as an idle loop or on hover | Open — built as a 6 s idle loop (an assumption) |
 | Always dark | Open — assumed |
 | The copy, both languages | Open — drafts in `data/not-found.php` |
 
-Seen in headless Chrome only (402 to 1920 wide). Owed: Safari, a real phone, reduced motion, the test site (not deployed).
+Seen in headless Chrome (402 to 1920 wide) and, layout b before these fixes, on the author's iPhone on sweetpepper.bar (1 Oct). Owed: Safari on a desktop, reduced motion, a phone look at the new depth.
 
 ---
 

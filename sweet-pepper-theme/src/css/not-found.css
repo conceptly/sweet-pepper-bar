@@ -18,6 +18,16 @@
        992 — the body already keeps that room (main.css) */
     --nf-header: 77px;
     --nf-pad: 64px;
+    /* Layout b's copy column: as wide as the headline's longest line needs at H1 64, so
+       the number can keep its 48px from what is seen, not from a box the headline runs out
+       of. EN "GOT LOST IN" is 394; RU «В СТОП-ЛИСТЕ.» is 476 and breaks at its hyphen in
+       anything narrower. Typed per language, as the Location headline's fit is — retune
+       when a headline changes (website-brief.md → 404 page). */
+    --nf-col: 400px;
+}
+
+:lang(ru) .not-found--b {
+    --nf-col: 480px;
 }
 
 @media (max-width: 991px) {
@@ -164,28 +174,40 @@
 }
 
 /* Layouts b / bt — the giant number, standing in the footer. Line 0.7 is Molot's cap
-   height, so the box is the digits; 0.16em of it sits under the footer's edge. */
+   height, so the box is the digits; --nf-sink of it sits under the footer's edge.
+   0.1em (1 Oct 2026; 0.16 before — the author wanted the number higher and tried 0.04):
+   the depth is read off the glyphs. The 4's bar ends 0.13em above the foot, the 0's counter
+   0.16em, and the 0's corners start to round 0.08em up — so 0.13 and 0.16 lay a stroke on
+   the Lime edge, and anything under 0.08 cuts the 0 through its curve, which reads as a
+   cropping slip. At 0.1 the 4's bar clears the edge and only straight strokes go under. */
 .not-found__digits--sunk {
+    --nf-sink: 0.1em;
     position: absolute;
     right: var(--gutter);
-    bottom: calc(-1 * var(--nf-pad) - 0.16em);
+    bottom: calc(-1 * var(--nf-pad) - var(--nf-sink));
     margin-right: -0.042em; /* the last digit's own tracking */
-    /* what the copy column (400) and a 10px breath leave of the content width — the
-       container's, which stops growing at 1280 */
-    font-size: calc((min(100vw, 1280px) - 2 * var(--gutter) - 410px) / 1.84);
+    /* what the copy column (--nf-col) and the row's 48px gap leave of the content width —
+       the container's, which stops growing at 1280. The number is out of the flow, so the
+       gap declared on .not-found__inner never reaches it: it is counted here (author, 1 Oct
+       2026 — the first formula left 10px, and the Russian headline ran 64px over the
+       number's edge). 1.834em is the set's box (1.876) less the last digit's tracking,
+       pulled back above. */
+    font-size: calc((min(100vw, 1280px) - 2 * var(--gutter) - var(--nf-col) - 48px) / 1.834);
     line-height: 0.7;
     letter-spacing: 0.042em;
     pointer-events: none;
 }
 
-/* The level: the same digits filled Chili, shown from the footer's edge up */
+/* The level: the same digits filled Chili, shown from the footer's edge up. At rest it
+   starts 15px under the edge — below the 12px bites — whatever the depth and the size
+   (a fixed 83% let it show in the bites on a phone) */
 .not-found__digits--sunk::after {
     content: attr(data-text);
     position: absolute;
     inset: 0;
     color: var(--chili);
     -webkit-text-stroke: 0 transparent;
-    clip-path: inset(83% 0 -10% 0); /* at rest: under the footer's edge, bites included */
+    clip-path: inset(calc(100% - var(--nf-sink) + 15px) 0 -10% 0);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -195,9 +217,9 @@
 }
 
 @keyframes nf-level {
-    0%, 12%   { clip-path: inset(83% 0 -10% 0); }
+    0%, 12%   { clip-path: inset(calc(100% - var(--nf-sink) + 15px) 0 -10% 0); }
     50%       { clip-path: inset(46% 0 -10% 0); }
-    88%, 100% { clip-path: inset(83% 0 -10% 0); }
+    88%, 100% { clip-path: inset(calc(100% - var(--nf-sink) + 15px) 0 -10% 0); }
 }
 
 /* ── Layout 0 — the draft, as drawn: 28 · the digits' room · 26 · label · 26 · headline
@@ -271,14 +293,7 @@
 .not-found--bt .not-found__copy {
     position: relative;
     z-index: 1;
-    width: min(100%, 400px);
-}
-
-/* The headline may run past the 400px column, to 6 columns: it sits above the digits'
-   tops, and «В СТОП-ЛИСТЕ.» needs the room (at 400 it broke at the hyphen, four lines) */
-.not-found--b .not-found__headline {
-    width: max-content;
-    max-width: 548px;
+    width: min(100%, var(--nf-col));
 }
 
 /* The ticket — the dish picker's card (dish-picker.css) at its own width, 404px */
@@ -327,11 +342,6 @@ html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
         flex: none;
     }
 
-    .not-found--b .not-found__headline {
-        width: auto;
-        max-width: 100%;
-    }
-
     .not-found--b .not-found__theater,
     .not-found--bt .not-found__theater {
         min-height: 0;
@@ -344,7 +354,7 @@ html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
         right: auto;
         bottom: auto;
         align-self: center;
-        margin-bottom: -0.16em;
+        margin-bottom: calc(-1 * var(--nf-sink));
         font-size: min(400px, calc((100vw - 2 * var(--gutter)) / 1.84));
     }
 }

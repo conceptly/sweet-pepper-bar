@@ -2526,6 +2526,20 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
       </div>
     </div>
     <p class="note" lang="en">Both scales follow the 4 px grid. Use a listed value when it fits, or another multiple of 4 when needed. <strong>On desktop, body text spans at most 6 of the 12 columns (548 px)</strong> within a full-width section. See <code>website-brief.md</code> → Grid / Layout notes for the full grid, section backgrounds and large connecting words.</p><p class="note" lang="ru">Обе шкалы основаны на сетке 4 px. Выбирайте значение из шкалы, а при необходимости — другое число, кратное 4. <strong>На компьютере основной текст занимает не больше 6 из 12 колонок (548 px)</strong> внутри секции на всю ширину. Полная сетка, чередование фонов и крупные слова-связки описаны в <code>website-brief.md</code> → Grid / Layout notes.</p>
+
+    <h3 lang="en">Motion — easing</h3><h3 lang="ru">Анимация — кривые</h3>
+    <p class="muted" lang="en">Almost everything on the website changes on one curve, <strong>Gentle</strong> — Figma's spring preset — over <strong>800 ms</strong>: hovers, colour, fades and moves alike. Use <strong>easeOutQuint</strong> only where an overshoot would show: a line being drawn, a counter, anything inside a mask.</p><p class="muted" lang="ru">Почти всё на сайте меняется по одной кривой — <strong>Gentle</strong>, это пружина из набора Figma, — за <strong>800 мс</strong>: наведение, цвет, появление и перемещение. <strong>easeOutQuint</strong> используйте только там, где перелёт будет заметен: линия, которая рисуется, счётчик, всё, что находится внутри маски.</p>
+    <div class="two">
+      <div class="panel">
+        <strong>Gentle</strong> <span class="muted" style="font-size:11px;">Figma · Spring → Gentle</span>
+        <p class="muted" style="font-family:ui-monospace,Menlo,monospace;font-size:13px;">mass 1 · stiffness 100 · damping 15<br>cubic-bezier(0.33, 0.57, 0.08, 1.19)<br>800 ms</p>
+      </div>
+      <div class="panel">
+        <strong>easeOutQuint</strong> <span class="muted" style="font-size:11px;" lang="en">no overshoot</span><span class="muted" style="font-size:11px;" lang="ru">без перелёта</span>
+        <p class="muted" style="font-family:ui-monospace,Menlo,monospace;font-size:13px;">cubic-bezier(0.22, 1, 0.36, 1)<br>500–900 ms</p>
+      </div>
+    </div>
+    <p class="note" lang="en">Gentle is half done at about 150 ms and settles by 800, with a 3 % overshoot — quick without being abrupt. A press answers in 100 ms. See <code>website-brief.md</code> → Motion language.</p><p class="note" lang="ru">Gentle проходит половину пути примерно за 150 мс и успокаивается к 800 мс, с перелётом около 3 % — быстро, но не резко. Нажатие отвечает за 100 мс. Подробнее — в <code>website-brief.md</code> → Motion language.</p>
   </div>
 </section>
 

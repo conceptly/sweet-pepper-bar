@@ -265,7 +265,7 @@
             },
             "choices": {
                 "veg": "Лист — вегетарианское",
-                "fire": "Огонь — хит",
+                "fire": "Звезда — хит",
                 "Pepper": "Перец — острое",
                 "yaroslavl-logo": "Ярославль — местное блюдо"
             },
@@ -275,26 +275,6 @@
             "save_custom": 0,
             "layout": "horizontal",
             "toggle": 0
-        },
-        {
-            "key": "field_sp_dish_dish_highlight",
-            "label": "Выделить название",
-            "name": "highlight",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "message": "Хит, сезонное, фирменное",
-            "default_value": 0,
-            "ui": 1,
-            "ui_on_text": "Да",
-            "ui_off_text": "Нет"
         },
         {
             "key": "field_sp_dish_dish_seasonal_ru",
@@ -405,5 +385,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790268642
+    "modified": 1790961252
 }

@@ -357,11 +357,15 @@ html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
     clip-path: inset(calc((100% - var(--nf-sink) + 15px) * (1 - var(--nf-p, 0))) 0 -10% 0);
 }
 
-/* the way up, wide screens: from its place in the footer to the middle of the column — half
-   the theater, less half the number, plus what stood under the edge */
+/* the way up, wide screens: from its place in the footer to the copy's centre. The script
+   measures it (--nf-way): the theater grows past its formula when the copy is tall (the
+   English lines at 1280 × 800 — the number landed 11px low), and on a short window the way is
+   cut so the number's top stays on the screen at the scroll's end. The formula is the
+   fallback until the script has run: half the theater, less half the number, plus what stood
+   under the edge. */
 @media (min-width: 992px) {
     .not-found--b .not-found__digits--sunk {
-        translate: 0 calc(var(--nf-p, 0) * -1 * (var(--nf-theater) / 2 - 0.35em + var(--nf-sink)));
+        translate: 0 calc(var(--nf-p, 0) * -1 * var(--nf-way, calc(var(--nf-theater) / 2 - 0.35em + var(--nf-sink))));
     }
 }
 

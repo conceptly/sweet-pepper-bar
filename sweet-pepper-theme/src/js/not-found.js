@@ -17,12 +17,14 @@ export function initNotFound() {
     const digits = document.querySelector('.not-found--b .not-found__digits--sunk');
     if (!digits) return;
 
-    // where the number stands in the page, without the transform the scroll gives it
-    const home = () => {
+    // where a block stands in the page, without the transform the scroll gives the number
+    const pageTop = (node) => {
         let y = 0;
-        for (let el = digits; el; el = el.offsetParent) y += el.offsetTop;
+        for (let el = node; el; el = el.offsetParent) y += el.offsetTop;
         return y;
     };
+    const home = () => pageTop(digits);
+    const copy = digits.closest('.not-found').querySelector('.not-found__copy');
 
     const narrow = window.matchMedia('(max-width: 991px)');
     const still = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -39,6 +41,12 @@ export function initNotFound() {
         const full = held ? Math.min(HOLD, max) : Math.min(max, home() - header);
         const p = full > 0 ? Math.max(0, Math.min(1, window.scrollY / full)) : 1;
         digits.style.setProperty('--nf-p', p.toFixed(3));
+
+        // Wide screens: the way up, from its place in the footer to the copy's centre — cut
+        // short where the window is, so the number's top is still 24px on screen at the end
+        const top = home();
+        const way = top + digits.offsetHeight / 2 - (pageTop(copy) + copy.offsetHeight / 2);
+        digits.style.setProperty('--nf-way', `${Math.max(0, Math.min(way, top - max - 24)).toFixed(1)}px`);
         digits.classList.toggle('is-scrolled', p > 0);
     };
     const ask = () => { if (!raf) raf = requestAnimationFrame(set); };

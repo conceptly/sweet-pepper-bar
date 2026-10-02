@@ -1,0 +1,27 @@
+{
+  "page": "menu/food",
+  "date": "2026-10-02",
+  "note": "Kitchen menu → deal cards, Russian lines that wrapped on the 348px card (author, 2 Oct 2026; report.md → Menu deal cards). Already saved on the local site; this carries them to the test and main sites. Each line is its own group, so one edited in admin since does not hold the other back.",
+  "groups": [
+    {
+      "note": "Bar snacks deal — the link: one line",
+      "set": [
+        [
+          "sec_bar_snacks_deal_link_ru",
+          "Смотреть в барном меню",
+          "В барном меню"
+        ]
+      ]
+    },
+    {
+      "note": "Breakfast deal — the second line",
+      "set": [
+        [
+          "sec_breakfast_deal_sub_ru",
+          "по специальной цене к завтраку",
+          "по вкусной цене к завтраку"
+        ]
+      ]
+    }
+  ]
+}

@@ -187,16 +187,10 @@ html[data-theme="night"] .dish-name {
     color: var(--paper);
 }
 
-/* Highlighted dish name — olive/lime accent for featured items */
-.dish-name--highlight {
-    color: var(--olive);
-}
-
-html[data-theme="night"] .dish-name--highlight {
-    color: var(--lime);
-}
-
-/* Dish icons — 16×16 inline SVGs */
+/* Dish icons — 16×16 inline SVGs, each in its own colour (Figma dishRowIcons 2831:73579,
+   author 2 Oct 2026; the names lost their Avocado / Lime highlight the same day):
+   pepper = spicy Chili in both themes · leaf = vegetarian Olive / Lime · star = hit Paprika /
+   Lemon (the value is still `fire`, dish-row.php; Figma's colours kept over a Lemon outlined star, author 2 Oct) · Yaroslavl Olive / Lime (not in the frame). */
 .dish-icon {
     display: inline-flex;
     width: 16px;
@@ -207,6 +201,19 @@ html[data-theme="night"] .dish-name--highlight {
 
 html[data-theme="night"] .dish-icon {
     color: var(--lime);
+}
+
+.dish-icon--Pepper,
+html[data-theme="night"] .dish-icon--Pepper {
+    color: var(--chili);
+}
+
+.dish-icon--fire {
+    color: var(--paprika);
+}
+
+html[data-theme="night"] .dish-icon--fire {
+    color: var(--lemon);
 }
 
 .dish-icon svg {

@@ -1,0 +1,17 @@
+{
+  "page": "menu/bar",
+  "date": "2026-10-02",
+  "note": "Bar menu → the wine deal card's second line in Russian (author, 2 Oct 2026; report.md → Menu deal cards): the offer is open bottles, and the old line took two rows. Already saved on the local site; this carries it to the test and main sites.",
+  "groups": [
+    {
+      "note": "Wine Wednesday — the second line",
+      "set": [
+        [
+          "sec_wine_deal_sub_ru",
+          "скидка 10% на вино из открытых бутылок",
+          "−10% на открытые бутылки"
+        ]
+      ]
+    }
+  ]
+}

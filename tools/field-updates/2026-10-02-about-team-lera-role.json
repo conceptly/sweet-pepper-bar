@@ -1,0 +1,22 @@
+{
+  "page": "about",
+  "date": "2026-10-02",
+  "note": "About → «Команда»: Lera's role (author, 2 Oct 2026) — Host & storyteller / «Душа зала, голос Перца», was Floor / «Зал». Already saved on the local site; this carries it to the test and main sites (report.md → About → Team: Lera's role).",
+  "groups": [
+    {
+      "note": "About → «Команда»: card 2, Lera — the role, RU + EN",
+      "set": [
+        [
+          "about_team_members_1_role_ru",
+          "Зал",
+          "Душа зала, голос Перца"
+        ],
+        [
+          "about_team_members_1_role_en",
+          "Floor",
+          "Host & storyteller"
+        ]
+      ]
+    }
+  ]
+}

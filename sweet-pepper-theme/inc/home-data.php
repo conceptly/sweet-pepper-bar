@@ -187,7 +187,7 @@ function sweet_pepper_home_preview( $page_id, $key ) {
         foreach ( array_map( 'intval', array_filter( (array) get_field( "home_{$key}_items", $page_id, false ) ) ) as $id ) {
             $dish = sweet_pepper_menu_item_row( $id );
             if ( $dish && empty( $dish['hidden'] ) ) {
-                $dishes[] = [ 'highlight' => true ] + sweet_pepper_menu_dish_args( $dish, $lang );
+                $dishes[] = sweet_pepper_menu_dish_args( $dish, $lang );
             }
         }
     } else {

@@ -139,7 +139,6 @@ function sweet_pepper_menu_dish_args( $dish, $lang ) {
         'seasonal_label' => $pick( $dish, 'seasonal' ),
         'season'         => sweet_pepper_badge_season( ( $dish['seasonal_ru'] ?? '' ) . ' ' . ( $dish['seasonal_en'] ?? '' ) ),
         'options'        => $lines( $pick( $dish, 'options' ) ),
-        'highlight'      => ! empty( $dish['highlight'] ),
     ];
 }
 

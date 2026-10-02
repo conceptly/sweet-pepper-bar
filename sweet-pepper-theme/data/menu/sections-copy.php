@@ -35,7 +35,7 @@ return [
             'pill'        => 'Завтрак от Перцев',
             'alt'         => 'Завтрак от Перцев — глазунья с овощами, тост и котлета', // draft
             // The offers table (menu-copy-ru-draft.md → Предложения): volume, price and times to confirm.
-            'deal'        => [ 'title' => 'Немного игристого', 'main' => 'Бокал Bio Bio', 'sub' => 'по специальной цене к завтраку' ],
+            'deal'        => [ 'title' => 'Немного игристого', 'main' => 'Бокал Bio Bio', 'sub' => 'по вкусной цене к завтраку' ] /* author, 2 Oct 2026: one line on the 348 card (was «по специальной цене к завтраку») */,
         ],
     ],
     'lunch'      => [
@@ -67,7 +67,7 @@ return [
             'description' => 'Ассорти, соленья, крылышки и что-нибудь в центр стола. К ним найдётся свой напиток — бар поможет выбрать.',
             'caption'     => 'Мясной сет 2026',
             'pill'        => 'Крылышки-гриль',
-            'deal'        => [ 'title' => 'Идеальная пара', 'main' => 'Настойки 3 + 1', 'link' => 'Смотреть в барном меню' ], // draft
+            'deal'        => [ 'title' => 'Идеальная пара', 'main' => 'Настойки 3 + 1', 'link' => 'В барном меню' ], // author, 2 Oct 2026 (was «Смотреть в барном меню», two lines on the card)
         ],
     ],
     'salads'     => [
@@ -199,8 +199,9 @@ return [
             'description' => 'Бокал к обычному ужину тоже заслуживает внимания. Каждый сезон в карте появляются новые вина, а на дегустациях — новые любимчики. Команда поможет найти вашего!',
             'caption'     => 'Красное на вечер', // draft
             'pill'        => 'Красное на вечер', // draft
-            // The offers table: «Скидка 10% на вино из открытых бутылок» — the EN card says "bottles all day"; conditions to confirm.
-            'deal'        => [ 'title' => 'Винная среда', 'main' => 'Каждую среду', 'sub' => 'скидка 10% на вино из открытых бутылок' ],
+            // Author, 2 Oct 2026: a discount on open bottles (usually by the glass) — «−10% на открытые бутылки», one line
+            // on the card (was «скидка 10% на вино из открытых бутылок»). The EN card still says "bottles all day".
+            'deal'        => [ 'title' => 'Винная среда', 'main' => 'Каждую среду', 'sub' => '−10% на открытые бутылки' ],
         ],
     ],
     'beer'       => [

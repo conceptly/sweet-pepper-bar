@@ -23,7 +23,9 @@ from scf_fields import field, text, area, toggle, number, select, group, write_g
 UNITS = {"g": "г", "ml": "мл", "l": "л", "pcs": "шт"}
 # Values are file names in assets/icons/. Order here = order on the page.
 # Legend (author, Sep 2026): leaf = vegetarian, fire = hit, pepper = spicy, Yaroslavl logo = local dish.
-ICONS = {"veg": "Лист — вегетарианское", "fire": "Огонь — хит", "Pepper": "Перец — острое", "yaroslavl-logo": "Ярославль — местное блюдо"}
+# The hit is drawn as a star since 2 Oct 2026 (author: fire read as spicy too); the value stays
+# "fire" so saved dishes keep it — dish-row.php maps it to star.svg.
+ICONS = {"veg": "Лист — вегетарианское", "fire": "Звезда — хит", "Pepper": "Перец — острое", "yaroslavl-logo": "Ярославль — местное блюдо"}
 
 def dish_fields(prefix):
     """A dish's (or a drink's) own fields, in reading order — a post has a screen to itself.
@@ -57,8 +59,6 @@ def dish_fields(prefix):
         f("dish_icons", "Значки — не больше двух", "icons", "checkbox", 50,
           choices=ICONS, default_value=[], return_format="value", allow_custom=0, save_custom=0,
           layout="horizontal", toggle=0),
-        f("dish_highlight", "Выделить название", "highlight", "true_false", 50,
-          **{**toggle, "message": "Хит, сезонное, фирменное"}),
         f("dish_seasonal_ru", "Сезонная метка", "seasonal_ru", "text", 50, **{**text, "placeholder": "Лето’26!"}),
         f("dish_seasonal_en", "Сезонная метка (EN)", "seasonal_en", "text", 50, **text),
         f("dish_options_ru", "Опции", "options_ru", "textarea", 50,

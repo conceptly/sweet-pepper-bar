@@ -51,12 +51,12 @@ return [
         ],
         [
             'name'    => 'Lera',
-            'role'    => 'Floor',
+            'role'    => 'Host & storyteller', // author, 2 Oct 2026 (was Floor / Зал)
             'since'   => 2019,
             'photo'   => 'team/lera.jpg',
             'chip'    => 'ask',
             'message' => 'Start with the salted caramel infusion. If you don\'t like it, I\'ll drink it — hasn\'t happened yet.',
-            'ru'      => [ 'name' => 'Лера', 'name_gen' => 'Леры', 'role' => 'Зал' ],
+            'ru'      => [ 'name' => 'Лера', 'name_gen' => 'Леры', 'role' => 'Душа зала, голос Перца' ],
         ],
         [
             'name'    => 'Lenya',

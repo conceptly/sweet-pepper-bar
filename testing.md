@@ -100,9 +100,22 @@ Build record: `report.md` → *404 page*; rules and open points: `website-brief.
 | Layout 0 — the digits as an idle loop or on hover | Open — built as a 6 s idle loop (an assumption) |
 | The footer's «Наверх» / Back to top on the 404 | **Gone (author, 1 Oct):** "it doesn't make sense … on a page without scroll" — neither link is printed on any 404 layout; other pages keep them |
 | Always dark | Open — assumed |
-| The copy, both languages | Open — drafts in `data/not-found.php`. **RU body line: the author's, 2 Oct** («Искали и на кухне, и в подсобке, и за баром. Выберите знакомый маршрут — и закажите что-нибудь вкусное!») |
+| The copy, both languages | Open — drafts in `data/not-found.php`. **Body lines: the author's in both languages, 2 Oct** — «Искали и на кухне, и в подсобке, и за баром. Выберите знакомый маршрут — и закажите что-нибудь вкусное!» / "Checked the kitchen, the pantry, and even behind the bar. No luck. Head home or find something delicious on the menu." Their opening sentences are carried into layout a's line too — the author to confirm |
 
 Seen in headless Chrome (402 to 1920 wide) and, layout b before these fixes, on the author's iPhone on sweetpepper.bar (1 Oct). Owed: Safari on a desktop, reduced motion, a phone look at the new depth.
+
+---
+
+## Dish icons in colour — the day star (2 October 2026)
+
+Build record: `report.md` → *Dish rows — no highlighted names*. The `?icons=sticker` comparison is gone (decided below).
+
+| Question | Result |
+|---|---|
+| Names plain, the hit a star, icons coloured | **Decided (author, 2 Oct, from iPad screenshots + Figma)** |
+| The day star: Figma's Paprika (2.5:1 on Parchment) or Lemon with a Peppercorn outline (`?icons=sticker`) | **Figma's Paprika (author, 2 Oct, in the browser: "looks more balanced")** — the flag is removed |
+| Do guests read the star as "hit" without a legend | Open — there is no legend on the page |
+| The sun (`summer`) icon | Not used yet (author) |
 
 ---
 

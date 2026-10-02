@@ -11,8 +11,8 @@
  *
  * The bar is answering here, so the lines may speak as "we" (design.md §1.1 → status
  * messages). EN is the author's draft and Claude's suggestions; RU is Claude's first draft,
- * register twins rather than translations — the author's pass is owed on both (the Russian
- * body lines have had it: 2 Oct 2026).
+ * register twins rather than translations — the author's pass is owed on both (the body
+ * lines have had it in both languages: 2 Oct 2026).
  *
  * @package Sweet_Pepper
  */
@@ -21,12 +21,12 @@ return [
     'sauce'  => [
         'eyebrow'  => 'Kitchen notice · Table 404',
         'headline' => 'This page got lost in the sauce.',
-        'body'     => 'The kitchen looked everywhere. Pick a familiar route and we’ll get something good in front of you.',
+        'body'     => 'Checked the kitchen, the pantry, and even behind the bar. No luck. Head home or find something delicious on the menu.', // the author's, 2 Oct 2026
     ],
     'menu'   => [
         'eyebrow'  => 'Kitchen notice · Order 404',
         'headline' => 'That one’s off the menu.',
-        'body'     => 'The kitchen looked everywhere. Everything else is still on.',
+        'body'     => 'Checked the kitchen, the pantry, and even behind the bar. No luck. Everything else is still on.', // the opening is the author's (2 Oct 2026), carried from the line above
     ],
     'ticket' => [
         'label' => 'Order 404',

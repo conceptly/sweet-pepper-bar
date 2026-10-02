@@ -15,9 +15,11 @@
  *     @type string   $season          'summer' | 'fall' | 'winter' — the badge's colours. Optional:
  *                                     read from the label when absent (sweet_pepper_badge_season()).
  *     @type array    $options         Array of option strings (bulleted sub-items). Optional.
- *     @type bool     $highlight       Whether the dish name is highlighted (olive/lime). Default false.
- *                                     Set to true for hits, seasonal items, or featured dishes.
  * }
+ *
+ * No highlighted names since 2 Oct 2026 (author, after testing; Figma dishRow 219:2737 draws
+ * highlight On and Off alike): a hit is said by the star, not by an Avocado / Lime name. A
+ * `highlight` arg still passed by older data is ignored.
  */
 
 $dish_name      = $args['dish_name'] ?? '';
@@ -28,10 +30,10 @@ $icons          = $args['icons'] ?? [];
 $seasonal_label = $args['seasonal_label'] ?? '';
 $season         = $args['season'] ?? ( function_exists( 'sweet_pepper_badge_season' ) ? sweet_pepper_badge_season( $seasonal_label ) : '' );
 $options        = $args['options'] ?? [];
-$highlight      = $args['highlight'] ?? false;
 
 // The four dish icons have fixed meanings (design.md → Dish icons) and nothing else on the
-// row says them, so each is announced by name.
+// row says them, so each is announced by name. Each takes its own colour (Figma dishRowIcons
+// 2831:73579) through `.dish-icon--<value>`.
 $icon_labels = [
     'veg'            => __( 'Vegetarian', 'sweet-pepper' ),
     'fire'           => __( 'House hit', 'sweet-pepper' ),
@@ -39,18 +41,20 @@ $icon_labels = [
     'yaroslavl-logo' => __( 'Local Yaroslavl dish', 'sweet-pepper' ),
 ];
 
-$row_class  = 'dish-row' . ( $highlight ? ' dish-row--highlight' : '' );
-$name_class = 'dish-name' . ( $highlight ? ' dish-name--highlight' : '' );
+// The hit is drawn as a star since 2 Oct 2026 (author: fire read as spicy too). The saved value
+// stays `fire` on every site — no migration; only the file and the admin label changed.
+$icon_files = [ 'fire' => 'star' ];
 ?>
-<div class="<?php echo esc_attr( $row_class ); ?>">
+<div class="dish-row">
     <div class="dish-info">
         <div class="dish-name-row">
-            <span class="<?php echo esc_attr( $name_class ); ?>"><?php echo esc_html( $dish_name ); ?></span>
+            <span class="dish-name"><?php echo esc_html( $dish_name ); ?></span>
             
             <?php foreach ( $icons as $icon_name ) : 
-                $icon_path = get_template_directory() . '/assets/icons/' . $icon_name . '.svg';
+                $icon_file = $icon_files[ $icon_name ] ?? $icon_name;
+                $icon_path = get_template_directory() . '/assets/icons/' . $icon_file . '.svg';
                 if ( file_exists( $icon_path ) ) : ?>
-                    <span class="dish-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/' . $icon_name . '.svg', $icon_labels[ $icon_name ] ?? '' ); ?></span>
+                    <span class="dish-icon dish-icon--<?php echo esc_attr( $icon_name ); ?>"><?php echo sweet_pepper_inline_svg( 'assets/icons/' . $icon_file . '.svg', $icon_labels[ $icon_name ] ?? '' ); ?></span>
                 <?php endif;
             endforeach; ?>
             

@@ -54,6 +54,7 @@ import { initTeamForm } from './js/team-form';
 import { initVisitHero } from './js/visit-hero';
 import { initGentleScroll } from './js/gentle-scroll';
 import { initSectionLinks } from './js/section-link';
+import { initConnectorPhoneTrial } from './js/connector-phone';
 import { initReveal } from './js/reveal';
 import { initCountUp } from './js/count-up';
 import { initMapPreferences } from './js/map-permission';
@@ -128,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGentleScroll();
 
     // Live-text section connectors (About prototype): fit each word to its container
+    initConnectorPhoneTrial();
     initSectionLinks();
 
     // Scroll-in entrances (home page plan; any [data-reveal] in markup)

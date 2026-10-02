@@ -6,6 +6,18 @@
 
 ---
 
+## Phone connectors — hidden on phones (2 October 2026)
+
+On trial (`report.md`, 2 Oct; `website-brief.md` → Section connectors → Phones — on trial). `/?conn=0` hides the connectors below 768px, `?conn=fit` resets; the look is remembered for the visit. Sheets: `Claude outputs/connector-phone/sheet-day.png`, `sheet-night.png`.
+
+| Question | How | Result |
+|---|---|---|
+| Do the fitted words read as connectors at all on a phone? | Heights at 402 | 20–28px (Home), 21–30 (About) — headline size; the register is lost |
+| Crop at 44 / 64 — one display height, the word running off the edge | Contact sheets, day + night | **Turned down (author, 2 Oct):** awkward; an option only if animated, perhaps on scroll. Removed from the build |
+| No connectors — does the seam need the 24px rest? | Contact sheet | without it the buttons touch the section edge; open — the rest may want to be bigger |
+| Device look — the hidden seams, and the fit at .35 / .22 / .15 (never seen on a phone) | iPhone, iPad, participants | not run |
+| Tablets keep the fit — still balanced? | iPad | author: yes, before the trial |
+
 ## Booking blocks — Chili for the best way to reach us (2 October 2026)
 
 Plan: `website-brief.md` → *Chili or Lime — what each primary is for*. Built as the default; every layout can be forced with `?barstate=available|busy|closed`.

@@ -59,9 +59,9 @@
                  (author, 27 Sep 2026): on a phone the number is dialled, as the nav drawer's
                  «Позвонить» and the Visit booking block do — a tel: link with the number as its
                  label, no copy icon. -->
-            <div class="contacts-reserve">
+            <div class="contacts-reserve booking-block" data-bar-state="available">
                 <div class="phone-cta-wrapper" data-bar-state="available">
-                    <a href="tel:+74852911202" class="btn btn-primary-green btn-call" aria-label="<?php echo esc_attr( sprintf( __( 'Call %s', 'sweet-pepper' ), '+7 (4852) 911-202' ) ); ?>">
+                    <a href="tel:+74852911202" class="btn btn-primary btn-call" aria-label="<?php echo esc_attr( sprintf( __( 'Call %s', 'sweet-pepper' ), '+7 (4852) 911-202' ) ); ?>">
                         <span class="btn-call-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
                         <span class="btn-call-label">+7 (4852) 911-202</span>
                     </a>
@@ -74,7 +74,7 @@
                         <span class="call-status-text"></span>
                     </div>
                 </div>
-                <div class="contacts-reserve__social">
+                <div class="contacts-reserve__social booking-block__write">
                     <div class="contacts-reserve__row">
                         <?php
                         get_template_part( 'template-parts/components/button', null, [
@@ -83,6 +83,7 @@
                             'label'         => __( 'VK message', 'sweet-pepper' ),
                             'label_mobile'  => sweet_pepper_show_instagram() ? _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ) : __( 'VK message', 'sweet-pepper' ), // the short one only beside Instagram
                             'type'          => 'secondary',
+                            'class'         => 'js-booking-lead', // the Chili one while the bar is closed
                             'icon_left_svg' => 'icons/vk.svg',
                             'url'           => 'https://vk.me/barsweetpepper',
                         ] );

@@ -1,5 +1,6 @@
-<!-- Fixed Reserve Button -->
-<div class="btn-fixed-wrapper js-reserve-trigger">
+<!-- Fixed Reserve Button. On the home page it waits until the hero's own Reserve has scrolled
+     away (author, 2 Oct 2026: one Chili button per screen) — reserve-drawer.js → initFixedTab -->
+<div class="btn-fixed-wrapper js-reserve-trigger<?php echo is_front_page() ? ' btn-fixed-wrapper--after-hero' : ''; ?>">
     <?php 
     get_template_part('template-parts/components/button', null, [
         'label' => __( 'Reserve', 'sweet-pepper' ),
@@ -73,15 +74,17 @@ $reserve_strings = [
             <?php get_template_part('template-parts/components/rugged-edge', null, ['color' => 'reserve-card']); ?>
         </div>
         
-        <div class="reserve-actions">
-            <!-- Phone CTA: 3 bar states (available/busy/closed) -->
+        <?php // A booking block (reserve-drawer.js → applyBarState): open and busy, the phone is the
+              // Chili button; closed, the messengers come first and VK takes the Chili. ?>
+        <div class="reserve-actions booking-block" data-bar-state="available">
+            <!-- Phone CTA: 3 bar states (available/busy/closed). A mouse copies the number, a finger dials it. -->
             <div class="phone-cta-wrapper" data-bar-state="available">
-                <button type="button" class="btn btn-primary-green btn-call js-copy" data-copy-text="+74852911202">
+                <a href="tel:+74852911202" class="btn btn-primary btn-call js-copy" data-copy-text="+74852911202">
                     <span class="btn-call-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
                     <span class="btn-call-label">+7 (4852) 911-202</span>
                     <span class="btn-copy-icon btn-copy-icon--copy"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-copy.svg' ); ?></span>
                     <span class="btn-copy-icon btn-copy-icon--done"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
-                </button>
+                </a>
                 <?php // All three status icons ship in the markup; CSS shows the one the
                       // wrapper's [data-bar-state] names (reserve-drawer.js sets that). The busy
                       // state is a CSS dot — the library has no plain circle, and the house already
@@ -98,7 +101,8 @@ $reserve_strings = [
             
             <?php // The messenger links are Secondary buttons (Figma ButtonSecondary) in the drawer's own shape:
             // colours and states come from buttons.css, the geometry from reserve-drawer.css → .btn-social ?>
-            <a href="https://vk.me/barsweetpepper" class="btn btn-secondary btn-social btn-social-vk" target="_blank" rel="noopener">
+            <div class="reserve-socials booking-block__write">
+            <a href="https://vk.me/barsweetpepper" class="btn btn-secondary btn-social btn-social-vk js-booking-lead" target="_blank" rel="noopener">
                 <div class="btn-social-left">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="VK" width="20" height="20" class="btn-social-icon">
                     <?php esc_html_e( 'VK message', 'sweet-pepper' ); ?>
@@ -115,6 +119,7 @@ $reserve_strings = [
                 <span class="btn-social-arrow"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
             </a>
             <?php endif; ?>
+            </div>
         </div>
         
         <p class="reserve-footer-text">

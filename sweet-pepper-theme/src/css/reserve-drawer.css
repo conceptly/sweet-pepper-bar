@@ -11,6 +11,31 @@
     z-index: 100;
 }
 
+/* Home page: the tab waits off the edge while the hero's Reserve is on screen, and slides in
+   on the house spring once it has gone (2 Oct 2026 — two Chili Reserve buttons shared one
+   screen). The anchor is 0 wide, so it moves by the tab's thickness plus its shadow. Hidden,
+   it takes no clicks and leaves the tab order (visibility, flipped after the slide out). */
+.btn-fixed-wrapper--after-hero {
+    transform: translateX(56px);
+    visibility: hidden;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s linear var(--dur-gentle);
+}
+
+.btn-fixed-wrapper--after-hero.is-shown {
+    transform: none;
+    visibility: visible;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-fixed-wrapper--after-hero,
+    .btn-fixed-wrapper--after-hero.is-shown {
+        transition: none;
+    }
+}
+
 /* Modifying the reusable button instance */
 .btn-fixed-wrapper .btn {
     /* TranslateY negative goes 'up' in local space, which becomes 'left' after -90deg rotation.
@@ -219,52 +244,49 @@ html[data-theme="night"] .btn-copy-ticket {
     gap: 4px;
 }
 
-/* ── Phone CTA: 3 bar states ───────────────────────
-   The call button is the Lime primary (1 Oct 2026; Figma ButtonPrimary-Green-Dark
-   341:15618): the markup carries `.btn .btn-primary-green`, so the open state's colours
-   and every state's motion are buttons.css's — Lime at rest, Cream with an Ash label on
-   hover, the inset on a press, in 100ms. It used to answer with `opacity: 0.9`, had no
-   pressed state, and ran its own 0.3s / 0.2s. Only the shape is set here: the full row,
-   and no keyline, so the button keeps its 42px. */
+/* ── Booking blocks: one rule, two layouts (2 Oct 2026) ───────────────
+   Chili is "the best way to reach us right now", one per block; the fill never says how
+   busy the bar is — the status line under the phone does. Four blocks carry
+   `.booking-block` (this drawer, the nav drawer, home Contacts and the Visit CTA on phones)
+   and reserve-drawer.js sets their [data-bar-state] and swaps the roles:
+     available / busy — the phone is the Chili primary (busy: the dot and "loud in here"
+                        under it; it was an orange fill, #E8751A, off the palette and 3.0:1)
+     closed           — the messengers move up and VK takes the Chili; the phone steps down
+                        to a secondary under them (it was a Chili button that nobody answers)
+   The title stays on top. Test any layout with ?barstate=available|busy|closed. */
+.booking-block > :is(h2, h3) {
+    order: -2;
+}
+
+.booking-block[data-bar-state="closed"] .booking-block__write {
+    order: -1;
+}
+
+/* The drawer's messenger pair keeps the actions' 24px apart inside its own group */
+.reserve-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* The phone button: the full row. Colours and states are buttons.css's — Chili primary, or
+   the secondary the closed bar hands it. As the primary it drops the keyline, so it keeps
+   its 42px (Figma); as a secondary the keyline is the button. */
 .btn-call {
     display: flex;
     width: 100%;
+}
+
+.btn-call.btn-primary {
     border: 0;
 }
 
-/* Busy — orange. No frame draws its states: it takes the Chili primary's logic — the
-   ground deepens, the label stays (the orange 15% toward Peppercorn). */
-.btn-call--busy,
-.btn-call--busy:hover,
-.btn-call--busy:active {
-    color: #fff;
-}
-
-.btn-call--busy {
-    background-color: #E8751A;
-}
-
-.btn-call--busy:hover,
-.btn-call--busy:active {
-    background-color: #C8661A;
-}
-
-/* Closed — Chili with the primary button's Lemon label and icons (author, 20 Sep 2026; was
-   #fff — pure white is not in the palette, design.md §2.2), and the primary's states: the
-   ground deepens to Chili Deep, the label stays. */
-.btn-call--closed,
-.btn-call--closed:hover,
-.btn-call--closed:active {
-    color: var(--lemon);
-}
-
-.btn-call--closed {
-    background-color: var(--chili);
-}
-
-.btn-call--closed:hover,
-.btn-call--closed:active {
-    background-color: var(--chili-deep);
+/* A finger dials the number; only a mouse copies it, so only a mouse sees the copy glyph
+   (reserve-drawer.js → initCopyButtons) */
+@media not all and (hover: hover) and (pointer: fine) {
+    .btn-call .btn-copy-icon {
+        display: none;
+    }
 }
 
 /* Copy feedback on phone button */

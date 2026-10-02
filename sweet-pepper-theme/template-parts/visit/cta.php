@@ -73,35 +73,62 @@
                     ?>
                 </div>
 
-                <?php // Phones only — the booking block. .phone-cta-wrapper is the bar-state hook
-                      // (reserve-drawer.js applyBarState sets data-bar-state on every wrapper). ?>
-                <div class="visit-cta__booking phone-cta-wrapper" data-bar-state="available">
+                <?php // Phones only — a booking block (reserve-drawer.js → applyBarState): the phone is the
+                      // Chili button while the bar is open, VK while it is closed (the messenger group moves
+                      // up, reserve-drawer.css → Booking blocks). On the dark ground the secondaries are the
+                      // --dark ones, so the swap hands both classes over (data-secondary).
+                      // Each action with its status line under it, as on home (template-parts/home/contacts.php)
+                      // and in the drawer — author, 2 Oct 2026. The call line is filled by reserve-drawer.js
+                      // (empty without JS). ?>
+                <div class="visit-cta__booking booking-block" data-bar-state="available">
                     <h3 class="visit-cta__booking-title molot-text"><?php esc_html_e( 'Book your table', 'sweet-pepper' ); ?></h3>
-                    <a href="tel:+74852911202" class="btn btn-primary-green visit-cta__call">
-                        <span class="btn-icon btn-icon-left"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
-                        <span class="btn-label"><?php esc_html_e( 'Call 911-202', 'sweet-pepper' ); ?></span>
-                    </a>
-                    <div class="visit-cta__booking-row">
-                        <?php
-                        get_template_part( 'template-parts/components/button', null, [
-                            'label'         => __( 'VK message', 'sweet-pepper' ),
-                            'label_mobile'  => sweet_pepper_show_instagram() ? _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ) : __( 'VK message', 'sweet-pepper' ), // the short one only beside Instagram
-                            'type'          => 'secondary',
-                            'class'         => 'btn-secondary--dark',
-                            'icon_left_svg' => 'icons/vk.svg',
-                            'url'           => 'https://vk.me/barsweetpepper',
-                        ] );
-                        if ( sweet_pepper_show_instagram() ) { // alone, VK takes the row (flex: 1)
+                    <div class="visit-cta__booking-group phone-cta-wrapper" data-bar-state="available">
+                        <a href="tel:+74852911202" class="btn btn-primary btn-call visit-cta__call" data-secondary="btn-secondary btn-secondary--dark">
+                            <span class="btn-icon btn-icon-left"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
+                            <span class="btn-label"><?php esc_html_e( 'Call 911-202', 'sweet-pepper' ); ?></span>
+                        </a>
+                        <div class="call-status">
+                            <span class="call-status-icon">
+                                <span class="call-status-icon--available"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                                <span class="call-status-icon--busy" aria-hidden="true"></span>
+                                <span class="call-status-icon--closed"><?php echo sweet_pepper_inline_svg( 'assets/icons/sleep.svg' ); ?></span>
+                            </span>
+                            <span class="call-status-text"></span>
+                        </div>
+                    </div>
+                    <div class="visit-cta__booking-group booking-block__write">
+                        <div class="visit-cta__booking-row">
+                            <?php
                             get_template_part( 'template-parts/components/button', null, [
-                                'label'         => __( 'Instagram DM', 'sweet-pepper' ),
-                                'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
+                                'label'         => __( 'VK message', 'sweet-pepper' ),
+                                'label_mobile'  => sweet_pepper_show_instagram() ? _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ) : __( 'VK message', 'sweet-pepper' ), // the short one only beside Instagram
                                 'type'          => 'secondary',
-                                'class'         => 'btn-secondary--dark',
-                                'icon_left_svg' => 'icons/insta.svg',
-                                'url'           => 'https://ig.me/m/barsweetpepper',
+                                'class'         => 'btn-secondary--dark js-booking-lead', // the Chili one while the bar is closed
+                                'secondary'     => 'btn-secondary btn-secondary--dark',
+                                'icon_left_svg' => 'icons/vk.svg',
+                                'url'           => 'https://vk.me/barsweetpepper',
                             ] );
-                        }
-                        ?>
+                            if ( sweet_pepper_show_instagram() ) { // alone, VK takes the row (flex: 1)
+                                get_template_part( 'template-parts/components/button', null, [
+                                    'label'         => __( 'Instagram DM', 'sweet-pepper' ),
+                                    'label_mobile'  => _x( 'Instagram DM', 'short label, phone two-up row', 'sweet-pepper' ),
+                                    'type'          => 'secondary',
+                                    'class'         => 'btn-secondary--dark',
+                                    'icon_left_svg' => 'icons/insta.svg',
+                                    'url'           => 'https://ig.me/m/barsweetpepper',
+                                ] );
+                            }
+                            ?>
+                        </div>
+                        <?php // The messenger line: the reply time while open, the next opening while closed.
+                              // .contacts-reserve__status is the engine's hook for it (reserve-drawer.js). ?>
+                        <div class="call-status contacts-reserve__status" data-bar-state="available">
+                            <span class="call-status-icon">
+                                <span class="call-status-icon--available"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                                <span class="call-status-icon--closed"><?php echo sweet_pepper_inline_svg( 'assets/icons/sleep.svg' ); ?></span>
+                            </span>
+                            <span class="call-status-text"><?php esc_html_e( 'Usually answer in 20 minutes', 'sweet-pepper' ); ?></span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1796,20 +1796,18 @@
     line-height: 1.35;
   }
 
-  .visit-cta__call {
-    width: 100%;
+  /* An action and its status line (2 Oct 2026): 4 apart, as the drawer and home's block
+     (reserve-drawer.css → .phone-cta-wrapper); the groups keep the block's 16 */
+  .visit-cta__booking-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .visit-cta__booking[data-bar-state="busy"] .visit-cta__call {
-    background-color: #e8751a;   /* the drawer's busy orange (reserve-drawer.css) */
-    color: #fff;
-  }
-
-  /* Closed: Chili with the Lemon label, as the drawer's call button (.btn-call--closed) and every
-     Chili button on the site — it was #fff, carried over from busy (author, 29 Sep 2026) */
-  .visit-cta__booking[data-bar-state="closed"] .visit-cta__call {
-    background-color: var(--chili);
-    color: var(--lemon);
+  /* The call's colours by bar state are the booking block's (reserve-drawer.css → Booking
+     blocks); the status lines read on the dark ground in the body's Mushroom */
+  .visit-cta__booking .call-status {
+    color: var(--mushroom);
   }
 
   .visit-cta__booking-row {

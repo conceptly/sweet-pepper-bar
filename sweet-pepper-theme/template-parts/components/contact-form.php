@@ -170,7 +170,7 @@ $topics = $args['topics'] ?? [];
             <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
             <p class="form-send-error js-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
 
-            <button type="submit" form="contact-form-el" class="btn btn-primary contact-form__submit"><?php echo esc_html_x( 'Submit', 'contact form', 'sweet-pepper' ); ?></button>
+            <button type="submit" form="contact-form-el" class="btn btn-primary-green contact-form__submit"><?php echo esc_html_x( 'Submit', 'contact form', 'sweet-pepper' ); ?></button>
         </div>
 
     </div>

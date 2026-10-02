@@ -29,7 +29,7 @@ $about_cta  = $about_page ? sweet_pepper_about_cta( $about_page->ID ) : [];
             <?php
             get_template_part( 'template-parts/components/button', null, [
                 'label'          => __( 'Reserve a table', 'sweet-pepper' ),
-                'type'           => 'primary-green',
+                'type'           => 'primary', // Chili: a booking action (2 Oct 2026 — it was Lime)
                 'class'          => 'js-reserve-trigger',
                 'icon_right_svg' => 'icons/c-phone.svg',
             ] );

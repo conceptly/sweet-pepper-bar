@@ -23,8 +23,8 @@
             <?php
             get_template_part( 'template-parts/components/button', null, [
                 'label'          => __( 'Get your table', 'sweet-pepper' ), // 🔶 under consideration vs "Reserve a table" (website-brief.md → Mobile About → Open)
-                'variant'        => 'primary-green',
-                'type'           => 'primary-green',
+                'variant'        => 'primary', // Chili: a booking action (2 Oct 2026 — it was Lime)
+                'type'           => 'primary',
                 'class'          => 'js-reserve-trigger',
                 'icon_right_svg' => 'icons/c-phone.svg',
             ] );

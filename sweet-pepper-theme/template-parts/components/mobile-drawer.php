@@ -88,23 +88,38 @@ $marker = sweet_pepper_inline_svg( 'assets/icons/c-Pepper.svg' ); // "you are he
 
     <?php sweet_pepper_lang_switch( 'lang-switch--green' ); ?>
 
-    <div class="mobile-drawer__cta">
+    <?php // A booking block (reserve-drawer.js → applyBarState): the phone is the Chili button while
+          // the bar is open, the status line under it says how the phone is doing; closed, the
+          // messengers come first and VK takes the Chili. ?>
+    <div class="mobile-drawer__cta booking-block" data-bar-state="available">
         <h2 class="mobile-drawer__cta-title"><?php esc_html_e( 'Book your table', 'sweet-pepper' ); ?></h2>
-        <?php
-        get_template_part( 'template-parts/components/button', null, [
-            'label'         => __( 'Call 911-202', 'sweet-pepper' ),
-            'aria_label'    => __( 'Call Sweet Pepper', 'sweet-pepper' ),
-            'type'          => 'primary-green',
-            'icon_left_svg' => 'icons/c-phone.svg',
-            'url'           => 'tel:+74852911202',
-        ] );
-        ?>
-        <div class="mobile-drawer__cta-row">
+        <div class="phone-cta-wrapper" data-bar-state="available">
+            <?php
+            get_template_part( 'template-parts/components/button', null, [
+                'label'         => __( 'Call 911-202', 'sweet-pepper' ),
+                'aria_label'    => __( 'Call Sweet Pepper', 'sweet-pepper' ),
+                'type'          => 'primary',
+                'class'         => 'btn-call',
+                'icon_left_svg' => 'icons/c-phone.svg',
+                'url'           => 'tel:+74852911202',
+            ] );
+            ?>
+            <div class="call-status">
+                <span class="call-status-icon">
+                    <span class="call-status-icon--available"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                    <span class="call-status-icon--busy" aria-hidden="true"></span>
+                    <span class="call-status-icon--closed"><?php echo sweet_pepper_inline_svg( 'assets/icons/sleep.svg' ); ?></span>
+                </span>
+                <span class="call-status-text"></span>
+            </div>
+        </div>
+        <div class="mobile-drawer__cta-row booking-block__write">
             <?php
             get_template_part( 'template-parts/components/button', null, [
                 'label'         => __( 'VK message', 'sweet-pepper' ),
                 'label_mobile'  => sweet_pepper_show_instagram() ? _x( 'VK message', 'short label, phone two-up row', 'sweet-pepper' ) : __( 'VK message', 'sweet-pepper' ), // the short one only beside Instagram
                 'type'          => 'secondary',
+                'class'         => 'js-booking-lead', // the Chili one while the bar is closed
                 'icon_left_svg' => 'icons/vk.svg',
                 'url'           => 'https://vk.me/barsweetpepper',
             ] );

@@ -206,7 +206,7 @@ $door_slug  = $door['slug'];
                 get_template_part( 'template-parts/components/button', null, [
                     'label'         => $default_sec['cta_label'] ?? $default_sec['label'],
                     'url'           => '#' . $section,
-                    'type'          => 'primary',
+                    'type'          => 'primary-green', // Lime: it moves through the menu; Chili is kept for booking (2 Oct 2026)
                     'icon_left_svg' => 'icons/c-' . ( $default_sec['icon'] ?? 'food' ) . '.svg',
                     'class'         => 'menu-hero__commit-btn',
                 ] );

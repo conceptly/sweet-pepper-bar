@@ -6,6 +6,21 @@
 
 ---
 
+## Booking blocks — Chili for the best way to reach us (2 October 2026)
+
+Plan: `website-brief.md` → *Chili or Lime — what each primary is for*. Built as the default; every layout can be forced with `?barstate=available|busy|closed`.
+
+| Check | Status / evidence |
+|---|---|
+| Roles in all four blocks | **Passed (headless Chrome, 402px + 1440px drawer, EN):** open and busy → phone Chili, VK / Instagram secondary; closed → VK Chili first, Instagram secondary, phone secondary last with "We'll pick up from 8:30." Day and night grounds read; no script errors. |
+| Other primaries | **Passed:** About and menu Reserve Chili; phone menu hero commit and contact form Submit Lime; home hero Reserve still Chili. |
+| Drawer phone: dial vs copy | **Passed:** with touch emulation the copy glyph is hidden and a tap follows `tel:`; with a mouse the click copies. **Pending:** a real iPhone — the bottom sheet should dial. |
+| Fixed Reserve tab on home | **Passed (headless Chrome, 1440 × 900 EN, 1280 × 700 RU):** hidden while the hero's Reserve is in view, in after scrolling past it, out again at the top; other pages unchanged. **Pending:** the slide's feel on a real screen. |
+| Messenger buttons without logos | **Queued:** the author leans to labels alone in the booking blocks (the VK tile clashes on Chili; the drawer repeats the logos) — try labels only, then one-colour marks if the labels don't carry it. |
+| Open | Busy subtitle "writing beats calling" over a phone-first block (author: keep for now, settle with the team); reorder after load on a cached page; RU at 360px (the closed messenger row sits on top, same widths as before). |
+
+---
+
 ## VK home feed — connection evidence and pending integration checks (24 September 2026)
 
 Plan: `website-brief.md` → *News/social feed*. RU automatic VK previews; EN manual and independent. No importer built yet.

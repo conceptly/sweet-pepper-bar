@@ -328,6 +328,12 @@ html.drawer-quick {
     width: 100%;
 }
 
+/* The phone's status line (a booking block — reserve-drawer.css): Ash by day, Mushroom on
+   the dark sheet */
+.mobile-drawer--dark .call-status {
+    color: var(--mushroom);
+}
+
 .mobile-drawer__cta-row {
     display: flex;
     gap: 16px;

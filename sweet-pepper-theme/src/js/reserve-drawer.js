@@ -16,18 +16,15 @@ const BAR_STATES = {
     available: {
         subtitle: 'We\u2019re open \u2014 tonight, just walk in or write ahead.',
         statusText: 'All good \u2014 admin is on the phone',
-        btnClass: 'btn-call--available',
     },
     busy: {
         subtitle: 'Full house tonight \u2014 writing beats calling.',
         statusText: 'Might take a minute, it\u2019s loud in here.',
-        btnClass: 'btn-call--busy',
     },
     closed: {
         // {opens} — the next opening, from Bar Settings (applyBarState fills it in)
         subtitle: 'Closed for the night. Send a message, we\u2019ll respond from {opens}!',
         statusText: 'We\u2019ll pick up from {opens}.',
-        btnClass: 'btn-call--closed',
     },
 };
 Object.keys(BAR_STATES).forEach((state) => {
@@ -41,6 +38,11 @@ const COPY_WORDS = { copy: 'Copy', copied: 'Copied!', phoneCopied: 'Copied to yo
  * "Busy" on Fri/Sat after 22:00
  */
 function getBarState() {
+    // ?barstate=available|busy|closed — shows a booking block's other layouts without waiting
+    // for Friday night or 2 a.m. (a testing switch; the page is unchanged without it)
+    const forced = new URLSearchParams(location.search).get('barstate');
+    if (forced && BAR_STATES[forced]) return forced;
+
     const { day, mins, open } = getBarStatus(); // day: 0=Sun … 6=Sat
     const rushStart = 22 * 60; // 22:00
     const isFriSat = day === 5 || day === 6;
@@ -67,9 +69,14 @@ function copyToClipboard(text) {
     return Promise.resolve();
 }
 
+// A mouse can't dial: there the drawer's phone link copies the number, a finger dials it
+// (the same <a href="tel:">; reserve-drawer.css shows the copy glyph only under a fine pointer)
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
 function initCopyButtons() {
     document.querySelectorAll('.js-copy').forEach(btn => {
         btn.addEventListener('click', (e) => {
+            if (btn.matches('a[href^="tel:"]') && !finePointer.matches) return;
             e.preventDefault();
 
             // Determine what to copy
@@ -125,15 +132,22 @@ function applyBarState() {
     const subtitle = document.querySelector('.reserve-subtitle');
     if (subtitle) subtitle.textContent = fill(cfg.subtitle);
 
-    // Every phone CTA on the page (the drawer, and the home Contacts block on phones)
+    // Every booking block — the reserve drawer, the nav drawer, home Contacts and the Visit
+    // CTA on phones (2 Oct 2026). The Chili button is "the best way to reach us right now":
+    // the phone while the bar is open (busy included — the status line warns), the VK
+    // message while it is closed, the phone stepping down to a secondary. The layout swap
+    // is CSS (reserve-drawer.css → Booking blocks); the roles swap here. A button's
+    // secondary classes are its data-secondary (default `btn-secondary`).
+    const closed = state === 'closed';
+    document.querySelectorAll('.booking-block').forEach((block) => {
+        block.dataset.barState = state;
+        block.querySelectorAll('.btn-call').forEach((btn) => setRole(btn, !closed));
+        block.querySelectorAll('.js-booking-lead').forEach((btn) => setRole(btn, closed));
+    });
+
+    // Every phone line's status (icon + words)
     document.querySelectorAll('.phone-cta-wrapper').forEach((wrapper) => {
         wrapper.dataset.barState = state;
-
-        const btnCall = wrapper.querySelector('.btn-call');
-        if (btnCall) {
-            btnCall.classList.remove('btn-call--available', 'btn-call--busy', 'btn-call--closed');
-            btnCall.classList.add(cfg.btnClass);
-        }
 
         // The status icon needs no work: all three ship in the markup and CSS shows the one
         // this wrapper's data-bar-state names (reserve-drawer.css → Bar-state icons).
@@ -146,11 +160,36 @@ function applyBarState() {
     // included), the next opening while it is closed
     const reply = { open: 'Usually answer in 20 minutes', closed: 'We’ll reply from {opens}.', ...WORDS.reply };
     document.querySelectorAll('.contacts-reserve__status').forEach((line) => {
-        const closed = state === 'closed';
         line.dataset.barState = closed ? 'closed' : 'available';
         const text = line.querySelector('.call-status-text');
         if (text) text.textContent = fill(closed ? reply.closed : reply.open);
     });
+}
+
+/**
+ * The fixed Reserve tab on the home page (.btn-fixed-wrapper--after-hero, set by
+ * reserve-drawer.php): shown only while the hero's Reserve button is out of view, so one
+ * Chili Reserve is on screen at a time. A hero too tall for a short laptop puts its button
+ * below the fold, and then the tab shows from the start — there is no other Reserve in view.
+ */
+function initFixedTab() {
+    const tab = document.querySelector('.btn-fixed-wrapper--after-hero');
+    const heroBtn = document.querySelector('.hero-ctas .js-reserve-trigger');
+    if (!tab) return;
+    if (!heroBtn || !('IntersectionObserver' in window)) {
+        tab.classList.add('is-shown');
+        return;
+    }
+    new IntersectionObserver(([entry]) => {
+        tab.classList.toggle('is-shown', !entry.isIntersecting);
+    }).observe(heroBtn);
+}
+
+/** Chili primary, or the button's own secondary */
+function setRole(btn, primary) {
+    const secondary = (btn.dataset.secondary || 'btn-secondary').split(' ');
+    btn.classList.toggle('btn-primary', primary);
+    secondary.forEach((c) => btn.classList.toggle(c, !primary));
 }
 
 /* ── Init ──────────────────────────────────────────────────── */
@@ -234,6 +273,9 @@ export function initReserveDrawer() {
 
     // Copy buttons
     initCopyButtons();
+
+    // The fixed tab on the home page
+    initFixedTab();
 
     // Bar state
     applyBarState();

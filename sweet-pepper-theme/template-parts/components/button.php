@@ -11,6 +11,9 @@
  *     @type string $icon    Name of Phosphor icon to include on the right
  *     @type string $class   Extra CSS classes
  *     @type string $id      Optional ID
+ *     @type string $secondary  The classes that make it a secondary when a script hands the Chili
+ *                              role elsewhere (data-secondary; reserve-drawer.js → setRole — the
+ *                              booking blocks' VK button). Defaults to the script's `btn-secondary`.
  * }
  */
 
@@ -26,6 +29,7 @@ $class      = $args['class'] ?? '';
 $id         = $args['id'] ?? '';
 $aria_label = $args['aria_label'] ?? ''; // an accessible name fuller than the label (the drawer's phone button)
 $label_mobile = $args['label_mobile'] ?? '';
+$secondary  = $args['secondary'] ?? '';
 if ( $label_mobile === $label ) {
     $label_mobile = '';
 }
@@ -42,6 +46,7 @@ $class_attr = 'class="' . esc_attr( implode( ' ', $classes ) ) . '"';
 $id_attr    = ! empty( $id ) ? 'id="' . esc_attr( $id ) . '"' : '';
 $id_attr   .= ! empty( $aria_label ) ? ' aria-label="' . esc_attr( $aria_label ) . '"' : '';
 $id_attr   .= ! empty( $icon_set ) ? ' data-icon="' . esc_attr( $icon_left ) . '"' : '';
+$id_attr   .= $secondary ? ' data-secondary="' . esc_attr( $secondary ) . '"' : '';
 
 // A link that leaves the site — VK, Instagram, a messenger, a map — opens in a new tab, so the
 // guest's place here stays one tab away (author, 30 Sep 2026; the site's hand-written external

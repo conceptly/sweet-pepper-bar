@@ -98,8 +98,10 @@
 
 /* Layout 0 — the draft's digits. Molot at 238px sets a digit 140 × 214 (line 0.9), 10px
    apart, in a 353px room; the popped digit is 165 × 252, i.e. × 1.176, and its neighbours
-   step 12.5px aside. All of it in em, so a phone scales the set whole. */
+   step 12.5px aside. All of it in em, so a phone scales the set whole (phones take their
+   own, smaller swell: lettersSize-mobile 2827:79143, below). */
 .not-found__digits--pop {
+    --nf-pop: 1.176;
     --nf-step: 0.0525em;
     display: flex;
     align-items: center;
@@ -142,7 +144,7 @@
 @keyframes nf-pop-1 {
     0%        { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
     8%, 25%   { scale: 1;     translate: 0 0; }
-    33%, 50%  { scale: 1.176; translate: 0 0; }
+    33%, 50%  { scale: var(--nf-pop); translate: 0 0; }
     58%, 100% { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
 }
 
@@ -150,15 +152,15 @@
     0%        { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
     8%, 25%   { scale: 1;     translate: 0 0; }
     33%, 50%  { scale: 1;     translate: var(--nf-step) 0; }
-    58%, 75%  { scale: 1.176; translate: 0 0; }
+    58%, 75%  { scale: var(--nf-pop); translate: 0 0; }
     83%, 100% { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
 }
 
 @keyframes nf-pop-3 {
-    0%        { scale: 1.176; translate: 0 0; }
+    0%        { scale: var(--nf-pop); translate: 0 0; }
     8%, 25%   { scale: 1;     translate: 0 0; }
     33%, 75%  { scale: 1;     translate: var(--nf-step) 0; }
-    83%, 100% { scale: 1.176; translate: 0 0; }
+    83%, 100% { scale: var(--nf-pop); translate: 0 0; }
 }
 
 /* Layouts b / bt — the giant number, standing in the footer. Line 0.7 is Molot's cap
@@ -348,8 +350,27 @@ html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
 }
 
 @media (max-width: 767px) {
+    /* Layout 0 on phones — Figma "content" 2827:79374 at 402: 48 · the digits · 26 · label
+       · 26 · headline · 24 · copy · 40 · buttons · 48. The top gives way on short screens. */
     .not-found--0 .not-found__inner {
-        padding-block: 24px 64px;
+        padding-block: clamp(24px, 5.5svh, 48px) 48px;
+    }
+
+    /* lettersSize-mobile 2827:79143: Molot 180 at 402 (scaled with the screen), line 0.9,
+       the popped digit 200 (× 1.111) — it fits inside the line's own air, so the set's box
+       is just its line and nothing reserves room above or below (the desktop set keeps
+       1.483em for its × 1.176 swell). Neighbours step half the growth aside. */
+    .not-found__digits--pop {
+        --nf-pop: 1.111;
+        --nf-step: 0.0327em;
+        gap: 0.05em; /* 23px between the glyphs at 180, as drawn */
+        height: 0.9em;
+        font-size: min(180px, 44.78vw);
+    }
+
+    /* Even lines under a centred headline, not a long line and a stub */
+    .not-found--0 .not-found__body {
+        text-wrap: balance;
     }
 
     .not-found__ticket {

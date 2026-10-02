@@ -16,8 +16,9 @@
  * stop-label transition, website-brief.md) — holds a beat and lifts.
  *
  * REPLAY (the footer's «Поддать жару!», any [data-loader-replay]): the whole show on the spot,
- * no navigation — REPLAY_FOR of creep and lines, then «Подано!» and it lifts. A click on it
- * or Esc ends it early; focus goes back to the button.
+ * no navigation — at its own pace (REPLAY_* below: 2.8 s of creep and lines, not the wait's), then
+ * «Подано!»; it stays as a toy (ON TRIAL, below). Esc or its × ends it; focus goes back to the
+ * button.
  *
  * A navigation that never leaves (a download, a stopped load) would strand it: SAFETY after
  * showing, it lifts on its own.
@@ -36,7 +37,18 @@ const RUN_OUT = 450;      // ms — the knob's run to the end
 const HOLD = 650;         // ms on «Подано!» before it lifts — the letters fill in this time
 const LETTER = 40;        // ms between the letters of «Подано!»
 const SAFETY = 20000;     // ms — the leaving page gives up and lifts it
-const REPLAY_FOR = 6500;  // ms of creep before a replay serves — long enough for three lines
+
+/* The replay's pace (author, 1 Oct 2026). The replay had borrowed the wait's creep — 0.9 ·
+   (1 − e^(−t/3 s)) for 6.5 s — and a guest who asked for the show sat through a curve built
+   to never arrive: half the track in 2.4 s, four seconds for the next 29%, «Подано!» at 7 s
+   (author: "too slow, especially on mobile, and it doesn't match the website's energetic
+   tone"; the Figma prototype, page-loader-heat 2729:72296, ends at 3.1 s). A replay knows
+   when it ends, so it has the creep made steeper: 0.8 of the track in 2.8 s, the knob never
+   under a third of its opening speed (it fell to a ninth), the end at 3.3 s. Tried against
+   the old pace, the prototype's own timing and one Gentle spring; this one kept. */
+const REPLAY_FOR = 2800;  // ms of creep before a replay serves
+const REPLAY_CAP = 1.266; // its curve: REPLAY_CAP · (1 − e^(−t/REPLAY_FOR)) — 0.8 when it serves
+const REPLAY_LINE = 1200; // ms per line: three, the last one up before «Подано!»
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const stopFor = (p) => (p < 0.25 ? 'breakfast' : p < 0.5 ? 'lunch' : p < 0.75 ? 'dinner' : 'party');
@@ -152,11 +164,32 @@ export function initPageLoader() {
         lineEl.textContent = lines[order[0]];
     }
 
-    function startLines(first = FIRST_FOR) {
+    function startLines(first = FIRST_FOR, every = LINE_EVERY) {
         clearTimeout(lineTimer);
         if (reduced()) return;
-        const tick = (wait) => { lineTimer = setTimeout(() => { nextLine(); tick(LINE_EVERY); }, wait); };
+        const tick = (wait) => { lineTimer = setTimeout(() => { nextLine(); tick(every); }, wait); };
         tick(first);
+    }
+
+    // The replay's show, at its own pace (REPLAY_*): the knob creeps, a line every REPLAY_LINE,
+    // and the end serves. Reduced motion: the knob waits at the middle, one line, then «Подано!».
+    function startShow() {
+        cancelAnimationFrame(raf);
+        clearTimeout(replay.timer);
+        if (reduced()) {
+            setP(0.5);
+            replay.timer = setTimeout(finish, REPLAY_FOR);
+            return;
+        }
+        startLines(REPLAY_LINE, REPLAY_LINE);
+        const start = performance.now();
+        const step = (now) => {
+            const t = now - start;
+            if (t >= REPLAY_FOR) { finish(); return; }
+            setP(REPLAY_CAP * (1 - Math.exp(-t / REPLAY_FOR)));
+            raf = requestAnimationFrame(step);
+        };
+        raf = requestAnimationFrame(step);
     }
 
     // «Подано!»: each letter its own span, outline first, then filled one after another
@@ -177,7 +210,7 @@ export function initPageLoader() {
         requestAnimationFrame(() => labelEl.classList.add('is-filled'));
     }
 
-    function show({ fade = true, from = 0 } = {}) {
+    function show({ fade = true, from = 0, own = false } = {}) {
         shown = true;
         if (el.spMode) el.dataset.mode = el.spMode(); // the hour may have turned since the page opened
         el.hidden = false;
@@ -186,6 +219,7 @@ export function initPageLoader() {
             el.offsetHeight;
             el.classList.add('is-shown');
         }
+        if (own) return; // a replay runs its own show (startShow)
         startCreep(from);
         startLines(opening ? FIRST_FOR : LINE_EVERY); // a carried page is past its opening line
     }
@@ -206,7 +240,7 @@ export function initPageLoader() {
         cancelAnimationFrame(raf);
         clearTimeout(lineTimer);
         clearTimeout(armTimer);
-        el.classList.remove('is-shown', 'is-carried', 'is-egg', 'is-egg-cta', 'is-egg-big', 'is-ready', 'is-dragging');
+        el.classList.remove('is-shown', 'is-carried', 'is-egg', 'is-egg-cta', 'is-egg-big', 'is-ready', 'has-exit', 'is-dragging');
         document.documentElement.classList.remove('is-page-loading');
         setTimeout(() => { if (!shown) el.hidden = true; }, 260);
     }
@@ -220,11 +254,13 @@ export function initPageLoader() {
         const run = (now) => {
             const x = Math.min(1, (now - start) / (reduced() ? 1 : RUN_OUT));
             setP(from + (1 - from) * (1 - Math.pow(1 - x, 3)));
-            if (x < 1) requestAnimationFrame(run);
+            if (x < 1) raf = requestAnimationFrame(run);
             else if (egg && replay) eggReady();              // the toy stays, and says it can be played with
             else if (!stay && !held) setTimeout(hide, HOLD); // `?loader=stay&done` keeps «Подано!» up
         };
-        requestAnimationFrame(run);
+        // on `raf`, so closing (or taking the knob) stops the run: left running, it ended after
+        // a close with no replay to stay for and lifted the loader 650 ms later — a reopened one
+        raf = requestAnimationFrame(run);
     }
 
     /* ── This page opened under the loader (the part's inline script) ── */
@@ -274,8 +310,9 @@ export function initPageLoader() {
        A tester tried to drag the knob in the replay — "like an Easter egg" (author). The
        replay can be played with. Layout 3 is the default (author); `?egg=1` and `?egg=2` show
        the other two for this browser tab, `?egg=0` the plain replay, `?egg=auto` lets go:
-         · the show plays as before, but it stays on «Подано!»: the shaker and the × slide in
-           and the knob nudges left and back — the hint, repeated until the slider is touched;
+         · the show plays (at the replay's pace — REPLAY_*), but it stays on «Подано!»: the
+           shaker pops in and the knob nudges left and back — the hint, repeated until the
+           slider is touched; the × is there from the start (`.has-exit`);
          · the knob drags at any time (or the track is tapped; ← → Home End): the name heats,
            the knob changes its daypart, every new daypart brings a new line, the end serves
            «Подано!», dragging back takes it off again. Touching it brings the controls in early;
@@ -390,9 +427,7 @@ export function initPageLoader() {
             setP(from * Math.pow(1 - x, 3));
             if (x < 1) { raf = requestAnimationFrame(home); return; }
             if (!replay) return;
-            startCreep(0);
-            startLines(LINE_EVERY);
-            replay.timer = setTimeout(finish, reduced() ? 3000 : REPLAY_FOR);
+            startShow();
         };
         raf = requestAnimationFrame(home);
     }
@@ -484,9 +519,19 @@ export function initPageLoader() {
         lineEl.classList.remove('is-leaving', 'is-entering');
         openLine();
         setP(0);
-        replay = { from, timer: setTimeout(finish, reduced() ? 3000 : REPLAY_FOR) };
-        show();
-        if (egg) { eggControls(); el.classList.add('is-egg'); el.classList.toggle('is-egg-cta', egg >= 2); el.classList.toggle('is-egg-big', egg === 3); }
+        replay = { from, timer: 0 };
+        show({ own: true });
+        startShow();
+        if (egg) {
+            eggControls();
+            el.classList.add('is-egg');
+            el.classList.toggle('is-egg-cta', egg >= 2);
+            el.classList.toggle('is-egg-big', egg === 3);
+            // the way back is there from the start (it waited for «Подано!» — 7 s with no exit
+            // on a phone, which has no Esc); the shaker and the button still come with the end
+            el.offsetWidth;
+            el.classList.add('has-exit');
+        }
     }
     document.querySelectorAll('[data-loader-replay]').forEach((btn) => {
         btn.addEventListener('click', () => play(btn));

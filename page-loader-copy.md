@@ -14,7 +14,7 @@ Voice: the bar is answering, so the lines speak as "we" (`design.md` §1.1 → s
 | Screen readers only | Загружаем страницу | Loading the page |
 | Footer item that replays the loader (`ru_RU.l10n.php`) | Поддать жару! | Heat it up! |
 
-## The pool — in random order; a run opens on its first line for 1.2 s, then one every 2.2 s
+## The pool — in random order; a run opens on its first line for 1.2 s, then one every 2.2 s (the footer's replay: one every 1.2 s, three a show)
 
 *No fixed opener since 30 Sep 2026 (author): «кухня работает — не спешите» / "the kitchen’s on — no rush" showed while the kitchen was closed.*
 

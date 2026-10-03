@@ -36,7 +36,7 @@ $settings_link = '<button type="button" class="map-settings-link" data-privacy-s
         <p class="cookie-notice__text cookie-notice__text--<?php echo $length; ?>">
             <?php // The sentence carries the wider gap at its end, so links that wrap start flush; the links wrap as one ?>
             <span class="cookie-notice__sentence"><?php echo $glue( $ru ? 'Запоминаем язык. Карты Google и Яндекс Метрика — с вашего разрешения. Метрика использует cookies и анализирует действия на сайте — помогает ПЕРЦАМ сделать его удобнее!' : 'We remember your language. Google Maps and Yandex Metrica need your permission. Metrica uses cookies and analyses how you use the site — helping the PEPPERS make it better!' ); ?></span>
-            <span class="cookie-notice__links"><?php if ( $policy_url ) : ?><a href="<?php echo esc_url( $policy_url ); ?>"><?php esc_html_e( 'Details', 'sweet-pepper' ); ?></a> <?php endif; ?><?php echo $settings_link; ?></span>
+            <span class="cookie-notice__links"><?php if ( $policy_url ) : ?><a href="<?php echo esc_url( $policy_url ); ?>"><?php echo $ru ? 'Документы' : 'Privacy policy'; // «Подробнее» read as a twin of «Настроить»; RU short as the policy page's eyebrow (author, 3 Oct 2026) ?></a> <?php endif; ?><?php echo $settings_link; ?></span>
         </p>
         <?php endforeach; ?>
         <div class="cookie-notice__actions">

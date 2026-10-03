@@ -35,6 +35,8 @@ These tests prove the local consent wrapper, not Yandex's server settings or the
 
 ## Before deployment
 
+**3 Oct 2026 — handed over for both sites (author):** the main site is for internal use only — excluded from search engines and not announced until the final content changes — so the theme goes there now for testing. On `sweetpepper.bar` Metrica therefore runs for anyone who agrees in the banner (the team); logged-in WordPress users never load it. Before the public launch everything below still applies.
+
 Update/publish the current policy in both languages, removing the retired English US/Canada automatic-map exception: analytics purpose, Yandex as recipient, technical and interaction data, cookies and event retention, explicit optional consent and withdrawal, and Webvisor with field contents masked. The existing policy drafts describe the pre-analytics site; do not publish the theme while that statement remains unchanged. Provider retention and dashboard settings must be checked rather than inferred from the 180-day local consent lifetime.
 
 After deployment, verify receipt using Metrica diagnostics, check a consented test recording contains no form values, and confirm refusal/withdrawal on the actual site. Custom goals (drawer open, phone copy/call, directions, successful form delivery) remain a separate task; automatic form goals are not evidence of successful delivery or a confirmed booking.

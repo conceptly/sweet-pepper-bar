@@ -166,19 +166,22 @@
     --dialog-line: color-mix(in srgb, var(--text-muted) 40%, transparent);
     position: fixed;
     width: min(560px, calc(100vw - 32px));
+    max-width: none; /* the browser's modal cap (100% − 6px − 2em) took 6px off on phones */
     max-height: calc(100dvh - 48px);
     margin: auto;
     padding: 0;
     overflow: hidden;
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.4; /* Body (Figma 2856:37893; was 1.5) */
     border: 1px solid var(--dialog-line);
     border-radius: 8px;
     background: var(--dialog-bg);
     color: var(--text);
     box-shadow: 0 8px 24px rgba(21, 19, 23, 0.3);
 }
+.privacy-preferences { --dialog-title: var(--chili); }
 :is(html[data-theme="night"], .page-template-page-about, .page-template-page-visit, .single-vacancy) .privacy-preferences {
+    --dialog-title: var(--lime);
     --text: var(--parchment);
     --text-muted: var(--mushroom);
     --dialog-bg: var(--soft-peppercorn);
@@ -189,35 +192,52 @@
 .privacy-preferences:focus { outline: none; } /* focused itself only when opened by a click (privacy-preferences.js) */
 .privacy-preferences p { margin: 0; }
 .privacy-preferences__form { display: flex; flex-direction: column; min-height: 0; }
-.privacy-preferences__body { overflow-y: auto; overscroll-behavior: contain; padding: 24px; }
-.privacy-preferences__footer { padding: 16px 24px 24px; border-top: 1px solid var(--dialog-line); }
-.privacy-preferences h2 { margin: 0 0 8px; padding-right: 40px; color: var(--text); font-size: 24px; line-height: 1.25; }
+.privacy-preferences__body { overflow-y: auto; overscroll-behavior: contain; padding: 32px 32px 20px; }
+.privacy-preferences__footer { padding: 20px 32px 32px; border-top: 1px solid var(--dialog-line); }
+/* The title: Chili by day, Lime at night (author, 3 Oct 2026; Chili 3.9:1 on Paper — display size, 3:1) */
+.privacy-preferences h2 { margin: 0 0 8px; padding-right: 32px; color: var(--dialog-title); font-size: 24px; line-height: 1.25; }
 
-/* The close button: the mail chooser's Phosphor ×, muted, the text colour on hover; 44px target,
-   its icon on the 24px padding line and centred on the title's first line */
+/* The close button (author, 3 Oct 2026; Figma 2856:37893, 2857:74422): a fixed 64px corner box at
+   every width, from the outer edge over the 1px border, the Figma Icons «close» at 16px, 24px from
+   the edges, in Ash / Mushroom — aligned to the corner, not to the content. Hover and press tint a
+   40px circle round the icon; the title keeps clear of the box (padding-right = 64 − the padding). */
 .privacy-preferences__close {
     position: absolute;
-    top: 17px;
-    right: 14px;
+    top: -1px;
+    right: -1px;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: 64px;
+    height: 64px;
     padding: 0;
     border: 0;
-    border-radius: 4px;
     background: transparent;
     color: var(--text-muted);
-    font-size: 24px;
     cursor: pointer;
-    transition: color var(--dur-gentle) var(--ease-gentle-flat), background-color var(--dur-gentle) var(--ease-gentle-flat);
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
 }
-.privacy-preferences__close:hover { color: var(--text); background: color-mix(in srgb, var(--text) 8%, transparent); }
-.privacy-preferences__close:active { color: var(--text); background: color-mix(in srgb, var(--text) 15%, transparent); transition-duration: 100ms; }
+.privacy-preferences__close::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    background: transparent;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+.privacy-preferences__close > * { position: relative; }
+.privacy-preferences__close svg { width: 16px; height: 16px; }
+.privacy-preferences__close:hover,
+.privacy-preferences__close:active { color: var(--text); }
+.privacy-preferences__close:hover::before { background: color-mix(in srgb, var(--text) 8%, transparent); }
+.privacy-preferences__close:active::before { background: color-mix(in srgb, var(--text) 15%, transparent); transition-duration: 100ms; }
 
-/* Options: the name in the text colour and bold, the line under it muted — two levels, not one */
-.privacy-option { padding-block: 16px; border-bottom: 1px solid var(--dialog-line); }
-.privacy-option__label { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 4px; font-weight: 700; cursor: pointer; }
+/* Options (Figma 2856:37893): the name and its line are one column, 4px apart, and the switch
+   stands beside them at the top — kept there on purpose rather than centred on the name, which
+   would loosen the name from its line (author, 3 Oct 2026). Name Body/Semibold, line muted. */
+.privacy-option { padding-block: 12px; border-bottom: 1px solid var(--dialog-line); }
+.privacy-option__row { display: flex; align-items: flex-start; gap: 12px; }
+.privacy-option__col { display: flex; flex: 1; flex-direction: column; gap: 4px; min-width: 0; }
+.privacy-option__name { font-weight: 600; cursor: pointer; }
 .privacy-option__text { color: var(--text-muted); }
 
 /* The switch: off — a muted outline and knob; on — Lime with a Peppercorn knob (both themes).
@@ -249,15 +269,17 @@
 .privacy-option input:checked { background: var(--lime); border-color: var(--peppercorn); }
 :is(html[data-theme="night"], .page-template-page-about, .page-template-page-visit, .single-vacancy) .privacy-option input:checked { border-color: var(--lime); }
 .privacy-option input:checked::after { background: var(--peppercorn); transform: translateX(20px); }
-.privacy-option__label:hover input:not(:checked) { border-color: var(--text); }
-.privacy-option__label:hover input:not(:checked)::after { background: var(--text); }
-.privacy-option__label:hover input:checked { background: var(--cream); } /* the Lime button's hover */
-.privacy-option__label:active input::after { width: 22px; }
-.privacy-option__label:active input:checked::after { transform: translateX(16px); }
+.privacy-option__row:has(.privacy-option__name:hover, input:hover) input:not(:checked) { border-color: var(--text); }
+.privacy-option__row:has(.privacy-option__name:hover, input:hover) input:not(:checked)::after { background: var(--text); }
+.privacy-option__row:has(.privacy-option__name:hover, input:hover) input:checked { background: var(--cream); } /* the Lime button's hover */
+.privacy-option__row:has(.privacy-option__name:active, input:active) input::after { width: 22px; }
+.privacy-option__row:has(.privacy-option__name:active, input:active) input:checked::after { transform: translateX(16px); }
 .privacy-option input:focus-visible, .privacy-preferences__close:focus-visible, [data-privacy-settings]:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 .privacy-option input:focus-visible { outline-color: var(--text); }
+/* Focus handed back after the dialog closed from a tap or click: no ring (privacy-preferences.js) */
+[data-privacy-settings].is-quiet-focus:focus-visible { outline: none; }
 
-.privacy-preferences .privacy-preferences__note { margin-block: 16px; color: var(--text-muted); }
+.privacy-preferences .privacy-preferences__note { margin: 20px 0 12px; color: var(--text-muted); }
 
 /* Details: a drawn chevron in place of the browser's triangle; the summary is an inline link
    with the site's link states (1px, 2px on hover and press) */
@@ -308,17 +330,44 @@
 .privacy-preferences[open] { transition: opacity var(--dur-gentle) var(--ease-gentle-flat), transform var(--dur-gentle) var(--ease-gentle); }
 .privacy-preferences[open]::backdrop { transition: opacity var(--dur-gentle) var(--ease-gentle-flat); }
 
-/* From tablets up: 32px from the content to the dialog's edge (author, 3 Oct 2026 — 24 read
-   tight); the × follows, its icon on the 32px line and centred on the title's first line */
+.privacy-preferences__close:focus-visible { outline-offset: -12px; border-radius: 50%; }
+
+/* The spacing (author, 3 Oct 2026). Phones (the rules above; Figma 2857:74422): 32 on every side ·
+   20 between groups (title → list, last rule → note, details → footer rule, rule → button) · 12 round
+   the rules in the list and note → details · 4 name → line; Save full width; the title 32px clear of
+   the × box. From tablets up (Figma 2856:37893): 36 edges · 24 between groups · the title 28 clear. */
 @media (min-width: 768px) {
-    .privacy-preferences__body { padding: 32px; }
-    .privacy-preferences__footer { padding: 24px 32px 32px; }
-    .privacy-preferences__close { top: 25px; right: 22px; }
+    .privacy-preferences__body { padding: 36px 36px 24px; }
+    .privacy-preferences__footer { padding: 24px 36px 36px; }
+    .privacy-preferences h2 { margin-bottom: 12px; padding-right: 28px; }
+    .privacy-preferences .privacy-preferences__note { margin: 24px 0 12px; }
 }
 
-/* Phones: 24px keeps the 358px dialog's line length; Save full width */
 @media (max-width: 767px) {
     .privacy-preferences__footer .btn { width: 100%; }
+}
+
+/* ── The bottom sheet — the default since 3 Oct 2026 (author; `?sheet=0` for the centred dialog): phones get a bottom sheet — full width, on the
+   bottom edge, 8px top corners, rising from below; 40px of backdrop stays above it. Save sits under
+   the thumb, over the home bar's inset. While more text lies below Save the scrolling body fades
+   out at its foot (.has-more, privacy-preferences.js), so the scroll is visible. ── */
+.privacy-preferences--sheet.has-more .privacy-preferences__body {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+}
+@media (max-width: 767px) {
+    .privacy-preferences--sheet {
+        width: 100%;
+        max-height: calc(100dvh - 40px);
+        margin: auto 0 0;
+        border-width: 1px 0 0;
+        border-radius: 8px 8px 0 0;
+    }
+    .privacy-preferences--sheet .privacy-preferences__close { right: 0; }
+    .privacy-preferences--sheet .privacy-preferences__footer { padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)); }
+    @starting-style {
+        .privacy-preferences--sheet[open] { opacity: 1; transform: translateY(100%); }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

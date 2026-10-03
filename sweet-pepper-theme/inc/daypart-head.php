@@ -44,13 +44,17 @@
  *   ?closed=night|morning|sunday      → that closed window, at any hour (for checking)
  *   otherwise                         → by the hour, on the home page and the kitchen menu page
  *                                       (/menu/food/ — dinner from 17:00 is night; author, 2 Oct 2026,
- *                                       closing website-brief.md → Two divergences: the build had kept it day)
+ *                                       closing website-brief.md → Two divergences: the build had kept it day),
+ *                                       and on the legal pages and the «Документы» hub (page-privacy.php,
+ *                                       page-documents.php — author, 3 Oct 2026); every other page is day
  *
  * @package Sweet_Pepper
  */
 
 function sweet_pepper_daypart_head() {
-    $themes_by_hour = is_front_page() || 'food' === sweet_pepper_menu_state() ? 'true' : 'false';
+    // The legal pages and the «Документы» hub follow the clock too (author, 3 Oct 2026: a guest
+    // coming from a dark home page in the evening should not land on a bright document)
+    $themes_by_hour = is_front_page() || 'food' === sweet_pepper_menu_state() || is_page_template( 'page-privacy.php' ) || is_page_template( 'page-documents.php' ) ? 'true' : 'false';
     $bar_page       = 'drinks' === sweet_pepper_menu_state() || is_404() ? 'true' : 'false'; // the 404 page is always dark too
     // The browser's own chrome takes the page's ground (27 Sep 2026): Safari 26 on the iPhone
     // fills its floating bar from the document's background once the page scrolls, and

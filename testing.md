@@ -287,6 +287,9 @@ Build record: `report.md` → *Legal pages — the owner's reviewed texts…*. L
 | «Политика» (RU) against “Privacy policy” (EN) as the short names | Open — author |
 | The notice's «Документы» / “Documents” opens the hub; the dialog's details still link the policy and the Metrica consent | Seen locally |
 | The three short lines and the hub's lead read right to the owner | Open — owner |
+| On the policy and consents, «← ДОКУМЕНТЫ» leads back to the hub; the arrow steps back on hover | Seen locally — check on the test site |
+| The cards' arrow Olive by day, Lime at night | Seen locally |
+| In the evening (from 17:00 Moscow) the hub and the legal pages open dark, as Home and the kitchen menu; `?daypart=lunch` shows the day theme | Seen locally — check on the test site |
 
 Seen in headless Chrome only (1440 and 402; RU and EN; day and night).
 

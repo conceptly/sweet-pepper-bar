@@ -323,7 +323,7 @@ html[data-theme="night"] .privacy-doc h2 {
    3 Oct 2026 (author): the short version is hidden for now (data/documents.php → show_lines;
    its rules stay); the card names were Chili — too much: Deep Chili by day (decided), and kept as
    a flag `?doctone=olive` (inc/documents.php) — the kind Ash, the names Olive. The arrow is the
-   links' outline arrow in the name's colour; on phones the settings button spans the card.
+   links' outline arrow, Olive / Lime; on phones the settings button spans the card.
    Then (author): radius 16 → 8 and the inner gaps 16 → 8, measured against the site's cards —
    every text card is 8px round, and the careers card steps 8 from title to text.
    =========================================================================== */
@@ -550,6 +550,12 @@ html[data-theme="night"] .documents-cards--olive {
     display: block;
     width: 16px;
     height: 16px;
+}
+
+/* The arrow in the accent green, as on the site's other cards (author, 3 Oct 2026): Olive by day,
+   Lime by night (--accent-2); the name keeps its own colour */
+.documents-card__arrow {
+    color: var(--accent-2);
 }
 
 /* Card states — the recipe: day the shadow expands, night the Lime stroke + glow; pressed sinks */

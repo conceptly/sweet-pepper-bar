@@ -6,8 +6,9 @@
  * Also the consent to personal data processing, /consent/ (29 Sep 2026): the same fields and
  * layout, a second page on this template (inc/forms.php links the forms to it).
  *
- * A document to read, so it follows the day / night theme like Home and Menu rather than
- * a fixed dark composition: a head (eyebrow · the title as the site's section headline ·
+ * A document to read, so it follows the day / night theme by the bar's clock like Home and the
+ * kitchen menu (night from 17:00; inc/daypart-head.php — wired 3 Oct 2026, until then it stayed
+ * day) rather than a fixed dark composition: a head (eyebrow · the title as the site's section headline ·
  * the version date), then the text in the copy measure (7 of 12 columns) with the contents
  * list sticky in the first three; tablets and phones put the list above the text.
  * Since 3 Oct 2026 the headline is a short name (data/documents.php → headlines) over the full

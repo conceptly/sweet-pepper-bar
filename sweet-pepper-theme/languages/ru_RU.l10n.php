@@ -142,6 +142,7 @@ return [
         'YOUR TABLE'                                 => 'ВАШ СТОЛИК',
         'STEAL THE LINE'                             => 'СКОПИРОВАТЬ СООБЩЕНИЕ!',
         'Hi! A table for two, tomorrow around 21:00 — doable?' => 'Здравствуйте! Можно столик на двоих завтра около 21:00?',
+        'Another message'                            => 'Другое сообщение', // the reserve ticket's → (3 Oct 2026)
         'Copied to your clipboard!'                  => 'Номер скопирован',
         'Walk-ins always welcome — booking matters Friday–Saturday evenings.' => 'Можно и без брони. На вечер пятницы и субботы лучше договориться о столике заранее.',
         'We’re open — tonight, just walk in or write ahead.' => 'Бар открыт. Заглядывайте или напишите заранее.',

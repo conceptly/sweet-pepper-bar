@@ -10,6 +10,8 @@
  * a fixed dark composition: a head (eyebrow · the title as the site's section headline ·
  * the version date), then the text in the copy measure (7 of 12 columns) with the contents
  * list sticky in the first three; tablets and phones put the list above the text.
+ * Since 3 Oct 2026 the headline is a short name (data/documents.php → headlines) over the full
+ * legal title, which is the <h1> — the long titles ran four Molot lines at 64.
  *
  * @package Sweet_Pepper
  */
@@ -23,7 +25,12 @@ get_header();
     <section class="privacy-head">
         <div class="container privacy-head__inner">
             <p class="section-eyebrow molot-text"><?php echo esc_html_x( 'Documents', 'the privacy page eyebrow', 'sweet-pepper' ); ?></p>
-            <h1 class="section-headline privacy-head__title molot-text"><?php echo esc_html( $policy['title'] ); ?></h1>
+            <?php if ( $policy['short'] ) : // the short name is the display line; the full legal title stays the <h1> (author, 3 Oct 2026) ?>
+                <p class="section-headline privacy-head__title molot-text" aria-hidden="true"><?php echo esc_html( $policy['short'] ); ?></p>
+                <h1 class="privacy-head__full"><?php echo esc_html( $policy['full'] ); ?></h1>
+            <?php else : ?>
+                <h1 class="section-headline privacy-head__title molot-text"><?php echo esc_html( $policy['title'] ); ?></h1>
+            <?php endif; ?>
             <?php if ( $policy['updated'] ) : ?>
                 <p class="privacy-head__meta"><?php echo esc_html( sprintf( __( 'Version of %s', 'sweet-pepper' ), $policy['updated'] ) ); ?></p>
             <?php endif; ?>

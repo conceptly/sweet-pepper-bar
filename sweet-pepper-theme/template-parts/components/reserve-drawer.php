@@ -62,12 +62,33 @@ $reserve_strings = [
             <!-- Card: in flow, padding handles space for the top edge -->
             <div class="reserve-ticket">
                 <h3 class="ticket-title"><?php esc_html_e( 'STEAL THE LINE', 'sweet-pepper' ); ?></h3>
-                <p class="ticket-text" id="ticket-message"><?php esc_html_e( 'Hi! A table for two, tomorrow around 21:00 — doable?', 'sweet-pepper' ); ?></p>
+                <?php // Every ready-made message, stacked in one grid cell, so the ticket keeps the tallest
+                      // one's height and never jumps; the first shows until reserve-drawer.js →
+                      // initTicketLines picks (`?ticket=next|random`, on trial). Lines: Bar Settings →
+                      // «Бронь — сообщения», else data/reserve-lines.php (inc/reserve-lines.php). ?>
+                <?php $ticket_lines = sweet_pepper_reserve_lines(); ?>
+                <div class="ticket-lines" data-count="<?php echo count( $ticket_lines ); ?>">
+                    <div class="ticket-lines__stack" aria-live="polite">
+                        <?php foreach ( $ticket_lines as $i => $line ) : ?>
+                        <p class="ticket-text<?php echo 0 === $i ? ' is-current' : ''; ?>"<?php echo 0 === $i ? ' id="ticket-message"' : ' aria-hidden="true"'; ?>><?php echo esc_html( $line ); ?></p>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php // The → shares the Copy row (left), so the text keeps the ticket's full width: beside
+                      // the text it wrapped the longest Russian line to four lines and the phone sheet scrolled. ?>
+                <div class="ticket-actions">
+                    <?php if ( count( $ticket_lines ) > 1 ) : ?>
+                    <button type="button" class="ticket-next js-ticket-next" aria-label="<?php esc_attr_e( 'Another message', 'sweet-pepper' ); ?>" hidden>
+                        <span class="ticket-next__count" aria-hidden="true">1/<?php echo count( $ticket_lines ); ?></span>
+                        <span class="ticket-next__icon" aria-hidden="true"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-right-outline.svg' ); ?></span>
+                    </button>
+                    <?php endif; ?>
                 <button type="button" class="btn-copy-ticket js-copy" data-copy-target="#ticket-message">
                     <span class="btn-copy-label"><?php echo esc_html( $reserve_strings['copy'] ); ?></span>
                     <span class="btn-copy-icon btn-copy-icon--copy"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-copy.svg' ); ?></span>
                     <span class="btn-copy-icon btn-copy-icon--done"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
                 </button>
+                </div>
             </div>
             
             <!-- Bottom edge: in flow, flush with card (0 gap via flex) -->

@@ -21,6 +21,8 @@ Webvisor/clickmap/link tracking/accurate bounce are enabled. Ecommerce and Yande
 
 **Before deployment:** revise and publish the policy's analytics purpose, provider, data and retention details (current RU/EN policy drafts still say no counter), verify the dashboard's field-recording/advanced-matching settings, then test real receipt and replay masking on the production counter. Source build/PHP checks and isolated browser checks passed; local WordPress was unavailable, and no real Yandex requests were made in the tests. See `analytics-setup.md` for configuration and validation details.
 
+**Legal documents — the owner's reviewed texts (3 October 2026, local).** The policy (now «Политика в отношении обработки персональных данных», Metrica in, the US/Canada exception out), the forms consent and the Metrica consent are the owner's second-round texts word for word in Russian, English translated; the policy no longer says there is no counter. Four pages, each at its own address: /privacy-policy/, /consent/, /consent-analytics/ and the **«Документы» hub at /documents/** — the short version in three plain lines, a card per published legal page (Lime at night), the privacy settings; the notice's «Документы» / “Documents” opens it. The internal «Положение» is not published. **Before the live site:** its 6.6 asks for a provable record of each Metrica choice (text version, date and time, technical details) before the Metrica consent is published — the choice is only in the browser today. Later the same day (author): the hub shows the cards and the settings only — the short lines are hidden until they are reworked in Figma (more compact, under the cards); card names Deep Chili / Paprika, the olive balance kept behind `?doctone=olive`; 8px card radius and inner steps. The legal pages' headline is a short name (data/documents.php → headlines) over the full legal title, which stays the `<h1>`. Build log: `report.md` → *Legal pages — the owner's reviewed texts…*.
+
 ## Privacy controls — 28 September 2026 (historical; current choices above)
 
 **Future map-tools testing:** recorded in [report.md → Next Up](report.md#next-up): compare MapLibre with locally hosted data, Yandex Constructor/API and 2GIS MapGL, preserving embedded custom landmark routes and route buttons. Deferred exploration; Google remains the current choice while the author checks its arrangements.
@@ -241,6 +243,10 @@ GitHub (wip)  →  ~/repository-test  (worktree of ~/repository)
 **The 2 Oct 2026 sessions' steps (dish rows, menu deal lines, Lera's role; the 404 and the kitchen menu's night need none):** after the pull and the rsync, on each site: SCF → *Sync available* («Блюдо» — «Звезда — хит» replaces «Огонь — хит», the «Выделить название» switch is gone; saved values untouched). Then from `~/repository-test`, for each of `tools/field-updates/2026-10-02-about-team-lera-role.json`, `2026-10-02-menu-food-deal-lines.json`, `2026-10-02-menu-bar-wine-deal.json`: `WP_ROOT=~/SweetPepper-test/public_html php tools/field-update.php <file>`, then the same with `WP_ROOT=~/public_html`. Each applies only where the old text is still saved (`SKIPPED` otherwise — then the line was edited in admin; change it there). On the main site, *Delete Cache* after.
 
 **The 1 Oct 2026 event-card / drawer / motion session's steps:** none beyond the pull and the rsync — no SCF group changed, no field value, no seeder. One unused string is left in `languages/ru_RU.l10n.php` («Меню сайта», the old drawer dialog's name). The style guide's new *Motion — easing* block is a commit on `main` and reaches `sweetpepper.bar/style-guide.html` by its own cron.
+
+**The 3 Oct 2026 reserve-ticket session's steps:** after the pull and the rsync, on each site: SCF → *Sync available* («Бронь — сообщения» — new, on Bar Settings), then from `~/repository-test`: `WP_ROOT=~/SweetPepper-test/public_html php tools/field-update.php tools/field-updates/2026-10-03-reserve-lines.json`, and the same with `WP_ROOT=~/public_html` (fills the table with the five messages; `done` on a second run, SKIPPED if the team already typed rows). Without it the site shows the same five from the theme — the step only gives the team rows to edit.
+
+**The 3 Oct 2026 legal-pages session's steps (the owner's Policy and consents, the «Документы» hub):** no SCF sync. After the pull and the rsync, from `~/repository-test`, on each site (`WP_ROOT=~/SweetPepper-test/public_html`, then `WP_ROOT=~/public_html`): `php tools/page-seed.php privacy consent --force` (the texts, the new titles, the replaced ones kept in hidden meta; the pages keep their status), `php tools/page-seed.php consent-analytics` (**creates it as a draft — leave it unpublished** until each Metrica choice is recorded as the internal «Положение» 6.6 asks; the hub and the settings dialog show it only once published) and `php tools/page-seed.php documents --publish` (the hub at /documents/). On the main site, *Delete Cache* after. Check: /documents/, /privacy-policy/, /consent/ in both languages; the notice's «Документы» opens the hub.
 
 **Remaining setup, in order:**
 - SSL for the subdomain (Домены и SSL); PHP 8.2.
@@ -1695,6 +1701,26 @@ Dotted-leader rows never run the full 12 columns. Dense sections run **two colum
 - **Open with the layout:** the notice line's style (Molot 16 as drawn, against H3 18 for every other eyebrow — `design.md` §3.3), the Lemon headline (against Title lines), which button is filled, the Chili level in layout b (Claude's, not the author's), the Russian headline (a register twin is needed — "lost in the sauce" has none), a tablet frame in Figma (the phone frame exists since 1 Oct).
 - **Words:** `sweet-pepper-theme/data/not-found.php`, both languages; drafts.
 - **The switch is `?nf=`, never `?pick=`:** the page loader's trial owns `?pick=` on every page and keeps it for the tab (Motion language → Page loader).
+
+## Reserve ticket — ready-made messages, on trial (3 Oct 2026)
+
+The reserve drawer's ticket («Скопировать сообщение!» / STEAL THE LINE) carried one example message. The author's idea: more lines, kept by the team, and a reason to touch the ticket — without building a composer. The site still never books by itself (`russian-website-voice.md` → the drawer): each line is an example a guest copies, edits and sends; times and party sizes promise nothing.
+
+**The lines (author's pick, 3 Oct 2026)** — written as the guest, with a light touch of the house voice («партер» at the bar, «Перцы», «местечко»), one occasion each so a guest finds the nearest and edits less: a date (the original line) · two seats at the bar · friends after work («Привет, Перцы!» — the familiar one) · a birthday · Sunday breakfast with a child. RU 55–84 characters, EN 52–68 (script count, spaces included); up to ~85 keeps the ticket at three lines on a phone. Left out on purpose: a large group (10+), a promise the team may not want. Sunday breakfast is served from 10:00 (author, 3 Oct 2026), so the family line's 11:00 stands.
+
+**In admin:** Bar Settings → **«Бронь — сообщения»** (`group_sp_reserve_lines`, `inc/reserve-lines.php`): a table, up to 8 rows, RU ⇄ EN textareas and «Скрыть»; an empty EN borrows the RU. An empty table shows the theme's five (`data/reserve-lines.php`), so the ticket is never blank.
+
+**The mechanics — behind a switch, for this tab:**
+
+| Switch | What the guest gets |
+|---|---|
+| *(none)* / `?ticket=off` | the site as before: the first line alone |
+| `?ticket=next` | **recommended** — a random line on load; in the Copy row, left, the count and a → («1/5 →») move to the next, round and round; a sideways swipe on the text does the same (left → next, right → back) |
+| `?ticket=random` | a random line on load, nothing to press |
+
+- **Settled in the build:** every line sits in one grid cell, so with a switch on the ticket is as tall as the longest line and never jumps (+23px on a 393 phone in Russian). The old line slides out 24px the way the arrow points (260ms, Quick), the new one slides in on the Gentle spring; reduced motion swaps in place. «Скопировать» copies the line on show (`#ticket-message` moves with it); the line is announced politely (`aria-live`); the → is named «Другое сообщение» / "Another message". The swipe ignores a mostly vertical move, so the sheet still scrolls.
+- **Changed from the sketch:** the → sat beside the text there. Beside it, the text column lost 52px and the longest Russian line took four lines — the phone sheet then scrolled 57px. In the Copy row the text keeps the full width.
+- **Open:** which mechanic; whether the count reads (or the arrow alone); the ticket title — «СКОПИРОВАТЬ СООБЩЕНИЕ!» still fits, «ВЫБЕРИТЕ СТРОЧКУ» would name the choice; the line set itself after the team sees it.
 
 ## Don't (web-specific)
 

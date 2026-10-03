@@ -22,6 +22,9 @@ $tone = ( isset( $_GET['noticetone'] ) && 'theme' === $_GET['noticetone'] ) ? 't
 
 $policy_page = get_page_by_path( 'privacy-policy' );
 $policy_url = $policy_page && 'publish' === $policy_page->post_status ? get_permalink( $policy_page ) : '';
+// «Документы» opens the documents hub once it is published (author, 3 Oct 2026); the policy until then.
+// English says “Documents” with the hub too — “Privacy policy” would name one of three texts.
+$docs_url = sweet_pepper_documents_url();
 $ru = 'ru' === sweet_pepper_lang();
 // No lone word on a sentence's last line (author, 3 Oct 2026): the last two words are glued with
 // a no-break space, whatever the viewport; the links after it wrap as one (cookie-notice.css)
@@ -36,7 +39,7 @@ $settings_link = '<button type="button" class="map-settings-link" data-privacy-s
         <p class="cookie-notice__text cookie-notice__text--<?php echo $length; ?>">
             <?php // The sentence carries the wider gap at its end, so links that wrap start flush; the links wrap as one ?>
             <span class="cookie-notice__sentence"><?php echo $glue( $ru ? 'Запоминаем язык. Карты Google и Яндекс Метрика — с вашего разрешения. Метрика использует cookies и анализирует действия на сайте — помогает ПЕРЦАМ сделать его удобнее!' : 'We remember your language. Google Maps and Yandex Metrica need your permission. Metrica uses cookies and analyses how you use the site — helping the PEPPERS make it better!' ); ?></span>
-            <span class="cookie-notice__links"><?php if ( $policy_url ) : ?><a href="<?php echo esc_url( $policy_url ); ?>"><?php echo $ru ? 'Документы' : 'Privacy policy'; // «Подробнее» read as a twin of «Настроить»; RU short as the policy page's eyebrow (author, 3 Oct 2026) ?></a> <?php endif; ?><?php echo $settings_link; ?></span>
+            <span class="cookie-notice__links"><?php if ( $docs_url || $policy_url ) : ?><a href="<?php echo esc_url( $docs_url ?: $policy_url ); ?>"><?php echo $ru ? 'Документы' : ( $docs_url ? 'Documents' : 'Privacy policy' ); // «Подробнее» read as a twin of «Настроить»; RU short as the policy page's eyebrow (author, 3 Oct 2026) ?></a> <?php endif; ?><?php echo $settings_link; ?></span>
         </p>
         <?php endforeach; ?>
         <div class="cookie-notice__actions">

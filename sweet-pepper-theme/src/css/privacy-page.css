@@ -20,7 +20,8 @@
    page does (menu-hero.css). --bg is Paper by day, Peppercorn by night. Below 992px the header
    is the fixed bar and keeps its Parchment, which is what separates it from text scrolling under. */
 @media (min-width: 992px) {
-    body.page-template-page-privacy .site-header {
+    body.page-template-page-privacy .site-header,
+    body.page-template-page-documents .site-header {
         background-color: var(--bg);
     }
 }
@@ -39,6 +40,21 @@
 .privacy-head__title {
     max-width: 980px;
     margin: 0;
+    text-wrap: balance;
+}
+
+/* The full legal title under the short headline (author, 3 Oct 2026 — option B of the sheet):
+   the page's <h1>, Golos 600 in the muted ink, 12 under the headline (the head's 8 + 4) */
+.privacy-head__full {
+    margin: 4px 0 0;
+    max-width: 740px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-muted);
     text-wrap: balance;
 }
 
@@ -250,5 +266,346 @@ html[data-theme="night"] .privacy-doc h2 {
 
     .privacy-doc h2 {
         margin-top: 36px;
+    }
+}
+
+/* ===========================================================================
+   Documents hub — /documents/ (page-documents.php, built 3 Oct 2026)
+
+   The contact sheet's B + C (author): the privacy page's head with a lead, the short version
+   in the copy measure (columns 1–7), «Полные тексты» over a card per legal page (the card
+   recipe — components.css → Card states), the privacy settings under them. Night: the
+   accents go Lime (the icon discs, the kind labels through --accent-2, the cards' stroke),
+   the card names Paprika as the policy's section titles.
+   3 Oct 2026 (author): the short version is hidden for now (data/documents.php → show_lines;
+   its rules stay); the card names were Chili — too much: Deep Chili by day (decided), and kept as
+   a flag `?doctone=olive` (inc/documents.php) — the kind Ash, the names Olive. The arrow is the
+   links' outline arrow in the name's colour; on phones the settings button spans the card.
+   Then (author): radius 16 → 8 and the inner gaps 16 → 8, measured against the site's cards —
+   every text card is 8px round, and the careers card steps 8 from title to text.
+   =========================================================================== */
+
+/* The eyebrow closer on the hub (author, 3 Oct 2026): no gap over the headline. Measured ink to
+   ink, Russian (with the 0.15em Й / Ё room, components.css) 34 → 26 — the same as headline → lead —
+   and English 24 → 16. The lead keeps its 8 as a margin. */
+.page-documents .privacy-head__inner {
+    gap: 0;
+}
+
+.documents-lead {
+    margin: 8px 0 0; /* 8 under the headline (author, 3 Oct 2026; was 16 + the head's 8 gap) */
+    max-width: 643px;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--text);
+    text-wrap: pretty;
+}
+
+.documents-body {
+    padding: 0 0 96px;
+}
+
+/* The hub's head is shorter at the foot than the legal pages' (author, 3 Oct 2026): 48 to the
+   cards on desktop (was 64), 24 on phones (was 36). Scoped here — on the policy and consents
+   the same head carries the version line and sits over the contents list. */
+.page-documents .privacy-head {
+    padding-bottom: 48px;
+}
+
+/* ── The short version ── */
+.documents-lines {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 643px;
+}
+
+.documents-line {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--hairline-docs);
+}
+
+.documents-line:first-child {
+    padding-top: 0;
+}
+
+:root {
+    --hairline-docs: rgba(21, 19, 23, 0.18);
+}
+
+html[data-theme="night"] {
+    --hairline-docs: rgba(243, 233, 210, 0.18);
+}
+
+.documents-line__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background-color: var(--lemon);
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .documents-line__icon {
+    background-color: var(--lime);
+}
+
+.documents-line__icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* The Figma glyphs are drawn in Lemon — on the disc they take the ink (the pepper cursor keeps its colours) */
+.documents-line__icon svg [fill="#FFED00"] {
+    fill: currentColor;
+}
+
+.documents-line__title {
+    margin: 0 0 6px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-h3);
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text);
+}
+
+.documents-line__text {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    color: var(--text-muted);
+    text-wrap: pretty;
+}
+
+/* A link in running text: the sentence's colour, marked by the underline alone (design.md §6) */
+.documents-line__text a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-thickness var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.documents-line__text a:hover {
+    text-decoration-thickness: 2px;
+}
+
+.documents-line__text a:active {
+    text-decoration-thickness: 2px;
+    transition-duration: 100ms;
+}
+
+/* ── The full texts ── */
+.documents-full {
+    margin: 64px 0 24px;
+}
+
+.documents-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.documents-cards > li {
+    display: flex;
+}
+
+.documents-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* kind → name the eyebrow's step, name → text as the careers card's title → text */
+    min-height: 240px; /* the About careers card's height */
+    padding: 32px;
+    border-radius: 8px; /* every text card on the site (careers, vacancy, Visit contacts, quotes) */
+    background-color: var(--surface);
+    border: 1px solid transparent;
+    box-shadow: var(--card-shadow-rest);
+    color: var(--text);
+    text-decoration: none;
+    transition: box-shadow var(--dur-gentle) var(--ease-gentle-flat), border-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.documents-cards {
+    --doc-kind: var(--accent-2);   /* Olive by day, Lime by night */
+    --doc-name: var(--chili-deep); /* Deep Chili by day (Chili read as too much, author) */
+}
+
+html[data-theme="night"] .documents-cards {
+    --doc-name: var(--paprika); /* Deep Chili is 2.4:1 on dark */
+}
+
+/* ?doctone=olive — the kind Ash, the names Olive; Mushroom / Lime by night */
+.documents-cards--olive {
+    --doc-kind: var(--text-muted);
+    --doc-name: var(--accent-2);
+}
+
+html[data-theme="night"] .documents-cards--olive {
+    --doc-name: var(--accent-2);
+}
+
+.documents-card__kind {
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    color: var(--doc-kind);
+}
+
+.documents-card__name {
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--doc-name);
+    text-wrap: balance;
+}
+
+.documents-card__text {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    text-wrap: pretty;
+}
+
+.documents-card__foot {
+    margin-top: auto;
+    padding-top: 16px; /* with the gap, 24 at least between the text and the version line */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--doc-name);
+}
+
+.documents-card__date {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--text-muted);
+}
+
+.documents-card__arrow {
+    display: block;
+    transition: transform var(--dur-gentle) var(--ease-gentle);
+}
+
+.documents-card__arrow svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+/* Card states — the recipe: day the shadow expands, night the Lime stroke + glow; pressed sinks */
+html[data-theme="night"] .documents-card {
+    box-shadow: none;
+    border-color: rgba(243, 233, 210, 0.12);
+}
+
+/* (the build wraps every :hover in any-hover: hover — no hand guard) */
+.documents-card:hover {
+    box-shadow: var(--card-shadow-hover);
+}
+
+.documents-card:hover .documents-card__arrow {
+    transform: translateX(4px);
+}
+
+html[data-theme="night"] .documents-card:hover {
+    border-color: var(--card-stroke-night);
+    box-shadow: var(--card-glow-hover);
+}
+
+.documents-card:active {
+    box-shadow: var(--card-shadow-pressed);
+    transition-duration: var(--card-press-duration);
+}
+
+html[data-theme="night"] .documents-card:active {
+    border-color: var(--card-stroke-night);
+    box-shadow: var(--card-shadow-pressed);
+}
+
+.documents-card:focus-visible {
+    outline: 2px solid var(--chili);
+    outline-offset: 2px;
+}
+
+html[data-theme="night"] .documents-card:focus-visible {
+    outline-color: var(--lime);
+}
+
+/* ── The settings ── */
+.documents-settings {
+    margin-top: 24px;
+    padding: 24px 32px;
+    border-radius: 8px; /* as the cards above it */
+    border: 1px dashed var(--hairline-docs);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.documents-settings p {
+    margin: 0;
+    max-width: 643px;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    text-wrap: pretty;
+}
+
+.documents-settings .btn {
+    flex: none;
+    white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+    .documents-cards {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .documents-card {
+        min-height: 0;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-documents .privacy-head {
+        padding-bottom: 24px;
+    }
+
+    .documents-body {
+        padding-bottom: 48px;
+    }
+
+    .documents-full {
+        margin-top: 48px;
+    }
+
+    .documents-settings {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+    }
+
+    .documents-settings .btn {
+        width: 100%; /* the settings' one action spans the card (author, 3 Oct 2026) */
     }
 }

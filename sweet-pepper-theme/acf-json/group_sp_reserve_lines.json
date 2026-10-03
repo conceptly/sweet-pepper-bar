@@ -1,0 +1,133 @@
+{
+    "key": "group_sp_reserve_lines",
+    "title": "Бронь — сообщения",
+    "fields": [
+        {
+            "key": "field_sp_reserve_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "new_lines": "",
+            "esc_html": 0,
+            "message": "Готовые сообщения на «билете» в панели «Ваш столик»: гость копирует строку и отправляет её в ВК или по телефону, поправив под себя. Пишется от лица гостя, не бара. Каждая строка — свой повод (свидание, место у стойки, компания после работы, день рождения, завтрак с ребёнком), чтобы гость нашёл похожую и поменял меньше. Время и число гостей — только пример: сайт не обещает свободный столик.<br><br><strong>Длина.</strong> До 85 знаков — три строки на телефоне; длиннее — билет станет выше.<br><strong>Скрыть</strong> — строка остаётся в списке, но не на сайте.<br><strong>EN</strong> — пара по смыслу. Пустое поле — на английской странице русская строка.<br>Пустая таблица — на сайте пять строк из темы."
+        },
+        {
+            "key": "field_sp_reserve_lines",
+            "label": "Сообщения",
+            "name": "reserve_lines",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 8,
+            "collapsed": "",
+            "button_label": "Добавить сообщение",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_reserve_line_ru",
+                    "label": "Сообщение",
+                    "name": "line_ru",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "45",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 2,
+                    "placeholder": "Здравствуйте! Можно столик на двоих завтра около 21:00?",
+                    "new_lines": "",
+                    "parent_repeater": "field_sp_reserve_lines"
+                },
+                {
+                    "key": "field_sp_reserve_line_en",
+                    "label": "Сообщение (EN)",
+                    "name": "line_en",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "45",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 2,
+                    "placeholder": "Hi! A table for two, tomorrow around 21:00 — doable?",
+                    "new_lines": "",
+                    "parent_repeater": "field_sp_reserve_lines"
+                },
+                {
+                    "key": "field_sp_reserve_hidden",
+                    "label": "Скрыть",
+                    "name": "hidden",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "10",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Да",
+                    "ui_off_text": "Нет",
+                    "parent_repeater": "field_sp_reserve_lines"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "sweet-pepper-settings"
+            }
+        ]
+    ],
+    "menu_order": 3,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "The reserve drawer's ready-made booking messages. Generated by tools/page-field-groups.py; read by inc/reserve-lines.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1791054458
+}

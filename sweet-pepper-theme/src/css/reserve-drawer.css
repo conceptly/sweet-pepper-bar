@@ -210,6 +210,107 @@ html[data-theme="night"] .reserve-title {
     margin-bottom: 12px;
 }
 
+/* Ready-made messages — on trial (3 Oct 2026; reserve-drawer.js → initTicketLines). Every line
+   sits in the same grid cell, so with the trial on the ticket is as tall as its longest line
+   and never jumps between lines. Without it only the first line renders, as before. */
+/* The text's own 16px top margin (a global p rule) used to collapse into the title's 12; inside
+   the grid it would not, so the wrapper carries it and the lines carry none */
+.ticket-lines {
+    margin: 16px 0 12px;
+}
+
+.ticket-lines__stack {
+    display: grid;
+}
+
+.ticket-lines__stack > .ticket-text {
+    grid-area: 1 / 1;
+    margin: 0;
+}
+
+.ticket-lines:not(.is-ready) .ticket-text:not(.is-current) {
+    display: none;
+}
+
+.ticket-lines.is-ready .ticket-text:not(.is-current, .is-out-left, .is-out-right) {
+    visibility: hidden;
+}
+
+/* The → in the Copy row, left (the author's sketch put it beside the text; there it wrapped the
+   longest Russian line to four lines and the phone sheet scrolled): the count first, so the guest
+   sees there are more before pressing; a 44px-tall target */
+.ticket-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ticket-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    margin: -12px 0;
+    padding: 0 8px 0 0;
+    border: 0;
+    background: none;
+    color: var(--olive);
+    cursor: pointer;
+}
+
+.ticket-next[hidden] {
+    display: none;
+}
+
+.ticket-next__icon svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+    transition: transform var(--dur-gentle) var(--ease-gentle);
+}
+
+.ticket-next:hover .ticket-next__icon svg {
+    transform: translateX(3px);
+}
+
+.ticket-next:active .ticket-next__icon svg {
+    transform: translateX(6px);
+    transition-duration: 100ms;
+}
+
+.ticket-next__count {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+}
+
+/* The swap: the old line leaves the way the arrow points, the new one comes in behind it */
+.ticket-text.is-out-left  { animation: ticket-out-left 260ms var(--ease-quick, ease-out) forwards; pointer-events: none; }
+.ticket-text.is-out-right { animation: ticket-out-right 260ms var(--ease-quick, ease-out) forwards; pointer-events: none; }
+.ticket-text.is-in-right  { animation: ticket-in-right var(--dur-gentle) var(--ease-gentle) 80ms backwards; }
+.ticket-text.is-in-left   { animation: ticket-in-left var(--dur-gentle) var(--ease-gentle) 80ms backwards; }
+
+@keyframes ticket-out-left  { to { opacity: 0; transform: translateX(-24px); visibility: hidden; } }
+@keyframes ticket-out-right { to { opacity: 0; transform: translateX(24px); visibility: hidden; } }
+@keyframes ticket-in-right  { from { opacity: 0; transform: translateX(24px); } }
+@keyframes ticket-in-left   { from { opacity: 0; transform: translateX(-24px); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .ticket-text.is-out-left,
+    .ticket-text.is-out-right,
+    .ticket-text.is-in-left,
+    .ticket-text.is-in-right {
+        animation: none;
+    }
+
+    .ticket-text.is-out-left,
+    .ticket-text.is-out-right {
+        visibility: hidden;
+    }
+}
+
 .btn-copy-ticket {
     background: transparent;
     border: none;

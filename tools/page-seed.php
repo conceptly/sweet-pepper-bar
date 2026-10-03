@@ -69,6 +69,16 @@
  *                   carries this page's version date (inc/forms.php). --force as for privacy.
  *                   The opening consent statement is kept (it precedes § 1); consent-en-draft.md
  *                   goes into the English twin. --publish publishes it too (author, 29 Sep 2026).
+ *                   The owner's reviewed text since 3 Oct 2026; a re-import keeps the replaced texts
+ *                   in hidden meta, and the page title follows the draft's # line.
+ *   documents     — the page «Документы» at /documents/ (template page-documents.php), as a draft
+ *                   unless --publish (3 Oct 2026): its words are data/documents.php, its cards
+ *                   read the legal pages, so the seed only makes the page.
+ *   consent-analytics — privacy-analytics-review/consent-analytics-{ru,en}-draft.md → the page
+ *                   «Согласие на обработку персональных данных с помощью сервиса «Яндекс Метрика»»
+ *                   at /consent-analytics/, the same template and fields (3 Oct 2026, the owner's
+ *                   reviewed text); «Настройки приватности» link it once published. --force, --publish
+ *                   as for consent.
  *
  * A target that already holds a value is left alone unless --force is given: after the
  * first seed the database is the source, and the team's edits live there.
@@ -77,10 +87,10 @@
 
 $args    = array_slice( $argv, 1 );
 $force   = in_array( '--force', $args, true );
-$publish = in_array( '--publish', $args, true ); // consent only: publish the page as well (author, 29 Sep 2026)
+$publish = in_array( '--publish', $args, true ); // consents and documents only: publish the page as well (author, 29 Sep 2026)
 $targets = array_values( array_diff( $args, [ '--force', '--publish' ] ) );
 if ( ! $targets ) {
-    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|loader|menu|home|contacts|vacancies|privacy|consent> [...] [--force] [--publish]\n" );
+    exit( "Usage: page-seed.php <about|about-<section>|visit|visit-<section>|location|pairings|loader|menu|home|contacts|vacancies|privacy|consent|consent-analytics|documents> [...] [--force] [--publish]\n" );
 }
 
 $wp_root = getenv( 'WP_ROOT' ) ?: getenv( 'HOME' ) . '/Local Sites/sweet-pepper-bar/app/public';
@@ -418,7 +428,9 @@ foreach ( $targets as $target ) {
                 echo "privacy: {$md_file} not found\n";
                 break;
             }
-            $title = 'Политика обработки персональных данных';
+            $md    = file_get_contents( $md_file );
+            // The title follows the draft's # line (3 Oct 2026: the owner's «Политика в отношении обработки…»)
+            $title = preg_match( '/^# (.+)$/mu', $md, $t ) ? trim( $t[1] ) : 'Политика обработки персональных данных';
             $page  = get_page_by_path( 'privacy-policy', OBJECT, 'page' );
             // WordPress makes a draft «Privacy Policy» at this address on install, with its own sample
             // text: that page is adopted (it is already Settings → Privacy's page), never duplicated
@@ -436,8 +448,10 @@ foreach ( $targets as $target ) {
                 echo "privacy: could not create the page\n";
                 break;
             }
+            if ( $page && ! $wp_default && $title !== $page->post_title ) {
+                wp_update_post( [ 'ID' => $id, 'post_title' => $title ] );
+            }
             update_post_meta( $id, '_wp_page_template', 'page-privacy.php' );
-            $md   = file_get_contents( $md_file );
             $body = sp_seed_markdown( $md );
             // A re-import keeps what it replaces (29 Sep 2026): the owner may have edited the text in
             // admin, and field values have no revisions — the old text goes to a hidden meta key
@@ -473,30 +487,44 @@ foreach ( $targets as $target ) {
             break;
 
         case 'consent':
-            $md_file = dirname( __DIR__ ) . '/consent-ru-draft.md';
+        case 'consent-analytics':
+            // Two consents on one template (3 Oct 2026): the forms' at /consent/, Metrica's at /consent-analytics/
+            $slug    = $target;
+            $src     = 'consent' === $slug ? dirname( __DIR__ ) . '/consent' : dirname( __DIR__ ) . '/privacy-analytics-review/consent-analytics';
+            $md_file = "{$src}-ru-draft.md";
             if ( ! is_readable( $md_file ) ) {
-                echo "consent: {$md_file} not found\n";
+                echo "{$slug}: {$md_file} not found\n";
                 break;
             }
-            $title = 'Согласие на обработку персональных данных';
-            $page  = get_page_by_path( 'consent', OBJECT, 'page' );
+            $md    = file_get_contents( $md_file );
+            $title = preg_match( '/^# (.+)$/mu', $md, $t ) ? trim( $t[1] ) : 'Согласие на обработку персональных данных';
+            $page  = get_page_by_path( $slug, OBJECT, 'page' );
             if ( $page && ! $force ) {
-                echo "consent: the page exists (#{$page->ID}, {$page->post_status}) — left alone (--force to re-import the text)\n";
+                echo "{$slug}: the page exists (#{$page->ID}, {$page->post_status}) — left alone (--force to re-import the text)\n";
                 break;
             }
-            $id = $page ? $page->ID : wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'draft', 'post_title' => $title, 'post_name' => 'consent' ] );
+            $id = $page ? $page->ID : wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'draft', 'post_title' => $title, 'post_name' => $slug ] );
             if ( ! $id || is_wp_error( $id ) ) {
-                echo "consent: could not create the page\n";
+                echo "{$slug}: could not create the page\n";
                 break;
+            }
+            if ( $page && $title !== $page->post_title ) {
+                wp_update_post( [ 'ID' => $id, 'post_title' => $title ] );
             }
             update_post_meta( $id, '_wp_page_template', 'page-privacy.php' );
-            $md   = file_get_contents( $md_file );
+            // The replaced texts stay in hidden meta, as for the policy
+            foreach ( [ 'ru', 'en' ] as $l ) {
+                $old = $page ? (string) get_field( "privacy_body_{$l}", $id ) : '';
+                if ( '' !== trim( $old ) ) {
+                    update_post_meta( $id, "_sp_privacy_body_{$l}_before_" . wp_date( 'Ymd-His' ), $old );
+                }
+            }
             // The opening statement («Отмечая поле…» / "By selecting…") is the consent itself: kept,
             // from after the «Редакция:» / "Revision:" line; the title, status and notes are not
             $body = sp_seed_markdown( $md, '/^(Редакция|Revision):/u' );
             update_field( 'field_sp_privacy_body_ru', $body, $id );
-            // English (29 Sep 2026): consent-en-draft.md into the English twin, its title from its # line
-            $en_file  = dirname( __DIR__ ) . '/consent-en-draft.md';
+            // English (29 Sep 2026): the -en-draft.md into the English twin, its title from its # line
+            $en_file  = "{$src}-en-draft.md";
             $title_en = 'Consent to Personal Data Processing';
             if ( is_readable( $en_file ) ) {
                 $md_en = file_get_contents( $en_file );
@@ -515,9 +543,26 @@ foreach ( $targets as $target ) {
             if ( $publish && 'publish' !== get_post_status( $id ) ) {
                 wp_update_post( [ 'ID' => $id, 'post_status' => 'publish' ] );
             }
-            printf( "consent: #%d «%s» / «%s» (%s), version %s, %d sections, EN %s%s\n",
-                $id, $title, $title_en, get_post_status( $id ), $date, substr_count( $body, '<h2>' ),
-                is_readable( $en_file ) ? 'imported' : 'missing (consent-en-draft.md)',
+            printf( "%s: #%d «%s» / «%s» (%s), version %s, %d sections, EN %s%s\n",
+                $slug, $id, $title, $title_en, get_post_status( $id ), $date, substr_count( $body, '<h2>' ),
+                is_readable( $en_file ) ? 'imported' : 'missing (' . basename( $en_file ) . ')',
+                'publish' === get_post_status( $id ) ? '' : ' — publish in admin, or re-run with --publish' );
+            break;
+
+        case 'documents':
+            // The documents hub (3 Oct 2026): a page with the template and nothing else — its words are
+            // typed copy (data/documents.php), the cards read the legal pages themselves
+            $page = get_page_by_path( 'documents', OBJECT, 'page' );
+            $id   = $page ? $page->ID : wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'draft', 'post_title' => 'Документы', 'post_name' => 'documents' ] );
+            if ( ! $id || is_wp_error( $id ) ) {
+                echo "documents: could not create the page\n";
+                break;
+            }
+            update_post_meta( $id, '_wp_page_template', 'page-documents.php' );
+            if ( $publish && 'publish' !== get_post_status( $id ) ) {
+                wp_update_post( [ 'ID' => $id, 'post_status' => 'publish' ] );
+            }
+            printf( "documents: #%d «%s» (%s)%s\n", $id, get_the_title( $id ), get_post_status( $id ),
                 'publish' === get_post_status( $id ) ? '' : ' — publish in admin, or re-run with --publish' );
             break;
 

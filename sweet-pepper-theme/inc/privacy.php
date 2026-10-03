@@ -34,7 +34,7 @@ function sweet_pepper_privacy_date( $ymd ) {
 /**
  * Everything the page prints, in one language.
  *
- * @return array{title:string, updated:string, body:string, toc:array<int,array{id:string,label:string}>, fallback:bool}
+ * @return array{title:string, short:string, full:string, updated:string, body:string, toc:array<int,array{id:string,label:string}>, fallback:bool}
  */
 function sweet_pepper_privacy( $page_id ) {
     $get  = fn( $key ) => function_exists( 'get_field' ) ? (string) get_field( "privacy_{$key}", $page_id ) : '';
@@ -49,7 +49,8 @@ function sweet_pepper_privacy( $page_id ) {
     // Section headings → ids for the contents list; tables → a scroll box on narrow screens
     $toc  = [];
     $body = preg_replace_callback( '#<h2([^>]*)>(.*?)</h2>#su', function ( $m ) use ( &$toc ) {
-        $label = trim( wp_strip_all_tags( $m[2] ) );
+        // Entities decoded, as esc_html() escapes the label again (an &apos; showed in the list, 3 Oct 2026)
+        $label = trim( html_entity_decode( wp_strip_all_tags( $m[2] ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
         $id    = 'section-' . ( count( $toc ) + 1 );
         $toc[] = [ 'id' => $id, 'label' => $label ];
         $attrs = preg_replace( '#\sid="[^"]*"#', '', $m[1] );
@@ -59,8 +60,20 @@ function sweet_pepper_privacy( $page_id ) {
     $body = str_replace( '</table>', '</table></div>', $body );
 
     $title_en = $get( 'title_en' );
+    $title    = 'en' === $lang && '' !== $title_en ? $title_en : get_the_title( $page_id );
+
+    // The short headline over the full title (author, 3 Oct 2026 — the legal titles ran four
+    // Molot lines at 64, seven on a phone): data/documents.php → headlines, by slug
+    $words = require get_template_directory() . '/data/documents.php';
+    $heads = 'ru' === $lang ? $words['ru']['headlines'] : $words['headlines'];
+    $short = $heads[ get_post_field( 'post_name', $page_id ) ] ?? '';
+
     return [
-        'title'    => 'en' === $lang && '' !== $title_en ? $title_en : get_the_title( $page_id ),
+        'title'    => $title,
+        'short'    => $short,
+        // The full title under it: a one-letter Russian word keeps to the next one, so «с» or «в»
+        // never ends a line (U+00A0)
+        'full'     => 'ru' === $lang ? preg_replace( '/(?<=^|\s)([а-яё])\s/iu', "$1\u{00A0}", $title ) : $title,
         'updated'  => sweet_pepper_privacy_date( $get( 'updated' ) ),
         'body'     => $body,
         'toc'      => $toc,

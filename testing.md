@@ -260,6 +260,36 @@ Seen in headless Chrome only (360, 402, 768, 834, 991, 992 and 1440 wide, RU and
 
 ---
 
+## Reserve ticket — ready-made messages (3 October 2026)
+
+Build record: `report.md` → *Reserve ticket*; rules and switches: `website-brief.md` → *Reserve ticket — ready-made messages, on trial*. Open the reserve drawer («Забронировать» / the drawer's booking block) on any page with the switch: `…/?ticket=next`, `…/?ticket=random`; `?ticket=off` to go back (the switch holds for the tab).
+
+| Question | Result |
+|---|---|
+| Which mechanic: → + swipe (`next`) or a random line only (`random`)? | Open — on a phone |
+| Is «1/5 →» read as "more messages", or does the arrow alone do? | Open |
+| Does a sideways swipe on the text feel natural inside the bottom sheet, without fighting its scroll? | Open — iPhone |
+| Do the five lines read as a guest would write them? «Привет, Перцы!» too familiar? | Open — author and team |
+| Sunday breakfast at 11:00 — is it served then? | **Yes — breakfast from 10:00 on Sundays (author, 3 Oct)** |
+
+Seen in headless Chrome only (393×662 with touch, 1440; RU and EN).
+
+## Legal pages and the «Документы» hub (3 October 2026)
+
+Build record: `report.md` → *Legal pages — the owner's reviewed texts…*. Local: http://sweet-pepper-bar.local/documents/, /privacy-policy/, /consent/, /consent-analytics/ and the `/en/` twins; the card colours' flag: `/documents/?doctone=olive`.
+
+| Question | Result |
+|---|---|
+| Hub cards: Deep Chili names (default) or the olive balance (`?doctone=olive`)? | **Deep Chili — decided (author, 3 Oct); olive kept as a flag** |
+| The short lines (hidden): more compact and under the cards — the Figma pass | Open — author |
+| Legal headline: a short name over the full title (B) or the title split after its first word (A)? | **B — decided (author, 3 Oct)** |
+| The full title at 22px on phones: four lines on the Metrica consent — 18px instead? | Open — on a phone |
+| «Политика» (RU) against “Privacy policy” (EN) as the short names | Open — author |
+| The notice's «Документы» / “Documents” opens the hub; the dialog's details still link the policy and the Metrica consent | Seen locally |
+| The three short lines and the hub's lead read right to the owner | Open — owner |
+
+Seen in headless Chrome only (1440 and 402; RU and EN; day and night).
+
 ## Nav drawer fit and tablet gaps; Visit card actions (3 October 2026)
 
 Build record: `report.md` → *Nav drawer fits an iPhone*. Seen in headless Chrome (393×662, 430×740, 375×553, 744×1000, 768×1024, 820×1180).

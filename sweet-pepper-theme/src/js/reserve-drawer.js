@@ -121,6 +121,84 @@ function initCopyButtons() {
     });
 }
 
+/* ── Ticket lines — on trial (3 Oct 2026) ──────────────────────
+   The ticket prints every ready-made message (inc/reserve-lines.php), stacked in one grid cell;
+   the first shows. Two mechanics, for this tab (sessionStorage):
+     ?ticket=next    a random line on load, the → in the Copy row (and a sideways swipe on the
+                     text) moves on, round and round — the author's sketch, the arrow moved off
+                     the text's side so the text keeps the full width
+     ?ticket=random  a random line on load, nothing to press
+     ?ticket=off     back to the first line alone (the site without a switch)
+   «Copy» copies whichever line is showing: the current one carries #ticket-message. */
+const TICKET_KEY = 'sp-ticket-trial';
+
+function ticketTrial() {
+    let asked = new URLSearchParams(location.search).get('ticket');
+    try {
+        if (asked === 'off') sessionStorage.removeItem(TICKET_KEY);
+        else if (asked === 'next' || asked === 'random') sessionStorage.setItem(TICKET_KEY, asked);
+        else asked = sessionStorage.getItem(TICKET_KEY);
+    } catch (e) { /* storage blocked: the URL alone decides */ }
+    return asked === 'next' || asked === 'random' ? asked : '';
+}
+
+function initTicketLines() {
+    const box = document.querySelector('.ticket-lines');
+    const lines = box ? Array.from(box.querySelectorAll('.ticket-text')) : [];
+    const mode = ticketTrial();
+    if (lines.length < 2 || !mode) return;
+
+    const ticket = box.closest('.reserve-ticket');
+    const next = ticket.querySelector('.js-ticket-next');
+    const count = ticket.querySelector('.ticket-next__count');
+    let index = 0;
+
+    function show(i, dir) {
+        const from = lines[index];
+        index = (i + lines.length) % lines.length;
+        const to = lines[index];
+        if (from !== to) {
+            from.classList.remove('is-current', 'is-in-left', 'is-in-right');
+            from.classList.add(dir < 0 ? 'is-out-right' : 'is-out-left');
+            from.removeAttribute('id');
+            from.setAttribute('aria-hidden', 'true');
+            to.classList.remove('is-out-left', 'is-out-right');
+            to.classList.add('is-current', dir < 0 ? 'is-in-left' : 'is-in-right');
+            to.id = 'ticket-message';
+            to.removeAttribute('aria-hidden');
+        }
+        if (count) count.textContent = `${index + 1}/${lines.length}`;
+    }
+
+    // A random start: a guest who opens the drawer twice may meet another line
+    box.classList.add('is-ready');
+    show(Math.floor(Math.random() * lines.length), 1);
+    lines.forEach((l) => l.classList.remove('is-in-right', 'is-in-left', 'is-out-left', 'is-out-right'));
+    if (mode !== 'next' || !next) return;
+
+    ticket.classList.add('has-next');
+    next.hidden = false;
+    next.addEventListener('click', () => show(index + 1, 1));
+
+    // A sideways swipe on the text: left → the next line, right → the one before. A mostly
+    // vertical move is the sheet's (or the page's) scroll and is left alone.
+    const stack = box.querySelector('.ticket-lines__stack');
+    let x0 = null;
+    let y0 = 0;
+    stack.addEventListener('touchstart', (e) => {
+        x0 = e.touches[0].clientX;
+        y0 = e.touches[0].clientY;
+    }, { passive: true });
+    stack.addEventListener('touchend', (e) => {
+        if (x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0;
+        const dy = e.changedTouches[0].clientY - y0;
+        x0 = null;
+        if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+        show(index + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    }, { passive: true });
+}
+
 /* ── Bar state rendering ───────────────────────────────────── */
 function applyBarState() {
     const state = getBarState();
@@ -273,6 +351,9 @@ export function initReserveDrawer() {
 
     // Copy buttons
     initCopyButtons();
+
+    // The ticket's ready-made messages (on trial: ?ticket=next|random)
+    initTicketLines();
 
     // The fixed tab on the home page
     initFixedTab();

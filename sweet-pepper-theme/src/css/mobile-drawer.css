@@ -11,8 +11,8 @@
    100ms and half at 286). The first build ran its own Quick (200ms in, 150 out), kept
    behind `?drawer=quick` for the comparison (mobile-drawer.js sets `html.drawer-quick`).
    The sides are the page gutter, so the list, the card and the buttons share the logo's
-   edge and the ×'s. Content spreads with space-between as in the mockup; short viewports
-   scroll. */
+   edge and the ×'s. Phones: content spreads with space-between as in the mockup, the booking
+   block at the foot; short viewports scroll. Tablets: every gap equal (below). */
 
 :root {
     --drawer-dur-in: var(--dur-gentle);
@@ -38,8 +38,10 @@ html.drawer-quick {
     align-items: flex-start;
     gap: 24px;
     /* Top: the fixed header (76px, under the admin bar when there is one) + 8px — with the
-       nav's own 16px the list starts where it did, 100px down */
-    padding: calc(var(--wp-admin--admin-bar--height, 0px) + 84px) var(--gutter) 34px;
+       nav's own 16px the list starts where it did, 100px down. Foot 24, the gap's size (was
+       34 — 10px of the 42 the sheet ran over on an iPhone 15 Pro in Chrome, 393×662; author,
+       3 Oct 2026) */
+    padding: calc(var(--wp-admin--admin-bar--height, 0px) + 84px) var(--gutter) 24px;
     background-color: var(--bg);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -52,6 +54,30 @@ html.drawer-quick {
 @media (max-width: 991px) {
     .mobile-drawer {
         display: flex;
+    }
+}
+
+/* Tablets: one gap everywhere — header → list, between the four groups, under the booking
+   block (author, 3 Oct 2026, iPad mini: the list sat 24px under the header while
+   space-between opened 122px between the rest). space-evenly on zero gaps, each child's
+   12px margins making the 24px floor: 85px each at 744×1000. Options compared on a contact
+   sheet (fixed 48 top-anchored left 234px empty at the foot; fixed 48 with the booking block
+   pinned left the same hole above it). Phones keep the foot for the thumb. 600, not the site's
+   768: an iPad mini is 744 wide (phones stop at 440). */
+@media (min-width: 600px) {
+    .mobile-drawer {
+        justify-content: space-evenly;
+        gap: 0;
+        padding-top: calc(var(--wp-admin--admin-bar--height, 0px) + 76px + 12px);
+        padding-bottom: 12px;
+    }
+
+    .mobile-drawer > * {
+        margin-block: 12px;
+    }
+
+    .mobile-drawer__nav {
+        padding-top: 0;
     }
 }
 
@@ -322,6 +348,21 @@ html.drawer-quick {
 
 :is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__cta-title {
     color: var(--lime-light, #d4e671);
+}
+
+/* Phones: the title goes, a heading for screen readers only — the buttons name the action, and
+   its 41px (with the gap) were the rest of what ran the sheet past an iPhone 15 Pro's screen.
+   The status line stays: busy and closed, it is the news (author, 3 Oct 2026). The tablet
+   split above: 600. */
+@media (max-width: 599px) {
+    .mobile-drawer__cta-title {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
 }
 
 .mobile-drawer__cta > .btn {

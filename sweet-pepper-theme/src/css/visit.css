@@ -1603,9 +1603,15 @@
     white-space: normal;
   }
 
-  .visit-hero__contact-action--desktop-only,
+  /* Icon only on phones; the verb stays the link's name for a screen reader (Write, Directions —
+     the phone and VK rows carry an aria-label) */
   .visit-hero__contact-action-label {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .visit-hero__contact-action--phone-only {
@@ -1623,10 +1629,6 @@
     content: '';
     position: absolute;
     inset: 0;
-  }
-
-  .visit-hero__contact-action--phone-only.is-copied .visit-hero__contact-action-icon svg {
-    color: var(--cream);
   }
 
   /* ── 2. Getting here (Location 1472:75737) ── */

@@ -220,13 +220,12 @@ $contacts = $args['contacts'];
                                     'contact'         => 'hello@sweetpepper.bar',
                                     'supportive_text' => $contacts['email_note'],
                                 ] ); ?>
-                                <a href="mailto:hello@sweetpepper.bar" class="visit-hero__contact-action visit-hero__contact-action--desktop-only">
+                                <?php // Every width: a desktop click opens the mail chooser (mail-chooser.js), a phone's tap the
+                                      // mail app — the ↗ of the other rows (author, 3 Oct 2026; was a copy glyph on phones) ?>
+                                <a href="mailto:hello@sweetpepper.bar" class="visit-hero__contact-action">
                                     <span class="visit-hero__contact-action-label"><?php echo esc_html_x( 'Write', 'a contact row action', 'sweet-pepper' ); ?></span>
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
-                                <button type="button" class="visit-hero__contact-action visit-hero__contact-action--phone-only js-copy" data-copy-text="hello@sweetpepper.bar" data-copied-label="<?php esc_attr_e( 'Email address copied', 'sweet-pepper' ); ?>" aria-label="<?php esc_attr_e( 'Copy email address', 'sweet-pepper' ); ?>">
-                                    <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-copy.svg' ); ?></span>
-                                </button>
                             </div>
                         </div>
 
@@ -240,12 +239,11 @@ $contacts = $args['contacts'];
                                     'copy_text'       => 'Ярославль, ул. Кирова, 10/25',
                                     'supportive_text' => $contacts['address_note'],
                                 ] ); ?>
-                                <a href="#visit-map" class="visit-hero__contact-action visit-hero__contact-action--desktop-only">
+                                <?php // Every width: ↓ to the map section right under the hero, whose chips hand off to the map
+                                      // apps (author, 3 Oct 2026; phones had a ↗ straight to a Yandex route) ?>
+                                <a href="#visit-map" class="visit-hero__contact-action">
                                     <span class="visit-hero__contact-action-label"><?php esc_html_e( 'Directions', 'sweet-pepper' ); ?></span>
                                     <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/arrowDown.svg' ); ?></span>
-                                </a>
-                                <a href="https://yandex.ru/maps/?rtext=~57.626100%2C39.884500" target="_blank" rel="noopener noreferrer" class="visit-hero__contact-action visit-hero__contact-action--phone-only" aria-label="<?php esc_attr_e( 'Route in Yandex Maps', 'sweet-pepper' ); ?>">
-                                    <span class="visit-hero__contact-action-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-out.svg' ); ?></span>
                                 </a>
                             </div>
                         </div>

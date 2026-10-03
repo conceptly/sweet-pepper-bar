@@ -260,6 +260,17 @@ Seen in headless Chrome only (360, 402, 768, 834, 991, 992 and 1440 wide, RU and
 
 ---
 
+## Nav drawer fit and tablet gaps; Visit card actions (3 October 2026)
+
+Build record: `report.md` → *Nav drawer fits an iPhone*. Seen in headless Chrome (393×662, 430×740, 375×553, 744×1000, 768×1024, 820×1180).
+
+| Question | Result |
+|---|---|
+| iPhone 15 Pro, Chrome: does the drawer end with the VK button in view, in all three bar states (`?barstate=available|busy|closed`)? | Built 3 Oct — exact fit measured; to confirm on the phone (Safari's bars may differ) |
+| Is the drawer's booking block clear without «Ваш столик» on phones? | Open |
+| iPad mini: do the even gaps (≈82px) read balanced, or too airy? | Open |
+| Visit card on a phone: email ↗ opens the mail app; the address ↓ lands on Getting here | Open — on the phone |
+
 ## Mobile drawer and button hover speed (1 October 2026)
 
 Build record: `report.md` → *Mobile drawer — the header stays*; rules: `website-brief.md` → Mobile — the drawer → *Opening and closing*, Motion language → *Quick*. From a tester's note: hovers and the hamburger menu feel slow against a design that reads fast.

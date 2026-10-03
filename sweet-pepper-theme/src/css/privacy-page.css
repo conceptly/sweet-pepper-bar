@@ -321,8 +321,9 @@ html[data-theme="night"] .privacy-doc h2 {
    accents go Lime (the icon discs, the kind labels through --accent-2, the cards' stroke),
    the card names Paprika as the policy's section titles.
    3 Oct 2026 (author): the short version is hidden for now (data/documents.php → show_lines;
-   its rules stay); the card names were Chili — too much: Deep Chili by day (decided), and kept as
-   a flag `?doctone=olive` (inc/documents.php) — the kind Ash, the names Olive. The arrow is the
+   its rules stay); the card names were Chili — too much: the kind Ash and the names Olive
+   (Mushroom / Lime by night) are the default since the author's test; Deep Chili names stay
+   behind `?doctone=chili` (inc/documents.php). The arrow is the
    links' outline arrow, Olive / Lime; on phones the settings button spans the card.
    Then (author): radius 16 → 8 and the inner gaps 16 → 8, measured against the site's cards —
    every text card is 8px round, and the careers card steps 8 from title to text.
@@ -481,22 +482,18 @@ html[data-theme="night"] .documents-line__icon {
 }
 
 .documents-cards {
-    --doc-kind: var(--accent-2);   /* Olive by day, Lime by night */
-    --doc-name: var(--chili-deep); /* Deep Chili by day (Chili read as too much, author) */
+    --doc-kind: var(--text-muted); /* Ash by day, Mushroom by night */
+    --doc-name: var(--accent-2);   /* Olive by day, Lime by night (author, 3 Oct 2026) */
 }
 
-html[data-theme="night"] .documents-cards {
+/* ?doctone=chili — the first default: the kind Olive / Lime, the names Deep Chili by day */
+.documents-cards--chili {
+    --doc-kind: var(--accent-2);
+    --doc-name: var(--chili-deep);
+}
+
+html[data-theme="night"] .documents-cards--chili {
     --doc-name: var(--paprika); /* Deep Chili is 2.4:1 on dark */
-}
-
-/* ?doctone=olive — the kind Ash, the names Olive; Mushroom / Lime by night */
-.documents-cards--olive {
-    --doc-kind: var(--text-muted);
-    --doc-name: var(--accent-2);
-}
-
-html[data-theme="night"] .documents-cards--olive {
-    --doc-name: var(--accent-2);
 }
 
 .documents-card__kind {

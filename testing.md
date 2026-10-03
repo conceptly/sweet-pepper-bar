@@ -276,11 +276,11 @@ Seen in headless Chrome only (393×662 with touch, 1440; RU and EN).
 
 ## Legal pages and the «Документы» hub (3 October 2026)
 
-Build record: `report.md` → *Legal pages — the owner's reviewed texts…*. Local: http://sweet-pepper-bar.local/documents/, /privacy-policy/, /consent/, /consent-analytics/ and the `/en/` twins; the card colours' flag: `/documents/?doctone=olive`.
+Build record: `report.md` → *Legal pages — the owner's reviewed texts…*. Local: http://sweet-pepper-bar.local/documents/, /privacy-policy/, /consent/, /consent-analytics/ and the `/en/` twins; the card colours' flag: `/documents/?doctone=chili`.
 
 | Question | Result |
 |---|---|
-| Hub cards: Deep Chili names (default) or the olive balance (`?doctone=olive`)? | **Deep Chili — decided (author, 3 Oct); olive kept as a flag** |
+| Hub cards: Deep Chili names or the olive balance? | **Olive — the default after the author's test on the test site (3 Oct); Deep Chili first, now behind `?doctone=chili`** |
 | The short lines (hidden): more compact and under the cards — the Figma pass | Open — author |
 | Legal headline: a short name over the full title (B) or the title split after its first word (A)? | **B — decided (author, 3 Oct)** |
 | The full title at 22px on phones: four lines on the Metrica consent — 18px instead? | Open — on a phone |

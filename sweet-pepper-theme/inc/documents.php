@@ -18,12 +18,13 @@ function sweet_pepper_documents_url() {
 }
 
 /**
- * The cards' colour balance (author, 3 Oct 2026 — Chili names read as too much): decided — the
- * names Deep Chili by day (Paprika at night), the kind Olive / Lime. Kept as a flag on purpose
- * (author): `?doctone=olive` — the kind Ash, the names Olive (Mushroom / Lime by night). Returns the class suffix for the card list.
+ * The cards' colour balance (author, 3 Oct 2026 — Chili names read as too much). The default
+ * since the author's test the same day: the kind Ash, the names Olive (Mushroom / Lime by night).
+ * Deep Chili names (Paprika at night) under an Olive / Lime kind — the first default — stay
+ * behind `?doctone=chili`. Returns the class suffix for the card list.
  */
 function sweet_pepper_documents_tone() {
-    return ( isset( $_GET['doctone'] ) && 'olive' === $_GET['doctone'] ) ? ' documents-cards--olive' : '';
+    return ( isset( $_GET['doctone'] ) && 'chili' === $_GET['doctone'] ) ? ' documents-cards--chili' : '';
 }
 
 /**

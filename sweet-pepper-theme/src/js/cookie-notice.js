@@ -2,10 +2,10 @@
 import { privacyChoiceComplete } from './privacy-preferences';
 
 const DELAY = 2000; // ms after load — 12 s at first; 1–2 s read better on the author's test (27 Sep 2026)
-// The confirmation after a choice in the band (author, 2 Oct 2026): long enough to read a short
-// sentence twice, short enough not to sit on the page; hover holds it, a keyboard choice keeps it
+// The confirmation after a choice in the band (author, 2 Oct 2026): long enough to catch what
+// happened and see «Настроить», short enough not to sit on the page; hover holds it, a keyboard choice keeps it
 // until Закрыть / Escape (WCAG 2.2.1). `?noticedone=0` closes the band at once, to compare.
-const DONE_TIME = 6000;
+const DONE_TIME = 4500; // 6000 at first; 6 s (~7 with the slide-out) felt long — the line confirms a choice just made (author, 3 Oct 2026)
 // `?savedmsg=1` — PROTOTYPE (author, 3 Oct 2026): a save in the settings dialog is confirmed too,
 // by the same band, with a sentence that says what was saved — also when the dialog was opened
 // from the footer and the band had long gone. Without the flag a dialog save just closes the band.

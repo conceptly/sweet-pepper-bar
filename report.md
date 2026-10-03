@@ -1,5 +1,9 @@
 # Sweet Pepper Website — Project Report
 
+## Notice: the success line's timer 6 → 4.5 s — 3 October 2026
+
+The author: 6 s felt long. With the ~1 s slide-out it was ~7 s on screen, for a line that confirms a choice just made; the reading-time rule (~20 words ≈ 5–6 s) is a full read nobody does here — «Готово!» / «Как скажете!» and a glance at «Настроить» are enough. Now **4.5 s** (~5.5 on screen); not under 4, the Russian lines are long. Hover-back and keyboard rules unchanged. Checked: shown at 4.2 s, gone by 4.8.
+
 ## Notice: sentence → links gap 16 → 12 — 3 October 2026
 
 The author, after trying it in dev tools: the sentence's end margin 12 → **8px**, so the sentence and «Документы» sit ~12px apart (margin + the space) — the same as the two links. Measured in Russian at 1440 and 390.

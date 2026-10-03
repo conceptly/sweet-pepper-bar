@@ -58,6 +58,8 @@ import { initConnectorPhoneTrial } from './js/connector-phone';
 import { initReveal } from './js/reveal';
 import { initCountUp } from './js/count-up';
 import { initMapPreferences } from './js/map-permission';
+import { initPrivacyPreferences } from './js/privacy-preferences';
+import { initAnalytics } from './js/analytics';
 import { initCookieNotice } from './js/cookie-notice';
 import { initLangNudge } from './js/lang-nudge';
 import { initBarColor } from './js/bar-color';
@@ -138,7 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Numbers that count up once as their block reveals (after initReveal: it needs the arming)
     initCountUp();
 
-    // Cookie notice — prototype behind ?notice= (cookie-notice-plan.md)
+    // Privacy: the settings dialog, Metrica (only on sweetpepper.bar, only with consent), the notice
+    initPrivacyPreferences();
+    initAnalytics();
     initCookieNotice();
     initLangNudge();
     initBarColor(); // <meta theme-color> follows the theme — the browser's own chrome takes the page's ground

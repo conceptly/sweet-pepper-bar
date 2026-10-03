@@ -5,9 +5,7 @@ const LIFETIME = 180 * 24 * 60 * 60 * 1000;
 let memory = null;
 let storageFailed = false;
 
-export function mapAllowed() {
-    // US/Canada on the English page: no permission step (inc/geo.php → sweet_pepper_maps_open)
-    if (document.documentElement.hasAttribute('data-maps-open')) return true;
+export function mapChoice() {
     let value = memory;
     if (!storageFailed) {
         let raw;
@@ -16,9 +14,11 @@ export function mapAllowed() {
             try { value = JSON.parse(raw); } catch { value = null; }
         }
     }
-    return value?.version === VERSION && value.allowed === true &&
-        Number.isFinite(value.expires) && value.expires > Date.now();
+    return value?.version === VERSION && typeof value.allowed === 'boolean' &&
+        Number.isFinite(value.expires) && value.expires > Date.now() ? value : null;
 }
+
+export function mapAllowed() { return mapChoice()?.allowed === true; }
 
 export function setMapPermission(allowed) {
     memory = { version: VERSION, allowed: allowed === true, expires: Date.now() + LIFETIME };
@@ -30,29 +30,16 @@ export function setMapPermission(allowed) {
 }
 
 export function initMapPreferences() {
-    const dialog = document.getElementById('map-preferences');
-    if (!dialog) return;
-    let opener;
-    const status = dialog.querySelector('[data-map-status]');
+    let expiryTimer;
     const update = () => {
-        status.textContent = mapAllowed() ? status.dataset.allowed : status.dataset.blocked;
+        clearTimeout(expiryTimer);
+        const choice = mapChoice();
+        if (choice?.allowed) expiryTimer = setTimeout(() => {
+            window.dispatchEvent(new Event('sp:map-permission'));
+        }, Math.min(choice.expires - Date.now() + 1, 86400000));
     };
-    document.querySelectorAll('[data-map-settings]').forEach(button => {
-        button.hidden = false;
-        button.addEventListener('click', () => {
-            opener = button;
-            update();
-            dialog.showModal();
-        });
-    });
-    dialog.querySelectorAll('[data-map-choice]').forEach(button => {
-        button.addEventListener('click', () => {
-            setMapPermission(button.dataset.mapChoice === 'allow');
-            dialog.close();
-        });
-    });
-    dialog.addEventListener('close', () => opener?.focus());
     window.addEventListener('sp:map-permission', update);
+    update();
     window.addEventListener('storage', event => {
         if (event.key === MAP_PERMISSION_KEY || event.key === null) {
             memory = null;
@@ -60,6 +47,7 @@ export function initMapPreferences() {
             window.dispatchEvent(new Event('sp:map-permission'));
         }
     });
+    window.addEventListener('pageshow', () => window.dispatchEvent(new Event('sp:map-permission')));
     // A background tab must also drop embeds once the stored permission expires.
     document.addEventListener('visibilitychange', () => {
         if (!document.hidden) window.dispatchEvent(new Event('sp:map-permission'));

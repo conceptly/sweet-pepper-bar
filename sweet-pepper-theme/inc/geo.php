@@ -100,27 +100,9 @@ function sweet_pepper_show_instagram() {
     return $show;
 }
 
-/**
- * Whether this request's Google maps load with the page, without the permission step: the
- * English page, from a US or Canadian IP. Read by the map placeholder, the Map settings
- * dialog and footer link, the cookie notice, and <html data-maps-open> for map-permission.js.
- */
-function sweet_pepper_maps_open() {
-    static $open = null;
-    if ( null === $open ) {
-        // ?ru-test shows the permission step (as for a Russian IP); ?na-test skips it, to check
-        // the US/Canada page from elsewhere — it only changes what the one who typed it sees.
-        $open = 'ru' !== sweet_pepper_lang() && ! isset( $_GET['ru-test'] )
-            && ( isset( $_GET['na-test'] ) || sweet_pepper_ip_in( 'na', sweet_pepper_client_ip() ) );
-        /** Tests: force either answer. */
-        $open = (bool) apply_filters( 'sweet_pepper_maps_open', $open );
-    }
-    return $open;
-}
-
-add_filter( 'language_attributes', function ( $output ) {
-    return ! is_admin() && sweet_pepper_maps_open() ? $output . ' data-maps-open' : $output;
-} );
+/** Privacy choices now apply in every language and country (2 October 2026).
+ * Retained for the existing admin diagnostic below; never bypass visitor choice. */
+function sweet_pepper_maps_open() { return false; }
 
 /**
  * Typed text without its Instagram mention where Instagram may not show. A trailing clause

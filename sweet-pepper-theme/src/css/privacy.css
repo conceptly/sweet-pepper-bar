@@ -16,7 +16,7 @@
     line-height: 1.45;
 }
 .map-placeholder[hidden], .map-placeholder [hidden], .map-settings-link[hidden] { display: none; }
-.map-placeholder p, .map-preferences p { margin: 0; }
+.map-placeholder p { margin: 0; }
 .map-placeholder__title { font-weight: 700; font-size: 24px; }
 .map-placeholder p a { color: var(--lime); text-decoration: underline; }
 .map-placeholder .btn { flex-shrink: 0; white-space: normal; height: auto; min-height: 44px; }
@@ -80,26 +80,7 @@
     outline: 2px solid currentColor;
     outline-offset: 4px;
 }
-.map-preferences {
-    width: min(560px, calc(100vw - 32px));
-    max-height: calc(100dvh - 48px);
-    overflow: auto;
-    margin: auto;
-    padding: 24px;
-    border: 1px solid var(--mushroom);
-    border-radius: 12px;
-    background: var(--paper);
-    color: var(--peppercorn);
-    font-size: 16px;
-    line-height: 1.5;
-}
-.map-preferences::backdrop { background: rgb(21 19 23 / 70%); }
-.map-preferences > :not(:first-child) { margin-top: 16px; }
-.map-preferences h2 { color: var(--peppercorn); margin: 0; font-size: 24px; }
-.map-preferences a { color: var(--chili-deep); text-decoration: underline; }
-.map-preferences__actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.map-preferences .btn { background: var(--lime); color: var(--peppercorn); border: 1px solid var(--peppercorn); }
-.map-preferences :focus-visible, .map-placeholder :focus-visible, .map-settings-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.map-placeholder :focus-visible, .map-settings-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 
 /* ── The map message's states and easing (author, 28 Sep 2026: "the same patterns as across
    the website") — the placeholder is always on Peppercorn, so its components take their
@@ -173,4 +154,176 @@
     .contacts-map__embed iframe {
         transition: none;
     }
+}
+
+/* ── Privacy settings dialog (refined 2 Oct 2026) ──
+   Themed by the site tokens: Paper by day; Soft Peppercorn at night and on the fixed dark pages
+   (About, Visit, a vacancy), as the cookie notice and the header there. A scrolling body over a
+   footer with Save; 8px corners as the mail chooser; the switches are native checkboxes with
+   role="switch". */
+.privacy-preferences {
+    --dialog-bg: var(--paper);
+    --dialog-line: color-mix(in srgb, var(--text-muted) 40%, transparent);
+    position: fixed;
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 1.5;
+    border: 1px solid var(--dialog-line);
+    border-radius: 8px;
+    background: var(--dialog-bg);
+    color: var(--text);
+    box-shadow: 0 8px 24px rgba(21, 19, 23, 0.3);
+}
+:is(html[data-theme="night"], .page-template-page-about, .page-template-page-visit, .single-vacancy) .privacy-preferences {
+    --text: var(--parchment);
+    --text-muted: var(--mushroom);
+    --dialog-bg: var(--soft-peppercorn);
+    --dialog-line: rgb(243 233 210 / 0.16);
+}
+.privacy-preferences::backdrop { background: rgb(21 19 23 / 70%); }
+.privacy-preferences[open] { display: flex; flex-direction: column; }
+.privacy-preferences:focus { outline: none; } /* focused itself only when opened by a click (privacy-preferences.js) */
+.privacy-preferences p { margin: 0; }
+.privacy-preferences__form { display: flex; flex-direction: column; min-height: 0; }
+.privacy-preferences__body { overflow-y: auto; overscroll-behavior: contain; padding: 24px; }
+.privacy-preferences__footer { padding: 16px 24px 24px; border-top: 1px solid var(--dialog-line); }
+.privacy-preferences h2 { margin: 0 0 8px; padding-right: 40px; color: var(--text); font-size: 24px; line-height: 1.25; }
+
+/* The close button: the mail chooser's Phosphor ×, muted, the text colour on hover; 44px target,
+   its icon on the 24px padding line and centred on the title's first line */
+.privacy-preferences__close {
+    position: absolute;
+    top: 17px;
+    right: 14px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat), background-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+.privacy-preferences__close:hover { color: var(--text); background: color-mix(in srgb, var(--text) 8%, transparent); }
+.privacy-preferences__close:active { color: var(--text); background: color-mix(in srgb, var(--text) 15%, transparent); transition-duration: 100ms; }
+
+/* Options: the name in the text colour and bold, the line under it muted — two levels, not one */
+.privacy-option { padding-block: 16px; border-bottom: 1px solid var(--dialog-line); }
+.privacy-option__label { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 4px; font-weight: 700; cursor: pointer; }
+.privacy-option__text { color: var(--text-muted); }
+
+/* The switch: off — a muted outline and knob; on — Lime with a Peppercorn knob (both themes).
+   Hover answers on the whole row; pressed stretches the knob, fast (the site's press). */
+.privacy-option input {
+    appearance: none;
+    flex-shrink: 0;
+    position: relative;
+    width: 48px;
+    height: 28px;
+    margin: 0;
+    border: 2px solid var(--text-muted);
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat), border-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+.privacy-option input::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: var(--text-muted);
+    transition: transform 200ms var(--ease-gentle-flat), width 100ms var(--ease-gentle-flat), background-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+.privacy-option input:checked { background: var(--lime); border-color: var(--peppercorn); }
+:is(html[data-theme="night"], .page-template-page-about, .page-template-page-visit, .single-vacancy) .privacy-option input:checked { border-color: var(--lime); }
+.privacy-option input:checked::after { background: var(--peppercorn); transform: translateX(20px); }
+.privacy-option__label:hover input:not(:checked) { border-color: var(--text); }
+.privacy-option__label:hover input:not(:checked)::after { background: var(--text); }
+.privacy-option__label:hover input:checked { background: var(--cream); } /* the Lime button's hover */
+.privacy-option__label:active input::after { width: 22px; }
+.privacy-option__label:active input:checked::after { transform: translateX(16px); }
+.privacy-option input:focus-visible, .privacy-preferences__close:focus-visible, [data-privacy-settings]:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.privacy-option input:focus-visible { outline-color: var(--text); }
+
+.privacy-preferences .privacy-preferences__note { margin-block: 16px; color: var(--text-muted); }
+
+/* Details: a drawn chevron in place of the browser's triangle; the summary is an inline link
+   with the site's link states (1px, 2px on hover and press) */
+.privacy-preferences__details summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-thickness var(--dur-gentle) var(--ease-gentle-flat);
+}
+.privacy-preferences__details summary::-webkit-details-marker { display: none; }
+.privacy-preferences__details summary::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    margin-top: -4px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform var(--dur-gentle) var(--ease-gentle-flat), margin var(--dur-gentle) var(--ease-gentle-flat);
+}
+.privacy-preferences__details[open] summary::after { margin-top: 4px; transform: rotate(-135deg); }
+.privacy-preferences__details summary:hover { text-decoration-thickness: 2px; }
+.privacy-preferences__details summary:active { text-decoration-thickness: 2px; transition-duration: 100ms; }
+.privacy-preferences__details summary:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.privacy-preferences__details[open] summary { margin-bottom: 12px; }
+.privacy-preferences__details p { color: var(--text-muted); }
+.privacy-preferences .privacy-preferences__docs { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 12px; }
+.privacy-preferences .privacy-preferences__docs a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-thickness var(--dur-gentle) var(--ease-gentle-flat);
+}
+.privacy-preferences .privacy-preferences__docs a:hover { text-decoration-thickness: 2px; }
+.privacy-preferences .privacy-preferences__docs a:active { text-decoration-thickness: 2px; transition-duration: 100ms; }
+
+/* Opening: a short fade and rise on the house curve; closing is instant (the site's overlays) */
+@starting-style {
+    .privacy-preferences[open] { opacity: 0; transform: translateY(8px); }
+    .privacy-preferences[open]::backdrop { opacity: 0; }
+}
+.privacy-preferences[open] { transition: opacity var(--dur-gentle) var(--ease-gentle-flat), transform var(--dur-gentle) var(--ease-gentle); }
+.privacy-preferences[open]::backdrop { transition: opacity var(--dur-gentle) var(--ease-gentle-flat); }
+
+/* From tablets up: 32px from the content to the dialog's edge (author, 3 Oct 2026 — 24 read
+   tight); the × follows, its icon on the 32px line and centred on the title's first line */
+@media (min-width: 768px) {
+    .privacy-preferences__body { padding: 32px; }
+    .privacy-preferences__footer { padding: 24px 32px 32px; }
+    .privacy-preferences__close { top: 25px; right: 22px; }
+}
+
+/* Phones: 24px keeps the 358px dialog's line length; Save full width */
+@media (max-width: 767px) {
+    .privacy-preferences__footer .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .privacy-option input,
+    .privacy-option input::after,
+    .privacy-preferences[open],
+    .privacy-preferences[open]::backdrop { transition: none; }
 }

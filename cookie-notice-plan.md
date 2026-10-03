@@ -1,6 +1,8 @@
+> **Current baseline — accepted as a good starting point, 2 October 2026:** the current Lime banner asks for both Google Maps and Metrica. «На здоровье!» allows both; «Нет, спасибо» refuses both; underlined «Настроить» opens independent switches in one privacy dialog. Save applies choices, ×/Escape cancels. See `website-brief.md` → Analytics for the approved copy and behaviour. Earlier Got it and separate-settings plans below are historical.
+
 # Sweet Pepper — cookie notice: copy and plan
 
-*Draft, 26 September 2026. Working material for the author; nothing is built and nothing on the site has changed. The Russian text is a first draft in the site's register — the author's pass decides it.*
+*Historical exploration, 26 September 2026. The original proposals below have been superseded by the implemented shared privacy controls described above; see `website-brief.md` for current copy and `testing.md` for validation.*
 
 Companion to [privacy-policy-ru-draft.md](privacy-policy-ru-draft.md) §5 and [privacy-policy-review.md](privacy-policy-review.md) (К01, К02, Т03–Т06). The placement mock-ups are in the contact sheet sent with this draft (`cookie-notice-placements.png`, not in the repo).
 

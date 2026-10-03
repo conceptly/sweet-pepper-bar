@@ -6,6 +6,29 @@
 
 ---
 
+## Shared privacy controls — working baseline accepted (2 October 2026)
+
+Author: «Looks great … a good starting point.» Current decisions: `website-brief.md` → Analytics; counter/configuration: `analytics-setup.md`.
+
+| Check | Status / evidence |
+|---|---|
+| First choice and cancellation | **Passed, isolated Chrome:** switches initially off; × and Escape discard edits and leave the banner available |
+| Combined and mixed choices | **Passed:** allow both, refuse both, analytics only and maps only; save closes the dialog/banner; choices survive reload |
+| Separate map action | **Passed:** «Загрузить карту» enables maps only; previous analytics permission never implies map permission |
+| Withdrawal | **Passed:** other open tabs remove maps and stop analytics; per-service choices remain independent |
+| Migration and storage | **Passed:** old notice dismissal never grants permission; missing map choice still prompts; blocked storage uses page-only choices |
+| Layout | **Checked:** RU/EN at 360, 768 and 1280 px; two equal buttons with an underlined settings control; compact dialog with expandable data details |
+| Layout v2 (2 Oct, later) | **Checked, local site:** buttons in one row at 1440/1100/1024/800/390; «Настроить» beside «Подробнее»; desktop top-aligned, word on one line. Real phone/Safari pending |
+| Settings dialog refined (3 Oct) | **Checked, headless Chrome:** day / night / About by day; 32px padding and the × on its line (measured 0px off); phone with details open — Save stays in reach; mouse open — no ring, Tab and keyboard open — ring on the first switch. **Open:** real phone, VoiceOver, the opening fade on older Safari |
+| `?savedmsg=1` — dialog-save confirmation (3 Oct) | **Checked:** footer save raises the band with the right one of four sentences, gone at 6 s; no flag — no message. **Open:** the Lime band on the Lime footer merges (proposed: a Peppercorn top line); author verdict |
+| Notice v3: theme tone + confirmation (2 Oct) | **Checked, headless Chrome:** Figma spacing at 1440/1024/800/390; `?noticetone=theme` day, night, About by day; confirmation by mouse (closes at 6 s), by keyboard (focus to Закрыть, Escape), `?noticedone=0`. **Open:** real phone/Safari, VoiceOver announcement of the status line, author verdict on tone and on keeping the confirmation |
+| Build and templates | **Passed:** production build, changed PHP syntax and whitespace checks |
+| Full site / device review | **Pending:** Local WordPress was unavailable during verification; review the controls in the full page on a real phone/Safari |
+| Provider verification | **Pending:** dashboard field recording/Advanced Matching settings, actual counter receipt and masking in a real Webvisor replay. Browser tests mocked provider traffic |
+| Release | **Not deployed.** Update/publish the RU/EN policy for analytics and remove the retired English US/Canada map exception before launch |
+
+---
+
 ## Phone connectors — hidden on phones (2 October 2026)
 
 On trial (`report.md`, 2 Oct; `website-brief.md` → Section connectors → Phones — on trial). `/?conn=0` hides the connectors below 768px, `?conn=fit` resets; the look is remembered for the visit. Sheets: `Claude outputs/connector-phone/sheet-day.png`, `sheet-night.png`.
@@ -185,7 +208,7 @@ Build record: `report.md` → *Phone menu navigation*; rules and open points: `w
 | Two taps to another section (bar → word) against the rail's one — does it slow anyone down | Open |
 | Does the bar sit clear of Safari's own bottom bar and the home indicator | Open — never checked (headless Chrome only) |
 | The bar menu in Russian: the label drops to the kebab alone beside «Без алкоголя» (and «Чай и кофе» on a 360 phone) — noticed? | Open — a shorter label than «Вся барная карта» would remove it |
-| First visit: the cookie notice covers the bar until «Понятно» | Open — watch whether anyone looks for the sections before dismissing it |
+| First visit: the cookie notice covers the bar until a choice (was «Понятно» until 2 Oct) | Open — watch whether anyone looks for the sections before answering it |
 
 Seen in headless Chrome only (320 to 1440 wide, RU and EN). Owed: Safari, real phones and a tablet, the test site (not deployed).
 

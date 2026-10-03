@@ -123,9 +123,7 @@
                     <?php endif; ?>
                     <?php // The consent text beside the policy (author, 29 Sep 2026) — shown before the page is published, on purpose, to judge its room and states ?>
                     <a href="<?php echo esc_url( sweet_pepper_consent_url() ); ?>" class="footer-legal__link"><?php echo 'ru' === sweet_pepper_lang() ? 'Согласие на обработку данных' : 'Consent to data processing'; ?></a>
-                    <?php if ( ! sweet_pepper_maps_open() ) : ?>
-                        <button type="button" class="map-settings-link" data-map-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки карт' : 'Map settings'; ?></button>
-                    <?php endif; ?>
+                    <button type="button" class="map-settings-link" data-privacy-settings hidden><?php echo 'ru' === sweet_pepper_lang() ? 'Настройки приватности' : 'Privacy settings'; ?></button>
                 </span>
                 <?php if ( ! is_404() ) : // as the phone's link above ?>
                 <a href="#page" class="footer-back-to-top">
@@ -138,10 +136,10 @@
 </div><!-- #page -->
 
 <?php get_template_part('template-parts/components/reserve-drawer'); ?>
-<?php get_template_part('template-parts/components/map-preferences'); ?>
+<?php get_template_part('template-parts/components/privacy-preferences'); ?>
 <?php get_template_part( 'template-parts/components/mail-chooser' ); // what an e-mail link opens on a desktop (src/js/mail-chooser.js) ?>
 
-<?php get_template_part( 'template-parts/components/cookie-notice' ); // the bottom band by default (27 Sep 2026); ?notice=corner for the card, &pos=top to compare, ?notice=off for none ?>
+<?php get_template_part( 'template-parts/components/cookie-notice' ); // the Lime band at the foot by default; ?notice=corner, &pos=top, ?notice=off, ?noticetone=theme, ?noticedone=0, ?savedmsg=1 ?>
 <?php // Viewport foot (27 Sep 2026): Safari 26 on the iPhone extends the colour of the fixed element
       // that touches the viewport's bottom edge under its floating bar — nothing fixed there, and
       // the page shows through the glass. A 4px strip in the page's canvas colour is that element

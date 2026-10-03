@@ -61,7 +61,7 @@
         <!-- Form fields -->
         <form class="team-form__fields" id="team-form-el" data-endpoint="<?php echo esc_url( sweet_pepper_forms_endpoint() ); ?>" novalidate>
             <!-- Honeypot: hidden from people, filled by bots (inc/forms.php) -->
-            <div class="form-honeypot" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="form-honeypot" aria-hidden="true"><label>Website <input class="ym-disable-keys" type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
             <!-- Name -->
             <div class="contact-field" data-field="name">
@@ -72,7 +72,7 @@
                     <span class="contact-field__error-text"><?php esc_html_e( 'Please enter your name', 'sweet-pepper' ); ?></span>
                 </div>
                 <div class="contact-field__input-wrap">
-                    <input class="contact-field__input" type="text" id="team-name" name="name" autocomplete="name" required>
+                    <input class="contact-field__input ym-disable-keys" type="text" id="team-name" name="name" autocomplete="name" required>
                     <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
                     <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                 </div>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="contact-field__input-wrap">
                     <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
-                    <input class="contact-field__input" type="email" id="team-email" name="email" autocomplete="email" required>
+                    <input class="contact-field__input ym-disable-keys" type="email" id="team-email" name="email" autocomplete="email" required>
                     <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
                     <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                 </div>
@@ -103,7 +103,7 @@
                     <span class="contact-field__error-text"><?php esc_html_e( 'Please enter a message', 'sweet-pepper' ); ?></span>
                 </div>
                 <div class="contact-field__input-wrap contact-field__input-wrap--textarea">
-                    <textarea class="contact-field__input" id="team-message" name="message" maxlength="500" required></textarea>
+                    <textarea class="contact-field__input ym-disable-keys" id="team-message" name="message" maxlength="500" required></textarea>
                 </div>
                 <span class="contact-field__counter"><span class="js-team-char-count">0</span>/500</span>
             </div>

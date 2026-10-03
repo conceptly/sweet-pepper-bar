@@ -1,8 +1,9 @@
-/* ── Cookie notice — PROTOTYPE (`?notice=corner` | `?notice=band`; cookie-notice-plan.md) ──
-   Fixed at every width (author, 27 Sep 2026: overlap, never push — one first visit, one click).
-   Slides in after load + delay (cookie-notice.js), out on «Понятно». The recipe is the
-   lang-nudge's outline family: Golos 16 muted on the raised surface, a 1px muted keyline,
-   the Molot H3 word in accent-2, a secondary button. Themes by token; the fixed dark pages
+/* ── Privacy notice — the Lime band at the foot of the viewport (default); `?notice=corner` keeps
+   the old card, `?noticetone=theme` the themed band on trial (website-brief.md → Analytics).
+   Fixed at every width (author, 27 Sep 2026: overlap, never push). Slides in after load + delay
+   (cookie-notice.js), out once both services have a saved choice — after a short confirmation
+   when the choice was made in the band. The band's own rules come last in this file
+   («Analytics choice»); the corner card below keeps the token recipe, and the fixed dark pages
    (About / Visit / vacancy) take the night values through .cookie-notice--dark. */
 .cookie-notice {
     position: fixed;
@@ -384,4 +385,137 @@ html[data-foot="safari"] .cookie-notice[data-variant="band"][data-pos="bottom"] 
     html[data-foot="safari"] .cookie-notice[data-variant="band"][data-pos="bottom"] {
         padding-bottom: 16px;
     }
+}
+
+/* Analytics choice (2 Oct 2026; Figma noticeContent-lime 2842:73295, noticeContent-theme
+   2845:73553): two equal design-system secondary buttons in one row at every width, 16px apart;
+   «Подробнее» and «Настроить» are underlined inline links after the sentence, never a third
+   boxed action. */
+.cookie-notice__actions { display: flex; gap: 16px; flex-shrink: 0; grid-area: ok; }
+.cookie-notice__actions .btn { white-space: nowrap; }
+/* Inline links take the sentence's colour and weight; the underline marks them (WCAG 1.4.1) */
+.cookie-notice[data-variant] .cookie-notice__text a,
+.cookie-notice__text .map-settings-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-thickness var(--dur-gentle) var(--ease-gentle-flat);
+}
+/* The site's inline-link states (footer legal, the form's «согласие»): the underline answers —
+   2px on hover and press, the press fast; the colour stays, so contrast holds in every tone */
+@media (hover: hover) {
+    .cookie-notice[data-variant] .cookie-notice__text a:hover,
+    .cookie-notice__text .map-settings-link:hover { text-decoration-thickness: 2px; }
+}
+.cookie-notice[data-variant] .cookie-notice__text a:active,
+.cookie-notice__text .map-settings-link:active { text-decoration-thickness: 2px; transition-duration: 100ms; }
+.cookie-notice__text a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+/* Proximity (author, 2 Oct 2026): the links sit further from the sentence (~16px with the
+   space) than from each other (~12px with the space; 8 read too close — author) */
+.cookie-notice__sentence { margin-right: 12px; }
+.cookie-notice__links { white-space: nowrap; }
+.cookie-notice__text .map-settings-link { margin-left: 8px; padding: 0; }
+.cookie-notice__text .map-settings-link:first-child { margin-left: 0; }
+.cookie-notice[data-variant][data-pos] { max-height: calc(100dvh - 32px); overflow-y: auto; }
+.cookie-notice__br { display: none; }
+
+/* The question and its confirmation share the box: both wrappers are display: contents, so
+   their sentence and buttons lay out as the box's own; cookie-notice.js swaps them (.is-done). */
+.cookie-notice__ask { display: contents; }
+.cookie-notice__done { display: none; }
+.cookie-notice.is-done .cookie-notice__ask { display: none; }
+.cookie-notice.is-done .cookie-notice__done { display: contents; }
+.cookie-notice[data-variant] .cookie-notice__text--done { display: block; }
+.cookie-notice.is-saved .cookie-notice__done .cookie-notice__links { display: none; } /* `?savedmsg=1`: the sentence names the footer */
+
+/* The Lime band's text is Soft Peppercorn, the word Peppercorn (Figma) */
+.cookie-notice[data-variant="band"] .cookie-notice__text { color: var(--soft-peppercorn); }
+
+/* Band padding 24 from tablets up (Figma; author, 2 Oct 2026) */
+@media (min-width: 768px) {
+    .cookie-notice[data-variant="band"],
+    .cookie-notice[data-variant="band"][data-pos="bottom"],
+    html[data-foot="safari"] .cookie-notice[data-variant="band"][data-pos="bottom"] { padding-block: 24px; }
+    .cookie-notice[data-variant="band"] { column-gap: 24px; }
+}
+/* Desktop: the word on two lines, a 1px divider 16px either side of it in place of the Chili
+   dot, the sentence, then the buttons 24px off; all share a top edge (author, 2 Oct 2026). */
+@media (min-width: 992px) {
+    .cookie-notice[data-variant="band"] .cookie-notice__box { align-items: flex-start; gap: 16px; }
+    .cookie-notice[data-variant="band"] .cookie-notice__title,
+    .cookie-notice--dark[data-variant="band"] .cookie-notice__title { display: block; }
+    .cookie-notice[data-variant="band"] .cookie-notice__br { display: inline; }
+    .cookie-notice[data-variant="band"] .cookie-notice__text { align-self: stretch; padding-left: 16px; border-left: 1px solid var(--notice-rule, var(--ash)); }
+    .cookie-notice[data-variant="band"] .cookie-notice__actions { margin-left: 8px; }
+}
+/* Phones (Figma noticeContent-lime-mobile 2852:73964): 24 top and bottom, 16 at the sides,
+   the word on one line, the buttons full width 20px under the sentence, 16 apart */
+@media (max-width: 767px) {
+    .cookie-notice[data-variant="band"] { padding-block: 24px; }
+    /* the inset under the home bar; Safari's foot owns it there (the higher rule below wins) */
+    .cookie-notice[data-variant="band"][data-pos="bottom"] { padding-top: 24px; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+    html[data-foot="safari"] .cookie-notice[data-variant="band"][data-pos="bottom"] { padding-block: 24px; }
+    .cookie-notice__actions { width: 100%; margin-top: 12px; }
+    .cookie-notice__actions .btn { flex: 1 1 0; }
+}
+/* No Chili dot after the word in either Figma frame: the divider (desktop) or nothing */
+.cookie-notice[data-variant="band"] .cookie-notice__title::after { display: none; }
+
+/* ── `?noticetone=theme` — the band follows the theme (Figma noticeContent-theme 2845:73553):
+   by day Parchment with a 4px Avocado top line, the word Chili Deep, the day secondary buttons
+   (Olive, 3.7:1 — UI text, §2.5); at night and on the fixed dark pages Soft Peppercorn with a
+   Lime line, the word Lime, the night secondary buttons. ── */
+.cookie-notice[data-variant="band"][data-tone="theme"] {
+    color: var(--soft-peppercorn);
+    background: var(--parchment);
+    border-top: 4px solid var(--avocado);
+}
+.cookie-notice[data-variant="band"][data-tone="theme"] .cookie-notice__title { color: var(--chili-deep); }
+.cookie-notice[data-variant="band"][data-tone="theme"] .btn-secondary {
+    border-color: var(--olive);
+    color: var(--olive);
+    background: transparent;
+}
+.cookie-notice[data-variant="band"][data-tone="theme"] .btn-secondary:hover {
+    background: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+.cookie-notice[data-variant="band"][data-tone="theme"] .btn-secondary:active {
+    background: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+}
+
+html[data-theme="night"] .cookie-notice[data-variant="band"][data-tone="theme"],
+.cookie-notice--dark[data-variant="band"][data-tone="theme"] {
+    --notice-rule: var(--mushroom);
+    color: var(--parchment);
+    background: var(--soft-peppercorn);
+    border-top-color: var(--lime);
+}
+html[data-theme="night"] .cookie-notice[data-variant="band"][data-tone="theme"] .cookie-notice__text,
+.cookie-notice--dark[data-variant="band"][data-tone="theme"] .cookie-notice__text { color: var(--parchment); }
+html[data-theme="night"] .cookie-notice[data-variant="band"][data-tone="theme"] .cookie-notice__title,
+.cookie-notice--dark[data-variant="band"][data-tone="theme"] .cookie-notice__title { color: var(--lime); }
+html[data-theme="night"] .cookie-notice[data-variant="band"][data-tone="theme"] .btn-secondary,
+.cookie-notice--dark[data-variant="band"][data-tone="theme"] .btn-secondary {
+    border-color: var(--lime);
+    color: var(--lime);
+    background: transparent;
+}
+html[data-theme="night"] .cookie-notice[data-variant="band"][data-tone="theme"] .btn-secondary:hover,
+.cookie-notice--dark[data-variant="band"][data-tone="theme"] .btn-secondary:hover {
+    background: rgba(193, 219, 52, 0.25); /* Lime 25%, the night secondary's hover */
+    border-color: var(--lime);
+    color: var(--lime);
+}
+html[data-theme="night"] .cookie-notice[data-variant="band"][data-tone="theme"] .btn-secondary:active,
+.cookie-notice--dark[data-variant="band"][data-tone="theme"] .btn-secondary:active {
+    background: rgba(193, 219, 52, 0.15); /* Lime 15% */
+    border-color: var(--lime);
+    color: var(--lime);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
 }

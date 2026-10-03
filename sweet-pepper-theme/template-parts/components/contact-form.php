@@ -55,7 +55,7 @@ $topics = $args['topics'] ?? [];
         <!-- Fields -->
         <form class="contact-form__fields" id="contact-form-el" data-endpoint="<?php echo esc_url( sweet_pepper_forms_endpoint() ); ?>" novalidate>
             <!-- Honeypot: hidden from people, filled by bots (inc/forms.php) -->
-            <div class="form-honeypot" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="form-honeypot" aria-hidden="true"><label>Website <input class="ym-disable-keys" type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
             <?php if ( $topics ) : ?>
             <input type="hidden" name="topic" class="js-topic-input" value="<?php echo esc_attr( $topics[0] ); ?>">
             <?php endif; ?>
@@ -70,7 +70,7 @@ $topics = $args['topics'] ?? [];
                 </div>
                 <div class="contact-field__input-wrap">
                     <input
-                        class="contact-field__input"
+                        class="contact-field__input ym-disable-keys"
                         type="text"
                         id="contact-name"
                         name="name"
@@ -96,7 +96,7 @@ $topics = $args['topics'] ?? [];
                     <div class="contact-field__input-wrap">
                         <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
                         <input
-                            class="contact-field__input"
+                            class="contact-field__input ym-disable-keys"
                             type="email"
                             id="contact-email"
                             name="email"
@@ -119,7 +119,7 @@ $topics = $args['topics'] ?? [];
                     <div class="contact-field__input-wrap">
                         <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
                         <input
-                            class="contact-field__input"
+                            class="contact-field__input ym-disable-keys"
                             type="tel"
                             id="contact-phone"
                             name="phone"
@@ -150,7 +150,7 @@ $topics = $args['topics'] ?? [];
                 </div>
                 <div class="contact-field__input-wrap contact-field__input-wrap--textarea">
                     <textarea
-                        class="contact-field__input"
+                        class="contact-field__input ym-disable-keys"
                         id="contact-message"
                         name="message"
                         maxlength="500"

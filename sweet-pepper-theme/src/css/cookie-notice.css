@@ -411,9 +411,9 @@ html[data-foot="safari"] .cookie-notice[data-variant="band"][data-pos="bottom"] 
 .cookie-notice[data-variant] .cookie-notice__text a:active,
 .cookie-notice__text .map-settings-link:active { text-decoration-thickness: 2px; transition-duration: 100ms; }
 .cookie-notice__text a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
-/* Proximity (author, 2 Oct 2026): the links sit further from the sentence (~16px with the
-   space) than from each other (~12px with the space; 8 read too close — author) */
-.cookie-notice__sentence { margin-right: 12px; }
+/* The links' spacing (author): ~12px from the sentence (an 8px margin + the space; 3 Oct 2026 —
+   the 16 of 2 Oct read too far) and ~12px from each other (8 + the space; 8 read too close) */
+.cookie-notice__sentence { margin-right: 8px; }
 .cookie-notice__links { white-space: nowrap; }
 .cookie-notice__text .map-settings-link { margin-left: 8px; padding: 0; }
 .cookie-notice__text .map-settings-link:first-child { margin-left: 0; }

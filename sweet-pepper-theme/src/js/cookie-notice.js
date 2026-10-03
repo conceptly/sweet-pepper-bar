@@ -71,15 +71,18 @@ export function initCookieNotice() {
         if (button && confirm && done) pending = { choice: button.dataset.privacyChoice, keyboard: event.detail === 0 };
     }, true);
 
-    // The confirmation's timer: held while hovered, stopped for good once the visitor tabs in
+    // The confirmation's timer: held while hovered, stopped for good once the visitor tabs in. The
+    // cursor that pressed the button rests on the band, so that doesn't count (author, 3 Oct 2026,
+    // a touchpad: it never left) — only a pointer that comes back after the confirmation appeared.
     const run = () => { clearTimeout(timer); if (!hovered && !engaged) timer = setTimeout(dismiss, DONE_TIME); };
-    note.addEventListener('pointerenter', () => { hovered = true; clearTimeout(timer); });
+    note.addEventListener('pointerenter', () => { if (!note.classList.contains('is-done')) return; hovered = true; clearTimeout(timer); });
     note.addEventListener('pointerleave', () => { hovered = false; if (note.classList.contains('is-done')) run(); });
     note.addEventListener('focusin', () => { if (note.classList.contains('is-done')) { engaged = true; clearTimeout(timer); } });
 
     function showDone({ choice, keyboard }) {
         const status = done.querySelector('[role="status"]');
         engaged = false;
+        hovered = false; // the pressing cursor is still there; it isn't a request to read
         note.classList.add('is-done');
         // A dialog save's sentence says where to change the choice; «Настроить» would repeat it
         note.classList.toggle('is-saved', choice.startsWith('saved'));

@@ -17,12 +17,12 @@ Prepared 2 October 2026. Counter: **113329976**. Main domain: **sweetpepper.bar*
 
 ## Dashboard — intended settings; verify in the account
 
-**Checked from the author's screenshots, 2 Oct 2026:** sweetpepper.bar only, subdomains off, Moscow time, automatic goals on (taps on the phone / email and form sends are now in the policy's data list), Webvisor on, ecommerce / content analytics / Tag Manager off, custom HTML unchecked — as intended. **Mismatch:** Webvisor → «Записывать все поля» shows **on** — switch it off (the theme's `ym-disable-keys` on every field masks them meanwhile). Not yet seen: the one filter, the Access tab, Advanced Matching, and that `www.` redirects to the bare domain (the counter accepts only sweetpepper.bar). Policy and consent drafts for the owner: `privacy-analytics-review/`.
+**Checked from the author's screenshots, 2 Oct 2026:** sweetpepper.bar only, subdomains off, Moscow time, automatic goals on (taps on the phone / email and form sends are now in the policy's data list), Webvisor on, ecommerce / content analytics / Tag Manager off, custom HTML unchecked — as intended. ~~**Mismatch:** Webvisor → «Записывать все поля» shows on~~ — **switched off by the author, 3 Oct 2026**; the theme's `ym-disable-keys` on every field stays as the second layer. Not yet seen: the one filter, the Access tab, Advanced Matching, and that `www.` redirects to the bare domain (the counter accepts only sweetpepper.bar). Policy and consent drafts for the owner: `privacy-analytics-review/`.
 
 - Main domain, Moscow time zone, accept only specified addresses.
 - Include subdomains off. Automatic goals on.
 - Webvisor on for launch/refinement; review whether it is useful after a month.
-- Record all field contents off. Check Advanced Matching is off; the supplied screenshots did not show this setting.
+- Record all field contents off — **confirmed off by the author, 3 Oct 2026.** Check Advanced Matching is off; the supplied screenshots did not show this setting.
 - Ecommerce, content analytics, tag manager off; custom HTML unchecked.
 
 ## Verification

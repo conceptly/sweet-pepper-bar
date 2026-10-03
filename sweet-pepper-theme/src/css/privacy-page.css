@@ -43,6 +43,49 @@
     text-wrap: balance;
 }
 
+/* The eyebrow is the way back to the «Документы» hub (author, 3 Oct 2026): the eyebrow's own
+   type and colour (Olive by day, Cream by night), the links' outline arrow turned to point
+   back, 8 before the word, as the vacancy page's «Все вакансии». Hover: the arrow steps 4px
+   back on the Gentle spring; pressed in 100ms; focus — the site's 2px ring. */
+.privacy-head__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+.privacy-head__back-icon {
+    display: inline-flex;
+    transform: scaleX(-1);
+    transition: transform var(--dur-gentle) var(--ease-gentle);
+}
+
+.privacy-head__back-icon svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+}
+
+.privacy-head__back:hover .privacy-head__back-icon {
+    transform: scaleX(-1) translateX(4px);
+}
+
+.privacy-head__back:active .privacy-head__back-icon {
+    transform: scaleX(-1) translateX(4px);
+    transition-duration: 100ms;
+}
+
+.privacy-head__back:focus-visible {
+    outline: 2px solid var(--chili);
+    outline-offset: 4px;
+}
+
+html[data-theme="night"] .privacy-head__back:focus-visible {
+    outline-color: var(--lime);
+}
+
 /* The full legal title under the short headline (author, 3 Oct 2026 — option B of the sheet):
    the page's <h1>, Golos 600 in the muted ink, 12 under the headline (the head's 8 + 4) */
 .privacy-head__full {

@@ -24,7 +24,8 @@ get_header();
 
     <section class="privacy-head">
         <div class="container privacy-head__inner">
-            <p class="section-eyebrow molot-text"><?php echo esc_html_x( 'Documents', 'the privacy page eyebrow', 'sweet-pepper' ); ?></p>
+            <?php $hub_url = sweet_pepper_documents_url(); // the eyebrow leads back to the hub once it is published (author, 3 Oct 2026) ?>
+            <p class="section-eyebrow molot-text"><?php if ( $hub_url ) : ?><a class="privacy-head__back" href="<?php echo esc_url( $hub_url ); ?>"><span class="privacy-head__back-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-arrow-right-outline.svg' ); ?></span><?php endif; ?><?php echo esc_html_x( 'Documents', 'the privacy page eyebrow', 'sweet-pepper' ); ?><?php if ( $hub_url ) : ?></a><?php endif; ?></p>
             <?php if ( $policy['short'] ) : // the short name is the display line; the full legal title stays the <h1> (author, 3 Oct 2026) ?>
                 <p class="section-headline privacy-head__title molot-text" aria-hidden="true"><?php echo esc_html( $policy['short'] ); ?></p>
                 <h1 class="privacy-head__full"><?php echo esc_html( $policy['full'] ); ?></h1>

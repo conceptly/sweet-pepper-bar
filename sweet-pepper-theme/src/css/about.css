@@ -1714,12 +1714,18 @@
     background-color: var(--soft-peppercorn);
     border-radius: 8px;
     aspect-ratio: 3 / 2;
+    /* Inset so the line breaks before the edge (author's iPhone, 2 Oct 2026): with none, the
+       EN line measured 237.75 of the phone card's 240 in Chrome and WebKit's wider Molot ran it
+       edge to edge, never wrapping. */
+    padding: 24px;
 }
 
 .about-team__wall-tbc-text {
     font-size: var(--text-h2);
     line-height: 1.25;
     letter-spacing: 0.05em;
+    text-align: center;
+    text-wrap: balance;
     color: var(--lime-light, #d4e671);
 }
 

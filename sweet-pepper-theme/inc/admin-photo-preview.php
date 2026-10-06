@@ -12,13 +12,16 @@
  *   sec_<slug>_hero_photo  + sec_<slug>_hero_focus  → the 3:2 hero photo with the tablet's
  *                                                    21:9 window drawn over it (menu-hero.css
  *                                                    keeps 64% of the height; the slider says which)
- *   photo (dish / drink), menu_door_photo, menu_door_night_photo → a 3:2 centre crop
+ *   photo (dish / drink, a team-wall print), menu_door_photo,
+ *   menu_door_night_photo                                        → a 3:2 centre crop
+ *   photo (a team member, a guest card), about_founder_photo     → a 1:1 centre crop (sp-square;
+ *                                                    told apart from the wall's photo by repeater)
  *   home_hero_<daypart>_photo, home_bar_photo, home_kitchen_photo, home_about_photo,
  *   photo (a highlight card)                                     → 3:2 (the home page)
  *   cover (a social card), home_events_more_photo                → a 4:5 centre crop
  *
  * Fields are found by name (SCF prints data-name on every field wrapper), so a regenerated
- * group needs nothing here. Ratios: inc/images.php (sp-4x1, sp-hero, sp-3x2).
+ * group needs nothing here. Ratios: inc/images.php (sp-4x1, sp-hero, sp-3x2, sp-square, sp-4x5).
  *
  * @package Sweet_Pepper
  */
@@ -39,11 +42,15 @@ function sweet_pepper_admin_photo_preview_css() {
 <style>
 /* A photo field previewed at the site's ratio (inc/admin-photo-preview.php). */
 .acf-field-image.sp-preview .image-wrap { position: relative; width: 100%; max-width: 100% !important; overflow: hidden; border-radius: 4px; background: #1e1e1e; }
-.acf-field-image.sp-preview .image-wrap img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% var(--sp-y, 50%); }
+/* The photo is pinned to the frame's four edges: SCF caps the <img> at the preview size's height
+   (an inline max-height: 300px for «medium») and floats it left, which left a wide 3:2 frame a
+   third empty and zoomed a square one (author, 6 Oct 2026). */
+.acf-field-image.sp-preview .image-wrap img { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; min-width: 0; min-height: 0; margin: 0; object-fit: cover; object-position: 50% var(--sp-y, 50%); }
 .acf-field-image.sp-preview--band .image-wrap { aspect-ratio: 4 / 1; }
 .acf-field-image.sp-preview--hero .image-wrap,
 .acf-field-image.sp-preview--3x2  .image-wrap { aspect-ratio: 3 / 2; }
 .acf-field-image.sp-preview--4x5  .image-wrap { aspect-ratio: 4 / 5; max-width: 240px !important; }
+.acf-field-image.sp-preview--1x1  .image-wrap { aspect-ratio: 1 / 1; max-width: 240px !important; }
 /* The hero keeps its 3:2 frame; the tablet's 21:9 window is drawn over it and moves with the slider. */
 .acf-field-image.sp-preview--hero .image-wrap img { object-position: 50% 50%; }
 .acf-field-image.sp-preview--hero .sp-crop-window {
@@ -70,8 +77,12 @@ function sweet_pepper_admin_photo_preview_js() {
     ?>
 <script>
 (function () {
-    // Which preview a photo field gets, by its name; the slider that drives it, if any.
-    function kind(name) {
+    // Which preview a photo field gets, by its name (and, for a repeater's plain «photo», by
+    // the repeater it sits in); the slider that drives it, if any.
+    var SQUARE = 'Так фото обрезается на сайте (1:1, по центру).';
+    function kind(name, el) {
+        if (name === 'about_founder_photo') return { cls: 'sp-preview--1x1', slider: null, note: SQUARE };
+        if (name === 'photo' && el.closest('.acf-field[data-name="about_team_members"], .acf-field[data-name="about_guest_cards"]')) return { cls: 'sp-preview--1x1', slider: null, note: SQUARE };
         if (/^sec_.+_hero_photo$/.test(name)) return { cls: 'sp-preview--hero', slider: name.replace(/_hero_photo$/, '_hero_focus'), note: 'На компьютере — весь кадр 3:2; рамка — что останется на планшете (ползунок справа).' };
         if (/^sec_.+_photo$/.test(name))      return { cls: 'sp-preview--band', slider: name.replace(/_photo$/, '_photo_y'),      note: 'Так полоса 4:1 выглядит на сайте; ползунок справа двигает фото в ней.' };
         if (name === 'photo' || name === 'menu_door_photo' || name === 'menu_door_night_photo') return { cls: 'sp-preview--3x2', slider: null, note: 'Так фото обрезается на сайте (3:2, по центру).' };
@@ -87,7 +98,7 @@ function sweet_pepper_admin_photo_preview_js() {
     }
     function setup(photoField) {
         if (photoField.dataset.spPreview) return;
-        var k = kind(photoField.dataset.name || '');
+        var k = kind(photoField.dataset.name || '', photoField);
         if (!k) return;
         photoField.dataset.spPreview = '1';
         photoField.classList.add('sp-preview', k.cls);

@@ -13,7 +13,7 @@
  *   since    — the year the person joined; the theme prints the tenure ("· 8 years")
  *   chip     — 'ask' | 'word' | 'pick' (inc/about-data.php → sweet_pepper_team_chips())
  *   name_gen — the Russian name in the genitive, for the «Пара слов от …» chip
- *   photo    — under assets/images/; two members reuse the founder's portrait (placeholders)
+ *   photo    — under assets/images/; Max reuses the founder's portrait (a placeholder)
  *
  * @package Sweet_Pepper
  */
@@ -107,7 +107,7 @@ return [
             'name'    => 'Johnny',
             'role'    => 'Sous-chef',
             'since'   => 2014,
-            'photo'   => 'team/iura/iura-1.jpg',
+            'photo'   => 'team/johnny.jpg',
             'chip'    => 'ask',
             'message' => 'Twelve years, one recipe I still won\'t write down. It\'s the pepper one.',
             'ru'      => [ 'name' => 'Джонни', 'name_gen' => 'Джонни', 'role' => 'Су-шеф' ],

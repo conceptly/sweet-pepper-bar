@@ -27,7 +27,8 @@
  * tools/page-seed.php stamps), the new one is found by it or uploaded from the theme's
  * assets/images/ as the seeder does. A photo the team replaced in admin has no source, so its
  * group is skipped. An upload takes its Media Library alt (Russian) and «Тема» from the file's
- * optional "uploads": { "<asset>": { "alt": "…", "topic": "Бар" } }. Posts only, not the
+ * optional "uploads": { "<asset>": { "alt": "…", "topic": "Бар" } }, and "title" / "caption"
+ * when given (6 Oct 2026, Johnny's portrait). Posts only, not the
  * options page (28 Sep 2026, the Гастробот drink photos). Every "uploads" entry is uploaded,
  * even one no field names yet — spares for the team to pick in admin. A date picker is written
  * as stored, "20260926".
@@ -67,7 +68,8 @@ function sp_update_attachment( $value, $uploads = [] ) {
     }
     $id = wp_insert_attachment( [
         'post_mime_type' => $up['type'],
-        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $asset ) ),
+        'post_title'     => $uploads[ $asset ]['title'] ?? preg_replace( '/\.[^.]+$/', '', basename( $asset ) ),
+        'post_excerpt'   => $uploads[ $asset ]['caption'] ?? '',
         'post_status'    => 'inherit',
     ], $up['file'] );
     wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $up['file'] ) );

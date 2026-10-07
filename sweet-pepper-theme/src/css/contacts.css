@@ -630,6 +630,12 @@ html[data-theme="night"] .contact-field__status--error {
     border: none;
     outline: none;
     background: transparent !important; /* Chrome for iOS sets its autofill tint inline on the element */
+    /* …and that alone didn't hold: Chrome for iOS fills contacts by script, so :autofill below never
+       matches, and its light-blue box still showed behind a filled name and email (author, iPhone,
+       7 Oct 2026). An inset shadow paints over any background, however it was set — always on, in
+       the ground the field sits on (--field-bg, set by every context), so it's invisible until a
+       browser tints the input. */
+    box-shadow: inset 0 0 0 1000px var(--field-bg);
     font-family: var(--font-body);
     font-size: var(--text-body);
     font-weight: 400;

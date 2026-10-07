@@ -224,7 +224,6 @@ return [
         "team form recipient\4Lenya"                 => 'Лёне',
         "team form recipient\4Iura"                  => 'Юре',
         "team form recipient\4Anton"                 => 'Антону',
-        'We answer within a day — faster by DM (VK / Telegram).' => 'Оставьте почту для ответа.', // the draft drops the unconfirmed day / Telegram promise
         "team form\4Close"                           => 'Закрыть форму',
 
         // The rest of the English on Russian pages (25 Sep 2026). Filmstrip: the author's; the

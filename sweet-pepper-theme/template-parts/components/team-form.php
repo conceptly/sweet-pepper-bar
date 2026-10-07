@@ -118,7 +118,6 @@
             <p class="form-send-error js-team-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
 
             <div class="team-form__cta-row">
-                <span class="team-form__cta-hint"><?php esc_html_e( 'We answer within a day — faster by DM (VK / Telegram).', 'sweet-pepper' ); ?></span>
                 <button type="submit" form="team-form-el" class="btn btn-primary-green team-form__submit">
                     <span><?php echo esc_html_x( 'Send', 'contact form', 'sweet-pepper' ); ?></span>
                     <span class="btn-icon btn-icon-right"><?php echo sweet_pepper_inline_svg( 'assets/icons/send.svg' ); ?></span>

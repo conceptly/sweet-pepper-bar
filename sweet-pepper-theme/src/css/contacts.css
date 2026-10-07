@@ -479,8 +479,13 @@ html[data-theme="night"] .contact-field__label {
 }
 
 .contact-field__asterisk {
-    color: var(--lime);
+    color: var(--avocado); /* the day accent; Lime by night and on the Visit form (author, 7 Oct 2026) */
     font-weight: 400;
+}
+
+html[data-theme="night"] .contact-field__asterisk,
+.visit-cta .contact-field__asterisk {
+    color: var(--lime);
 }
 
 /* Error text — inline in label row, right-aligned, Paprika per Figma */
@@ -524,6 +529,11 @@ html[data-theme="night"] .contact-field__input-wrap {
 }
 
 .contact-field__input-wrap:focus-within {
+    border-color: var(--avocado); /* Figma field-singleLine-light 466:19384; Lime by night and on the Visit form */
+}
+
+html[data-theme="night"] .contact-field__input-wrap:focus-within,
+.visit-cta .contact-field__input-wrap:focus-within {
     border-color: var(--lime);
 }
 
@@ -868,8 +878,13 @@ html[data-theme="night"] .contact-toggle__helper {
 }
 
 .contact-consent__input:focus-visible + .contact-consent__box {
-    outline: 2px solid var(--lime);
+    outline: 2px solid var(--avocado);
     outline-offset: 2px;
+}
+
+html[data-theme="night"] .contact-consent__input:focus-visible + .contact-consent__box,
+.visit-cta .contact-consent__input:focus-visible + .contact-consent__box {
+    outline-color: var(--lime);
 }
 
 .contact-consent.contact-field--error .contact-consent__box {
@@ -1543,6 +1558,49 @@ html[data-theme="night"] .contact-item__supportive {
     transform: translate(-50%, -50%) scale(1);
 }
 
+/* The dialog is always day (Paper card, the day chips): the fields' night rules stop at its edge.
+   Without this, at night the labels, the typed text, the counter and the consent line turned Paper
+   on the Paper card, the fields lost their Parchment ground and the accents went Lime (found
+   7 Oct 2026). Same specificity plus one class, so each rule outranks its night twin. */
+html[data-theme="night"] .team-form-dialog .contact-field__label,
+html[data-theme="night"] .team-form-dialog .contact-field__input,
+html[data-theme="night"] .team-form-dialog .contact-field__counter,
+html[data-theme="night"] .team-form-dialog .contact-consent__text {
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .team-form-dialog .contact-field__input-wrap {
+    --field-bg: var(--parchment);
+    --field-text: var(--peppercorn);
+    background-color: var(--field-bg);
+}
+
+html[data-theme="night"] .team-form-dialog .contact-field__asterisk,
+html[data-theme="night"] .team-form-dialog .contact-field__status,
+html[data-theme="night"] .team-form-dialog .contact-field__input-wrap:focus-within .contact-field__icon,
+html[data-theme="night"] .team-form-dialog .contact-field.is-valid .contact-field__icon {
+    color: var(--avocado);
+}
+
+@media (hover: hover) {
+    html[data-theme="night"] .team-form-dialog .contact-field__input-wrap:hover .contact-field__icon {
+        color: var(--avocado);
+    }
+}
+
+html[data-theme="night"] .team-form-dialog .contact-field__input-wrap:focus-within {
+    border-color: var(--avocado);
+}
+
+html[data-theme="night"] .team-form-dialog .contact-consent__input:focus-visible + .contact-consent__box {
+    outline-color: var(--avocado);
+}
+
+html[data-theme="night"] .team-form-dialog .contact-field__status--error,
+html[data-theme="night"] .team-form-dialog .contact-field--error .contact-field__icon {
+    color: var(--paprika);
+}
+
 /* ── Close button ── */
 
 .team-form-dialog__close {
@@ -1584,7 +1642,6 @@ html[data-theme="night"] .contact-item__supportive {
     display: flex;
     align-items: center;
     gap: 8px;
-    overflow: hidden;
 }
 
 .team-form__to-label {
@@ -1599,9 +1656,25 @@ html[data-theme="night"] .contact-item__supportive {
 
 .team-form__chips {
     display: flex;
-    flex-wrap: wrap;
     gap: 8px;
     flex: 1;
+    /* One row beside «Кому:», scrolled sideways when the names don't fit (author, 7 Oct 2026 —
+       wrapped, the label sat centred against two rows). 2px of room keeps the chips' lift and
+       press shadows inside the scroll box. */
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding: 2px;
+    margin: -2px;
+}
+
+.team-form__chips::-webkit-scrollbar {
+    display: none;
+}
+
+.team-form__chip {
+    flex-shrink: 0;
 }
 
 /* Name chip — default (outlined) */
@@ -1691,17 +1764,8 @@ html[data-theme="night"] .contact-item__supportive {
 .team-form__cta-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end; /* the button alone since the hint went (7 Oct 2026); full width on phones */
     gap: 16px;
-}
-
-.team-form__cta-hint {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: normal;
-    color: var(--ash);
-    white-space: nowrap;
 }
 
 .team-form__submit {
@@ -1860,10 +1924,6 @@ html[data-theme="night"] .team-form__reset-btn:active {
     .team-form__cta-row {
         flex-wrap: wrap;
         gap: 12px;
-    }
-
-    .team-form__cta-hint {
-        white-space: normal;
     }
 
     .team-form__submit {

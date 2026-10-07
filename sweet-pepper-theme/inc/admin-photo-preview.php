@@ -65,6 +65,7 @@ function sweet_pepper_admin_photo_preview_css() {
 }
 .acf-field-image.sp-preview .image-wrap .acf-actions { z-index: 2; }
 .acf-field-image.sp-preview .sp-preview-note { margin: 6px 0 0; color: #646970; font-size: 12px; }
+.acf-field-image.sp-preview .sp-preview-note--soft { margin-top: 2px; font-style: italic; }
 </style>
     <?php
 }
@@ -80,6 +81,9 @@ function sweet_pepper_admin_photo_preview_js() {
     // Which preview a photo field gets, by its name (and, for a repeater's plain «photo», by
     // the repeater it sits in); the slider that drives it, if any.
     var SQUARE = 'Так фото обрезается на сайте (1:1, по центру).';
+    // SCF previews the 300px «medium» copy, stretched to the frame: a wide one looks soft, and the
+    // team took it for the photo's quality (author, 6 Oct 2026). The site uses the larger sizes.
+    var SOFT = 'Здесь показана уменьшенная копия, поэтому в админке фото может выглядеть размытым. На сайт идёт версия большего размера.';
     function kind(name, el) {
         if (name === 'about_founder_photo') return { cls: 'sp-preview--1x1', slider: null, note: SQUARE };
         if (name === 'photo' && el.closest('.acf-field[data-name="about_team_members"], .acf-field[data-name="about_guest_cards"]')) return { cls: 'sp-preview--1x1', slider: null, note: SQUARE };
@@ -107,7 +111,9 @@ function sweet_pepper_admin_photo_preview_js() {
             var win = document.createElement('div'); win.className = 'sp-crop-window'; wrap.appendChild(win);
         }
         var note = document.createElement('p'); note.className = 'sp-preview-note'; note.textContent = k.note;
+        var soft = document.createElement('p'); soft.className = 'sp-preview-note sp-preview-note--soft'; soft.textContent = SOFT;
         (photoField.querySelector('.acf-input') || photoField).appendChild(note);
+        note.after(soft);
         if (!k.slider) return;
         // The slider field sits in the same row: found by name within the same parent.
         var sliderField = photoField.parentElement.querySelector('.acf-field[data-name="' + k.slider + '"]');

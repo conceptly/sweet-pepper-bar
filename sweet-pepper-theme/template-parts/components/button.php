@@ -59,7 +59,10 @@ $icon_left_html = '';
 if ( ! empty( $icon_left_svg ) ) {
     $svg = sweet_pepper_inline_svg( 'assets/' . $icon_left_svg );
     if ( $svg ) {
-        $icon_left_html = '<span class="btn-icon btn-icon-left">' . $svg . '</span>';
+        // A brand tile (VK, Instagram) is drawn 20px: at 16 its coloured square fades into the
+        // button and only the small logo inside reads (buttons.css → .btn-icon--brand)
+        $brand = in_array( basename( $icon_left_svg ), [ 'vk.svg', 'insta.svg' ], true ) ? ' btn-icon--brand' : '';
+        $icon_left_html = '<span class="btn-icon btn-icon-left' . $brand . '">' . $svg . '</span>';
     }
 } elseif ( ! empty( $icon_set ) ) {
     // Every glyph inlined, CSS shows the one data-icon names (buttons.css): an icon changes by

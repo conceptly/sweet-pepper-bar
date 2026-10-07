@@ -36,7 +36,7 @@ $name = $person ? $person['name'] : '';
     <?php endif; ?>
     <?php if ( $write ) : ?>
         <a class="btn btn-primary-green vacancy-bar__btn" href="<?php echo esc_url( $write ); ?>"<?php echo 0 === strpos( $write, 'http' ) ? ' target="_blank" rel="noopener"' : ''; ?>>
-            <span class="btn-icon btn-icon-left<?php echo $is_vk ? '' : ' vacancy-bar__icon-ink'; ?>"><?php echo sweet_pepper_inline_svg( 'assets/icons/' . ( $is_vk ? 'vk.svg' : 'send.svg' ) ); ?></span>
+            <span class="btn-icon btn-icon-left<?php echo $is_vk ? ' btn-icon--brand' : ' vacancy-bar__icon-ink'; ?>"><?php echo sweet_pepper_inline_svg( 'assets/icons/' . ( $is_vk ? 'vk.svg' : 'send.svg' ) ); ?></span>
             <span class="btn-label"><?php echo esc_html( $name ? sprintf( __( 'Write to %s', 'sweet-pepper' ), $name ) : _x( 'Write', 'the vacancy page\'s bottom bar', 'sweet-pepper' ) ); ?></span>
         </a>
     <?php endif; ?>

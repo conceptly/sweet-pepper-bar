@@ -60,6 +60,8 @@ Connectors here are seams: the word ends a section, its reflection opens the nex
 
 Review the nine connectors as a set. All nine RU lines are author choices for the working copy (rows 8–9 confirmed by the SVG export, 22 Sep); final copy review can still replace any of them. **Wired 22 Sep 2026:** `template-parts/about/connector.php` swaps each EN stem for its RU twin on a Russian request — stem into `assets/sectionLinks/about/ru/`, alt drives the live-text prototype. Story alternatives shared with Iurii: ЧЕРЕЗ ТЕРНИИ К НАСТОЙКАМ; ПУТЬ ПЕРЦЕВ ОТ ПЕРВОЙ РЮМКИ; ВЕЛИКИЙ ПУТЬ ПЕРЦЕВ. Current choice: САГА О ПЕРЦАХ И НАСТОЙКАХ. His response is not recorded. Rationale and vocabulary: `russian-website-voice.md`.
 
+**RU phone wording (author, 6 Oct 2026; on trial):** rows 2, 4, 5 and 8 read shorter at ≤ 767px — СЛОВО ЗА ГОСТЯМИ (row 2 was СЛОВО ГОСТЯМ for an hour: 46px, the loudest line on the page, and an echo of the eyebrow «Вашими словами»), О ПЕРЦАХ И НАСТОЙКАХ, ГЕРОИ ЗА СТОЛИКАМИ, КАРТЫ, ЯВКИ, ПАРОЛИ (word and reflection alike). The author's phone set is `assets/sectionLinks/about/mobile/ru/`; the site draws it as live text (the third item in `connector.php`'s map), so the fit pass stands the short lines taller at 375: 25.6 → 34.9, 22.7 → 28, 21.1 → 30.9, 23.7 → 29.9px. Desktop and tablet keep the long lines.
+
 ---
 
 ## Menu page — food state

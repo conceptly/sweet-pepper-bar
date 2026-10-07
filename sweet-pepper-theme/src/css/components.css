@@ -484,9 +484,23 @@ html[data-theme="night"] .section-description {
     opacity: var(--link-reflection-light);
 }
 
+/* A phone wording, when given (section-link.php → text_mobile): the long line above 767,
+   the short one below — About RU, the author's phone set (6 Oct 2026) */
+.section-link__text--mobile {
+    display: none;
+}
+
 @media (max-width: 767px) {
     .section-link {
         --section-link-size: 34px;       /* SectionLinkMobile; the fit pass overrides */
+    }
+
+    .section-link__text--desktop {
+        display: none;
+    }
+
+    .section-link__text--mobile {
+        display: block;
     }
 }
 

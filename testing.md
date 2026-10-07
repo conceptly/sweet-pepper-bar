@@ -39,6 +39,7 @@ On trial (`report.md`, 2 Oct; `website-brief.md` → Section connectors → Phon
 | Question | How | Result |
 |---|---|---|
 | Do the fitted words read as connectors at all on a phone? | Heights at 402 | 20–28px (Home), 21–30 (About) — headline size; the register is lost |
+| About RU, the four shorter phone lines (6 Oct 2026: СЛОВО ЗА ГОСТЯМИ, О ПЕРЦАХ И НАСТОЙКАХ, ГЕРОИ ЗА СТОЛИКАМИ, КАРТЫ, ЯВКИ, ПАРОЛИ) — do they hold the set together on a device? | Heights at 375 | 28–35px with the other five at 26.6–35.9; open — author's device check |
 | Crop at 44 / 64 — one display height, the word running off the edge | Contact sheets, day + night | **Turned down (author, 2 Oct):** awkward; an option only if animated, perhaps on scroll. Removed from the build |
 | No connectors — does the seam need the 24px rest? | Contact sheet | without it the buttons touch the section edge; open — the rest may want to be bigger |
 | Device look — the hidden seams, and the fit at .35 / .22 / .15 (never seen on a phone) | iPhone, iPad, participants | not run |

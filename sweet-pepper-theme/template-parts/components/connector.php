@@ -20,6 +20,7 @@
  *     @type string $position 'foot' (the word, end of this section) or 'head' (its reflection,
  *                            start of the next section). Default 'foot'.
  *     @type string $alt      Alt text — the words as written.
+ *     @type string $alt_mobile  Live text only: a shorter wording shown ≤ 767px (About RU, Oct 2026).
  * }
  */
 
@@ -44,6 +45,7 @@ if ( $live_text ) :
         <?php
         get_template_part( 'template-parts/components/section-link', null, [
             'text'  => $alt ?: $word,
+            'text_mobile' => $args['alt_mobile'] ?? '',
             'state' => 'head' === $position ? 'reflection' : 'word',
             'theme' => 'auto',
         ] );

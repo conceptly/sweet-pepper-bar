@@ -1531,6 +1531,12 @@
     letter-spacing: 0.52px;
     color: var(--lemon);
     white-space: nowrap;
+    /* Safety net only: a label typed too long in admin ends in "…" inside the card instead of
+       running past its edge. Labels are meant to fit — at 360 a pill has 120px of text
+       (author, 6 Oct 2026: «Мексика», «Валентины’25» rather than a cut name). */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* --- Card states (dark-bg vocabulary: lime glow hover, inset pressed) --- */
@@ -3035,8 +3041,16 @@ html[data-theme="night"] .page-about .menu-entrance-img--dark {
         gap: 8px;
     }
 
+    /* Name + role read as one label: Molot's caps fill only the top 14px of its
+       ~23px normal line box, so the 8px gap looked like ~17px against ~12px down to
+       the chip (measured Oct 2026). Line-height 1 + no gap → ~7px of visible air. */
     .about-team__card-member-info {
         white-space: normal;
+        gap: 0;
+    }
+
+    .about-team__card-default .about-team__card-name {
+        line-height: 1;
     }
 
     .about-team__card-chip {

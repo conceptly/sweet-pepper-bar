@@ -10,7 +10,8 @@
 const PROBE = 100; // px — measure at a known size, scale linearly (tracking is em-based)
 
 function fit(link) {
-    const text = link.querySelector('.section-link__text');
+    // A phone wording (section-link.php → text_mobile) is a second span; fit the one showing
+    const text = [...link.querySelectorAll('.section-link__text')].find((t) => t.getClientRects().length);
     if (!text) return;
     const width = link.clientWidth;
     if (!width) return;

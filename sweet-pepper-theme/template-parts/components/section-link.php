@@ -22,6 +22,8 @@
  *
  * @param array $args {
  *     @type string $text   The words, as written (Molot sets them in caps).
+ *     @type string $text_mobile  Optional shorter words shown ≤ 767px instead (components.css;
+ *                                section-link.js fits whichever is showing).
  *     @type string $state  'word' (Figma "Default") | 'reflection'. Default 'word'.
  *     @type string $theme  'dark' | 'light' — the ground it sits on. Default 'dark'.
  *     @type string $class  Optional extra classes.
@@ -29,6 +31,10 @@
  */
 
 $text  = $args['text'] ?? '';
+$text_mobile = $args['text_mobile'] ?? '';
+if ( $text_mobile === $text ) {
+    $text_mobile = '';
+}
 $state = ( $args['state'] ?? 'word' ) === 'reflection' ? 'reflection' : 'word';
 $theme = $args['theme'] ?? 'dark';
 $theme = in_array( $theme, [ 'light', 'dark', 'auto' ], true ) ? $theme : 'dark'; // 'auto': the page's CSS reads the ground from the section (about.css)
@@ -39,5 +45,10 @@ if ( '' === $text ) {
 }
 ?>
 <div class="section-link section-link--<?php echo esc_attr( $state ); ?> section-link--<?php echo esc_attr( $theme ); ?> <?php echo esc_attr( $class ); ?>" aria-hidden="<?php echo 'reflection' === $state ? 'true' : 'false'; ?>">
+    <?php if ( $text_mobile ) : ?>
+    <span class="section-link__text section-link__text--desktop molot-text"><?php echo esc_html( $text ); ?></span>
+    <span class="section-link__text section-link__text--mobile molot-text"><?php echo esc_html( $text_mobile ); ?></span>
+    <?php else : ?>
     <span class="section-link__text molot-text"><?php echo esc_html( $text ); ?></span>
+    <?php endif; ?>
 </div>

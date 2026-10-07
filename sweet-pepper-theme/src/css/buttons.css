@@ -50,6 +50,17 @@
     display: block;
 }
 
+/* Brand tiles (VK, Instagram) at 20px: both fill their whole box like the 16px glyphs, but
+   VK's blue on Chili is about as light as the ground, so the tile's edge fades and only the
+   ~10px logo inside reads — it looked a size smaller than the phone beside it (author, on an
+   iPhone, 6 Oct 2026; 20 chosen over 16/18 + a light ring, which turned the mark into a
+   sticker). The −2px margins keep the button's height. */
+.btn-icon--brand svg {
+    width: 20px;
+    height: 20px;
+    margin: -2px 0;
+}
+
 .btn-icon-svg {
     width: 16px;
     height: 16px;

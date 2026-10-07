@@ -1,0 +1,27 @@
+{
+  "page": "about",
+  "date": "2026-10-06",
+  "note": "About → «Гости»: two Russian pill labels shortened to fit a phone card (author, 6 Oct 2026). At 360 a pill has 120px for its text: «Мексиканская вечеринка» ran 192, «14 февраля 2025» 130; now «Мексика» 75 and «Валентины’25» 112. English labels unchanged (report.md → About → Гости: two pill labels shortened).",
+  "groups": [
+    {
+      "note": "About → «Гости»: card 2, the Mexican party — the RU label",
+      "set": [
+        [
+          "about_guest_cards_1_label_ru",
+          "Мексиканская вечеринка",
+          "Мексика"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Гости»: card 4, Valentine's 2025 — the RU label",
+      "set": [
+        [
+          "about_guest_cards_3_label_ru",
+          "14 февраля 2025",
+          "Валентины’25"
+        ]
+      ]
+    }
+  ]
+}

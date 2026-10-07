@@ -347,14 +347,15 @@ function sweet_pepper_menu_state_for( $slug ) {
  * its alt, per menu state (menu-copy-ru-draft.md → «Коннекторы кухни» / «Коннекторы бара»,
  * the author's Figma exports of 23 Sep 2026). Kitchen twins live in
  * assets/sectionLinks/menu/kitchen-{day,night}/ru/, the bar's in bar/ru/ (the bar page is
- * always night: one file serves both). The heroes (FOOD MENU, DRINKS MENU) are not here
+ * always night: one file serves both). An optional third item is a shorter phone word (≤ 767px)
+ * from {kitchen-day,kitchen-night,bar}/mobile/ru/ (author, 6 Oct 2026). The heroes (FOOD MENU, DRINKS MENU) are not here
  * yet — no usable RU export — and stay English.
  *
  * @param string $state 'food' | 'drinks'
  */
 function sweet_pepper_menu_connectors_ru( $state = 'food' ) {
     $picker = [
-        'tryTheMatchMaker' => [ 'параОтБараВместеВкуснее', 'Пара от бара — вместе вкуснее' ],
+        'tryTheMatchMaker' => [ 'параОтБараВместеВкуснее', 'Пара от бара — вместе вкуснее', 'идеальныВместе' ], // phones: ИДЕАЛЬНЫ ВМЕСТЕ, on trial (author, 6 Oct 2026)
         'youllLikeIt'      => [ 'вамЗдесьПонравится', 'Вам здесь понравится' ],
     ];
     if ( 'drinks' === $state ) {
@@ -387,8 +388,9 @@ function sweet_pepper_menu_connectors_ru( $state = 'food' ) {
  * Swap a menu connector's day / night files and alt for the Russian twins on a Russian
  * request. Called by template-parts/components/section-link-word.php. Both files must
  * exist, or the English pair stays: a word never shows one language by day and another by night.
+ * With a phone stem, two more paths: the phone day / night files (both must exist, or none).
  *
- * @return array [ day path, night path, alt ]
+ * @return array [ day path, night path, alt, phone day path?, phone night path? ]
  */
 function sweet_pepper_menu_connector_lang( $day, $night, $alt ) {
     if ( 'ru' !== sweet_pepper_lang() ) {
@@ -411,5 +413,18 @@ function sweet_pepper_menu_connector_lang( $day, $night, $alt ) {
             return [ $day, $night, $alt ];
         }
     }
-    return [ $ru['day'], $ru['night'], $twin[1] ];
+    $out = [ $ru['day'], $ru['night'], $twin[1] ];
+    if ( ! empty( $twin[2] ) ) {
+        $phone = [];
+        foreach ( [ 'day' => $d, 'night' => $n ] as $mode => $m ) {
+            $folder         = 'drinks' === $state ? 'bar/mobile/ru' : "kitchen-{$mode}/mobile/ru";
+            $phone[ $mode ] = "assets/sectionLinks/menu/{$folder}/{$twin[2]}" . ( $m[2] ?? '' ) . '.svg';
+            if ( ! file_exists( get_template_directory() . '/' . $phone[ $mode ] ) ) {
+                return $out;
+            }
+        }
+        $out[] = $phone['day'];
+        $out[] = $phone['night'];
+    }
+    return $out;
 }

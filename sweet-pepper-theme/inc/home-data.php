@@ -352,7 +352,9 @@ unset( $sp_name );
 /**
  * The home page's connectors in Russian — the author's exports in assets/sectionLinks/home/
  * {dayMode,nightMode}/ru/ (23 Sep 2026; wording: home-copy-ru-draft.md → 9. Коннекторы).
- * English stem → [ RU stem, alt ]. Structure, not a field (the connectors stay in code).
+ * English stem → [ RU stem, alt, phone stem? ]. Structure, not a field (the connectors stay in code).
+ * The optional phone stem names a shorter word drawn ≤ 767px, from {dayMode,nightMode}/mobile/ru/
+ * (author, 6 Oct 2026 — a long line fitted to a phone's width stands too small).
  */
 function sweet_pepper_home_connectors_ru() {
     return [
@@ -360,8 +362,8 @@ function sweet_pepper_home_connectors_ru() {
         'forAWellEarnedPour' => [ 'отКапучиноДоНастойки',    'От капучино до настойки' ], // author, 25 Sep 2026 — was ЗДЕСЬ ДРИНКИ С ПЕРЧИНКОЙ
         'forAProperAppetite' => [ 'отОмлетаДоЖаркого',       'От омлета до жаркого' ],    // author, 25 Sep 2026 — was ЗДЕСЬ НЕПРИЛИЧНО ВКУСНО
         'moreThanAMenu'      => [ 'людиИдеяХарактер',        'Люди, идея, характер' ],
-        'seeWhatsNew'        => [ 'акцииНовостиВечеринки',   'Акции, новости, вечеринки' ],
-        'joinTheParty'       => [ 'всеДорогиВедутВПерец',    'Все дороги ведут в Перец' ],
+        'seeWhatsNew'        => [ 'акцииНовостиВечеринки',   'Акции, новости, вечеринки', 'афишаОтПерцев' ],
+        'joinTheParty'       => [ 'всеДорогиВедутВПерец',    'Все дороги ведут в Перец',  'картыЯвкиПароли' ],
     ];
 }
 
@@ -372,7 +374,9 @@ function sweet_pepper_home_connectors_ru() {
  * `ru/<stem>.svg` / `ru/<stem>-reflection.svg`. Both files must exist, or the English pair stays.
  * Called by template-parts/components/section-link-word.php.
  *
- * @return array [ day path, night path, alt ]
+ * With a phone stem, two more paths: the phone day / night files (both must exist, or none).
+ *
+ * @return array [ day path, night path, alt, phone day path?, phone night path? ]
  */
 function sweet_pepper_home_connector_lang( $day, $night, $alt ) {
     if ( 'ru' !== sweet_pepper_lang() ) {
@@ -394,5 +398,17 @@ function sweet_pepper_home_connector_lang( $day, $night, $alt ) {
             return [ $day, $night, $alt ];
         }
     }
-    return [ $ru['day'], $ru['night'], $twin[1] ];
+    $out = [ $ru['day'], $ru['night'], $twin[1] ];
+    if ( ! empty( $twin[2] ) ) {
+        $phone = [];
+        foreach ( [ 'day' => $d, 'night' => $n ] as $mode => $m ) {
+            $phone[ $mode ] = "assets/sectionLinks/home/{$m[1]}/mobile/ru/{$twin[2]}" . ( '-top' === $m[3] ? '-reflection' : '' ) . '.svg';
+            if ( ! file_exists( get_template_directory() . '/' . $phone[ $mode ] ) ) {
+                return $out;
+            }
+        }
+        $out[] = $phone['day'];
+        $out[] = $phone['night'];
+    }
+    return $out;
 }

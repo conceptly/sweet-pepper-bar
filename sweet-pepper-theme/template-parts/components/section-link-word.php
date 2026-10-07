@@ -23,11 +23,17 @@ $class     = $args['class'] ?? '';
 $loading   = ( $args['loading'] ?? 'lazy' ) === 'eager' ? 'eager' : 'lazy';
 
 // A menu or home connector on a Russian request swaps to its RU twin (inc/menu-sections.php, inc/home-data.php).
-if ( function_exists( 'sweet_pepper_menu_connector_lang' ) ) {
-    [ $day_img, $night_img, $alt ] = sweet_pepper_menu_connector_lang( $day_img, $night_img, $alt );
-}
-if ( function_exists( 'sweet_pepper_home_connector_lang' ) ) {
-    [ $day_img, $night_img, $alt ] = sweet_pepper_home_connector_lang( $day_img, $night_img, $alt );
+// Either swap may add a shorter phone word (RU, 6 Oct 2026): a <source> for ≤ 767px, so a phone loads only it
+$phone_imgs = [];
+foreach ( [ 'sweet_pepper_menu_connector_lang', 'sweet_pepper_home_connector_lang' ] as $swap ) {
+    if ( ! function_exists( $swap ) ) {
+        continue;
+    }
+    $swapped = $swap( $day_img, $night_img, $alt );
+    [ $day_img, $night_img, $alt ] = $swapped;
+    if ( isset( $swapped[3], $swapped[4] ) ) {
+        $phone_imgs = [ 'link-word-day' => $swapped[3], 'link-word-night' => $swapped[4] ];
+    }
 }
 
 // A reflection repeats the word just read above it — it is drawn, not said again.
@@ -48,11 +54,20 @@ $link_word_images = [
             continue;
         }
         $dims = function_exists( 'sweet_pepper_svg_dimensions' ) ? sweet_pepper_svg_dimensions( $img_path ) : null;
+        $phone = $phone_imgs[ $img_class ] ?? '';
+        $phone_dims = $phone && function_exists( 'sweet_pepper_svg_dimensions' ) ? sweet_pepper_svg_dimensions( $phone ) : null;
         ?>
+        <?php if ( $phone ) : // width/height on the <source> give the phone file its own aspect ratio ?>
+        <picture>
+        <source media="(max-width: 767px)" srcset="<?php echo esc_url( get_template_directory_uri() . '/' . $phone ); ?>"<?php if ( $phone_dims ) : ?> width="<?php echo (int) $phone_dims['width']; ?>" height="<?php echo (int) $phone_dims['height']; ?>"<?php endif; ?>>
+        <?php endif; ?>
         <img src="<?php echo esc_url( get_template_directory_uri() . '/' . $img_path ); ?>"
              alt="<?php echo esc_attr( $alt ); ?>"
              class="<?php echo esc_attr( $img_class ); ?>"
              <?php if ( $dims ) : ?>width="<?php echo (int) $dims['width']; ?>" height="<?php echo (int) $dims['height']; ?>"<?php endif; ?>
              loading="<?php echo esc_attr( $loading ); ?>">
+        <?php if ( $phone ) : ?>
+        </picture>
+        <?php endif; ?>
     <?php endforeach; ?>
 </div>

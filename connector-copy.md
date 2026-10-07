@@ -35,8 +35,8 @@ Connectors here are forward invitations to the section below. **RU set — the a
 | 2 | Highlights → Bar preview | Bar preview | FOR A WELL-EARNED POUR | ОТ КАПУЧИНО ДО НАСТОЙКИ | EN selected by author, Sep 2026; RU exported + wired 25 Sep (replaces ЗДЕСЬ ДРИНКИ С ПЕРЧИНКОЙ, exported 23 Sep, retired the same day it was wired — the new pair names what the two previews hold) |
 | 3 | Bar preview → Kitchen preview | Kitchen preview | FOR A PROPER APPETITE | ОТ ОМЛЕТА ДО ЖАРКОГО | EN selected by author, Sep 2026; RU exported + wired 25 Sep (replaces ЗДЕСЬ НЕПРИЛИЧНО ВКУСНО — the set's strongest wink, spent on clarity; About keeps the jokes) |
 | 4 | Kitchen preview → About preview | About preview | MORE THAN A MENU | ЛЮДИ, ИДЕЯ, ХАРАКТЕР | EN built; RU exported 23 Sep, wired 25 Sep |
-| 5 | About preview → What's on | What's on | SEE WHAT'S NEW | АКЦИИ, НОВОСТИ, ВЕЧЕРИНКИ | EN built; RU exported 23 Sep, wired 25 Sep |
-| 6 | What's on → Contacts | Contacts | JOIN THE PARTY | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ | EN built; RU exported 23 Sep, wired 25 Sep — the same line closes About and Visit |
+| 5 | About preview → What's on | What's on | SEE WHAT'S NEW | АКЦИИ, НОВОСТИ, ВЕЧЕРИНКИ (phones: АФИША ОТ ПЕРЦЕВ) | EN built; RU exported 23 Sep, wired 25 Sep; phone word exported + wired 6 Oct |
+| 6 | What's on → Contacts | Contacts | JOIN THE PARTY | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ (phones: КАРТЫ, ЯВКИ, ПАРОЛИ) | EN built; RU exported 23 Sep, wired 25 Sep — the same line closes About and Visit; phone word exported + wired 6 Oct (About's and Visit's phone line too) |
 
 *Earlier rows here (ДЛЯ НАСТРОЕНИЯ И АППЕТИТА, ПЕРЕКУСИТЬ И ЗАКУСИТЬ for seams 2 and 3, "the longer kitchen line replaces COME HUNGRY") were provisional selections from the copy review and never exported; the set above is the author's. Remaining EN Home connectors still await final review.*
 
@@ -55,7 +55,7 @@ Connectors here are seams: the word ends a section, its reflection opens the nex
 | 5 | The Story | Guests | IN GOOD COMPANY | ГЛАВНЫЕ ГЕРОИ ЗА СТОЛИКАМИ | EN built; RU provisionally selected 22 Sep; RU SVG exported + wired 22 Sep |
 | 6 | Guests | Team | THE USUAL SUSPECTS | ЗВЁЗДЫ КАЖДОЙ СМЕНЫ | EN built; RU provisional author choice, 22 Sep; RU SVG exported + wired 22 Sep |
 | 7 | Team | Careers | ROOM FOR ONE MORE | ТВОЁ МЕСТО В КОМАНДЕ | EN built; RU selected by author, 22 Sep; RU SVG exported + wired 22 Sep |
-| 8 | Careers | Location | MAKE YOURSELF AT HOME | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ | EN built; RU author choice, SVG exported + wired 22 Sep |
+| 8 | Careers | Location | MAKE YOURSELF AT HOME | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ (phones: КАРТЫ, ЯВКИ, ПАРОЛИ) | EN built; RU author choice, SVG exported + wired 22 Sep; phone line 6 Oct |
 | 9 | Location | (entrance photo — word only, no reflection) | NOW IT'S YOUR TURN | ЗАБЕГАЙТЕ НА ОГОНЁК | EN built; RU author choice, SVG exported + wired 22 Sep (word only, no reflection) |
 
 Review the nine connectors as a set. All nine RU lines are author choices for the working copy (rows 8–9 confirmed by the SVG export, 22 Sep); final copy review can still replace any of them. **Wired 22 Sep 2026:** `template-parts/about/connector.php` swaps each EN stem for its RU twin on a Russian request — stem into `assets/sectionLinks/about/ru/`, alt drives the live-text prototype. Story alternatives shared with Iurii: ЧЕРЕЗ ТЕРНИИ К НАСТОЙКАМ; ПУТЬ ПЕРЦЕВ ОТ ПЕРВОЙ РЮМКИ; ВЕЛИКИЙ ПУТЬ ПЕРЦЕВ. Current choice: САГА О ПЕРЦАХ И НАСТОЙКАХ. His response is not recorded. Rationale and vocabulary: `russian-website-voice.md`.
@@ -83,7 +83,7 @@ Connectors here are seams, as on About: the word ends a section, its reflection 
 
 | Seam | EN (as drawn) | RU | Notes |
 |---|---|---|---|
-| Hero → Getting here | YOUR ROUTE TO PEPPER | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ | The copy doc's own example of the guest-perspective rule ("Your route to Pepper," not "Find us") |
+| Hero → Getting here | YOUR ROUTE TO PEPPER | ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ (phones: КАРТЫ, ЯВКИ, ПАРОЛИ, 6 Oct 2026 — as Home and About) | The copy doc's own example of the guest-perspective rule ("Your route to Pepper," not "Find us") |
 | Getting here → We're all ears | DROP A LITTLE NOTE | СКАЗАТЬ ПАРУ ЛАСКОВЫХ | Names the slow lane; on phones the section opens with the fast lane (Call · VK · IG) before the form — fine while the booking block stays short |
 
 RU: author choices, provisional; SVGs exported 24 Sep 2026 into `assets/sectionLinks/visit/ru/`; **wired 24 Sep 2026** — `template-parts/visit/connector.php` swaps each EN stem for its RU twin on a Russian request, as About's wrapper does. ВСЕ ДОРОГИ ВЕДУТ В ПЕРЕЦ is also About #8, which opens the same Location section; judge the repeat at final review. Editable table: [visit-page-copy-ru-draft.md → Коннекторы](visit-page-copy-ru-draft.md).

@@ -15,13 +15,16 @@ $args = array_merge( (array) $args, [ 'set' => 'visit' ] );
 
 if ( 'ru' === sweet_pepper_lang() ) {
     $ru = [
-        'yourRouteToPepper' => [ 'всеДорогиВедутВПерец', 'Все дороги ведут в Перец' ],
+        'yourRouteToPepper' => [ 'всеДорогиВедутВПерец', 'Все дороги ведут в Перец', 'Карты, явки, пароли' ], // phones: author, 6 Oct 2026 — as About and Home
         'dropALittleNote'   => [ 'сказатьПаруЛасковых', 'Сказать пару ласковых' ],
     ][ $args['word'] ?? '' ] ?? null;
 
     if ( $ru ) {
         $args['word'] = 'ru/' . $ru[0];
         $args['alt']  = $ru[1];
+        if ( ! empty( $ru[2] ) ) {
+            $args['alt_mobile'] = $ru[2]; // a shorter line ≤ 767px (about/connector.php has the why)
+        }
     }
 }
 

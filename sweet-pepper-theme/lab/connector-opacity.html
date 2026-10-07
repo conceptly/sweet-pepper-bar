@@ -52,7 +52,7 @@ body[data-width="phone"] .headline { font-size: 34px; }
 body[data-width="phone"] .word-band { margin-top: 48px; }
 body[data-width="phone"] .refl-band { margin-bottom: 48px; }
 .word-band.has-rule { border-bottom: 0.5px solid var(--mushroom); }
-.word-band svg, .refl-band svg { display: block; width: 100%; height: auto; }
+.word-band svg, .refl-band svg, .word-band img, .refl-band img { display: block; width: 100%; height: auto; }
 
 /* Panel */
 .panel {
@@ -148,13 +148,13 @@ async function svg(path) {
     if (!cache[path]) cache[path] = fetch(BASE + path + '.svg').then((r) => r.text());
     return cache[path];
 }
-let n = 0;
 function inline(text, from, to) {
-    // unique mask ids per insertion, and the ink swapped
-    const id = 'm' + (++n);
-    let s = text.replace(/id="([^"]+)"/g, `id="${id}-$1"`).replace(/url\(#([^)]+)\)/g, `url(#${id}-$1)`);
+    // the ink swapped, then shown as an <img> as the site does: since 6 Oct 2026 each file carries
+    // its own stroke rule (<style>, a phone media query read against the image's width —
+    // tools/connector-strokes.py), which pasted into the page would turn global and collide
+    let s = text;
     if (to && from && to.toLowerCase() !== from.toLowerCase()) s = s.split(from).join(to).split(from.toLowerCase()).join(to);
-    return s;
+    return `<img alt="" src="${URL.createObjectURL(new Blob([s], { type: 'image/svg+xml' }))}">`;
 }
 
 async function render() {

@@ -1,6 +1,14 @@
 # Sweet Pepper Website — Project Report
 
-## Phone header steps aside on scroll — on trial, `?hdr=hide | quick` — 20 October 2026
+## Phone header steps aside on scroll — the default — 20 October 2026
+
+The author, after the gap fix on an iPhone: "All works properly, let's make it default."
+
+- **Default now, the spring (`hide`) kept:** `header-autohide.js` runs on every visit — no `?hdr=` switch, no `quick` variant (its CSS rule removed), and the trial's sessionStorage key is cleared on load. Behaviour unchanged: tucks on scroll down, returns on scroll up on Gentle, shown at the top / with the drawer, reserve sheet or jump panel open / focus inside / at the page foot; 8px threshold; the strip of header ground above it covers the spring's overshoot. Without the script the header simply stays (the rules wait for `html.hdr-autohide`).
+- **Checked (headless Chrome, 402 × 874, no flag):** shown at 40px; tucked at 900; a 5px wobble ignored; back after 95px up; tucked again; the hamburger brings it back; an old `?hdr=quick` link gets the default; desktop 1280 untouched; frozen at the overshoot's depth (560ms) with a red marker behind the header, no red at the edge. The built CSS differs from the trial's bundle by the removed `quick` rule only.
+- **Still open:** the `?nav=rail` draft's stuck rail keeps `top: 76px` (a gap above it while the header is tucked) — settle when the rail draft is kept or dropped.
+
+## Phone header steps aside on scroll — on trial, `?hdr=hide | quick` — 20 October 2026 *(the default since the same day — entry above)*
 
 The author asked whether the mobile nav bar's scroll-down / scroll-up animation had been discussed: it had not — the phone header is fixed and always shown, no script reads the scroll direction, and `header.css` said "scroll-away/return behaviour is a later task" since September. The author's usual pattern, built as a trial first.
 

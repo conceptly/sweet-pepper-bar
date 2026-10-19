@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize mobile navigation drawer
     initMobileDrawer();
-    initHeaderAutohide(); // ON TRIAL: ?hdr=hide | quick — the phone header steps aside on scroll down
+    initHeaderAutohide(); // the phone header steps aside on scroll down, returns on scroll up
     
     // Initialize reserve drawer
     initReserveDrawer();

@@ -1,40 +1,27 @@
 /**
- * Phone header that steps aside — ON TRIAL behind a switch (author, 20 Oct 2026).
+ * Phone header that steps aside on scroll (default since 20 Oct 2026).
  *
  * Phones and tablets (≤ 991px), where the header is fixed (header.css → Mobile header):
- * scrolling down slides it up out of view, scrolling up brings it back. The author's
- * usual pattern; the header.css comment "scroll-away/return behaviour is a later task"
- * had waited since September.
+ * scrolling down slides it up out of view, scrolling up brings it back, on the house spring.
+ * The author's usual pattern, picked on an iPhone from a `?hdr=` trial (the spring over a
+ * quick 300ms slide); the switch is gone.
  *
- *   ?hdr=hide   the slide on the house spring (Gentle, 800ms — things that move)
- *   ?hdr=quick  a quick slide (300ms, ease-out) — the pattern's usual pace, to compare
- *   ?hdr=0      off again (the default: the header always shown)
- *
- * Remembered for the visit (sessionStorage), like the menu's ?nav= draft, so the trial
- * survives clicking around the site. The header stays shown at the top of the page
- * (until it has scrolled its own height), while the hamburger menu, the reserve sheet or
- * the menu's jump panel is open, while focus is inside it, and at the foot of the page
- * (iOS bounces there and would read the rebound as a scroll up). Small wobbles are
- * ignored: a direction counts once it has run 8px.
+ * The header stays shown at the top of the page (until it has scrolled its own height),
+ * while the hamburger menu, the reserve sheet or the menu's jump panel is open, while focus
+ * is inside it, and at the foot of the page (iOS bounces there and would read the rebound
+ * as a scroll up). Small wobbles are ignored: a direction counts once it has run 8px.
  */
-const KEY = 'spHeaderTrial';
 const RUN = 8; // px of travel in one direction before the header reacts
 
 export function initHeaderAutohide() {
     const header = document.querySelector('.site-header');
     if (!header) return;
 
-    const asked = new URLSearchParams(window.location.search).get('hdr');
-    let mode = asked === 'hide' || asked === 'quick' ? asked : '';
-    try {
-        if (mode) sessionStorage.setItem(KEY, mode);
-        else if (asked) sessionStorage.removeItem(KEY);
-        else mode = sessionStorage.getItem(KEY) || '';
-    } catch (e) { /* private mode: the flag lives on the URL only */ }
-    if (mode !== 'hide' && mode !== 'quick') return;
+    // The trial's memory (sessionStorage 'spHeaderTrial', 20 Oct 2026) — nothing reads it now
+    try { sessionStorage.removeItem('spHeaderTrial'); } catch (e) { /* private mode */ }
 
     const root = document.documentElement;
-    root.classList.add('hdr-autohide', mode === 'quick' ? 'hdr-autohide--quick' : 'hdr-autohide--gentle');
+    root.classList.add('hdr-autohide');
 
     const phone = window.matchMedia('(max-width: 991px)');
     let lastY = window.scrollY;
@@ -44,7 +31,7 @@ export function initHeaderAutohide() {
 
     const mustShow = () =>
         root.classList.contains('drawer-open') ||
-        !!document.querySelector('.reserve-drawer.is-open, .menu-jump-panel.is-open, #menu-jump-panel.is-open') ||
+        !!document.querySelector('.reserve-drawer.is-open, #menu-jump-panel.is-open') ||
         header.contains(document.activeElement);
 
     const set = (hide) => {

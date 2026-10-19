@@ -6,13 +6,13 @@
 
 ---
 
-## Phone header steps aside on scroll — on trial (20 October 2026)
+## Phone header steps aside on scroll — closed 20 Oct: the spring is the default
 
-`?hdr=hide` (the Gentle spring) or `?hdr=quick` (300ms) on any page, phone or tablet; `?hdr=0` turns it off. Remembered for the visit.
+Was `?hdr=hide` (the Gentle spring) or `?hdr=quick` (300ms); the author picked the spring on an iPhone after the top-edge gap was fixed. The switch is gone.
 
 | Question | Result |
 |---|---|
-| Hide or quick — does the spring's bounce on the way back feel right? | **Leaning hide** (author, 19 Oct: works properly on pages with in-page nav). Its gap at the top edge on return — fixed (a strip of the header's ground above it); confirm on the iPhone |
+| Hide or quick — does the spring's bounce on the way back feel right? | **Decided 20 Oct — hide (the spring), now the default.** The top-edge gap on return fixed and confirmed on the iPhone (author: "All works properly") |
 | Menu pages: the header tucks while the bottom bar stays — too much movement at once? | open |
 | Jump-nav and anchor jumps land with the header tucked — fine? | open |
 | About / Visit (dark header): does the slide read on the dark hero? | open |

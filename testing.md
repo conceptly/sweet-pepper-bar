@@ -12,7 +12,7 @@
 
 | Question | Result |
 |---|---|
-| Hide or quick — does the spring's bounce on the way back feel right? | open — on a phone |
+| Hide or quick — does the spring's bounce on the way back feel right? | **Leaning hide** (author, 19 Oct: works properly on pages with in-page nav). Its gap at the top edge on return — fixed (a strip of the header's ground above it); confirm on the iPhone |
 | Menu pages: the header tucks while the bottom bar stays — too much movement at once? | open |
 | Jump-nav and anchor jumps land with the header tucked — fine? | open |
 | About / Visit (dark header): does the slide read on the dark hero? | open |

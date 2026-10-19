@@ -637,6 +637,23 @@ html.lang-nudge-on body.home .lang-nudge--float {
     .hdr-autohide .site-header.is-tucked {
         transform: translateY(calc(-100% - var(--wp-admin--admin-bar--height, 0px)));
     }
+
+    /* The spring overshoots on the way back: the header comes down ~2.7px past its place
+       for ~0.35s, and the page showed through above it — "a small gap at the top edge for
+       a second" (author's iPhone recording, 19 Oct 2026). A strip of the header's own
+       ground reaches up above it, off-screen at rest, so the overshoot shows bar, not page.
+       `inherit` takes whichever ground the header has (Parchment, night, the dark About /
+       Visit bar). 16px covers the overshoot several times over. */
+    .hdr-autohide .site-header::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 100%;
+        height: 16px;
+        background: inherit;
+        pointer-events: none;
+    }
 }
 
 @media (max-width: 991px) and (prefers-reduced-motion: reduce) {

@@ -203,7 +203,7 @@ Build record: `report.md` → *About → Команда: ten cards, the team's o
 | Ten cards, buttons, «от Леры», kitchen photos on test and main | Passed, 19 Oct 2026 — deployed (`906ee81`), checked by the author on both sites |
 | Саня or Алекс | Decided 19 Oct — «Саня» in Russian, Alex in English (local; servers at the final deploy) |
 | Card order: the waiters together | Done 19 Oct (local) — Ekaterina sixth, after Stas |
-| Menu: Kids band and six bar bands as placed in admin; wings pill on the kitchen first screen | Local 19 Oct; on the servers at the next deploy (the first deploy carried only the first-screen fields) |
+| Menu: Kids band and six bar bands as placed in admin; wings pill on the kitchen first screen | Wings pill live on test and main (19 Oct). Bands: SKIPPED on both — the fields are empty there; `…-bands-empty.json` files owed, then check the Kids plate and the six bar bands |
 | English button texts | Open — drafted by Claude (19 Oct), the author's review |
 | Names and facts | Open — Вероника or «Ника» (her own VK name); Sofia's and Veronika's years; Ira's role («Менеджер зала» vs «админ») |
 

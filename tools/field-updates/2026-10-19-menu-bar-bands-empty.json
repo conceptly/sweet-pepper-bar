@@ -1,0 +1,67 @@
+{
+  "page": "menu/bar",
+  "date": "2026-10-19",
+  "note": "Bar menu: the six band positions again — on the test and main sites the band sliders were never saved (empty, no --img-y on the page), so …-menu-bar-bands.json SKIPPED every group, expecting 50. Same new values, from empty (report.md → Menu: the band sliders were empty on the servers).",
+  "groups": [
+    {
+      "note": "Bar → Infusions: band position",
+      "set": [
+        [
+          "sec_infusions_photo_y",
+          "",
+          "0"
+        ]
+      ]
+    },
+    {
+      "note": "Bar → Wine: band position",
+      "set": [
+        [
+          "sec_wine_photo_y",
+          "",
+          "45"
+        ]
+      ]
+    },
+    {
+      "note": "Bar → Beer: band position",
+      "set": [
+        [
+          "sec_beer_photo_y",
+          "",
+          "15"
+        ]
+      ]
+    },
+    {
+      "note": "Bar → Spirits: band position",
+      "set": [
+        [
+          "sec_spirits_photo_y",
+          "",
+          "15"
+        ]
+      ]
+    },
+    {
+      "note": "Bar → No buzz: band position",
+      "set": [
+        [
+          "sec_no_buzz_photo_y",
+          "",
+          "10"
+        ]
+      ]
+    },
+    {
+      "note": "Bar → Tea & coffee: band position",
+      "set": [
+        [
+          "sec_tea_coffee_photo_y",
+          "",
+          "40"
+        ]
+      ]
+    }
+  ]
+}

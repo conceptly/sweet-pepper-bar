@@ -1,0 +1,17 @@
+{
+  "page": "menu/food",
+  "date": "2026-10-19",
+  "note": "Kitchen menu: the Kids band position again — on the test and main sites the band sliders were never saved (the field is empty, the page prints no --img-y), so …-menu-food-bands-wings-caption.json SKIPPED it, expecting 50. Same new value, from empty (report.md → Menu: the band sliders were empty on the servers).",
+  "groups": [
+    {
+      "note": "Kitchen → Kids: the section band's position",
+      "set": [
+        [
+          "sec_kids_photo_y",
+          "",
+          "80"
+        ]
+      ]
+    }
+  ]
+}

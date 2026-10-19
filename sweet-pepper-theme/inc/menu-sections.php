@@ -307,7 +307,12 @@ function sweet_pepper_menu_sections( $state = 'food' ) {
         $sec['image_url']  = sweet_pepper_photo_url( sweet_pepper_menu_section_value( $slug, 'hero_photo' ), 'sp-hero', $sec['image'] );
         $focus             = sweet_pepper_menu_section_value( $slug, 'hero_focus' );
         $sec['focus']      = is_numeric( $focus ) ? '50% ' . (int) $focus . '%' : ( $sec['focus'] ?? '50% 50%' );
-        $sec['band_image'] = sweet_pepper_photo_url( sweet_pepper_menu_section_value( $slug, 'photo' ), 'sp-4x1', $sec['band'] ?? $sec['image'] );
+        // The band gets the whole 3:2 photo, not the 4:1 cut (19 Oct 2026): sp-4x1 is a hard
+        // centre crop — a 1080px upload became a 1080 × 480 slice, so the slider moved the photo
+        // inside its middle third and the top and bottom were gone (the Kids plate, the beer's
+        // foam), while the admin's preview slides the whole photo. object-position now has the
+        // full height to travel, as the preview shows.
+        $sec['band_image'] = sweet_pepper_photo_url( sweet_pepper_menu_section_value( $slug, 'photo' ), 'sp-hero', $sec['band'] ?? $sec['image'] );
         $band_y            = sweet_pepper_menu_section_value( $slug, 'photo_y' );
         $sec['band_y']     = is_numeric( $band_y ) ? (int) $band_y : null;
     }

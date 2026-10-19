@@ -1,0 +1,155 @@
+{
+    "page": "about",
+    "date": "2026-10-19",
+    "note": "About → «Команда»: the team's own lines, 19 Oct 2026 — Russian typed by the author in admin (Lera, Lenya, Anton, the bartender Саша, ex-Саня; Sofia's year; an 11th card, Саша the cook), English twins drafted to match and replacing the September placeholders. The parity rule is gone (11 cards). Replaces the uncommitted 2026-10-19-about-team-lenya.json. Run after …-about-team-order-stas-sanya.json (report.md → About → Команда: the team's own lines, an 11th card).",
+    "groups": [
+        {
+            "note": "About → «Команда»: card 2, Lera — her own line and button",
+            "set": [
+                [
+                    "about_team_members_1_chip_label_ru",
+                    "Всегда советую",
+                    "Не только о меню"
+                ],
+                [
+                    "about_team_members_1_chip_label_en",
+                    "My standing tip",
+                    "Beyond the menu"
+                ],
+                [
+                    "about_team_members_1_message_ru",
+                    "",
+                    "Вишнёвая душа и ходячий мемолог. Обсудим всё. Вообще ВСЁ."
+                ],
+                [
+                    "about_team_members_1_message_en",
+                    "Start with the salted caramel infusion. If you don't like it, I'll drink it — hasn't happened yet.",
+                    "Cherry soul, walking meme library. Let's talk about anything. ANYTHING."
+                ]
+            ]
+        },
+        {
+            "note": "About → «Команда»: card 3, Lenya — his own line and button",
+            "set": [
+                [
+                    "about_team_members_2_chip_label_ru",
+                    "Только для своих",
+                    "Кофе или пиво?"
+                ],
+                [
+                    "about_team_members_2_chip_label_en",
+                    "Insiders only",
+                    "Coffee or beer?"
+                ],
+                [
+                    "about_team_members_2_message_ru",
+                    "",
+                    "Иногда чашка кофе заменяет бокал пива. А иногда — наоборот."
+                ],
+                [
+                    "about_team_members_2_message_en",
+                    "Pumpkin soup at noon, a sour after eight. Yes, both on the same shift.",
+                    "Sometimes coffee stands in for beer. Sometimes it's the other way round."
+                ]
+            ]
+        },
+        {
+            "note": "About → «Команда»: card 4, Anton — his own line, English button",
+            "set": [
+                [
+                    "about_team_members_3_chip_label_en",
+                    "My pick at the bar",
+                    "My usual"
+                ],
+                [
+                    "about_team_members_3_message_ru",
+                    "",
+                    "Из вина выберу совиньон, из виски — Лафройг. С чего начнём?"
+                ],
+                [
+                    "about_team_members_3_message_en",
+                    "Tell me what you drank last night and I'll fix it. The drink, not the night.",
+                    "For wine, a Sauvignon; for whisky, Laphroaig. Where shall we start?"
+                ]
+            ]
+        },
+        {
+            "note": "About → «Команда»: card 7, the bartender — Саша / Sasha, own line and button",
+            "set": [
+                [
+                    "about_team_members_6_name_ru",
+                    "Саня",
+                    "Саша"
+                ],
+                [
+                    "about_team_members_6_name_en",
+                    "Alex",
+                    "Sasha"
+                ],
+                [
+                    "about_team_members_6_name_gen",
+                    "Сани",
+                    "Саши"
+                ],
+                [
+                    "about_team_members_6_chip_label_ru",
+                    "Мой коктейль",
+                    "Мои фавориты"
+                ],
+                [
+                    "about_team_members_6_chip_label_en",
+                    "Favourite cocktail",
+                    "My go-tos"
+                ],
+                [
+                    "about_team_members_6_message_ru",
+                    "",
+                    "За чистый вкус и чистый кайф. Фернет-Бранка, джин-тоник — без украшений."
+                ],
+                [
+                    "about_team_members_6_message_en",
+                    "The infusions rotate. Ask what's in the jar today, not what's on the list.",
+                    "Clean taste, clean buzz. Fernet-Branca, a gin and tonic — no garnish."
+                ]
+            ]
+        },
+        {
+            "note": "About → «Команда»: card 8, Sofia — joined 2023",
+            "set": [
+                [
+                    "about_team_members_7_since",
+                    "",
+                    "2023"
+                ]
+            ]
+        },
+        {
+            "note": "About → «Команда»: card 11 — Саша / Sasha, cook",
+            "append": "about_team_members",
+            "after": 10,
+            "new": [
+                {
+                    "photo": "asset:team/sasha.jpg",
+                    "name_ru": "Саша",
+                    "name_en": "Sasha",
+                    "name_gen": "Саши",
+                    "since": "2025",
+                    "chip": "ask",
+                    "chip_label_ru": "Борща хотите?",
+                    "chip_label_en": "Borscht, anyone?",
+                    "role_ru": "Повар",
+                    "role_en": "Cook",
+                    "message_ru": "Борщ — мой. На десерт тоже оставайтесь: сама делаю, за вкус ручаюсь.",
+                    "message_en": "The borscht is mine. Stay for dessert — I make it myself, taste guaranteed."
+                }
+            ]
+        }
+    ],
+    "uploads": {
+        "team/sasha.jpg": {
+            "title": "Саша, повар",
+            "alt": "Саша с белыми дредами подмигивает, палец у подбородка",
+            "topic": "Команда"
+        }
+    }
+}

@@ -11,7 +11,7 @@
  *   and active (message reveal) states toggled by JS.
  *
  * Content comes as args from sweet_pepper_about_team() (inc/about-data.php) — the About
- * page's «Команда» tab: 6 to 12 members (an even count is validated on save), tenure
+ * page's «Команда» tab: 6 to 12 members (any count — the last row stays flush left), tenure
  * printed from the year each joined, the chip's wording from a preset.
  *
  * @param array $args eyebrow · headline · headline_2 · wall[] (src, full, label) ·

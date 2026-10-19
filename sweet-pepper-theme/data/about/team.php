@@ -63,9 +63,9 @@ return [
             'since'   => 2019,
             'photo'   => 'team/lera.jpg',
             'chip'    => 'ask',
-            'message' => 'Start with the salted caramel infusion. If you don\'t like it, I\'ll drink it — hasn\'t happened yet.',
-            'chip_label' => 'My standing tip', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Всегда советую', 'name' => 'Лера', 'name_gen' => 'Леры', 'role' => 'Душа зала, голос Перца' ],
+            'message' => 'Cherry soul, walking meme library. Let\'s talk about anything. ANYTHING.',
+            'chip_label' => 'Beyond the menu', // the button's own text (19 Oct 2026)
+            'ru'      => [ 'message' => 'Вишнёвая душа и ходячий мемолог. Обсудим всё. Вообще ВСЁ.', 'chip_label' => 'Не только о меню', 'name' => 'Лера', 'name_gen' => 'Леры', 'role' => 'Душа зала, голос Перца' ],
         ],
         [
             'name'    => 'Lenya',
@@ -73,9 +73,10 @@ return [
             'since'   => 2020,
             'photo'   => 'team/lenya.jpg',
             'chip'    => 'pick',
-            'message' => 'Pumpkin soup at noon, a sour after eight. Yes, both on the same shift.',
-            'chip_label' => 'Insiders only', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Только для своих', 'name' => 'Лёня', 'name_gen' => 'Лёни', 'role' => 'Менеджер зала' ],
+            'message' => 'Sometimes coffee stands in for beer. Sometimes it\'s the other way round.',
+            'chip_label' => 'Coffee or beer?', // the button's own text (19 Oct 2026)
+            'ru'      => [ 'chip_label' => 'Кофе или пиво?', 'name' => 'Лёня', 'name_gen' => 'Лёни', 'role' => 'Менеджер зала',
+                           'message' => 'Иногда чашка кофе заменяет бокал пива. А иногда — наоборот.' ],
         ],
         [
             'name'    => 'Anton',
@@ -83,9 +84,9 @@ return [
             'since'   => 2021,
             'photo'   => 'team/anton-2.jpg',
             'chip'    => 'ask',
-            'message' => 'Tell me what you drank last night and I\'ll fix it. The drink, not the night.',
-            'chip_label' => 'My pick at the bar', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Мне как всегда', 'name' => 'Антон', 'name_gen' => 'Антона', 'role' => 'Шеф-бармен' ],
+            'message' => 'For wine, a Sauvignon; for whisky, Laphroaig. Where shall we start?',
+            'chip_label' => 'My usual', // the button's own text (19 Oct 2026)
+            'ru'      => [ 'message' => 'Из вина выберу совиньон, из виски — Лафройг. С чего начнём?', 'chip_label' => 'Мне как всегда', 'name' => 'Антон', 'name_gen' => 'Антона', 'role' => 'Шеф-бармен' ],
         ],
         [
             'name'    => 'Stas',
@@ -110,19 +111,20 @@ return [
                            'message' => 'За сколько секунд выпьете шот?' ],
         ],
         [
-            'name'    => 'Alex',
+            'name'    => 'Sasha', // was Alex; «Саня» → «Саша» (author, 19 Oct 2026)
             'role'    => 'Bartender',
             'since'   => 2021,
             'photo'   => 'team/alex.jpg',
             'chip'    => 'ask',
-            'message' => 'The infusions rotate. Ask what\'s in the jar today, not what\'s on the list.',
-            'chip_label' => 'Favourite cocktail', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Мой коктейль', 'name' => 'Саня', 'name_gen' => 'Сани', 'role' => 'Бармен' ],
+            'message' => 'Clean taste, clean buzz. Fernet-Branca, a gin and tonic — no garnish.',
+            'chip_label' => 'My go-tos', // the button's own text (19 Oct 2026)
+            'ru'      => [ 'chip_label' => 'Мои фавориты', 'name' => 'Саша', 'name_gen' => 'Саши', 'role' => 'Бармен',
+                           'message' => 'За чистый вкус и чистый кайф. Фернет-Бранка, джин-тоник — без украшений.' ],
         ],
         [
             'name'    => 'Sofia',
             'role'    => 'Cook',
-            'since'   => 0, // not given yet
+            'since'   => 2023,
             'photo'   => 'team/sofia.jpg',
             'chip'    => 'pick',
             'message' => 'The Yaroslavl-style roast — I eat it myself, happily. And the pork steak.',
@@ -151,6 +153,17 @@ return [
             'chip_label' => 'My favourites', // the button's own text (19 Oct 2026)
             'ru'      => [ 'chip_label' => 'Мои любимчики', 'name' => 'Вероника', 'name_gen' => 'Вероники', 'role' => 'Повар',
                            'message' => 'Очень люблю наш борщ. А ещё Цезарь-бейгл — он прикольный.' ],
+        ],
+        [
+            'name'    => 'Sasha', // the cook — a second Саша (author, 19 Oct 2026)
+            'role'    => 'Cook',
+            'since'   => 2025,
+            'photo'   => 'team/sasha.jpg',
+            'chip'    => 'ask',
+            'message' => 'The borscht is mine. Stay for dessert — I make it myself, taste guaranteed.',
+            'chip_label' => 'Borscht, anyone?', // the button's own text (19 Oct 2026)
+            'ru'      => [ 'chip_label' => 'Борща хотите?', 'name' => 'Саша', 'name_gen' => 'Саши', 'role' => 'Повар',
+                           'message' => 'Борщ — мой. На десерт тоже оставайтесь: сама делаю, за вкус ручаюсь.' ],
         ],
     ],
 ];

@@ -288,19 +288,10 @@ function sweet_pepper_about_team( $page_id ) {
     ];
 }
 
-/**
- * Six to twelve members (ten since 18 Oct 2026), never an odd count: the grid is four across
- * (two on tablets), and an odd
- * count leaves a hole (author, 21 Sep 2026). The repeater's min / max hold the range; this
- * holds the parity.
- */
-add_filter( 'acf/validate_value/name=about_team_members', function ( $valid, $value ) {
-    if ( true !== $valid ) {
-        return $valid;
-    }
-    $count = is_array( $value ) ? count( $value ) : 0;
-    return ( $count % 2 ) ? 'Нужно чётное число человек (6, 8, 10 или 12), иначе на планшете в сетке остаётся пустое место.' : $valid;
-}, 10, 2 );
+// No parity rule for the team (removed 19 Oct 2026). From 21 Sep an odd count was refused on
+// save, to keep the tablet's two columns full; the author accepted empty cells at the end of
+// the grid (option A, flush left, 18 Oct) and needed to save seven cards. The repeater's
+// min / max (6–12) still hold the range.
 
 /**
  * Hero: eyebrow, headline, lead. The filmstrip is structure (the template's).

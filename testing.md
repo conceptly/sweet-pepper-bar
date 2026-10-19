@@ -214,7 +214,7 @@ Build record: `report.md` → *About → Команда: ten cards, the team's o
 | The About page saves in admin (test and main) | Passed, 19 Oct 2026 — after `2026-10-19-about-milestone-year.json` on both sites (author: "all works") |
 | Ten cards, buttons, «от Леры», kitchen photos on test and main | Passed, 19 Oct 2026 — deployed (`906ee81`), checked by the author on both sites |
 | Саня or Алекс | Decided 19 Oct — «Саня» in Russian, Alex in English; live on test and main |
-| The team's own lines (Lera, Lenya, Anton, Саша ×2), 11 cards, any count saves | Local 19 Oct; at the next push, with the team members still to come. Check the English drafts; two Sashas in English (the bartender and the cook) |
+| The team's own lines (Lera, Lenya, Anton, Саша ×2), 11 cards, any count saves | Live on test and main 20 Oct (author: all works). Still open: the English drafts are the author's to review; two Sashas in English (the bartender and the cook) |
 | Card order: the waiters together | Done 19 Oct — Ekaterina sixth, after Stas; live on test and main |
 | Menu: Kids band and six bar bands as placed in admin; wings pill on the kitchen first screen | Wings pill live on test and main (19 Oct). Band positions applied from empty, then the band took the whole photo (`sp-hero`, `8511194`) — **passed 19 Oct on test and main: each band matches its admin preview, a slider moved in admin shows on the site** (author) |
 | English button texts | Open — drafted by Claude (19 Oct), the author's review |

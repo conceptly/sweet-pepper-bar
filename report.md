@@ -1,5 +1,15 @@
 # Sweet Pepper Website — Project Report
 
+## Phone header steps aside on scroll — on trial, `?hdr=hide | quick` — 20 October 2026
+
+The author asked whether the mobile nav bar's scroll-down / scroll-up animation had been discussed: it had not — the phone header is fixed and always shown, no script reads the scroll direction, and `header.css` said "scroll-away/return behaviour is a later task" since September. The author's usual pattern, built as a trial first.
+
+- **Built:** `src/js/header-autohide.js` (+ one call in `main.js`, right after the drawer), rules at the end of `src/css/header.css`. Under the switch only, ≤ 991px (where the header is fixed): scrolling down tucks the header up by its own height (plus the admin bar's), scrolling up brings it back; a `transform`, nothing reflows. **`?hdr=hide`** — the house spring (Gentle, 800ms; its overshoot shows on the way back), **`?hdr=quick`** — 300ms ease-out, the pattern's usual pace; **`?hdr=0`** — off. Remembered for the visit (sessionStorage `spHeaderTrial`), as the menu's `?nav=` draft. Reduced motion: no slide.
+- **Stays shown:** within the header's own height of the top; while the hamburger menu (`html.drawer-open`), the reserve sheet or the menu's jump panel is open; with focus inside it; at the foot of the page (iOS rebound would read as a scroll up). A direction counts after 8px — small wobbles do nothing. `html.hdr-tucked` mirrors the state for anything that sits under the header.
+- **Checked (headless Chrome, 402 × 874):** no switch — header shown at 900px down; `quick` — shown at 40, tucked at 900 (top −76), a 5px wobble up ignored, back after 35px up, tucked again lower down, the hamburger brings it back, shown near the top; the switch carries to /about/ without the flag; desktop 1280 — no tuck; `hide` — tucked / back the same; `?hdr=0` clears it. The built CSS differs from the previous bundle by the four new rules only.
+- **Not handled (draft meets trial):** with `?nav=rail` too, the stuck rail keeps `top: 76px`, so a gap opens above it while the header is tucked. In-page jumps (jump nav, anchors) scroll down, so the header tucks as they land — expected for the pattern; judge it on the menu page.
+- **To judge on a phone (test site after the deploy):** hide vs quick (the spring's bounce on return), the menu page with its bottom bar, About and Visit (the dark header). Then the author's pick becomes the default and the switch goes.
+
 ## About → Команда: the team's own lines, an 11th card, no even-count rule — 19 October 2026 (local; for the next push)
 
 The author typed the team's own Russian lines in admin while waiting for the rest of the team; the push waits for them.

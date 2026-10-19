@@ -349,7 +349,7 @@ html.lang-leaving .lang-switch a.lang-option::after {
    middle one goes — on the drawer's timing (mobile-drawer.css → --drawer-*: Gentle). Open,
    the header sits over the drawer (z 1001 against its 1000), and stays there while it fades out. */
 @media (max-width: 991px) {
-    /* Fixed bar (scroll-away/return behaviour is a later task); body carries the 76px offset in main.css */
+    /* Fixed bar; body carries the 76px offset in main.css. Scroll-away/return: on trial behind ?hdr= (end of file) */
     .site-header {
         position: fixed;
         top: var(--wp-admin--admin-bar--height, 0px);
@@ -614,3 +614,33 @@ html.lang-nudge-on body.home .lang-nudge--float {
     }
 }
 
+
+/* ---- Phone header steps aside — ON TRIAL (?hdr=hide | quick, 20 Oct 2026) ----
+   src/js/header-autohide.js: scrolling down tucks the fixed header up out of view,
+   scrolling up brings it back. Only under html.hdr-autohide (the switch), only where the
+   header is fixed. A transform, so nothing below it reflows. `hide` moves on the house
+   spring (Gentle — the overshoot on the way back is the spring's, judge it on a phone);
+   `quick` on a plain 300ms ease-out, the pattern's usual pace. Up by its own height plus
+   the admin bar's, so a logged-in view tucks it fully too. Not handled: the ?nav=rail draft
+   keeps its rail at top 76px, so with both switches on a gap opens above the stuck rail. */
+@media (max-width: 991px) {
+    .hdr-autohide .site-header {
+        transition: transform var(--dur-gentle) var(--ease-gentle);
+        will-change: transform;
+    }
+
+    .hdr-autohide--quick .site-header {
+        transition-duration: 300ms;
+        transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .hdr-autohide .site-header.is-tucked {
+        transform: translateY(calc(-100% - var(--wp-admin--admin-bar--height, 0px)));
+    }
+}
+
+@media (max-width: 991px) and (prefers-reduced-motion: reduce) {
+    .hdr-autohide .site-header {
+        transition: none;
+    }
+}

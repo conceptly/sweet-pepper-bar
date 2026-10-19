@@ -6,6 +6,18 @@
 
 ---
 
+## Phone header steps aside on scroll — on trial (20 October 2026)
+
+`?hdr=hide` (the Gentle spring) or `?hdr=quick` (300ms) on any page, phone or tablet; `?hdr=0` turns it off. Remembered for the visit.
+
+| Question | Result |
+|---|---|
+| Hide or quick — does the spring's bounce on the way back feel right? | open — on a phone |
+| Menu pages: the header tucks while the bottom bar stays — too much movement at once? | open |
+| Jump-nav and anchor jumps land with the header tucked — fine? | open |
+| About / Visit (dark header): does the slide read on the dark hero? | open |
+| iPhone: any tremble of the fixed header while it slides (the old sticky-rail issue)? | open — WebKit only, not checkable here |
+
 ## Page scrollbar — four looks (18 October 2026) — closed 19 Oct: the pill
 
 *Closed 19 Oct 2026: the author chose D, the pill — now the only look; `?sb=` removed.* Was `?sb=a|b|c|d` on any page (B the default). Desktop with a mouse, or macOS *Show scroll bars: Always* — trackpads and phones draw their own transient overlay bar.

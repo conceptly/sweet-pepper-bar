@@ -68,6 +68,7 @@ import { initVacancy } from './js/vacancy';
 import { initPageLoader } from './js/page-loader';
 import { initMailChooser } from './js/mail-chooser';
 import { initNotFound } from './js/not-found';
+import { initHeaderAutohide } from './js/header-autohide';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize daypart logic and interactions
@@ -75,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize mobile navigation drawer
     initMobileDrawer();
+    initHeaderAutohide(); // ON TRIAL: ?hdr=hide | quick — the phone header steps aside on scroll down
     
     // Initialize reserve drawer
     initReserveDrawer();

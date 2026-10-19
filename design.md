@@ -336,6 +336,7 @@ Consistency comes from **setting + grade**, not studio perfection. Casual, sligh
 
 ## 9. Open questions / next steps
 
+- **Page scrollbar — the pill (19 Oct 2026).** Ash / Mushroom pill, accent-2 under the pointer, 14px `--surface` track; not drawn in Figma — add it to the style guide's colour roles (website-brief.md → *Page scrollbar — the pill*).
 - **Seasonal dish badge — colours by season (30 Sep 2026, on trial).** Summer Lemon + Peppercorn (15.3:1), Fall **Paprika + Lemon (2.5:1)**, Winter Deep Chili + Lemon (6.5:1). Fall breaks §2.4 (text on a saturated fill must pass) — the author's pick, kept knowingly; Paprika + Peppercorn (6.1:1) is the passing twin. Figma `menuBadges` 847:30705 still draws Fall as Avocado + Lemon — update the variant. Values: `website-brief.md` → Menu lists.
 - **Palette:** ✓ refined & validated in Adobe Color. Hexes locked here.
 - **Body typeface:** ✓ Golos Text. Confirm weight set (400/500/600/700).

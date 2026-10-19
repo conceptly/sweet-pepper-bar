@@ -349,7 +349,7 @@ foreach ( $targets as $target ) {
             if ( $all || 'about-team' === $target ) {
                 echo sp_seed_about_tab( $id, $force, 'about-team', $t( 'team' ), 'about_team_members', $hdr( 'team', false ), [
                     "{$k}team_wall"    => [ 'wall', "{$k}wall_", [], [ 'photo', 'year' ] ],
-                    "{$k}team_members" => [ 'members', "{$k}member_", [ 'name', 'role', 'message' ], [ 'photo', 'since', 'chip', 'name_gen' ] ],
+                    "{$k}team_members" => [ 'members', "{$k}member_", [ 'name', 'chip_label', 'role', 'message' ], [ 'photo', 'since', 'chip', 'name_gen' ] ],
                 ] ), "\n";
             }
             if ( $all || 'about-careers' === $target ) {

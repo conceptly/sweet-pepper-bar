@@ -47,7 +47,9 @@ return [
     'milestones'       => [
         [ 'year' => 2009, 'name' => 'TABASCO BAR',  'wit' => 'Where the heat started',            'ru' => [ 'name' => 'TABASCO BAR',  'wit' => 'Жаркое начало' ] ],
         [ 'year' => 2014, 'name' => 'SWEET PEPPER', 'wit' => 'Kept the heat, made it delicious', 'ru' => [ 'name' => 'SWEET PEPPER', 'wit' => 'С тем же перцем. Ещё вкуснее' ] ],
-        [ 'year' => 0,    'name' => 'STILL HERE',   'wit' => 'Same table, probably yours',        'ru' => [ 'name' => 'ВСЁ ТАМ ЖЕ',   'wit' => 'За знакомым столиком. Может, за вашим' ] ],
+        // Empty, not 0: the admin's year field has min 2009, and a stored 0 refused every save of
+        // the About page (19 Oct 2026). The site prints the current year here regardless.
+        [ 'year' => '',   'name' => 'STILL HERE',   'wit' => 'Same table, probably yours',        'ru' => [ 'name' => 'ВСЁ ТАМ ЖЕ',   'wit' => 'За знакомым столиком. Может, за вашим' ] ],
     ],
     'counters'         => [
         [ 'number' => 66768,  'label' => 'cappuccinos',                   'ru' => [ 'label' => 'чашек капучино' ] ],

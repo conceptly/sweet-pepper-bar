@@ -11,11 +11,11 @@
  *   and active (message reveal) states toggled by JS.
  *
  * Content comes as args from sweet_pepper_about_team() (inc/about-data.php) — the About
- * page's «Команда» tab: 6 or 8 members (an even count is validated on save), tenure
+ * page's «Команда» tab: 6 to 12 members (an even count is validated on save), tenure
  * printed from the year each joined, the chip's wording from a preset.
  *
  * @param array $args eyebrow · headline · headline_2 · wall[] (src, full, label) ·
- *                    members[] (name, role, photo, chip, message)
+ *                    members[] (name, role, photo, chip, message, from — «от Леры» on RU)
  *
  * @package Sweet_Pepper
  */
@@ -123,8 +123,12 @@ $team_members = $args['members'];
                                                 <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
                                         </button>
-                                        <span class="about-team__card-name molot-text"><?php echo esc_html( $member['name'] ); ?></span>
-                                        <span class="about-team__card-says molot-text"><?php esc_html_e( 'Says', 'sweet-pepper' ); ?></span>
+                                        <?php if ( $member['from'] ) : // «от Леры» — Russian has no "says" that reads well here ?>
+                                            <span class="about-team__card-name molot-text"><?php echo esc_html( $member['from'] ); ?></span>
+                                        <?php else : ?>
+                                            <span class="about-team__card-name molot-text"><?php echo esc_html( $member['name'] ); ?></span>
+                                            <span class="about-team__card-says molot-text"><?php esc_html_e( 'Says', 'sweet-pepper' ); ?></span>
+                                        <?php endif; ?>
                                     </div>
                                     <p class="about-team__card-message"><?php echo esc_html( $member['message'] ); ?></p>
                                 </div>

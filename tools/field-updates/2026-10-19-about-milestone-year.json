@@ -1,0 +1,13 @@
+{
+  "page": "about",
+  "date": "2026-10-19",
+  "note": "About → «История»: the third milestone's year 0 → empty. The seeder wrote 0, the admin's year field has min 2009, so «Обновить» on the About page failed validation — on any tab, the team's buttons included (author, 19 Oct 2026). The site prints the current year for this milestone whatever is stored (report.md → About: the page would not save).",
+  "groups": [
+    {
+      "note": "About → «История»: milestone 3 — the year left empty",
+      "set": [
+        [ "about_milestones_2_year", "0", "" ]
+      ]
+    }
+  ]
+}

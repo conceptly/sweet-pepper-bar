@@ -245,6 +245,8 @@ function sweet_pepper_about_team( $page_id ) {
                 'name_gen'   => $row['ru']['name_gen'] ?? '',
                 'since'      => $row['since'],
                 'chip'       => $row['chip'],
+                'chip_label_en' => $row['chip_label'] ?? '',
+                'chip_label_ru' => $row['ru']['chip_label'] ?? '',
                 'role_en'    => $row['role'],
                 'role_ru'    => $row['ru']['role'] ?? '',
                 'message_en' => $row['message'],
@@ -261,13 +263,17 @@ function sweet_pepper_about_team( $page_id ) {
         $years = sweet_pepper_years_since( $row['since'] ?? 0, $lang );
         $chip  = $chips[ $row['chip'] ?? 'ask' ] ?? $chips['ask'];
         $gen   = ( 'ru' === $lang && ! empty( $row['name_gen'] ) ) ? $row['name_gen'] : $name;
+        // The card's own button text, when typed, wins over the preset (author, 19 Oct 2026)
+        $label = sweet_pepper_pick( $row, 'chip_label' );
 
         $members[] = [
             'name'    => $name,
             'role'    => $role . ( $years ? " · {$years}" : '' ),
             'photo'   => sweet_pepper_photo_url( $row['photo'] ?? '', 'sp-square', $row['fallback'] ?? '' ),
-            'chip'    => str_replace( '{name}', $gen, $chip[ $lang ] ),
+            'chip'    => '' !== $label ? $label : str_replace( '{name}', $gen, $chip[ $lang ] ),
             'message' => sweet_pepper_pick( $row, 'message' ),
+            // The open card's heading: "Lera says" in English, «от Леры» in Russian (author, 19 Oct 2026)
+            'from'    => 'ru' === $lang ? 'от ' . $gen : '',
         ];
     }
 
@@ -283,7 +289,8 @@ function sweet_pepper_about_team( $page_id ) {
 }
 
 /**
- * Six or eight members, never seven: the grid is four across (two on tablets), and an odd
+ * Six to twelve members (ten since 18 Oct 2026), never an odd count: the grid is four across
+ * (two on tablets), and an odd
  * count leaves a hole (author, 21 Sep 2026). The repeater's min / max hold the range; this
  * holds the parity.
  */
@@ -292,7 +299,7 @@ add_filter( 'acf/validate_value/name=about_team_members', function ( $valid, $va
         return $valid;
     }
     $count = is_array( $value ) ? count( $value ) : 0;
-    return ( $count % 2 ) ? 'Шесть или восемь человек — чётное число, иначе в сетке остаётся пустое место.' : $valid;
+    return ( $count % 2 ) ? 'Нужно чётное число человек (6, 8, 10 или 12), иначе на планшете в сетке остаётся пустое место.' : $valid;
 }, 10, 2 );
 
 /**

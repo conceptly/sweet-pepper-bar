@@ -1852,6 +1852,9 @@
 /* Chip button — Avocado pill */
 .about-team__card-chip {
     display: inline-flex;
+    /* Hugs its label (author, 19 Oct 2026). A flex item of the info column, so it stretched
+       to the card's width — a short «Поболтаем?» sat in a 228px pill with its arrow mid-air */
+    align-self: flex-start;
     align-items: center;
     gap: 8px;
     padding: 4px 16px;

@@ -2510,7 +2510,7 @@
                 "class": "",
                 "id": ""
             },
-            "message": "Шесть или восемь человек — сетка по четыре в ряд (на планшете по два). Порядок строк — порядок на сайте: первыми те, кто дольше всех в команде. Ушёл человек — удалите строку. Стаж считается от года «В команде с» сам: «· 8 лет» в этом году, «· 9 лет» в следующем. Фото квадратное.",
+            "message": "От шести до двенадцати человек, чётное число — сетка по четыре в ряд (на планшете по два). Порядок строк — порядок на сайте: первыми те, кто дольше всех в команде. Ушёл человек — удалите строку. Стаж считается от года «В команде с» сам: «· 8 лет» в этом году, «· 9 лет» в следующем. Фото квадратное.",
             "new_lines": "",
             "esc_html": 0
         },
@@ -2531,7 +2531,7 @@
             "layout": "block",
             "pagination": 0,
             "min": 6,
-            "max": 8,
+            "max": 12,
             "collapsed": "field_sp_about_member_name_ru",
             "button_label": "Добавить человека",
             "rows_per_page": 20,
@@ -2656,6 +2656,48 @@
                     "parent_repeater": "field_sp_about_team_members"
                 },
                 {
+                    "key": "field_sp_about_member_chip_label_ru",
+                    "label": "Своя надпись на кнопке",
+                    "name": "chip_label_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "До ~16 знаков, иначе не влезет в карточку.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "пусто — из «Кнопка на карточке»",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_about_team_members"
+                },
+                {
+                    "key": "field_sp_about_member_chip_label_en",
+                    "label": "Своя надпись на кнопке (EN)",
+                    "name": "chip_label_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "До ~16 знаков, иначе не влезет в карточку.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "пусто — из «Кнопка на карточке»",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_about_team_members"
+                },
+                {
                     "key": "field_sp_about_member_role_ru",
                     "label": "Должность",
                     "name": "role_ru",
@@ -2703,17 +2745,9 @@
                     "name": "name_gen",
                     "aria-label": "",
                     "type": "text",
-                    "instructions": "Для кнопки «Пара слов от …»: от Леры, от Кости.",
+                    "instructions": "Заголовок открытой карточки: «от Леры», «от Кости»; и кнопка «Пара слов от …».",
                     "required": 0,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_sp_about_member_chip",
-                                "operator": "==",
-                                "value": "word"
-                            }
-                        ]
-                    ],
+                    "conditional_logic": 0,
                     "wrapper": {
                         "width": "50",
                         "class": "",
@@ -2734,15 +2768,7 @@
                     "type": "message",
                     "instructions": "",
                     "required": 0,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_sp_about_member_chip",
-                                "operator": "==",
-                                "value": "word"
-                            }
-                        ]
-                    ],
+                    "conditional_logic": 0,
                     "wrapper": {
                         "width": "50",
                         "class": "",
@@ -3678,5 +3704,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790706877
+    "modified": 1792386618
 }

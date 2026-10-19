@@ -22,6 +22,11 @@
  * "new": [ {…} ] }, each row keyed by sub-field name. Same rule — applied only while the saved
  * rows equal "old" exactly (values compared as text), "done" when they equal "new".
  *
+ * Rows are added at the end with an "append" group (18 Oct 2026, the team's ninth and tenth
+ * cards): { "note": "…", "append": "about_team_members", "after": 8, "new": [ {…} ] } — applied
+ * only while the repeater holds exactly "after" rows, "done" when the rows past "after" equal
+ * "new". Unlike "rows", a row may name its photo as "asset:…".
+ *
  * An image field is named by its theme asset, "asset:bar/wine/red-2.jpg", because attachment
  * IDs differ between installs: the current value is the attachment's `_sp_source` (what
  * tools/page-seed.php stamps), the new one is found by it or uploaded from the theme's
@@ -129,6 +134,39 @@ function sp_update_norm( $rows ) {
 }
 
 foreach ( $spec['groups'] as $group ) {
+    if ( isset( $group['append'] ) ) {
+        $name  = $group['append'];
+        $label = "{$group['note']} — {$name}";
+        $after = (int) $group['after'];
+        $cur   = sp_update_rows( $name, $page->ID );
+        // An "asset:" value compares as the saved attachment's theme source
+        $want  = sp_update_norm( $group['new'] );
+        $have  = array_map( function ( $row, $i ) use ( $want ) {
+            foreach ( $want[ $i ] ?? [] as $k => $v ) {
+                if ( 0 === strpos( $v, 'asset:' ) && ctype_digit( $row[ $k ] ?? '' ) ) {
+                    $row[ $k ] = 'asset:' . get_post_meta( (int) $row[ $k ], '_sp_source', true );
+                }
+            }
+            return $row;
+        }, array_slice( $cur, $after ), array_keys( array_slice( $cur, $after ) ) );
+        if ( count( $cur ) === $after + count( $want ) && $have === $want ) {
+            echo "done     {$label}\n";
+        } elseif ( count( $cur ) !== $after ) {
+            echo "SKIPPED  {$label}\n         {$name} holds " . count( $cur ) . " rows, expected {$after}\n";
+        } else {
+            $ref = acf_get_reference( $name, $page->ID ) ?: 'field_sp_' . $name;
+            foreach ( $group['new'] as $row ) {
+                foreach ( $row as $k => $v ) {
+                    if ( 0 === strpos( (string) $v, 'asset:' ) ) {
+                        $row[ $k ] = sp_update_attachment( $v, $spec['uploads'] ?? [] );
+                    }
+                }
+                add_row( $ref, $row, $page->ID );
+            }
+            echo "applied  {$label} (+" . count( $group['new'] ) . " rows)\n";
+        }
+        continue;
+    }
     if ( isset( $group['rows'] ) ) {
         $name  = $group['rows'];
         $label = "{$group['note']} — {$name}";

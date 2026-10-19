@@ -1,0 +1,172 @@
+{
+  "page": "about",
+  "date": "2026-10-19",
+  "note": "About → «Команда»: every card gets its own button text (author's table, 19 Oct 2026; the new «Своя надпись на кнопке» twins — needs the SCF sync first), English twins drafted; Ira's line is the author's. Row 6 is Alex — «Саня» in the author's table (report.md → About → Команда: each card its own button).",
+  "groups": [
+    {
+      "note": "About → «Команда»: card 1, Ira — the author's line",
+      "set": [
+        [
+          "about_team_members_0_message_ru",
+          "Уговорю выпить любого. Замёрзли — укрою пледом. Грустно — пошучу и поддержу.",
+          "Замёрзли — жду с уютным пледом. Хочется чего-то особенного? Подскажу!"
+        ],
+        [
+          "about_team_members_0_message_en",
+          "I can talk anyone into a drink. Cold? Blanket. Down? I'll cheer you up.",
+          "Cold? I'll be waiting with a cosy blanket. Fancy something special? Just ask!"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 1, Ира — the button's own text",
+      "set": [
+        [
+          "about_team_members_0_chip_label_ru",
+          "",
+          "Поболтаем?"
+        ],
+        [
+          "about_team_members_0_chip_label_en",
+          "",
+          "Fancy a chat?"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 2, Лера — the button's own text",
+      "set": [
+        [
+          "about_team_members_1_chip_label_ru",
+          "",
+          "Всегда советую"
+        ],
+        [
+          "about_team_members_1_chip_label_en",
+          "",
+          "My standing tip"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 3, Лёня — the button's own text",
+      "set": [
+        [
+          "about_team_members_2_chip_label_ru",
+          "",
+          "Только для своих"
+        ],
+        [
+          "about_team_members_2_chip_label_en",
+          "",
+          "Insiders only"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 4, Антон — the button's own text",
+      "set": [
+        [
+          "about_team_members_3_chip_label_ru",
+          "",
+          "За баром я возьму"
+        ],
+        [
+          "about_team_members_3_chip_label_en",
+          "",
+          "My pick at the bar"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 5, Стас — the button's own text",
+      "set": [
+        [
+          "about_team_members_4_chip_label_ru",
+          "",
+          "Моя арифметика"
+        ],
+        [
+          "about_team_members_4_chip_label_en",
+          "",
+          "My maths"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 6, Алекс (Саня в таблице) — the button's own text",
+      "set": [
+        [
+          "about_team_members_5_chip_label_ru",
+          "",
+          "Любимый коктейль"
+        ],
+        [
+          "about_team_members_5_chip_label_en",
+          "",
+          "Favourite cocktail"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 7, Софья — the button's own text",
+      "set": [
+        [
+          "about_team_members_6_chip_label_ru",
+          "",
+          "Всегда беру на ланч"
+        ],
+        [
+          "about_team_members_6_chip_label_en",
+          "",
+          "My lunch go-to"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 8, Джонни — the button's own text",
+      "set": [
+        [
+          "about_team_members_7_chip_label_ru",
+          "",
+          "Мои хиты на ужин"
+        ],
+        [
+          "about_team_members_7_chip_label_en",
+          "",
+          "My dinner hits"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 9, Вероника — the button's own text",
+      "set": [
+        [
+          "about_team_members_8_chip_label_ru",
+          "",
+          "Мои любимчики"
+        ],
+        [
+          "about_team_members_8_chip_label_en",
+          "",
+          "My favourites"
+        ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 10, Екатерина — the button's own text",
+      "set": [
+        [
+          "about_team_members_9_chip_label_ru",
+          "",
+          "Можно вопрос?"
+        ],
+        [
+          "about_team_members_9_chip_label_en",
+          "",
+          "Quick question?"
+        ]
+      ]
+    }
+  ]
+}

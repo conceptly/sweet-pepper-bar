@@ -199,7 +199,7 @@ team = [
         w("wall_photo", "Фото", "photo", "image", 60, **image),
         w("wall_year", "Год", "year", "number", 40, **{**year, "placeholder": "2019"}),
     ], "Добавить фото", layout="table"),
-    hint("team_members", "Шесть или восемь человек — сетка по четыре в ряд (на планшете по два). Порядок строк — порядок на сайте: "
+    hint("team_members", "От шести до двенадцати человек, чётное число — сетка по четыре в ряд (на планшете по два). Порядок строк — порядок на сайте: "
                          "первыми те, кто дольше всех в команде. Ушёл человек — удалите строку. Стаж считается от года «В команде с» "
                          "сам: «· 8 лет» в этом году, «· 9 лет» в следующем. Фото квадратное."),
     repeater("team_members", "Команда", "about_team_members", [
@@ -208,15 +208,15 @@ team = [
         m("member_name_en", "Имя (EN)", "name_en", "text", 20, **text),
         m("member_since", "В команде с", "since", "number", 20, **{**year, "placeholder": "2018"}),
         m("member_chip", "Кнопка на карточке", "chip", "select", 20, choices=CHIPS, default_value="ask", allow_null=0, **select),
+        *twins(m, "member_chip_label", "Своя надпись на кнопке", "chip_label",
+               placeholder="пусто — из «Кнопка на карточке»", instructions="До ~16 знаков, иначе не влезет в карточку."),
         *twins(m, "member_role", "Должность", "role", placeholder="без стажа — он добавится сам"),
         m("member_name_gen", "Имя в родительном падеже", "name_gen", "text", 50,
-          instructions="Для кнопки «Пара слов от …»: от Леры, от Кости.",
-          conditional_logic=[[{"field": f"{A}member_chip", "operator": "==", "value": "word"}]], **text),
-        m("member_spacer", "", "", "message", 50, message="", new_lines="", esc_html=0,
-          conditional_logic=[[{"field": f"{A}member_chip", "operator": "==", "value": "word"}]]),
+          instructions="Заголовок открытой карточки: «от Леры», «от Кости»; и кнопка «Пара слов от …».", **text),
+        m("member_spacer", "", "", "message", 50, message="", new_lines="", esc_html=0),
         *twins(m, "member_message", "Реплика", "message", "textarea",
                placeholder="своими словами — пока не получены, строка остаётся заглушкой"),
-    ], "Добавить человека", min=6, max=8, collapsed=f"{A}member_name_ru"),
+    ], "Добавить человека", min=6, max=12, collapsed=f"{A}member_name_ru"),
 ]
 
 # 8. Careers

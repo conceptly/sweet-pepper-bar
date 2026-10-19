@@ -30,6 +30,7 @@ import './css/privacy-page.css';
 import './css/page-loader.css';
 import './css/mail-chooser.css';
 import './css/not-found.css';
+import './css/scrollbar.css';
 // iOS Safari fires :active only when the page listens for touches — without this every pressed
 // state (cards, buttons, the language switch) was invisible on an iPhone (25 Sep 2026).
 document.addEventListener('touchstart', () => {}, { passive: true });

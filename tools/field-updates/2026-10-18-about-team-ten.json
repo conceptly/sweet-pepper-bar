@@ -1,0 +1,81 @@
+{
+  "page": "about",
+  "date": "2026-10-18",
+  "note": "About → «Команда»: eight cards → ten (author, 18 Oct 2026). Anton's new portrait; Max (a placeholder on the founder's photo) → Sofia, cook; Veronika, cook, and Ekaterina, waiter, added at the end. The first real lines, edited from what Ira, Stas, Johnny (Evgeny Vlasov), Sofia, Veronika and Ekaterina sent, in Russian with English twins; each line ≤ ~75 characters, three lines of the card (report.md → About → Команда: ten cards, the team's own lines).",
+  "groups": [
+    {
+      "note": "About → «Команда»: card 1, Ira — her own line",
+      "set": [
+        [ "about_team_members_0_chip", "ask", "word" ],
+        [ "about_team_members_0_message_ru", "", "Уговорю выпить любого. Замёрзли — укрою пледом. Грустно — пошучу и поддержу." ],
+        [ "about_team_members_0_message_en", "Ask me about the terrace swing-chairs. I know which one doesn't squeak.", "I can talk anyone into a drink. Cold? Blanket. Down? I'll cheer you up." ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 4, Anton — the new portrait",
+      "set": [
+        [ "about_team_members_3_photo", "asset:team/anton.jpg", "asset:team/anton-2.jpg" ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 5, Stas — his own line",
+      "set": [
+        [ "about_team_members_4_chip", "ask", "word" ],
+        [ "about_team_members_4_message_ru", "", "Одно пиво — не пиво. Два — полпива. Четыре — одно пиво. Но одно — не пиво!" ],
+        [ "about_team_members_4_message_en", "I remember your order from 2019. Don't test me — I will bring it.", "One beer is no beer. Two, half a beer. Four, one beer. But one is no beer!" ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 7 — Max (placeholder) → Sofia, cook",
+      "set": [
+        [ "about_team_members_6_photo", "asset:team/iura/iura-1.jpg", "asset:team/sofia.jpg" ],
+        [ "about_team_members_6_name_ru", "Макс", "Софья" ],
+        [ "about_team_members_6_name_en", "Max", "Sofia" ],
+        [ "about_team_members_6_name_gen", "Макса", "Софьи" ],
+        [ "about_team_members_6_role_ru", "Шеф-повар", "Повар" ],
+        [ "about_team_members_6_role_en", "Chef", "Cook" ],
+        [ "about_team_members_6_since", "2018", "" ],
+        [ "about_team_members_6_chip", "ask", "pick" ],
+        [ "about_team_members_6_message_ru", "", "Жаркое по-ярославски — сама его с удовольствием ем. И ещё стейк из свинины." ],
+        [ "about_team_members_6_message_en", "Breakfast ends at noon. The eggs don't know that, so ask.", "The Yaroslavl-style roast — I eat it myself, happily. And the pork steak." ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 8, Johnny — his pick",
+      "set": [
+        [ "about_team_members_7_chip", "ask", "pick" ],
+        [ "about_team_members_7_message_ru", "", "Неаполитана, борщ, а на десерт — Сан-Себастьян." ],
+        [ "about_team_members_7_message_en", "Twelve years, one recipe I still won't write down. It's the pepper one.", "The Napolitana, the borscht, and San Sebastián cheesecake for dessert." ]
+      ]
+    },
+    {
+      "note": "About → «Команда»: cards 9 and 10 — Veronika, cook; Ekaterina, waiter",
+      "append": "about_team_members",
+      "after": 8,
+      "new": [
+        {
+          "photo": "asset:team/veronika.jpg",
+          "name_ru": "Вероника", "name_en": "Veronika", "name_gen": "Вероники",
+          "since": "", "chip": "pick",
+          "role_ru": "Повар", "role_en": "Cook",
+          "message_ru": "Очень люблю наш борщ. А ещё Цезарь-бейгл — он прикольный.",
+          "message_en": "I really love our borscht. The Caesar bagel's a fun one too."
+        },
+        {
+          "photo": "asset:team/ekaterina.jpg",
+          "name_ru": "Екатерина", "name_en": "Ekaterina", "name_gen": "Екатерины",
+          "since": "2025", "chip": "word",
+          "role_ru": "Официант", "role_en": "Waiter",
+          "message_ru": "За сколько секунд выпьете шот?",
+          "message_en": "How many seconds does it take you to down a shot?"
+        }
+      ]
+    }
+  ],
+  "uploads": {
+    "team/anton-2.jpg": { "title": "Антон, шеф-бармен", "alt": "Антон с бородой, в бордовой рубашке, у занавеса из золотых нитей", "topic": "Команда" },
+    "team/sofia.jpg": { "title": "Софья, повар", "alt": "Софья улыбается на фоне заснеженных ёлок с огоньками", "topic": "Команда" },
+    "team/veronika.jpg": { "title": "Вероника, повар", "alt": "Вероника в поварском колпаке и очках улыбается на кухне", "topic": "Команда" },
+    "team/ekaterina.jpg": { "title": "Екатерина, официант", "alt": "Екатерина с коктейлем и бутылкой виски у стойки Sweet Pepper", "topic": "Команда" }
+  }
+}

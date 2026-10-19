@@ -1,0 +1,11 @@
+{
+  "page": "about",
+  "date": "2026-10-19",
+  "note": "About → «Команда»: four Russian buttons shortened by the author in admin (19 Oct 2026), after 2026-10-19-about-team-buttons.json — they were cut off on narrow laptops. Run after that file (report.md → About: the page would not save; team buttons hug their text).",
+  "groups": [
+    { "note": "About → «Команда»: card 4, Anton — button", "set": [ [ "about_team_members_3_chip_label_ru", "За баром я возьму", "Мне как всегда" ] ] },
+    { "note": "About → «Команда»: card 6, Alex — button", "set": [ [ "about_team_members_5_chip_label_ru", "Любимый коктейль", "Мой коктейль" ] ] },
+    { "note": "About → «Команда»: card 7, Sofia — button", "set": [ [ "about_team_members_6_chip_label_ru", "Всегда беру на ланч", "Беру на ланч" ] ] },
+    { "note": "About → «Команда»: card 8, Johnny — button", "set": [ [ "about_team_members_7_chip_label_ru", "Мои хиты на ужин", "В планах на ужин" ] ] }
+  ]
+}

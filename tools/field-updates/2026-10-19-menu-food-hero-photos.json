@@ -1,0 +1,10 @@
+{
+  "page": "menu/food",
+  "date": "2026-10-19",
+  "note": "Kitchen menu → first screen: the author's admin edits of 19 Oct 2026 — two tablet crops moved, and Bar snacks shows the wings instead of the meat platter (report.md → Menu: first-screen photos, the author's edits).",
+  "groups": [
+    { "note": "Kitchen → Breakfast: the tablet crop", "set": [ [ "sec_breakfast_hero_focus", "25", "70" ] ] },
+    { "note": "Kitchen → Kids: the tablet crop", "set": [ [ "sec_kids_hero_focus", "70", "100" ] ] },
+    { "note": "Kitchen → Bar snacks: the first-screen photo", "set": [ [ "sec_bar_snacks_hero_photo", "asset:food/snacks/meat-set-2.jpg", "asset:food/dinner/wings-2.jpg" ] ] }
+  ]
+}

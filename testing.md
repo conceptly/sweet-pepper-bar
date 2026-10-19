@@ -6,6 +6,18 @@
 
 ---
 
+## Page scrollbar — four looks (18 October 2026) — closed 19 Oct: the pill
+
+*Closed 19 Oct 2026: the author chose D, the pill — now the only look; `?sb=` removed.* Was `?sb=a|b|c|d` on any page (B the default). Desktop with a mouse, or macOS *Show scroll bars: Always* — trackpads and phones draw their own transient overlay bar.
+
+| Question | Result |
+|---|---|
+| Which look — A native, B tinted, C thin accent, D pill? | **D, the pill (author, 19 Oct)** — sheet: `Claude outputs/scrollbar-trial/sheet.png` |
+| D: does a Lime thumb (under the pointer) fight the Lime "Drinks Menu" tab and the Chili Reserve tab on the edges? | open |
+| Safari (macOS, Always): the `::-webkit` fallbacks render as on the sheet? | **D: no pill (author, 19 Oct)** — fixed the same day (fallback gated to Firefox, bar rebuilt after the class); **works in Safari (author, 19 Oct)** |
+| Firefox and Windows Chrome | open |
+| Opening the Reserve drawer: no sideways jump (`scrollbar-gutter: stable`) | open on devices; holds in headless Chrome |
+
 ## Shared privacy controls — working baseline accepted (2 October 2026)
 
 Author: «Looks great … a good starting point.» Current decisions: `website-brief.md` → Analytics; counter/configuration: `analytics-setup.md`.
@@ -174,6 +186,23 @@ Build record: `report.md` → *Dish rows — no highlighted names*. The `?icons=
 | The sun (`summer`) icon | Not used yet (author) |
 
 ---
+
+## Team cards — ten, flush left (18 October 2026)
+
+Build record: `report.md` → *About → Команда: ten cards, the team's own lines*. `http://sweet-pepper-bar.local/about/` · `http://sweet-pepper-bar.local/en/about/`.
+
+| Question | Status |
+|---|---|
+| Layout: 4 + 4 + 2, last row flush left (A) | Decided (author, 18 Oct) — no one highlighted, one family. Centred last row (B) turned down |
+| C: twelve cards — the founder and the author join the grid | Open — the author discusses it with the founder (he also has his own place in Story) |
+| The author's role on a card | Open — brand and web designer; "mastermind"; «The Mother of Peppers» (the team's joke); RU twin to find |
+| The lines — first drafts | Open — the author shortens them in admin. Over three lines on desktop: Ira (RU), Lera's placeholder |
+| «Пара слов от Екатерины» cut off on the 260px card | Gone — her button reads «Можно вопрос?» since 19 Oct |
+| Buttons too long on narrow laptops | Mostly settled — four shortened by the author and the buttons hug their text (19 Oct). Left: at 992–1023px «Только для своих», «В планах на ужин», "My pick at the bar", "Favourite cocktail" lose 2–4px at the card's edge |
+| The About page saves in admin (test and main) | Open — run `2026-10-19-about-milestone-year.json` there first; locally it saved nothing until the milestone's year 0 was emptied |
+| Саня or Алекс | Open — the author's button table names him Саня; the card reads Алекс / Alex |
+| English button texts | Open — drafted by Claude (19 Oct), the author's review |
+| Names and facts | Open — Вероника or «Ника» (her own VK name); Sofia's and Veronika's years; Ira's role («Менеджер зала» vs «админ») |
 
 ## Team wall lightbox — built (1 October 2026)
 

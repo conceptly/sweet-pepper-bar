@@ -199,8 +199,10 @@ Build record: `report.md` → *About → Команда: ten cards, the team's o
 | The lines — first drafts | Open — the author shortens them in admin. Over three lines on desktop: Ira (RU), Lera's placeholder |
 | «Пара слов от Екатерины» cut off on the 260px card | Gone — her button reads «Можно вопрос?» since 19 Oct |
 | Buttons too long on narrow laptops | Mostly settled — four shortened by the author and the buttons hug their text (19 Oct). Left: at 992–1023px «Только для своих», «В планах на ужин», "My pick at the bar", "Favourite cocktail" lose 2–4px at the card's edge |
-| The About page saves in admin (test and main) | Open — run `2026-10-19-about-milestone-year.json` there first; locally it saved nothing until the milestone's year 0 was emptied |
-| Саня or Алекс | Open — the author's button table names him Саня; the card reads Алекс / Alex |
+| The About page saves in admin (test and main) | Passed, 19 Oct 2026 — after `2026-10-19-about-milestone-year.json` on both sites (author: "all works") |
+| Ten cards, buttons, «от Леры», kitchen photos on test and main | Passed, 19 Oct 2026 — deployed (`906ee81`), checked by the author on both sites |
+| Саня or Алекс | Decided 19 Oct — «Саня» in Russian, Alex in English (local; servers at the final deploy) |
+| Card order: the waiters together | Done 19 Oct (local) — Ekaterina sixth, after Stas |
 | English button texts | Open — drafted by Claude (19 Oct), the author's review |
 | Names and facts | Open — Вероника or «Ника» (her own VK name); Sofia's and Veronika's years; Ira's role («Менеджер зала» vs «админ») |
 

@@ -1,0 +1,319 @@
+{
+    "page": "about",
+    "date": "2026-10-19",
+    "note": "About → «Команда»: the author, 19 Oct 2026 — Ekaterina (waiter) moves from the last card to the sixth, next to Stas; Stas gets a new portrait (theme asset team/stas-2.jpg, from photos/website-ready/team/stas-new.jpg); Alex is «Саня» on the Russian page (genitive «Сани»), Alex in English. Run after the other 2026-10-19 files (report.md → About → Команда: Ekaterina next to Stas, Stas new photo, Саня).",
+    "groups": [
+        {
+            "note": "About → «Команда»: card 5, Stas — the new portrait",
+            "set": [
+                [
+                    "about_team_members_4_photo",
+                    "asset:team/stas.jpg",
+                    "asset:team/stas-2.jpg"
+                ]
+            ]
+        },
+        {
+            "note": "About → «Команда»: cards 6–10 — Ekaterina moves up after Stas (the waiters together); Alex → «Саня» in Russian",
+            "set": [
+                [
+                    "about_team_members_5_photo",
+                    "asset:team/alex.jpg",
+                    "asset:team/ekaterina.jpg"
+                ],
+                [
+                    "about_team_members_5_name_ru",
+                    "Алекс",
+                    "Екатерина"
+                ],
+                [
+                    "about_team_members_5_name_en",
+                    "Alex",
+                    "Ekaterina"
+                ],
+                [
+                    "about_team_members_5_name_gen",
+                    "Алекса",
+                    "Екатерины"
+                ],
+                [
+                    "about_team_members_5_since",
+                    "2021",
+                    "2025"
+                ],
+                [
+                    "about_team_members_5_chip",
+                    "ask",
+                    "word"
+                ],
+                [
+                    "about_team_members_5_chip_label_ru",
+                    "Мой коктейль",
+                    "Можно вопрос?"
+                ],
+                [
+                    "about_team_members_5_chip_label_en",
+                    "Favourite cocktail",
+                    "Quick question?"
+                ],
+                [
+                    "about_team_members_5_role_ru",
+                    "Бармен",
+                    "Официант"
+                ],
+                [
+                    "about_team_members_5_role_en",
+                    "Bartender",
+                    "Waiter"
+                ],
+                [
+                    "about_team_members_5_message_ru",
+                    "",
+                    "За сколько секунд выпьете шот?"
+                ],
+                [
+                    "about_team_members_5_message_en",
+                    "The infusions rotate. Ask what's in the jar today, not what's on the list.",
+                    "How many seconds does it take you to down a shot?"
+                ],
+                [
+                    "about_team_members_6_photo",
+                    "asset:team/sofia.jpg",
+                    "asset:team/alex.jpg"
+                ],
+                [
+                    "about_team_members_6_name_ru",
+                    "Софья",
+                    "Саня"
+                ],
+                [
+                    "about_team_members_6_name_en",
+                    "Sofia",
+                    "Alex"
+                ],
+                [
+                    "about_team_members_6_name_gen",
+                    "Софьи",
+                    "Сани"
+                ],
+                [
+                    "about_team_members_6_since",
+                    "",
+                    "2021"
+                ],
+                [
+                    "about_team_members_6_chip",
+                    "pick",
+                    "ask"
+                ],
+                [
+                    "about_team_members_6_chip_label_ru",
+                    "Беру на ланч",
+                    "Мой коктейль"
+                ],
+                [
+                    "about_team_members_6_chip_label_en",
+                    "My lunch go-to",
+                    "Favourite cocktail"
+                ],
+                [
+                    "about_team_members_6_role_ru",
+                    "Повар",
+                    "Бармен"
+                ],
+                [
+                    "about_team_members_6_role_en",
+                    "Cook",
+                    "Bartender"
+                ],
+                [
+                    "about_team_members_6_message_ru",
+                    "Жаркое по-ярославски — сама его с удовольствием ем. И ещё стейк из свинины.",
+                    ""
+                ],
+                [
+                    "about_team_members_6_message_en",
+                    "The Yaroslavl-style roast — I eat it myself, happily. And the pork steak.",
+                    "The infusions rotate. Ask what's in the jar today, not what's on the list."
+                ],
+                [
+                    "about_team_members_7_photo",
+                    "asset:team/johnny.jpg",
+                    "asset:team/sofia.jpg"
+                ],
+                [
+                    "about_team_members_7_name_ru",
+                    "Джонни",
+                    "Софья"
+                ],
+                [
+                    "about_team_members_7_name_en",
+                    "Johnny",
+                    "Sofia"
+                ],
+                [
+                    "about_team_members_7_name_gen",
+                    "Джонни",
+                    "Софьи"
+                ],
+                [
+                    "about_team_members_7_since",
+                    "2014",
+                    ""
+                ],
+                [
+                    "about_team_members_7_chip_label_ru",
+                    "В планах на ужин",
+                    "Беру на ланч"
+                ],
+                [
+                    "about_team_members_7_chip_label_en",
+                    "My dinner hits",
+                    "My lunch go-to"
+                ],
+                [
+                    "about_team_members_7_role_ru",
+                    "Су-шеф",
+                    "Повар"
+                ],
+                [
+                    "about_team_members_7_role_en",
+                    "Sous-chef",
+                    "Cook"
+                ],
+                [
+                    "about_team_members_7_message_ru",
+                    "Неаполитана, борщ, а на десерт — Сан-Себастьян.",
+                    "Жаркое по-ярославски — сама его с удовольствием ем. И ещё стейк из свинины."
+                ],
+                [
+                    "about_team_members_7_message_en",
+                    "The Napolitana, the borscht, and San Sebastián cheesecake for dessert.",
+                    "The Yaroslavl-style roast — I eat it myself, happily. And the pork steak."
+                ],
+                [
+                    "about_team_members_8_photo",
+                    "asset:team/veronika.jpg",
+                    "asset:team/johnny.jpg"
+                ],
+                [
+                    "about_team_members_8_name_ru",
+                    "Вероника",
+                    "Джонни"
+                ],
+                [
+                    "about_team_members_8_name_en",
+                    "Veronika",
+                    "Johnny"
+                ],
+                [
+                    "about_team_members_8_name_gen",
+                    "Вероники",
+                    "Джонни"
+                ],
+                [
+                    "about_team_members_8_since",
+                    "",
+                    "2014"
+                ],
+                [
+                    "about_team_members_8_chip_label_ru",
+                    "Мои любимчики",
+                    "В планах на ужин"
+                ],
+                [
+                    "about_team_members_8_chip_label_en",
+                    "My favourites",
+                    "My dinner hits"
+                ],
+                [
+                    "about_team_members_8_role_ru",
+                    "Повар",
+                    "Су-шеф"
+                ],
+                [
+                    "about_team_members_8_role_en",
+                    "Cook",
+                    "Sous-chef"
+                ],
+                [
+                    "about_team_members_8_message_ru",
+                    "Очень люблю наш борщ. А ещё Цезарь-бейгл — он прикольный.",
+                    "Неаполитана, борщ, а на десерт — Сан-Себастьян."
+                ],
+                [
+                    "about_team_members_8_message_en",
+                    "I really love our borscht. The Caesar bagel's a fun one too.",
+                    "The Napolitana, the borscht, and San Sebastián cheesecake for dessert."
+                ],
+                [
+                    "about_team_members_9_photo",
+                    "asset:team/ekaterina.jpg",
+                    "asset:team/veronika.jpg"
+                ],
+                [
+                    "about_team_members_9_name_ru",
+                    "Екатерина",
+                    "Вероника"
+                ],
+                [
+                    "about_team_members_9_name_en",
+                    "Ekaterina",
+                    "Veronika"
+                ],
+                [
+                    "about_team_members_9_name_gen",
+                    "Екатерины",
+                    "Вероники"
+                ],
+                [
+                    "about_team_members_9_since",
+                    "2025",
+                    ""
+                ],
+                [
+                    "about_team_members_9_chip",
+                    "word",
+                    "pick"
+                ],
+                [
+                    "about_team_members_9_chip_label_ru",
+                    "Можно вопрос?",
+                    "Мои любимчики"
+                ],
+                [
+                    "about_team_members_9_chip_label_en",
+                    "Quick question?",
+                    "My favourites"
+                ],
+                [
+                    "about_team_members_9_role_ru",
+                    "Официант",
+                    "Повар"
+                ],
+                [
+                    "about_team_members_9_role_en",
+                    "Waiter",
+                    "Cook"
+                ],
+                [
+                    "about_team_members_9_message_ru",
+                    "За сколько секунд выпьете шот?",
+                    "Очень люблю наш борщ. А ещё Цезарь-бейгл — он прикольный."
+                ],
+                [
+                    "about_team_members_9_message_en",
+                    "How many seconds does it take you to down a shot?",
+                    "I really love our borscht. The Caesar bagel's a fun one too."
+                ]
+            ]
+        }
+    ],
+    "uploads": {
+        "team/stas-2.jpg": {
+            "title": "Стас, официант",
+            "alt": "Стас в белой футболке с кружкой пива на фоне стены с фотографиями",
+            "topic": "Команда"
+        }
+    }
+}

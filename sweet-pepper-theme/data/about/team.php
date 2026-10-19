@@ -18,7 +18,8 @@
  * 18 Oct 2026: ten cards — Anton's new portrait, Max (a placeholder) → Sofia, Veronika and
  * Ekaterina added, and the first lines in the team's own words (Ira, Stas, Johnny, Sofia,
  * Veronika, Ekaterina; tools/field-updates/2026-10-18-about-team-ten.json). First drafts —
- * the author shortens them in admin.
+ * the author shortens them in admin. 19 Oct: Ekaterina next to Stas (the waiters together),
+ * Stas's new portrait, Alex is «Саня» in Russian, four buttons shortened by the author.
  *
  * @package Sweet_Pepper
  */
@@ -84,18 +85,29 @@ return [
             'chip'    => 'ask',
             'message' => 'Tell me what you drank last night and I\'ll fix it. The drink, not the night.',
             'chip_label' => 'My pick at the bar', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'За баром я возьму', 'name' => 'Антон', 'name_gen' => 'Антона', 'role' => 'Шеф-бармен' ],
+            'ru'      => [ 'chip_label' => 'Мне как всегда', 'name' => 'Антон', 'name_gen' => 'Антона', 'role' => 'Шеф-бармен' ],
         ],
         [
             'name'    => 'Stas',
             'role'    => 'Unforgettable waiter',
             'since'   => 2018,
-            'photo'   => 'team/stas.jpg',
+            'photo'   => 'team/stas-2.jpg', // 19 Oct 2026
             'chip'    => 'word',
             'message' => 'One beer is no beer. Two, half a beer. Four, one beer. But one is no beer!',
             'chip_label' => 'My maths', // the button's own text (19 Oct 2026)
             'ru'      => [ 'chip_label' => 'Моя арифметика', 'name' => 'Стас', 'name_gen' => 'Стаса', 'role' => 'Незабываемый официант',
                            'message' => 'Одно пиво — не пиво. Два — полпива. Четыре — одно пиво. Но одно — не пиво!' ],
+        ],
+        [
+            'name'    => 'Ekaterina',
+            'role'    => 'Waiter',
+            'since'   => 2025,
+            'photo'   => 'team/ekaterina.jpg',
+            'chip'    => 'word',
+            'message' => 'How many seconds does it take you to down a shot?',
+            'chip_label' => 'Quick question?', // the button's own text (19 Oct 2026)
+            'ru'      => [ 'chip_label' => 'Можно вопрос?', 'name' => 'Екатерина', 'name_gen' => 'Екатерины', 'role' => 'Официант',
+                           'message' => 'За сколько секунд выпьете шот?' ],
         ],
         [
             'name'    => 'Alex',
@@ -105,7 +117,7 @@ return [
             'chip'    => 'ask',
             'message' => 'The infusions rotate. Ask what\'s in the jar today, not what\'s on the list.',
             'chip_label' => 'Favourite cocktail', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Любимый коктейль', 'name' => 'Алекс', 'name_gen' => 'Алекса', 'role' => 'Бармен' ],
+            'ru'      => [ 'chip_label' => 'Мой коктейль', 'name' => 'Саня', 'name_gen' => 'Сани', 'role' => 'Бармен' ],
         ],
         [
             'name'    => 'Sofia',
@@ -115,7 +127,7 @@ return [
             'chip'    => 'pick',
             'message' => 'The Yaroslavl-style roast — I eat it myself, happily. And the pork steak.',
             'chip_label' => 'My lunch go-to', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Всегда беру на ланч', 'name' => 'Софья', 'name_gen' => 'Софьи', 'role' => 'Повар',
+            'ru'      => [ 'chip_label' => 'Беру на ланч', 'name' => 'Софья', 'name_gen' => 'Софьи', 'role' => 'Повар',
                            'message' => 'Жаркое по-ярославски — сама его с удовольствием ем. И ещё стейк из свинины.' ],
         ],
         [
@@ -126,7 +138,7 @@ return [
             'chip'    => 'pick',
             'message' => 'The Napolitana, the borscht, and San Sebastián cheesecake for dessert.',
             'chip_label' => 'My dinner hits', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Мои хиты на ужин', 'name' => 'Джонни', 'name_gen' => 'Джонни', 'role' => 'Су-шеф',
+            'ru'      => [ 'chip_label' => 'В планах на ужин', 'name' => 'Джонни', 'name_gen' => 'Джонни', 'role' => 'Су-шеф',
                            'message' => 'Неаполитана, борщ, а на десерт — Сан-Себастьян.' ],
         ],
         [
@@ -139,17 +151,6 @@ return [
             'chip_label' => 'My favourites', // the button's own text (19 Oct 2026)
             'ru'      => [ 'chip_label' => 'Мои любимчики', 'name' => 'Вероника', 'name_gen' => 'Вероники', 'role' => 'Повар',
                            'message' => 'Очень люблю наш борщ. А ещё Цезарь-бейгл — он прикольный.' ],
-        ],
-        [
-            'name'    => 'Ekaterina',
-            'role'    => 'Waiter',
-            'since'   => 2025,
-            'photo'   => 'team/ekaterina.jpg',
-            'chip'    => 'word',
-            'message' => 'How many seconds does it take you to down a shot?',
-            'chip_label' => 'Quick question?', // the button's own text (19 Oct 2026)
-            'ru'      => [ 'chip_label' => 'Можно вопрос?', 'name' => 'Екатерина', 'name_gen' => 'Екатерины', 'role' => 'Официант',
-                           'message' => 'За сколько секунд выпьете шот?' ],
         ],
     ],
 ];

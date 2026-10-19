@@ -11,7 +11,7 @@ add_action( 'after_setup_theme', function () {
     add_image_size( 'sp-square', 600, 600, true ); // team cards, the picker (1:1)
     add_image_size( 'sp-3x2', 900, 600, true );    // the team wall, dish photos, guests (3:2)
     add_image_size( 'sp-hero', 1440, 960, true );  // the menu hero's section photos (3:2, 2× of the ~690px frame)
-    add_image_size( 'sp-4x1', 1920, 480, true );   // the menu sections' photo bands (4:1)
+    add_image_size( 'sp-4x1', 1920, 480, true );   // unused since 19 Oct 2026 — the menu bands take sp-hero, so their slider can reach the whole photo (inc/menu-sections.php)
     add_image_size( 'sp-4x5', 720, 900, true );    // the home page's social cards (4:5, 2× of the ~350px card)
 } );
 

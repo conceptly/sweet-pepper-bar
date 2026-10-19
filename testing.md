@@ -201,9 +201,9 @@ Build record: `report.md` → *About → Команда: ten cards, the team's o
 | Buttons too long on narrow laptops | Mostly settled — four shortened by the author and the buttons hug their text (19 Oct). Left: at 992–1023px «Только для своих», «В планах на ужин», "My pick at the bar", "Favourite cocktail" lose 2–4px at the card's edge |
 | The About page saves in admin (test and main) | Passed, 19 Oct 2026 — after `2026-10-19-about-milestone-year.json` on both sites (author: "all works") |
 | Ten cards, buttons, «от Леры», kitchen photos on test and main | Passed, 19 Oct 2026 — deployed (`906ee81`), checked by the author on both sites |
-| Саня or Алекс | Decided 19 Oct — «Саня» in Russian, Alex in English (local; servers at the final deploy) |
-| Card order: the waiters together | Done 19 Oct (local) — Ekaterina sixth, after Stas |
-| Menu: Kids band and six bar bands as placed in admin; wings pill on the kitchen first screen | Wings pill live on test and main (19 Oct). Band positions applied from empty, but barely moved: the band was a centre slice (`sp-4x1`); now the whole photo (`sp-hero`) — check after the rsync that each band matches its admin preview |
+| Саня or Алекс | Decided 19 Oct — «Саня» in Russian, Alex in English; live on test and main |
+| Card order: the waiters together | Done 19 Oct — Ekaterina sixth, after Stas; live on test and main |
+| Menu: Kids band and six bar bands as placed in admin; wings pill on the kitchen first screen | Wings pill live on test and main (19 Oct). Band positions applied from empty, then the band took the whole photo (`sp-hero`, `8511194`) — **passed 19 Oct on test and main: each band matches its admin preview, a slider moved in admin shows on the site** (author) |
 | English button texts | Open — drafted by Claude (19 Oct), the author's review |
 | Names and facts | Open — Вероника or «Ника» (her own VK name); Sofia's and Veronika's years; Ira's role («Менеджер зала» vs «админ») |
 

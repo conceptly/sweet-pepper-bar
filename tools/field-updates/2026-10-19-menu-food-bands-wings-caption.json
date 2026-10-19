@@ -1,0 +1,12 @@
+{
+  "page": "menu/food",
+  "date": "2026-10-19",
+  "note": "Kitchen menu: the Kids section band's position (the author's admin edit of 19 Oct 2026, missed by 2026-10-19-menu-food-hero-photos.json, which carried only the first-screen fields), and Bar snacks' first-screen caption — it still named the meat platter after the photo became the wings (report.md → Menu: band positions and the wings caption).",
+  "groups": [
+    { "note": "Kitchen → Kids: the section band's position", "set": [ [ "sec_kids_photo_y", "50", "80" ] ] },
+    { "note": "Kitchen → Bar snacks: the first-screen caption, now the wings", "set": [
+      [ "sec_bar_snacks_caption_ru", "Мясной сет 2026", "Крылышки-гриль" ],
+      [ "sec_bar_snacks_caption_en", "Meat set 2026", "Grilled wings" ]
+    ] }
+  ]
+}

@@ -58,10 +58,10 @@ function sweet_pepper_menu_sections_typed( $state = 'food' ) {
             'label'       => 'Bar Snacks',
             'cta_label'   => 'Bar Snacks',
             'icon'        => 'cocktail',
-            'image'       => 'food/snacks/meat-set-2.jpg',
+            'image'       => 'food/dinner/wings-2.jpg', // was the meat platter (author, 19 Oct 2026)
             'band'        => 'food/dinner/wings-2.jpg',
             'focus'       => '50% 50%',
-            'caption'     => 'Meat set 2026',
+            'caption'     => 'Grilled wings',
             'description' => "Built to be the best pair — boards, pickles, wings, and things that hold a drink's hand. The bar has opinions about which drink; ask.",
             'nav_variant' => 'non-alco',
         ],

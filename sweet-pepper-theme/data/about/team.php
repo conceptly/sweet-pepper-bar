@@ -50,7 +50,7 @@ return [
             'name'    => 'Ira',
             'role'    => 'Floor Manager',
             'since'   => 2023,
-            'photo'   => 'team/ira.jpg',
+            'photo'   => 'team/ira-2.jpg', // her new portrait (author, 22 Oct 2026; was team/ira.jpg)
             'chip'    => 'word',
             'message' => 'Cold? I\'ll be waiting with a cosy blanket. Fancy something special? Just ask!',
             'chip_label' => 'Fancy a chat?', // the button's own text (19 Oct 2026)

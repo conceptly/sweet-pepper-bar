@@ -509,18 +509,19 @@
 
 /* 3 — the default (author, 1 Oct 2026). A bigger shaker on every screen: a 64px disc (72 with
    its ring), the Symbol at 40 — the picker's 40px disc "felt dead" on a phone, and the frame's
-   84 is the name's own cap height on a desktop, where it took the eye from the slider. */
+   84 is the name's own cap height on a desktop, where it took the eye from the slider.
+   The disc is Lemon by night too, as drawn (Figma 2792:75651), on phones as well (author,
+   22 Oct 2026) — the picker's night disc is Cream with a Lemon keyline. */
 .page-loader.is-egg-big {
     --shake-size: 72px;
     --shake-icon: 40px;
+    --shake-fill: var(--lemon);
 }
 
 /* …and on wide screens Figma 2792:75651: the shaker centred above the slider, one button
-   under the name, × in the top corner (Parchment by night, as drawn). The disc is Lemon by
-   night here, as drawn — the picker's night disc is Cream with a Lemon keyline. A short
-   window (a phone on its side) keeps the row: the group is about 420px tall. */
+   under the name, × in the top corner (Parchment by night, as drawn). A short window
+   (a phone on its side) keeps the row: the group is about 420px tall. */
 @media (min-width: 1101px) and (min-height: 560px), (orientation: landscape) and (min-height: 560px) {
-    .page-loader.is-egg-big { --shake-fill: var(--lemon); }
     .page-loader.is-egg-big .page-loader__again {
         justify-content: center;
         margin-bottom: 56px;

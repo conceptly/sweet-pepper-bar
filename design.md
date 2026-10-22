@@ -65,7 +65,10 @@ Every colour is a tint or shade of **three hues**: red (chili), green, and yello
 | Light Lime | `#D4E671` | lightest green tint |
 | Lime | `#C1DB34` | signature green (cocktail) |
 | Avocado | `#869438` | support green |
-| Olive | `#737D3A` | secondary green / prices |
+| Olive | `#737D3A` | secondary green (`--accent-2` by day: eyebrows, links, years) |
+| Deep Olive | `#626B31` | **prices** — light grounds only, day text (Oct 2026) |
+
+**Deep Olive `#626B31` — added (22 Oct 2026), because a job appeared.** Prices are small text (Golos SemiBold 16), and the audit had flagged Olive at 3.68 : 1 on Parchment (`docs-audit.md` A4); the build had meanwhile drifted to Avocado — **3.11 : 1 on Paper, 2.76 on Parchment, 2.98 on Cream**. Deep Olive is one step down Olive's own hue line (OKLCH h 116.5, chroma scaled with lightness, §2.1): **5.35 on Paper, 5.13 on Cream, 4.74 on Lemon, 4.74 on Parchment**. Like Deep Chili it is a **light-ground token**: 3.67 on Lime, 2.89 on Soft Peppercorn — never there. Night prices stay **Avocado** (4.97 on Soft Peppercorn, 5.54 on Peppercorn); the add-on cards, which stay Cream at night, keep Deep Olive at every hour. Not the removed Dark Olive below — a different value with a different job.
 
 **Dark Olive `#242614` — removed (Jul 2026).** Tested as a dark-surface alternative and failed (too close in value to Peppercorn to read darker, too hue-shifted to pass as neutral); its last candidate role (badge ground under Lime) was superseded by the outline-door treatment (`website-brief.md` → Menu page → Doors). Not a brand token; the hex remains a point on the green line if a role ever appears (generative rule, §2.1). **✓ Deleted from the Figma `Color` collection, Aug 2026** — it had survived the Jul decision as a live bindable variable marked only with an asterisk. The palette collection now holds the 15 named tokens plus `imgOverlayDark`. **✓ Out of the build too, 21 Sep 2026** — the theme had kept a `--dark-olive` token and ten live rules on it for two months after this decision (section descriptions, the Location description and map ground, the team card message, the footer's copyright, links, hours and phone); all now Peppercorn, the day `--text`, and the token is deleted. The author met it again as a headline highlight and gave the verdict that closes it: *a dirty black*.
 
@@ -99,7 +102,7 @@ The loud hues never carry a layout alone — a neutral ground does the harmonisi
 Ground **Peppercorn** (black). Text in **Parchment** (body) and **Cream** (highlight). Accents: Chili leads, Lime/Lemon highlight, Paprika supports. High-energy, max contrast.
 
 **Day (Mode B) — Kitchen · Daytime menu**
-Surface **Parchment**. Body **Peppercorn**, headings **Chili**, prices **Olive**, blocks **Cream**. Calm, warm, appetising, readable.
+Surface **Parchment**. Body **Peppercorn**, headings **Chili**, prices **Deep Olive**, blocks **Cream**. Calm, warm, appetising, readable.
 
 ### 2.4 Surfaces & backgrounds — the rule
 
@@ -118,6 +121,7 @@ A saturated pepper hue is a **banner colour, not a surface colour**. Over large 
 |---|---|---|
 | Chili `#E34314` | 3.4 : 1 — large text / UI only | **2.65 : 1 — fails, don't use** |
 | Olive `#737D3A` | 3.7 : 1 — large text / UI only | **2.86 : 1 — fails, don't use** |
+| Deep Olive `#626B31` | 4.7 : 1 ✓ | **3.67 : 1 — large text / UI only** |
 | Peppercorn `#151317` | 15.3 : 1 ✓ | 11.8 : 1 ✓ |
 | Ash `#54513F` | 6.6 : 1 ✓ | 5.1 : 1 ✓ |
 

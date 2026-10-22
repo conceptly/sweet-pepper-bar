@@ -74,6 +74,8 @@ Computed from the hex values, not read from a table:
 
 Night is clean throughout except `--accent` (Chili on Peppercorn, 4.47:1 — the docs already record this correction and it remains large-text/UI only).
 
+**Resolved 22 Oct 2026 (author's pick of five on a live-page contact sheet):** prices take **Deep Olive `#626B31`**, a darker step on Olive's hue line — 5.35 : 1 on Paper, 4.74 on Parchment, 5.13 on Cream; Avocado stays for night dish rows. By then the build had moved prices to Avocado (3.11 / 2.76 / 2.98), worse than the Olive flagged here. The `--accent-2` half of this finding (Olive eyebrows and links on Parchment) is untouched; A5 and the tappable-styles finding stay open. See `design.md` §2.2, `report.md` 22 Oct 2026.
+
 **Proposed fix:** either prices move to Deep Chili `#9B2705` or a darker green step on the existing hue line (§2.1's generative rule allows it), or the docs state explicitly that Olive prices are display-size only. This is a token decision, so it belongs before the CSS custom properties are written.
 
 ---

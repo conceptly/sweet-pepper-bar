@@ -1,5 +1,16 @@
 # Sweet Pepper Website — Project Report
 
+## Prices take Deep Olive by day — the audit's A4, closed — 22 October 2026
+
+Found while reviewing the case study's audit slide: the August audit's price finding (`docs-audit.md` A4, Olive 3.68 : 1 on Parchment) never reached the docs, and the build had drifted further — **day prices were Avocado: 3.11 : 1 on Paper, 2.76 on Parchment, 2.98 on the Cream add-on cards** (small text needs 4.5; even 3:1 failed). Night was fine (4.97).
+
+- **Options, on the live page:** the day kitchen menu shot five times with the price colour injected (`Claude outputs/price-colour/price-options-sheet.png`; the measuring script `verify.mjs` beside it): Avocado (built), Olive (spec), **Deep Olive `#626B31`** (one step down Olive's hue in OKLCH, h 116.5), Deep Chili (7.30, but red prices read as heat / action), Peppercorn (the rule-breaker: 17.2, prices lose their colour). **Author: Deep Olive.**
+- **Built (`src/css`):** `--olive-deep: #626B31` in `variables.css`; `.dish-price` → Deep Olive, with `html[data-theme="night"] .dish-price` keeping Avocado (`menu-preview.css`); `.menu-section__addons-card .dish-price` → Deep Olive at every hour, night included, since the card stays Cream (`menu-section.css`); `.highlight-card-price` Olive → Deep Olive (night keeps Lime) (`highlights.css`). The built CSS differs from the previous bundle by exactly those rules plus the token; the JS bundle's content is identical (renamed only).
+- **Measured in the browser** (the new CSS swapped into the live local pages, computed colour against the nearest painted ground): kitchen menu by day — rows 5.35 (90 prices), add-ons 5.13; by night — rows 5.54, add-ons 5.13; bar menu (always night) — rows 5.54 (162), add-ons 5.13; home by day — rows 4.74 on the Parchment preview, highlight cards 5.35; home by night — rows 5.54, highlights 11.82 (Lime); the Russian kitchen menu by day the same as English. Lowest anywhere: 4.74.
+- **Docs:** `design.md` §2.2 — the token, a note on why it exists (and that it is not the removed Dark Olive), the day editorial rule, the §2.5 table row (light grounds only: 3.67 on Lime, 2.89 on Soft Peppercorn); `styleGuide-report.md` mirrored; `docs-audit.md` A4 marked resolved; the case study's audit sentence no longer says "queued".
+- **Not done (author: price colour only):** A5's "colour-blind safe" claim in `design.md` §2.5 and the brief's "exactly three tappable styles" — both still open. **Owed:** a Deep Olive swatch in `style-guide.html` (a commit on `main`) and in the Figma library's `Palette`; the author's eye on a phone in daylight.
+- **Where it is:** the session branch `claude/sweet-pepper-case-study-review-dfa8f3` (merged with wip at `4f49f4f`); not yet in the main checkout, so `sweet-pepper-bar.local` still serves Avocado until the merge.
+
 ## About → Команда: Ira's new photo — 22 October 2026
 
 The author: replace Ira's photo in the team section with `photos/website-ready/team/ira-2.jpg`.

@@ -168,7 +168,7 @@ html[data-theme="night"] .highlight-card-title {
     font-weight: 600;
     font-size: var(--text-body);
     line-height: 1.6;
-    color: var(--olive);
+    color: var(--olive-deep); /* 5.35:1 on the Paper card; Olive was 4.15 (22 Oct 2026) */
     flex-shrink: 0;
 }
 

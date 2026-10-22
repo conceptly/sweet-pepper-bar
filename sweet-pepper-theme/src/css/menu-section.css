@@ -427,7 +427,7 @@ html.enddiv-ash[data-theme="night"] .menu-section__subsection .menu-section__dis
     text-wrap: pretty;
 }
 
-/* Dish rows inside addons — no bottom border, avocado price color */
+/* Dish rows inside addons — no bottom border; the price Deep Olive at every hour (the card stays Cream at night) */
 .menu-section__addons-card .dish-row {
     border-bottom: none;
     padding: 12px 0 16px;
@@ -437,8 +437,9 @@ html.enddiv-ash[data-theme="night"] .menu-section__subsection .menu-section__dis
     border-bottom: none;
 }
 
-.menu-section__addons-card .dish-price {
-    color: var(--avocado);
+.menu-section__addons-card .dish-price,
+html[data-theme="night"] .menu-section__addons-card .dish-price {
+    color: var(--olive-deep); /* 5.13:1 on Cream; Avocado was 2.98 (22 Oct 2026) */
 }
 
 /* Addons card keeps cream bg in night mode, so force dark text inside it */

@@ -5,6 +5,7 @@
   --chili-deep: #9B2705;
   --lemon: #FFED00;
   --olive: #737D3A;
+  --olive-deep: #626B31; /* prices by day — one step down Olive's hue line (design.md §2.1): 5.35:1 on Paper, 5.13 on Cream, 4.74 on Parchment (22 Oct 2026) */
   --lime: #C1DB34;
   --lime-light: #D4E671; /* footer bottom row, drawer current-item description */
   --peppercorn: #151317;

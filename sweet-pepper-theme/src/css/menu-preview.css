@@ -362,9 +362,15 @@ html[data-theme="night"] .dish-option-text {
     font-weight: 600;
     font-size: var(--text-body);
     line-height: 1.6;
-    color: var(--avocado);
+    /* Deep Olive by day (22 Oct 2026): Avocado measured 3.11:1 on Paper and 2.76 on Parchment —
+       small text needs 4.5. Avocado stays at night, 4.97:1 on Soft Peppercorn. */
+    color: var(--olive-deep);
     white-space: nowrap;
     flex-shrink: 0;
+}
+
+html[data-theme="night"] .dish-price {
+    color: var(--avocado);
 }
 
 /* Dishes container — stacks dish rows without extra gap (rows have py-16) */

@@ -6,6 +6,11 @@
 
 ---
 
+## Prices in Deep Olive by day (22 October 2026)
+
+Measured, not user-tested: every price on the light grounds at 4.74–5.35 : 1 (`report.md` 22 Oct 2026). **Open:** the author's eye on a phone in daylight — does Deep Olive still read as the menu's green next to the Avocado section rules, or as a muddy olive?
+---
+
 ## Phone header steps aside on scroll — closed 20 Oct: the spring is the default
 
 Was `?hdr=hide` (the Gentle spring) or `?hdr=quick` (300ms); the author picked the spring on an iPhone after the top-edge gap was fixed. The switch is gone.

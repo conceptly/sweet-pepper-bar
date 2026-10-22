@@ -107,12 +107,12 @@ Sweet Pepper was never a café that also pours, or a bar that does brunch. It wa
 
 ## Six lessons
 
-1. **Systemising beats redesigning.** The strongest move was keeping a logo guests loved and building rules around it.
-2. **Constraints found the idea.** The no-clock rule looked like a limitation; it forced the heat metaphor and, later, the loader.
-3. **The mechanic is the idea, not the widget.** The slider died and nothing important was lost; holding the concept loosely at the widget level is what let it survive.
-4. **Amend rules in daylight.** Mobile, touch and the law each broke a rule; none was violated quietly, and each amendment carries its reasoning.
-5. **A prediction is only honest if it can lose.** The log that admits the repeater lost is the only kind that counts as evidence.
-6. **AI accelerates divergence; judgment curates convergence.** Half of six good prototypes broke a rule the project had earned. The skill was knowing which to discard — and building the files that let a model be steered instead of chatted with.
+1. **System first, always.** I now start every project with the system: tokens, type, components, a Figma library before any page. Here the style guide came first, and the case-study deck is built from it. A slower start, then everything is faster.
+2. **Respect what's earned.** Twelve years of guests trusting the chili-and-shaker mark outweigh any trend, and any skill I've gained since. The logo stayed; the colours moved onto three hue lines. Rebrand by tightening, not replacing.
+3. **The browser has a say.** Experience predicts many constraints, never all of them. Safari's floating bar, an iPad mini at 744px, a drawer 42px too tall on an iPhone, a page cache that moved the clock: each was found only in the build.
+4. **Legal is design too.** Consent, cookie notices, a privacy policy and forms are usually an afterthought. Here they were a design job I enjoyed: a notice that confirms the choice, a settings sheet on phones, a Documents hub in plain lines.
+5. **Design who edits it.** A site outlives its launch through its admin. I decided what the team edits and what stays code: dishes as records, prose as fields, layout locked. The admin was usability-tested like the site.
+6. **AI speeds, fundamentals steer.** AI let me build two to three times faster than I could alone. My edge was the fundamentals: spotting the detail that breaks it and naming the fix exactly. The cost is a decision every ten minutes, with no time left to sketch.
 
 ---
 

@@ -1,5 +1,22 @@
 # Sweet Pepper Website — Project Report
 
+## About → Команда: Ira's new photo — 22 October 2026
+
+The author: replace Ira's photo in the team section with `photos/website-ready/team/ira-2.jpg`.
+
+- **Photo:** `ira-2.jpg` (960², Ira in glasses and a white sweater with a cocktail, the bar's lights behind) → `assets/images/team/ira-2.jpg` at 600 × 600 like the other cards, no location data. Media Library title «Ира, менеджер зала», alt «Ира в очках и белом свитере держит коктейль в бокале-шампанке, за ней огни бара», topic «Команда». The card itself still reads «Фото: Ира» / "Photo of Ira". The green-wall `ira.jpg` stays in the theme and Media Library (no longer used).
+- **Files:** `tools/field-updates/2026-10-22-about-team-ira-photo.json` (card 1's photo, `asset:team/ira.jpg` → `asset:team/ira-2.jpg`); `data/about/team.php` (the fallback). Applied on the local site (attachment 3278; a second run says `done`; DB dump before, in the session scratchpad). Checked: `/about/` and `/en/about/` serve `uploads/2026/10/ira-2.jpg` on Ira's card.
+- **Servers:** not deployed — after the pull + rsync, run the update file on test and main, then *Delete Cache* on main.
+
+## Page loader: the phone's shaker disc is Lemon by night — 22 October 2026
+
+The author, from an iPhone screenshot of the footer replay at night: the shaker disc "has a wrong color" — pale Cream next to the desktop's Lemon.
+
+- **Cause:** the big shaker (layout 3, the default) borrowed the dish picker's night disc — Cream with a Lemon keyline — and only the wide-screen block (`min-width: 1101px` / landscape, `min-height: 560px`) switched it to Lemon, as drawn in Figma 2792:75651. Upright phones and short windows kept Cream.
+- **Fix:** `--shake-fill: var(--lemon)` moved into `.page-loader.is-egg-big` itself (`page-loader.css`), so the disc is Lemon by night on every screen; it follows the night rule in the bundle at equal specificity. The dish picker's own night disc is unchanged.
+- **Unchanged on purpose:** the disc's steady glow stays hover-only (phones glow on the idle swell); the phone's × stays Lemon (Parchment is the wide layout's corner ×).
+- **Open:** the author's look on an iPhone; not committed, not deployed.
+
 ## Case study deck — device mockups on 13 slides, the concise deck (29 slides, its own page) — 20 October 2026
 
 Figma only (`b7eWMOzvkmWOB3b94odJmy`); no theme code, no files in the repo beyond this entry. Ledger with every ID and hash: `Claude outputs/case-study-make/figma-deck-state.json`.

@@ -12,12 +12,12 @@
     "src": "src/fonts/Molot.woff2"
   },
   "src/main.js": {
-    "file": "assets/main-FZT9yvip.js",
+    "file": "assets/main-BLLHbH2G.js",
     "name": "main",
     "src": "src/main.js",
     "isEntry": true,
     "css": [
-      "assets/main-DK-Z9ljX.css"
+      "assets/main-CpmxeIrv.css"
     ],
     "assets": [
       "assets/Molot-B4rV0jxL.woff2",

@@ -1,0 +1,24 @@
+{
+  "page": "about",
+  "date": "2026-10-22",
+  "note": "About → «Команда»: Ira's new portrait (author, 22 Oct 2026: photos/website-ready/team/ira-2.jpg, square — theme asset team/ira-2.jpg at 600 × 600), was team/ira.jpg (the green wall). Media Library title, Russian alt and topic as the other cards'.",
+  "groups": [
+    {
+      "note": "About → «Команда»: card 1, Ira — the photo",
+      "set": [
+        [
+          "about_team_members_0_photo",
+          "asset:team/ira.jpg",
+          "asset:team/ira-2.jpg"
+        ]
+      ]
+    }
+  ],
+  "uploads": {
+    "team/ira-2.jpg": {
+      "title": "Ира, менеджер зала",
+      "alt": "Ира в очках и белом свитере держит коктейль в бокале-шампанке, за ней огни бара",
+      "topic": "Команда"
+    }
+  }
+}

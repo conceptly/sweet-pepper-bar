@@ -80,7 +80,7 @@ foreach ( sweet_pepper_food_pairings() as $p ) {
             <?php
             get_template_part( 'template-parts/components/dish-picker', null, [
                 'pairings'      => $pairings,
-                'default_index' => sweet_pepper_pairing_index( $pairings ), // the record's first row (Finlandia — matches Figma)
+                'default_index' => sweet_pepper_pairing_index( $pairings ), // the record's «Открывается первой» row (the roast)
                 'link_menu'     => 'food',
             ] );
             ?>

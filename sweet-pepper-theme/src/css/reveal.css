@@ -191,20 +191,31 @@
    (±12% of object-position, a 4:1 / 21:9 crop of a much taller photo, so nothing is scaled).
    It drifts AROUND the band's focal point, not over it: the band's object-position is
    rebuilt from --img-x / --img-y (defaults 50% — nothing sets --img-pos on these bands
-   today) plus a registered --band-drift the scroll timeline animates, clamped so a focal
-   point near an edge can't pull the photo off its frame.
+   today) plus the drift, which the scroll timeline animates as two registered numbers —
+   --band-in (1 → 0, the first half of the pass) and --band-out (0 → 1, the second) — times
+   --drift-in / --drift-out, the room each way that inc/menu-sections.php works out from the
+   slider (12% at most), so a focal point near an edge can't pull the photo off its frame.
+   No clamp(): WebKit resolves a clamp() of percentages in object-position to 0%, which put
+   every band at its photo's top in Safari (26 Oct 2026); plain calc() it gets right.
    The band is overflow: hidden, hence a scroll container, hence the named timeline. */
-@property --band-drift {
-    syntax: '<percentage>';
+@property --band-in {
+    syntax: '<number>';
     inherits: false;
-    initial-value: 0%;
+    initial-value: 0;
+}
+
+@property --band-out {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
 }
 
 @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
         @keyframes band-drift {
-            from { --band-drift: 12%; }
-            to   { --band-drift: -12%; }
+            0%   { --band-in: 1; --band-out: 0; }
+            50%  { --band-in: 0; --band-out: 0; }
+            100% { --band-in: 0; --band-out: 1; }
         }
 
         .menu-section__hero {
@@ -212,7 +223,8 @@
         }
 
         .menu-section__hero img {
-            object-position: var(--img-x, 50%) clamp(0%, calc(var(--img-y, 50%) + var(--band-drift)), 100%);
+            object-position: var(--img-x, 50%)
+                calc(var(--img-y, 50%) + var(--band-in) * var(--drift-in, 12%) - var(--band-out) * var(--drift-out, 12%));
             animation: band-drift linear both;
             animation-timeline: --band;
             animation-range: cover 0% cover 100%;

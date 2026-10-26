@@ -323,12 +323,19 @@ function sweet_pepper_menu_sections( $state = 'food' ) {
 /**
  * The band photo's inline style — `--img-y` for reveal.css, which rebuilds the band's
  * object-position from it (plus the scroll drift). Nothing while the slider is untouched.
+ * `--drift-in` / `--drift-out` are how far the drift may go each way (12% at most) without
+ * passing the photo's edge — worked out here because WebKit resolves a clamp() of
+ * percentages in object-position to 0% (every band at its top in Safari, 26 Oct 2026).
  *
  * @param array $sec A section of sweet_pepper_menu_sections().
- * @return string ` style="--img-y: 40%"` or ''.
+ * @return string ` style="--img-y: 40%; --drift-in: 12%; --drift-out: 12%"` or ''.
  */
 function sweet_pepper_menu_band_style( $sec ) {
-    return isset( $sec['band_y'] ) ? ' style="--img-y: ' . (int) $sec['band_y'] . '%"' : '';
+    if ( ! isset( $sec['band_y'] ) ) {
+        return '';
+    }
+    $y = max( 0, min( 100, (int) $sec['band_y'] ) );
+    return sprintf( ' style="--img-y: %d%%; --drift-in: %d%%; --drift-out: %d%%"', $y, min( 12, 100 - $y ), min( 12, $y ) );
 }
 
 /**
@@ -433,3 +440,4 @@ function sweet_pepper_menu_connector_lang( $day, $night, $alt ) {
     }
     return $out;
 }
+

@@ -25,15 +25,15 @@ return [
                 'dish_name'   => 'Onion rings',
                 'price'       => '325-.',
                 'quantity'    => '180 g',
-                'description' => 'Deep fried with a sauce of your choice',
-                'ru'          => [ 'dish_name' => 'Луковые кольца', 'description' => 'Во фритюре, с соусом на выбор' ], // draft — not in menu.md (description)
+                'description' => 'Deep fried with a sour cream and herb sauce',
+                'ru'          => [ 'dish_name' => 'Луковые кольца', 'description' => 'Во фритюре, с соусом сметана-зелень' ], // draft — not in menu.md (description); the sauce: team, 26 Oct 2026
             ],
             [
                 'dish_name'   => 'Borodinsky croutons',
                 'price'       => '180-.',
                 'quantity'    => '150 g',
-                'description' => 'Deep fried with fresh garlic and sour cream',
-                'ru'          => [ 'dish_name' => 'Бородинские гренки', 'description' => 'Во фритюре, со свежим чесноком и сметаной' ], // draft — not in menu.md (description)
+                'description' => 'Deep fried with fresh garlic and Caesar sauce',
+                'ru'          => [ 'dish_name' => 'Бородинские гренки', 'description' => 'Во фритюре, со свежим чесноком и соусом «Цезарь»' ], // draft — not in menu.md (description)
             ],
         ],
     ],
@@ -82,9 +82,9 @@ return [
                 'dish_name'   => 'Grilled wings',
                 'price'       => '455-./ 645-.',
                 'quantity'    => '270 g / 540 g',
-                'description' => 'For one, 5 pcs. In honey glaze',
+                'description' => '5 or 10 pcs. In honey glaze',
                 'icons'       => [ 'fire' ],
-                'ru'          => [ 'dish_name' => 'Крылышки-гриль', 'description' => 'На одного 5 штук. В медовой глазури' ],
+                'ru'          => [ 'dish_name' => 'Крылышки-гриль', 'description' => '5 или 10 штук. В медовой глазури' ],
             ],
             [
                 'dish_name'   => 'Meat Set 2026',
@@ -119,8 +119,8 @@ return [
                 'dish_name'   => 'Royal draniki',
                 'price'       => '395-.',
                 'quantity'    => '250 g',
-                'description' => 'With salmon and butter or cream cheese',
-                'ru'          => [ 'dish_name' => 'Королевские драники', 'description' => 'С лососем и сливочным маслом или сливочным сыром' ], // draft — not in menu.md
+                'description' => 'With salmon and butter',
+                'ru'          => [ 'dish_name' => 'Королевские драники', 'description' => 'С лососем и сливочным маслом' ], // draft — not in menu.md
             ],
         ],
     ],

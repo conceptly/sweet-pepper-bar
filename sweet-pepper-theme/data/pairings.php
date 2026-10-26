@@ -12,6 +12,8 @@
  *                 → Подбор пары; the other three replies follow their pattern (mine, to review).
  *   food_img / bar_img — the pairs as Figma picker-day (860:29519) draws them (28 Sep 2026: the soup
  *                 and draniki had each other's infusion, the beefsteak Jim Beam, the pasta red wine).
+ *                 25–26 Oct 2026, as the record: draniki → beer, roast → cranberry infusion (no Finlandia
+ *                 at the bar any more).
  *
  * @package Sweet_Pepper
  */
@@ -35,11 +37,11 @@ return [
         'dish_short'    => '',
         'description'   => 'The legend of the Kirova street',
         'food_img'      => 'food/dinner/draniki-2.jpg',
-        'bar_img'       => 'bar/infusions/infusions-lenya-11.jpg',
-        'reply'         => 'A shot of the cranberry infusion',
-        'drink_section' => 'infusions',
+        'bar_img'       => 'bar/beer/beer-05.jpg',
+        'reply'         => 'Light Unfiltered Beer',
+        'drink_section' => 'beer',
         'default'       => false,
-        'ru'            => [ 'dish' => 'Фирменные драники', 'description' => 'Легенда улицы Кирова', 'reply' => 'Стопка клюквенной настойки' ],
+        'ru'            => [ 'dish' => 'Фирменные драники', 'description' => 'Легенда улицы Кирова', 'reply' => 'Светлое нефильтрованное' ],
     ],
     [
         'slug'          => 'beefsteak',
@@ -59,11 +61,11 @@ return [
         'dish_short'    => 'Yaroslavl Roast',
         'description'   => 'The legend of the Kirova street',
         'food_img'      => 'food/dinner/zharkoe-1.jpg',
-        'bar_img'       => 'bar/hard-drinks/finlandia-3.jpg',
-        'reply'         => 'A shot of the Finlandia',
-        'drink_section' => 'spirits',
+        'bar_img'       => 'bar/infusions/infusions-lenya-11.jpg',
+        'reply'         => 'A shot of the cranberry infusion',
+        'drink_section' => 'infusions',
         'default'       => true,
-        'ru'            => [ 'dish' => 'Жаркое по-ярославски', 'description' => 'Легенда улицы Кирова', 'dish_short' => 'Жаркое', 'reply' => 'Стопка водки Finlandia' ],
+        'ru'            => [ 'dish' => 'Жаркое по-ярославски', 'description' => 'Легенда улицы Кирова', 'dish_short' => 'Жаркое', 'reply' => 'Шот клюквенной настойки' ],
     ],
     [
         'slug'          => 'wings',

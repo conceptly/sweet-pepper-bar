@@ -32,7 +32,7 @@ return [
             'department'   => 'service',
             'show'         => '4',
             'schedule'     => '2/2 · from 8:30 am or 6 pm',
-            'pay'          => '90–120 ₽ an hour + tips + daily bonuses',
+            'pay'          => 'from 110 ₽ an hour + tips + daily bonuses',
             'card'         => 'Not just a waiter — a master of hospitality who makes our cosy gastrobar even warmer.',
             'lead'         => "Sweet Pepper is looking for that one person. Not just a waiter — a true master of hospitality who helps our cosy gastrobar on Kirova keep its warm, particular atmosphere. No experience? No problem: we'll teach you everything and make you an expert.",
             'duties'       => '',
@@ -41,7 +41,7 @@ return [
             'ru'           => [
                 'title'        => 'Официант',
                 'schedule'     => '2/2 · с 8:30 или с 18:00',
-                'pay'          => 'от 90 до 120 ₽ в час + чаевые + ежедневные премии',
+                'pay'          => 'от 110 ₽ в час + чаевые + ежедневные премии',
                 'card'         => 'ПЕРЧИК ищет не просто официанта, а мастера гостеприимства, который сделает наш уютный гастробар ещё теплее.',
                 'lead'         => 'ПЕРЧИК ищет того самого человека. А ищет он не просто официанта, а настоящего мастера гостеприимства, который поможет создавать в уютном гастробаре на Кирова особую, тёплую атмосферу. Нет опыта? Не беда — всему обучим, научим и сделаем экспертом своего дела.',
                 'requirements' => "Умеет расположить к себе гостя с первой же встречи!\nПо-настоящему гостеприимен и считает, что атмосфера — это не менее важно, чем меню!\nПонимает, что искренняя забота и внимание — это база безупречного вечера для наших гостей!\nХочет стать частью самой дружелюбной и сплочённой команды!",

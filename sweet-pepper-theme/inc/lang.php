@@ -215,7 +215,11 @@ add_action( 'wp_head', function () {
  * English page, with no choice stored, on the page where the guest first lands this
  * session (sessionStorage `sp-landed`), and not within 30 days of a × (localStorage
  * `sp-nudge-off`). That is the case the browser can't see — a Russian reader behind an
- * English system. The Russian page never asks: the browser already said Russian. A tap on
+ * English system. The Russian page never asks: the browser already said Russian.
+ * And only when something hints the guest reads Russian (author, 26 Oct 2026) — a reader
+ * with nothing Russian about them was being asked for no reason: Russian (or be, uk, kk, ky)
+ * anywhere in the browser's languages, below English; a clock set to a Russian or
+ * Belarusian time zone; or arriving from a Russian site (.ru / .рф / .by, Yandex, VK, OK). A tap on
  * «Переключить» is a choice like the pill; the × turns down the question, not a language.
  * The answer is a class on <html> (`lang-nudge-on`), set before paint, so the in-flow hero
  * nudge never shifts the page. Markup: sweet_pepper_lang_nudge() below.
@@ -265,13 +269,13 @@ add_action( 'wp_head', function () {
     if (/bot|crawl|spider|slurp|yandex|googl|bing|baidu|duckduck|lighthouse|headless|preview/i.test(navigator.userAgent) || navigator.webdriver) return;
     var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
     if (nav && nav.type === 'back_forward') return;
-    var want = get();
+    var want = get(), RU = /^(ru|be|uk|kk|ky)$/;
+    var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
     if (!twins[want]) {
-        var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
         want = 'en';
         for (var i = 0; i < list.length; i++) {
             var l = String(list[i]).toLowerCase().split('-')[0];
-            if (/^(ru|be|uk|kk|ky)$/.test(l)) { want = 'ru'; break; }
+            if (RU.test(l)) { want = 'ru'; break; }
             if (l === 'en') break;
         }
     }
@@ -280,7 +284,15 @@ add_action( 'wp_head', function () {
     var first = false, off = 0;
     try { first = !sessionStorage.getItem('sp-landed'); sessionStorage.setItem('sp-landed', '1'); } catch (e) {}
     try { off = +localStorage.getItem('sp-nudge-off') || 0; } catch (e) {}
-    if (first && here === 'en' && !twins[get()] && Date.now() - off > 2592e6) document.documentElement.classList.add('lang-nudge-on');
+    if (!first || here !== 'en' || twins[get()] || Date.now() - off <= 2592e6) return;
+    // Any hint the guest reads Russian: a language further down the list, the clock, the way in
+    var ru = false, tz = '', from = '';
+    for (var j = 0; j < list.length; j++) if (RU.test(String(list[j]).toLowerCase().split('-')[0])) ru = true;
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    if (/^(Europe\/(Moscow|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov|Simferopol|Minsk)|Asia\/(Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr))$/.test(tz)) ru = true;
+    try { from = new URL(document.referrer).hostname; } catch (e) {}
+    if (/(\.(ru|by|xn--p1ai)|(^|\.)(yandex\.[a-z.]+|ya\.ru|vk\.com|vk\.ru|ok\.ru))$/.test(from)) ru = true;
+    if (ru) document.documentElement.classList.add('lang-nudge-on');
 })();
 </script>
     <?php

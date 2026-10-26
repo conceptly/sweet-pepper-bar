@@ -2,7 +2,8 @@
  * Language nudge — «Удобнее по-русски? Переключить →» (inc/lang.php → sweet_pepper_lang_nudge).
  *
  * Whether it shows is decided before paint by the head script (the `lang-nudge-on` class on
- * <html>: English page, no choice stored, the landing page of the visit, no × in 30 days).
+ * <html>: English page, no choice stored, the landing page of the visit, no × in 30 days,
+ * and a hint the guest reads Russian — a language lower in the list, the time zone, the referrer).
  * This handles what follows:
  *
  *   ×       remembered for 30 days (localStorage `sp-nudge-off`) — the guest turned down the

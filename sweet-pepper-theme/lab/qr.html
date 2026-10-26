@@ -1,0 +1,972 @@
+<!doctype html>
+<!--
+  QR lab (25 Oct 2026): a test bench, not a site page. Encodes a URL (qrcode-generator 2.0.4, MIT),
+  then draws every part itself so the shapes are ours, not a generator's presets: dots, corner rings,
+  corner centres, the small alignment squares, a logo with a cleared plate, brand colours.
+  Scan check: the drawing is rasterised at three sizes plus soft focus, a tilt and dim light with grain,
+  and read back by jsQR 1.4.0 (Apache-2.0), and by the browser's own BarcodeDetector where there is one.
+  Export: SVG in named groups (background, dots, corners, alignment, logo) for Figma, or PNG.
+  Test strengths were set so the plain Adobe Express codes in design/qr pass all six: a fail means
+  the design reads worse than a stock code. Open at /wp-content/themes/sweet-pepper-theme/lab/qr.html
+  The logos and icons are copied in from assets/icons/ (ICON_SVG), so it also runs from a file.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>QR lab</title>
+<style>
+@font-face { font-family: 'Molot'; src: url('../src/fonts/Molot.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'Golos Text'; src: url('../src/fonts/GolosText-VariableFont_wght.ttf') format('truetype'); font-weight: 400 900; font-display: swap; }
+
+:root {
+    --lemon: #FFED00; --olive: #737D3A; --olive-deep: #626B31; --lime: #C1DB34; --lime-light: #D4E671; --avocado: #869438;
+    --peppercorn: #151317; --soft-peppercorn: #201E22; --paper: #FCF7E8; --parchment: #F3E9D2; --ash: #54513F;
+    --mushroom: #9E9789; --cream: #FFF689; --chili: #E34314; --chili-deep: #9B2705; --paprika: #EF6D44;
+    --line: #DDD4BF; --pass: #3E7D2C; --warn: #A86A00; --fail: #C2300B;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font: 14px/1.4 'Golos Text', system-ui, sans-serif; background: var(--paper); color: var(--peppercorn); }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+.top { padding: 24px 32px 8px; }
+.top h1 { font: 40px/1 'Molot', sans-serif; color: var(--chili); margin: 0 0 8px; letter-spacing: .5px; }
+.top p { margin: 0; max-width: 720px; color: var(--ash); text-wrap: pretty; }
+
+.layout { display: grid; grid-template-columns: minmax(320px, 1fr) 420px; gap: 32px; padding: 16px 32px 48px; align-items: start; }
+@media (max-width: 960px) { .layout { grid-template-columns: 1fr; padding: 16px; } .top { padding: 16px 16px 0; } }
+
+/* Preview */
+.preview { position: sticky; top: 16px; }
+@media (max-width: 960px) { .preview { position: static; } }
+.stage { position: relative; border-radius: 16px; padding: 32px; display: grid; place-items: center; background: var(--ground, var(--parchment)); transition: background .2s; }
+.stage__art { position: relative; width: 100%; max-width: 520px; }
+.stage__art svg { display: block; width: 100%; height: auto; }
+.stage__grid { position: absolute; inset: 0; pointer-events: none; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.bar .spacer { flex: 1; }
+.stats { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); font-size: 13px; }
+.pill b { font-weight: 600; }
+.pill.is-pass { color: var(--pass); } .pill.is-warn { color: var(--warn); } .pill.is-fail { color: var(--fail); }
+.pill.is-pass::before, .pill.is-warn::before, .pill.is-fail::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.legend { display: none; flex-wrap: wrap; gap: 10px; margin-top: 8px; font-size: 12px; color: var(--ash); }
+.legend.is-on { display: flex; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+
+.scan { margin-top: 20px; }
+.scan h2, .controls h2 { font: 600 13px/1.2 'Golos Text', sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--olive); margin: 0 0 8px; }
+.scan__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.scan__score { font-weight: 600; }
+.scan__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.scan__item { background: #fff; border-radius: 10px; padding: 8px; box-shadow: inset 0 0 0 1px var(--line); font-size: 12px; }
+.scan__item canvas { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 4px; background: #eee; image-rendering: pixelated; }
+.scan__item .name { font-weight: 600; margin: 6px 0 2px; }
+.scan__item .res { display: flex; flex-direction: column; gap: 1px; }
+.ok { color: var(--pass); } .meh { color: var(--warn); } .no { color: var(--fail); } .na { color: var(--mushroom); }
+.note { font-size: 12px; color: var(--ash); margin: 8px 0 0; text-wrap: pretty; }
+
+/* Controls */
+.controls { display: flex; flex-direction: column; gap: 12px; }
+.card { background: #fff; border-radius: 14px; padding: 14px 16px 16px; box-shadow: inset 0 0 0 1px var(--line); }
+.row { margin-top: 10px; }
+.row:first-of-type { margin-top: 0; }
+.row > label, .row > .label { display: flex; justify-content: space-between; gap: 8px; font-weight: 500; margin-bottom: 4px; }
+.row output { font-variant-numeric: tabular-nums; color: var(--ash); font-weight: 400; }
+.row input[type=range] { width: 100%; accent-color: var(--chili); }
+.row input[type=text], .row input[type=url], .row select, .row textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); }
+.row textarea { min-height: 64px; font: 12px/1.35 ui-monospace, monospace; resize: vertical; }
+.check { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-weight: 400; cursor: pointer; }
+.check input { accent-color: var(--chili); width: 16px; height: 16px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; }
+.seg button { border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--peppercorn); color: var(--paper); border-color: var(--peppercorn); }
+.btn { border: 1px solid var(--peppercorn); background: var(--peppercorn); color: var(--paper); border-radius: 10px; padding: 8px 14px; cursor: pointer; font-weight: 500; }
+.btn--ghost { background: #fff; color: var(--peppercorn); border-color: var(--line); }
+.btn:disabled { opacity: .5; cursor: default; }
+.icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 4px; }
+.icons button { height: 42px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--paper); border-radius: 8px; cursor: pointer; padding: 0; }
+.icons button svg { width: 22px; height: 22px; }
+.icons button[aria-pressed="true"] { border-color: var(--peppercorn); box-shadow: inset 0 0 0 1px var(--peppercorn); background: #fff; }
+.icons button:first-child, .icons button:last-child { grid-column: span 2; }
+.icons__word { font-size: 12px; }
+.file { display: flex; gap: 6px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+.file input[type=file] { font-size: 12px; max-width: 100%; }
+
+.color { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: center; }
+.color__chips { display: flex; flex-wrap: wrap; gap: 4px; grid-column: 1 / -1; }
+.color__chips button { width: 22px; height: 22px; border-radius: 50%; border: 0; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); padding: 0; }
+.color__chips button[aria-pressed="true"] { outline: 2px solid var(--peppercorn); outline-offset: 2px; }
+.color input[type=color] { width: 40px; height: 34px; border: 1px solid var(--line); border-radius: 8px; padding: 2px; background: #fff; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="top">
+    <h1>QR lab</h1>
+    <p>Draw the code your way, then let the scan check tell you how far you can push it. Every change is re-read at three sizes, out of focus, tilted and in dim light. Export the SVG into Figma to finish it, and test the final art on real phones at print size.</p>
+</header>
+
+<main class="layout">
+    <section class="preview" aria-label="Preview">
+        <div class="stage" id="stage">
+            <div class="stage__art" id="art"></div>
+        </div>
+        <div class="bar">
+            <div class="seg" id="grounds" aria-label="Preview ground"></div>
+            <label class="check" style="margin:0"><input type="checkbox" id="gridToggle"> Show grid</label>
+            <span class="spacer"></span>
+        </div>
+        <div class="legend" id="legend">
+            <span><i style="background:rgba(227,67,20,.45)"></i>Corner squares</span>
+            <span><i style="background:rgba(40,110,220,.45)"></i>Timing lines</span>
+            <span><i style="background:rgba(60,160,60,.5)"></i>Alignment</span>
+            <span><i style="background:rgba(230,180,0,.55)"></i>Format info</span>
+            <span><i style="background:rgba(160,60,200,.45)"></i>Version info</span>
+            <span><i style="box-shadow:inset 0 0 0 2px #C2300B"></i>Logo area</span>
+        </div>
+        <div class="stats" id="stats"></div>
+        <div class="bar">
+            <button class="btn" id="dlSvg">Download SVG</button>
+            <button class="btn btn--ghost" id="copySvg">Copy SVG for Figma</button>
+            <button class="btn btn--ghost" id="dlPng">Download PNG</button>
+            <select id="pngSize" aria-label="PNG size" style="padding:7px;border-radius:10px;border:1px solid var(--line)">
+                <option value="1024">1024 px</option><option value="2048" selected>2048 px</option><option value="4096">4096 px</option>
+            </select>
+        </div>
+        <div class="scan">
+            <div class="scan__head"><h2>Scan check</h2><span class="scan__score" id="scanScore">…</span></div>
+            <div class="scan__grid" id="scanGrid"></div>
+            <p class="note" id="scanNote"></p>
+        </div>
+    </section>
+
+    <section class="controls" aria-label="Settings">
+        <div class="card">
+            <h2>Starting looks</h2>
+            <div class="seg" id="looks"></div>
+        </div>
+
+        <div class="card">
+            <h2>Content</h2>
+            <div class="row">
+                <label for="url">URL or text</label>
+                <input type="url" id="url" name="url" list="urls" spellcheck="false">
+                <datalist id="urls">
+                    <option value="https://sweetpepper.bar/"></option>
+                    <option value="https://sweetpepper.bar/about/"></option>
+                    <option value="https://sweetpepper.bar/menu/food/"></option>
+                    <option value="https://sweetpepper.bar/menu/bar/"></option>
+                </datalist>
+            </div>
+            <div class="row">
+                <div class="label">Error correction <output id="eclOut"></output></div>
+                <div class="seg" data-seg="ecl">
+                    <button data-v="L">L 7%</button><button data-v="M">M 15%</button><button data-v="Q">Q 25%</button><button data-v="H">H 30%</button>
+                </div>
+            </div>
+            <div class="row">
+                <label for="minVersion">Grid size <output data-out="minVersion"></output></label>
+                <input type="range" id="minVersion" name="minVersion" min="0" max="10" step="1">
+            </div>
+            <p class="note">Higher error correction rebuilds more damage, so a logo and bolder shapes are safe, but the grid gets denser. A shorter URL gives a coarser grid with bigger dots. Grid size 0 picks the smallest grid that fits; higher numbers force a finer one.</p>
+        </div>
+
+        <div class="card">
+            <h2>Dots</h2>
+            <div class="row">
+                <label for="dotShape">Shape</label>
+                <select id="dotShape" name="dotShape">
+                    <option value="connected">Connected (rounded joins)</option>
+                    <option value="hpill">Horizontal pills</option>
+                    <option value="vpill">Vertical pills</option>
+                    <option value="square">Square</option>
+                    <option value="rounded">Rounded square</option>
+                    <option value="circle">Circle</option>
+                    <option value="diamond">Diamond</option>
+                    <option value="seed">Seed</option>
+                    <option value="sparkle">Sparkle</option>
+                    <option value="plus">Plus</option>
+                    <option value="pepper">Pepper icon</option>
+                    <option value="custom">My SVG…</option>
+                </select>
+            </div>
+            <div class="row" data-when="dotShape:hpill,vpill,square,rounded,circle,diamond,seed,sparkle,plus,pepper,custom">
+                <label for="dotSize">Size in its cell <output data-out="dotSize"></output></label>
+                <input type="range" id="dotSize" name="dotSize" min="0.4" max="1.15" step="0.01">
+            </div>
+            <div class="row" data-when="dotShape:pepper,custom">
+                <label class="check"><input type="checkbox" name="dotJitter"> Turn each one a little</label>
+            </div>
+            <div class="row" data-when="dotShape:custom">
+                <div class="label">My dot SVG <output id="dotSvgName"></output></div>
+                <div class="file"><input type="file" accept=".svg,image/svg+xml" data-svg="dotSvg"></div>
+                <label class="check"><input type="checkbox" name="dotRecolour"> Paint it with the dot colour</label>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Corner squares</h2>
+            <div class="row">
+                <label for="ringShape">Outer ring</label>
+                <select id="ringShape" name="ringShape">
+                    <option value="square">Square</option>
+                    <option value="rounded">Rounded</option>
+                    <option value="squircle">Squircle</option>
+                    <option value="circle">Circle</option>
+                    <option value="leaf">Leaf (sharp corner inward)</option>
+                    <option value="leafOut">Leaf (sharp corner outward)</option>
+                    <option value="custom">My SVG…</option>
+                </select>
+            </div>
+            <div class="row" data-when="ringShape:rounded,leaf,leafOut">
+                <label for="ringRadius">Roundness <output data-out="ringRadius"></output></label>
+                <input type="range" id="ringRadius" name="ringRadius" min="0" max="1" step="0.01">
+            </div>
+            <div class="row" data-when="ringShape:square,rounded,squircle,circle,leaf,leafOut">
+                <label for="ringWeight">Ring weight <output data-out="ringWeight"></output></label>
+                <input type="range" id="ringWeight" name="ringWeight" min="0.5" max="1.6" step="0.05">
+            </div>
+            <div class="row" data-when="ringShape:custom">
+                <div class="label">My ring SVG (7 × 7 box, with the hole) <output id="ringSvgName"></output></div>
+                <div class="file"><input type="file" accept=".svg,image/svg+xml" data-svg="ringSvg"></div>
+            </div>
+            <div class="row">
+                <label for="eyeShape">Centre</label>
+                <select id="eyeShape" name="eyeShape">
+                    <option value="square">Square</option>
+                    <option value="rounded">Rounded</option>
+                    <option value="squircle">Squircle</option>
+                    <option value="circle">Circle</option>
+                    <option value="leaf">Leaf (sharp corner inward)</option>
+                    <option value="leafOut">Leaf (sharp corner outward)</option>
+                    <option value="dots">Nine dots</option>
+                    <option value="pepper">Pepper icon</option>
+                    <option value="custom">My SVG…</option>
+                </select>
+            </div>
+            <div class="row" data-when="eyeShape:rounded,leaf,leafOut">
+                <label for="eyeRadius">Roundness <output data-out="eyeRadius"></output></label>
+                <input type="range" id="eyeRadius" name="eyeRadius" min="0" max="1" step="0.01">
+            </div>
+            <div class="row">
+                <label for="eyeSize">Centre size <output data-out="eyeSize"></output></label>
+                <input type="range" id="eyeSize" name="eyeSize" min="2" max="3.6" step="0.05">
+            </div>
+            <div class="row" data-when="eyeShape:custom">
+                <div class="label">My centre SVG (3 × 3 box) <output id="eyeSvgName"></output></div>
+                <div class="file"><input type="file" accept=".svg,image/svg+xml" data-svg="eyeSvg"></div>
+            </div>
+            <div data-when="ringShape:custom;eyeShape:custom">
+                <label class="check"><input type="checkbox" name="customRecolour"> Paint my SVGs with the corner colours</label>
+                <label class="check"><input type="checkbox" name="mirror"> Mirror my SVGs so each corner faces the middle</label>
+            </div>
+            <div class="row">
+                <div class="label">Small alignment squares</div>
+                <div class="seg" data-seg="alignStyle">
+                    <button data-v="match">Match the corners</button><button data-v="dots">Draw as dots</button>
+                </div>
+            </div>
+            <p class="note">A scanner finds the code by the three corners: dark ring, light gap, dark centre, the same across all three. Reshape them freely, but keep that rhythm.</p>
+        </div>
+
+        <div class="card">
+            <h2>Logo</h2>
+            <div class="row">
+                <div class="label">Art <output id="logoName"></output></div>
+                <div class="icons" id="logoPicker" role="group" aria-label="Logo art"></div>
+            </div>
+            <div data-when="logo:!none">
+                <div class="row" data-when="logo:upload">
+                    <div class="label">SVG, PNG or JPG <output id="logoUploadName"></output></div>
+                    <div class="file"><input type="file" accept=".svg,image/svg+xml,image/png,image/jpeg,image/webp" id="logoFile"></div>
+                </div>
+                <div class="row">
+                    <label for="logoSize">Size, share of the code width <output data-out="logoSize"></output></label>
+                    <input type="range" id="logoSize" name="logoSize" min="0.08" max="0.4" step="0.01">
+                </div>
+                <div class="row">
+                    <label for="logoPlate">Plate</label>
+                    <select id="logoPlate" name="logoPlate">
+                        <option value="none">No plate (art straight on the dots)</option>
+                        <option value="square">Square</option>
+                        <option value="rounded">Rounded</option>
+                        <option value="circle">Circle</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="logoPad">Breathing room <output data-out="logoPad"></output></label>
+                    <input type="range" id="logoPad" name="logoPad" min="0" max="3" step="0.25">
+                </div>
+                <label class="check"><input type="checkbox" name="logoClear"> Clear the dots under the logo</label>
+                <label class="check"><input type="checkbox" name="logoTint"> Paint brand marks and uploads in the logo colour</label>
+                <p class="note">With H, keep the logo to about two thirds of what H rebuilds. The pill under the code shows how much data it covers.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Colours</h2>
+            <div class="row"><div class="label">Dots</div><div class="color" data-color="cDots"></div></div>
+            <label class="check"><input type="checkbox" name="gradient"> Gradient on the dots</label>
+            <div data-when="gradient:true">
+                <div class="row"><div class="label">Gradient to</div><div class="color" data-color="cDots2"></div></div>
+                <div class="row">
+                    <label for="gradAngle">Angle <output data-out="gradAngle"></output></label>
+                    <input type="range" id="gradAngle" name="gradAngle" min="0" max="360" step="5">
+                </div>
+                <label class="check"><input type="checkbox" name="gradCorners"> Gradient on the corner squares too</label>
+            </div>
+            <div class="row"><div class="label">Corner rings</div><div class="color" data-color="cRing"></div></div>
+            <div class="row"><div class="label">Corner centres</div><div class="color" data-color="cEye"></div></div>
+            <div class="row"><div class="label">Background</div><div class="color" data-color="cBg"></div></div>
+            <label class="check"><input type="checkbox" name="bgTransparent"> Transparent background</label>
+            <div data-when="logo:!none">
+                <div class="row"><div class="label">Logo plate</div><div class="color" data-color="cPlate"></div></div>
+                <div class="row"><div class="label">Logo (one-colour icons, or painted)</div><div class="color" data-color="cLogo"></div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Frame</h2>
+            <div class="row">
+                <label for="quiet">Quiet margin <output data-out="quiet"></output></label>
+                <input type="range" id="quiet" name="quiet" min="0" max="6" step="0.5">
+            </div>
+            <div class="row">
+                <label for="bgRadius">Background corners <output data-out="bgRadius"></output></label>
+                <input type="range" id="bgRadius" name="bgRadius" min="0" max="6" step="0.25">
+            </div>
+            <p class="note">The quiet margin is in dots. 4 is the standard; 2 still reads on most phones. Set it to 0 only when the code sits on a plain light ground in the layout.</p>
+            <div class="bar">
+                <button class="btn btn--ghost" id="reset">Reset everything</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="vendor/qrcode-generator-2.0.4.js"></script>
+<script src="vendor/jsqr-1.4.0.js"></script>
+<script>
+(() => {
+'use strict';
+
+/* ---------- Brand ---------- */
+const PALETTE = [
+    ['Peppercorn', '#151317'], ['Soft Peppercorn', '#201E22'], ['Ash', '#54513F'], ['Mushroom', '#9E9789'],
+    ['Paper', '#FCF7E8'], ['Parchment', '#F3E9D2'], ['Cream', '#FFF689'], ['Lemon', '#FFED00'],
+    ['Lime', '#C1DB34'], ['Lime Light', '#D4E671'], ['Avocado', '#869438'], ['Olive', '#737D3A'], ['Deep Olive', '#626B31'],
+    ['Paprika', '#EF6D44'], ['Chili', '#E34314'], ['Deep Chili', '#9B2705'], ['White', '#FFFFFF'],
+];
+const GROUNDS = [['Paper', '#FCF7E8'], ['Parchment', '#F3E9D2'], ['Cream', '#FFF689'], ['Peppercorn', '#151317']];
+const ICON_SVG = {"favicon":"<svg width=\"128\" height=\"128\" viewBox=\"0 0 128 128\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_1755_35388)\"><rect width=\"127.056\" height=\"127.143\" rx=\"63.5282\" fill=\"#BFD635\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M33 47.5344L63.94 40.8267L69.6 91.0143L49.09 95.4194L33 47.5344Z\" fill=\"#859339\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M35.3402 45.0015C35.3402 45.0015 34.8102 40.3262 36.1502 37.8533C37.4902 35.3805 39.4302 35.2203 39.4302 35.2203C39.4302 35.2203 36.4302 25.6593 38.0302 23.7872C39.6402 21.915 47.0602 20.6135 48.9302 21.1041C50.8002 21.5947 52.0702 27.7717 52.9902 32.307C52.9902 32.307 57.8402 31.1656 60.8502 39.8756L35.3402 44.9915V45.0015Z\" fill=\"#E14727\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M38.67 54.6126C38.55 54.1621 38.67 53.221 39.49 52.9407C40.15 52.7104 41.18 52.8906 41.39 53.7416C43.74 63.0323 50.08 85.0475 50.08 85.0475C46.26 74.9359 41.73 66.266 38.67 54.6126Z\" fill=\"#C4D62E\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M40.8599 25.4291C40.1699 25.6994 40.2499 28.3925 41.0399 32.0867C41.8299 35.791 43.2899 38.9947 43.7299 38.8345C44.1799 38.6743 42.6499 36.4217 41.8899 31.8865C41.1199 27.3413 41.5499 25.1588 40.8599 25.4291Z\" fill=\"#EC6B45\"/><path d=\"M79.3503 52.3901C78.7003 53.5614 80.8103 54.5926 81.7003 53.6415C86.7703 48.1752 89.2003 44.9916 90.4803 39.5453C90.8303 38.0536 90.3303 35.761 87.0003 34.94C85.3403 34.5296 83.1603 35.7009 83.0903 37.2927C82.8403 43.0393 81.8003 48.0051 79.3603 52.3901H79.3503Z\" fill=\"#757D38\"/><path d=\"M36.9501 100.305C34.5601 102.588 36.0001 106.693 41.0001 106.082C63.6701 103.299 88.0201 83.7061 93.8301 64.8445C95.0101 61.0101 91.5401 51.2288 79.0001 46.994C69.1401 43.6701 60.5301 46.8638 59.6401 53.171C57.0601 71.5922 46.7701 90.9144 36.9401 100.315L36.9501 100.305Z\" fill=\"#EA5728\"/><path d=\"M59.58 71.2216C61.36 66.5462 62.4399 61.2502 63.6999 55.0731C64.5799 50.7481 69.8499 51.3888 69.4199 55.8039C68.4499 65.8154 57.92 75.5766 59.58 71.2216Z\" fill=\"#EC6B45\"/><path d=\"M38.7404 105.882C37.8304 104.77 37.7704 103.809 38.8404 103.429C65.5004 93.9678 95.0304 53.4413 70.0504 45.6924C72.7604 45.5222 75.8204 45.9126 79.0104 46.9839C91.5404 51.2187 95.0204 61 93.8404 64.8344C88.0404 83.696 63.6804 103.299 41.0104 106.072C40.1504 106.112 39.4004 106.032 38.7504 105.872L38.7404 105.882Z\" fill=\"#E14727\"/></g><defs><clipPath id=\"clip0_1755_35388\"><rect width=\"127.056\" height=\"127.143\" fill=\"white\"/></clipPath></defs></svg>","symbol":"<svg width=\"62\" height=\"86\" viewBox=\"0 0 62 86\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M0 26.5042L30.94 19.8042L36.6 69.9342L16.09 74.3342L0 26.5042Z\" fill=\"#859339\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M2.3402 23.974C2.3402 23.974 1.8102 19.304 3.1502 16.834C4.4902 14.364 6.4302 14.204 6.4302 14.204C6.4302 14.204 3.4302 4.65397 5.0302 2.78397C6.6402 0.913971 14.0602 -0.386029 15.9302 0.103971C17.8002 0.593971 19.0702 6.76397 19.9902 11.294C19.9902 11.294 24.8402 10.154 27.8502 18.854L2.3402 23.964V23.974Z\" fill=\"#E14727\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M5.66996 33.5742C5.54996 33.1242 5.66996 32.1842 6.48996 31.9042C7.14996 31.6742 8.17996 31.8542 8.38996 32.7042C10.74 41.9842 17.08 63.9742 17.08 63.9742C13.26 53.8742 8.72996 45.2142 5.66996 33.5742Z\" fill=\"#C4D62E\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.8599 4.42419C7.1699 4.69419 7.2499 7.38419 8.0399 11.0742C8.8299 14.7742 10.2899 17.9742 10.7299 17.8142C11.1799 17.6542 9.6499 15.4042 8.8899 10.8742C8.1199 6.33419 8.5499 4.15419 7.8599 4.42419Z\" fill=\"#EC6B45\"/><path d=\"M46.3503 31.3538C45.7003 32.5238 47.8103 33.5538 48.7003 32.6038C53.7703 27.1438 56.2003 23.9638 57.4803 18.5238C57.8303 17.0338 57.3303 14.7438 54.0003 13.9238C52.3403 13.5138 50.1603 14.6838 50.0903 16.2738C49.8403 22.0138 48.8003 26.9738 46.3603 31.3538H46.3503Z\" fill=\"#757D38\"/><path d=\"M3.95014 79.2136C1.56014 81.4936 3.00014 85.5936 8.00014 84.9836C30.6701 82.2036 55.0201 62.6336 60.8301 43.7936C62.0101 39.9636 58.5401 30.1936 46.0001 25.9636C36.1401 22.6436 27.5301 25.8336 26.6401 32.1336C24.0601 50.5336 13.7701 69.8336 3.94014 79.2236L3.95014 79.2136Z\" fill=\"#EA5728\"/><path d=\"M26.58 50.1638C28.36 45.4938 29.44 40.2038 30.7 34.0338C31.58 29.7138 36.85 30.3538 36.42 34.7638C35.45 44.7638 24.92 54.5138 26.58 50.1638Z\" fill=\"#EC6B45\"/><path d=\"M5.73994 84.7838C4.82994 83.6738 4.76994 82.7138 5.83994 82.3338C32.4999 72.8838 62.0299 32.4038 37.0499 24.6638C39.7599 24.4938 42.8199 24.8838 46.0099 25.9538C58.5399 30.1838 62.0199 39.9538 60.8399 43.7838C55.0399 62.6238 30.6799 82.2038 8.00994 84.9738C7.14994 85.0138 6.39994 84.9338 5.74994 84.7738L5.73994 84.7838Z\" fill=\"#E14727\"/></svg>","sweetPepperLogo":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_349_16565)\"><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M1.69244 3.73975L6.05813 2.79437L6.85676 9.86779L3.96277 10.4886L1.69244 3.73975Z\" fill=\"#859339\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M2.02258 3.38276C2.02258 3.38276 1.9478 2.72382 2.13688 2.3753C2.32595 2.02678 2.59969 2.0042 2.59969 2.0042C2.59969 2.0042 2.17638 0.656683 2.40215 0.392823C2.62932 0.128963 3.67629 -0.0544694 3.94015 0.0146704C4.20401 0.0838102 4.38321 0.954407 4.51303 1.5936C4.51303 1.5936 5.19737 1.43274 5.62209 2.66033L2.02258 3.38135V3.38276Z\" fill=\"#E14727\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M2.49246 4.73735C2.47553 4.67385 2.49246 4.54121 2.60817 4.50171C2.70129 4.46925 2.84663 4.49465 2.87626 4.61459C3.20785 5.92401 4.10243 9.02683 4.10243 9.02683C3.56342 7.60171 2.92423 6.37977 2.49246 4.73735Z\" fill=\"#C4D62E\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M2.80151 0.624245C2.70415 0.662342 2.71543 1.04191 2.8269 1.56257C2.93837 2.08465 3.14438 2.53617 3.20647 2.51359C3.26996 2.49102 3.05408 2.17354 2.94684 1.53435C2.83819 0.893749 2.89887 0.586147 2.80151 0.624245Z\" fill=\"#EC6B45\"/><path d=\"M8.23247 4.42411C8.14075 4.5892 8.43848 4.73453 8.56406 4.60049C9.27944 3.83007 9.62232 3.38137 9.80293 2.61378C9.85231 2.40353 9.78176 2.08041 9.31189 1.96471C9.07767 1.90686 8.77007 2.07195 8.76019 2.2963C8.72491 3.10622 8.57817 3.80608 8.23388 4.42411H8.23247Z\" fill=\"#757D38\"/><path d=\"M2.24977 11.1772C1.91253 11.499 2.11572 12.0775 2.82123 11.9914C6.02 11.5991 9.45582 8.83777 10.2756 6.17942C10.4421 5.639 9.9525 4.26044 8.18309 3.66358C6.79182 3.19512 5.57694 3.64524 5.45136 4.53418C5.08732 7.13044 3.63538 9.85371 2.24835 11.1786L2.24977 11.1772Z\" fill=\"#EA5728\"/><path d=\"M5.4429 7.07821C5.69406 6.41926 5.84645 5.67284 6.02424 4.80224C6.14841 4.19268 6.89201 4.28299 6.83134 4.90524C6.69447 6.31626 5.20867 7.692 5.4429 7.07821Z\" fill=\"#EC6B45\"/><path d=\"M2.50239 11.9632C2.37398 11.8065 2.36552 11.6711 2.5165 11.6175C6.27826 10.2841 10.445 4.57226 6.92028 3.48014C7.30266 3.45615 7.73443 3.51118 8.18455 3.66216C9.95255 4.25902 10.4436 5.63758 10.2771 6.178C9.45869 8.83635 6.02146 11.5991 2.82269 11.99C2.70134 11.9956 2.59551 11.9843 2.5038 11.9618L2.50239 11.9632Z\" fill=\"#E14727\"/></g><defs><clipPath id=\"clip0_349_16565\"><rect width=\"8.61508\" height=\"12\" fill=\"white\" transform=\"translate(1.69244)\"/></clipPath></defs></svg>","Pepper":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_52_3199)\"><path d=\"M8.74802 1.73678C8.65311 1.24827 8.39138 0.807929 8.00762 0.491107C7.62385 0.174285 7.14191 0.000679911 6.64427 0C6.5306 0 6.4216 0.0451529 6.34122 0.125525C6.26085 0.205898 6.2157 0.314907 6.2157 0.428571C6.2157 0.542235 6.26085 0.651244 6.34122 0.731616C6.4216 0.811989 6.5306 0.857142 6.64427 0.857142C6.91652 0.857142 7.18174 0.943564 7.40173 1.10396C7.62172 1.26435 7.78511 1.49043 7.86837 1.74964C7.05285 1.86834 6.30725 2.27647 5.76776 2.89946C5.22827 3.52245 4.93091 4.31873 4.92999 5.14285C4.92999 7.64731 3.55052 9.32142 0.830169 10.125C0.644091 10.1792 0.48189 10.2949 0.370034 10.4532C0.258178 10.6115 0.203271 10.803 0.214273 10.9965C0.225276 11.19 0.301538 11.3741 0.430616 11.5187C0.559693 11.6633 0.733964 11.7599 0.92499 11.7927C1.73018 11.9319 2.54589 12.0012 3.36302 12C5.54766 12 7.97873 11.5098 9.65926 10.1003C11.0714 8.91642 11.7871 7.2482 11.7871 5.14285C11.7862 4.30126 11.4762 3.48933 10.9159 2.86137C10.3556 2.23341 9.58406 1.8332 8.74802 1.73678ZM10.0728 4.66071L8.55034 3.9016C8.4908 3.87181 8.42513 3.85629 8.35855 3.85629C8.29197 3.85629 8.22631 3.87181 8.16677 3.9016L6.64427 4.66071L5.92802 4.30285C6.10266 3.79721 6.43066 3.35863 6.86631 3.04819C7.30197 2.73775 7.8236 2.57091 8.35855 2.57091C8.8935 2.57091 9.41513 2.73775 9.85079 3.04819C10.2864 3.35863 10.6144 3.79721 10.7891 4.30285L10.0728 4.66071Z\" fill=\"currentColor\"/></g><defs><clipPath id=\"clip0_52_3199\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","food":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_86_1983)\"><path d=\"M11.5164 0.487471V11.5203C11.5164 11.6475 11.4659 11.7695 11.3759 11.8595C11.286 11.9495 11.164 12 11.0367 12C10.9095 12 10.7875 11.9495 10.6975 11.8595C10.6076 11.7695 10.557 11.6475 10.557 11.5203V8.64218H7.67891C7.55169 8.64218 7.42968 8.59164 7.33972 8.50168C7.24976 8.41172 7.19922 8.28971 7.19922 8.16249C7.2215 7.01344 7.36663 5.87008 7.63214 4.7519C8.21856 2.32408 9.33024 0.696736 10.8479 0.0467576C10.9208 0.0155121 11.0004 0.0028505 11.0794 0.00990772C11.1584 0.0169649 11.2345 0.0435204 11.3007 0.0871945C11.367 0.130869 11.4214 0.190297 11.459 0.260155C11.4967 0.330013 11.5164 0.408118 11.5164 0.487471ZM5.75356 0.408922C5.74417 0.345936 5.72232 0.285451 5.68931 0.230995C5.65629 0.176539 5.61276 0.129202 5.56126 0.0917456C5.50976 0.0542892 5.45131 0.0274631 5.38933 0.0128318C5.32735 -0.00179938 5.26308 -0.00394275 5.20026 0.0065267C5.13744 0.0169962 5.07734 0.0398689 5.02346 0.0738108C4.96957 0.107753 4.92299 0.152084 4.88642 0.204219C4.84984 0.256355 4.82402 0.315251 4.81045 0.377471C4.79688 0.439692 4.79583 0.503991 4.80738 0.56662L5.27387 3.3656H3.8414V0.487471C3.8414 0.36025 3.79086 0.23824 3.7009 0.14828C3.61095 0.0583214 3.48893 0.00778279 3.36171 0.00778279C3.23449 0.00778279 3.11248 0.0583214 3.02252 0.14828C2.93256 0.23824 2.88203 0.36025 2.88203 0.487471V3.3656H1.44955L1.91605 0.56662C1.92759 0.503991 1.92655 0.439692 1.91298 0.377471C1.89941 0.315251 1.87358 0.256355 1.83701 0.204219C1.80044 0.152084 1.75385 0.107753 1.69997 0.0738108C1.64609 0.0398689 1.58598 0.0169962 1.52317 0.0065267C1.46035 -0.00394275 1.39608 -0.00179938 1.3341 0.0128318C1.27212 0.0274631 1.21367 0.0542892 1.16217 0.0917456C1.11067 0.129202 1.06714 0.176539 1.03412 0.230995C1.0011 0.285451 0.979261 0.345936 0.969866 0.408922L0.490177 3.28706C0.485872 3.31302 0.483667 3.33929 0.483582 3.3656C0.48454 4.04545 0.725775 4.70307 1.16466 5.22227C1.60355 5.74148 2.21183 6.08883 2.88203 6.20296V11.5203C2.88203 11.6475 2.93256 11.7695 3.02252 11.8595C3.11248 11.9495 3.23449 12 3.36171 12C3.48893 12 3.61095 11.9495 3.7009 11.8595C3.79086 11.7695 3.8414 11.6475 3.8414 11.5203V6.20296C4.5116 6.08883 5.11988 5.74148 5.55877 5.22227C5.99765 4.70307 6.23889 4.04545 6.23985 3.3656C6.23976 3.33929 6.23756 3.31302 6.23325 3.28706L5.75356 0.408922Z\" fill=\"currentColor\"/></g><defs><clipPath id=\"clip0_86_1983\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","cocktail":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_175_2948)\"><path d=\"M11.8743 1.58917C11.9343 1.52923 11.9752 1.45284 11.9917 1.36967C12.0083 1.28649 11.9998 1.20027 11.9674 1.12193C11.9349 1.04358 11.8799 0.976623 11.8094 0.929538C11.7388 0.882453 11.6559 0.857355 11.5711 0.857422H0.428885C0.344077 0.857355 0.261156 0.882453 0.19062 0.929538C0.120084 0.976623 0.0651038 1.04358 0.0326403 1.12193C0.000176773 1.20027 -0.00831044 1.28649 0.00825308 1.36967C0.0248166 1.45284 0.0656861 1.52923 0.125688 1.58917L5.57145 7.0344V10.2855H3.85726C3.74361 10.2855 3.6346 10.3306 3.55423 10.411C3.47387 10.4913 3.42872 10.6004 3.42872 10.714C3.42872 10.8277 3.47387 10.9367 3.55423 11.017C3.6346 11.0974 3.74361 11.1426 3.85726 11.1426H8.14274C8.25639 11.1426 8.3654 11.0974 8.44577 11.017C8.52613 10.9367 8.57128 10.8277 8.57128 10.714C8.57128 10.6004 8.52613 10.4913 8.44577 10.411C8.3654 10.3306 8.25639 10.2855 8.14274 10.2855H6.42855V7.0344L11.8743 1.58917ZM10.5351 1.71452L9.67801 2.57161H2.32039L1.46329 1.71452H10.5351Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_175_2948\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","coffee":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_175_2940)\"><path d=\"M9.85714 3.85716H0.428571C0.314907 3.85716 0.205898 3.90231 0.125526 3.98269C0.0451529 4.06306 0 4.17207 0 4.28573V6.85716C0.00128082 7.58679 0.157318 8.30786 0.45781 8.97274C0.758301 9.63763 1.19641 10.2312 1.74321 10.7143H0.428571C0.314907 10.7143 0.205898 10.7595 0.125526 10.8398C0.0451529 10.9202 0 11.0292 0 11.1429C0 11.2565 0.0451529 11.3655 0.125526 11.4459C0.205898 11.5263 0.314907 11.5714 0.428571 11.5714H9.85714C9.97081 11.5714 10.0798 11.5263 10.1602 11.4459C10.2406 11.3655 10.2857 11.2565 10.2857 11.1429C10.2857 11.0292 10.2406 10.9202 10.1602 10.8398C10.0798 10.7595 9.97081 10.7143 9.85714 10.7143H8.5425C9.19886 10.1326 9.69659 9.39353 9.98893 8.56662C10.5333 8.53308 11.0443 8.29325 11.418 7.896C11.7917 7.49874 11.9998 6.97396 12 6.42859V6.00002C12 5.4317 11.7742 4.88665 11.3724 4.48479C10.9705 4.08292 10.4255 3.85716 9.85714 3.85716ZM11.1429 6.42859C11.1427 6.70586 11.0528 6.97565 10.8868 7.1977C10.7207 7.41975 10.4873 7.58217 10.2214 7.66073C10.2639 7.39497 10.2854 7.12629 10.2857 6.85716V4.78823C10.5363 4.87683 10.7533 5.04093 10.9068 5.25794C11.0603 5.47495 11.1428 5.73421 11.1429 6.00002V6.42859ZM4.71429 2.57145V0.85716C4.71429 0.743496 4.75944 0.634487 4.83981 0.554115C4.92018 0.473742 5.02919 0.428589 5.14286 0.428589C5.25652 0.428589 5.36553 0.473742 5.4459 0.554115C5.52628 0.634487 5.57143 0.743496 5.57143 0.85716V2.57145C5.57143 2.68511 5.52628 2.79412 5.4459 2.87449C5.36553 2.95486 5.25652 3.00002 5.14286 3.00002C5.02919 3.00002 4.92018 2.95486 4.83981 2.87449C4.75944 2.79412 4.71429 2.68511 4.71429 2.57145ZM6.42857 2.57145V0.85716C6.42857 0.743496 6.47372 0.634487 6.5541 0.554115C6.63447 0.473742 6.74348 0.428589 6.85714 0.428589C6.97081 0.428589 7.07982 0.473742 7.16019 0.554115C7.24056 0.634487 7.28571 0.743496 7.28571 0.85716V2.57145C7.28571 2.68511 7.24056 2.79412 7.16019 2.87449C7.07982 2.95486 6.97081 3.00002 6.85714 3.00002C6.74348 3.00002 6.63447 2.95486 6.5541 2.87449C6.47372 2.79412 6.42857 2.68511 6.42857 2.57145ZM3 2.57145V0.85716C3 0.743496 3.04515 0.634487 3.12553 0.554115C3.2059 0.473742 3.31491 0.428589 3.42857 0.428589C3.54224 0.428589 3.65124 0.473742 3.73162 0.554115C3.81199 0.634487 3.85714 0.743496 3.85714 0.85716V2.57145C3.85714 2.68511 3.81199 2.79412 3.73162 2.87449C3.65124 2.95486 3.54224 3.00002 3.42857 3.00002C3.31491 3.00002 3.2059 2.95486 3.12553 2.87449C3.04515 2.79412 3 2.68511 3 2.57145Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_175_2940\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","wine":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10.1428 4.26804L8.97653 0.3075C8.9504 0.218767 8.89626 0.140869 8.8222 0.085446C8.74814 0.0300225 8.65814 4.78544e-05 8.56564 0H3.43457C3.34206 4.78544e-05 3.25206 0.0300225 3.178 0.085446C3.10394 0.140869 3.0498 0.218767 3.02367 0.3075L1.85742 4.26804C1.67444 4.87508 1.66487 5.5212 1.82978 6.1334C1.99468 6.74561 2.3275 7.2995 2.79064 7.7325C3.55252 8.44688 4.53136 8.88605 5.57153 8.98018V11.1429H3.85724C3.74358 11.1429 3.63457 11.188 3.5542 11.2684C3.47383 11.3488 3.42867 11.4578 3.42867 11.5714C3.42867 11.6851 3.47383 11.7941 3.5542 11.8745C3.63457 11.9548 3.74358 12 3.85724 12H8.14296C8.25662 12 8.36563 11.9548 8.446 11.8745C8.52638 11.7941 8.57153 11.6851 8.57153 11.5714C8.57153 11.4578 8.52638 11.3488 8.446 11.2684C8.36563 11.188 8.25662 11.1429 8.14296 11.1429H6.42867V8.98018C7.46886 8.88613 8.44773 8.44695 9.20957 7.7325C9.6726 7.29942 10.0053 6.74553 10.1702 6.13335C10.3351 5.52118 10.3256 4.87509 10.1428 4.26804ZM3.75492 0.857143H8.24528L9.32153 4.51018C9.32635 4.52625 9.33064 4.54232 9.33492 4.55839C8.18742 4.96982 6.89528 4.47268 6.19403 4.1175C4.84457 3.43446 3.77314 3.34768 2.98296 3.47839L3.75492 0.857143Z\" fill=\"#FFED00\"/></svg>","beer":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_2175_68879)\"><path d=\"M10.3846 4.15385H9.46154V3.23077C9.46154 2.61873 9.21841 2.03176 8.78564 1.59898C8.35286 1.16621 7.76589 0.923077 7.15385 0.923077H6.50885C5.82174 0.334615 4.89347 0 3.92308 0C1.88712 0 0.230774 1.44923 0.230774 3.23077V11.0769C0.230774 11.3217 0.328026 11.5565 0.501137 11.7296C0.674247 11.9027 0.909036 12 1.15385 12H8.53847C8.78328 12 9.01807 11.9027 9.19118 11.7296C9.36429 11.5565 9.46154 11.3217 9.46154 11.0769V10.6154H10.3846C10.7518 10.6154 11.104 10.4695 11.3637 10.2098C11.6234 9.95017 11.7692 9.59799 11.7692 9.23077V5.53846C11.7692 5.17124 11.6234 4.81906 11.3637 4.55939C11.104 4.29972 10.7518 4.15385 10.3846 4.15385ZM3.92308 9.69231C3.92308 9.81472 3.87446 9.93211 3.7879 10.0187C3.70134 10.1052 3.58395 10.1538 3.46154 10.1538C3.33914 10.1538 3.22174 10.1052 3.13519 10.0187C3.04863 9.93211 3 9.81472 3 9.69231V5.07692C3 4.95452 3.04863 4.83712 3.13519 4.75057C3.22174 4.66401 3.33914 4.61538 3.46154 4.61538C3.58395 4.61538 3.70134 4.66401 3.7879 4.75057C3.87446 4.83712 3.92308 4.95452 3.92308 5.07692V9.69231ZM6.69231 9.69231C6.69231 9.81472 6.64369 9.93211 6.55713 10.0187C6.47058 10.1052 6.35318 10.1538 6.23077 10.1538C6.10837 10.1538 5.99097 10.1052 5.90442 10.0187C5.81786 9.93211 5.76924 9.81472 5.76924 9.69231V5.07692C5.76924 4.95452 5.81786 4.83712 5.90442 4.75057C5.99097 4.66401 6.10837 4.61538 6.23077 4.61538C6.35318 4.61538 6.47058 4.66401 6.55713 4.75057C6.64369 4.83712 6.69231 4.95452 6.69231 5.07692V9.69231ZM1.21154 2.76923C1.46885 1.71692 2.5875 0.923077 3.92308 0.923077C4.72327 0.923077 5.48424 1.21154 6.01212 1.71808C6.09801 1.80026 6.21229 1.84614 6.33116 1.84615H7.15385C7.44011 1.84624 7.7193 1.93505 7.95301 2.10036C8.18671 2.26567 8.36343 2.49934 8.45885 2.76923H1.21154ZM10.8462 9.23077C10.8462 9.35318 10.7975 9.47057 10.711 9.55713C10.6244 9.64368 10.507 9.69231 10.3846 9.69231H9.46154V5.07692H10.3846C10.507 5.07692 10.6244 5.12555 10.711 5.2121C10.7975 5.29866 10.8462 5.41605 10.8462 5.53846V9.23077Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_2175_68879\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","glass":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10.3333 0.149445C10.2915 0.102341 10.2402 0.0646577 10.1827 0.0388935C10.1252 0.0131293 10.0629 -0.000127776 9.99995 9.28219e-07H1.99996C1.93689 -2.07211e-05 1.87454 0.0133807 1.81705 0.0393148C1.75956 0.0652488 1.70824 0.103121 1.66652 0.150416C1.6248 0.19771 1.59362 0.253343 1.57505 0.313617C1.55649 0.373892 1.55096 0.437427 1.55884 0.500001L2.84496 11.2222C2.87204 11.4372 2.97669 11.6348 3.13925 11.7781C3.30181 11.9213 3.51108 12.0002 3.72773 12H8.27218C8.48959 12.0001 8.69949 11.9204 8.86216 11.7762C9.02483 11.6319 9.129 11.4331 9.15495 11.2172L10.4411 0.500001C10.4491 0.437265 10.4436 0.373541 10.425 0.313088C10.4064 0.252635 10.3752 0.196845 10.3333 0.149445ZM9.49995 0.88889L9.33884 2.22222H2.66107L2.49996 0.88889H9.49995Z\" fill=\"#FFED00\"/></svg>","soup":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_2175_68883)\"><path d=\"M3.33288 1.78847C3.64154 1.40424 3.71769 1.14462 3.68596 1.03039C3.66173 0.944429 3.54692 0.900006 3.54577 0.900006C3.44129 0.865672 3.35251 0.795163 3.29541 0.701178C3.23832 0.607193 3.21665 0.495908 3.23432 0.387367C3.252 0.278826 3.30784 0.180162 3.39181 0.109145C3.47577 0.0381273 3.58234 -0.000575573 3.69231 6.47047e-06C3.73885 6.0967e-05 3.78513 0.00706116 3.82961 0.0207757C3.88731 0.0386603 4.40134 0.212891 4.5675 0.756929C4.70942 1.22251 4.53577 1.76366 4.05173 2.36597C3.74308 2.7502 3.66692 3.00981 3.69865 3.12404C3.72288 3.21 3.83538 3.25327 3.83654 3.25385C3.94082 3.28813 4.02947 3.35845 4.08658 3.45219C4.14369 3.54593 4.16551 3.65696 4.14814 3.76535C4.13078 3.87373 4.07534 3.97238 3.9918 4.04358C3.90826 4.11478 3.80207 4.15388 3.69231 4.15385C3.64576 4.1538 3.59948 4.1468 3.555 4.13308C3.49731 4.1152 2.98327 3.94097 2.81711 3.39693C2.67519 2.93135 2.84884 2.3902 3.33288 1.78847ZM5.12481 3.3975C5.29096 3.94154 5.805 4.11577 5.86269 4.13366C5.9072 4.14718 5.95348 4.15398 6 4.15385C6.10977 4.15388 6.21595 4.11478 6.29949 4.04358C6.38304 3.97238 6.43847 3.87373 6.45584 3.76535C6.47321 3.65696 6.45138 3.54593 6.39427 3.45219C6.33716 3.35845 6.24851 3.28813 6.14423 3.25385C6.14423 3.25385 6.02884 3.21 6.00634 3.12404C5.97461 3.00866 6.05077 2.7502 6.35942 2.36597C6.84346 1.76366 7.01711 1.22251 6.87519 0.756929C6.70904 0.212891 6.19557 0.0386603 6.13731 0.0207757C6.09282 0.00706116 6.04654 6.0967e-05 6 6.47047e-06C5.89034 -0.000155352 5.7842 0.038733 5.70061 0.109705C5.61701 0.180677 5.56142 0.279094 5.54378 0.387327C5.52615 0.495559 5.54763 0.606534 5.60437 0.700371C5.66112 0.794207 5.74942 0.864774 5.85346 0.899429C5.85346 0.899429 5.96884 0.943852 5.99365 1.02981C6.02538 1.1452 5.94923 1.40366 5.64057 1.78789C5.15654 2.3902 4.98288 2.93135 5.12481 3.39693V3.3975ZM7.4325 3.3975C7.59865 3.94154 8.11269 4.11577 8.17038 4.13366C8.21489 4.14718 8.26117 4.15398 8.30769 4.15385C8.41746 4.15388 8.52364 4.11478 8.60718 4.04358C8.69073 3.97238 8.74616 3.87373 8.76353 3.76535C8.7809 3.65696 8.75907 3.54593 8.70196 3.45219C8.64485 3.35845 8.5562 3.28813 8.45192 3.25385C8.45192 3.25385 8.33653 3.21 8.31403 3.12404C8.2823 3.00866 8.35846 2.7502 8.66711 2.36597C9.15115 1.76366 9.3248 1.22251 9.18288 0.756929C9.01673 0.212891 8.50327 0.0386603 8.445 0.0207757C8.40052 0.00706116 8.35424 6.0967e-05 8.30769 6.47047e-06C8.19803 -0.000155352 8.09189 0.038733 8.0083 0.109705C7.9247 0.180677 7.86911 0.279094 7.85148 0.387327C7.83384 0.495559 7.85532 0.606534 7.91206 0.700371C7.96881 0.794207 8.05711 0.864774 8.16115 0.899429C8.16115 0.899429 8.27653 0.943852 8.30134 1.02981C8.33307 1.1452 8.25692 1.40366 7.94827 1.78789C7.46423 2.3902 7.29057 2.93135 7.4325 3.39693V3.3975ZM11.5385 5.07693H0.461538C0.339131 5.07693 0.221737 5.12555 0.135181 5.21211C0.0486262 5.29866 0 5.41606 0 5.53847C0.00202789 6.63607 0.304092 7.71224 0.873525 8.65058C1.44296 9.58893 2.25809 10.3537 3.23077 10.8623V11.0769C3.23077 11.3217 3.32802 11.5565 3.50113 11.7296C3.67424 11.9027 3.90903 12 4.15384 12H7.84615C8.09097 12 8.32575 11.9027 8.49886 11.7296C8.67197 11.5565 8.76923 11.3217 8.76923 11.0769V10.8623C9.7419 10.3537 10.557 9.58893 11.1265 8.65058C11.6959 7.71224 11.998 6.63607 12 5.53847C12 5.41606 11.9514 5.29866 11.8648 5.21211C11.7783 5.12555 11.6609 5.07693 11.5385 5.07693Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_2175_68883\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","burger":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_1441_57275)\"><path d=\"M11.1672 7.48544L9.11374 8.23232L7.26515 7.49268C7.11707 7.43339 6.95186 7.43339 6.80378 7.49268L4.96554 8.22818L3.12729 7.49268C2.98562 7.43591 2.828 7.43333 2.68454 7.48544L0.408718 8.31301C0.3321 8.34086 0.261717 8.38352 0.201588 8.43857C0.14146 8.49362 0.0927627 8.55998 0.0582775 8.63385C-0.0113684 8.78303 -0.0188979 8.95377 0.0373453 9.10851C0.0935885 9.26325 0.208997 9.38931 0.358183 9.45895C0.507369 9.5286 0.678111 9.53613 0.832849 9.47988L1.25284 9.3273C1.30909 9.88905 1.57185 10.4099 1.9902 10.789C2.40856 11.1681 2.95273 11.3784 3.51728 11.3792H8.48272C9.08609 11.3785 9.66456 11.1385 10.0912 10.7118C10.5179 10.2852 10.7579 9.70671 10.7585 9.10334V8.95489L11.5913 8.65231C11.6679 8.62446 11.7383 8.5818 11.7984 8.52675C11.8585 8.4717 11.9072 8.40534 11.9417 8.33147C11.9762 8.2576 11.9958 8.17767 11.9994 8.09622C12.003 8.01478 11.9905 7.93343 11.9627 7.85681C11.9348 7.78019 11.8921 7.70981 11.8371 7.64968C11.782 7.58955 11.7157 7.54085 11.6418 7.50637C11.5679 7.47188 11.488 7.45229 11.4066 7.44869C11.3251 7.4451 11.2438 7.45759 11.1672 7.48544ZM8.48272 10.1378H3.51728C3.24293 10.1378 2.97981 10.0288 2.78581 9.83482C2.59181 9.64082 2.48282 9.3777 2.48282 9.10334V8.87989L2.88626 8.733L4.73485 9.47264C4.88293 9.53192 5.04814 9.53192 5.19622 9.47264L7.03446 8.73714L8.87271 9.47264C9.01438 9.52941 9.17201 9.53199 9.31546 9.47988L9.46494 9.42506C9.39716 9.63218 9.26571 9.8126 9.08932 9.9406C8.91294 10.0686 8.70064 10.1376 8.48272 10.1378ZM0.000104513 6.20684C0.000104513 6.04222 0.0654973 5.88435 0.181897 5.76795C0.298297 5.65155 0.456169 5.58616 0.620783 5.58616H11.3792C11.5438 5.58616 11.7017 5.65155 11.8181 5.76795C11.9345 5.88435 11.9999 6.04222 11.9999 6.20684C11.9999 6.37145 11.9345 6.52932 11.8181 6.64572C11.7017 6.76212 11.5438 6.82752 11.3792 6.82752H0.620783C0.456169 6.82752 0.298297 6.76212 0.181897 6.64572C0.0654973 6.52932 0.000104513 6.37145 0.000104513 6.20684ZM1.87249 4.96548H10.1275C10.2924 4.96535 10.455 4.92647 10.6022 4.852C10.7494 4.77752 10.877 4.66952 10.9747 4.53669C11.0702 4.40727 11.1336 4.25697 11.1595 4.09823C11.1854 3.93948 11.1731 3.77685 11.1237 3.62378C10.5579 1.85588 8.45116 0.620728 6 0.620728C3.54884 0.620728 1.44267 1.85536 0.876296 3.62326C0.826757 3.77631 0.81443 3.93897 0.840337 4.09774C0.866243 4.25651 0.929638 4.40681 1.02526 4.53618C1.12287 4.66922 1.25042 4.77741 1.39761 4.85199C1.5448 4.92657 1.70748 4.96545 1.87249 4.96548ZM6 1.86209C7.74307 1.86209 9.29012 2.63018 9.82752 3.72412H2.17248C2.7104 2.63018 4.25744 1.86209 6 1.86209Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_1441_57275\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","kebab":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7.55557 6C7.55557 6.30766 7.46434 6.60841 7.29341 6.86422C7.12248 7.12003 6.87954 7.31941 6.5953 7.43715C6.31106 7.55488 5.99829 7.58569 5.69654 7.52567C5.39479 7.46564 5.11762 7.31749 4.90007 7.09994C4.68252 6.8824 4.53437 6.60522 4.47435 6.30347C4.41433 6.00173 4.44513 5.68896 4.56287 5.40472C4.6806 5.12047 4.87998 4.87753 5.13579 4.7066C5.3916 4.53568 5.69235 4.44444 6.00001 4.44444C6.41257 4.44444 6.80823 4.60833 7.09996 4.90006C7.39168 5.19178 7.55557 5.58744 7.55557 6ZM6.00001 3.11111C6.30767 3.11111 6.60842 3.01988 6.86423 2.84895C7.12004 2.67803 7.31942 2.43508 7.43716 2.15084C7.5549 1.8666 7.5857 1.55383 7.52568 1.25208C7.46566 0.950334 7.31751 0.673161 7.09996 0.455612C6.88241 0.238064 6.60524 0.0899117 6.30349 0.0298903C6.00174 -0.0301312 5.68897 0.000673996 5.40473 0.11841C5.12049 0.236147 4.87754 0.435526 4.70662 0.691336C4.53569 0.947146 4.44446 1.2479 4.44446 1.55556C4.44446 1.96811 4.60835 2.36378 4.90007 2.6555C5.19179 2.94722 5.58746 3.11111 6.00001 3.11111ZM6.00001 8.88889C5.69235 8.88889 5.3916 8.98012 5.13579 9.15105C4.87998 9.32197 4.6806 9.56492 4.56287 9.84916C4.44513 10.1334 4.41433 10.4462 4.47435 10.7479C4.53437 11.0497 4.68252 11.3268 4.90007 11.5444C5.11762 11.7619 5.39479 11.9101 5.69654 11.9701C5.99829 12.0301 6.31106 11.9993 6.5953 11.8816C6.87954 11.7639 7.12248 11.5645 7.29341 11.3087C7.46434 11.0529 7.55557 10.7521 7.55557 10.4444C7.55557 10.0319 7.39168 9.63622 7.09996 9.3445C6.80823 9.05278 6.41257 8.88889 6.00001 8.88889Z\" fill=\"#FFED00\"/></svg>","veg":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_272_5986)\"><path d=\"M11.7158 0.504441C11.7086 0.382121 11.6568 0.266682 11.5702 0.180041C11.4835 0.0934007 11.3681 0.0415903 11.2458 0.034447C6.4877 -0.244924 2.6765 1.18756 1.05152 3.87502C0.488259 4.79433 0.210696 5.86021 0.254034 6.93748C0.282323 7.62637 0.422485 8.30607 0.669029 8.94995C0.683516 8.98958 0.707796 9.02489 0.739608 9.05261C0.77142 9.08032 0.809728 9.09954 0.850965 9.10846C0.892203 9.11738 0.935027 9.11572 0.97545 9.10363C1.01587 9.09154 1.05258 9.06942 1.08215 9.03933L6.39458 3.64565C6.44103 3.59919 6.49618 3.56234 6.55688 3.5372C6.61757 3.51206 6.68263 3.49912 6.74832 3.49912C6.81402 3.49912 6.87907 3.51206 6.93977 3.5372C7.00046 3.56234 7.05561 3.59919 7.10207 3.64565C7.14852 3.6921 7.18537 3.74725 7.21051 3.80795C7.23565 3.86864 7.24859 3.9337 7.24859 3.99939C7.24859 4.06509 7.23565 4.13014 7.21051 4.19084C7.18537 4.25154 7.14852 4.30668 7.10207 4.35314L1.29652 10.2462L0.409657 11.133C0.317425 11.2228 0.262361 11.3441 0.255413 11.4726C0.248465 11.6011 0.290142 11.7276 0.372158 11.8268C0.417074 11.8788 0.472231 11.921 0.534184 11.9507C0.596138 11.9805 0.663558 11.9971 0.732236 11.9997C0.800913 12.0022 0.869373 11.9905 0.933342 11.9654C0.99731 11.9403 1.05541 11.9022 1.10402 11.8537L2.15338 10.8043C3.03712 11.2318 3.92899 11.4649 4.81335 11.4962C4.88293 11.4987 4.9523 11.4999 5.02147 11.4999C6.02858 11.5025 7.01659 11.2251 7.87518 10.6987C10.5626 9.0737 11.9958 5.26313 11.7158 0.504441Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_272_5986\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","fire":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M6.85446 0.102689C6.79967 0.0571368 6.73473 0.0254253 6.66512 0.0102276C6.59551 -0.00497003 6.52326 -0.00320833 6.45447 0.0153641C6.38568 0.0339366 6.32237 0.0687755 6.26987 0.116944C6.21736 0.165112 6.17721 0.225197 6.15279 0.292134L4.93056 3.64827L3.58832 2.34771C3.54325 2.30399 3.48942 2.27031 3.43038 2.24891C3.37135 2.2275 3.30845 2.21885 3.24583 2.22353C3.1832 2.2282 3.12228 2.24609 3.06708 2.27601C3.01187 2.30594 2.96363 2.34723 2.92554 2.39715C1.7222 3.97383 1.11108 5.55995 1.11108 7.11107C1.11108 8.4077 1.62617 9.65122 2.54302 10.5681C3.45987 11.4849 4.70339 12 6.00001 12C7.29663 12 8.54015 11.4849 9.457 10.5681C10.3739 9.65122 10.8889 8.4077 10.8889 7.11107C10.8889 3.80827 8.06725 1.11103 6.85446 0.102689ZM9.10503 7.62997C8.98979 8.2737 8.68008 8.86666 8.21761 9.32904C7.75513 9.79141 7.1621 10.101 6.51835 10.2161C6.49394 10.2203 6.46922 10.2223 6.44446 10.2222C6.33297 10.2222 6.22557 10.1803 6.14355 10.1047C6.06153 10.0292 6.01088 9.92566 6.00165 9.81456C5.99242 9.70345 6.02528 9.59294 6.09372 9.50493C6.16216 9.41692 6.26117 9.35785 6.37112 9.33943C7.29169 9.18442 8.0728 8.40331 8.22892 7.48108C8.24866 7.36482 8.31378 7.26117 8.40994 7.19293C8.50611 7.12469 8.62544 7.09744 8.7417 7.11719C8.85795 7.13693 8.9616 7.20205 9.02984 7.29821C9.09809 7.39438 9.12533 7.51371 9.10559 7.62997H9.10503Z\" fill=\"#FFED00\"/></svg>","star":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_254_4194)\"><path d=\"M11.6975 5.50986L9.28541 7.59125L10.0203 10.704C10.0608 10.8729 10.0504 11.0501 9.9903 11.2132C9.93019 11.3762 9.8231 11.5178 9.68257 11.62C9.54204 11.7222 9.37437 11.7805 9.20074 11.7874C9.02711 11.7944 8.85531 11.7498 8.70704 11.6592L6.00011 9.99318L3.29157 11.6592C3.14332 11.7493 2.97172 11.7935 2.79839 11.7862C2.62506 11.779 2.45774 11.7207 2.3175 11.6185C2.17727 11.5164 2.07038 11.3751 2.01031 11.2123C1.95023 11.0496 1.93966 10.8727 1.97991 10.704L2.71748 7.59125L0.305367 5.50986C0.174201 5.3965 0.0793386 5.247 0.032628 5.08005C-0.0140826 4.91309 -0.0105715 4.73607 0.0427227 4.5711C0.096017 4.40613 0.196733 4.26051 0.332291 4.15244C0.46785 4.04437 0.632244 3.97862 0.804944 3.96342L3.9675 3.70828L5.18749 0.755845C5.25353 0.594939 5.36592 0.457304 5.51038 0.360439C5.65484 0.263574 5.82484 0.211853 5.99877 0.211853C6.1727 0.211853 6.3427 0.263574 6.48716 0.360439C6.63162 0.457304 6.74401 0.594939 6.81004 0.755845L8.0295 3.70828L11.1921 3.96342C11.3651 3.97806 11.53 4.04343 11.666 4.15136C11.8021 4.25928 11.9033 4.40496 11.9569 4.57013C12.0105 4.7353 12.0142 4.91263 11.9675 5.07989C11.9208 5.24715 11.8258 5.3969 11.6943 5.5104L11.6975 5.50986Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_254_4194\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","kids":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_326_15094)\"><path d=\"M6.35781 0.00281847C6.31741 0.000702597 6.27716 0.00923987 6.2411 0.0275751C6.20504 0.0459103 6.17443 0.0733996 6.15233 0.10729C5.55783 1.00597 5.54051 1.83193 5.54051 1.84405C5.54079 1.91277 5.55639 1.98055 5.58619 2.04247C5.61599 2.10439 5.65923 2.15888 5.71277 2.20196C5.7663 2.24504 5.82877 2.27563 5.89563 2.2915C5.96249 2.30737 6.03205 2.30811 6.09923 2.29368C6.20409 2.26856 6.29731 2.20856 6.36359 2.12351C6.42987 2.03845 6.46528 1.9334 6.46402 1.82558C6.46622 1.76242 6.48137 1.70039 6.50852 1.64332C6.53568 1.58625 6.57425 1.53537 6.62187 1.49381C6.66948 1.45226 6.72512 1.42092 6.78534 1.40174C6.84555 1.38256 6.90907 1.37594 6.97194 1.3823C7.08782 1.39575 7.19456 1.45184 7.27137 1.53964C7.34819 1.62744 7.38959 1.74068 7.38752 1.85733C7.38545 2.22472 7.23752 2.57624 6.97628 2.83457C6.71503 3.09289 6.36187 3.23685 5.99447 3.23479C5.62708 3.23272 5.27556 3.08479 5.01723 2.82355C4.75891 2.5623 4.61495 2.20913 4.61701 1.84174C4.61701 1.80538 4.62221 1.21953 4.931 0.456489C4.94664 0.417443 4.95132 0.374866 4.94452 0.333356C4.93773 0.291847 4.91973 0.252982 4.89246 0.220958C4.86519 0.188934 4.82968 0.164969 4.78979 0.15165C4.74989 0.138331 4.70711 0.136164 4.66607 0.145384C3.30556 0.457899 2.0962 1.23412 1.24547 2.34087C0.39473 3.44763 -0.0443534 4.81594 0.00354197 6.21106C0.114939 9.38906 2.72556 11.9449 5.9053 11.9968C7.47387 12.0208 8.98952 11.4298 10.1278 10.3504C11.2661 9.27089 11.9366 7.78869 11.9957 6.22106C12.0549 4.65342 11.498 3.12492 10.4443 1.96274C9.39054 0.800555 7.92373 0.0970524 6.35781 0.00281847ZM3.23176 5.99462C3.23176 5.85763 3.27238 5.72371 3.34849 5.60981C3.42459 5.49591 3.53277 5.40714 3.65933 5.35471C3.78589 5.30229 3.92515 5.28857 4.05951 5.3153C4.19387 5.34202 4.31728 5.40799 4.41415 5.50485C4.51101 5.60172 4.57698 5.72513 4.6037 5.85949C4.63043 5.99385 4.61671 6.13311 4.56429 6.25967C4.51187 6.38623 4.42309 6.49441 4.30919 6.57051C4.19529 6.64662 4.06137 6.68724 3.92439 6.68724C3.74069 6.68724 3.56452 6.61427 3.43462 6.48438C3.30473 6.35448 3.23176 6.17831 3.23176 5.99462ZM7.86485 9.15588C7.30605 9.50423 6.66076 9.68889 6.00226 9.68889C5.34377 9.68889 4.69848 9.50423 4.13968 9.15588C4.03604 9.09051 3.96262 8.98666 3.93556 8.86715C3.9085 8.74765 3.93001 8.6223 3.99538 8.51866C4.06074 8.41503 4.1646 8.3416 4.2841 8.31454C4.4036 8.28748 4.52896 8.309 4.6326 8.37436C5.04385 8.62961 5.51824 8.76485 6.00226 8.76485C6.48629 8.76485 6.96068 8.62961 7.37193 8.37436C7.42325 8.342 7.48044 8.32006 7.54023 8.30979C7.60003 8.29953 7.66126 8.30114 7.72043 8.31454C7.7796 8.32794 7.83555 8.35286 7.88509 8.38789C7.93463 8.42291 7.97679 8.46735 8.00915 8.51866C8.04152 8.56998 8.06346 8.62716 8.07372 8.68696C8.08399 8.74675 8.08237 8.80798 8.06897 8.86715C8.05557 8.92633 8.03065 8.98228 7.99563 9.03182C7.96061 9.08136 7.91617 9.12351 7.86485 9.15588ZM8.08014 6.68724C7.94316 6.68724 7.80924 6.64662 7.69534 6.57051C7.58144 6.49441 7.49266 6.38623 7.44024 6.25967C7.38782 6.13311 7.3741 5.99385 7.40083 5.85949C7.42755 5.72513 7.49352 5.60172 7.59038 5.50485C7.68725 5.40799 7.81066 5.34202 7.94502 5.3153C8.07938 5.28857 8.21864 5.30229 8.3452 5.35471C8.47176 5.40714 8.57994 5.49591 8.65604 5.60981C8.73215 5.72371 8.77277 5.85763 8.77277 5.99462C8.77277 6.17831 8.6998 6.35448 8.56991 6.48438C8.44001 6.61427 8.26384 6.68724 8.08014 6.68724Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_326_15094\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","dog":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_326_15090)\"><path d=\"M12 4.92348C12 5.22015 11.912 5.51016 11.7472 5.75683C11.5824 6.00351 11.3481 6.19577 11.074 6.3093C10.7999 6.42283 10.4983 6.45254 10.2074 6.39466C9.91639 6.33678 9.64912 6.19392 9.43934 5.98414C9.22956 5.77436 9.0867 5.50709 9.02882 5.21611C8.97094 4.92514 9.00065 4.62354 9.11418 4.34945C9.22771 4.07537 9.41997 3.8411 9.66665 3.67628C9.91332 3.51145 10.2033 3.42348 10.5 3.42348C10.8978 3.42348 11.2794 3.58152 11.5607 3.86282C11.842 4.14412 12 4.52565 12 4.92348ZM3 4.92348C3 4.62681 2.91203 4.3368 2.74721 4.09012C2.58238 3.84345 2.34811 3.65119 2.07403 3.53766C1.79994 3.42413 1.49834 3.39442 1.20737 3.4523C0.916394 3.51018 0.649119 3.65304 0.439341 3.86282C0.229562 4.0726 0.0867006 4.33987 0.0288228 4.63084C-0.0290551 4.92181 0.000649925 5.22341 0.114181 5.4975C0.227713 5.77159 0.419972 6.00586 0.666645 6.17068C0.913319 6.33551 1.20333 6.42348 1.5 6.42348C1.89783 6.42348 2.27936 6.26544 2.56066 5.98414C2.84197 5.70283 3 5.3213 3 4.92348ZM4.07143 3.85205C4.3681 3.85205 4.65811 3.76408 4.90478 3.59926C5.15146 3.43443 5.34372 3.20017 5.45725 2.92608C5.57078 2.65199 5.60048 2.35039 5.54261 2.05942C5.48473 1.76844 5.34187 1.50117 5.13209 1.29139C4.92231 1.08161 4.65504 0.938751 4.36406 0.880874C4.07309 0.822996 3.77149 0.852701 3.4974 0.966232C3.22332 1.07976 2.98905 1.27202 2.82422 1.5187C2.6594 1.76537 2.57143 2.05538 2.57143 2.35205C2.57143 2.74988 2.72946 3.13141 3.01077 3.41271C3.29207 3.69402 3.6736 3.85205 4.07143 3.85205ZM7.92857 3.85205C8.22524 3.85205 8.51525 3.76408 8.76193 3.59926C9.0086 3.43443 9.20086 3.20017 9.31439 2.92608C9.42792 2.65199 9.45763 2.35039 9.39975 2.05942C9.34187 1.76844 9.19901 1.50117 8.98923 1.29139C8.77945 1.08161 8.51218 0.938751 8.22121 0.880874C7.93024 0.822996 7.62864 0.852701 7.35455 0.966232C7.08046 1.07976 6.84619 1.27202 6.68137 1.5187C6.51655 1.76537 6.42857 2.05538 6.42857 2.35205C6.42857 2.74988 6.58661 3.13141 6.86791 3.41271C7.14922 3.69402 7.53075 3.85205 7.92857 3.85205ZM9.16714 7.11241C8.94945 6.99231 8.75758 6.83047 8.6025 6.63614C8.44743 6.44182 8.33219 6.21882 8.26339 5.97991C8.1209 5.48986 7.8232 5.0593 7.41505 4.75293C7.0069 4.44656 6.51034 4.28093 6 4.28093C5.48966 4.28093 4.9931 4.44656 4.58495 4.75293C4.1768 5.0593 3.87911 5.48986 3.73661 5.97991C3.59896 6.46064 3.27626 6.86715 2.83929 7.11027C2.4201 7.33709 2.0885 7.69719 1.89693 8.13361C1.70535 8.57003 1.66475 9.05787 1.78153 9.51996C1.89831 9.98205 2.16582 10.392 2.54174 10.685C2.91765 10.978 3.38053 11.1373 3.85714 11.1378C4.14277 11.1386 4.42559 11.0815 4.68857 10.9701C5.527 10.6243 6.46818 10.6243 7.30661 10.9701C7.81444 11.191 8.38806 11.2066 8.9072 11.0139C9.42635 10.8211 9.8507 10.4348 10.0913 9.93602C10.3319 9.43723 10.37 8.86467 10.1978 8.33836C10.0255 7.81206 9.65612 7.3729 9.16714 7.11294V7.11241Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_326_15090\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","party":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_904_33643)\"><path d=\"M4.41458 2.47944C4.31019 2.37533 4.18127 2.29919 4.0397 2.25804C3.89812 2.2169 3.74847 2.21207 3.60454 2.24401C3.46061 2.27595 3.32705 2.34363 3.21617 2.4408C3.1053 2.53797 3.02068 2.66151 2.97013 2.8L0.054024 10.8211C0.00611929 10.9534 -0.0093545 11.0952 0.00890145 11.2347C0.0271574 11.3742 0.0786103 11.5073 0.158941 11.6228C0.239272 11.7383 0.346136 11.8328 0.470563 11.8984C0.59499 11.9641 0.733348 11.9989 0.874024 12C0.9776 11.9993 1.08026 11.9805 1.17736 11.9444L9.19791 9.02778C9.33645 8.97729 9.46004 8.89273 9.55727 8.78188C9.6545 8.67103 9.72224 8.53747 9.75424 8.39354C9.78624 8.2496 9.78146 8.09993 9.74035 7.95832C9.69924 7.81672 9.62312 7.68776 9.51902 7.58333L4.41458 2.47944ZM1.83958 8.50722L2.90625 5.57444L6.42402 9.09222L3.49069 10.1589L1.83958 8.50722ZM7.10958 3.55556C7.11793 3.25509 7.19068 2.95993 7.32291 2.69C7.61736 2.10167 8.17291 1.77778 8.88736 1.77778C9.25958 1.77778 9.49847 1.65056 9.64569 1.37722C9.72321 1.2243 9.76769 1.05679 9.77625 0.885556C9.77669 0.767682 9.82394 0.654811 9.9076 0.571774C9.99126 0.488737 10.1045 0.442336 10.2224 0.442778C10.3402 0.44322 10.4531 0.490469 10.5361 0.574131C10.6192 0.657793 10.6656 0.771015 10.6651 0.888889C10.6651 1.60333 10.1918 2.66667 8.88736 2.66667C8.51513 2.66667 8.27625 2.79389 8.12902 3.06722C8.0515 3.22014 8.00702 3.38766 7.99847 3.55889C7.99825 3.61725 7.98654 3.675 7.964 3.72884C7.94146 3.78268 7.90854 3.83155 7.86711 3.87267C7.82569 3.91379 7.77657 3.94634 7.72257 3.96847C7.66856 3.99061 7.61072 4.00189 7.55236 4.00167C7.49399 4.00145 7.43624 3.98974 7.3824 3.9672C7.32856 3.94466 7.27969 3.91174 7.23857 3.87031C7.19746 3.82889 7.16491 3.77977 7.14277 3.72576C7.12064 3.67176 7.10936 3.61392 7.10958 3.55556ZM5.77625 1.77778V0.444444C5.77625 0.32657 5.82307 0.213524 5.90642 0.130175C5.98977 0.0468252 6.10282 0 6.22069 0C6.33856 0 6.45161 0.0468252 6.53496 0.130175C6.61831 0.213524 6.66513 0.32657 6.66513 0.444444V1.77778C6.66513 1.89565 6.61831 2.0087 6.53496 2.09205C6.45161 2.1754 6.33856 2.22222 6.22069 2.22222C6.10282 2.22222 5.98977 2.1754 5.90642 2.09205C5.82307 2.0087 5.77625 1.89565 5.77625 1.77778ZM11.424 6.35222C11.4653 6.39352 11.498 6.44253 11.5203 6.49647C11.5426 6.55041 11.5541 6.60821 11.5541 6.66659C11.554 6.72496 11.5425 6.78275 11.5202 6.83667C11.4978 6.89059 11.465 6.93958 11.4237 6.98083C11.3825 7.02209 11.3334 7.05481 11.2795 7.07712C11.2256 7.09944 11.1678 7.11091 11.1094 7.11088C11.051 7.11086 10.9932 7.09934 10.9393 7.07697C10.8854 7.05461 10.8364 7.02185 10.7951 6.98056L9.90625 6.09167C9.82285 6.00827 9.776 5.89516 9.776 5.77722C9.776 5.65928 9.82285 5.54617 9.90625 5.46278C9.98964 5.37938 10.1027 5.33253 10.2207 5.33253C10.3386 5.33253 10.4517 5.37938 10.5351 5.46278L11.424 6.35222ZM11.6946 3.97722L10.3612 4.42167C10.2494 4.45894 10.1274 4.45027 10.0219 4.39755C9.91648 4.34483 9.8363 4.25239 9.79902 4.14056C9.76175 4.02872 9.77042 3.90666 9.82314 3.80122C9.87586 3.69579 9.9683 3.61561 10.0801 3.57833L11.4135 3.13389C11.5253 3.09661 11.6474 3.10529 11.7528 3.158C11.8582 3.21072 11.9384 3.30317 11.9757 3.415C12.013 3.52683 12.0043 3.64889 11.9516 3.75433C11.8989 3.85977 11.8064 3.93994 11.6946 3.97722Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_904_33643\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","sun":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_366_16963)\"><path d=\"M5.6 1.6V0.4C5.6 0.293913 5.64214 0.192172 5.71716 0.117157C5.79217 0.0421427 5.89391 0 6 0C6.10609 0 6.20783 0.0421427 6.28284 0.117157C6.35786 0.192172 6.4 0.293913 6.4 0.4V1.6C6.4 1.70609 6.35786 1.80783 6.28284 1.88284C6.20783 1.95786 6.10609 2 6 2C5.89391 2 5.79217 1.95786 5.71716 1.88284C5.64214 1.80783 5.6 1.70609 5.6 1.6ZM6 2.8C5.3671 2.8 4.74841 2.98768 4.22218 3.3393C3.69594 3.69092 3.28579 4.19069 3.04359 4.77541C2.80139 5.36014 2.73801 6.00355 2.86149 6.62429C2.98496 7.24503 3.28973 7.81521 3.73726 8.26274C4.18479 8.71027 4.75497 9.01504 5.37571 9.13851C5.99645 9.26199 6.63986 9.19862 7.22459 8.95642C7.80931 8.71421 8.30908 8.30406 8.6607 7.77782C9.01232 7.25159 9.2 6.6329 9.2 6C9.19907 5.15159 8.86163 4.3382 8.26172 3.73828C7.6618 3.13837 6.84841 2.80093 6 2.8ZM2.517 3.083C2.59206 3.15806 2.69385 3.20022 2.8 3.20022C2.90615 3.20022 3.00794 3.15806 3.083 3.083C3.15806 3.00794 3.20022 2.90615 3.20022 2.8C3.20022 2.69385 3.15806 2.59206 3.083 2.517L2.283 1.717C2.20794 1.64194 2.10615 1.59978 2 1.59978C1.89385 1.59978 1.79206 1.64194 1.717 1.717C1.64194 1.79206 1.59978 1.89385 1.59978 2C1.59978 2.10615 1.64194 2.20794 1.717 2.283L2.517 3.083ZM2.517 8.917L1.717 9.717C1.64194 9.79206 1.59978 9.89385 1.59978 10C1.59978 10.1061 1.64194 10.2079 1.717 10.283C1.79206 10.3581 1.89385 10.4002 2 10.4002C2.10615 10.4002 2.20794 10.3581 2.283 10.283L3.083 9.483C3.12016 9.44584 3.14964 9.40172 3.16976 9.35316C3.18987 9.3046 3.20022 9.25256 3.20022 9.2C3.20022 9.14744 3.18987 9.0954 3.16976 9.04684C3.14964 8.99828 3.12016 8.95416 3.083 8.917C3.04584 8.87984 3.00172 8.85036 2.95316 8.83024C2.9046 8.81013 2.85256 8.79978 2.8 8.79978C2.74744 8.79978 2.6954 8.81013 2.64684 8.83024C2.59828 8.85036 2.55416 8.87984 2.517 8.917ZM9.2 3.2C9.25254 3.20004 9.30458 3.18973 9.35314 3.16965C9.4017 3.14958 9.44583 3.12013 9.483 3.083L10.283 2.283C10.3581 2.20794 10.4002 2.10615 10.4002 2C10.4002 1.89385 10.3581 1.79206 10.283 1.717C10.2079 1.64194 10.1061 1.59978 10 1.59978C9.89385 1.59978 9.79206 1.64194 9.717 1.717L8.917 2.517C8.861 2.57294 8.82285 2.64424 8.80739 2.72188C8.79193 2.79951 8.79985 2.87999 8.83015 2.95312C8.86045 3.02625 8.91177 3.08874 8.97761 3.13269C9.04344 3.17664 9.12084 3.20006 9.2 3.2ZM9.483 8.917C9.40794 8.84194 9.30615 8.79978 9.2 8.79978C9.09385 8.79978 8.99206 8.84194 8.917 8.917C8.84194 8.99206 8.79978 9.09385 8.79978 9.2C8.79978 9.30615 8.84194 9.40794 8.917 9.483L9.717 10.283C9.75416 10.3202 9.79828 10.3496 9.84684 10.3698C9.8954 10.3899 9.94744 10.4002 10 10.4002C10.0526 10.4002 10.1046 10.3899 10.1532 10.3698C10.2017 10.3496 10.2458 10.3202 10.283 10.283C10.3202 10.2458 10.3496 10.2017 10.3698 10.1532C10.3899 10.1046 10.4002 10.0526 10.4002 10C10.4002 9.94744 10.3899 9.8954 10.3698 9.84684C10.3496 9.79828 10.3202 9.75416 10.283 9.717L9.483 8.917ZM2 6C2 5.89391 1.95786 5.79217 1.88284 5.71716C1.80783 5.64214 1.70609 5.6 1.6 5.6H0.4C0.293913 5.6 0.192172 5.64214 0.117157 5.71716C0.0421427 5.79217 0 5.89391 0 6C0 6.10609 0.0421427 6.20783 0.117157 6.28284C0.192172 6.35786 0.293913 6.4 0.4 6.4H1.6C1.70609 6.4 1.80783 6.35786 1.88284 6.28284C1.95786 6.20783 2 6.10609 2 6ZM6 10C5.89391 10 5.79217 10.0421 5.71716 10.1172C5.64214 10.1922 5.6 10.2939 5.6 10.4V11.6C5.6 11.7061 5.64214 11.8078 5.71716 11.8828C5.79217 11.9579 5.89391 12 6 12C6.10609 12 6.20783 11.9579 6.28284 11.8828C6.35786 11.8078 6.4 11.7061 6.4 11.6V10.4C6.4 10.2939 6.35786 10.1922 6.28284 10.1172C6.20783 10.0421 6.10609 10 6 10ZM11.6 5.6H10.4C10.2939 5.6 10.1922 5.64214 10.1172 5.71716C10.0421 5.79217 10 5.89391 10 6C10 6.10609 10.0421 6.20783 10.1172 6.28284C10.1922 6.35786 10.2939 6.4 10.4 6.4H11.6C11.7061 6.4 11.8078 6.35786 11.8828 6.28284C11.9579 6.20783 12 6.10609 12 6C12 5.89391 11.9579 5.79217 11.8828 5.71716C11.8078 5.64214 11.7061 5.6 11.6 5.6Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_366_16963\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","Bell":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_52_3208)\"><path d=\"M0 9.00004C0 8.88637 0.0451529 8.77736 0.125526 8.69699C0.205898 8.61662 0.314907 8.57146 0.428571 8.57146H0.857143V7.71432C0.858704 6.42502 1.34388 5.18322 2.21676 4.23435C3.08965 3.28548 4.28674 2.69859 5.57143 2.58968V1.71432H4.71429C4.60062 1.71432 4.49161 1.66917 4.41124 1.58879C4.33087 1.50842 4.28571 1.39941 4.28571 1.28575C4.28571 1.17208 4.33087 1.06308 4.41124 0.982703C4.49161 0.902331 4.60062 0.857178 4.71429 0.857178H7.28571C7.39938 0.857178 7.50839 0.902331 7.58876 0.982703C7.66913 1.06308 7.71429 1.17208 7.71429 1.28575C7.71429 1.39941 7.66913 1.50842 7.58876 1.58879C7.50839 1.66917 7.39938 1.71432 7.28571 1.71432H6.42857V2.58968C7.71326 2.69859 8.91035 3.28548 9.78324 4.23435C10.6561 5.18322 11.1413 6.42502 11.1429 7.71432V8.57146H11.5714C11.6851 8.57146 11.7941 8.61662 11.8745 8.69699C11.9548 8.77736 12 8.88637 12 9.00004C12 9.1137 11.9548 9.22271 11.8745 9.30308C11.7941 9.38345 11.6851 9.42861 11.5714 9.42861H0.428571C0.314907 9.42861 0.205898 9.38345 0.125526 9.30308C0.0451529 9.22271 0 9.1137 0 9.00004ZM11.5714 10.2857H0.428571C0.314907 10.2857 0.205898 10.3309 0.125526 10.4113C0.0451529 10.4916 0 10.6007 0 10.7143C0 10.828 0.0451529 10.937 0.125526 11.0174C0.205898 11.0977 0.314907 11.1429 0.428571 11.1429H11.5714C11.6851 11.1429 11.7941 11.0977 11.8745 11.0174C11.9548 10.937 12 10.828 12 10.7143C12 10.6007 11.9548 10.4916 11.8745 10.4113C11.7941 10.3309 11.6851 10.2857 11.5714 10.2857Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_52_3208\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","wifi":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M6.82762 9.72442C6.82762 9.88811 6.77908 10.0481 6.68814 10.1842C6.5972 10.3203 6.46794 10.4264 6.31672 10.489C6.16549 10.5517 5.99908 10.5681 5.83854 10.5361C5.678 10.5042 5.53053 10.4254 5.41479 10.3096C5.29904 10.1939 5.22022 10.0464 5.18828 9.88588C5.15635 9.72534 5.17274 9.55893 5.23538 9.4077C5.29802 9.25648 5.4041 9.12722 5.5402 9.03628C5.6763 8.94534 5.83631 8.8968 6 8.8968C6.2195 8.8968 6.43001 8.984 6.58521 9.13921C6.74042 9.29441 6.82762 9.50492 6.82762 9.72442ZM11.7732 3.51263C10.1454 2.17761 8.10522 1.448 6 1.448C3.89478 1.448 1.85463 2.17761 0.226849 3.51263C0.163846 3.56436 0.111648 3.62799 0.0732362 3.69989C0.0348241 3.77179 0.0109499 3.85055 0.00297654 3.93167C-0.0049968 4.0128 0.00308698 4.0947 0.0267663 4.1727C0.0504455 4.25071 0.0892566 4.32328 0.140984 4.38628C0.19271 4.44929 0.25634 4.50149 0.32824 4.5399C0.40014 4.57831 0.478901 4.60218 0.560027 4.61016C0.641154 4.61813 0.723056 4.61005 0.801058 4.58637C0.87906 4.56269 0.951635 4.52388 1.01464 4.47215C2.42036 3.31946 4.1821 2.6895 6 2.6895C7.8179 2.6895 9.57964 3.31946 10.9854 4.47215C11.0484 4.52388 11.1209 4.56269 11.1989 4.58637C11.2769 4.61005 11.3588 4.61813 11.44 4.61016C11.5211 4.60218 11.5999 4.57831 11.6718 4.5399C11.7437 4.50149 11.8073 4.44929 11.859 4.38628C11.9107 4.32328 11.9496 4.25071 11.9732 4.1727C11.9969 4.0947 12.005 4.0128 11.997 3.93167C11.989 3.85055 11.9652 3.77179 11.9268 3.69989C11.8884 3.62799 11.8362 3.56436 11.7732 3.51263ZM10.1096 5.3608C8.93997 4.43481 7.49184 3.93098 6 3.93098C4.50816 3.93098 3.06003 4.43481 1.89036 5.3608C1.76456 5.46407 1.68434 5.61261 1.667 5.77444C1.64965 5.93626 1.69656 6.09843 1.79762 6.22601C1.89868 6.35359 2.0458 6.43637 2.2073 6.45653C2.36881 6.47668 2.53176 6.4326 2.66108 6.33377C3.61141 5.58148 4.78795 5.17217 6 5.17217C7.21205 5.17217 8.38859 5.58148 9.33892 6.33377C9.46824 6.4326 9.63119 6.47668 9.7927 6.45653C9.9542 6.43637 10.1013 6.35359 10.2024 6.22601C10.3034 6.09843 10.3504 5.93626 10.333 5.77444C10.3157 5.61261 10.2354 5.46407 10.1096 5.3608ZM8.43475 7.20536C7.72715 6.69096 6.87481 6.41389 6 6.41389C5.12519 6.41389 4.27285 6.69096 3.56525 7.20536C3.43218 7.30235 3.34309 7.44823 3.31758 7.61091C3.29207 7.77358 3.33222 7.93973 3.42921 8.0728C3.5262 8.20588 3.67208 8.29497 3.83476 8.32048C3.99744 8.34599 4.16359 8.30583 4.29666 8.20884C4.79168 7.84895 5.38798 7.6551 6 7.6551C6.61202 7.6551 7.20832 7.84895 7.70334 8.20884C7.76923 8.25687 7.84393 8.29145 7.92319 8.3106C8.00244 8.32975 8.08469 8.33311 8.16524 8.32048C8.24579 8.30785 8.32306 8.27947 8.39265 8.23698C8.46223 8.19448 8.52276 8.13869 8.57079 8.0728C8.61881 8.00692 8.65339 7.93221 8.67254 7.85296C8.6917 7.77371 8.69506 7.69146 8.68242 7.61091C8.66979 7.53036 8.64141 7.45308 8.59892 7.3835C8.55642 7.31392 8.50064 7.25338 8.43475 7.20536Z\" fill=\"#FFED00\"/></svg>","pin":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M5.99998 0C4.75009 0.00141791 3.55181 0.498561 2.66801 1.38236C1.7842 2.26616 1.28706 3.46445 1.28564 4.71433C1.28564 8.7483 5.5714 11.7949 5.75408 11.9224C5.82614 11.9729 5.91199 12 5.99998 12C6.08796 12 6.17381 11.9729 6.24587 11.9224C6.42855 11.7949 10.7143 8.7483 10.7143 4.71433C10.7129 3.46445 10.2157 2.26616 9.33195 1.38236C8.44815 0.498561 7.24986 0.00141791 5.99998 0ZM5.99998 3.00003C6.33903 3.00003 6.67048 3.10057 6.95239 3.28894C7.23431 3.47731 7.45404 3.74505 7.58379 4.0583C7.71354 4.37155 7.74749 4.71623 7.68134 5.04878C7.61519 5.38132 7.45192 5.68678 7.21217 5.92653C6.97242 6.16628 6.66696 6.32955 6.33442 6.3957C6.00188 6.46184 5.65719 6.42789 5.34394 6.29814C5.03069 6.16839 4.76296 5.94866 4.57459 5.66675C4.38622 5.38483 4.28567 5.05339 4.28567 4.71433C4.28567 4.25967 4.46629 3.82363 4.78778 3.50214C5.10928 3.18064 5.54532 3.00003 5.99998 3.00003Z\" fill=\"#FFED00\"/></svg>","map":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_1231_56950)\"><path d=\"M6 0C4.81331 0 3.65328 0.351894 2.66658 1.01118C1.67989 1.67047 0.910851 2.60754 0.456725 3.7039C0.00259972 4.80026 -0.11622 6.00665 0.115291 7.17054C0.346802 8.33443 0.918247 9.40352 1.75736 10.2426C2.59648 11.0818 3.66557 11.6532 4.82946 11.8847C5.99335 12.1162 7.19974 11.9974 8.2961 11.5433C9.39246 11.0891 10.3295 10.3201 10.9888 9.33342C11.6481 8.34672 12 7.18669 12 6C11.9982 4.40924 11.3655 2.88414 10.2407 1.75931C9.11586 0.634472 7.59076 0.00176457 6 0ZM6 10.6667C5.07702 10.6667 4.17477 10.393 3.40734 9.88019C2.63991 9.36741 2.04177 8.63858 1.68856 7.78585C1.33536 6.93313 1.24294 5.99482 1.423 5.08958C1.60307 4.18433 2.04753 3.35281 2.70017 2.70017C3.35282 2.04752 4.18434 1.60307 5.08958 1.423C5.99482 1.24294 6.93314 1.33535 7.78586 1.68856C8.63858 2.04177 9.36741 2.63991 9.88019 3.40734C10.393 4.17477 10.6667 5.07702 10.6667 6C10.6653 7.23727 10.1733 8.42348 9.29837 9.29837C8.42349 10.1733 7.23727 10.6653 6 10.6667ZM7.95945 3.16667L4.84833 4.5C4.69108 4.56743 4.56576 4.69274 4.49833 4.85L3.165 7.96111C3.11345 8.08345 3.09961 8.2184 3.12524 8.34866C3.15087 8.47893 3.2148 8.59857 3.30886 8.69226C3.40291 8.78596 3.5228 8.84944 3.65316 8.87457C3.78352 8.89971 3.91841 8.88535 4.04056 8.83333L7.15167 7.5C7.30893 7.43257 7.43424 7.30726 7.50167 7.15L8.835 4.03889C8.88655 3.91654 8.90039 3.7816 8.87477 3.65133C8.84914 3.52107 8.7852 3.40143 8.69114 3.30773C8.59709 3.21404 8.4772 3.15056 8.34684 3.12542C8.21649 3.10029 8.08159 3.11465 7.95945 3.16667ZM6.38111 6.38278L5.04778 6.95444L5.61945 5.62111L6.95278 5.04944L6.38111 6.38278Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_1231_56950\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","phone":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_265_3491)\"><path d=\"M11.993 9.06477C11.886 9.87779 11.4867 10.6241 10.8697 11.1642C10.2527 11.7044 9.46018 12.0015 8.64015 12C3.8761 12 6.64644e-05 8.12396 6.64644e-05 3.35991C-0.00140354 2.53988 0.295682 1.74735 0.835835 1.13035C1.37599 0.513345 2.12227 0.114064 2.93529 0.00707865C3.14089 -0.018025 3.34909 0.024036 3.52881 0.126983C3.70854 0.22993 3.85015 0.388241 3.9325 0.578284L5.19972 3.40731V3.41451C5.26277 3.55999 5.28881 3.71881 5.27551 3.8768C5.26222 4.03479 5.21 4.18703 5.12352 4.31992C5.11272 4.33612 5.10132 4.35112 5.08932 4.36612L3.8401 5.84693C4.28951 6.76014 5.24472 7.70695 6.16993 8.15756L7.63034 6.91495C7.64468 6.90289 7.65971 6.89167 7.67534 6.88135C7.80812 6.79279 7.96088 6.73873 8.11981 6.72406C8.27873 6.70939 8.43881 6.73458 8.58555 6.79734L8.59335 6.80094L11.42 8.06756C11.6104 8.14962 11.7691 8.29111 11.8723 8.47086C11.9756 8.65061 12.018 8.85896 11.993 9.06477Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_265_3491\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","mail":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M11.5385 1.38464H0.461538C0.339131 1.38464 0.221737 1.43327 0.135181 1.51983C0.0486262 1.60638 0 1.72377 0 1.84618V9.69234C0 9.93715 0.0972524 10.1719 0.270363 10.345C0.443473 10.5182 0.678262 10.6154 0.923077 10.6154H11.0769C11.3217 10.6154 11.5565 10.5182 11.7296 10.345C11.9027 10.1719 12 9.93715 12 9.69234V1.84618C12 1.72377 11.9514 1.60638 11.8648 1.51983C11.7783 1.43327 11.6609 1.38464 11.5385 1.38464ZM4.31019 6.00003L0.923077 9.10445V2.89561L4.31019 6.00003ZM4.99327 6.62599L5.68558 7.26349C5.77073 7.34165 5.88211 7.38503 5.99769 7.38503C6.11328 7.38503 6.22466 7.34165 6.30981 7.26349L7.00212 6.62599L10.3483 9.69234H1.64827L4.99327 6.62599ZM7.68981 6.00003L11.0769 2.89503V9.10503L7.68981 6.00003Z\" fill=\"#FFED00\"/></svg>","chat-filled":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_460_19340)\"><path d=\"M12 1.38462V8.76923C12 9.01404 11.9027 9.24883 11.7296 9.42194C11.5565 9.59505 11.3217 9.6923 11.0769 9.6923H3.40386L1.52309 11.3169L1.5179 11.321C1.35176 11.4618 1.1409 11.5389 0.923092 11.5385C0.787674 11.5382 0.653955 11.5083 0.531362 11.4508C0.371903 11.3773 0.23699 11.2594 0.14276 11.1113C0.0485295 10.9631 -0.00102755 10.791 1.61522e-05 10.6154V1.38462C1.61522e-05 1.13981 0.0972684 0.905021 0.270379 0.73191C0.443489 0.5588 0.678277 0.461548 0.923092 0.461548H11.0769C11.3217 0.461548 11.5565 0.5588 11.7296 0.73191C11.9027 0.905021 12 1.13981 12 1.38462Z\" fill=\"#FFED00\"/></g><defs><clipPath id=\"clip0_460_19340\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","vk":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_95_3595)\"><path d=\"M0 5.76C0 3.0447 0 1.68706 0.843532 0.843532C1.68706 0 3.0447 0 5.76 0H6.24C8.9553 0 10.3129 0 11.1565 0.843532C12 1.68706 12 3.0447 12 5.76V6.24C12 8.9553 12 10.3129 11.1565 11.1565C10.3129 12 8.9553 12 6.24 12H5.76C3.0447 12 1.68706 12 0.843532 11.1565C0 10.3129 0 8.9553 0 6.24V5.76Z\" fill=\"#0077FF\"/><path d=\"M6.385 8.64503C3.65 8.64503 2.09002 6.77002 2.02502 3.65002H3.39502C3.44002 5.94002 4.45 6.91003 5.25 7.11002V3.65002H6.54005V5.62502C7.33005 5.54002 8.15995 4.64002 8.43995 3.65002H9.72997C9.51497 4.87002 8.61497 5.77002 7.97497 6.14003C8.61497 6.44002 9.64002 7.22503 10.03 8.64503H8.60997C8.30497 7.69503 7.54505 6.96002 6.54005 6.86002V8.64503H6.385Z\" fill=\"white\"/></g><defs><clipPath id=\"clip0_95_3595\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>","insta":"<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_95_3591)\"><path d=\"M6.00196 0C3.49702 0 2.76441 0.00258516 2.62201 0.0144C2.10795 0.0571419 1.78808 0.138104 1.43958 0.311652C1.17102 0.445053 0.959213 0.59968 0.750175 0.816437C0.36948 1.21173 0.138754 1.69805 0.0552291 2.27613C0.0146233 2.55677 0.00280844 2.614 0.000409197 4.04748C-0.000511496 4.52531 0.000409197 5.15416 0.000409197 5.99764C0.000409197 8.50124 0.0031758 9.2333 0.0151766 9.37547C0.0567075 9.87582 0.135152 10.1906 0.301276 10.535C0.618757 11.1941 1.2251 11.6889 1.93943 11.8735C2.18677 11.9372 2.45995 11.9723 2.81065 11.9889C2.95924 11.9954 4.47372 12 5.98913 12C7.50454 12 9.01995 11.9982 9.16484 11.9908C9.57092 11.9717 9.80672 11.94 10.0674 11.8726C10.7864 11.6871 11.3817 11.1996 11.7056 10.5313C11.8685 10.1952 11.9511 9.86843 11.9885 9.39421C11.9966 9.29082 12 7.64234 12 5.99608C12 4.34954 11.9963 2.7041 11.9882 2.60071C11.9503 2.11882 11.8677 1.7948 11.6996 1.4523C11.5616 1.17194 11.4084 0.962569 11.186 0.748496C10.7891 0.369261 10.3036 0.138471 9.72514 0.0550194C9.44485 0.0144907 9.38902 0.00248995 7.95482 0H6.00196Z\" fill=\"url(#paint0_radial_95_3591)\"/><path d=\"M6.00196 0C3.49702 0 2.76441 0.00258516 2.62201 0.0144C2.10795 0.0571419 1.78808 0.138104 1.43958 0.311652C1.17102 0.445053 0.959213 0.59968 0.750175 0.816437C0.36948 1.21173 0.138754 1.69805 0.0552291 2.27613C0.0146233 2.55677 0.00280844 2.614 0.000409197 4.04748C-0.000511496 4.52531 0.000409197 5.15416 0.000409197 5.99764C0.000409197 8.50124 0.0031758 9.2333 0.0151766 9.37547C0.0567075 9.87582 0.135152 10.1906 0.301276 10.535C0.618757 11.1941 1.2251 11.6889 1.93943 11.8735C2.18677 11.9372 2.45995 11.9723 2.81065 11.9889C2.95924 11.9954 4.47372 12 5.98913 12C7.50454 12 9.01995 11.9982 9.16484 11.9908C9.57092 11.9717 9.80672 11.94 10.0674 11.8726C10.7864 11.6871 11.3817 11.1996 11.7056 10.5313C11.8685 10.1952 11.9511 9.86843 11.9885 9.39421C11.9966 9.29082 12 7.64234 12 5.99608C12 4.34954 11.9963 2.7041 11.9882 2.60071C11.9503 2.11882 11.8677 1.7948 11.6996 1.4523C11.5616 1.17194 11.4084 0.962569 11.186 0.748496C10.7891 0.369261 10.3036 0.138471 9.72514 0.0550194C9.44485 0.0144907 9.38902 0.00248995 7.95482 0H6.00196Z\" fill=\"url(#paint1_radial_95_3591)\"/><path d=\"M6.00196 0C3.49702 0 2.76441 0.00258516 2.62201 0.0144C2.10795 0.0571419 1.78808 0.138104 1.43958 0.311652C1.17102 0.445053 0.959213 0.59968 0.750175 0.816437C0.36948 1.21173 0.138754 1.69805 0.0552291 2.27613C0.0146233 2.55677 0.00280844 2.614 0.000409197 4.04748C-0.000511496 4.52531 0.000409197 5.15416 0.000409197 5.99764C0.000409197 8.50124 0.0031758 9.2333 0.0151766 9.37547C0.0567075 9.87582 0.135152 10.1906 0.301276 10.535C0.618757 11.1941 1.2251 11.6889 1.93943 11.8735C2.18677 11.9372 2.45995 11.9723 2.81065 11.9889C2.95924 11.9954 4.47372 12 5.98913 12C7.50454 12 9.01995 11.9982 9.16484 11.9908C9.57092 11.9717 9.80672 11.94 10.0674 11.8726C10.7864 11.6871 11.3817 11.1996 11.7056 10.5313C11.8685 10.1952 11.9511 9.86843 11.9885 9.39421C11.9966 9.29082 12 7.64234 12 5.99608C12 4.34954 11.9963 2.7041 11.9882 2.60071C11.9503 2.11882 11.8677 1.7948 11.6996 1.4523C11.5616 1.17194 11.4084 0.962569 11.186 0.748496C10.7891 0.369261 10.3036 0.138471 9.72514 0.0550194C9.44485 0.0144907 9.38902 0.00248995 7.95482 0H6.00196Z\" fill=\"url(#paint2_radial_95_3591)\"/><path d=\"M6.00196 0C3.49702 0 2.76441 0.00258516 2.62201 0.0144C2.10795 0.0571419 1.78808 0.138104 1.43958 0.311652C1.17102 0.445053 0.959213 0.59968 0.750175 0.816437C0.36948 1.21173 0.138754 1.69805 0.0552291 2.27613C0.0146233 2.55677 0.00280844 2.614 0.000409197 4.04748C-0.000511496 4.52531 0.000409197 5.15416 0.000409197 5.99764C0.000409197 8.50124 0.0031758 9.2333 0.0151766 9.37547C0.0567075 9.87582 0.135152 10.1906 0.301276 10.535C0.618757 11.1941 1.2251 11.6889 1.93943 11.8735C2.18677 11.9372 2.45995 11.9723 2.81065 11.9889C2.95924 11.9954 4.47372 12 5.98913 12C7.50454 12 9.01995 11.9982 9.16484 11.9908C9.57092 11.9717 9.80672 11.94 10.0674 11.8726C10.7864 11.6871 11.3817 11.1996 11.7056 10.5313C11.8685 10.1952 11.9511 9.86843 11.9885 9.39421C11.9966 9.29082 12 7.64234 12 5.99608C12 4.34954 11.9963 2.7041 11.9882 2.60071C11.9503 2.11882 11.8677 1.7948 11.6996 1.4523C11.5616 1.17194 11.4084 0.962569 11.186 0.748496C10.7891 0.369261 10.3036 0.138471 9.72514 0.0550194C9.44485 0.0144907 9.38902 0.00248995 7.95482 0H6.00196Z\" fill=\"url(#paint3_radial_95_3591)\"/><path d=\"M6.00243 1.54082C4.79071 1.54082 4.63864 1.54612 4.16273 1.56776C3.68774 1.58949 3.36353 1.66464 3.07984 1.77489C2.78639 1.88876 2.53746 2.04109 2.28947 2.28899C2.04129 2.53681 1.88885 2.78555 1.77452 3.07868C1.6639 3.36226 1.58861 3.68632 1.56723 4.16077C1.54595 4.63633 1.54037 4.78838 1.54037 5.9992C1.54037 7.21003 1.54576 7.36151 1.56732 7.83707C1.58917 8.3117 1.66437 8.63568 1.77461 8.91916C1.88866 9.21239 2.0411 9.46113 2.28919 9.70894C2.53709 9.95694 2.78602 10.1096 3.07928 10.2235C3.36315 10.3338 3.68747 10.4089 4.16235 10.4306C4.63827 10.4523 4.79024 10.4576 6.00187 10.4576C7.21369 10.4576 7.36529 10.4523 7.8412 10.4306C8.31619 10.4089 8.64078 10.3338 8.92465 10.2235C9.21801 10.1096 9.46656 9.95694 9.71447 9.70894C9.96264 9.46113 10.1151 9.21239 10.2294 8.91925C10.3391 8.63568 10.4144 8.31161 10.4367 7.83717C10.4581 7.36161 10.4637 7.21002 10.4637 5.9992C10.4637 4.78838 10.4581 4.63643 10.4367 4.16086C10.4144 3.68623 10.3391 3.36226 10.2294 3.07878C10.1151 2.78555 9.96264 2.5368 9.71447 2.28899C9.46628 2.041 9.2181 1.88867 8.92438 1.77489C8.63994 1.66464 8.31554 1.58949 7.84056 1.56776C7.36464 1.54612 7.21313 1.54082 6.00104 1.54082H6.00243ZM5.60218 2.34426C5.72097 2.34408 5.85352 2.34426 6.00243 2.34426C7.1937 2.34426 7.3349 2.34853 7.80532 2.3699C8.24034 2.38977 8.47644 2.4624 8.63371 2.52343C8.84192 2.60424 8.99037 2.70084 9.14643 2.85688C9.30259 3.01293 9.39926 3.16154 9.48032 3.36959C9.54139 3.52656 9.61417 3.76249 9.63397 4.19718C9.65535 4.66717 9.66 4.80835 9.66 5.99818C9.66 7.188 9.65535 7.32919 9.63397 7.79918C9.61407 8.23387 9.54139 8.46979 9.48032 8.62676C9.39945 8.83482 9.30259 8.98297 9.14643 9.13892C8.99028 9.29496 8.84202 9.39156 8.63371 9.47237C8.47662 9.53367 8.24034 9.60612 7.80532 9.626C7.33499 9.64736 7.1937 9.652 6.00243 9.652C4.81107 9.652 4.66987 9.64736 4.19954 9.626C3.76452 9.60594 3.52843 9.5333 3.37106 9.47228C3.16284 9.39147 3.01412 9.29487 2.85796 9.13883C2.7018 8.98279 2.60514 8.83454 2.52408 8.62639C2.46301 8.46942 2.39023 8.2335 2.37043 7.79881C2.34905 7.32882 2.34477 7.18764 2.34477 5.99706C2.34477 4.80649 2.34905 4.66605 2.37043 4.19607C2.39032 3.76137 2.46301 3.52545 2.52408 3.36829C2.60495 3.16024 2.7018 3.01162 2.85796 2.85558C3.01412 2.69954 3.16284 2.60294 3.37106 2.52195C3.52833 2.46064 3.76452 2.3882 4.19954 2.36822C4.61113 2.34965 4.77063 2.34408 5.60218 2.34314L5.60218 2.34426ZM8.38405 3.08453C8.08846 3.08453 7.84864 3.3239 7.84864 3.61935C7.84864 3.91472 8.08846 4.15436 8.38405 4.15436C8.67963 4.15436 8.91945 3.91472 8.91945 3.61935C8.91945 3.32399 8.67963 3.08435 8.38404 3.08435L8.38405 3.08453ZM6.00243 3.70964C4.73708 3.70964 3.71117 4.73478 3.71117 5.9992C3.71117 7.26362 4.73708 8.2883 6.00243 8.2883C7.26778 8.2883 8.29332 7.26362 8.29332 5.9992C8.29332 4.73478 7.26769 3.70964 6.00234 3.70964H6.00243ZM6.00243 4.51307C6.82375 4.51307 7.48966 5.1784 7.48966 5.9992C7.48966 6.81991 6.82375 7.48533 6.00243 7.48533C5.18102 7.48533 4.5152 6.81991 4.5152 5.9992C4.5152 5.1784 5.18102 4.51307 6.00243 4.51307Z\" fill=\"white\"/></g><defs><radialGradient id=\"paint0_radial_95_3591\" cx=\"0\" cy=\"0\" r=\"1\" gradientTransform=\"matrix(-7.37946 2.08118 -1.49941 -5.31654 11.6125 5.62455)\" gradientUnits=\"userSpaceOnUse\"><stop stop-color=\"#FF005F\"/><stop offset=\"1\" stop-color=\"#FC01D8\"/></radialGradient><radialGradient id=\"paint1_radial_95_3591\" cx=\"0\" cy=\"0\" r=\"1\" gradientUnits=\"userSpaceOnUse\" gradientTransform=\"translate(3.18741 12.9242) rotate(-90) scale(9.57863 10.1627)\"><stop stop-color=\"#FFCC00\"/><stop offset=\"0.1242\" stop-color=\"#FFCC00\"/><stop offset=\"0.5672\" stop-color=\"#FE4A05\"/><stop offset=\"0.6942\" stop-color=\"#FF0F3F\"/><stop offset=\"1\" stop-color=\"#FE0657\" stop-opacity=\"0\"/></radialGradient><radialGradient id=\"paint2_radial_95_3591\" cx=\"0\" cy=\"0\" r=\"1\" gradientTransform=\"matrix(1.98818 -3.4257 4.45987 2.5884 6.30323 11.8308)\" gradientUnits=\"userSpaceOnUse\"><stop stop-color=\"#FFCC00\"/><stop offset=\"1\" stop-color=\"#FFCC00\" stop-opacity=\"0\"/></radialGradient><radialGradient id=\"paint3_radial_95_3591\" cx=\"0\" cy=\"0\" r=\"1\" gradientTransform=\"matrix(-7.29845 2.05512 -0.699999 -2.48663 1.62814 0.488637)\" gradientUnits=\"userSpaceOnUse\"><stop stop-color=\"#780CFF\"/><stop offset=\"1\" stop-color=\"#820BFF\" stop-opacity=\"0\"/></radialGradient><clipPath id=\"clip0_95_3591\"><rect width=\"12\" height=\"12\" fill=\"white\"/></clipPath></defs></svg>"};
+const ICON_GROUPS = [["Brand", [["favicon", "Favicon"], ["symbol", "Symbol"], ["sweetPepperLogo", "Logo icon"], ["Pepper", "Pepper"]]], ["Icons", [["food", "Food"], ["cocktail", "Cocktail"], ["coffee", "Coffee"], ["wine", "Wine"], ["beer", "Beer"], ["glass", "Glass"], ["soup", "Soup"], ["burger", "Burger"], ["kebab", "Kebab"], ["veg", "Vegetarian"], ["fire", "Hot"], ["star", "Star"], ["kids", "Kids"], ["dog", "Dogs welcome"], ["party", "Party"], ["sun", "Terrace"], ["Bell", "Bell"], ["wifi", "Wi-Fi"], ["pin", "Pin"], ["map", "Map"], ["phone", "Phone"], ["mail", "Mail"], ["chat-filled", "Chat"]]], ["Social", [["vk", "VK"], ["insta", "Instagram"]]]];
+/* One-colour icons always take the logo colour; the brand marks and social logos keep theirs unless painted */
+const MONO = new Set(['Pepper', 'food', 'cocktail', 'coffee', 'wine', 'beer', 'glass', 'soup', 'burger', 'kebab', 'veg', 'fire', 'star', 'kids', 'dog', 'party', 'sun', 'Bell', 'wifi', 'pin', 'map', 'phone', 'mail', 'chat-filled']);
+const PEPPER_D = 'M8.74802 1.73678C8.65311 1.24827 8.39138 0.807929 8.00762 0.491107C7.62385 0.174285 7.14191 0.000679911 6.64427 0C6.5306 0 6.4216 0.0451529 6.34122 0.125525C6.26085 0.205898 6.2157 0.314907 6.2157 0.428571C6.2157 0.542235 6.26085 0.651244 6.34122 0.731616C6.4216 0.811989 6.5306 0.857142 6.64427 0.857142C6.91652 0.857142 7.18174 0.943564 7.40173 1.10396C7.62172 1.26435 7.78511 1.49043 7.86837 1.74964C7.05285 1.86834 6.30725 2.27647 5.76776 2.89946C5.22827 3.52245 4.93091 4.31873 4.92999 5.14285C4.92999 7.64731 3.55052 9.32142 0.830169 10.125C0.644091 10.1792 0.48189 10.2949 0.370034 10.4532C0.258178 10.6115 0.203271 10.803 0.214273 10.9965C0.225276 11.19 0.301538 11.3741 0.430616 11.5187C0.559693 11.6633 0.733964 11.7599 0.92499 11.7927C1.73018 11.9319 2.54589 12.0012 3.36302 12C5.54766 12 7.97873 11.5098 9.65926 10.1003C11.0714 8.91642 11.7871 7.2482 11.7871 5.14285C11.7862 4.30126 11.4762 3.48933 10.9159 2.86137C10.3556 2.23341 9.58406 1.8332 8.74802 1.73678ZM10.0728 4.66071L8.55034 3.9016C8.4908 3.87181 8.42513 3.85629 8.35855 3.85629C8.29197 3.85629 8.22631 3.87181 8.16677 3.9016L6.64427 4.66071L5.92802 4.30285C6.10266 3.79721 6.43066 3.35863 6.86631 3.04819C7.30197 2.73775 7.8236 2.57091 8.35855 2.57091C8.8935 2.57091 9.41513 2.73775 9.85079 3.04819C10.2864 3.35863 10.6144 3.79721 10.7891 4.30285L10.0728 4.66071Z'; // assets/icons/Pepper.svg
+const ECL_CAP = { L: 7, M: 15, Q: 25, H: 30 };
+
+const DEFAULTS = {
+    url: 'https://sweetpepper.bar/', ecl: 'H', minVersion: 0, quiet: 4,
+    dotShape: 'connected', dotSize: 0.9, dotJitter: false, dotSvg: '', dotRecolour: true,
+    ringShape: 'rounded', ringRadius: 0.55, ringWeight: 1, ringSvg: '',
+    eyeShape: 'rounded', eyeRadius: 0.5, eyeSize: 3, eyeSvg: '',
+    customRecolour: true, mirror: true, alignStyle: 'match',
+    cDots: '#151317', cDots2: '#869438', gradient: false, gradAngle: 45, gradCorners: false,
+    cRing: '#151317', cEye: '#E34314', cBg: '#FCF7E8', cPlate: '#FCF7E8', bgTransparent: false, bgRadius: 1,
+    logo: 'favicon', logoUpload: null, logoSize: 0.22, logoPlate: 'circle', logoPad: 0.5, logoClear: true, logoTint: false, cLogo: '#151317',
+    ground: '#F3E9D2', grid: false,
+};
+const LOOKS = {
+    'Peppercorn': {},
+    'Seeds': { dotShape: 'seed', dotSize: 0.95, ringShape: 'leaf', ringRadius: 0.8, eyeShape: 'leaf', eyeRadius: 0.8, cEye: '#151317', cRing: '#626B31', cDots: '#151317', logo: 'Pepper', cLogo: '#E34314', logoPlate: 'circle', logoSize: 0.16 },
+    'Badge': { dotShape: 'rounded', dotSize: 0.88, ringShape: 'rounded', ringRadius: 0.45, eyeShape: 'rounded', cEye: '#E34314', logo: 'cocktail', logoPlate: 'circle', cPlate: '#E34314', cLogo: '#FCF7E8', logoSize: 0.16, logoPad: 0.9 },
+    'Pills': { dotShape: 'vpill', dotSize: 0.78, ringShape: 'circle', eyeShape: 'circle', eyeSize: 3, cDots: '#626B31', cRing: '#626B31', cEye: '#E34314', cBg: '#FCF7E8', logo: 'favicon', logoPlate: 'circle' },
+    'Chili gradient': { dotShape: 'circle', dotSize: 0.86, gradient: true, cDots: '#9B2705', cDots2: '#E34314', gradCorners: true, ringShape: 'squircle', eyeShape: 'squircle', cRing: '#9B2705', cEye: '#151317', logo: 'sweetPepperLogo', logoPlate: 'rounded' },
+    /* On the edge on purpose: the pepper's weight sits low-left in its cell, so jsQR misses some reads */
+    'Peppers (edge)': { dotShape: 'pepper', dotSize: 1, ringShape: 'rounded', ringRadius: 0.7, eyeShape: 'rounded', cDots: '#151317', cEye: '#E34314', logo: 'none' },
+    'Night (test)': { cDots: '#FFF689', cRing: '#FFF689', cEye: '#E34314', cBg: '#151317', cPlate: '#151317', ground: '#151317' },
+};
+const STORE = 'sp-qr-lab-v1';
+
+let S = load();
+function load() {
+    try { const raw = localStorage.getItem(STORE); if (raw) return { ...DEFAULTS, ...JSON.parse(raw) }; } catch (e) {}
+    return { ...DEFAULTS };
+}
+function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) {} }
+
+/* ---------- Helpers ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const f = v => +(+v).toFixed(3);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function rr(x, y, w, h, r) {
+    const m = Math.min(w, h) / 2;
+    const [a, b, c, d] = r.map(v => Math.max(0, Math.min(v, m)));
+    const arc = (rad, ex, ey) => rad ? `A${f(rad)} ${f(rad)} 0 0 1 ${f(ex)} ${f(ey)}` : `L${f(ex)} ${f(ey)}`;
+    return `M${f(x + a)} ${f(y)}H${f(x + w - b)}${arc(b, x + w, y + b)}V${f(y + h - c)}${arc(c, x + w - c, y + h)}H${f(x + d)}${arc(d, x, y + h - d)}V${f(y + a)}${arc(a, x + a, y)}Z`;
+}
+function circle(cx, cy, r) { return `M${f(cx - r)} ${f(cy)}A${f(r)} ${f(r)} 0 1 0 ${f(cx + r)} ${f(cy)}A${f(r)} ${f(r)} 0 1 0 ${f(cx - r)} ${f(cy)}Z`; }
+function squircle(x, y, w) {
+    const cx = x + w / 2, cy = y + w / 2, R = w / 2, pts = [];
+    for (let i = 0; i < 72; i++) {
+        const t = i / 72 * Math.PI * 2, c = Math.cos(t), s = Math.sin(t);
+        pts.push(`${f(cx + R * Math.sign(c) * Math.abs(c) ** 0.5)} ${f(cy + R * Math.sign(s) * Math.abs(s) ** 0.5)}`);
+    }
+    return 'M' + pts.join('L') + 'Z';
+}
+/* Corner radii [tl, tr, br, bl] for a box of width w; k = 0 top-left finder, 1 top-right, 2 bottom-left, 3 alignment */
+const INWARD = [2, 3, 1, 0], OUTWARD = [0, 1, 3, 2];
+function radii(shape, w, frac, k) {
+    if (shape === 'rounded') return Array(4).fill(frac * w / 2);
+    if (shape === 'leaf' || shape === 'leafOut') {
+        const R = w / 2 * (0.4 + 0.6 * frac), out = Array(4).fill(R);
+        out[(shape === 'leaf' ? INWARD : OUTWARD)[k]] = 0;
+        return out;
+    }
+    return [0, 0, 0, 0];
+}
+function boxPath(shape, x, y, w, rad) {
+    if (shape === 'circle') return circle(x + w / 2, y + w / 2, w / 2);
+    if (shape === 'squircle') return squircle(x, y, w);
+    return rr(x, y, w, w, rad);
+}
+
+/* Parse an uploaded SVG into something we can nest: viewBox + inner markup, ids made unique */
+let uid = 0;
+function parseSvg(text, recolour) {
+    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    const svg = doc.querySelector('svg');
+    if (!svg || doc.querySelector('parsererror')) return null;
+    let vb = svg.getAttribute('viewBox');
+    if (!vb) vb = `0 0 ${parseFloat(svg.getAttribute('width')) || 100} ${parseFloat(svg.getAttribute('height')) || 100}`;
+    if (recolour) {
+        svg.querySelectorAll('*').forEach(el => {
+            if (el.closest('clipPath, mask')) return;
+            const fill = el.getAttribute('fill');
+            if (fill && fill !== 'none') el.setAttribute('fill', 'currentColor');
+            const stroke = el.getAttribute('stroke');
+            if (stroke && stroke !== 'none') el.setAttribute('stroke', 'currentColor');
+            if (el.style) { el.style.removeProperty('fill'); el.style.removeProperty('stroke'); }
+        });
+    }
+    const p = 'u' + (++uid) + '-';
+    let inner = svg.innerHTML
+        .replace(/\sid="([^"]+)"/g, ` id="${p}$1"`)
+        .replace(/url\(#([^)]+)\)/g, `url(#${p}$1)`)
+        .replace(/href="#([^"]+)"/g, `href="#${p}$1"`);
+    const [, , vw, vh] = vb.split(/[\s,]+/).map(Number);
+    return { vb, inner, aspect: vh / vw };
+}
+function nest(art, x, y, w, h, color, transform) {
+    const body = `<svg x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" viewBox="${art.vb}" preserveAspectRatio="xMidYMid meet" overflow="visible"${color ? ` color="${color}" fill="${color}"` : ''}>${art.inner}</svg>`;
+    return transform ? `<g transform="${transform}">${body}</g>` : body;
+}
+
+/* ---------- Built-in logos ---------- */
+/* Copied from assets/icons/ into ICON_SVG above, so the lab also works from a file or a shared link */
+
+/* ---------- QR model ---------- */
+const ALIGN = [[], [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50], [6, 30, 54], [6, 32, 58], [6, 34, 62], [6, 26, 46, 66], [6, 26, 48, 70], [6, 26, 50, 74], [6, 30, 54, 78], [6, 30, 56, 82], [6, 30, 58, 86], [6, 34, 62, 90], [6, 28, 50, 72, 94], [6, 26, 50, 74, 98], [6, 30, 54, 78, 102], [6, 28, 54, 80, 106], [6, 32, 58, 84, 110], [6, 30, 58, 86, 114], [6, 34, 62, 90, 118], [6, 26, 50, 74, 98, 122], [6, 30, 54, 78, 102, 126], [6, 26, 52, 78, 104, 130], [6, 30, 56, 82, 108, 134], [6, 34, 60, 86, 112, 138], [6, 30, 58, 86, 114, 142], [6, 34, 62, 90, 118, 146], [6, 30, 54, 78, 102, 126, 150], [6, 24, 50, 76, 102, 128, 154], [6, 28, 54, 80, 106, 132, 158], [6, 32, 58, 84, 110, 136, 162], [6, 26, 54, 82, 110, 138, 166], [6, 30, 58, 86, 114, 142, 170]];
+const F_DATA = 0, F_FINDER = 1, F_TIMING = 2, F_ALIGN = 3, F_FORMAT = 4, F_VERSION = 5, F_SEP = 6;
+
+function encode(text, ecl, minVersion) {
+    let q = null;
+    const tryMake = v => { const c = qrcode(v, ecl); c.addData(text || ' '); c.make(); return c; };
+    q = tryMake(0);
+    let v = (q.getModuleCount() - 17) / 4;
+    if (minVersion > v) { q = tryMake(Math.min(40, minVersion)); v = (q.getModuleCount() - 17) / 4; }
+    const n = q.getModuleCount(), dark = new Uint8Array(n * n);
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) dark[r * n + c] = q.isDark(r, c) ? 1 : 0;
+    return { n, v, dark, fn: functionMap(n, v), aligns: alignCentres(n, v) };
+}
+function alignCentres(n, v) {
+    const pos = ALIGN[v] || [], out = [];
+    for (const r of pos) for (const c of pos) {
+        if ((r === 6 && c === 6) || (r === 6 && c === pos[pos.length - 1]) || (r === pos[pos.length - 1] && c === 6)) continue;
+        out.push([r, c]);
+    }
+    return out;
+}
+function functionMap(n, v) {
+    const m = new Uint8Array(n * n);
+    const set = (r, c, t) => { if (r >= 0 && c >= 0 && r < n && c < n && !m[r * n + c]) m[r * n + c] = t; };
+    for (const [R, C] of [[0, 0], [0, n - 7], [n - 7, 0]]) {
+        for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) set(R + r, C + c, F_FINDER);
+        for (let r = -1; r < 8; r++) for (let c = -1; c < 8; c++) set(R + r, C + c, F_SEP);
+    }
+    for (const [R, C] of alignCentres(n, v)) for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) set(R + r, C + c, F_ALIGN);
+    for (let i = 8; i < n - 8; i++) { set(6, i, F_TIMING); set(i, 6, F_TIMING); }
+    for (let i = 0; i < 9; i++) { set(8, i, F_FORMAT); set(i, 8, F_FORMAT); }
+    for (let i = 0; i < 8; i++) { set(8, n - 1 - i, F_FORMAT); set(n - 1 - i, 8, F_FORMAT); }
+    if (v >= 7) for (let i = 0; i < 6; i++) for (let j = 0; j < 3; j++) { set(i, n - 11 + j, F_VERSION); set(n - 11 + j, i, F_VERSION); }
+    return m;
+}
+
+/* ---------- Drawing ---------- */
+function logoArt() {
+    if (S.logo === 'none') return null;
+    if (S.logo === 'upload') {
+        const u = S.logoUpload;
+        if (!u) return null;
+        if (u.kind === 'svg') { const a = parseSvg(u.data, S.logoTint); return a && { type: 'svg', art: a, aspect: a.aspect }; }
+        return { type: 'img', data: u.data, aspect: u.aspect || 1 };
+    }
+    const t = ICON_SVG[S.logo];
+    if (!t) return null;
+    const a = parseSvg(t, S.logoTint || MONO.has(S.logo));
+    return a && { type: 'svg', art: a, aspect: a.aspect };
+}
+
+function build(forExport) {
+    const M = encode(S.url, S.ecl, +S.minVersion);
+    const { n, dark, fn } = M, q = +S.quiet, T = n + 2 * q;
+    const at = (r, c) => r * n + c;
+
+    /* Logo box, in module coordinates of the data grid (0..n) */
+    const logo = logoArt();
+    let box = null, plate = null;
+    const covered = new Uint8Array(n * n);
+    let coveredData = 0, coversFunction = false;
+    if (logo) {
+        const w = S.logoSize * n, h = w * logo.aspect;
+        box = { x: (n - w) / 2, y: (n - h) / 2, w, h };
+        const p = +S.logoPad;
+        plate = { x: box.x - p, y: box.y - p, w: box.w + 2 * p, h: box.h + 2 * p };
+        const cx = plate.x + plate.w / 2, cy = plate.y + plate.h / 2;
+        for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+            let hit;
+            if (S.logoPlate === 'circle') {
+                const R = Math.max(plate.w, plate.h) / 2;
+                const px = Math.max(c, Math.min(cx, c + 1)), py = Math.max(r, Math.min(cy, r + 1));
+                hit = (px - cx) ** 2 + (py - cy) ** 2 < R * R - 1e-6;
+            } else {
+                hit = c + 1 > plate.x + 1e-6 && c < plate.x + plate.w - 1e-6 && r + 1 > plate.y + 1e-6 && r < plate.y + plate.h - 1e-6;
+            }
+            if (!hit) continue;
+            const t = fn[at(r, c)];
+            if (t === F_DATA) { covered[at(r, c)] = 1; coveredData++; }
+            else if (t !== F_SEP) coversFunction = true;
+        }
+        if (S.logoPlate === 'circle') { const R = Math.max(plate.w, plate.h) / 2; plate = { x: cx - R, y: cy - R, w: 2 * R, h: 2 * R }; }
+    }
+    let dataCells = 0;
+    for (let i = 0; i < n * n; i++) if (fn[i] === F_DATA) dataCells++;
+
+    const alignAsDots = S.alignStyle === 'dots';
+    const isDot = (r, c) => r >= 0 && c >= 0 && r < n && c < n && dark[at(r, c)]
+        && fn[at(r, c)] !== F_FINDER && !(fn[at(r, c)] === F_ALIGN && !alignAsDots)
+        && !(S.logoClear && covered[at(r, c)]);
+
+    /* Dots */
+    const s = S.dotShape === 'connected' ? 1 : +S.dotSize;
+    let dotD = '', dotUses = '';
+    const seedR = 0.78;
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+        if (!isDot(r, c)) continue;
+        const x = c + q, y = r + q, cx = x + 0.5, cy = y + 0.5, h = s / 2;
+        switch (S.dotShape) {
+            case 'connected': {
+                const T_ = isDot(r - 1, c), R = isDot(r, c + 1), B = isDot(r + 1, c), L = isDot(r, c - 1), o = 0.02, k = 0.5;
+                dotD += rr(x - (L ? o : 0), y - (T_ ? o : 0), 1 + (L ? o : 0) + (R ? o : 0), 1 + (T_ ? o : 0) + (B ? o : 0),
+                    [!T_ && !L ? k : 0, !T_ && !R ? k : 0, !B && !R ? k : 0, !B && !L ? k : 0]);
+                break;
+            }
+            case 'hpill': if (!isDot(r, c - 1)) { let e = c; while (isDot(r, e + 1)) e++; dotD += rr(x + (1 - s) / 2, y + (1 - s) / 2, e - c + s, s, Array(4).fill(s / 2)); } break;
+            case 'vpill': if (!isDot(r - 1, c)) { let e = r; while (isDot(e + 1, c)) e++; dotD += rr(x + (1 - s) / 2, y + (1 - s) / 2, s, e - r + s, Array(4).fill(s / 2)); } break;
+            case 'square': dotD += rr(cx - h, cy - h, s, s, [0, 0, 0, 0]); break;
+            case 'rounded': dotD += rr(cx - h, cy - h, s, s, Array(4).fill(s * 0.3)); break;
+            case 'circle': dotD += circle(cx, cy, h); break;
+            case 'diamond': { const d = h * 1.12; dotD += `M${f(cx)} ${f(cy - d)}L${f(cx + d)} ${f(cy)}L${f(cx)} ${f(cy + d)}L${f(cx - d)} ${f(cy)}Z`; break; }
+            case 'seed': { const R = s * seedR; dotD += `M${f(cx - h)} ${f(cy + h)}A${f(R)} ${f(R)} 0 0 1 ${f(cx + h)} ${f(cy - h)}A${f(R)} ${f(R)} 0 0 1 ${f(cx - h)} ${f(cy + h)}Z`; break; }
+            case 'sparkle': { const k = h * 0.22; dotD += `M${f(cx)} ${f(cy - h)}Q${f(cx + k)} ${f(cy - k)} ${f(cx + h)} ${f(cy)}Q${f(cx + k)} ${f(cy + k)} ${f(cx)} ${f(cy + h)}Q${f(cx - k)} ${f(cy + k)} ${f(cx - h)} ${f(cy)}Q${f(cx - k)} ${f(cy - k)} ${f(cx)} ${f(cy - h)}Z`; break; }
+            case 'plus': { const a = s * 0.2; dotD += `M${f(cx - a)} ${f(cy - h)}H${f(cx + a)}V${f(cy - a)}H${f(cx + h)}V${f(cy + a)}H${f(cx + a)}V${f(cy + h)}H${f(cx - a)}V${f(cy + a)}H${f(cx - h)}V${f(cy - a)}H${f(cx - a)}Z`; break; }
+            case 'pepper': case 'custom': {
+                const rot = S.dotJitter ? ` transform="rotate(${((r * 37 + c * 61) % 9 - 4) * 9} ${f(cx)} ${f(cy)})"` : '';
+                dotUses += `<use href="#sp-dot" x="${f(cx - h)}" y="${f(cy - h)}" width="${f(s)}" height="${f(s)}"${rot}/>`;
+                break;
+            }
+        }
+    }
+
+    /* Corner squares and alignment squares */
+    const ringArt = S.ringShape === 'custom' && S.ringSvg ? parseSvg(S.ringSvg, S.customRecolour) : null;
+    const eyeArt = S.eyeShape === 'custom' && S.eyeSvg ? parseSvg(S.eyeSvg, S.customRecolour) : null;
+    const mirrorT = (k, x, y, w) => {
+        if (!S.mirror || k === 0) return '';
+        const cx = x + w / 2, cy = y + w / 2;
+        if (k === 1) return `translate(${f(2 * cx)} 0) scale(-1 1)`;
+        if (k === 2) return `translate(0 ${f(2 * cy)}) scale(1 -1)`;
+        return `translate(${f(2 * cx)} ${f(2 * cy)}) scale(-1 -1)`;
+    };
+    let ringD = '', eyeD = '', ringNest = '', eyeNest = '', alignD = { ring: '', eye: '' }, alignNest = '';
+    const pepperEye = (x, y, w) => `<use href="#sp-pepper" x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(w)}"/>`;
+    function corner(ox, oy, W, eyeW, k, weight) {
+        let ring = '', eye = '', nested = '';
+        if (S.ringShape === 'custom') {
+            if (ringArt) nested += nest(ringArt, ox, oy, W, W, S.customRecolour ? 'currentColor' : '', mirrorT(k, ox, oy, W));
+        } else {
+            const rad = radii(S.ringShape, W, +S.ringRadius, k);
+            ring += boxPath(S.ringShape, ox, oy, W, rad);
+            const wt = weight, iw = W - 2 * wt;
+            ring += boxPath(S.ringShape, ox + wt, oy + wt, iw, rad.map(v => v ? Math.max(0, v - wt) : 0));
+        }
+        const ex = ox + (W - eyeW) / 2, ey = oy + (W - eyeW) / 2;
+        let eyeN = '';
+        switch (S.eyeShape) {
+            case 'dots': { const d = eyeW / 3; for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) eye += circle(ex + d * (j + 0.5), ey + d * (i + 0.5), d * 0.46); break; }
+            case 'pepper': eyeN = pepperEye(ex, ey, eyeW); break;
+            case 'custom': if (eyeArt) eyeN = nest(eyeArt, ex, ey, eyeW, eyeW, S.customRecolour ? 'currentColor' : '', mirrorT(k, ex, ey, eyeW)); break;
+            default: eye += boxPath(S.eyeShape, ex, ey, eyeW, radii(S.eyeShape, eyeW, +S.eyeRadius, k));
+        }
+        return { ring, eye, nested, eyeN };
+    }
+    for (const [k, R, C] of [[0, 0, 0], [1, 0, n - 7], [2, n - 7, 0]]) {
+        const p = corner(C + q, R + q, 7, +S.eyeSize, k, +S.ringWeight);
+        ringD += p.ring; eyeD += p.eye; ringNest += p.nested; eyeNest += p.eyeN;
+    }
+    if (!alignAsDots) for (const [R, C] of M.aligns) {
+        if (S.logoClear && covered[at(R, C)]) continue;
+        const p = corner(C - 2 + q, R - 2 + q, 5, +S.eyeSize / 3, 3, 1);
+        alignD.ring += p.ring; alignD.eye += p.eye; alignNest += p.nested + p.eyeN;
+    }
+
+    /* Assemble */
+    const g = S.gradient;
+    const a = (+S.gradAngle - 90) * Math.PI / 180, gx = Math.cos(a) * T / 2, gy = Math.sin(a) * T / 2;
+    const dotFill = g ? 'url(#sp-grad)' : S.cDots;
+    const ringFill = g && S.gradCorners ? 'url(#sp-grad)' : S.cRing;
+    const eyeFill = g && S.gradCorners ? 'url(#sp-grad)' : S.cEye;
+    let defs = '';
+    if (g) defs += `<linearGradient id="sp-grad" gradientUnits="userSpaceOnUse" x1="${f(T / 2 - gx)}" y1="${f(T / 2 - gy)}" x2="${f(T / 2 + gx)}" y2="${f(T / 2 + gy)}"><stop offset="0" stop-color="${S.cDots}"/><stop offset="1" stop-color="${S.cDots2}"/></linearGradient>`;
+    if (S.dotShape === 'pepper') defs += `<symbol id="sp-dot" viewBox="0 0 12 12" overflow="visible"><path d="${PEPPER_D}"/></symbol>`;
+    if (S.dotShape === 'custom' && S.dotSvg) {
+        const art = parseSvg(S.dotSvg, S.dotRecolour);
+        if (art) defs += `<symbol id="sp-dot" viewBox="${art.vb}" overflow="visible">${art.inner}</symbol>`;
+    }
+    if (S.eyeShape === 'pepper') defs += `<symbol id="sp-pepper" viewBox="0 0 12 12" overflow="visible"><path d="${PEPPER_D}"/></symbol>`;
+
+    const parts = [];
+    parts.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${f(T)} ${f(T)}" width="${forExport ? f(T * 20) : '100%'}" height="${forExport ? f(T * 20) : '100%'}">`);
+    parts.push(`<title>${esc(S.url)}</title>`);
+    if (defs) parts.push(`<defs>${defs}</defs>`);
+    if (!S.bgTransparent) parts.push(`<g id="background"><rect width="${f(T)}" height="${f(T)}" rx="${f(S.bgRadius)}" fill="${S.cBg}"/></g>`);
+    parts.push(`<g id="dots" fill="${dotFill}" color="${S.cDots}">${dotD ? `<path d="${dotD}"/>` : ''}${dotUses}</g>`);
+    parts.push(`<g id="corners"><g id="corner-rings" fill="${ringFill}" color="${S.cRing}" fill-rule="evenodd">${ringD ? `<path d="${ringD}"/>` : ''}${ringNest}</g><g id="corner-centres" fill="${eyeFill}" color="${S.cEye}">${eyeD ? `<path d="${eyeD}"/>` : ''}${eyeNest}</g></g>`);
+    if (alignD.ring || alignD.eye || alignNest) parts.push(`<g id="alignment"><path fill="${ringFill}" fill-rule="evenodd" d="${alignD.ring}"/><path fill="${eyeFill}" d="${alignD.eye}"/>${alignNest ? `<g fill="${ringFill}" color="${S.cRing}">${alignNest}</g>` : ''}</g>`);
+    if (logo && box) {
+        let lg = '';
+        const px = plate.x + q, py = plate.y + q;
+        if (S.logoPlate === 'circle') lg += `<circle cx="${f(px + plate.w / 2)}" cy="${f(py + plate.h / 2)}" r="${f(plate.w / 2)}" fill="${S.cPlate}"/>`;
+        else if (S.logoPlate === 'square') lg += `<rect x="${f(px)}" y="${f(py)}" width="${f(plate.w)}" height="${f(plate.h)}" fill="${S.cPlate}"/>`;
+        else if (S.logoPlate === 'rounded') lg += `<rect x="${f(px)}" y="${f(py)}" width="${f(plate.w)}" height="${f(plate.h)}" rx="${f(Math.min(plate.w, plate.h) * 0.22)}" fill="${S.cPlate}"/>`;
+        const lx = box.x + q, ly = box.y + q;
+        if (logo.type === 'svg') lg += nest(logo.art, lx, ly, box.w, box.h, S.logoTint || MONO.has(S.logo) ? S.cLogo : '');
+        else lg += `<image href="${logo.data}" x="${f(lx)}" y="${f(ly)}" width="${f(box.w)}" height="${f(box.h)}" preserveAspectRatio="xMidYMid meet"/>`;
+        parts.push(`<g id="logo">${lg}</g>`);
+    }
+    parts.push('</svg>');
+
+    return { svg: parts.join(''), M, q, T, box, plate, covered, coveredData, dataCells, coversFunction, logoMissing: S.logo !== 'none' && !logo };
+}
+
+/* Grid overlay: modules, the parts a scanner needs, the logo area */
+function gridOverlay(b) {
+    const { M: { n, fn }, q, T, plate } = b;
+    const tint = { [F_FINDER]: 'rgba(227,67,20,.38)', [F_SEP]: 'rgba(227,67,20,.12)', [F_TIMING]: 'rgba(40,110,220,.38)', [F_ALIGN]: 'rgba(60,160,60,.42)', [F_FORMAT]: 'rgba(230,180,0,.45)', [F_VERSION]: 'rgba(160,60,200,.38)' };
+    let cells = '', lines = '';
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+        const t = fn[r * n + c];
+        if (t) cells += `<rect x="${c + q}" y="${r + q}" width="1" height="1" fill="${tint[t]}"/>`;
+    }
+    for (let i = 0; i <= n; i++) lines += `M${f(q + i)} ${f(q)}V${f(q + n)}M${f(q)} ${f(q + i)}H${f(q + n)}`;
+    const logo = plate ? `<rect x="${f(plate.x + q)}" y="${f(plate.y + q)}" width="${f(plate.w)}" height="${f(plate.h)}" fill="none" stroke="#C2300B" stroke-width="0.12" stroke-dasharray="0.4 0.25" ${S.logoPlate === 'circle' ? `rx="${f(plate.w / 2)}"` : ''}/>` : '';
+    return `<svg class="stage__grid" viewBox="0 0 ${f(T)} ${f(T)}">${cells}<path d="${lines}" stroke="rgba(120,120,120,.45)" stroke-width="0.03" fill="none"/>${logo}</svg>`;
+}
+
+/* ---------- Contrast ---------- */
+function lum(hex) {
+    const v = hex.replace('#', '').match(/../g).map(h => parseInt(h, 16) / 255).map(c => c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+}
+const ratio = (a, b) => { const A = lum(a), B = lum(b); return (Math.max(A, B) + 0.05) / (Math.min(A, B) + 0.05); };
+
+/* ---------- Render ---------- */
+let last = null;
+function render() {
+    syncControls();
+    const b = build(false);
+    last = b;
+    $('#art').innerHTML = b.svg + (S.grid ? gridOverlay(b) : '');
+    $('#legend').classList.toggle('is-on', !!S.grid);
+    $('#stage').style.setProperty('--ground', S.ground);
+
+    const st = [];
+    st.push(`<span class="pill">Version <b>${b.M.v}</b> · ${b.M.n} × ${b.M.n} dots · ${S.ecl}</span>`);
+    const bgHex = S.bgTransparent ? S.ground : S.cBg;
+    const inks = [['dots', S.cDots], ['corner rings', S.cRing], ['corner centres', S.cEye]].concat(S.gradient ? [['gradient end', S.cDots2]] : []);
+    const [weakName, weakHex] = inks.reduce((a, b) => ratio(b[1], bgHex) < ratio(a[1], bgHex) ? b : a);
+    const worst = ratio(weakHex, bgHex);
+    const inverted = inks.some(([, c]) => lum(c) > lum(bgHex));
+    /* Rule of thumb, not WCAG: phone readers threshold light vs dark, ~3 : 1 is comfortable */
+    st.push(`<span class="pill ${worst >= 3 ? 'is-pass' : worst >= 2 ? 'is-warn' : 'is-fail'}">Weakest contrast <b>${worst.toFixed(1)} : 1</b> (${weakName})</span>`);
+    if (inverted) st.push(`<span class="pill is-warn">Light on dark: some older scanner apps skip it</span>`);
+    if (S.logo !== 'none') {
+        if (b.logoMissing) st.push(`<span class="pill is-warn">Upload a logo file</span>`);
+        else {
+            const pct = b.coveredData / b.dataCells * 100, cap = ECL_CAP[S.ecl];
+            st.push(`<span class="pill ${pct <= cap * 0.66 ? 'is-pass' : pct <= cap ? 'is-warn' : 'is-fail'}">Logo covers <b>${pct.toFixed(1)}%</b> of data · ${S.ecl} rebuilds ~${cap}%</span>`);
+            if (b.coversFunction) st.push(`<span class="pill is-fail">Logo sits on an alignment or timing part: make it smaller</span>`);
+        }
+    }
+    if (+S.quiet < 2) st.push(`<span class="pill is-warn">Quiet margin under 2 dots</span>`);
+    $('#stats').innerHTML = st.join('');
+    save();
+    scheduleScan();
+}
+
+/* ---------- Scan check ---------- */
+const TESTS = [
+    { name: 'Large', hint: '640 px', size: 640 },
+    { name: 'Medium', hint: '240 px', size: 240 },
+    { name: 'Small', hint: '110 px', size: 110 },
+    { name: 'Soft focus', hint: '240 px, blurred', size: 240, blur: true },
+    { name: 'Tilted', hint: '240 px, 14°', size: 240, rot: 14 },
+    { name: 'Dim light', hint: '240 px, grey + grain', size: 240, dim: true },
+];
+const native = 'BarcodeDetector' in window ? (() => { try { return new BarcodeDetector({ formats: ['qr_code'] }); } catch (e) { return null; } })() : null;
+let scanTimer = 0, scanToken = 0;
+function scheduleScan() { clearTimeout(scanTimer); $('#scanScore').textContent = 'Reading…'; scanTimer = setTimeout(scan, 300); }
+
+function loadImage(svg) {
+    return new Promise((res, rej) => {
+        const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+        const img = new Image();
+        img.onload = () => { res(img); URL.revokeObjectURL(url); };
+        img.onerror = e => { rej(e); URL.revokeObjectURL(url); };
+        img.src = url;
+    });
+}
+function degrade(img, t) {
+    const pad = Math.round(t.size * 0.12), W = t.size + pad * 2;
+    const cv = document.createElement('canvas'); cv.width = cv.height = W;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = S.ground; ctx.fillRect(0, 0, W, W);
+    ctx.save();
+    if (t.rot) { ctx.translate(W / 2, W / 2); ctx.rotate(t.rot * Math.PI / 180); ctx.translate(-W / 2, -W / 2); }
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, pad, pad, t.size, t.size);
+    ctx.restore();
+    if (t.blur) {
+        const k = 3.2, sm = document.createElement('canvas'); sm.width = sm.height = Math.round(W / k);
+        const sc = sm.getContext('2d'); sc.imageSmoothingQuality = 'high'; sc.drawImage(cv, 0, 0, sm.width, sm.height);
+        ctx.clearRect(0, 0, W, W); ctx.imageSmoothingQuality = 'high'; ctx.drawImage(sm, 0, 0, W, W);
+    }
+    if (t.dim) {
+        ctx.fillStyle = 'rgba(110,105,95,.3)'; ctx.fillRect(0, 0, W, W);
+        const id = ctx.getImageData(0, 0, W, W), d = id.data;
+        let seed = 7;
+        for (let i = 0; i < d.length; i += 4) {
+            seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+            const nz = (seed / 0x7fffffff - 0.5) * 20;
+            d[i] += nz; d[i + 1] += nz; d[i + 2] += nz;
+        }
+        ctx.putImageData(id, 0, 0);
+    }
+    return cv;
+}
+async function scan() {
+    const token = ++scanToken;
+    const want = S.url || ' ';
+    const grid = $('#scanGrid');
+    let img;
+    try { img = await loadImage(build(false).svg.replace('width="100%" height="100%"', 'width="1000" height="1000"')); }
+    catch (e) { $('#scanScore').textContent = 'Could not draw the code'; return; }
+    if (token !== scanToken) return;
+    let pass = 0, nativePass = 0, invertedOnly = 0;
+    const items = [];
+    for (const t of TESTS) {
+        const cv = degrade(img, t);
+        const data = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height);
+        /* jsQR 1.4.0 can throw inside its locator on some images; a throw is a miss */
+        const read = mode => { try { return jsQR(data.data, cv.width, cv.height, { inversionAttempts: mode }); } catch (e) { return null; } };
+        const js = read('dontInvert');
+        let jsState;
+        if (js) jsState = js.data === want ? 'ok' : 'wrong';
+        else if (read('onlyInvert')) { jsState = 'inv'; invertedOnly++; }
+        else jsState = 'no';
+        let nState = 'na';
+        if (native) {
+            try { const found = await native.detect(cv); nState = found.some(x => x.rawValue === want) ? 'ok' : found.length ? 'wrong' : 'no'; }
+            catch (e) { nState = 'na'; }
+        }
+        if (token !== scanToken) return;
+        if (jsState === 'ok') pass++;
+        if (nState === 'ok') nativePass++;
+        items.push({ t, cv, jsState, nState });
+    }
+    const label = { ok: ['ok', 'Reads'], wrong: ['no', 'Wrong text'], inv: ['meh', 'Only inverted'], no: ['no', 'No read'], na: ['na', 'n/a'] };
+    grid.innerHTML = '';
+    for (const { t, cv, jsState, nState } of items) {
+        const el = document.createElement('div'); el.className = 'scan__item';
+        el.append(cv);
+        el.insertAdjacentHTML('beforeend', `<div class="name">${t.name}</div><div class="na" style="margin-bottom:3px">${t.hint}</div><div class="res"><span class="${label[jsState][0]}">jsQR: ${label[jsState][1]}</span>${native ? `<span class="${label[nState][0]}">Browser: ${label[nState][1]}</span>` : ''}</div>`);
+        grid.append(el);
+    }
+    const total = TESTS.length;
+    $('#scanScore').innerHTML = `<span class="${pass === total ? 'ok' : pass >= total - 2 ? 'meh' : 'no'}">jsQR ${pass}/${total}</span>${native ? ` · <span class="${nativePass === total ? 'ok' : nativePass >= total - 2 ? 'meh' : 'no'}">browser ${nativePass}/${total}</span>` : ''}`;
+    const notes = [];
+    notes.push('jsQR is a strict, plain reader: if it passes all six, phone cameras (which are better) almost always will.');
+    if (!native) notes.push(window.isSecureContext ? 'This browser has no built-in QR reader, so only jsQR is shown (Chrome has both).' : 'Only jsQR is shown: Chrome keeps its own reader to https and localhost pages, and this one is plain http.');
+    if (invertedOnly) notes.push('“Only inverted” means it reads only when light and dark are swapped. iPhone Camera copes; some Android apps do not.');
+    if (pass < total) notes.push('Failing only Small or Soft focus usually means the dots are too thin or the grid too dense: print bigger, shorten the URL or raise the dot size.');
+    $('#scanNote').textContent = notes.join(' ');
+}
+
+/* ---------- Controls ---------- */
+function syncControls() {
+    $$('[name]').forEach(el => {
+        const k = el.name, v = S[k];
+        if (el.type === 'checkbox') el.checked = !!v;
+        else if (document.activeElement !== el) el.value = v;
+    });
+    $$('[data-out]').forEach(o => {
+        const k = o.dataset.out, v = +S[k];
+        o.textContent = k === 'logoSize' || k === 'dotSize' ? Math.round(v * 100) + '%' : k === 'gradAngle' ? v + '°' : k === 'minVersion' ? (v ? 'version ' + v + '+' : 'auto') : k === 'ringRadius' || k === 'eyeRadius' ? Math.round(v * 100) + '%' : v + (k === 'quiet' || k === 'logoPad' || k === 'bgRadius' || k === 'eyeSize' || k === 'ringWeight' ? ' dots' : '');
+    });
+    $$('[data-seg]').forEach(seg => $$('button', seg).forEach(b => b.setAttribute('aria-pressed', String(S[seg.dataset.seg] === b.dataset.v))));
+    $('#eclOut').textContent = `rebuilds ~${ECL_CAP[S.ecl]}% damage`;
+    $$('[data-when]').forEach(el => {
+        el.hidden = !el.dataset.when.split(';').some(cond => {
+            const [k, vals] = cond.split(':');
+            return vals.startsWith('!') ? !vals.slice(1).split(',').includes(String(S[k])) : vals.split(',').includes(String(S[k]));
+        });
+    });
+    $$('[data-color]').forEach(el => {
+        const k = el.dataset.color;
+        $$('.color__chips button', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v.toLowerCase() === S[k].toLowerCase())));
+        const hex = $('input[type=text]', el), pick = $('input[type=color]', el);
+        if (document.activeElement !== hex) hex.value = S[k].toUpperCase();
+        pick.value = S[k];
+    });
+    $$('#grounds button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.ground)));
+    $$('#logoPicker button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.logo)));
+    const named = ICON_GROUPS.flatMap(g => g[1]).find(([k]) => k === S.logo);
+    $('#logoName').textContent = S.logo === 'none' ? 'none' : S.logo === 'upload' ? 'my file' : named ? named[1] : '';
+    $('#gridToggle').checked = !!S.grid;
+    $('#dotSvgName').textContent = S.dotSvg ? 'loaded' : 'none yet';
+    $('#ringSvgName').textContent = S.ringSvg ? 'loaded' : 'none yet';
+    $('#eyeSvgName').textContent = S.eyeSvg ? 'loaded' : 'none yet';
+    $('#logoUploadName').textContent = S.logoUpload ? S.logoUpload.name : 'none yet';
+}
+
+function setKey(k, v) { S[k] = v; render(); }
+
+$$('[name]').forEach(el => {
+    el.addEventListener('input', () => {
+        const k = el.name;
+        if (el.type === 'checkbox') return setKey(k, el.checked);
+        if (el.type === 'range') return setKey(k, +el.value);
+        setKey(k, el.value);
+    });
+});
+$$('[data-seg]').forEach(seg => seg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setKey(seg.dataset.seg, b.dataset.v); }));
+
+$$('[data-color]').forEach(el => {
+    const k = el.dataset.color;
+    el.innerHTML = `<input type="text" spellcheck="false" maxlength="7" aria-label="Hex"><input type="color" aria-label="Pick"><div class="color__chips">${PALETTE.map(([name, hex]) => `<button type="button" title="${name} ${hex}" data-v="${hex}" style="background:${hex}"></button>`).join('')}</div>`;
+    $('.color__chips', el).addEventListener('click', e => { const b = e.target.closest('button'); if (b) setKey(k, b.dataset.v); });
+    $('input[type=color]', el).addEventListener('input', e => setKey(k, e.target.value.toUpperCase()));
+    $('input[type=text]', el).addEventListener('input', e => { const v = e.target.value.trim(); if (/^#?[0-9a-f]{6}$/i.test(v)) setKey(k, ('#' + v.replace('#', '')).toUpperCase()); });
+});
+
+{
+    const tile = (k, label, inner) => `<button type="button" data-v="${k}" title="${label}" aria-label="${label}">${inner}</button>`;
+    let html = tile('none', 'None', '<span class="icons__word">None</span>');
+    for (const [, items] of ICON_GROUPS) for (const [k, label] of items) {
+        const art = parseSvg(ICON_SVG[k], MONO.has(k));
+        html += tile(k, label, nest(art, 0, 0, 24, 24 * art.aspect, MONO.has(k) ? '#151317' : '').replace('<svg ', `<svg width="24" height="${f(24 * art.aspect)}" `).replace(/ x="0" y="0" width="24" height="[^"]+"/, ''));
+    }
+    html += tile('upload', 'My file', '<span class="icons__word">My file</span>');
+    $('#logoPicker').innerHTML = html;
+    $('#logoPicker').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setKey('logo', b.dataset.v); });
+}
+$('#grounds').innerHTML = GROUNDS.map(([name, hex]) => `<button type="button" data-v="${hex}">${name}</button>`).join('');
+$('#grounds').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setKey('ground', b.dataset.v); });
+$('#gridToggle').addEventListener('change', e => setKey('grid', e.target.checked));
+
+$('#looks').innerHTML = Object.keys(LOOKS).map(n => `<button type="button" data-v="${n}">${n}</button>`).join('');
+$('#looks').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const keep = { url: S.url, ecl: S.ecl, dotSvg: S.dotSvg, ringSvg: S.ringSvg, eyeSvg: S.eyeSvg, logoUpload: S.logoUpload };
+    S = { ...DEFAULTS, ...keep, ...LOOKS[b.dataset.v] };
+    render();
+});
+
+$$('input[data-svg]').forEach(inp => inp.addEventListener('change', async () => {
+    const file = inp.files[0]; if (!file) return;
+    const text = await file.text();
+    const name = $('#' + inp.dataset.svg + 'Name');
+    if (!parseSvg(text, false)) { name.textContent = 'not an SVG: try another file'; return; }
+    setKey(inp.dataset.svg, text);
+}));
+$('#logoFile').addEventListener('change', async e => {
+    const file = e.target.files[0]; if (!file) return;
+    if (file.type === 'image/svg+xml' || /\.svg$/i.test(file.name)) return setKey('logoUpload', { kind: 'svg', data: await file.text(), name: file.name });
+    const data = await new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(file); });
+    const img = new Image();
+    img.onload = () => setKey('logoUpload', { kind: 'img', data, aspect: img.naturalHeight / img.naturalWidth, name: file.name });
+    img.src = data;
+});
+
+$('#reset').addEventListener('click', () => { S = { ...DEFAULTS }; render(); });
+
+/* ---------- Export ---------- */
+function slug() {
+    try {
+        const u = new URL(S.url);
+        const segs = u.pathname.split('/').filter(Boolean);
+        return (segs.join('-') || 'home').replace(/[^a-z0-9-]+/gi, '-').toLowerCase();
+    } catch (e) { return 'text'; }
+}
+function exportSvg() { return '<?xml version="1.0" encoding="UTF-8"?>\n' + build(true).svg; }
+/* On a published claude.ai page a plain download link is blocked; the viewer's own save prompt takes over there */
+let saver = null;
+if (window.claude && window.claude.use) window.claude.use('downloads').then(d => { saver = d; }).catch(() => {});
+function flash(btn, text) { const was = btn.dataset.label || (btn.dataset.label = btn.textContent); btn.textContent = text; setTimeout(() => { btn.textContent = was; }, 2200); }
+async function download(name, blob, btn) {
+    if (saver) {
+        try { await saver.save({ filename: name, data: blob }); }
+        catch (e) { if (!e || e.code !== 'declined') flash(btn, 'Saving is off here: use Copy SVG'); }
+        return;
+    }
+    if (window.claude) { flash(btn, 'Saving is off here: use Copy SVG'); return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+$('#dlSvg').addEventListener('click', e => download(`qr-${slug()}-sweet-pepper-bar.svg`, new Blob([exportSvg()], { type: 'image/svg+xml' }), e.currentTarget));
+$('#copySvg').addEventListener('click', async e => {
+    const btn = e.currentTarget, was = btn.textContent;
+    try { await navigator.clipboard.writeText(build(true).svg); btn.textContent = 'Copied: paste in Figma'; }
+    catch (err) { btn.textContent = 'Copy blocked: use Download'; }
+    setTimeout(() => { btn.textContent = was; }, 1800);
+});
+$('#dlPng').addEventListener('click', async e => {
+    const btn = e.currentTarget;
+    const px = +$('#pngSize').value;
+    const img = await loadImage(build(true).svg);
+    const cv = document.createElement('canvas'); cv.width = cv.height = px;
+    cv.getContext('2d').drawImage(img, 0, 0, px, px);
+    cv.toBlob(b => download(`qr-${slug()}-sweet-pepper-bar-${px}.png`, b, btn), 'image/png');
+});
+
+render();
+})();
+</script>
+</body>
+</html>

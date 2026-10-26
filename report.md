@@ -1,5 +1,27 @@
 # Sweet Pepper Website — Project Report
 
+## QR lab: our own shapes, with a scan check — 25 October 2026
+
+The author: Adobe Express and the Figma QR plugin offer only a few dot and corner styles (both draw with qr-code-styling, as the `design/qr/` exports show). They wanted to shape the corners themselves, add a logo, and use brand colours, with a scanner check built in.
+
+- **The lab:** `sweet-pepper-theme/lab/qr.html` (served at `/wp-content/themes/sweet-pepper-theme/lab/qr.html`, `noindex`, linked from nowhere). It encodes the URL with `lab/vendor/qrcode-generator-2.0.4.js` (MIT) and draws every part itself:
+  - 12 dot shapes: connected, horizontal or vertical pills, square, rounded, circle, diamond, seed, sparkle, plus, the Pepper icon, or the author's own SVG.
+  - Corner rings (square, rounded, squircle, circle, leaf in or out, own SVG with mirroring) and corner centres (the same, plus nine dots and the Pepper icon). The small alignment squares match the corners or are drawn as dots.
+  - Logo: favicon, symbol, logo icon, Pepper, or an upload. It sits on a plate, and the dots under it are cleared.
+  - Colours: the brand palette, a gradient option, and the preview on the four brand grounds.
+  - Grid size, and a grid overlay that shows the parts a scanner needs.
+  - Settings are remembered per browser.
+- **Scan check:** every change is rasterised six ways (640, 240 and 110 px, soft focus, a 14° tilt, dim light with grain) and read back by `lab/vendor/jsqr-1.4.0.js` (Apache-2.0), and by the browser's own BarcodeDetector where there is one (Chrome on macOS). The dim test was eased until the four stock codes in `design/qr/` pass all six, so a fail means a design reads worse than a stock code. The pills under the code show the weakest ink contrast, a light-on-dark warning, and how much data the logo covers against what the error correction level rebuilds.
+- **Measured:** starting looks Peppercorn, Seeds, Pills and Chili gradient score jsQR 6/6 and browser 6/6. Night (Cream on Peppercorn) scores jsQR 0/6 and browser 5/6. Peppers (edge) scores jsQR 4/6 and browser 6/6: the pepper's weight sits low-left in its cell. The Pepper icon used as a corner centre drops both readers to 0/6.
+- **Decoded from the old exports:** `/`, `/about/`, `/menu/food/`, `/menu/bar/`. These are the URL suggestions in the lab.
+- **Export:** SVG at 20 px per dot, in groups (`background`, `dots`, `corners` → `corner-rings` / `corner-centres`, `alignment`, `logo`); copy to clipboard to paste into Figma; PNG at 1024, 2048 or 4096 px.
+- **Icons and sharing (same day, the author: "add some icon options … worth publishing for the team"):**
+  - The logo picker is now a grid of 30 choices, all copied into the page (`ICON_SVG`), so the lab also runs from a file: the four brand marks; 23 one-colour icons from `assets/icons/` (food, cocktail, coffee, wine, beer, glass, soup, burger, kebab, vegetarian, hot, star, kids, dogs welcome, party, terrace, bell, Wi-Fi, pin, map, phone, mail, chat); VK and Instagram in their own colours.
+  - A new **Logo colour** paints the one-colour icons; "Paint brand marks…" extends it to the multi-colour ones. A new starting look, **Badge**, puts a Paper cocktail on a Chili plate.
+  - Measured: every one of the 30 choices on the default look scores jsQR 6/6 and browser 6/6.
+  - **Shared copy:** `tools/qr-lab-artifact.py OUT.html` builds the claude.ai page from `lab/qr.html`. It swaps in pinned jsDelivr URLs for the two libraries, Google Fonts for Golos Text, and Molot inlined. Published as "Sweet Pepper QR Lab" at https://claude.ai/artifact/8AJ3Bzq13EE7sCiPCjLmfX (private until shared from its Share menu). There, Download asks through the viewer's own save prompt (`downloads` capability); Copy SVG works as here. To update it, rerun the script and republish to that URL.
+- **Open:** the author's designs on real phones at print size (iPhone Camera, an Android camera or Lens). Not committed.
+
 ## Prices take Deep Olive by day — the audit's A4, closed — 22 October 2026
 
 Found while reviewing the case study's audit slide: the August audit's price finding (`docs-audit.md` A4, Olive 3.68 : 1 on Parchment) never reached the docs, and the build had drifted further — **day prices were Avocado: 3.11 : 1 on Paper, 2.76 on Parchment, 2.98 on the Cream add-on cards** (small text needs 4.5; even 3:1 failed). Night was fine (4.97).

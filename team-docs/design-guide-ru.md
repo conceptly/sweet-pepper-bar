@@ -250,7 +250,7 @@
 
 | Что | Где |
 |---|---|
-| **Облако с ассетами — шрифты, логотипы, иконки, фото (начинайте отсюда)** | [Яндекс Диск](https://disk.yandex.com/d/qZYJDoH89S5ttg) |
+| **Облако с ассетами — шрифты, логотипы, иконки, фото (начинайте отсюда)** | [Яндекс Диск](https://disk.yandex.ru/d/rARrtDsm3Qpbbw) |
 | Шрифты — Molot, Golos Text | [Яндекс Диск › Шрифты](https://disk.yandex.com/d/6tRMApbim44rYg) · `design/fonts/` |
 | Логотипы — набор 2026, схемы охранного поля, favicon | [Яндекс Диск › Логотипы](https://disk.yandex.com/d/4AnCJj12DiY0qg) · `design/logos/2026/` |
 | Иконки — набор для сайта, логотипы соцсетей, ярославский медведь | [Яндекс Диск › Иконки](https://disk.yandex.com/d/2Ggx_3QrFwl2gg) · `design/icons/` |

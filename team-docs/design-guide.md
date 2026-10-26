@@ -248,7 +248,7 @@ Web grid: 1120 px content width, 12 columns, 24 px gutter (details in `website-b
 
 | What | Where |
 |---|---|
-| **Asset cloud — fonts, logos, icons, photos (start here)** | [Yandex Disk](https://disk.yandex.com/d/qZYJDoH89S5ttg) |
+| **Asset cloud — fonts, logos, icons, photos (start here)** | [Yandex Disk](https://disk.yandex.ru/d/rARrtDsm3Qpbbw) |
 | Fonts — Molot, Golos Text | [Yandex Disk › Fonts](https://disk.yandex.com/d/6tRMApbim44rYg) · `design/fonts/` |
 | Logos — 2026 set, clear-space guides, favicon | [Yandex Disk › Logos](https://disk.yandex.com/d/4AnCJj12DiY0qg) · `design/logos/2026/` |
 | Icons — website set, social logos, Yaroslavl bear | [Yandex Disk › Icons](https://disk.yandex.com/d/2Ggx_3QrFwl2gg) · `design/icons/` |

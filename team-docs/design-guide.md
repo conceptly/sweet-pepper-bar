@@ -1,9 +1,9 @@
 # Sweet Pepper — Brand & Design Guide
 
-*Team edition · September 2026 · For new designers and social media creators*
+*Team edition · October 2026 · For new designers and social media creators*
 *Shake & Cook · Good food & drink since 2014 · Kirova St. 10, Yaroslavl*
 
-This is the short, practical version of the Sweet Pepper visual system. It tells you what the brand looks like, which rules matter, and where the files are. The full spec with reasoning lives in `design.md`; website-specific decisions live in `website-brief.md`; the illustrated reference is `sweet-pepper-style-guide.pdf`.
+This is the short, practical version of the Sweet Pepper visual system. It tells you what the brand looks like, which rules matter, and where the files are. The full spec with reasoning lives in `design.md`; website-specific decisions live in `website-brief.md`; the illustrated reference is the live style guide at [sweetpepper.bar/style-guide.html](https://sweetpepper.bar/style-guide.html) (EN/RU switch), and a six-slide short guide is in `style-guide/sweet-pepper-short-guide-ru.pdf`.
 
 **Two kinds of rules.** *Brand core* rarely changes: Molot as the display face, the three-ramp pepper palette, the cosy↔spicy tension, photography shot in the bar. Everything else is a *working rule* — it can be revised for a real reason, but update the doc when you do; don't quietly drift.
 
@@ -56,8 +56,9 @@ Everything is a tint or shade of **three hues** — chili red, green, yellow —
 |---|---|---|
 | Lime | `#C1DB34` | Signature green (cocktail) · highlight on dark |
 | Light Lime | `#D4E671` | Lightest green tint |
-| Avocado | `#869438` | Support green |
-| Olive | `#737D3A` | Secondary green · prices by day |
+| Avocado | `#869438` | Support green · prices at night |
+| Olive | `#737D3A` | Secondary green · large text and UI on light (fails as small text) |
+| Deep Olive | `#626B31` | Prices and small olive text — light grounds only |
 
 **Yellow line**
 
@@ -79,18 +80,23 @@ Everything is a tint or shade of **three hues** — chili red, green, yellow —
 
 Print: Peppercorn = `C15 M23 Y0 K95` · Parchment = `C5 M11 Y40 K0` · Cream = `C0 M0 Y60 K0`.
 
-### 3.2 Night and Day
+### 3.2 Night and Day — the colour schemes
 
-Loud colours never carry a layout on their own — a neutral ground does the work. Two modes:
+Loud colours never carry a layout on their own — a neutral ground does the work. Two colour schemes:
 
-- **Night** — bar, cocktails, evening, posters, most social. Ground Peppercorn. Text Parchment (body) and Cream (highlight). Chili leads, Lime/Lemon highlight, Paprika supports. High energy, maximum contrast.
-- **Day** — kitchen, breakfast/lunch, daytime menu. Surface Parchment or Paper. Body Peppercorn, headings Chili, prices Olive, blocks Cream. Calm, warm, appetising.
+- **Night** — bar, cocktails, evening, most social. Ground Peppercorn. Text Parchment (body) and Cream (highlight). Chili leads, Lime/Lemon highlight, Paprika supports; prices Avocado. High energy, maximum contrast.
+- **Day** — kitchen, breakfast/lunch, daytime menu. Surface Parchment or Paper. Body Peppercorn, headings Chili, prices Deep Olive, blocks Cream. Calm, warm, appetising.
 
-On the website the mode switches automatically with the time of day; in social and print you choose it by content.
+On the website the scheme switches automatically with the time of day; in social and print you choose it by content. Night and day are colour schemes, not layout modes: a poster or a menu can be either (§8).
 
 ### 3.3 Surfaces
 
-A saturated pepper colour is a **banner colour, not a background colour** — over a large area it vibrates and kills legibility. Long-form surfaces (menus, brochures, web body) are only Peppercorn, Parchment or Paper. Short promo blocks and bands may use a saturated fill *if* the text on it passes the pairings below.
+**Grounds are always neutral.** Every page and every long read — menus included — sits on Peppercorn, Parchment or Paper. A saturated pepper colour over a large area vibrates and kills legibility. No pure white and no pure black: the lightest ground is Paper, the darkest Peppercorn.
+
+- **Accent banners and small blocks** may take **Lime, Lemon or Cream**, with dark text that passes the table below. They usually carry a Molot line.
+- **Chili, Paprika, Avocado and Olive are never a ground** — use them for headings, icons and small accents.
+- **Never put a whole page or a menu on Lime.** Lime is an accent for small blocks only.
+- **Cards** alternate with the paired ground: Parchment on Paper by day, Soft Peppercorn on Peppercorn at night. Cream works for add-on cards and highlighted boxes.
 
 ### 3.4 Safe text pairings
 
@@ -98,12 +104,12 @@ The palette is colour-blind safe. What fails is contrast — use this table:
 
 | Ground | Safe for any text | Large text / UI only | Don't |
 |---|---|---|---|
-| Peppercorn | Parchment, Cream, Mushroom, Chili, Lime, Lemon, Paprika | — | Deep Chili |
-| Paper / Parchment | Peppercorn, Ash, Deep Chili | Chili (headings), Olive | Lime, Lemon, Cream, Paprika |
-| Lemon | Peppercorn, Ash | Chili, Olive | anything else |
-| Lime | Peppercorn, Ash | — | Chili, Olive, anything else |
+| Peppercorn | Parchment, Cream, Mushroom, Chili, Lime, Lemon, Paprika, Avocado | — | Deep Chili, Deep Olive |
+| Paper / Parchment | Peppercorn, Ash, Deep Chili, Deep Olive | Chili (headings), Olive | Lime, Lemon, Cream, Paprika |
+| Lemon | Peppercorn, Ash, Deep Olive | Chili, Olive | anything else |
+| Lime | Peppercorn, Ash | — | Chili, Olive, Deep Olive, anything else |
 
-The easy mistake: Olive on Lime looks like a tasteful "quiet green on green" and fails. On Lime, only Peppercorn and Ash. The logo is exempt — its red reads fine at logo weight.
+The easy mistake: Olive on Lime looks like a tasteful "quiet green on green" and fails. On Lime, only Peppercorn and Ash. Deep Olive is a light-ground colour — never on Lime or dark grounds. The logo is exempt — its red reads fine at logo weight.
 
 ---
 
@@ -191,11 +197,18 @@ Two ideas govern every shot: **shoot in the bar** and **set the scene**. The pho
 - Shallow depth of field — hero sharp, room melts to warm bokeh.
 - Leave a quiet or dark area for type; many shots double as poster and social grounds.
 
-Two registers, matching the colour modes: **dark & moody** (cocktails, spirits, wine, evening) and **warm & lighter** (food, breakfast, desserts, daytime). Consistency comes from setting and grade, not studio perfection — casual and slightly imperfect beats sterile every time.
+Two registers, matching the colour schemes: **dark & moody** (cocktails, spirits, wine, evening) and **warm & lighter** (food, breakfast, desserts, daytime). Consistency comes from setting and grade, not studio perfection — casual and slightly imperfect beats sterile every time.
 
 ---
 
 ## 8. Layout
+
+**Two layout modes** — how a piece communicates, not the time of day:
+
+- **Poster** — posters, flyers, event covers, social promo. Contrast comes from type size, colour and accent bands (a Lemon band edged in Chili across a Peppercorn ground, say), never from a second typeface: Molot can carry the whole piece, as on the Constructivist posters this style draws on — no grotesque body face. One main message; Golos Text only for the small print (address, 18+).
+- **Menu** — menus, price lists, the About page, any long read. A neutral ground, Molot headings, Golos Text for every line people read; colour marks only headings and prices.
+
+Either mode works in either colour scheme (§3.2). For both:
 
 - Ground every layout in Peppercorn (night) or Parchment/Paper (day).
 - Generous margins — let it breathe.
@@ -210,7 +223,7 @@ Web grid: 1120 px content width, 12 columns, 24 px gutter (details in `website-b
 
 **Formats.** Instagram feed 4:5; stories and reels 9:16; VK cover and web banners wide (3:2 or 21:9 for room shots). Landscape 3:2 and portrait 2:3 are the working photo ratios; 1:1 for avatars and the stamp.
 
-**Pick the mode by content.** Cocktails, evening, events → Night (Peppercorn ground, Parchment/Cream text, Chili + Lime accents). Food, brunch, daytime → Day (Parchment/Paper ground, Chili headings, Olive prices). Don't mix modes in one post.
+**Pick the colour scheme by content.** Cocktails, evening, events → Night (Peppercorn ground, Parchment/Cream text, Chili + Lime accents). Food, brunch, daytime → Day (Parchment/Paper ground, Chili headings, Deep Olive prices). Don't mix schemes in one post. A post is poster mode (§8).
 
 **Type on a post.** One Molot headline of 3–7 words in caps; details (date, price, address, 18+) in Golos. Hierarchy by size and colour, not by adding a font. A colour-block band behind the headline beats an outline or glow.
 
@@ -237,7 +250,7 @@ Web grid: 1120 px content width, 12 columns, 24 px gutter (details in `website-b
 **Don't**
 
 - Run every colour at full saturation with no neutral.
-- Use a saturated hue as a large background, or pure white anywhere.
+- Use a saturated hue as a large background — never a whole page or a menu on Lime — or pure white or pure black anywhere.
 - Set body copy or menus in all caps; add a serif or a second display face.
 - Stack shadow + outline + glow.
 - Mix UI icon libraries, recolour social logos, or reuse the old stock pepper pattern.
@@ -257,7 +270,9 @@ Web grid: 1120 px content width, 12 columns, 24 px gutter (details in `website-b
 | Palette swatches | `design/color/` |
 | Photography | [Yandex Disk › Photos](https://disk.yandex.ru/d/ESlJMwDkt5_o7w) · `photos/` |
 | Documentation — `design.md`, `website-brief.md` and the other project notes | [Yandex Disk › Documentation](https://disk.yandex.ru/d/7NTD4_hxmk98Sw) |
-| Illustrated style guide (HTML with EN/RU switch, PDF) | `style-guide-draft.html` · `sweet-pepper-style-guide.pdf` / `-ru.pdf` |
+| Illustrated style guide — live, with an EN/RU switch | [sweetpepper.bar/style-guide.html](https://sweetpepper.bar/style-guide.html) · `style-guide.html` |
+| Short guide — six slides, RU PDF | `style-guide/sweet-pepper-short-guide-ru.pdf` · Figma Style Guide, the short-guide rows |
+| Style guide PDFs (12 Sep 2026 — older than the live page) | `sweet-pepper-style-guide.pdf` / `-ru.pdf` |
 | Full design spec (with reasoning and history) | `design.md` |
 | Website decisions — grid, day/night mechanic, image ratios | `website-brief.md` |
 | Figma — Style Guide | [Sweet Pepper Style Guide](https://www.figma.com/design/Ymf85QTDs0Ttf2rGrx9ter/Sweet-Pepper-Style-Guide?node-id=4-18) |

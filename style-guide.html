@@ -28,7 +28,8 @@
   --lime-light: #D4E671;   /* lighter lime tint — pairs/layers with Lime */
   --lemon:      #FFED00;   /* highlight only */
   --avocado:    #869438;   /* support green */
-  --olive:      #737D3A;   /* secondary green / prices */
+  --olive:      #737D3A;   /* secondary green — large text and UI on light */
+  --olive-deep: #626B31;   /* prices and small olive text — light grounds only (design.md §2.2) */
   /* Neutrals & surfaces */
   --peppercorn:     #151317;   /* brand BLACK ground (night, posters). Print: rich black C15 M23 Y0 K95 */
   --soft-peppercorn:#201E22;   /* alternate dark surface — breaks up long dark stretches in night mode */
@@ -199,11 +200,11 @@ ul.clean li{margin-bottom:12px;}
 .menu-demo{background:var(--parchment);border-radius:14px;padding:40px;}
 .menu-demo .mt{font-family:'Molot',sans-serif;text-transform:uppercase;color:var(--chili);font-size:30px;line-height:1;}
 .menu-demo .mi{display:flex;justify-content:space-between;border-bottom:1px dotted #c9bd9a;padding:12px 0;color:var(--peppercorn);}
-.menu-demo .mi .price{font-weight:700;color:var(--olive);}
+.menu-demo .mi .price{font-weight:700;color:var(--olive-deep);}
 .menu-demo + .menu-demo{margin-top:16px;}
 .menu-demo.night{background:var(--peppercorn);}
 .menu-demo.night .mi{color:var(--parchment);border-bottom-color:rgba(243,233,210,.25);}
-.menu-demo.night .mi .price{color:var(--lime);}
+.menu-demo.night .mi .price{color:var(--avocado);}
 
 .toc{font-size:14px;columns:2;column-gap:40px;}
 .toc a{display:block;padding:4px 0;color:var(--ash);text-decoration:none;border-bottom:1px solid transparent;}
@@ -2516,7 +2517,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
           <div class="mi" lang="en"><span>Mojito</span><span class="price">320 ₽</span></div><div class="mi" lang="ru"><span>Мохито</span><span class="price">320 ₽</span></div>
           <div class="mi" lang="en"><span>House infusion</span><span class="price">150 ₽</span></div><div class="mi" lang="ru"><span>Домашняя настойка</span><span class="price">150 ₽</span></div>
         </div>
-        <p class="note" lang="en">A neutral ground — Parchment by day for the kitchen, Peppercorn at night for the bar — with Molot headings and Golos Text for every line people read. Calm and legible: colour marks only headings and prices (Olive by day, Lime at night).</p><p class="note" lang="ru">Нейтральный фон — Parchment днём для кухни, Peppercorn ночью для бара, — заголовки Molot, весь текст для чтения — Golos Text. Спокойно и разборчиво: цветом выделены только заголовки и цены (Olive днём, Lime ночью).</p>
+        <p class="note" lang="en">A neutral ground — Parchment by day for the kitchen, Peppercorn at night for the bar — with Molot headings and Golos Text for every line people read. Calm and legible: colour marks only headings and prices (Deep Olive by day, Avocado at night).</p><p class="note" lang="ru">Нейтральный фон — Parchment днём для кухни, Peppercorn ночью для бара, — заголовки Molot, весь текст для чтения — Golos Text. Спокойно и разборчиво: цветом выделены только заголовки и цены (Deep Olive днём, Avocado ночью).</p>
       </div>
     </div>
 

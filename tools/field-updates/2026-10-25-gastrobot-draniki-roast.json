@@ -1,0 +1,77 @@
+{
+ "post_type": "pairings",
+ "date": "2026-10-25",
+ "uploads": {
+  "bar/beer/beer-05.jpg": {
+   "alt": "Бокал пива и звонок «Ring for a beer» на стойке",
+   "topic": "Бар"
+  }
+ },
+ "groups": [
+  {
+   "note": "Гастробот — the draniki's drink is now beer (author, local admin, 25 Oct 2026)",
+   "set": [
+    [
+     "pairs_1_drink_photo",
+     "asset:bar/infusions/infusions-lenya-11.jpg",
+     "asset:bar/beer/beer-05.jpg"
+    ],
+    [
+     "pairs_1_drink_section",
+     "infusions",
+     "beer"
+    ],
+    [
+     "pairs_1_reply_ru",
+     "Стопка клюквенной настойки",
+     "Светлое нефильтрованное"
+    ],
+    [
+     "pairs_1_reply_en",
+     "A shot of the cranberry infusion",
+     "Light Unfiltered Beer"
+    ]
+   ]
+  },
+  {
+   "note": "Гастробот — the roast takes the cranberry infusion instead of Finlandia (author, local admin, 25 Oct 2026)",
+   "set": [
+    [
+     "pairs_3_drink_photo",
+     "asset:bar/hard-drinks/finlandia-3.jpg",
+     "asset:bar/infusions/infusions-lenya-11.jpg"
+    ],
+    [
+     "pairs_3_drink_section",
+     "spirits",
+     "infusions"
+    ],
+    [
+     "pairs_3_reply_ru",
+     "Стопка водки Finlandia",
+     "Шот клюквенной настойки"
+    ],
+    [
+     "pairs_3_reply_en",
+     "A shot of the Finlandia",
+     "A shot of the cranberry infusion"
+    ]
+   ]
+  },
+  {
+   "note": "Гастробот — the ticket's RU link words (author, local admin, 25 Oct 2026); EN left empty, so English pages keep See this drink / See this dish",
+   "set": [
+    [
+     "cta_drink_ru",
+     "",
+     "Попробовать!"
+    ],
+    [
+     "cta_dish_ru",
+     "",
+     "Посмотреть в меню"
+    ]
+   ]
+  }
+ ]
+}

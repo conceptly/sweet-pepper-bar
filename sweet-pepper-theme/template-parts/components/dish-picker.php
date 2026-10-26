@@ -124,7 +124,7 @@ $default    = $pairings[ $default_index ];
 
                 <a class="dish-picker__cta"
                    href="<?php echo esc_url( sweet_pepper_menu_url( $link_menu, $default['bar_section'] ) ); ?>">
-                    <span><?php 'food' === $link_menu ? esc_html_e( 'See this dish', 'sweet-pepper' ) : esc_html_e( 'See this drink', 'sweet-pepper' ); ?></span>
+                    <span><?php echo esc_html( sweet_pepper_pairing_cta( 'food' === $link_menu ? 'dish' : 'drink' ) ); ?></span>
                     <span class="dish-picker__cta-icon" aria-hidden="true">
                         <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 6H11M11 6L6.5 1.5M11 6L6.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

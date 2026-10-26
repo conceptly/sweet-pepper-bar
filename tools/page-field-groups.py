@@ -391,6 +391,7 @@ location = group(
 # dishes and the copied fields go (website-brief.md → Picker pairings). The reply line,
 # the short label and "opens first" are the pairing's own and stay.
 P = "field_sp_pair_"
+pf = lambda *args, **k: field(*args, prefix=P, **k)
 pr = lambda *args, **k: field(*args, prefix=P, parent="rows", **k)
 BAR_SECTIONS = {"infusions": "Настойки", "cocktails": "Коктейли", "wine": "Вино", "beer": "Пиво",
                 "spirits": "Крепкое", "no-buzz": "Без градуса", "tea-coffee": "Чай и кофе"}
@@ -401,6 +402,16 @@ pairings = group(
                       "«Открывается первой» — пара, которую гость видит до выбора (одна на список). "
                       "«Скрыть» убирает пару, пока блюда нет в меню. Пока меню не переехало в админку, блюдо и "
                       "напиток здесь набираются руками; потом они станут выбором из меню."),
+        # The ticket's link words (.dish-picker__cta), one pair per direction: the kitchen and About
+        # pickers link to a drink, the bar page's to a dish (author, 25 Oct 2026). Empty → the theme's.
+        *[pf(f"cta_{to}_{lang}", label + ("" if lang == "ru" else " (EN)"), f"cta_{to}_{lang}", "text", 50,
+             instructions=note, **{**text, "placeholder": words[lang]})
+          for to, label, note, words in (
+              ("drink", "Ссылка на билете — к напитку", "Меню кухни и «О нас». Пусто — «О напитке» / See this drink.",
+               {"ru": "О напитке", "en": "See this drink"}),
+              ("dish", "Ссылка на билете — к блюду", "Меню бара. Пусто — «О блюде» / See this dish.",
+               {"ru": "О блюде", "en": "See this dish"}))
+          for lang in ("ru", "en")],
         field("rows", "Пары", "pairs", "repeater", prefix=P, layout="block", pagination=0, min=0, max=8,
               collapsed=f"{P}dish_name_ru", button_label="Добавить пару", rows_per_page=20, sub_fields=[
                   pr("dish_photo", "Фото блюда", "dish_photo", "image", 20, **image),

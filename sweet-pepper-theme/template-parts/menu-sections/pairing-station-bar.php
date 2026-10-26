@@ -24,9 +24,10 @@
 // shows the bar's reply as the tag and links to hot dishes.
 $drinks = [
     'Pumpkin Soup'         => [ 'Buckthorn Infusion', 'Buckthorn Infusion', 'Облепиховая настойка', 'Облепиховая настойка', 'soups' ],
-    'Signature Draniki'    => [ 'Cranberry Infusion', 'Cranberry Infusion', 'Клюквенная настойка', 'Клюквенная настойка', 'hot-dishes' ],
+    // The draniki → beer and the roast → cranberry infusion followed the author's admin edits (25 Oct 2026)
+    'Signature Draniki'    => [ 'Light Unfiltered Beer', 'Light Unfiltered Beer', 'Светлое нефильтрованное', 'Светлое нефильтрованное', 'hot-dishes' ],
     'Beefsteak with Egg'   => [ 'Jack Daniels on Ice', 'Jack Daniels on Ice', "Jack Daniel's со льдом", "Jack Daniel's со льдом", 'hot-dishes' ],
-    'Yaroslavl Pork Roast' => [ 'A Shot of Finlandia', 'Shot of Finlandia', 'Стопка водки Finlandia', 'Стопка Finlandia', 'hot-dishes' ],
+    'Yaroslavl Pork Roast' => [ 'Cranberry Infusion', 'Cranberry Infusion', 'Клюквенная настойка', 'Клюквенная настойка', 'hot-dishes' ],
     'Smoked Pepper Wings'  => [ 'Ararat Cognac', 'Ararat Cognac', 'Коньяк «Арарат»', 'Коньяк «Арарат»', 'hot-dishes' ],
     'Chicken Pasta'        => [ 'Jim Beam on Ice', 'Jim Beam on Ice', 'Jim Beam со льдом', 'Jim Beam со льдом', 'hot-dishes' ],
 ];

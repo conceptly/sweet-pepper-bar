@@ -21,6 +21,86 @@
             "message": "Одна строка — одна пара «блюдо → напиток». Порядок строк — порядок ярлыков на сайте. «Открывается первой» — пара, которую гость видит до выбора (одна на список). «Скрыть» убирает пару, пока блюда нет в меню. Пока меню не переехало в админку, блюдо и напиток здесь набираются руками; потом они станут выбором из меню."
         },
         {
+            "key": "field_sp_pair_cta_drink_ru",
+            "label": "Ссылка на билете — к напитку",
+            "name": "cta_drink_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Меню кухни и «О нас». Пусто — «О напитке» / See this drink.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "О напитке",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_pair_cta_drink_en",
+            "label": "Ссылка на билете — к напитку (EN)",
+            "name": "cta_drink_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Меню кухни и «О нас». Пусто — «О напитке» / See this drink.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "See this drink",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_pair_cta_dish_ru",
+            "label": "Ссылка на билете — к блюду",
+            "name": "cta_dish_ru",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Меню бара. Пусто — «О блюде» / See this dish.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "О блюде",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sp_pair_cta_dish_en",
+            "label": "Ссылка на билете — к блюду (EN)",
+            "name": "cta_dish_en",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Меню бара. Пусто — «О блюде» / See this dish.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "See this dish",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_sp_pair_rows",
             "label": "Пары",
             "name": "pairs",
@@ -379,5 +459,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790184831
+    "modified": 1792985072
 }

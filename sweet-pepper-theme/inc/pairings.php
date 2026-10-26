@@ -80,6 +80,26 @@ function sweet_pepper_food_pairings() {
 }
 
 /**
+ * The ticket's link words (.dish-picker__cta): «О напитке» on the kitchen and About pickers,
+ * «О блюде» on the bar page's, as typed on the record (author, 25 Oct 2026); an empty field
+ * keeps the theme's string.
+ *
+ * @param string $to 'drink' | 'dish' — what the link opens.
+ */
+function sweet_pepper_pairing_cta( $to ) {
+    $to    = 'dish' === $to ? 'dish' : 'drink';
+    $post  = sweet_pepper_pairings_post();
+    // The request's language only: an empty twin takes the theme's string in its own
+    // language, never the other twin — the RU words printed on /en/ on 25 Oct 2026.
+    $typed = ( $post && function_exists( 'get_field' ) )
+        ? trim( (string) get_field( "cta_{$to}_" . sweet_pepper_lang(), $post->ID ) ) : '';
+    if ( '' !== $typed ) {
+        return $typed;
+    }
+    return 'dish' === $to ? __( 'See this dish', 'sweet-pepper' ) : __( 'See this drink', 'sweet-pepper' );
+}
+
+/**
  * The row the picker opens on: the first marked «Открывается первой», else the first.
  * ($slug is kept for the two callers; a saved record decides by the switch.)
  */

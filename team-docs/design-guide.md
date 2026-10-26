@@ -249,12 +249,14 @@ Web grid: 1120 px content width, 12 columns, 24 px gutter (details in `website-b
 | What | Where |
 |---|---|
 | **Asset cloud — fonts, logos, icons, photos (start here)** | [Yandex Disk](https://disk.yandex.ru/d/rARrtDsm3Qpbbw) |
-| Fonts — Molot, Golos Text | [Yandex Disk › Fonts](https://disk.yandex.com/d/6tRMApbim44rYg) · `design/fonts/` |
-| Logos — 2026 set, clear-space guides, favicon | [Yandex Disk › Logos](https://disk.yandex.com/d/4AnCJj12DiY0qg) · `design/logos/2026/` |
-| Icons — website set, social logos, Yaroslavl bear | [Yandex Disk › Icons](https://disk.yandex.com/d/2Ggx_3QrFwl2gg) · `design/icons/` |
+| Fonts — Molot, Golos Text | [Yandex Disk › Fonts](https://disk.yandex.ru/d/LVANr7qZ8d78uA) · `design/fonts/` |
+| Logos — 2026 set, clear-space guides, favicon | [Yandex Disk › Logos](https://disk.yandex.ru/d/vlfTImNIkm5caQ) · `design/logos/2026/` |
+| Icons — website set, social logos, Yaroslavl bear | [Yandex Disk › Icons](https://disk.yandex.ru/d/BphJDe7XEXDiiA) · `design/icons/` |
+| QR codes — home, About, food menu, bar menu | [Yandex Disk › QR codes](https://disk.yandex.ru/d/GZqFfjgksY_W5w) · `design/qr/` |
 | Phosphor Icons — the UI icon library (Fill weight) | [phosphoricons.com](https://phosphoricons.com) |
 | Palette swatches | `design/color/` |
-| Photography | [Yandex Disk › Photos](https://disk.yandex.com/d/KVDn7UAQLpCC4A) · `photos/` |
+| Photography | [Yandex Disk › Photos](https://disk.yandex.ru/d/ESlJMwDkt5_o7w) · `photos/` |
+| Documentation — `design.md`, `website-brief.md` and the other project notes | [Yandex Disk › Documentation](https://disk.yandex.ru/d/7NTD4_hxmk98Sw) |
 | Illustrated style guide (HTML with EN/RU switch, PDF) | `style-guide-draft.html` · `sweet-pepper-style-guide.pdf` / `-ru.pdf` |
 | Full design spec (with reasoning and history) | `design.md` |
 | Website decisions — grid, day/night mechanic, image ratios | `website-brief.md` |

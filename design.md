@@ -94,22 +94,24 @@ Every colour is a tint or shade of **three hues**: red (chili), green, and yello
 
 **One functional token, not a brand colour (documented Aug 2026):** `imgOverlayDark` — Peppercorn `#151317` at **33%**, laid over a photograph to render it **inactive**. This is the ground under the "dimmed → full strength" half of the state grammar (`website-brief.md` → Motion language): the home hero's unselected daypart cards, and any other place an image is present but not current. It is a *state* overlay, not a scrim for legibility — the dark-scrim caption treatment in `website-brief.md` → Image caption label is a separate thing and must not be bound to this token. Web-only; no print equivalent.
 
-### 2.3 Two modes — Night / Day
+### 2.3 Two colour schemes — Night / Day
 
-The loud hues never carry a layout alone — a neutral ground does the harmonising. On the website the two modes are *states of one page*, switched by time of day (see `website-brief.md`); "Mode A/B" are the print-era names.
+The loud hues never carry a layout alone — a neutral ground does the harmonising. On the website night and day are *states of one page*, switched by time of day (see `website-brief.md`). **Not to be confused with the two layout modes, poster and menu (§6, author, 26 Oct 2026)** — the old print names "Mode A/B" are retired because they ran the two ideas together.
 
-**Night (Mode A) — Bar · Posters**
+**Night — Bar · Evening**
 Ground **Peppercorn** (black). Text in **Parchment** (body) and **Cream** (highlight). Accents: Chili leads, Lime/Lemon highlight, Paprika supports. High-energy, max contrast.
 
-**Day (Mode B) — Kitchen · Daytime menu**
+**Day — Kitchen · Daytime menu**
 Surface **Parchment**. Body **Peppercorn**, headings **Chili**, prices **Deep Olive**, blocks **Cream**. Calm, warm, appetising, readable.
 
 ### 2.4 Surfaces & backgrounds — the rule
 
 A saturated pepper hue is a **banner colour, not a surface colour**. Over large areas it vibrates, fatigues, and breaks text contrast.
 
-- **Editorial** (menus, brochures, long-form, web body): backgrounds **only** Peppercorn or Paper/Parchment.
-- **Banners / promo blocks** (short bursts): a saturated fill is allowed **only** when the text on it passes contrast.
+- **Every page and every long read** (menus, brochures, long-form, web body): ground **only** Peppercorn, Parchment or Paper.
+- **Accent banners and small blocks:** **Lime, Lemon or Cream** only, with dark text that passes contrast (on Lime, only Peppercorn or Ash). Cream also works as a block inside a light page.
+- **Chili, Paprika, Avocado, Olive are never a ground** — they are for headings, icons and small accents.
+- **Never a whole page or a menu on Lime (author, 26 Oct 2026)** — a previous designer set a menu page on Lime; Lime stays an accent for small blocks. The website's Lime footer band is a band, not a page ground.
 - **No pure white** — the lightest surface is Paper `#FCF7E8`. Light grounds are always a cream/parchment tint.
 
 ### 2.5 Accessibility (validated in Adobe Color)
@@ -286,6 +288,10 @@ Construction guides: `design/logos/2026/*-spacing.svg`. Lime web variant: `desig
 
 ## 6. Layout & components
 
+**Two layout modes — poster and menu (author, 26 Oct 2026).** A layout mode is about how a piece communicates, not the time of day (that is the colour scheme, §2.3).
+- **Poster** — posters, flyers, event covers, social promo. Contrast comes from **type size, colour and accent bands** (e.g. a Lemon band edged in Chili across a Peppercorn ground), never from a second typeface: Molot can carry the whole piece alone, as on the Constructivist posters this style draws on (§3.2) — no grotesque body face. Dark ground, one or two pepper accents, one message; Golos Text only for the small print (address, 18+).
+- **Menu** — menus, price lists, the About page, any long read. A neutral ground (Parchment or Paper by day for the kitchen, Peppercorn at night for the bar), Molot headings, **Golos Text for every line people read**; colour marks only headings and prices.
+
 - **Ground every layout** in Peppercorn (night) or Parchment/Paper (day).
 - **Generous margins** — let content breathe.
 - **One focal point** per view — a dish, a drink, an event, a headline.
@@ -310,9 +316,9 @@ Two governing ideas: **shoot in the bar**, and **set the scene**. The photos are
 - **Shallow depth of field** — hero sharp, environment melts to warm bokeh.
 - **Leave a quiet/dark area for Molot type** — many shots double as poster/menu grounds.
 
-**Two registers, tied to the colour modes:**
-- *Dark & moody (Mode A)* — cocktails, spirits, wine, evening, social; deep shadow, bottle-wall bokeh, hands/craft.
-- *Warm & lighter (Mode B)* — food, breakfast/lunch, desserts, daytime menu; wood tables, a touch brighter, appetising.
+**Two registers, tied to the colour schemes:**
+- *Dark & moody (night — bar and evening)* — cocktails, spirits, wine, evening, social; deep shadow, bottle-wall bokeh, hands/craft.
+- *Warm & lighter (day — kitchen and daytime)* — food, breakfast/lunch, desserts, daytime menu; wood tables, a touch brighter, appetising.
 
 Consistency comes from **setting + grade**, not studio perfection. Casual, slightly imperfect beats stocky and sterile.
 

@@ -251,12 +251,14 @@
 | Что | Где |
 |---|---|
 | **Облако с ассетами — шрифты, логотипы, иконки, фото (начинайте отсюда)** | [Яндекс Диск](https://disk.yandex.ru/d/rARrtDsm3Qpbbw) |
-| Шрифты — Molot, Golos Text | [Яндекс Диск › Шрифты](https://disk.yandex.com/d/6tRMApbim44rYg) · `design/fonts/` |
-| Логотипы — набор 2026, схемы охранного поля, favicon | [Яндекс Диск › Логотипы](https://disk.yandex.com/d/4AnCJj12DiY0qg) · `design/logos/2026/` |
-| Иконки — набор для сайта, логотипы соцсетей, ярославский медведь | [Яндекс Диск › Иконки](https://disk.yandex.com/d/2Ggx_3QrFwl2gg) · `design/icons/` |
+| Шрифты — Molot, Golos Text | [Яндекс Диск › Шрифты](https://disk.yandex.ru/d/LVANr7qZ8d78uA) · `design/fonts/` |
+| Логотипы — набор 2026, схемы охранного поля, favicon | [Яндекс Диск › Логотипы](https://disk.yandex.ru/d/vlfTImNIkm5caQ) · `design/logos/2026/` |
+| Иконки — набор для сайта, логотипы соцсетей, ярославский медведь | [Яндекс Диск › Иконки](https://disk.yandex.ru/d/BphJDe7XEXDiiA) · `design/icons/` |
+| QR-коды — главная, «О нас», меню кухни и бара | [Яндекс Диск › QR-коды](https://disk.yandex.ru/d/GZqFfjgksY_W5w) · `design/qr/` |
 | Phosphor Icons — библиотека UI-иконок (начертание Fill) | [phosphoricons.com](https://phosphoricons.com) |
 | Образцы палитры | `design/color/` |
-| Фотографии | [Яндекс Диск › Фото](https://disk.yandex.com/d/KVDn7UAQLpCC4A) · `photos/` |
+| Фотографии | [Яндекс Диск › Фото](https://disk.yandex.ru/d/ESlJMwDkt5_o7w) · `photos/` |
+| Документация — `design.md`, `website-brief.md` и другие заметки проекта | [Яндекс Диск › Документация](https://disk.yandex.ru/d/7NTD4_hxmk98Sw) |
 | Иллюстрированный гайд (HTML с переключателем EN/RU, PDF) | `style-guide-draft.html` · `sweet-pepper-style-guide.pdf` / `-ru.pdf` |
 | Полная спецификация (с обоснованиями и историей) | `design.md` |
 | Решения по сайту — сетка, механика день/ночь, пропорции изображений | `website-brief.md` |

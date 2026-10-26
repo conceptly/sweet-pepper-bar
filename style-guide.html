@@ -196,6 +196,8 @@ ul.clean li{margin-bottom:12px;}
 .poster-demo .k2{color:var(--chili);font-family:'Molot',sans-serif;text-transform:uppercase;font-size:56px;line-height:1;margin:0;}
 .poster-demo .k3{color:var(--lime);font-family:'Molot',sans-serif;text-transform:uppercase;font-size:24px;line-height:1.2;padding:0 32px;}
 .poster-demo .k4{color:var(--lemon);font-family:'Molot',sans-serif;font-size:48px;line-height:1;margin-top:8px;}
+.contact-rows{display:grid;grid-template-columns:max-content 1fr;column-gap:8px;row-gap:6px;margin:0;line-height:1.5;} /* label + value, one contact per row */
+.contact-rows .k{color:var(--ash);}
 .h3-sub{margin:-8px 0 16px;color:var(--ash);font-size:16px;line-height:1.4;} /* the plain-text line under a short Molot h3 */
 .menu-demo{background:var(--parchment);border-radius:14px;padding:40px;}
 .menu-demo .mt{font-family:'Molot',sans-serif;text-transform:uppercase;color:var(--chili);font-size:30px;line-height:1;}
@@ -2683,15 +2685,15 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
         <strong lang="en">Design and photography questions</strong><strong lang="ru">Вопросы о дизайне и фотографии</strong>
         <p class="muted" lang="en">For help with photography, layouts or the design system, contact:</p><p class="muted" lang="ru">По вопросам съёмки, макетов и дизайн-системы обращайтесь:</p>
         <p style="margin:8px 0 4px;"><strong>Etual F.</strong></p>
-        <p class="muted" style="margin:0;line-height:1.7;" lang="en">
-          <a href="https://wa.me/16472207402" target="_blank" rel="noopener">+1 (647) 220-7402</a> — WhatsApp preferred, Telegram also fine<br>
-          <a href="mailto:etual.conceptly@gmail.com">etual.conceptly@gmail.com</a><br>
-          <a href="https://www.instagram.com/etual.nd/" target="_blank" rel="noopener">instagram.com/etual.nd</a>
-        </p><p class="muted" style="margin:0;line-height:1.7;" lang="ru">
-          <a href="https://wa.me/16472207402" target="_blank" rel="noopener">+1 (647) 220-7402</a> — лучше WhatsApp, Telegram тоже подойдёт<br>
-          <a href="mailto:etual.conceptly@gmail.com">etual.conceptly@gmail.com</a><br>
-          <a href="https://www.instagram.com/etual.nd/" target="_blank" rel="noopener">instagram.com/etual.nd</a>
-        </p>
+        <div class="contact-rows" lang="en">
+          <span class="k">WhatsApp:</span><a href="https://wa.me/16472207402" target="_blank" rel="noopener">+1 (647) 220-7402</a>
+          <span class="k">Email:</span><a href="mailto:etual.conceptly@gmail.com">etual.conceptly@gmail.com</a>
+          <span class="k">Instagram DM:</span><a href="https://www.instagram.com/etual.nd/" target="_blank" rel="noopener">@etual.nd</a>
+        </div><div class="contact-rows" lang="ru">
+          <span class="k">WhatsApp:</span><a href="https://wa.me/16472207402" target="_blank" rel="noopener">+1 (647) 220-7402</a>
+          <span class="k">Почта:</span><a href="mailto:etual.conceptly@gmail.com">etual.conceptly@gmail.com</a>
+          <span class="k">Instagram DM:</span><a href="https://www.instagram.com/etual.nd/" target="_blank" rel="noopener">@etual.nd</a>
+        </div>
       </div>
     </div>
   </div>

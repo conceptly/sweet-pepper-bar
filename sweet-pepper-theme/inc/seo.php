@@ -82,11 +82,27 @@ function sweet_pepper_seo_url() {
 }
 
 /**
- * The picture a shared link shows: a photo from the page itself, at its real size.
+ * The picture a shared link shows: the page's own «Изображение страницы» when the team set
+ * one (26 Oct 2026), else a photo from the page itself, at its real size.
+ *
+ * The Media Library alt is Russian (alt-text model), so the English page describes the
+ * picture by the page's title.
  *
  * @return array{url:string, width:int, height:int, alt:string}
  */
 function sweet_pepper_seo_image() {
+    $thumb = is_page() ? (int) get_post_thumbnail_id( get_queried_object_id() ) : 0;
+    $src   = $thumb ? wp_get_attachment_image_src( $thumb, 'sp-hero' ) : false;
+    if ( $src ) {
+        $alt = 'ru' === sweet_pepper_lang() ? trim( (string) get_post_meta( $thumb, '_wp_attachment_image_alt', true ) ) : '';
+        return [
+            'url'    => $src[0],
+            'width'  => (int) $src[1],
+            'height' => (int) $src[2],
+            'alt'    => '' !== $alt ? $alt : wp_strip_all_tags( sweet_pepper_seo_text( 'title' ) ?: get_the_title( get_queried_object_id() ) ),
+        ];
+    }
+
     $state = function_exists( 'sweet_pepper_menu_state' ) ? sweet_pepper_menu_state() : '';
     if ( 'food' === $state ) {
         $pick = [ 'food/breakfast/pepper-breakfast-2.jpg', 1080, 720, __( 'Pepper’s Breakfast — fried eggs, a patty, toast and salad', 'sweet-pepper' ) ];
@@ -94,9 +110,7 @@ function sweet_pepper_seo_image() {
         $pick = [ 'bar/infusions/infusions-lenya-11.jpg', 1080, 718, __( 'Cranberry infusion in three shot glasses with berries and mint', 'sweet-pepper' ) ];
     } elseif ( 'about' === sweet_pepper_seo_page_slug() ) {
         $pick = [ 'team/group/2025.jpg', 1080, 720, __( 'The Sweet Pepper team behind the bar, 2025', 'sweet-pepper' ) ];
-    } elseif ( is_front_page() ) {
-        $pick = [ 'bar/infusions/infusions-lenya-02.jpg', 1080, 718, __( 'Cranberry, sea buckthorn and blackcurrant infusions in shot glasses, berries and mint on the table', 'sweet-pepper' ) ]; // the page's own photo again: the shots left it (28 Sep 2026)
-    } else {
+    } else { // the home page too since 26 Oct 2026 (author; was infusions-lenya-02)
         $pick = [ 'sweet-space/door-entrance.jpg', 1280, 853, __( 'The Sweet Pepper entrance: a glass door with the pepper logo', 'sweet-pepper' ) ];
     }
     return [

@@ -1,6 +1,6 @@
 # Sweet Pepper Website — Project Report
 
-## Waiter pay from 110 ₽, and the language nudge only for Russian readers — 26 October 2026
+## Waiter pay from 110 ₽, the language nudge only for Russian readers, and a page's own preview image — 26 October 2026
 
 The owner sent a screenshot of the waiter ticket: «Зп офика от 110 рч, верхнего предела нет».
 
@@ -8,6 +8,7 @@ The owner sent a screenshot of the waiter ticket: «Зп офика от 110 р�
 - **The language nudge asks only when something hints the guest reads Russian** (`inc/lang.php`, head script). Before, every English-page landing without a stored choice was asked — an English reader in Toronto included. Now one of: Russian (or be, uk, kk, ky) anywhere in `navigator.languages` (below English, or the guest would already be on `/`); a Russian or Belarusian time zone (`Intl`); a referrer on .ru / .рф / .by, Yandex, VK or OK. The other conditions (landing page, no choice stored, no × in 30 days) are unchanged. Not by IP, as before.
 - **Checked** — the head script lifted from the source and run in Node with stubbed browsers: en-US in Toronto → no nudge; en-US + ru → nudge; en-GB with a Moscow clock, en-US with Minsk → nudge; from yandex.ru, m.vk.com, a .рф site → nudge; from google.com, de-DE in Berlin → no nudge; a stored choice → no nudge; redirects unchanged. `php -l` clean. **Not checked:** a real browser on the page (headless tools are skipped by the script on purpose).
 - **Servers** — `tools/field-updates/2026-10-26-vacancy-waiter-pay.json` sets the pay on both sites (`field-update.php` gained `"title"`, to pick «Официант» among the vacancies); tested locally: applied from the old text, `done` on a second run.
+- **Link previews take the page's «Изображение страницы»** (`inc/seo.php` → `sweet_pepper_seo_image()`). The author asked whether that admin box is the Open Graph image: it is WordPress's featured image, and the theme ignored it on pages. Now a page's featured image, when set, is its `og:image` (size `sp-hero`, else the original); the alt is the Media Library's (Russian) on `/`, the page's search title on `/en/`. Without one, the fixed photos stand — and **the home page's is now `door-entrance`** (author's pick; was `infusions-lenya-02`). Theme only, nothing to run on the servers. **Checked** locally: `/` gives the door with its Russian alt; About with a featured image set for the test (beer-05) gave it on `/about/` and `/en/about/`, then back to the team photo once removed. **Not checked:** a real preview in VK or Telegram (they cache; the live site needs the rsync first).
 - **Testing tip for the author** — to see the nudge from Toronto: add Russian below English in the browser's languages, or open `/en/` from a VK or Yandex link, in a fresh tab (it asks on the visit's first page only).
 
 ## Style guide: October copy pass, a short guide in Figma, and its PDF — 25–26 October 2026

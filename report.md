@@ -4,9 +4,10 @@
 
 The owner sent a screenshot of the waiter ticket: «Зп офика от 110 рч, верхнего предела нет».
 
-- **Pay** — «от 110 ₽ в час + чаевые + ежедневные премии» / "from 110 ₽ an hour + tips + daily bonuses" (was 90–120). In `data/vacancies.php` and in the local record (Официант, 3162). The live site reads its own record: change it in wp-admin → Вакансии → Официант → «Оплата» RU and EN.
+- **Pay** — «от 110 ₽ в час + чаевые + ежедневные премии» / "from 110 ₽ an hour + tips + daily bonuses" (was 90–120). In `data/vacancies.php` and in the local record (Официант, 3162). The servers read their own records — the update file below.
 - **The language nudge asks only when something hints the guest reads Russian** (`inc/lang.php`, head script). Before, every English-page landing without a stored choice was asked — an English reader in Toronto included. Now one of: Russian (or be, uk, kk, ky) anywhere in `navigator.languages` (below English, or the guest would already be on `/`); a Russian or Belarusian time zone (`Intl`); a referrer on .ru / .рф / .by, Yandex, VK or OK. The other conditions (landing page, no choice stored, no × in 30 days) are unchanged. Not by IP, as before.
 - **Checked** — the head script lifted from the source and run in Node with stubbed browsers: en-US in Toronto → no nudge; en-US + ru → nudge; en-GB with a Moscow clock, en-US with Minsk → nudge; from yandex.ru, m.vk.com, a .рф site → nudge; from google.com, de-DE in Berlin → no nudge; a stored choice → no nudge; redirects unchanged. `php -l` clean. **Not checked:** a real browser on the page (headless tools are skipped by the script on purpose).
+- **Servers** — `tools/field-updates/2026-10-26-vacancy-waiter-pay.json` sets the pay on both sites (`field-update.php` gained `"title"`, to pick «Официант» among the vacancies); tested locally: applied from the old text, `done` on a second run.
 - **Testing tip for the author** — to see the nudge from Toronto: add Russian below English in the browser's languages, or open `/en/` from a VK or Yandex link, in a fresh tab (it asks on the visit's first page only).
 
 ## Style guide: October copy pass, a short guide in Figma, and its PDF — 25–26 October 2026

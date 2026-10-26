@@ -1,0 +1,22 @@
+{
+ "post_type": "vacancy",
+ "title": "Официант",
+ "date": "2026-10-26",
+ "groups": [
+  {
+   "note": "Официант — pay from 110 ₽, no upper limit (owner, 26 Oct 2026)",
+   "set": [
+    [
+     "vacancy_pay_ru",
+     "от 90 до 120 ₽ в час + чаевые + ежедневные премии",
+     "от 110 ₽ в час + чаевые + ежедневные премии"
+    ],
+    [
+     "vacancy_pay_en",
+     "90–120 ₽ an hour + tips + daily bonuses",
+     "from 110 ₽ an hour + tips + daily bonuses"
+    ]
+   ]
+  }
+ ]
+}

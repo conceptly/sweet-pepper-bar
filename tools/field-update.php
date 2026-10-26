@@ -12,6 +12,7 @@
  *
  * File shape: { "page": "<slug>", "groups": [ { "note": "…", "set": [ [ field, old, new ], … ] } ] }.
  * For a one-record type (the «Гастробот» pairings) give "post_type" instead of "page";
+ * add "title" to pick one record of a type that has several (26 Oct 2026, «Официант»);
  * for Bar Settings (the options page — hours, the location headline) give "option": true.
  * Field keys follow tools/page-field-groups.py: key = "field_sp_" . name. A field inside a
  * repeater row has no key of its own — name it as saved, row index included
@@ -95,7 +96,13 @@ require $wp_root . '/wp-load.php';
 if ( ! empty( $spec['option'] ) ) {
     $page = (object) [ 'ID' => 'option' ];
 } elseif ( ! empty( $spec['post_type'] ) ) {
-    $page = get_posts( [ 'post_type' => $spec['post_type'], 'post_status' => 'any', 'numberposts' => 1, 'orderby' => 'ID', 'order' => 'ASC' ] )[0] ?? null;
+    $page = null;
+    foreach ( get_posts( [ 'post_type' => $spec['post_type'], 'post_status' => 'any', 'numberposts' => -1, 'orderby' => 'ID', 'order' => 'ASC' ] ) as $post ) {
+        if ( empty( $spec['title'] ) || $post->post_title === $spec['title'] ) {
+            $page = $post;
+            break;
+        }
+    }
     if ( ! $page ) {
         exit( "No '{$spec['post_type']}' record.\n" );
     }

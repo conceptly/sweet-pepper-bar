@@ -65,3 +65,11 @@ function sweet_pepper_documents() {
 
     return [ 'words' => $words, 'lines' => $lines, 'cards' => $cards ];
 }
+
+/** The browser tab and search title in the request's language — the record's title is Russian. */
+add_filter( 'document_title_parts', function ( $parts ) {
+    if ( is_page_template( 'page-documents.php' ) ) {
+        $parts['title'] = sweet_pepper_documents()['words']['title'] ?? $parts['title'];
+    }
+    return $parts;
+} );

@@ -57,7 +57,7 @@ Author: «Looks great … a good starting point.» Current decisions: `website-b
 | Build and templates | **Passed:** production build, changed PHP syntax and whitespace checks |
 | Full site / device review | **Pending:** Local WordPress was unavailable during verification; review the controls in the full page on a real phone/Safari |
 | Provider verification | **Pending:** dashboard field recording/Advanced Matching settings, actual counter receipt and masking in a real Webvisor replay. Browser tests mocked provider traffic |
-| Release | **Not deployed.** Update/publish the RU/EN policy for analytics and remove the retired English US/Canada map exception before launch |
+| Release | **Deployed** (the policy with Metrica is live; the US/Canada map exception is gone — `sweet_pepper_maps_open()` returns false, checked 26 Oct 2026). **Still owed before indexing:** the Положение's 6.6 record of each choice (report.md → *Before indexing*) |
 
 ---
 

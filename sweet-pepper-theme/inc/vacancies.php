@@ -314,14 +314,14 @@ add_filter( 'document_title_parts', function ( $parts ) {
     return $parts;
 } );
 
-/** A closed posting stays reachable but leaves the index; an open one carries JobPosting data. */
+/** A closed posting stays reachable but leaves the index (inc/seo.php → wp_robots, so the page
+ *  carries one robots tag); an open one carries JobPosting data. */
 add_action( 'wp_head', function () {
     if ( ! is_singular( 'vacancy' ) ) {
         return;
     }
     $id = get_queried_object_id();
     if ( ! sweet_pepper_vacancy_is_open( $id ) ) {
-        echo '<meta name="robots" content="noindex, follow">' . "\n";
         return;
     }
     $v    = sweet_pepper_vacancy( $id );

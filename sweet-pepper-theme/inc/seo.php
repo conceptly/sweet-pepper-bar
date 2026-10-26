@@ -12,6 +12,9 @@
  *   4. The bar as schema.org data (home and Visit): name, address, hours, menus, accounts — the
  *      facts the page already prints. The phone and e-mail stay out until they are confirmed
  *      for publishing (inc/visit-data.php); adding one is a line in sweet_pepper_seo_bar_schema().
+ *   5. What search engines may index (pre-launch check, 26 Oct 2026): the sitemap lists the pages
+ *      and the open vacancies only; search results and closed vacancies are noindex; attachment
+ *      pages are off; the login name stays out of public view (author pages, REST, oEmbed).
  *
  * @package Sweet_Pepper
  */
@@ -49,6 +52,10 @@ function sweet_pepper_seo_text( $key ) {
         static $typed = [];
         $typed[ $slug ] ??= require get_template_directory() . "/data/{$slug}/seo.php";
         return sp_field( "{$slug}_seo_{$key}", sweet_pepper_typed( $typed[ $slug ], $key ), get_queried_object_id() );
+    }
+    // A vacancy's description is its card line — the sentence the About list shows for it.
+    if ( 'description' === $key && is_singular( 'vacancy' ) ) {
+        return sweet_pepper_vacancy_card( get_queried_object_id() )['desc'];
     }
     return '';
 }
@@ -190,3 +197,86 @@ function sweet_pepper_seo_bar_schema() {
     echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
 }
 add_action( 'wp_head', 'sweet_pepper_seo_bar_schema', 20 );
+
+/* ── 5. What search engines may index ── */
+
+/**
+ * The sitemap: pages and open vacancies. No posts (the site has no blog — the news lives on
+ * the home page as imported VK records), no categories, no author list (it names the login).
+ */
+add_filter( 'wp_sitemaps_add_provider', function ( $provider, $name ) {
+    return in_array( $name, [ 'users', 'taxonomies' ], true ) ? false : $provider;
+}, 10, 2 );
+
+add_filter( 'wp_sitemaps_post_types', function ( $types ) {
+    unset( $types['post'] );
+    return $types;
+} );
+
+/**
+ * Leave out of the sitemap what only redirects or says "filled": the «Меню» folder page
+ * (it 301s to the kitchen) and every closed vacancy (noindex below).
+ */
+add_filter( 'wp_sitemaps_posts_query_args', function ( $args, $post_type ) {
+    $skip = [];
+    if ( 'page' === $post_type ) {
+        $skip = get_posts( [ 'post_type' => 'page', 'fields' => 'ids', 'numberposts' => -1,
+                             'meta_key' => '_wp_page_template', 'meta_value' => 'page-menu-index.php' ] );
+    } elseif ( 'vacancy' === $post_type ) {
+        foreach ( get_posts( [ 'post_type' => 'vacancy', 'fields' => 'ids', 'numberposts' => -1 ] ) as $id ) {
+            if ( ! sweet_pepper_vacancy_is_open( $id ) ) {
+                $skip[] = $id;
+            }
+        }
+    }
+    if ( $skip ) {
+        $args['post__not_in'] = array_merge( $args['post__not_in'] ?? [], $skip );
+    }
+    return $args;
+}, 10, 2 );
+
+/** Search results are thin, endless pages: followed, never indexed. Closed vacancies likewise. */
+add_filter( 'wp_robots', function ( $robots ) {
+    if ( is_search() || ( is_singular( 'vacancy' ) && ! sweet_pepper_vacancy_is_open( get_queried_object_id() ) ) ) {
+        $robots['noindex'] = true;
+        if ( empty( $robots['nofollow'] ) ) {
+            $robots['follow'] = true;
+        }
+    }
+    return $robots;
+} );
+
+/**
+ * Attachment pages off: a photo's own page (/about/<photo-name>/) is an empty page to a search
+ * engine. WordPress then sends its address to the file itself.
+ */
+add_filter( 'pre_option_wp_attachment_pages_enabled', fn() => '0' );
+
+/**
+ * The login name stays private: no author pages (also reached by ?author=1), no user list in
+ * the REST API for visitors (the editor, logged in, keeps it), no author in oEmbed previews.
+ */
+add_action( 'template_redirect', function () {
+    if ( is_author() ) {
+        global $wp_query;
+        $wp_query->set_404();
+        status_header( 404 );
+        nocache_headers();
+    }
+}, 1 );
+
+add_filter( 'rest_endpoints', function ( $endpoints ) {
+    if ( ! is_user_logged_in() ) {
+        foreach ( array_keys( $endpoints ) as $route ) {
+            if ( 0 === strpos( $route, '/wp/v2/users' ) ) {
+                unset( $endpoints[ $route ] );
+            }
+        }
+    }
+    return $endpoints;
+} );
+
+add_filter( 'oembed_response_data', function ( $data ) {
+    unset( $data['author_name'], $data['author_url'] );
+    return $data;
+} );

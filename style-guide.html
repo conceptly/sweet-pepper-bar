@@ -30,7 +30,7 @@
   --avocado:    #869438;   /* support green */
   --olive:      #737D3A;   /* secondary green / prices */
   /* Neutrals & surfaces */
-  --peppercorn:     #151317;   /* brand BLACK ground (Mode A). Print: rich black C15 M23 Y0 K95 */
+  --peppercorn:     #151317;   /* brand BLACK ground (night, posters). Print: rich black C15 M23 Y0 K95 */
   --soft-peppercorn:#201E22;   /* alternate dark surface — breaks up long dark stretches in night mode */
   --img-overlay-dark: rgba(21,19,23,.33); /* functional: Peppercorn @33% over a photo = INACTIVE image (not a caption scrim) */
   --ash:            #54513F;   /* warm grey — secondary / muted text on LIGHT */
@@ -188,14 +188,20 @@ ul.clean{padding-left:20px;}
 ul.clean li{margin-bottom:12px;}
 
 /* sample blocks */
-.poster-demo{background:var(--peppercorn);border-radius:14px;padding:40px;text-align:center;}
-.poster-demo .k{color:var(--lemon);font-family:'Molot',sans-serif;text-transform:uppercase;font-size:40px;line-height:1;}
-.poster-demo .k2{color:var(--chili);font-family:'Molot',sans-serif;text-transform:uppercase;font-size:56px;line-height:1;margin:8px 0;}
-.poster-demo .k3{color:var(--lime);font-family:var(--font-body);font-weight:600;letter-spacing:.04em;margin-top:16px;font-size:14px;line-height:1.4;text-transform:uppercase;}
+.poster-demo{background:var(--peppercorn);border-radius:14px;padding:32px 0;text-align:center;overflow:hidden;}
+.poster-demo .k{color:var(--lime);font-family:'Molot',sans-serif;text-transform:uppercase;font-size:20px;line-height:1.2;padding:0 32px;}
+.poster-demo .band{background:var(--lemon);border-top:8px solid var(--chili);border-bottom:8px solid var(--chili);margin:24px 0;padding:24px 32px;}
+.poster-demo .k2{color:var(--chili);font-family:'Molot',sans-serif;text-transform:uppercase;font-size:56px;line-height:1;margin:0;}
+.poster-demo .k3{color:var(--lime);font-family:'Molot',sans-serif;text-transform:uppercase;font-size:24px;line-height:1.2;padding:0 32px;}
+.poster-demo .k4{color:var(--lemon);font-family:'Molot',sans-serif;font-size:48px;line-height:1;margin-top:8px;}
 .menu-demo{background:var(--parchment);border-radius:14px;padding:40px;}
 .menu-demo .mt{font-family:'Molot',sans-serif;text-transform:uppercase;color:var(--chili);font-size:30px;line-height:1;}
 .menu-demo .mi{display:flex;justify-content:space-between;border-bottom:1px dotted #c9bd9a;padding:12px 0;color:var(--peppercorn);}
 .menu-demo .mi .price{font-weight:700;color:var(--olive);}
+.menu-demo + .menu-demo{margin-top:16px;}
+.menu-demo.night{background:var(--peppercorn);}
+.menu-demo.night .mi{color:var(--parchment);border-bottom-color:rgba(243,233,210,.25);}
+.menu-demo.night .mi .price{color:var(--lime);}
 
 .toc{font-size:14px;columns:2;column-gap:40px;}
 .toc a{display:block;padding:4px 0;color:var(--ash);text-decoration:none;border-bottom:1px solid transparent;}
@@ -2042,7 +2048,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <!-- MODE A -->
     <div class="mode-card">
       <div class="mode-head" style="background:var(--peppercorn);color:var(--paper);">
-        <span class="tag" style="color:var(--lime);" lang="en">Night (Mode A)</span><span class="tag" style="color:var(--lime);" lang="ru">Ночь (режим A)</span>
+        <span class="tag" style="color:var(--lime);" lang="en">Night</span><span class="tag" style="color:var(--lime);" lang="ru">Ночь</span>
         <h3 style="color:var(--paper);" lang="en">Bar · Posters · Night</h3><h3 style="color:var(--paper);" lang="ru">Бар · Афиши · Ночь</h3>
       </div>
       <div class="swatches">
@@ -2056,12 +2062,12 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
         <div class="sw" style="background:#201E22;color:#F3E9D2;"><span class="nm">Soft Peppercorn</span><span class="hx">#201E22</span><span class="role" lang="en">alt dark surface</span><span class="role" lang="ru">доп. тёмный фон</span></div>
       </div>
     </div>
-    <p class="note" lang="en">Bold and high-contrast. <strong>Peppercorn is the required background for posters and the bar menu.</strong> Use Parchment and Cream for text, and Soft Peppercorn to separate dark sections. On the website, day and night are states of the same page, linked to the time of day (see <code>website-brief.md</code>). Mode A/B are the earlier print names.</p><p class="note" lang="ru">Ярко и контрастно. <strong>Для афиш и барного меню обязателен фон Peppercorn.</strong> Текст — Parchment и Cream, дополнительный фон для разделения тёмных секций — Soft Peppercorn. На сайте день и ночь — состояния одной страницы, связанные со временем суток (см. <code>website-brief.md</code>). Режимы A/B — прежние названия из печатных материалов.</p>
+    <p class="note" lang="en">Bold and high-contrast. <strong>Peppercorn is the required background for posters and the bar menu.</strong> Use Parchment and Cream for text, and Soft Peppercorn to separate dark sections. On the website, day and night are states of the same page, linked to the time of day (see <code>website-brief.md</code>). Poster and menu are layout modes, not colour schemes — see Layout &amp; components.</p><p class="note" lang="ru">Ярко и контрастно. <strong>Для афиш и барного меню обязателен фон Peppercorn.</strong> Текст — Parchment и Cream, дополнительный фон для разделения тёмных секций — Soft Peppercorn. На сайте день и ночь — состояния одной страницы, связанные со временем суток (см. <code>website-brief.md</code>). «Постер» и «Меню» — режимы композиции, а не цветовые схемы: см. «Композиция и компоненты».</p>
 
     <!-- MODE B -->
     <div class="mode-card">
       <div class="mode-head" style="background:var(--parchment);color:var(--peppercorn);">
-        <span class="tag" style="color:var(--olive);" lang="en">Day (Mode B)</span><span class="tag" style="color:var(--olive);" lang="ru">День (режим B)</span>
+        <span class="tag" style="color:var(--olive);" lang="en">Day</span><span class="tag" style="color:var(--olive);" lang="ru">День</span>
         <h3 style="color:var(--peppercorn);" lang="en">Kitchen · Daytime menu</h3><h3 style="color:var(--peppercorn);" lang="ru">Кухня · Дневное меню</h3>
       </div>
       <div class="swatches">
@@ -2480,27 +2486,33 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
   <div class="wrap">
     <span class="section-num">06</span>
     <h2 class="section-title" lang="en">Layout & components</h2><h2 class="section-title" lang="ru">Композиция и компоненты</h2>
-    <p class="lead" lang="en">Give the layout energy through bold colour blocks, generous margins and one clear focal point. These two examples show the approach in night and day modes.</p><p class="lead" lang="ru">Выразительность макету придают цветные плашки, свободные поля и один центр внимания. Ниже — два примера: для ночного и дневного режима.</p>
+    <p class="lead" lang="en">Give the layout energy through bold colour blocks, generous margins and one clear focal point. Pepper’s layouts work in two modes: <strong>poster</strong> sells one moment, <strong>menu</strong> is for reading. They are layout modes, not the day and night colour schemes — a menu reads the same by day and by night.</p><p class="lead" lang="ru">Выразительность макету придают цветные плашки, свободные поля и один центр внимания. Макеты Pepper работают в двух режимах: <strong>«Постер»</strong> продаёт один момент, <strong>«Меню»</strong> — для чтения. Это режимы композиции, а не дневная и ночная цветовые схемы: меню одинаково читается и днём, и ночью.</p>
 
     <div class="two">
       <div>
-        <h3 lang="en">Mode A — event / promo block</h3><h3 lang="ru">Режим A — событие или акция</h3>
+        <h3 lang="en">Poster mode — posters, flyers, event covers</h3><h3 lang="ru">Режим «Постер» — афиши, флаеры, анонсы событий</h3>
         <div class="poster-demo">
-          <div class="k" lang="en">City holiday</div><div class="k" lang="ru">Городской праздник</div>
-          <div class="k2" lang="en">May holidays<br>at Pepper</div><div class="k2" lang="ru">Майские<br/>в Pepper</div>
-          <div class="k3" lang="en">Summer terrace grand opening · 1–5 May</div><div class="k3" lang="ru">Открытие летней террасы · 1–5 мая</div>
+          <div class="k" lang="en">Summer terrace opening</div><div class="k" lang="ru">Открытие летней веранды</div>
+          <div class="band"><div class="k2" lang="en">May<br>weekend</div><div class="k2" lang="ru">Майский<br>уикенд</div></div>
+          <div class="k3" lang="en">Friday · 22:00</div><div class="k3" lang="ru">Пятница · 22:00</div>
+          <div class="k4">911-202</div>
         </div>
-        <p class="note" lang="en">Black background, one or two pepper accents, a Molot headline and one main message. Keep effects minimal.</p><p class="note" lang="ru">Чёрный фон, один-два перечных акцента, заголовок Molot и одно главное сообщение. Минимум эффектов.</p>
+        <p class="note" lang="en">Contrast comes from size, colour and accent bands, not from a second typeface. Molot can be the only face on the piece — as on Constructivist posters, where lettering and flat colour blocks build the hierarchy and no grotesque body face appears. Dark ground, one or two pepper accents, one main message; Golos Text only for the small print (address, 18+).</p><p class="note" lang="ru">Контраст создают размер, цвет и акцентные плашки, а не второй шрифт. Molot может быть единственным шрифтом — как на конструктивистских плакатах, где иерархию строят надписи и плоские цветные блоки, а гротеска для текста нет. Тёмный фон, один-два перечных акцента, одно главное сообщение; Golos Text — только для мелкого текста (адрес, 18+).</p>
       </div>
       <div>
-        <h3 lang="en">Mode B — menu item</h3><h3 lang="ru">Режим B — позиция меню</h3>
+        <h3 lang="en">Menu mode — menus, price lists, long reads</h3><h3 lang="ru">Режим «Меню» — меню, прайс-листы, длинные тексты</h3>
         <div class="menu-demo">
           <div class="mt" lang="en">Kitchen</div><div class="mt" lang="ru">Кухня</div>
           <div class="mi" lang="en"><span>Pumpkin soup</span><span class="price">320 ₽</span></div><div class="mi" lang="ru"><span>Тыквенный суп</span><span class="price">320 ₽</span></div>
           <div class="mi" lang="en"><span>Sicilian salad</span><span class="price">450 ₽</span></div><div class="mi" lang="ru"><span>Сицилийский салат</span><span class="price">450 ₽</span></div>
           <div class="mi" lang="en"><span>Berry cheesecake</span><span class="price">290 ₽</span></div><div class="mi" lang="ru"><span>Ягодный чизкейк</span><span class="price">290 ₽</span></div>
         </div>
-        <p class="note" lang="en">Parchment surface, Peppercorn body, Olive prices, Chili headings. Calm and legible.</p><p class="note" lang="ru">Фон Parchment, основной текст Peppercorn, цены Olive, заголовки Chili. Спокойно и разборчиво.</p>
+        <div class="menu-demo night">
+          <div class="mt" lang="en">Bar</div><div class="mt" lang="ru">Бар</div>
+          <div class="mi" lang="en"><span>Mojito</span><span class="price">320 ₽</span></div><div class="mi" lang="ru"><span>Мохито</span><span class="price">320 ₽</span></div>
+          <div class="mi" lang="en"><span>House infusion</span><span class="price">150 ₽</span></div><div class="mi" lang="ru"><span>Домашняя настойка</span><span class="price">150 ₽</span></div>
+        </div>
+        <p class="note" lang="en">A neutral ground — Parchment by day for the kitchen, Peppercorn at night for the bar — with Molot headings and Golos Text for every line people read. Calm and legible: colour marks only headings and prices (Olive by day, Lime at night).</p><p class="note" lang="ru">Нейтральный фон — Parchment днём для кухни, Peppercorn ночью для бара, — заголовки Molot, весь текст для чтения — Golos Text. Спокойно и разборчиво: цветом выделены только заголовки и цены (Olive днём, Lime ночью).</p>
       </div>
     </div>
 
@@ -2606,11 +2618,11 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     <h3 lang="en">Two moods</h3><h3 lang="ru">Два настроения</h3>
     <div class="two">
       <div class="panel">
-        <strong lang="en">Dark and atmospheric — Mode A</strong><strong lang="ru">Тёмное и атмосферное — режим A</strong>
+        <strong lang="en">Dark and atmospheric — bar and evening</strong><strong lang="ru">Тёмное и атмосферное — бар и вечер</strong>
         <p class="muted" lang="en">Cocktails, spirits, wine and evening scenes. Use deep shadows, softly blurred bottle shelves and moments of preparation: pouring, mixing, adding a garnish. Show the people behind the drinks.</p><p class="muted" lang="ru">Коктейли, крепкие напитки, вино и вечерние кадры. Глубокие тени, мягко размытые полки с бутылками, моменты приготовления: бармен наливает, смешивает, украшает. Показывайте людей, которые готовят напитки.</p>
       </div>
       <div class="panel">
-        <strong lang="en">Warm and light — Mode B</strong><strong lang="ru">Тёплое и светлое — режим B</strong>
+        <strong lang="en">Warm and light — kitchen and daytime</strong><strong lang="ru">Тёплое и светлое — кухня и день</strong>
         <p class="muted" lang="en">Breakfast, lunch, desserts and the daytime menu. Use wooden tables and boards, with brighter light that shows the food clearly. Keep the warmth and texture of the setting.</p><p class="muted" lang="ru">Завтраки, обеды, десерты и дневное меню. Деревянные столы и доски, более светлый кадр, хорошо видимые детали блюда. Сохраняйте тепло и фактуру обстановки.</p>
       </div>
     </div>
@@ -2807,7 +2819,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
   body.m-shell .lstage{padding:24px}
   body.m-shell .type-spec,body.m-shell .two .panel,body.m-shell .dd .col{padding:20px}
   body.m-shell .callout{padding:16px 16px}
-  body.m-shell .poster-demo{padding:28px 24px}
+  body.m-shell .poster-demo{padding:24px 0}
   body.m-shell .ticket-grid figure{padding:16px}
   body.m-shell .ticket-demo{padding:24px 20px}
   body.m-shell .scale-row .spec{min-width:0;width:100%}
@@ -2827,7 +2839,7 @@ html[data-lang="ru"] [lang="en"]{display:none!important}
     {id:'color',n:'03',en:['Colour system','Three colour families, day and night, contrast'],ru:['Цветовая система','Три цветовые группы, день и ночь, контраст']},
     {id:'type',n:'04',en:['Typography','Molot, Golos Text, sizes and styles'],ru:['Типографика','Molot, Golos Text, размеры и стили текста']},
     {id:'motifs',n:'05',en:['Motifs & iconography','Tickets, scalloped edges, icons and social logos'],ru:['Мотивы и иконки','Чек бармена, фигурный край, иконки и логотипы соцсетей']},
-    {id:'layout',n:'06',en:['Layout & components','Grid, spacing, promo and menu blocks'],ru:['Композиция','Сетка, отступы, примеры афиши и меню']},
+    {id:'layout',n:'06',en:['Layout & components','Grid, spacing, poster and menu modes'],ru:['Композиция','Сетка, отступы, режимы «Постер» и «Меню»']},
     {id:'dodont',n:'07',en:["Do & Don't",'The short version'],ru:['Можно и нельзя','Коротко']},
     {id:'photo',n:'08',en:['Photography','Setting, composition, light and colour'],ru:['Фотография','Место съёмки, композиция, свет и цвет']},
     {id:'team',n:'09',en:['Team files and contacts','Shared files, Phosphor and design support'],ru:['Материалы и контакты','Общие файлы, Phosphor и помощь с дизайном']}

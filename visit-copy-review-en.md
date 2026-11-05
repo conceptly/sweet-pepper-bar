@@ -6,7 +6,7 @@ Working texts: [EN](visit-page-copy-en.md) · [RU draft](visit-page-copy-ru-draf
 
 ## Sources and limits
 
-Read the current Visit templates (`hero.php`, `location.php`, `cta.php`), `page-visit.php` structure, `visit-hero.js`, relevant contact-state and map code, `visit-page-copy.md`, `website-brief.md` and `design.md`. Visually inspected the saved `figmaScreenshotws/visit/visit-page.png`.
+Read the current Visit templates (`hero.php`, `location.php`, `cta.php`), `page-visit.php` structure, `visit-hero.js`, relevant contact-state and map code, `visit-page-copy.md`, `website-brief.md` and `design.md`. Visually inspected the saved `figmaScreenshots/visit/visit-page.png`.
 
 The supplied [Figma frame](https://www.figma.com/design/P7jYklzRIIFP8yGawnZPia/Sweet-Pepper-Website?node-id=892-31050) opened in an in-app browser, but its canvas could not be inspected; native Figma access returned “Computer Use permissions are not granted.” The local Visit URL was unreachable. This review compares current source with the saved design, not a freshly rendered page or verified current Figma text layers. Mobile observations come from source and documented decisions; proposed copy has not been fit-tested.
 

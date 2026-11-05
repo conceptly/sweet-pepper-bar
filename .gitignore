@@ -30,7 +30,7 @@ style-guide-config.php
 style-guide-backups/
 
 # Reference screenshots (regenerable from Figma), scratch, licensed font kit
-figmaScreenshotws/
+figmaScreenshots/
 Claude outputs/
 Molot-fontfacekit/
 Molot-fontfacekit.zip

@@ -1,0 +1,154 @@
+{
+    "key": "group_sp_loader",
+    "title": "Пасхалка",
+    "fields": [
+        {
+            "key": "field_sp_loader_hint",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "new_lines": "",
+            "esc_html": 0,
+            "message": "Строки, которые гость читает, пока открывается следующая страница, — и в подвале сайта, по кнопке «Поддать жару!». Сайт показывает их в случайном порядке, по одной каждые две секунды: за обычное ожидание гость успевает прочесть одну-две, поэтому каждая должна быть понятна сама по себе. Говорит бар, от первого лица: «Солим…», «Будим…».<br><br><strong>Длина.</strong> До 34 знаков по-русски и до 40 по-английски — столько помещается в один ряд на телефоне. Мысль длиннее — две строки, вторая с «Продолжением».<br><strong>Продолжение</strong> — строка всегда идёт сразу за той, что над ней: так собрана цепочка «Солим…» → «Пересолили…» → «Придётся…».<br><strong>Скрыть</strong> — строка остаётся в списке, но не на сайте: сезонное поздравление можно включать раз в год. Скрытое начало цепочки скрывает и её продолжения.<br><strong>EN</strong> — пара по настроению, не дословный перевод. Пустое поле — на английской странице покажется русская строка.<br><br>Посмотреть на сайте: «Поддать жару!» в подвале любой страницы; шейкер запускает показ заново, с другими строками."
+        },
+        {
+            "key": "field_sp_loader_lines",
+            "label": "Строки",
+            "name": "loader_lines",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Добавить строку",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_sp_loader_line_ru",
+                    "label": "Строка",
+                    "name": "line_ru",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Уговариваем клюкву настояться",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_loader_lines"
+                },
+                {
+                    "key": "field_sp_loader_line_en",
+                    "label": "Строка (EN)",
+                    "name": "line_en",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Convincing the cranberries to infuse",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sp_loader_lines"
+                },
+                {
+                    "key": "field_sp_loader_follows",
+                    "label": "Продолжение",
+                    "name": "follows",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "10",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Да",
+                    "ui_off_text": "Нет",
+                    "parent_repeater": "field_sp_loader_lines"
+                },
+                {
+                    "key": "field_sp_loader_hidden",
+                    "label": "Скрыть",
+                    "name": "hidden",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "10",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Да",
+                    "ui_off_text": "Нет",
+                    "parent_repeater": "field_sp_loader_lines"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page_loader"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "field",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "The page loader's pool of lines — one record, printed into every page. Generated by tools/page-field-groups.py; read by inc/page-loader.php.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1790878750
+}

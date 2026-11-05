@@ -1,0 +1,686 @@
+/* Fixed Reserve Button Wrapper */
+.btn-fixed-wrapper {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+/* Home page: the tab waits off the edge while the hero's Reserve is on screen, and slides in
+   on the house spring once it has gone (2 Oct 2026 — two Chili Reserve buttons shared one
+   screen). The anchor is 0 wide, so it moves by the tab's thickness plus its shadow. Hidden,
+   it takes no clicks and leaves the tab order (visibility, flipped after the slide out). */
+.btn-fixed-wrapper--after-hero {
+    transform: translateX(56px);
+    visibility: hidden;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s linear var(--dur-gentle);
+}
+
+.btn-fixed-wrapper--after-hero.is-shown {
+    transform: none;
+    visibility: visible;
+    transition: transform var(--dur-gentle) var(--ease-gentle),
+                visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-fixed-wrapper--after-hero,
+    .btn-fixed-wrapper--after-hero.is-shown {
+        transition: none;
+    }
+}
+
+/* Modifying the reusable button instance */
+.btn-fixed-wrapper .btn {
+    /* TranslateY negative goes 'up' in local space, which becomes 'left' after -90deg rotation.
+       This pulls the button so its bottom edge aligns perfectly with the right screen edge. */
+    transform: rotate(-90deg) translateY(-50%);
+    /* The screen's right edge is touching the bottom edge of the button when rotated -90deg */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    /* House card shadow (1px 1px 4px Peppercorn 15%) in the rotated frame:
+       screen +x = local +y, screen +y = local −x — same as the menu jump tab. */
+    box-shadow: -1px 1px 4px 0 rgba(21, 19, 23, 0.15);
+}
+
+.btn-fixed-wrapper .btn:active {
+    transform: rotate(-90deg) translateY(-50%) scale(0.98);
+}
+
+/* Reserve Drawer Overlay */
+.reserve-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* closed: clicks pass at once, though it stays "visible" for the fade */
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat), visibility var(--dur-gentle);
+}
+
+.reserve-drawer-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Reserve Drawer
+   --reserve-ground: the sheet itself; --reserve-card: the ticket. The rugged edges
+   read these (top edge = ground biting into the card, bottom edge = card on ground),
+   so one pair of tokens per breakpoint/theme keeps the ticket seamless. */
+.reserve-drawer {
+    --reserve-ground: var(--surface);
+    --reserve-card: var(--paper);
+    position: fixed;
+    top: 0;
+    right: -420px; /* Hide off-screen */
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    background-color: var(--reserve-ground);
+    z-index: 999;
+    transition: right var(--dur-gentle) var(--ease-gentle);
+    display: flex;
+    flex-direction: column;
+    /* Soft edge shadow + a solid 32px extension off-screen to the right, so the
+       Gentle spring's ~3% overshoot on slide-in shows drawer, not scrim. */
+    box-shadow: -4px 0 20px rgba(0,0,0,0.15), 32px 0 0 var(--reserve-ground);
+}
+
+html[data-theme="night"] .reserve-drawer {
+    --reserve-ground: var(--soft-peppercorn);
+}
+
+.reserve-drawer.is-open {
+    right: 0;
+}
+
+.reserve-drawer-accent-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 12px;
+    background-color: var(--lime); /* Lime in both day and night */
+}
+
+.reserve-drawer-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--text);
+    cursor: pointer;
+    transition: opacity var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.reserve-drawer-close:hover {
+    opacity: 0.6;
+}
+
+.reserve-drawer-content {
+    padding: 80px 40px 40px 52px; /* Extra left padding for accent line */
+    overflow-y: auto;
+    height: 100%;
+}
+
+.reserve-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--peppercorn);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    line-height: 1.1;
+}
+
+html[data-theme="night"] .reserve-title {
+    color: var(--chili);
+}
+
+.reserve-subtitle {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.reserve-header {
+    margin-bottom: 40px;
+}
+
+/* Ticket — replicates Figma cardContainer exactly:
+   wrapper = position:relative + overflow:hidden (clip content)
+   top edge = absolute, overlaps card from above
+   card = in flow, padding handles spacing from edges
+   bottom edge = in flow, flush (0 gap) with card */
+.reserve-ticket-wrapper {
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden; /* Figma: clip content */
+}
+
+/* Top edge: absolutely positioned so it floats over the card — no flow boundary = no seam */
+.ticket-top-edge {
+    position: absolute;
+    top: -1px; /* 1px above container so the very top of the gradient is clipped, seamless */
+    left: 0;
+    right: 0;
+    z-index: 3;
+}
+
+/* Card: in normal flow. The 36px top padding absorbs the overlap from the top edge.
+   No border-radius — the rugged edges ARE the visual boundaries. */
+.reserve-ticket {
+    background-color: var(--reserve-card);
+    padding: 36px 24px 24px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Bottom edge: in normal flow, flush (0 gap) with the card above */
+.reserve-ticket-wrapper > .rugged-edge {
+    position: relative;
+    z-index: 1;
+}
+
+.ticket-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3, 18px);
+    color: var(--chili-deep, #9b2705); /* Figma uses chili-deep on the ticket */
+    letter-spacing: 0.9px;
+    line-height: 1.35;
+    margin-bottom: 12px;
+}
+
+.ticket-text {
+    font-size: var(--text-body, 16px);
+    color: var(--soft-peppercorn); /* Always dark on the light ticket */
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+/* Ready-made messages — on trial (3 Oct 2026; reserve-drawer.js → initTicketLines). Every line
+   sits in the same grid cell, so with the trial on the ticket is as tall as its longest line
+   and never jumps between lines. Without it only the first line renders, as before. */
+/* The text's own 16px top margin (a global p rule) used to collapse into the title's 12; inside
+   the grid it would not, so the wrapper carries it and the lines carry none */
+.ticket-lines {
+    margin: 16px 0 12px;
+}
+
+.ticket-lines__stack {
+    display: grid;
+}
+
+.ticket-lines__stack > .ticket-text {
+    grid-area: 1 / 1;
+    margin: 0;
+}
+
+.ticket-lines:not(.is-ready) .ticket-text:not(.is-current) {
+    display: none;
+}
+
+.ticket-lines.is-ready .ticket-text:not(.is-current, .is-out-left, .is-out-right) {
+    visibility: hidden;
+}
+
+/* The → in the Copy row, left (the author's sketch put it beside the text; there it wrapped the
+   longest Russian line to four lines and the phone sheet scrolled): the count first, so the guest
+   sees there are more before pressing; a 44px-tall target */
+.ticket-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ticket-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    margin: -12px 0;
+    padding: 0 8px 0 0;
+    border: 0;
+    background: none;
+    color: var(--olive);
+    cursor: pointer;
+}
+
+.ticket-next[hidden] {
+    display: none;
+}
+
+.ticket-next__icon svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+    transition: transform var(--dur-gentle) var(--ease-gentle);
+}
+
+.ticket-next:hover .ticket-next__icon svg {
+    transform: translateX(3px);
+}
+
+.ticket-next:active .ticket-next__icon svg {
+    transform: translateX(6px);
+    transition-duration: 100ms;
+}
+
+.ticket-next__count {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+}
+
+/* The swap: the old line leaves the way the arrow points, the new one comes in behind it */
+.ticket-text.is-out-left  { animation: ticket-out-left 260ms var(--ease-quick, ease-out) forwards; pointer-events: none; }
+.ticket-text.is-out-right { animation: ticket-out-right 260ms var(--ease-quick, ease-out) forwards; pointer-events: none; }
+.ticket-text.is-in-right  { animation: ticket-in-right var(--dur-gentle) var(--ease-gentle) 80ms backwards; }
+.ticket-text.is-in-left   { animation: ticket-in-left var(--dur-gentle) var(--ease-gentle) 80ms backwards; }
+
+@keyframes ticket-out-left  { to { opacity: 0; transform: translateX(-24px); visibility: hidden; } }
+@keyframes ticket-out-right { to { opacity: 0; transform: translateX(24px); visibility: hidden; } }
+@keyframes ticket-in-right  { from { opacity: 0; transform: translateX(24px); } }
+@keyframes ticket-in-left   { from { opacity: 0; transform: translateX(-24px); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .ticket-text.is-out-left,
+    .ticket-text.is-out-right,
+    .ticket-text.is-in-left,
+    .ticket-text.is-in-right {
+        animation: none;
+    }
+
+    .ticket-text.is-out-left,
+    .ticket-text.is-out-right {
+        visibility: hidden;
+    }
+}
+
+.btn-copy-ticket {
+    background: transparent;
+    border: none;
+    color: var(--olive);
+    font-weight: 600;
+    font-family: var(--font-body);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+}
+
+html[data-theme="night"] .btn-copy-ticket {
+    color: var(--olive); /* Still olive on light ticket */
+}
+
+/* Actions — Figma ctaContainer: gap-24 */
+.reserve-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* Phone CTA wrapper — Figma: flex-col gap-4 */
+.phone-cta-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* ── Booking blocks: one rule, two layouts (2 Oct 2026) ───────────────
+   Chili is "the best way to reach us right now", one per block; the fill never says how
+   busy the bar is — the status line under the phone does. Four blocks carry
+   `.booking-block` (this drawer, the nav drawer, home Contacts and the Visit CTA on phones)
+   and reserve-drawer.js sets their [data-bar-state] and swaps the roles:
+     available / busy — the phone is the Chili primary (busy: the dot and "loud in here"
+                        under it; it was an orange fill, #E8751A, off the palette and 3.0:1)
+     closed           — the messengers move up and VK takes the Chili; the phone steps down
+                        to a secondary under them (it was a Chili button that nobody answers)
+   The title stays on top. Test any layout with ?barstate=available|busy|closed. */
+.booking-block > :is(h2, h3) {
+    order: -2;
+}
+
+.booking-block[data-bar-state="closed"] .booking-block__write {
+    order: -1;
+}
+
+/* The drawer's messenger pair keeps the actions' 24px apart inside its own group */
+.reserve-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* The phone button: the full row. Colours and states are buttons.css's — Chili primary, or
+   the secondary the closed bar hands it. As the primary it drops the keyline, so it keeps
+   its 42px (Figma); as a secondary the keyline is the button. */
+.btn-call {
+    display: flex;
+    width: 100%;
+}
+
+.btn-call.btn-primary {
+    border: 0;
+}
+
+/* A finger dials the number; only a mouse copies it, so only a mouse sees the copy glyph
+   (reserve-drawer.js → initCopyButtons) */
+@media not all and (hover: hover) and (pointer: fine) {
+    .btn-call .btn-copy-icon {
+        display: none;
+    }
+}
+
+/* Copy feedback on phone button */
+.btn-call.is-copied {
+    background-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+/* Figma phoneState: flex gap-8, ash color. Caption 13 — a short status note (14 retired, Sep 2026) */
+.call-status {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    color: var(--text-muted); /* Ash by day, Mushroom by night (Figma phoneState) */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.52px;
+    line-height: 1.4;
+}
+
+.call-status-icon {
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+/* ── Copy button feedback ────────────────────────── */
+.btn-copy-ticket .btn-copy-label,
+.btn-copy-ticket .btn-copy-icon {
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.btn-copy-ticket.is-copied {
+    color: var(--olive);
+}
+
+.btn-copy-ticket.is-copied .btn-copy-icon {
+    color: var(--olive);
+}
+
+/* Messenger links — Secondary buttons in the drawer's own shape (1 Oct 2026). The markup
+   carries `.btn .btn-secondary`, so the colours and every state are buttons.css's: the
+   Olive keyline with the Cream hover by day, the Lime keyline with the Lime tint on the
+   dark sheet, the pressed inset in 100ms. They used to answer with a Lemon flood in both
+   themes (Lemon is the highlight, not a ground for an action), had no pressed state, and
+   ran `transition: all 0.2s`. Only the geometry is set here: label left, arrow right. */
+.btn-social {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-radius: 8px;
+    line-height: 1.25; /* a 20px line with the 20px mark: the button stays 50px tall */
+}
+
+.btn-social-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-social-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* A sentence, not a status note — Body 16 (14 retired, Sep 2026) */
+.reserve-footer-text {
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--text);
+}
+
+/* No persistent Reserve on phones/tablets (website-brief.md → Top nav → Mobile → Reserve on
+   mobile): the edge tab has no margin to live in at 390–402px and would sit on the hero tiles.
+   Reserve lives in the hero button, the drawer's booking block and the Contacts section instead. */
+@media (max-width: 991px) {
+    .btn-fixed-wrapper {
+        display: none;
+    }
+}
+
+/* ── Phones: bottom sheet (Figma reserveModal-mobile 1198:53322) ──────────────
+   Slides up from the bottom edge on the house spring (transform only — the desktop
+   `right` transition is replaced, not layered). Ground is the page ground (--bg):
+   Peppercorn by night as drawn; Paper by day, following the mobile nav drawer's
+   theme rule. The ticket is Parchment in both and moves to the end of the sheet. */
+@media (max-width: 767px) {
+    .reserve-drawer,
+    html[data-theme="night"] .reserve-drawer {
+        --reserve-ground: var(--bg);
+        --reserve-card: var(--parchment);
+    }
+
+    .reserve-drawer {
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        max-width: none;
+        height: auto;
+        max-height: calc(100dvh - 24px);
+        border-radius: 8px 8px 0 0;
+        visibility: hidden;
+        transform: translateY(100%);
+        transition: transform var(--dur-gentle) var(--ease-gentle),
+                    visibility 0s linear var(--dur-gentle);
+        /* Shadow up; solid 32px extension below so the spring's overshoot shows sheet, not scrim */
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15), 0 32px 0 var(--reserve-ground);
+    }
+
+    .reserve-drawer.is-open {
+        right: 0;
+        visibility: visible;
+        transform: none;
+        transition: transform var(--dur-gentle) var(--ease-gentle),
+                    visibility 0s;
+    }
+
+    .reserve-drawer-accent-line {
+        display: none;
+    }
+
+    /* 64px tap target in the corner, 16px glyph centred (Figma `close`) */
+    .reserve-drawer-close {
+        top: 0;
+        right: 0;
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: var(--text-muted);
+        z-index: 2;
+    }
+
+    /* Figma reserveModalContainer: 34px / 16px padding, 36px between blocks */
+    .reserve-drawer-content {
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+        height: auto;
+        min-height: 0;
+        padding: 34px 16px calc(34px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .reserve-drawer-content > * {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    /* header: H1 (36 on phones) + Body/Secondary, 4px apart, clear of the × */
+    .reserve-header {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .reserve-title {
+        font-size: var(--text-h1);
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+        margin-bottom: 0;
+        padding-right: 48px;
+        color: var(--chili);
+    }
+
+    html[data-theme="night"] .reserve-title {
+        color: var(--paprika);
+    }
+
+    .reserve-subtitle,
+    .reserve-footer-text {
+        margin: 0;
+        line-height: 1.4;
+        color: var(--text);
+    }
+
+    html[data-theme="night"] .reserve-subtitle,
+    html[data-theme="night"] .reserve-footer-text {
+        color: var(--paper);
+    }
+
+    /* Messenger links: 4px radius, content centred (ButtonSecondary-Dark) */
+    .btn-social {
+        justify-content: center;
+        gap: 12px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        line-height: 1.6;
+    }
+
+    /* Ticket last, top corners rounded to the sheet's 8px */
+    .reserve-ticket-wrapper {
+        order: 10;
+    }
+
+    .reserve-ticket {
+        border-radius: 8px 8px 0 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reserve-drawer,
+    .reserve-drawer.is-open,
+    .reserve-drawer-overlay {
+        transition: none;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Icon slots — library SVGs, not glyphs (Sep 2026)
+   Every contact/booking icon is now an inlined SVG from assets/icons/ (the c-*
+   set draws in currentColor, so each one takes its slot's text colour). They
+   used to be Phosphor <i> glyphs sized by font-size; an SVG needs explicit
+   width/height, so the sizes below are what the glyphs rendered at.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.btn-call-icon,
+.btn-copy-icon,
+.btn-social-arrow {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.btn-call-icon svg,
+.btn-copy-icon svg,
+.btn-social-arrow svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+/* The ticket's chip runs at caption scale */
+.btn-copy-ticket .btn-copy-icon svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Copy → copied: both icons are in the markup, CSS swaps them (contacts.css →
+   Chip success state). Never swap an icon from JS. */
+.btn-copy-icon--done {
+    display: none;
+}
+
+.is-copied .btn-copy-icon--copy {
+    display: none;
+}
+
+.is-copied .btn-copy-icon--done {
+    display: inline-flex;
+}
+
+/* ── Bar-state icons ──
+   All three ship in the markup; the wrapper's [data-bar-state] (set by
+   reserve-drawer.js) decides which one shows. Busy is a CSS dot: the library has
+   no plain circle, and the house already draws status dots this way (the Visit
+   rail's .visit-hero__state-dot). Closed borrows the daypart `sleep` mark, which
+   ships Lemon, so its fill is forced to the slot's colour. */
+.call-status-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.call-status-icon svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+}
+
+[data-bar-state] .call-status-icon > * {
+    display: none;
+}
+
+[data-bar-state="available"] .call-status-icon--available,
+[data-bar-state="closed"] .call-status-icon--closed {
+    display: inline-flex;
+}
+
+[data-bar-state="busy"] .call-status-icon--busy {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #e8751a;
+}
+
+.call-status-icon--closed svg path {
+    fill: currentColor;
+}
+
+/* Team form's send mark ships Lemon too */
+.team-form__submit .btn-icon svg path {
+    fill: currentColor;
+}

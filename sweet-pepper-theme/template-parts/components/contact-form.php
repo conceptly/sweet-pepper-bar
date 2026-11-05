@@ -1,0 +1,221 @@
+<?php
+/**
+ * Template part for the contact form card.
+ *
+ * Three states managed via [data-form-state]:
+ *   "email"   — default, email contact field shown
+ *   "phone"   — phone contact field shown
+ *   "success" — confirmation message
+ *
+ * Figma: FormContactDark (269-3906) / FormContactLight (466-19626)
+ *
+ * Error text lives in the label row (right-aligned) per Figma,
+ * so the form height stays constant regardless of error state.
+ *
+ * Field states (27 Sep 2026, Figma field-singleLine 265:3459 / 466:19366): each single-line
+ * field carries two trailing status marks — the checkmark once the value passes, the "!" on
+ * error — shown by contacts.css from `.is-valid` / `.contact-field--error`, which
+ * js/field-state.js keeps live as the visitor types (or the browser autofills).
+ *
+ * Russian (25 Sep 2026): every string goes through the theme's dictionary — forms-copy-ru-draft.md
+ * for the shared fields, errors and success; home-copy-ru-review.md §9 for the home title and
+ * subtitle. Generic words carry the 'contact form' context so they never meet another "Message".
+ * Delivery (29 Sep 2026): contact-form.js posts to inc/forms.php, which mails hello@sweetpepper.bar;
+ * the success screen shows only after the server answers ok, a failure shows .form-send-error (draft §6).
+ */
+$title    = ! empty( $args['title'] ) ? $args['title'] : __( 'Send a message', 'sweet-pepper' );
+$subtitle = ! empty( $args['subtitle'] ) ? $args['subtitle'] : __( "We'll get back to you within 24 hours.", 'sweet-pepper' );
+// Phones on the Visit page (formContact-dark-mobile 1477:76531): "or Send a message" ties the
+// form to the booking block above it; the prefix is hidden above 767px.
+$title_prefix_mobile = $args['title_prefix_mobile'] ?? '';
+// Topic chips (same frame). Rendered only when passed; the caller's CSS decides where they
+// show. The set is still open — visit-page-copy.md → We're all ears — mobile.
+$topics = $args['topics'] ?? [];
+?>
+<div class="contact-form" data-form-state="email" id="contact-form">
+
+    <!-- ── Form Body (email + phone states) ── -->
+    <div class="contact-form__body">
+
+        <!-- Header -->
+        <div class="contact-form__header">
+            <h3 class="contact-form__title"><?php if ( $title_prefix_mobile ) : ?><span class="contact-form__title-prefix"><?php echo esc_html( $title_prefix_mobile ); ?></span><?php endif; ?><?php echo esc_html( $title ); ?></h3>
+            <p class="contact-form__subtitle"><?php echo esc_html( $subtitle ); ?></p>
+        </div>
+
+        <?php if ( $topics ) : ?>
+        <!-- Topic chips — one active, mirrored into a hidden field for the email subject -->
+        <div class="contact-form__topics" role="group" aria-label="<?php esc_attr_e( 'What is it about?', 'sweet-pepper' ); ?>">
+            <?php foreach ( $topics as $i => $topic ) : ?>
+            <button type="button" class="contact-form__topic<?php echo 0 === $i ? ' is-active' : ''; ?>" data-topic="<?php echo esc_attr( $topic ); ?>" data-label="<?php echo esc_attr( $topic ); ?>" aria-pressed="<?php echo 0 === $i ? 'true' : 'false'; ?>"><?php echo esc_html( $topic ); ?></button>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+
+        <!-- Fields -->
+        <form class="contact-form__fields" id="contact-form-el" data-endpoint="<?php echo esc_url( sweet_pepper_forms_endpoint() ); ?>" novalidate>
+            <!-- Honeypot: hidden from people, filled by bots (inc/forms.php) -->
+            <div class="form-honeypot" aria-hidden="true"><label>Website <input class="ym-disable-keys" type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <?php if ( $topics ) : ?>
+            <input type="hidden" name="topic" class="js-topic-input" value="<?php echo esc_attr( $topics[0] ); ?>">
+            <?php endif; ?>
+
+            <!-- Name -->
+            <div class="contact-field" data-field="name">
+                <div class="contact-field__label-row">
+                    <label class="contact-field__label" for="contact-name">
+                        <?php echo esc_html_x( 'Name', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
+                    </label>
+                    <span class="contact-field__error-text"><?php esc_html_e( 'Please enter your name', 'sweet-pepper' ); ?></span>
+                </div>
+                <div class="contact-field__input-wrap">
+                    <input
+                        class="contact-field__input ym-disable-keys"
+                        type="text"
+                        id="contact-name"
+                        name="name"
+                        autocomplete="name"
+                        required
+                    >
+                    <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                    <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
+                </div>
+            </div>
+
+            <!-- Email / Phone toggle group -->
+            <div class="contact-toggle-group">
+
+                <!-- Email field -->
+                <div class="contact-toggle-group__field contact-field" data-field="email" data-contact-type="email">
+                    <div class="contact-field__label-row">
+                        <label class="contact-field__label" for="contact-email">
+                            <?php echo esc_html_x( 'Email', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
+                        </label>
+                        <span class="contact-field__error-text"><?php esc_html_e( 'Please enter a valid email', 'sweet-pepper' ); ?></span>
+                    </div>
+                    <div class="contact-field__input-wrap">
+                        <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
+                        <input
+                            class="contact-field__input ym-disable-keys"
+                            type="email"
+                            id="contact-email"
+                            name="email"
+                            autocomplete="email"
+                            required
+                        >
+                        <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                        <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
+                    </div>
+                </div>
+
+                <!-- Phone field (hidden by default) -->
+                <div class="contact-toggle-group__field contact-field" data-field="phone" data-contact-type="phone" hidden>
+                    <div class="contact-field__label-row">
+                        <label class="contact-field__label" for="contact-phone">
+                            <?php echo esc_html_x( 'Phone', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
+                        </label>
+                        <span class="contact-field__error-text"><?php esc_html_e( 'Please enter your phone number', 'sweet-pepper' ); ?></span>
+                    </div>
+                    <div class="contact-field__input-wrap">
+                        <span class="contact-field__icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-phone.svg' ); ?></span>
+                        <input
+                            class="contact-field__input ym-disable-keys"
+                            type="tel"
+                            id="contact-phone"
+                            name="phone"
+                            autocomplete="tel"
+                            required
+                        >
+                        <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
+                        <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
+                    </div>
+                </div>
+
+                <!-- Toggle pills -->
+                <div class="contact-toggle">
+                    <button type="button" class="contact-toggle__pill contact-toggle__pill--active" data-toggle="email"><?php echo esc_html_x( 'Email', 'contact form', 'sweet-pepper' ); ?></button>
+                    <button type="button" class="contact-toggle__pill" data-toggle="phone"><?php echo esc_html_x( 'Phone', 'contact form', 'sweet-pepper' ); ?></button>
+                    <span class="contact-toggle__helper"><?php esc_html_e( 'Please, pick the preferred contact method', 'sweet-pepper' ); ?></span>
+                </div>
+
+            </div>
+
+            <!-- Message -->
+            <div class="contact-field" data-field="message">
+                <div class="contact-field__label-row">
+                    <label class="contact-field__label" for="contact-message">
+                        <?php echo esc_html_x( 'Message', 'contact form', 'sweet-pepper' ); ?><span class="contact-field__asterisk">*</span>
+                    </label>
+                    <span class="contact-field__error-text"><?php esc_html_e( 'Please enter a message', 'sweet-pepper' ); ?></span>
+                </div>
+                <div class="contact-field__input-wrap contact-field__input-wrap--textarea">
+                    <textarea
+                        class="contact-field__input ym-disable-keys"
+                        id="contact-message"
+                        name="message"
+                        maxlength="500"
+                        required
+                    ></textarea>
+                </div>
+                <span class="contact-field__counter"><span class="js-char-count">0</span>/500</span>
+            </div>
+
+        </form>
+
+        <!-- Send block: consent, the delivery error and Submit, 16px apart (author, 29 Sep 2026).
+             Outside the <form>, tied to it by form="…" like the button. -->
+        <div class="form-send">
+            <?php sweet_pepper_consent_field( 'contact-consent', 'contact-form-el' ); // inc/forms.php — required, unticked ?>
+
+            <!-- Delivery error (forms-copy-ru-draft.md §6) — shown by the script when the send fails; the typed text stays -->
+            <p class="form-send-error js-send-error" role="alert" hidden><?php esc_html_e( 'The message could not be sent. Please try again or write to us by email.', 'sweet-pepper' ); ?> <a href="mailto:hello@sweetpepper.bar">hello@sweetpepper.bar</a></p>
+
+            <button type="submit" form="contact-form-el" class="btn btn-primary-green contact-form__submit"><?php echo esc_html_x( 'Submit', 'contact form', 'sweet-pepper' ); ?></button>
+        </div>
+
+    </div>
+
+    <!-- ── Success State ── -->
+    <div class="contact-form__success">
+
+        <!-- Badge -->
+        <div class="contact-form__success-badge">
+            <span class="success-badge-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/checkmark-outline.svg' ); // the outlined one — Figma icon-badge ?></span>
+        </div>
+
+        <!-- Content -->
+        <div class="contact-form__success-content">
+            <h3 class="contact-form__success-title"><?php esc_html_e( 'Message has been sent!', 'sweet-pepper' ); ?></h3>
+            <p class="contact-form__success-body">
+                <?php esc_html_e( 'We appreciate you taking the time to write to us. A real human from the bar will read your message and respond directly to your inbox within 24 hours.', 'sweet-pepper' ); ?>
+            </p>
+
+            <!-- Direct contact email -->
+            <div class="contact-form__info-box">
+                <p class="contact-form__info-label"><?php esc_html_e( 'Direct contact email', 'sweet-pepper' ); ?></p>
+                <?php get_template_part( 'template-parts/components/contact-item', null, [
+                    'icon_svg' => 'icons/c-mail.svg',
+                    'contact'  => 'hello@sweetpepper.bar',
+                ] ); ?>
+            </div>
+
+            <!-- Phone -->
+            <div class="contact-form__info-box">
+                <p class="contact-form__info-label"><?php esc_html_e( 'Need instant assistance? Give us a call!', 'sweet-pepper' ); ?></p>
+                <?php get_template_part( 'template-parts/components/contact-item', null, [
+                    'icon_svg' => 'icons/c-phone.svg',
+                    'contact'  => '+7 (4852) 911-202',
+                    'copy_text'=> '+74852911202',
+                ] ); ?>
+            </div>
+        </div>
+
+        <!-- Reset button -->
+        <button type="button" class="btn btn-secondary contact-form__reset-btn js-form-reset">
+            <span class="btn-icon"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-mail.svg' ); ?></span>
+            <?php esc_html_e( 'Send another message', 'sweet-pepper' ); ?>
+        </button>
+
+    </div>
+
+</div>

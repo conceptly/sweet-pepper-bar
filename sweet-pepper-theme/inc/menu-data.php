@@ -1,0 +1,177 @@
+<?php
+/**
+ * Menu data — where the section templates get their rows.
+ *
+ * The menu store (website-brief.md → Content editing & languages → Menu storage,
+ * decided 23 Sep 2026): one `dish` or `drink` post per item, placed by the section's tab on
+ * its menu page — `sec_<slug>_subsections`, since 24 Sep 2026 (inc/menu-data-dishes.php). Templates never read fields: they loop over
+ * sweet_pepper_menu_subsections(), which hands back dish-row args in one language.
+ * While a record is missing or empty the typed rows in data/menu/<slug>.php render
+ * instead, so a section converts without the page ever going blank.
+ *
+ * @package Sweet_Pepper
+ */
+
+/**
+ * Language of the current request — the site's (inc/fields.php).
+ */
+function sweet_pepper_menu_lang() {
+    return sweet_pepper_lang();
+}
+
+/**
+ * Units of a dish's quantity. The team picks one from a dropdown; the twins live here.
+ */
+function sweet_pepper_menu_units() {
+    return [
+        'g'   => [ 'ru' => 'г',  'en' => 'g' ],
+        'ml'  => [ 'ru' => 'мл', 'en' => 'ml' ],
+        'l'   => [ 'ru' => 'л',  'en' => 'L' ],
+        'pcs' => [ 'ru' => 'шт', 'en' => 'pcs' ],
+    ];
+}
+
+/**
+ * A dish has one size or two (40 ml / 500 ml → 150-. / 1300-.). The team types
+ * numbers only; the "-." and the unit are set here, so they can't be forgotten.
+ *
+ * @param array  $dish Row of the dishes repeater.
+ * @param string $lang 'ru' | 'en'.
+ * @return array [ price string, quantity string ]
+ */
+function sweet_pepper_menu_format_sizes( $dish, $lang ) {
+    $units  = sweet_pepper_menu_units();
+    $number = fn( $n ) => str_replace( '.', 'ru' === $lang ? ',' : '.', (string) ( 0 + $n ) );
+    $prices = $quantities = [];
+    foreach ( [ '', '_2' ] as $size ) {
+        $price  = $dish[ "price{$size}" ] ?? '';
+        $amount = $dish[ "amount{$size}" ] ?? '';
+        if ( is_numeric( $price ) ) {
+            $prices[] = ( 0 + $price ) . '-.';
+        }
+        if ( is_numeric( $amount ) && $amount > 0 ) {
+            $unit         = $units[ $dish[ "unit{$size}" ] ?? '' ][ $lang ] ?? '';
+            $quantities[] = trim( $number( $amount ) . ' ' . $unit );
+        }
+    }
+    return [ implode( ' / ', $prices ), implode( ' / ', $quantities ) ];
+}
+
+/**
+ * @param string $slug Section slug.
+ * @return array The typed rows from data/menu/<slug>.php, or [].
+ */
+function sweet_pepper_menu_fallback( $slug ) {
+    $file = get_template_directory() . '/data/menu/' . sanitize_key( $slug ) . '.php';
+    return file_exists( $file ) ? (array) require $file : [];
+}
+
+/**
+ * Subsections of a section, ready to render.
+ *
+ * @param string $slug Section slug.
+ * @return array[] Each: [ title, column ('left'|'right'), style ('list'|'card'), dishes => dish-row args[] ].
+ */
+function sweet_pepper_menu_subsections( $slug ) {
+    static $cache = [];
+    if ( isset( $cache[ $slug ] ) ) {
+        return $cache[ $slug ];
+    }
+
+    $rows = sweet_pepper_menu_list_rows( $slug );
+    if ( empty( $rows ) ) {
+        return $cache[ $slug ] = sweet_pepper_menu_fallback( $slug );
+    }
+
+    $lang  = sweet_pepper_menu_lang();
+    $other = 'ru' === $lang ? 'en' : 'ru';
+    // The other language stands in for a twin left empty, rather than a blank row.
+    $pick  = fn( $row, $key ) => trim( (string) ( $row[ "{$key}_{$lang}" ] ?? '' ) ) ?: trim( (string) ( $row[ "{$key}_{$other}" ] ?? '' ) );
+
+    $subsections = [];
+    foreach ( $rows as $sub ) {
+        $dishes = [];
+        foreach ( (array) ( $sub['dishes'] ?? [] ) as $dish ) {
+            if ( ! empty( $dish['hidden'] ) ) {
+                continue;
+            }
+            $dishes[] = sweet_pepper_menu_dish_args( $dish, $lang );
+        }
+        // A subsection with every dish hidden takes its header with it.
+        if ( ! $dishes ) {
+            continue;
+        }
+        $subsections[] = [
+            'title'   => $pick( $sub, 'title' ),
+            'column'  => 'right' === ( $sub['column'] ?? '' ) ? 'right' : 'left',
+            'style'   => 'card' === ( $sub['style'] ?? '' ) ? 'card' : 'list',
+            'divider' => ! empty( $sub['divider'] ),
+            'note'    => $pick( $sub, 'note' ),
+            'dishes'  => $dishes,
+        ];
+    }
+
+    return $cache[ $slug ] = $subsections;
+}
+
+/**
+ * One dish's row, ready for template-parts/components/dish-row.php, in one language — from a
+ * row of the store (sweet_pepper_menu_item_row(): the post's fields with name_ru / dish_id).
+ *
+ * @param array  $dish A dish's fields.
+ * @param string $lang 'ru' | 'en'.
+ * @return array dish-row args (+ dish_id).
+ */
+function sweet_pepper_menu_dish_args( $dish, $lang ) {
+    $other = 'ru' === $lang ? 'en' : 'ru';
+    $pick  = fn( $row, $key ) => trim( (string) ( $row[ "{$key}_{$lang}" ] ?? '' ) ) ?: trim( (string) ( $row[ "{$key}_{$other}" ] ?? '' ) );
+    // `u`: without it \R also breaks on the byte 0x85 — the second half of «х» (D1 85) — so
+    // «…грецким орехом» split mid-letter into an empty bullet and «ом» (28 Sep 2026).
+    $lines = fn( $text ) => array_values( array_filter( array_map( 'trim', preg_split( '/\R/u', (string) $text ) ) ) );
+    [ $price, $quantity ] = sweet_pepper_menu_format_sizes( $dish, $lang );
+    return [
+        'dish_id'        => $dish['dish_id'] ?? '',
+        'dish_name'      => $pick( $dish, 'name' ),
+        'price'          => $price,
+        'quantity'       => $quantity,
+        'description'    => $pick( $dish, 'description' ),
+        'icons'          => array_slice( (array) ( $dish['icons'] ?? [] ), 0, 2 ),
+        'seasonal_label' => $pick( $dish, 'seasonal' ),
+        'season'         => sweet_pepper_badge_season( ( $dish['seasonal_ru'] ?? '' ) . ' ' . ( $dish['seasonal_en'] ?? '' ) ),
+        'options'        => $lines( $pick( $dish, 'options' ) ),
+    ];
+}
+
+/**
+ * The season a badge label names — its colours follow it (Figma menuBadges 847:30705:
+ * Summer / Fall / Winter, 30 Sep 2026). Read from the label the team already types
+ * («Лето’26!», «Autumn'26!»), so there is no field to keep in step; both languages
+ * are passed in, whichever is filled. A label that names no season (or spring, which
+ * has no variant yet) keeps the original Lemon badge.
+ *
+ * @param string $label One or both badge labels.
+ * @return string 'summer' | 'fall' | 'winter' | ''.
+ */
+function sweet_pepper_badge_season( $label ) {
+    $seasons = [
+        'summer' => 'лето|летн|summer', // not bare «лет»: «10 лет!» is no summer
+        'fall'   => 'осен|autumn|fall',
+        'winter' => 'зим|winter',
+    ];
+    foreach ( $seasons as $season => $stems ) {
+        if ( preg_match( '/(?<!\p{L})(?:' . $stems . ')/iu', (string) $label ) ) {
+            return $season;
+        }
+    }
+    return '';
+}
+
+/**
+ * A dish carries two icons at most, never the same one twice (author, Sep 2026).
+ */
+function sweet_pepper_menu_validate_icons( $valid, $value ) {
+    if ( true === $valid && is_array( $value ) && count( $value ) > 2 ) {
+        return 'Не больше двух значков на блюдо.';
+    }
+    return $valid;
+}

@@ -1,0 +1,847 @@
+/* ==========================================================================
+   Menu Section — Repeatable category layout (Breakfast, Lunch, Soups, etc.)
+   Figma: menuSection (766:23756)
+
+   Structure:
+   - top: inverted link word (overlap) + hero image with pill
+   - sectionContent: title row (eyebrow + headline + deal) + two-column dish layout
+   - bottom: link word with border
+   ========================================================================== */
+
+
+/* ── Section Wrapper ──
+   Striping alternates by section order (website-brief.md → Section striping).
+   The ground is exposed as --section-bg so anything that has to match it —
+   the deal / add-ons rugged edges — reads it instead of guessing.
+   nth-of-type, not nth-child: the menu page's <main> also holds non-section
+   siblings (the jump-nav tab, scrim and panel), which must not shift parity. */
+.menu-section {
+    --section-bg: var(--bg); /* paper (day) / peppercorn (night) */
+    background-color: var(--section-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.menu-section:nth-of-type(even) {
+    --section-bg: var(--surface); /* parchment (day) / soft-peppercorn (night) */
+}
+
+
+/* ── Hero Image ──
+   Figma: img component, layout "4:1" — aspect 300/75, rounded-4, overflow clip, p-24.
+   Lives inside the .container, matching content width (1120px at desktop). */
+
+.menu-section__hero {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 1;
+    overflow: hidden;
+    border-radius: 0 0 12px 12px;
+}
+
+.menu-section__hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--img-pos, center center);
+    border-radius: 0;
+}
+
+/* Hero pill label — Figma: lemon bg, opacity 0.9, bottom-left */
+.menu-section__hero-pill {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    background-color: var(--lemon);
+    opacity: 0.9;
+    color: var(--peppercorn);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+
+/* ── Section Content ──
+   Figma: sectionContent — flex-col, gap-48, px-80 (inside .container). */
+
+.menu-section__content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+
+/* ── Title Row ──
+   Figma: sectionTitleContainer — flex row, gap-24.
+   Left: eyebrow + headline (66% width).
+   Right: deal component slot (flex-1, right-aligned).
+   The text column starts at 66% and gives way; the slot never goes below the deal's 352
+   (2 Oct 2026). Both were fixed, so under ~1180 the slot was narrower than the card and the
+   card spilled left over the headline — «ЛАНЧИ ОТ ПЕРЦЕВ» ran ~90px under it at 992. At the
+   1120 design row nothing moves (739 + 24 + 357); a section with no deal keeps its 66%. */
+
+.menu-section__title-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.menu-section__title-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 0 1 66%;
+    min-width: 0;
+}
+
+.menu-section__title-text .section-eyebrow {
+    color: var(--avocado); /* Menu sections use avocado eyebrow, not olive */
+}
+
+.menu-section__title-right {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    align-self: stretch;
+}
+
+
+/* ── Two-Column Dish Layout ──
+   Figma: "text" frame — flex row, gap-48, both sides flex-1. */
+
+.menu-section__columns {
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.menu-section__column {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Left column has 36px gap between subsections */
+.menu-section__column--left {
+    gap: 36px;
+}
+
+/* Right column has 16px gap between subsections */
+.menu-section__column--right {
+    gap: 16px;
+}
+
+
+/* ── Subsection (e.g. "Eggs", "Pancakes") ──
+   Figma: "subsection" — flex-col, pb-8. Header + dishes container. */
+
+.menu-section__subsection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 8px;
+    width: 100%;
+}
+
+/* Subsection header — Figma: subsectioHeader, pt-8 */
+.menu-section__subsection-header {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+}
+
+/* Subsection title — Molot H2, Chili Deep, tracking 1.2px */
+.menu-section__subsection-title {
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+    color: var(--chili-deep);
+    white-space: nowrap;
+}
+
+html[data-theme="night"] .menu-section__subsection-title {
+    color: var(--paprika); /* Figma: PepperPaprika on dark bg */
+}
+
+html[data-theme="night"] .menu-section__title-text .section-eyebrow {
+    color: var(--cream);
+}
+
+/* Dishes container — holds dish-row components */
+.menu-section__dishes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* The last dish of a subsection closes it with a 2px line — Olive by day, Avocado by night
+   (author, 29 Sep 2026 on phones; desktop too, 30 Sep 2026). Ash / Mushroom under
+   ?enddiv=ash while the two are compared (menu-single-section.js). Not the add-ons card:
+   it is no .menu-section__subsection. */
+.menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom: 2px solid var(--olive);
+}
+
+html.enddiv-ash .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom-color: var(--ash);
+}
+
+html[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom-color: var(--avocado);
+}
+
+html.enddiv-ash[data-theme="night"] .menu-section__subsection .menu-section__dishes > .dish-row:last-child {
+    border-bottom-color: var(--mushroom);
+}
+
+
+/* ── Deal Component ──
+   Figma: deal (1405:45154) — coupon-style card with rugged (scalloped) top edge,
+   cream bg, chili-deep shadow offset behind.
+
+   Structure:
+   outer (.menu-section__deal) → inner flex → card (.menu-section__deal-card) → content
+                                             → shadow (.menu-section__deal-shadow)
+
+   Desktop: w-352 / card w-348, Mobile: w-370 / card fills flex.
+   The 4px gap between card and outer creates the shadow peek at bottom-right. */
+
+.menu-section__deal {
+    width: 352px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 4px;
+    padding-bottom: 4px;
+    padding-right: 4px;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Intermediate flex row — stretches to fill outer, lets card sit flush */
+.menu-section__deal-inner {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+}
+
+.menu-section__deal-card {
+    background-color: var(--cream);
+    border-radius: 4px;
+    padding: 28px 16px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+    width: 348px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+/* Shadow — Chili Deep rectangle peeking behind at bottom-right */
+.menu-section__deal-shadow {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 348px;
+    height: 92px;
+    background-color: var(--chili-deep);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+/* ── Deal Content ── */
+
+.menu-section__deal-title {
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    color: var(--chili-deep);
+    /* 88 as drawn; a single word wider than that (RU «игристого», «Идеальная») widens the
+       box instead of running into the divider — the English titles never reach it. */
+    width: min-content;
+    min-width: 88px;
+    flex-shrink: 0;
+}
+
+.menu-section__deal-divider {
+    width: 2px;
+    background-color: var(--olive);
+    align-self: stretch;
+    flex-shrink: 0;
+}
+
+.menu-section__deal-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* The main line stays on one line and sets the column's width, as drawn; the second
+       line (or the link) wraps under it when it is longer — the Russian offers («по
+       специальной цене к завтраку», the wine line, «Смотреть в барном меню») were cut at
+       the card's edge under nowrap (23 Sep 2026). The English second lines fit. */
+    min-width: 0;
+}
+
+.menu-section__deal-desc-main {
+    white-space: nowrap;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--chili);
+}
+
+.menu-section__deal-desc-sub {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+}
+
+/* Optional link inside the deal description. As wide as its words, so the arrow follows
+   them — stretched to the column, a wrapped link left its arrow at the card's far edge. */
+.menu-section__deal-link {
+    align-self: flex-start;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    text-decoration: none;
+    color: var(--olive);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    transform: rotate(-1deg);
+}
+
+.menu-section__deal-link-icon {
+    display: inline-flex;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.menu-section__deal-link-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Rugged edge — scalloped top of the deal card.
+   Figma uses an SVG with specific offset alignment. Our CSS component tiles via
+   background-repeat, so it simply spans the full card width at the top edge.
+   The half-circles (12px tall, 24px ∅) sit at the card top, colored to match the
+   section ground (--section-bg, passed as 'section-bg'), creating the "torn coupon"
+   perforation effect. */
+.menu-section__deal-card > .rugged-edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+
+/* ── Addons Component ──
+   Figma: addOns (1396:44921) — coupon-style card for add-on items (sauces, toppings).
+   Cream bg, dashed olive top border, rugged (scalloped) bottom edge.
+
+   Structure:
+   outer (.menu-section__addons) — applies tilt from the section layout
+   card (.menu-section__addons-card) — cream bg, dashed top, content, rugged bottom
+
+   Desktop: w-536, Mobile: w-370.
+   Variant props: breakpoint (desktop/mobile), title (string). */
+
+.menu-section__addons {
+    transform: rotate(1deg);
+}
+
+.menu-section__addons-card {
+    background-color: var(--cream);
+    /* Dashed top border — Figma: olive, 2px, dash 8 / gap 8.
+       CSS `dashed` doesn't expose dash/gap, so we fake it with a gradient. */
+    background-image: repeating-linear-gradient(
+        to right,
+        var(--olive) 0,
+        var(--olive) 8px,
+        transparent 8px,
+        transparent 16px
+    );
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+    background-position: top;
+    border-radius: 0 0 4px 4px;
+    /* Even room on all four sides (author: the inner spacing read smaller than the outer,
+       23 Sep 2026): ink measured 24 from the dashed top to the title, 24 at the sides, 24
+       from the last line to the scallop tops (the bottom 12px is the rugged edge) — was
+       20.5 / 11.5 / 18.5. The title → first row gap is 21 (row top 12, was 16 → 25):
+       tighter than the frame, so the title belongs to its rows. */
+    padding: 12px 24px 18px;
+    overflow: visible; /* rugged edge peeks below */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 536px;
+    max-width: 100%;
+}
+
+/* Subsection title inside addons — same Molot H2, Chili Deep */
+.menu-section__addons-card .menu-section__subsection-header {
+    padding-top: 8px;
+    width: 100%;
+}
+
+/* Bottom rugged edge — flipped upward (scaleY-1), sits below the card.
+   Same approach as the deal's top edge — full width, simple positioning. */
+.menu-section__addons-card > .rugged-edge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: scaleY(-1);
+    pointer-events: none;
+}
+
+/* A card row can be a sentence, not a dish name («Острее или мягче, без лука, другая заправка»,
+   the salads' promise, 30 Sep 2026): it wraps, where dish names elsewhere keep one line. */
+.menu-section__addons-card .dish-name {
+    white-space: normal;
+    text-wrap: pretty;
+}
+
+/* Dish rows inside addons — no bottom border; the price Deep Olive at every hour (the card stays Cream at night) */
+.menu-section__addons-card .dish-row {
+    border-bottom: none;
+    padding: 12px 0 16px;
+}
+
+.menu-section__addons-card .dish-row:last-child {
+    border-bottom: none;
+}
+
+.menu-section__addons-card .dish-price,
+html[data-theme="night"] .menu-section__addons-card .dish-price {
+    color: var(--olive-deep); /* 5.13:1 on Cream; Avocado was 2.98 (22 Oct 2026) */
+}
+
+/* Addons card keeps cream bg in night mode, so force dark text inside it */
+html[data-theme="night"] .menu-section__addons-card .dish-name {
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .menu-section__addons-card .dish-description {
+    color: var(--ash);
+}
+
+html[data-theme="night"] .menu-section__addons-card .dish-quantity {
+    color: var(--ash);
+}
+
+html[data-theme="night"] .menu-section__addons-card .menu-section__subsection-title {
+    color: var(--chili-deep);
+}
+
+html[data-theme="night"] .menu-section__addons-card .dish-row {
+    border-bottom-color: var(--mushroom);
+}
+
+
+/* ── Bottom Link Word ──
+   Reuses the same pattern as .menu-highlights__link-word — border-bottom mushroom. */
+
+.menu-section__bottom-link-word {
+    border-bottom: 0.5px solid var(--mushroom);
+}
+
+/* ── Section Remark ──
+   Small note text, e.g. "adult pricing applies" in kids menu. */
+
+.menu-section__remark {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+    margin-top: 24px;
+}
+
+html[data-theme="night"] .menu-section__remark {
+    color: var(--mushroom);
+}
+
+/* ── Coffee / Tea Divider ──
+   Full-width dashed olive separator line between coffee and tea. */
+
+.menu-section__coffee-tea-divider {
+    width: 100%;
+    height: 2px;
+    background-image: repeating-linear-gradient(
+        to right,
+        var(--olive) 0,
+        var(--olive) 8px,
+        transparent 8px,
+        transparent 16px
+    );
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Section rail — the headline, plus the other sections on phones
+   template-parts/components/menu-section-rail.php
+   Figma: rail / carousel-food inside menu-food-mobile-day (2109:130225)
+
+   Desktop: only the <h2> shows (the existing section headline). Phones: the
+   headline leads a horizontal snap rail of the other section words — outline
+   = not current, fill = current, the hero nav's own grammar at the same 36px.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.menu-section-rail {
+    display: flex;
+    align-items: center;
+}
+
+.menu-section-rail__current {
+    margin: 0;
+}
+
+.menu-section-rail__nav {
+    display: contents;
+}
+
+.menu-section-rail__link,
+.menu-section-rail__short {
+    display: none;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PHONES AND TABLETS (≤ 991px)
+   Figma: menu-food-mobile-day (2109:130225)
+
+   Tablets (768–991, Sep 2026) take the phone layout widened, not copied: the
+   desktop's two columns ran 344–428 there, narrower than the 370 a phone gives the
+   same rows, and the fixed 352 deal overflowed its title-row slot (59px into the
+   "Tea & Coffee" headline at 768). The 16px bleeds and lead-ins are --gutter (the
+   site ramp) so the top block and the rail meet the viewport edge at every width.
+   Photo 7:3 is the sanctioned 21:9 (same fraction), 329 tall at 768, 425 at 991.
+
+   One column. The section opens with a "top" block on the *other* ground
+   (--section-top-bg, i.e. the previous section's colour, so the block reads as
+   the seam): the photo at 7:3 across the full 402, the rail, the eyebrow, and
+   8px bottom radii. Then, on the section's own ground: the deal (if any), the
+   subsections as one column at 24px, and the connector.
+
+   The desktop title-row wrappers are dissolved with `display: contents` so the
+   photo, rail, eyebrow, deal and columns become siblings and can be ordered;
+   the three top-block pieces each paint their own slice of the block.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.menu-section {
+    --section-top-bg: var(--surface);
+}
+
+.menu-section:nth-of-type(even) {
+    --section-top-bg: var(--bg);
+}
+
+@media (max-width: 991px) {
+    .menu-section {
+        gap: 36px; /* Figma: sectionContent gap 24 + bottom pt 12 */
+    }
+
+    .menu-section__content {
+        gap: 0;
+    }
+
+    .menu-section__title-row,
+    .menu-section__title-text,
+    .menu-section__title-text .section-title,
+    .menu-section__title-right {
+        display: contents;
+    }
+
+    /* ── Top block, piece 1: photo (Figma img: 210/90, radius 4, full bleed) ── */
+    .menu-section__hero {
+        order: 1;
+        width: auto;
+        margin: 0 calc(-1 * var(--gutter));
+        aspect-ratio: 210 / 90;
+        border-radius: 0;
+        background-color: var(--section-top-bg);
+    }
+
+    /* Same reason as the rail's 38px line: 7:3 of a 402px screen is 172.29px, which left
+       everything under the photo — the rail's resting place included — on a fraction. */
+    @supports (height: round(down, 1px, 1px)) {
+        .menu-section__hero {
+            aspect-ratio: auto;
+            height: round(down, calc((100vw) * 90 / 210), 1px);
+        }
+    }
+
+    .menu-section__hero img {
+        border-radius: 4px;
+    }
+
+    .menu-section__hero-pill {
+        bottom: 16px;
+        left: 16px;
+    }
+
+    /* ── Top block, piece 2: the rail (54px: 8 + the 38px words + 8; 16px lead-in) ──
+       Two elements, on purpose (21 Sep 2026). The BAR (.menu-section-rail) is sticky and does
+       not scroll; the ROW inside it (.menu-section-rail__nav) scrolls sideways and is not
+       sticky. They were one element, and on iPhones the stuck rail wandered ±4px against
+       the fixed header while the page scrolled — measured in the author's screen recording:
+       header wordmark on rows 363–421 of every frame, the rail's word anywhere from 540 to
+       552, back to 544 at rest. WebKit moves fixed and sticky layers on its scrolling thread,
+       but an element that is sticky AND its own scroll container falls back to the main
+       thread, a frame behind the scroll. Chrome on iOS is WebKit too; a Mac never shows it. */
+    .menu-section-rail {
+        order: 2;
+        display: block;
+        position: sticky;           /* the rail is the page's navigation on phones: it stays under the header while its section scrolls */
+        top: 76px;
+        z-index: 5;
+        margin: 0 calc(-1 * var(--gutter));
+        padding: 8px 0;             /* bottom = top (author, 20 Sep 2026): stuck under the header the band had 8 above the words and 0 below */
+        background-color: var(--section-top-bg);
+    }
+
+    .menu-section-rail__nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding-left: var(--gutter); /* the trailing gutter is the last word's margin, below */
+        overflow-x: auto;
+        overflow-y: hidden;         /* `auto` on x makes y `auto` too */
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--gutter);
+        scrollbar-width: none;
+    }
+
+    .menu-section-rail__nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    body.admin-bar .menu-section-rail {
+        top: calc(76px + 46px);
+    }
+
+    .menu-section-rail__link {
+        display: block;
+    }
+
+    /* In the rail the current word is the nav word — the long desktop headline steps aside */
+    .menu-section-rail__long {
+        display: none;
+    }
+
+    .menu-section-rail__short {
+        display: inline;
+    }
+
+    .menu-section-rail__item {
+        flex: none;
+        white-space: nowrap;
+        scroll-snap-align: start;
+        font-size: 36px;
+        /* 38px, not 1.05 (= 37.8): the rail must be a whole 54px. A sticky layer on fractional
+           geometry is rounded to the pixel grid differently from frame to frame while the page
+           scrolls, and the stuck rail trembled by a pixel (author, 20 Sep 2026). */
+        line-height: 38px;
+        letter-spacing: 1.44px;
+    }
+
+    /* Discoverability (20 Sep 2026; menu-rail-nudge.js keeps the clock). Nudge: the words start a swipe and spring back. Entrance: the words
+       after the current one arrive from the right, 80 ms apart, on the house spring. */
+    .menu-section-rail.is-nudging .menu-section-rail__item {
+        animation: rail-nudge 1100ms both;
+    }
+
+    /* Waiting for its entrance: the arriving words hold the entrance's first frame */
+    .menu-section-rail.is-parked .menu-section-rail__current ~ .menu-section-rail__link {
+        opacity: 0;
+        transform: translateX(72px);
+    }
+
+    .menu-section-rail.is-entering .menu-section-rail__current ~ .menu-section-rail__link {
+        animation: rail-enter var(--dur-gentle) var(--ease-gentle) calc(var(--rail-i, 0) * 80ms) backwards;
+    }
+
+    /* A trailing gutter so the last word can snap in with the same margin */
+    .menu-section-rail__link:last-child {
+        margin-right: var(--gutter);
+    }
+
+    /* Not current: outlined, same strokes as the hero word list */
+    .menu-section-rail__link {
+        text-decoration: none;
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--olive);
+        text-stroke: 1.5px var(--olive);
+    }
+
+    html[data-theme="night"] .menu-section-rail__link {
+        -webkit-text-stroke: 1.5px var(--lime);
+        text-stroke: 1.5px var(--lime);
+    }
+
+    .menu-section-rail__link:focus-visible {
+        outline: 2px solid var(--olive);
+        outline-offset: 4px;
+        border-radius: 4px;
+    }
+
+    html[data-theme="night"] .menu-section-rail__link:focus-visible {
+        outline-color: var(--lime);
+    }
+
+    /* ── Top block, piece 3: eyebrow, closing the block with 8px radii ── */
+    .menu-section__title-text .section-eyebrow {
+        order: 3;
+        display: block;
+        margin: 0 calc(-1 * var(--gutter)) 24px;
+        padding: 0 var(--gutter) 16px;
+        background-color: var(--section-top-bg);
+        border-radius: 0 0 8px 8px;
+    }
+
+    /* ── Body: deal, then the subsections as one column ── */
+    .menu-section__deal {
+        order: 4;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .menu-section__deal-inner {
+        flex: 1 0 0;
+        min-width: 0;
+    }
+
+    .menu-section__deal-card {
+        width: 100%;
+        flex: 1 0 0;
+        /* Flush-left content: the desktop's space-between was drawn for a 348 card;
+           at the band's 736–903 it stranded the text at the far end of the coupon. */
+        justify-content: flex-start;
+        gap: 24px;
+    }
+
+    /* The card is the column's width here: the main line wraps too rather than run past
+       the card at 360 (it did in English — «Drinks deal!» — and in Russian). */
+    .menu-section__deal-desc-main {
+        white-space: normal;
+    }
+
+    .menu-section__deal-shadow {
+        width: calc(100% - 2px);
+    }
+
+    /* Stacked, a subsection needs more than the row rhythm to read as a new group (author,
+       29 Sep 2026): 36px between subsections; the closing line under its last dish is in the
+       base rules above (desktop too since 30 Sep 2026). */
+    .menu-section__columns {
+        order: 5;
+        flex-direction: column;
+        align-items: stretch;   /* flex-start let a column shrink to its rows' content */
+        gap: 36px;
+    }
+
+    .menu-section__column {
+        flex: none;
+        width: 100%;
+    }
+
+    .menu-section__column--left,
+    .menu-section__column--right {
+        gap: 36px;
+    }
+
+    /* An add-ons card is narrower than a list: its title may wrap, balanced — «ТАК, КАК ВЫ
+       ЛЮБИТЕ» needs 271px and a 320px phone gives the card 240 (30 Sep 2026). */
+    .menu-section__addons-card .menu-section__subsection-title {
+        white-space: normal;
+        text-wrap: balance;
+    }
+
+    .menu-section__addons-card {
+        width: 100%;
+    }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PHONES AND TABLETS — one section at a time (src/js/menu-single-section.js)
+   website-brief.md → Mobile — Menu page → Sections; the band follows (author,
+   Sep 2026: one model across 768–991 rather than a column split at 838).
+
+   body.menu-single-section is set by the script below 992px; only the
+   section with .is-current renders. Every section then sits between the
+   same neighbours (Highlights / the hero reflection above, the picker
+   below), so the striping is fixed rather than positional: body on --bg,
+   top block on --surface. The per-section bottom connectors give way to
+   the single tail word (menu-sections-tail.php).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.menu-sections-tail {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    body.menu-single-section .menu-section:not(.is-current) {
+        display: none;
+    }
+
+    body.menu-single-section .menu-section,
+    body.menu-single-section .menu-section:nth-of-type(even) {
+        --section-bg: var(--bg);
+        --section-top-bg: var(--surface);
+    }
+
+    body.menu-single-section .menu-section > .container:has(> .menu-section__bottom-link-word) {
+        display: none;
+    }
+
+    /* Figma: last row → 24 (content gap) + 12 (bottom pt) → the word, flush on the picker */
+    body.menu-single-section .menu-sections-tail {
+        display: block;
+        padding-top: 36px;
+        padding-bottom: 0;
+    }
+}
+
+
+/* Rail entrance — from the right edge, where the rest of the rail lives */
+@keyframes rail-enter {
+    from { transform: translateX(72px); opacity: 0; }
+}
+
+/* Rail idle nudge — 14px left, then home on the Gentle spring's overshoot */
+@keyframes rail-nudge {
+    0%   { transform: translateX(0); animation-timing-function: var(--ease-gentle-flat, ease-out); }
+    38%  { transform: translateX(-14px); animation-timing-function: var(--ease-gentle); }
+    100% { transform: translateX(0); }
+}

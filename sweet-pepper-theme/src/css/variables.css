@@ -1,0 +1,118 @@
+/* Semantic tokens based on design.md */
+:root {
+  /* Literals */
+  --chili: #E34314;
+  --chili-deep: #9B2705;
+  --lemon: #FFED00;
+  --olive: #737D3A;
+  --olive-deep: #626B31; /* prices by day — one step down Olive's hue line (design.md §2.1): 5.35:1 on Paper, 5.13 on Cream, 4.74 on Parchment (22 Oct 2026) */
+  --lime: #C1DB34;
+  --lime-light: #D4E671; /* footer bottom row, drawer current-item description */
+  --peppercorn: #151317;
+  --paper: #FCF7E8;
+  --parchment: #F3E9D2;
+  --ash: #54513F;
+  --mushroom: #9E9789;
+  --soft-peppercorn: #201E22;
+  --cream: #FFF689;
+  --paprika: #EF6D44;
+  --avocado: #869438;
+
+  /* Day */
+  --bg: var(--paper);
+  --surface: var(--parchment);
+  --text: var(--peppercorn);
+  --text-muted: var(--ash);
+  --text-highlight: var(--chili);
+  --accent: var(--chili);
+  --accent-2: var(--olive);
+
+  /* Type scale */
+  --text-display: 76px;
+  --text-h1: 64px;
+  --text-h2: 24px;
+  --text-h3: 18px;
+  --text-body: 16px;
+  --text-caption: 13px;
+  /* Russian: room above a headline under its eyebrow for Й / Ё, in the headline's em
+     (components.css → Cyrillic). 0.25 → 0.15, the author's check in the browser, 23 Sep 2026. */
+  --cyrillic-room: 0.15;
+
+  /* Base scales */
+  /* Page gutter — the ramp main.css → .container documents (16 at 768 → 80 at 1280).
+     Anything that must bleed to the viewport edge or align on the gutter reads this
+     rather than a fixed 16 (the phone value), so it holds across the tablet band. */
+  --gutter: clamp(16px, 12.5vw - 80px, 80px);
+
+  --font-display: 'Molot', sans-serif;
+  --font-body: 'Golos Text', sans-serif;
+
+  /* ── Motion (Sep 2026) ──
+     The site default is Figma's "Gentle" spring (mass 1 / stiffness 100 /
+     damping 15). In-page scrolling integrates the real spring
+     (src/js/gentle-scroll.js); CSS transitions use this bezier, fitted to
+     the same spring over 800ms (72% at 200ms, ~3% overshoot, settles ~800ms).
+     Use --ease-gentle on things that MOVE (transform, size, position).
+     --ease-gentle-flat is the token for colour, opacity, shadow, border. Until 1 Oct 2026
+     it was a flat twin (0.4, 0, 0.2, 1), on the reasoning that an overshoot flickers on a
+     colour. Measured, the twin had lost Gentle's attack with the overshoot: half done at
+     281ms and 95% at 581ms, where the spring is half done at 150 and 95% at 323 — the
+     hovers ran at half the speed of the Figma prototype, and a tester felt it ("the hover
+     animations feel a bit too slow"). The author tried the fits on the live site and chose
+     the spring itself, overshoot and all (3% past the end, clamped where a channel is
+     already at its limit). So the two tokens hold one curve now; the name stays because 140
+     declarations use it, and so colour can be re-pointed alone again.
+     --ease-flat is the old twin, for the few things a spring would spoil: looping and
+     many-step keyframes (the 404's hue and level, the shaker's rattle and swell, the
+     loader knob's hint) and the lightbox print flying home. */
+  /* The pepper cursor (author, 29 Sep 2026): for things that answer the pointer by changing
+     — not links, which keep the hand. The logo symbol at 23 × 32, hotspot on the tip.
+     First on the About counter ledger (about.css); meant for more such components. */
+  --cursor-pepper: url('../../assets/icons/cursor-pepper.svg') 1 31, auto;
+
+  --dur-gentle: 800ms;
+  --ease-gentle: cubic-bezier(0.33, 0.57, 0.08, 1.19);
+  --ease-gentle-flat: cubic-bezier(0.33, 0.57, 0.08, 1.19);
+  --ease-flat: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Figma "Bouncy" — only where the Figma prototype says so (menu hero words,
+     dish picker, Visit hero pops). */
+  --ease-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Expo-out, no overshoot — the home hero's daypart tiles resize on it. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Quick (1 Oct 2026) — 200ms, full speed at once, a soft landing: the mobile drawer's first
+     build. The drawer runs on Gentle now; these two serve only its `?drawer=quick` comparison
+     (mobile-drawer.css → html.drawer-quick) and go with that switch. */
+  --dur-quick: 200ms;
+  --ease-quick: cubic-bezier(0, 0, 0.2, 1);
+}
+
+[data-theme="night"] {
+  /* Night */
+  --bg: var(--peppercorn);
+  --surface: var(--soft-peppercorn);
+  --text: var(--parchment);
+  --text-muted: var(--mushroom);
+  --text-highlight: var(--cream);
+  --accent: var(--chili);
+  --accent-2: var(--lime);
+}
+
+/* Tablet mode (768–991, author, 18 Sep 2026): again only the display levels move —
+   Display 76 → 64, H1 64 → 48 (36 → 48 → 64 is ×1.333 each step). H2/H3, Subtitle, Body 16,
+   Caption 13 and every UI style hold. Sizes stay in px (design.md §3.3). */
+@media (min-width: 768px) and (max-width: 991px) {
+  :root {
+    --text-display: 64px;
+    --text-h1: 48px;
+  }
+}
+
+/* Figma `Typography` collection, Mobile mode (Sep 2026): only the display levels move —
+   Display 76 → 64, H1 64 → 36. H2/H3/Body/Caption and every UI style hold (design.md §3.3). */
+@media (max-width: 767px) {
+  :root {
+    --text-display: 64px;
+    --text-h1: 36px;
+  }
+}

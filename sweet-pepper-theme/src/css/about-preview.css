@@ -1,0 +1,179 @@
+/* ── Home About Preview Section ──────────────────────────── */
+/* Figma: aboutSection — vertical auto-layout, gap 80, 1280px wide.
+   Two-column layout: text left (~60%), image right (~40%).
+   Background alternates: kitchen-preview = paper/soft-peppercorn,
+   about-preview = parchment/peppercorn. */
+
+.home-about-preview {
+    background-color: var(--surface); /* parchment (day) — alternates with kitchen's paper */
+}
+
+html[data-theme="night"] .home-about-preview {
+    background-color: var(--bg); /* peppercorn — alternates with kitchen's soft-peppercorn */
+}
+
+.home-about-preview .container {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+
+/* ── Two-Column Layout ──────────────────────────── */
+/* Same flex pattern as menu-preview: text side + image side, gap 36px. */
+
+.about-preview-content {
+    display: flex;
+    gap: 36px;
+    align-items: flex-start;
+}
+
+
+/* ── Text Side ── */
+
+.about-preview-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 0 0 55%; /* slightly narrower than menu-preview's text to give image more room */
+    min-width: 0;
+}
+
+/* Headline group — reuses .section-headline + .section-headline-2 from components.css.
+   Scoped overrides only if needed. */
+.about-preview-text .section-headline-group {
+    margin-top: -8px; /* match the eyebrow→headline gap from section-header */
+}
+
+/* Description — reuses .section-description from components.css */
+
+
+/* ── Stats Row ──────────────────────────── */
+/* Two inline chips: icon + caption text, muted colour. */
+
+.about-preview-stats {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-chip-icon {
+    display: inline-flex;
+    font-size: 16px;
+    color: var(--accent-2); /* olive day, lime night */
+}
+
+.stat-chip-label {
+    font-family: var(--font-body);
+    font-weight: 400; /* Body/Caption is 400 (design.md §3.3, closed Aug 2026); was 500 */
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--text-muted); /* ash day, mushroom night */
+}
+
+
+/* ── CTA ── */
+
+.about-preview-cta {
+    margin-top: 8px;
+}
+
+
+/* ── Image Side ── */
+
+.about-preview-image {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    align-self: center;
+}
+
+.about-preview-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+}
+
+
+/* ── Phones and tablets (Figma AboutSection 2048:127039) ──────────────────
+   One column, 36px between blocks: eyebrow + headlines → photo (3:2, full width) →
+   description → stats → CTA. The photo is a sibling of the text column in the markup,
+   so the column is dissolved with `display: contents` and the pieces are ordered here.
+
+   Widened from ≤767 to ≤991 (Sep 2026, tablet pass): the two-column split is capped by
+   `flex: 0 0 55%` on the text side, which at 768–991 leaves it 396–519px and breaks the
+   Molot headline to three lines. `display: contents` removes the box entirely, so neither
+   that flex-basis nor the `align-items: flex-start` shrink-to-fit (which re-caps the block
+   at the description's 643px the moment the parent stacks) can bind. Phone-only extras —
+   48px section rhythm, the 12px stat icon and the full-width CTA — stay in the ≤767 block
+   below; tablet keeps the desktop 80px rhythm and a natural-width CTA. */
+@media (max-width: 991px) {
+    .about-preview-content {
+        flex-direction: column;
+        gap: 36px;
+    }
+
+    .about-preview-text {
+        display: contents;
+    }
+
+    /* 36px column gap − 28 = the 8px eyebrow → headline gap of the title component */
+    .about-preview-text .section-headline-group {
+        margin-top: -28px;
+    }
+
+    .about-preview-image {
+        order: 1;
+        flex: none;
+        width: 100%;
+        align-self: stretch;
+    }
+
+    .about-preview-text .section-description {
+        order: 2;
+    }
+
+    .about-preview-stats {
+        order: 3;
+        margin-top: 0;
+    }
+
+    .about-preview-cta {
+        order: 4;
+        margin-top: 0;
+    }
+}
+
+/* Phone-only: the tighter section rhythm, the smaller stat icon and the full-width CTA. */
+@media (max-width: 767px) {
+    .home-about-preview .container {
+        gap: 48px;
+    }
+
+    .stat-chip-icon {
+        font-size: 12px;
+    }
+
+    .about-preview-cta {
+        width: 100%;
+    }
+
+    .about-preview-cta .btn {
+        width: 100%;
+    }
+}

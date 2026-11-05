@@ -1,0 +1,71 @@
+<?php
+/**
+ * About data: The Pepper Story — as typed before the page moved into WordPress. Fallback
+ * for sweet_pepper_about_story() and the seed source. The milestone positions, the heat
+ * line and the ledger's motion are the theme's; the third milestone's year is the current
+ * year, printed, never typed.
+ *
+ *   ru — from about-page-copy-ru-draft.md → 5. История. No Russian eyebrow in the draft;
+ *        the founder's name waits for its confirmed Russian spelling (the draft: not a
+ *        transliteration) — empty, borrows the English.
+ *
+ * Counters: the bar manager's figures, 29 Sep 2026 (about-counters-stats.md — the source,
+ * the units, the refresh next autumn). Russian labels are the author's, colloquial on purpose
+ * («чашек латте», «Лонг Айлендов»), not agreed with each number.
+ *
+ * @package Sweet_Pepper
+ */
+
+return [
+    'eyebrow'          => 'SINCE 2014',
+    'headline'         => 'THE PEPPER',
+    'headline_2'       => 'STORY',
+    'p1'               => 'Before Sweet Pepper, there was Tabasco Bar on Kirova Street. The next chapter kept the edge and added warmth, with a kitchen given as much care as the bar.',
+    'p2'               => 'The name says it: still pepper, a little sweeter. Breakfast, lunch and cocktails became parts of the same place, with room for an ordinary Tuesday as well as a big night out.',
+    'p3'               => 'The regulars helped shape what followed. Pumpkin soup, berry cheesecake and berry korzhik started as seasonal specials. Guests kept asking for them, so they stayed. Some of the best things on the menu are there because someone didn\'t want to say goodbye to them.',
+    'founder_photo'    => 'team/iura/iura-1.jpg',
+    'founder_alt'      => 'Iurii Primyshev in a party hat, holding a microphone',
+    'founder_quote'    => 'The main thing is to always know your limit. Otherwise you might drink less.',
+    'founder_name'     => 'Iurii Primyshev.',
+    'founder_title'    => 'Founder, still behind the bar.',
+    'counters_label'   => 'TWELVE YEARS,', // the age follows the 14 Jan 2014 birthday — sweet_pepper_with_bar_age()
+    'counters_label_2' => 'COUNTED IN ORDERS',
+    'ru'               => [
+        'eyebrow'          => 'ГАСТРОБАРИМ С 2014',
+        'headline'         => 'ИСТОРИЯ SWEET PEPPER',
+        'headline_2'       => '',
+        'p1'               => 'Давным-давно, в 2009 году, на не такой уж далёкой улице Свободы тусил и отжигал Tabasco Bar. Там было жарко и остро, а о вечеринках и коктейлях ходили легенды! Годы шли, бар взрослел, добавилась полноценная кухня, улица Свободы сменилась на Кирова. Перец в названии стал чуть мягче, но огненный характер и порох в пороховницах — никуда не делись.',
+        'p2'               => 'Собственно, название говорит само за себя: всё ещё с перцем, но чуть слаще. Завтраки, обеды и коктейли сошлись в одном месте — отличный план и для обычного вторника, и для вечера, который хочется запомнить.',
+        'p3'               => 'А продолжение истории во многом написали постоянные гости. Знаменитый тыквенный суп, малиновый чизкейк и ягодный коржик когда-то были просто сезонными новинками. Но гости просили их снова и снова — и они остались в меню насовсем. Иногда блюдо становится абсолютным хитом просто потому, что с ним решительно невозможно попрощаться!',
+        'founder_alt'      => 'Юрий Примышев в праздничном колпаке с микрофоном',
+        'founder_quote'    => 'Главное — всегда знать свою меру. Иначе можно выпить меньше.',
+        'founder_name'     => 'Юрий Примышев.',
+        'founder_title'    => 'Основатель, 18 лет за баром.',
+        'counters_label'   => 'ДВЕНАДЦАТЬ ЛЕТ',
+        'counters_label_2' => 'ВЫ ВЫБИРАЕТЕ', // was В ЗАКАЗАХ (author, 29 Sep 2026)
+    ],
+    'milestones'       => [
+        [ 'year' => 2009, 'name' => 'TABASCO BAR',  'wit' => 'Where the heat started',            'ru' => [ 'name' => 'TABASCO BAR',  'wit' => 'Жаркое начало' ] ],
+        [ 'year' => 2014, 'name' => 'SWEET PEPPER', 'wit' => 'Kept the heat, made it delicious', 'ru' => [ 'name' => 'SWEET PEPPER', 'wit' => 'С тем же перцем. Ещё вкуснее' ] ],
+        // Empty, not 0: the admin's year field has min 2009, and a stored 0 refused every save of
+        // the About page (19 Oct 2026). The site prints the current year here regardless.
+        [ 'year' => '',   'name' => 'STILL HERE',   'wit' => 'Same table, probably yours',        'ru' => [ 'name' => 'ВСЁ ТАМ ЖЕ',   'wit' => 'За знакомым столиком. Может, за вашим' ] ],
+    ],
+    'counters'         => [
+        [ 'number' => 66768,  'label' => 'cappuccinos',                   'ru' => [ 'label' => 'чашек капучино' ] ],
+        [ 'number' => 37944,  'label' => 'pumpkin soups',                 'ru' => [ 'label' => 'тыквенных супов' ] ],
+        [ 'number' => 101583, 'label' => 'blackcurrant shots',            'ru' => [ 'label' => 'чёрной смородины' ] ],
+        [ 'number' => 53152,  'label' => 'Yaroslavl roasts',        'ru' => [ 'label' => 'жаркого в горшочке' ] ],
+        [ 'number' => 41440,  'label' => 'Cobb salads',                   'ru' => [ 'label' => 'кобб салатов' ] ],
+        [ 'number' => 89250,  'label' => 'pancakes',                      'ru' => [ 'label' => 'блинчиков' ] ],
+        [ 'number' => 6050,   'label' => 'berry pastries',                'ru' => [ 'label' => 'ягодных коржиков' ] ],
+        [ 'number' => 14820,  'label' => 'Sicilian salads',               'ru' => [ 'label' => 'сицилийских салатов' ] ],
+        [ 'number' => 32772,  'label' => 'lattes',                        'ru' => [ 'label' => 'чашек латте' ] ],
+        [ 'number' => 10992,  'label' => 'crispy broccoli',  'ru' => [ 'label' => 'брокколи в сухарях' ] ],
+        [ 'number' => 31896,  'label' => 'honey cauliflower',         'ru' => [ 'label' => 'медовой капусты' ] ],
+        [ 'number' => 74736,  'label' => 'quesadillas',                   'ru' => [ 'label' => 'кесадилий' ] ],
+        [ 'number' => 11352,  'label' => 'B-52 shots',                    'ru' => [ 'label' => 'шота B-52' ] ],
+        [ 'number' => 24204,  'label' => 'Long Islands',         'ru' => [ 'label' => 'Лонг Айлендов' ] ],
+        [ 'number' => 23672,  'label' => 'Dragon Warriors',               'ru' => [ 'label' => 'Воинов Дракона' ] ],
+    ],
+];

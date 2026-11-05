@@ -1,0 +1,82 @@
+<?php
+/**
+ * The header for our theme
+ *
+ * @package Sweet_Pepper
+ */
+?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <?php // viewport-fit=cover (27 Sep 2026): the page runs to the screen's edges, under Safari 26's
+    // floating bar included, and env(safe-area-inset-*) reports what sits under the chrome — the
+    // foot strip and the bottom notice size themselves by it (main.css → Viewport foot), the
+    // footer, the reserve sheet and the vacancy bar carried the padding already. Without it the
+    // insets read 0 and Safari only copies a colour under its bar once the page scrolls. ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <?php // iOS turns any phone number, date, address or e-mail it finds in plain TEXT into its own
+    // link, in its own colour: the Visit page's number went near-black on Peppercorn (author,
+    // iPhone, 20 Sep 2026). Every such line here already has a real action beside it — a tel:
+    // link, a copy button, a map link — so the guesswork is switched off. ?>
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <?php wp_head(); ?>
+    <?php // Phosphor's unpkg script is gone (30 Sep 2026): its 13 glyphs are theme SVGs — sweet_pepper_ph(), inc/inline-svg.php ?>
+</head>
+
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+
+<div id="page" class="site">
+    <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'sweet-pepper' ); ?></a>
+
+    <header id="masthead" class="site-header">
+        <div class="container header-container">
+            <div class="site-branding">
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="logo-link">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/symbol.svg" alt="Sweet Pepper" width="38" height="53" class="logo-symbol">
+                    <!-- Mobile only: flat Chili wordmark (Figma topNavContainer breakpoint=mobile, logo=full) -->
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/wordmark.svg" alt="" width="159" height="16" class="logo-wordmark" aria-hidden="true">
+                </a>
+            </div><!-- .site-branding -->
+
+            <nav id="site-navigation" class="main-navigation">
+                <ul>
+                    <li<?php if ( is_front_page() ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'sweet-pepper' ); ?></a></li>
+                    <li<?php if ( sweet_pepper_is_menu_page() ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( sweet_pepper_menu_url( 'food' ) ); ?>"><?php esc_html_e( 'Menu', 'sweet-pepper' ); ?></a></li>
+                    <li<?php if ( is_page_template( 'page-about.php' ) || is_singular( 'vacancy' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"><?php esc_html_e( 'About', 'sweet-pepper' ); ?></a></li>
+                    <li<?php if ( is_page_template( 'page-visit.php' ) ) echo ' class="current-menu-item"'; ?>><a href="<?php echo esc_url( home_url( '/visit' ) ); ?>"><?php esc_html_e( 'Visit', 'sweet-pepper' ); ?></a></li>
+                </ul>
+            </nav><!-- #site-navigation -->
+
+            <div class="header-utils">
+                <div class="whats-on-chip">
+                    <span class="label"><?php esc_html_e( "What's new", 'sweet-pepper' ); ?></span>
+                    <div class="social-icons">
+                        <?php if ( sweet_pepper_show_instagram() ) : // inc/geo.php ?>
+                        <a href="https://instagram.com/barsweetpepper" target="_blank" rel="noopener" class="social-icon" aria-label="<?php esc_attr_e( 'Sweet Pepper on Instagram', 'sweet-pepper' ); ?>">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/insta.svg" alt="" width="24" height="24">
+                        </a>
+                        <?php endif; ?>
+                        <a href="https://vk.ru/barsweetpepper" target="_blank" rel="noopener" class="social-icon" aria-label="<?php esc_attr_e( 'Sweet Pepper on VK', 'sweet-pepper' ); ?>">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/icons/vk.svg" alt="" width="24" height="24">
+                        </a>
+                    </div>
+                </div>
+                <?php sweet_pepper_lang_switch(); ?>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <?php // One button for both jobs (1 Oct 2026): the header stays over the open drawer and the three
+            // bars cross into the × in place (header.css → Menu toggle; mobile-drawer.js swaps the name). ?>
+            <button class="menu-toggle js-drawer-toggle" aria-controls="mobile-drawer" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open menu', 'sweet-pepper' ); ?>" data-label-open="<?php esc_attr_e( 'Open menu', 'sweet-pepper' ); ?>" data-label-close="<?php esc_attr_e( 'Close menu', 'sweet-pepper' ); ?>">
+                <span class="menu-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+            </button>
+            <?php sweet_pepper_lang_nudge( true ); // floats under the language switch (inc/lang.php) ?>
+        </div><!-- .header-container -->
+    </header><!-- #masthead -->
+
+    <?php get_template_part( 'template-parts/components/mobile-drawer' ); ?>
+
+

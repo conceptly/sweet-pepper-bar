@@ -1,0 +1,28 @@
+{
+  "src/fonts/GolosText-VariableFont_wght.ttf": {
+    "file": "assets/GolosText-VariableFont_wght-cldftjk2.ttf",
+    "src": "src/fonts/GolosText-VariableFont_wght.ttf"
+  },
+  "src/fonts/Molot.woff": {
+    "file": "assets/Molot-DWCA188n.woff",
+    "src": "src/fonts/Molot.woff"
+  },
+  "src/fonts/Molot.woff2": {
+    "file": "assets/Molot-B4rV0jxL.woff2",
+    "src": "src/fonts/Molot.woff2"
+  },
+  "src/main.js": {
+    "file": "assets/main-CjZNQoMH.js",
+    "name": "main",
+    "src": "src/main.js",
+    "isEntry": true,
+    "css": [
+      "assets/main-CMUkMh2L.css"
+    ],
+    "assets": [
+      "assets/Molot-B4rV0jxL.woff2",
+      "assets/Molot-DWCA188n.woff",
+      "assets/GolosText-VariableFont_wght-cldftjk2.ttf"
+    ]
+  }
+}

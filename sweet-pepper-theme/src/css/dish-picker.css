@@ -1,0 +1,627 @@
+/* ═══════════════════════════════════════════════════════════════
+   Dish Picker Component + Pairing Station Section
+   Figma: picker-day (708:19997), picker-night
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ─────────────────────────── */
+
+.menu-pairing-station {
+    background-color: var(--surface);
+    /* Flush: the section opens on the reflection of the word above (.pairing-station__top-word,
+       every width since 23 Sep 2026 — author; phones only before), then the inner 64 to the
+       header, as the header's 64 to the bottom word. Was 80 to the header, no reflection. */
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+/* Inner container — flex-col with 64px gap between content and link word (Figma: gap-[64px]) */
+.pairing-station__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+/* Content block — header + picker (Figma: gap-[48px]) */
+.pairing-station__content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+/* ── Header ──────────────────────────────────── */
+
+.pairing-station__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pairing-station__title {
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em; /* 4% of the size — 1.44 at the phone 36 */
+    color: var(--paprika); /* Chili on its first line — components.css → Title lines */
+    margin: 0;
+}
+
+.pairing-station__subtitle {
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--ash);
+    margin: 0;
+}
+
+html[data-theme="night"] .pairing-station__subtitle {
+    color: var(--parchment);
+}
+
+/* ── Link word (bottom) ──────────────────────── */
+/* Figma: border-b-[0.5px] border-solid mushroom, opacity-50 */
+
+.pairing-station__link-word {
+    border-bottom: 0.5px solid var(--mushroom);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Dish Picker Component
+   ═══════════════════════════════════════════════════════════════ */
+
+.dish-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+/* ── Labels row ──────────────────────────────── */
+
+.dish-picker__labels-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.dish-picker__labels {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Tag pills — inactive */
+.dish-picker__tag {
+    display: flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--avocado);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--avocado);
+    white-space: nowrap;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat), color var(--dur-gentle) var(--ease-gentle-flat), border-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+/* Tag pills — active */
+.dish-picker__tag.is-active {
+    background-color: var(--lime);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+/* Tag pills — hover (inactive only) */
+.dish-picker__tag:not(.is-active):hover {
+    background-color: rgba(134, 148, 56, 0.1);
+}
+
+/* Night overrides for tags */
+html[data-theme="night"] .dish-picker__tag {
+    border-color: var(--avocado);
+    color: var(--avocado);
+}
+
+html[data-theme="night"] .dish-picker__tag.is-active {
+    background-color: var(--lime);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+html[data-theme="night"] .dish-picker__tag:not(.is-active):hover {
+    background-color: rgba(193, 219, 52, 0.1);
+}
+
+/* ── Shake It! — the shaker joins the plate and the glass ────────
+   Figma: shakeItContainer-desktop / -mobile (2437:71646 / 2437:72125). It replaced
+   the "x" and the "or Shake It!" chip (author, 18 Sep 2026), so the tags get the row.
+   48px button = a 4px ring in the section's ground (a colour block cut out of the
+   photos, not an outline) around a 40px disc; the Symbol at 24px (design.md §4 floor).
+   States — hover 52 · pressed 52 + the house inset · delay 56 (touch idle hint) — are
+   `transform: scale`, never size. The slot is centred by offsets and the entrance pops it
+   on `scale` (reveal.css), so the pop and the state scale don't fight. The spin and the
+   rattle ride `rotate` on the icon (dish-picker.js). */
+.dish-picker {
+    --shake-fill: var(--lemon);
+    --shake-ground: var(--surface);
+    --shake-border: transparent;
+    --shake-shadow: 1px 1px 4px rgba(21, 19, 23, 0.15);
+    --shake-glow: 0; /* the Lemon glow at rest: night + a hover-capable pointer only */
+    --shake-size: 48px; /* ring included; the tablet band grows it (below) */
+    --shake-icon: 24px;
+}
+
+html[data-theme="night"] .dish-picker {
+    --shake-fill: var(--cream);
+    --shake-border: var(--lemon);
+    --shake-shadow: none;
+}
+
+.dish-picker__shake {
+    position: absolute;
+    top: calc(50% - var(--shake-size) / 2);   /* not `translate: -50% -50%` — reveal.css sets `translate: none` */
+    left: calc(50% - var(--shake-size) / 2);  /* while an entrance plays, and the pop landed off-centre */
+    z-index: 2;
+}
+
+.dish-picker__shake-it {
+    display: block;
+    width: var(--shake-size);
+    height: var(--shake-size);
+    padding: 4px;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--shake-ground);
+    cursor: pointer;
+    transition: transform 0.3s var(--ease-bouncy), background-color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.dish-picker__shake-disc {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 0.5px solid var(--shake-border);
+    background-color: var(--shake-fill);
+    box-shadow: var(--shake-shadow);
+    transition: box-shadow 0.3s var(--ease-gentle-flat);
+}
+
+/* GlowYellow (0 0 8 Lemon), on its own layer so it fades on opacity */
+.dish-picker__shake-disc::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--lemon);
+    opacity: var(--shake-glow);
+    transition: opacity 0.3s var(--ease-gentle-flat);
+    pointer-events: none;
+}
+
+.dish-picker__shake-icon {
+    display: flex;
+    width: var(--shake-icon);
+    height: var(--shake-icon);
+    flex-shrink: 0;
+}
+
+.dish-picker__shake-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+@media (hover: hover) {
+    html[data-theme="night"] .dish-picker {
+        --shake-glow: 1;
+    }
+
+    .dish-picker__shake-it:hover {
+        transform: scale(1.0833); /* 52 / 48 */
+    }
+
+    .dish-picker__shake-it:hover .dish-picker__shake-icon {
+        animation: dish-picker-rattle 0.6s var(--ease-flat);
+    }
+}
+
+.dish-picker__shake-it:active {
+    transform: scale(1.0833);
+}
+
+.dish-picker__shake-it:active .dish-picker__shake-disc {
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25); /* Tapped-btn, as buttons.css */
+}
+
+.dish-picker__shake-it:active .dish-picker__shake-disc::after {
+    opacity: 0;
+}
+
+/* Delay — the touch idle hint: swells to 56, rattles, settles; glows by night.
+   One beat per 5 s, the section's one clock (dish-picker.js). */
+.dish-picker__shake-it.is-hinting {
+    animation: dish-picker-swell 1s var(--ease-flat);
+}
+
+.dish-picker__shake-it.is-hinting .dish-picker__shake-icon {
+    animation: dish-picker-rattle 0.6s 0.2s var(--ease-flat);
+}
+
+html[data-theme="night"] .dish-picker__shake-it.is-hinting .dish-picker__shake-disc::after {
+    animation: dish-picker-glow 1s var(--ease-flat);
+}
+
+@keyframes dish-picker-swell {
+    0%, 100% { scale: 1; }
+    35%, 65% { scale: 1.1667; } /* 56 / 48 */
+}
+
+@keyframes dish-picker-glow {
+    0%, 100% { opacity: 0; }
+    35%, 65% { opacity: 1; }
+}
+
+@keyframes dish-picker-rattle {
+    0%, 100% { rotate: 0deg; }
+    20%      { rotate: -14deg; }
+    40%      { rotate: 12deg; }
+    60%      { rotate: -10deg; }
+    80%      { rotate: 5deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dish-picker__shake-it,
+    .dish-picker__shake-icon,
+    .dish-picker__shake-disc::after {
+        animation: none !important;
+    }
+}
+
+/* ── Result area ─────────────────────────────── */
+
+.dish-picker__result {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Photos side */
+.dish-picker__photos {
+    position: relative; /* the Shake It! slot centres on the seam */
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex: 1 0 0;
+    min-width: 0;
+}
+
+.dish-picker__photo-food,
+.dish-picker__photo-bar {
+    flex: 1 0 0;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.dish-picker__photo-food img,
+.dish-picker__photo-bar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.35s ease;
+}
+
+/* The outgoing photo during a roll — a clone laid over the frame (dish-picker.js) */
+.dish-picker__photo-ghost {
+    position: absolute;
+    inset: 0;
+}
+
+.dish-picker__photo-food img.is-fading,
+.dish-picker__photo-bar img.is-fading {
+    opacity: 0.3;
+}
+
+/* ── Card container — follows reserve-drawer ticket pattern ──── */
+/* Wrapper: position:relative + overflow:hidden clips the rugged edges cleanly.
+   Figma: cardContainer (860:29545) — flex-col, items-center, justify-end, clip-content.
+   Gap: -13 in Figma is handled by the card margin-bottom overlap. */
+
+.dish-picker__card-wrap {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* Centers rugged edges; card content stays flush-left inside .dish-picker__card */
+    position: relative;
+    overflow: hidden; /* Figma: clip content — clips rugged edges to clean bounds */
+}
+
+/* Top edge: absolutely positioned, floats over card from above — no seam.
+   Same pattern as .ticket-top-edge in reserve-drawer.css */
+.dish-picker__card-edge-top {
+    position: absolute;
+    top: -1px; /* 1px above wrapper so gradient top is clipped → seamless edge */
+    left: 0;
+    right: 0;
+    z-index: 3;
+}
+
+/* Card: in normal flow. The generous top padding (48px) absorbs the rugged edge overlap.
+   No border-radius — the rugged edges ARE the visual boundaries.
+   Figma: bg=paper, gap-16, pb-36, pt-48, px-24 */
+.dish-picker__card {
+    background-color: var(--paper);
+    padding: 36px 24px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Night mode — card switches to cream (Figma: bg=cream #FFF689) */
+html[data-theme="night"] .dish-picker__card {
+    background-color: var(--cream);
+}
+
+/* Bottom edge: in normal flow, flush with card above (direct child of wrapper) */
+.dish-picker__card-wrap > .rugged-edge {
+    position: relative;
+    z-index: 1;
+}
+
+/* Card inner elements */
+.dish-picker__card-label {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.64px;
+    color: var(--ash);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Night: label stays ash — it's on paper bg */
+
+/* Dish info inside card */
+.dish-picker__dish {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 0.5px solid var(--mushroom);
+    padding-bottom: 16px;
+}
+
+.dish-picker__dish-name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--peppercorn);
+    margin: 0;
+    transition: opacity 0.25s ease;
+}
+
+.dish-picker__dish-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    color: var(--peppercorn);
+    margin: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* Night: dish text stays dark (on paper bg) */
+
+/* Pairing info */
+.dish-picker__pairing {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    color: var(--chili);
+    transition: opacity 0.25s ease;
+}
+
+.dish-picker__pairing-slogan {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.52px;
+    margin: 0;
+}
+
+.dish-picker__pairing-name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* CTA link */
+.dish-picker__cta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    text-decoration: none;
+    color: var(--olive);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    transition: color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+.dish-picker__cta:hover {
+    color: var(--avocado);
+}
+
+.dish-picker__cta-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.dish-picker__cta-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Night mode overrides
+   Figma: picker-night (735:21620)
+   Section bg → soft-peppercorn (handled by --surface semantic token)
+   Card bg → cream (#FFF689)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Title: Chili / Paprika by night too, as every section title (author, 25 Sep 2026 —
+   was Lime; components.css → Title lines) */
+
+/* Bottom rugged edge: must match card bg (cream) at night.
+   !important needed to override inline style from rugged-edge.php */
+html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
+    --rugged-color: var(--cream) !important;
+}
+
+/* Top rugged edge: must match section bg (surface) — already semantic, auto-swaps */
+
+
+/* ── Phones (≤ 767px) ──
+   Figma: Picker (2109:130226) + foodPairingContainer-mobile-day / -night (1432:54562 /
+   1432:53793). The section opens with the reflection of the tail connector flush at its
+   top (no padding), 48 to the content, 48 to the "you'll like it" connector, which ends
+   the section (the entrance photo follows). Tags become a scroll rail across the
+   gutters; the two photos stay side by side; the ticket goes full width under them
+   with 8px radii and a 48px top inset. The night ticket is Parchment (the desktop's
+   Cream stays desktop). */
+/* Phones and tablets (≤ 991px): the page shows one section at a time there, so the
+   tail connector's reflection opens this section flush at the top, with the phone
+   rhythm below it. The result stacks as on phones (author, Sep 2026): the desktop
+   row ran 344 + 344 at 768 — cramped, and the 48px between photos and ticket had
+   no right value against the band's 16–44px page margins. Photo pair full width
+   above the ticket, the ticket with the phone's 8px radii and 48px top inset, and
+   the phone's colours with it — the Parchment night ticket (author: colours follow
+   the layout, not the device). The tags keep the desktop wrap (two rows in the
+   band); only the phone's scroll rail stays below 768. */
+@media (max-width: 991px) {
+    .menu-pairing-station {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .pairing-station__inner {
+        gap: 48px;
+    }
+
+    .pairing-station__content {
+        gap: 24px;
+    }
+
+    .dish-picker__result {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .dish-picker__photos,
+    .dish-picker__card-wrap {
+        flex: none;
+        width: 100%;
+    }
+
+    .dish-picker__card-wrap {
+        border-radius: 8px;
+    }
+
+    .dish-picker__card {
+        padding-top: 48px;
+    }
+
+    html[data-theme="night"] .dish-picker__card {
+        background-color: var(--parchment);
+    }
+
+    html[data-theme="night"] .dish-picker__card-wrap > .rugged-edge {
+        --rugged-color: var(--parchment) !important;
+    }
+}
+
+/* Tablet band only: Shake It! at 64 with the Symbol at 32 (author, 21 Sep 2026). Between
+   two 364–447px photos the 48px button read as a full stop; the ring stays 4px (it is the
+   ground showing, not part of the disc), so the disc is 56. States stay ratios of the
+   resting size — hover and pressed ×1.0833, the delay beat ×1.1667. */
+@media (min-width: 768px) and (max-width: 991px) {
+    .dish-picker {
+        --shake-size: 64px;
+        --shake-icon: 32px;
+    }
+
+    /* The hint's 364 cap, kept for the tablet band only (the stacked picker). On desktop it
+       ran the Russian hint onto two lines under a one-line heading; its origin is unrecorded —
+       likely a Figma text-box width (author, 23 Sep 2026: "maybe the vertical picker"). */
+    .pairing-station__subtitle {
+        max-width: 364px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    /* Tags are a scroll rail from gutter edge to gutter edge (Shake It! left the row,
+       18 Sep 2026). Each end fades only while there is more that way — dish-picker.js
+       sets has-more-start / has-more-end — so a cut tag reads as "more", and a rail
+       that fits shows no fade at all. */
+    .dish-picker__labels-row {
+        width: auto;
+        margin: 0 -16px;
+    }
+
+    .dish-picker__labels {
+        --fade-start: 0px;
+        --fade-end: 0px;
+        flex: 1 1 0;
+        min-width: 0;
+        flex-wrap: nowrap;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 0 16px;
+        scroll-padding-inline: 16px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+        mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+    }
+
+    .dish-picker__labels.has-more-start { --fade-start: 32px; }
+    .dish-picker__labels.has-more-end   { --fade-end: 32px; }
+
+    .dish-picker__labels::-webkit-scrollbar {
+        display: none;
+    }
+
+
+}
+

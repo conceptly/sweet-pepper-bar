@@ -1,0 +1,169 @@
+/* Reusable Button Component Styles */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.6;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat),
+                color var(--dur-gentle) var(--ease-gentle-flat),
+                box-shadow var(--dur-gentle) var(--ease-gentle-flat),
+                border-color var(--dur-gentle) var(--ease-gentle-flat);
+    border: 1px solid transparent; /* default placeholder for outline states */
+    outline: none;
+}
+
+.btn-label--mobile {
+    display: none;
+}
+
+/* Phone-only short label (button.php → label_mobile): the RU messenger pair
+   «Написать в ВК · Написать в Instagram» overflows a two-up row, so phones
+   read «ВКонтакте · Instagram» (author, 25 Sep 2026 — 85 / 78px of the 94 a
+   360 drawer button leaves; navigation-drawers-copy-ru-draft.md §2). */
+@media (max-width: 767px) {
+    .btn-label--desktop {
+        display: none;
+    }
+
+    .btn-label--mobile {
+        display: inline;
+    }
+}
+
+.btn-icon {
+    display: inline-flex;
+    font-size: 16px;
+}
+
+.btn-icon svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+/* Brand tiles (VK, Instagram) at 20px: both fill their whole box like the 16px glyphs, but
+   VK's blue on Chili is about as light as the ground, so the tile's edge fades and only the
+   ~10px logo inside reads — it looked a size smaller than the phone beside it (author, on an
+   iPhone, 6 Oct 2026; 20 chosen over 16/18 + a light ring, which turned the mark into a
+   sticker). The −2px margins keep the button's height. */
+.btn-icon--brand svg {
+    width: 20px;
+    height: 20px;
+    margin: -2px 0;
+}
+
+.btn-icon-svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+/* A button with a glyph per state (button.php → icon_set; the home hero's menu button): every
+   glyph is in the markup, the button's data-icon picks the one shown — no JS touches an icon */
+.btn-icon-set .ph-icon { display: none; }
+.btn[data-icon="coffee"] .ph-icon--coffee,
+.btn[data-icon="fork-knife"] .ph-icon--fork-knife,
+.btn[data-icon="wine"] .ph-icon--wine,
+.btn[data-icon="martini"] .ph-icon--martini { display: inline-block; }
+
+/* Primary Button */
+.btn-primary {
+    background-color: var(--chili);
+    color: var(--lemon);
+}
+
+/* Hover deepens the ground, the label stays Lemon (author, 29 Sep 2026 — option B of four).
+   The old hover swapped both colours (Lemon ground, Chili Deep label) over the 0.8s curve, and
+   the two met in the same orange around 260ms: the label vanished (~1:1) before it settled.
+   One colour moving means contrast only rises, 3.4 → 6.5:1, on the same house curve. */
+.btn-primary:hover {
+    background-color: var(--chili-deep);
+}
+
+.btn-primary:active {
+    background-color: var(--chili-deep);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms;
+}
+
+/* Secondary Button (Context-Aware for Day/Night) */
+/* Default (Day Mode) */
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--olive);
+    color: var(--olive);
+}
+
+.btn-secondary:hover {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.btn-secondary:active {
+    background-color: var(--cream);
+    border-color: var(--lime);
+    color: var(--peppercorn);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms; /* the press answers the finger, as the primary and the cards */
+}
+
+/* Secondary on a dark ground — night, and the grounds that are dark by day too. The one rule
+   for all of them (author, 30 Sep 2026; it was six copies in five files). Lime keyline and
+   label at rest; hover lifts the ground to 25% Lime, pressing sinks it back to 15% with the
+   inset — the label never changes. The old hover swapped both colours (Cream ground,
+   Peppercorn label) on the 0.8s curve and they met in the same olive at ~260ms: the label
+   vanished (1.1:1) on its way in and out, the primary's fault of 29 Sep. Contrast now
+   11.8 at rest · 6.4 hover · 8.5 pressed on Peppercorn (10.6 · 5.7 · 7.4 on Soft Peppercorn).
+   Options compared: Claude outputs/secondary-night-hover/. */
+:is(html[data-theme="night"], .mobile-drawer--dark, .about-section--dark, .page-vacancy, .cookie-notice--dark) .btn-secondary,
+.btn-secondary--dark {
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark, .about-section--dark, .page-vacancy, .cookie-notice--dark) .btn-secondary:hover,
+.btn-secondary--dark:hover {
+    background-color: rgba(193, 219, 52, 0.25); /* Lime 25% */
+    border-color: var(--lime);
+    color: var(--lime);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark, .about-section--dark, .page-vacancy, .cookie-notice--dark) .btn-secondary:active,
+.btn-secondary--dark:active {
+    background-color: rgba(193, 219, 52, 0.15); /* Lime 15% */
+    border-color: var(--lime);
+    color: var(--lime);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+}
+
+/* Primary Green Button — softer alternative to red primary
+   Figma ButtonPrimary-Green-Dark 341:15618: rest Lime + Peppercorn label · hover Cream + Ash
+   label · pressed the hover's colours with the Tapped-btn inset. Both colours move on hover,
+   and that is safe here — two light grounds, two dark labels, 11.8:1 falling to 7.2:1 with no
+   crossing (the Chili primary's and the dark secondary's fault could not happen). */
+.btn-primary-green {
+    background-color: var(--lime);
+    color: var(--peppercorn);
+}
+
+.btn-primary-green:hover {
+    background-color: var(--cream);
+    color: var(--ash);
+}
+
+.btn-primary-green:active {
+    background-color: var(--cream);
+    color: var(--ash);
+    box-shadow: inset 1px 1px 4px rgba(21, 19, 23, 0.25);
+    transition-duration: 100ms; /* the press answers the finger, as the other two buttons (1 Oct 2026) */
+}

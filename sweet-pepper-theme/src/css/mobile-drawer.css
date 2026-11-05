@@ -1,0 +1,397 @@
+/* Mobile navigation drawer
+   Figma: Drawer-4-Home-Day 1341:51991 (day), Drawer-4-Menu-Night 1341:51696 (night).
+   Full-screen sheet on the page ground (--bg), UNDER the site header (1 Oct 2026): the
+   header stays where it is, raised over the sheet while it is open, and its hamburger
+   crosses into the × (header.css → Menu toggle). The sheet has no header row of its own —
+   its copy of the logo sat 8px to the right of the header's (24px padding against the
+   16px gutter) and the whole sheet slid 8px in on the spring, so the logo jumped twice and
+   the Parchment bar vanished. Nothing moves now: the sheet fades in under the bar, on the
+   site's Gentle — 800ms on the spring, half there at ~150ms (author, 1 Oct 2026: "let's
+   try the Gentle one on the drawer too"; the old fade, on the flat curve, was 4% there at
+   100ms and half at 286). The first build ran its own Quick (200ms in, 150 out), kept
+   behind `?drawer=quick` for the comparison (mobile-drawer.js sets `html.drawer-quick`).
+   The sides are the page gutter, so the list, the card and the buttons share the logo's
+   edge and the ×'s. Phones: content spreads with space-between as in the mockup, the booking
+   block at the foot; short viewports scroll. Tablets: every gap equal (below). */
+
+:root {
+    --drawer-dur-in: var(--dur-gentle);
+    --drawer-dur-out: var(--dur-gentle);
+    --drawer-ease: var(--ease-gentle-flat);   /* the fade */
+    --drawer-ease-move: var(--ease-gentle);   /* the menu button's bars (header.css) */
+}
+
+html.drawer-quick {
+    --drawer-dur-in: var(--dur-quick);
+    --drawer-dur-out: 150ms;
+    --drawer-ease: var(--ease-quick);
+    --drawer-ease-move: var(--ease-quick);
+}
+
+.mobile-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    /* Top: the fixed header (76px, under the admin bar when there is one) + 8px — with the
+       nav's own 16px the list starts where it did, 100px down. Foot 24, the gap's size (was
+       34 — 10px of the 42 the sheet ran over on an iPhone 15 Pro in Chrome, 393×662; author,
+       3 Oct 2026) */
+    padding: calc(var(--wp-admin--admin-bar--height, 0px) + 84px) var(--gutter) 24px;
+    background-color: var(--bg);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--drawer-dur-out) var(--drawer-ease),
+                visibility 0s linear var(--drawer-dur-out);
+}
+
+@media (max-width: 991px) {
+    .mobile-drawer {
+        display: flex;
+    }
+}
+
+/* Tablets: one gap everywhere — header → list, between the four groups, under the booking
+   block (author, 3 Oct 2026, iPad mini: the list sat 24px under the header while
+   space-between opened 122px between the rest). space-evenly on zero gaps, each child's
+   12px margins making the 24px floor: 85px each at 744×1000. Options compared on a contact
+   sheet (fixed 48 top-anchored left 234px empty at the foot; fixed 48 with the booking block
+   pinned left the same hole above it). Phones keep the foot for the thumb. 600, not the site's
+   768: an iPad mini is 744 wide (phones stop at 440). */
+@media (min-width: 600px) {
+    .mobile-drawer {
+        justify-content: space-evenly;
+        gap: 0;
+        padding-top: calc(var(--wp-admin--admin-bar--height, 0px) + 76px + 12px);
+        padding-bottom: 12px;
+    }
+
+    .mobile-drawer > * {
+        margin-block: 12px;
+    }
+
+    .mobile-drawer__nav {
+        padding-top: 0;
+    }
+}
+
+/* Fixed-composition pages (About, Visit) run a dark hero in every theme, so the
+   drawer is dark there too — `.mobile-drawer--dark` is set by the template part
+   and every night rule below also answers to it. Ground tokens are re-pointed
+   locally so the sheet and the venue card don't inherit the day values. */
+.mobile-drawer--dark {
+    --bg: var(--peppercorn);
+    --surface: var(--soft-peppercorn);
+}
+
+/* Its secondary buttons: buttons.css → the dark-ground rule */
+
+/* Short viewports (375×667): the sheet scrolls, nothing squashes */
+.mobile-drawer > * {
+    flex-shrink: 0;
+}
+
+.mobile-drawer.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--drawer-dur-in) var(--drawer-ease),
+                visibility 0s;
+}
+
+/* ---- Nav list: Molot H2 title + Golos caption description + 12px trailing icon ---- */
+.mobile-drawer__nav {
+    width: 100%;
+    padding-top: 16px;
+}
+
+.mobile-drawer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mobile-drawer__link {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    color: var(--ash);
+    text-decoration: none;
+}
+
+.mobile-drawer__link-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.mobile-drawer__link-meta {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    min-width: 0;
+    text-align: right;
+}
+
+.mobile-drawer__link-desc {
+    /* Caption 13 / 4%, not Body 16 (author, 20 Sep 2026): at 16 the longer descriptions
+       wrapped to two lines on phones and the list lost its rhythm. */
+    padding-bottom: 4px;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    /* Where a description still wraps (≤ 360px, and RU to come), break it evenly */
+    text-wrap: balance;
+}
+
+/* Centred on the description's last line (18.2px line, 12px icon → 3px + the 4px above),
+   not on the title: the two read as one unit */
+.mobile-drawer__link-icon {
+    flex-shrink: 0;
+    padding-bottom: 7px;
+}
+
+.mobile-drawer__link-icon svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+}
+
+/* Tablets: Body 16 / 0% (author, 21 Sep 2026). Caption was a phone fix — the wrap it cured
+   cannot happen in a 720px row — so from 768 the description is the sentence it reads as.
+   The icon follows the new line: 22.4px line, 12px icon → 5px + the 4px above. */
+@media (min-width: 768px) {
+    .mobile-drawer__link-desc {
+        font-size: var(--text-body);
+        letter-spacing: 0;
+    }
+
+    .mobile-drawer__link-icon {
+        padding-bottom: 9px;
+    }
+}
+
+/* Current page: outline → fill. Title Chili, description Paprika, trailing chili marker */
+.mobile-drawer__link.is-current .mobile-drawer__link-title,
+.mobile-drawer__link.is-current .mobile-drawer__link-icon {
+    color: var(--chili);
+}
+
+.mobile-drawer__link.is-current .mobile-drawer__link-desc {
+    color: var(--paprika);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__link {
+    color: var(--mushroom);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__link.is-current .mobile-drawer__link-title,
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__link.is-current .mobile-drawer__link-icon {
+    color: var(--lime);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__link.is-current .mobile-drawer__link-desc {
+    color: var(--lime-light, #d4e671);
+}
+
+/* ---- Venue card: raised surface (Parchment / Soft Peppercorn) ---- */
+.mobile-drawer__card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--mushroom);
+    border-radius: 8px;
+    background-color: var(--surface);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__card {
+    border-color: transparent;
+}
+
+.mobile-drawer__card-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.mobile-drawer__card-row--directions {
+    height: 44px;
+}
+
+.mobile-drawer__card-label {
+    flex: 1 0 0;
+    min-width: 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--ash);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__card-label {
+    color: var(--parchment);
+}
+
+.mobile-drawer__card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--olive);
+    text-decoration: none;
+}
+
+.mobile-drawer__card-link-icon svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__card-link {
+    color: var(--lime);
+}
+
+.mobile-drawer__socials {
+    display: flex;
+    align-items: center;
+}
+
+.mobile-drawer__icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+}
+
+.mobile-drawer__icon-btn img {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+/* VK alone (Instagram hidden — inc/geo.php): «ВКонтакте» as a link, the mark trailing like the
+   directions row's pin; one row (the handle needed 301px in English against the card's 293) */
+.mobile-drawer__card-link--vk {
+    min-height: 44px;
+}
+
+.mobile-drawer__card-link--vk img {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+/* ---- Language switch in the drawer: the green pair, a 44px target ----
+   The component is in header.css (Language switch — one thumb). Here: Avocado by day, Lime
+   by night, and a face tall enough that the control is 44px; the link's own target reaches
+   the pill's edge. It stays on its own between the card and the booking block (author,
+   1 Oct 2026: fewer accidental taps, hierarchy, proximity). */
+.lang-switch--green {
+    --ls-fill: var(--avocado);
+    --ls-hi: var(--avocado);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .lang-switch--green {
+    --ls-fill: var(--lime);
+    --ls-on: var(--peppercorn);
+    --ls-hi: var(--lime);
+    --ls-line: var(--mushroom);
+}
+
+.lang-switch--green .lang-option {
+    padding: 7px 16px;
+}
+
+.lang-switch--green a.lang-option::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+}
+
+/* ---- Booking block ---- */
+.mobile-drawer__cta {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.mobile-drawer__cta-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    line-height: 1.35;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--olive);
+}
+
+:is(html[data-theme="night"], .mobile-drawer--dark) .mobile-drawer__cta-title {
+    color: var(--lime-light, #d4e671);
+}
+
+/* Phones: the title goes, a heading for screen readers only — the buttons name the action, and
+   its 41px (with the gap) were the rest of what ran the sheet past an iPhone 15 Pro's screen.
+   The status line stays: busy and closed, it is the news (author, 3 Oct 2026). The tablet
+   split above: 600. */
+@media (max-width: 599px) {
+    .mobile-drawer__cta-title {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+}
+
+.mobile-drawer__cta > .btn {
+    width: 100%;
+}
+
+/* The phone's status line (a booking block — reserve-drawer.css): Ash by day, Mushroom on
+   the dark sheet */
+.mobile-drawer--dark .call-status {
+    color: var(--mushroom);
+}
+
+.mobile-drawer__cta-row {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.mobile-drawer__cta-row .btn {
+    flex: 1 0 0;
+    min-width: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-drawer,
+    .mobile-drawer.is-open {
+        transition: none;
+    }
+}

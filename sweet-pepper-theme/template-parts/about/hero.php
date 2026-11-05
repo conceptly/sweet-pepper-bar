@@ -1,0 +1,92 @@
+<?php
+/**
+ * About page — Hero section
+ *
+ * Dark background (Peppercorn). Content aligned to the bottom of the viewport.
+ * Contains "SHAKE & COOK SINCE 2014" hero and a filmstrip index nav
+ * with 5 photo-card thumbnails (each: image + 50% dark overlay + pill label).
+ *
+ * Header sits over this section transparently (see header.css overrides).
+ *
+ * Content comes as args from sweet_pepper_about_hero() (inc/about-data.php) — the About page's «Первый экран» tab.
+ *
+ * @param array $args eyebrow · headline · headline_2 · lead — two headline lines, one <h1>: they run on
+ *                    as one line on desktop and stack below 992, line 2 in Paprika (about.css → Hero).
+ *
+ * @package Sweet_Pepper
+ */
+
+$img_base = get_template_directory_uri() . '/assets/images/';
+
+
+// Filmstrip nav items — about-page-copy.md → Hero. Gastrobar · Story · People · Careers · Location
+// (author, 25 Sep 2026: "Gastrobar" over "Food & drink" — the card opens the concept, perks and
+// reviews; «Идея» / "Idea" is the author's second option). Russian: Гастробар · История · Люди ·
+// Работа · Адрес.
+// Photos — Figma `filmstrip-index` (341:15140), author 28 Sep 2026: the Pepper sign and lantern ·
+// the founder at the mic · the 2019 team · Lenya on the phone · the door.
+$filmstrip = [
+    [
+        'label' => _x( 'Gastrobar', 'About filmstrip', 'sweet-pepper' ),
+        'image' => $img_base . 'sweet-space/light.jpg',
+        'href'  => '#concept',
+    ],
+    [
+        'label' => _x( 'Story', 'About filmstrip', 'sweet-pepper' ),
+        'image' => $img_base . 'team/iura/iura-1.jpg',
+        'href'  => '#story',
+    ],
+    [
+        'label' => _x( 'People', 'About filmstrip', 'sweet-pepper' ),
+        'image' => $img_base . 'team/group/2019.jpg',
+        'href'  => '#guests',
+    ],
+    [
+        'label' => _x( 'Careers', 'About filmstrip', 'sweet-pepper' ),
+        'image' => $img_base . 'team/lenya/lenya-1.jpg',
+        'href'  => '#careers',
+    ],
+    [
+        'label' => _x( 'Location', 'About filmstrip', 'sweet-pepper' ),
+        'image' => $img_base . 'sweet-space/door-entrance.jpg',
+        'href'  => '#location',
+    ],
+];
+?>
+
+<section class="about-section about-section--dark about-hero">
+    <div class="container">
+        <div class="about-hero__content">
+            <span class="about-hero__eyebrow molot-text"><?php echo esc_html( $args['eyebrow'] ); ?></span>
+            <h1 class="about-hero__headline">
+                <span class="about-hero__headline-line"><?php echo esc_html( $args['headline'] ); ?></span>
+                <?php if ( ! empty( $args['headline_2'] ) ) : ?>
+                    <span class="about-hero__headline-line about-hero__headline-line--2"><?php echo esc_html( $args['headline_2'] ); ?></span>
+                <?php endif; ?>
+            </h1>
+            <p class="about-hero__lead"><?php echo esc_html( $args['lead'] ); ?></p>
+        </div>
+
+        <nav class="about-hero__filmstrip" aria-label="<?php esc_attr_e( 'Page sections', 'sweet-pepper' ); ?>">
+            <?php foreach ( $filmstrip as $item ) : ?>
+                <a href="<?php echo esc_attr( $item['href'] ); ?>" class="about-hero__filmstrip-item">
+                    <div class="about-hero__filmstrip-img-wrap" aria-hidden="true">
+                        <img src="<?php echo esc_url( $item['image'] ); ?>"
+                             alt=""
+                             class="about-hero__filmstrip-img"
+                             loading="eager" decoding="async">
+                        <div class="about-hero__filmstrip-overlay"></div>
+                    </div>
+                    <div class="about-hero__filmstrip-pill-area">
+                        <div class="about-hero__filmstrip-pill">
+                            <span class="about-hero__filmstrip-label"><?php echo esc_html( $item['label'] ); ?></span>
+                        </div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </nav>
+    </div>
+
+    <?php // Section connector (about.css → Connectors)
+    get_template_part( 'template-parts/about/connector', null, [ 'word' => 'betterTogether', 'position' => 'foot', 'alt' => 'Better together' ] ); ?>
+</section>

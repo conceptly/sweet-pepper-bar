@@ -1,0 +1,140 @@
+<?php
+/**
+ * Admin — photo fields previewed at the ratio the site crops them to (author, 25 Sep 2026:
+ * "is it correct that we can't show this ratio in the WordPress admin panel?" — it isn't).
+ *
+ * WordPress shows a photo field as uploaded; the site never does. On the menu pages, the
+ * dish forms and the door tabs the preview takes the site's shape instead, and the two
+ * sliders drive it live:
+ *
+ *   sec_<slug>_photo       + sec_<slug>_photo_y     → the 4:1 band, the photo sliding under it
+ *                                                    exactly as reveal.css moves it (--img-y)
+ *   sec_<slug>_hero_photo  + sec_<slug>_hero_focus  → the 3:2 hero photo with the tablet's
+ *                                                    21:9 window drawn over it (menu-hero.css
+ *                                                    keeps 64% of the height; the slider says which)
+ *   photo (dish / drink, a team-wall print), menu_door_photo,
+ *   menu_door_night_photo                                        → a 3:2 centre crop
+ *   photo (a team member, a guest card), about_founder_photo     → a 1:1 centre crop (sp-square;
+ *                                                    told apart from the wall's photo by repeater)
+ *   home_hero_<daypart>_photo, home_bar_photo, home_kitchen_photo, home_about_photo,
+ *   photo (a highlight card)                                     → 3:2 (the home page)
+ *   cover (a social card), home_events_more_photo                → a 4:5 centre crop
+ *
+ * Fields are found by name (SCF prints data-name on every field wrapper), so a regenerated
+ * group needs nothing here. Ratios: inc/images.php (sp-4x1, sp-hero, sp-3x2, sp-square, sp-4x5).
+ *
+ * @package Sweet_Pepper
+ */
+
+/**
+ * Only where these fields live: the menu pages and the home page, dishes and drinks.
+ */
+function sweet_pepper_admin_photo_preview_wanted() {
+    $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+    return $screen && 'post' === $screen->base && in_array( $screen->post_type, [ 'page', 'dish', 'drink' ], true );
+}
+
+function sweet_pepper_admin_photo_preview_css() {
+    if ( ! sweet_pepper_admin_photo_preview_wanted() ) {
+        return;
+    }
+    ?>
+<style>
+/* A photo field previewed at the site's ratio (inc/admin-photo-preview.php). */
+.acf-field-image.sp-preview .image-wrap { position: relative; width: 100%; max-width: 100% !important; overflow: hidden; border-radius: 4px; background: #1e1e1e; }
+/* The photo is pinned to the frame's four edges: SCF caps the <img> at the preview size's height
+   (an inline max-height: 300px for «medium») and floats it left, which left a wide 3:2 frame a
+   third empty and zoomed a square one (author, 6 Oct 2026). */
+.acf-field-image.sp-preview .image-wrap img { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; min-width: 0; min-height: 0; margin: 0; object-fit: cover; object-position: 50% var(--sp-y, 50%); }
+.acf-field-image.sp-preview--band .image-wrap { aspect-ratio: 4 / 1; }
+.acf-field-image.sp-preview--hero .image-wrap,
+.acf-field-image.sp-preview--3x2  .image-wrap { aspect-ratio: 3 / 2; }
+.acf-field-image.sp-preview--4x5  .image-wrap { aspect-ratio: 4 / 5; max-width: 240px !important; }
+.acf-field-image.sp-preview--1x1  .image-wrap { aspect-ratio: 1 / 1; max-width: 240px !important; }
+/* The hero keeps its 3:2 frame; the tablet's 21:9 window is drawn over it and moves with the slider. */
+.acf-field-image.sp-preview--hero .image-wrap img { object-position: 50% 50%; }
+.acf-field-image.sp-preview--hero .sp-crop-window {
+    position: absolute; left: 0; right: 0; height: 64.29%; /* (9/21) ÷ (2/3) */
+    top: calc((100% - 64.29%) * var(--sp-y-frac, 0.5));
+    box-shadow: 0 0 0 999px rgba(20, 20, 16, 0.55); outline: 2px solid #f5e04a; outline-offset: -2px;
+    pointer-events: none; transition: top 120ms ease-out;
+}
+.acf-field-image.sp-preview--hero .sp-crop-window::after {
+    content: "планшет"; position: absolute; left: 8px; bottom: 6px;
+    font: 500 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #f5e04a; letter-spacing: .02em;
+}
+.acf-field-image.sp-preview .image-wrap .acf-actions { z-index: 2; }
+.acf-field-image.sp-preview .sp-preview-note { margin: 6px 0 0; color: #646970; font-size: 12px; }
+.acf-field-image.sp-preview .sp-preview-note--soft { margin-top: 2px; font-style: italic; }
+</style>
+    <?php
+}
+add_action( 'acf/input/admin_head', 'sweet_pepper_admin_photo_preview_css' );
+
+function sweet_pepper_admin_photo_preview_js() {
+    if ( ! sweet_pepper_admin_photo_preview_wanted() ) {
+        return;
+    }
+    ?>
+<script>
+(function () {
+    // Which preview a photo field gets, by its name (and, for a repeater's plain «photo», by
+    // the repeater it sits in); the slider that drives it, if any.
+    var SQUARE = 'Так фото обрезается на сайте (1:1, по центру).';
+    // SCF previews the 300px «medium» copy, stretched to the frame: a wide one looks soft, and the
+    // team took it for the photo's quality (author, 6 Oct 2026). The site uses the larger sizes.
+    var SOFT = 'Здесь показана уменьшенная копия, поэтому в админке фото может выглядеть размытым. На сайт идёт версия большего размера.';
+    function kind(name, el) {
+        if (name === 'about_founder_photo') return { cls: 'sp-preview--1x1', slider: null, note: SQUARE };
+        if (name === 'photo' && el.closest('.acf-field[data-name="about_team_members"], .acf-field[data-name="about_guest_cards"]')) return { cls: 'sp-preview--1x1', slider: null, note: SQUARE };
+        if (/^sec_.+_hero_photo$/.test(name)) return { cls: 'sp-preview--hero', slider: name.replace(/_hero_photo$/, '_hero_focus'), note: 'На компьютере — весь кадр 3:2; рамка — что останется на планшете (ползунок справа).' };
+        if (/^sec_.+_photo$/.test(name))      return { cls: 'sp-preview--band', slider: name.replace(/_photo$/, '_photo_y'),      note: 'Так полоса 4:1 выглядит на сайте; ползунок справа двигает фото в ней.' };
+        if (name === 'photo' || name === 'menu_door_photo' || name === 'menu_door_night_photo') return { cls: 'sp-preview--3x2', slider: null, note: 'Так фото обрезается на сайте (3:2, по центру).' };
+        if (/^home_(hero_(breakfast|lunch|dinner|party)|bar|kitchen|about)_photo$/.test(name)) return { cls: 'sp-preview--3x2', slider: null, note: 'Так фото обрезается на сайте (3:2, по центру).' };
+        if (name === 'cover' || name === 'home_events_more_photo') return { cls: 'sp-preview--4x5', slider: null, note: 'Так фото обрезается на сайте (4:5, по центру).' };
+        return null;
+    }
+    function apply(photoField, y) {
+        var wrap = photoField.querySelector('.image-wrap');
+        if (!wrap) return;
+        wrap.style.setProperty('--sp-y', y + '%');
+        wrap.style.setProperty('--sp-y-frac', (y / 100).toString());
+    }
+    function setup(photoField) {
+        if (photoField.dataset.spPreview) return;
+        var k = kind(photoField.dataset.name || '', photoField);
+        if (!k) return;
+        photoField.dataset.spPreview = '1';
+        photoField.classList.add('sp-preview', k.cls);
+        var wrap = photoField.querySelector('.image-wrap');
+        if (wrap && k.cls === 'sp-preview--hero' && !wrap.querySelector('.sp-crop-window')) {
+            var win = document.createElement('div'); win.className = 'sp-crop-window'; wrap.appendChild(win);
+        }
+        var note = document.createElement('p'); note.className = 'sp-preview-note'; note.textContent = k.note;
+        var soft = document.createElement('p'); soft.className = 'sp-preview-note sp-preview-note--soft'; soft.textContent = SOFT;
+        (photoField.querySelector('.acf-input') || photoField).appendChild(note);
+        note.after(soft);
+        if (!k.slider) return;
+        // The slider field sits in the same row: found by name within the same parent.
+        var sliderField = photoField.parentElement.querySelector('.acf-field[data-name="' + k.slider + '"]');
+        if (!sliderField) return;
+        var inputs = sliderField.querySelectorAll('input[type="range"], input[type="number"]');
+        var read = function () { var v = parseFloat(inputs[0] && inputs[0].value); apply(photoField, isNaN(v) ? 50 : v); };
+        inputs.forEach(function (i) { i.addEventListener('input', read); i.addEventListener('change', read); });
+        read();
+    }
+    function scan(root) { (root || document).querySelectorAll('.acf-field-image[data-name]').forEach(setup); }
+    if (window.acf && acf.addAction) {
+        acf.addAction('ready', function () { scan(); });
+        acf.addAction('append', function ($el) { scan($el && $el[0]); });
+        // A newly chosen photo re-renders the wrap: the window and the position are restored.
+        acf.addAction('ready_field/type=image', function (field) { setup(field.$el[0]); });
+        acf.addAction('change', function () { scan(); });
+    } else {
+        document.addEventListener('DOMContentLoaded', function () { scan(); });
+    }
+})();
+</script>
+    <?php
+}
+add_action( 'acf/input/admin_footer', 'sweet_pepper_admin_photo_preview_js' );

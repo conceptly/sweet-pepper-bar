@@ -1,0 +1,211 @@
+/* Molot, Latin + Cyrillic — built from design/fonts/Molot.otf by tools/molot-webfont.py.
+   The font kit's Molot-webfont.woff was a Latin-only subset (no Russian at all). */
+@font-face {
+    font-family: 'Molot';
+    src: url('../fonts/Molot.woff2') format('woff2'),
+         url('../fonts/Molot.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Golos Text';
+    src: url('../fonts/GolosText-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Basic reset and base styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* viewport-fit=cover (header.php) also runs the page under a notch in landscape: the content
+   keeps off the sides by the insets (0 in portrait, and on every screen without a cutout) */
+#page {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* ── Viewport foot (27 Sep 2026) ──
+   Safari 26 on the iPhone runs the page under its floating bar and extends the colour of the
+   fixed element touching the viewport's bottom edge under the bar — the author's screenshots:
+   nothing fixed there, the page shows through the glass; the Lime notice up, Lime under the
+   bar; the earlier sampled sliver, its FIRST colour (Safari takes it once, so a repaint never
+   reached the bar). Hence a 4px strip in the page's canvas colour, static: Paper by day,
+   Peppercorn by night and on the fixed dark pages — the page appears to end above the bar, as
+   Chrome for iOS draws it. Safari on an iPhone only — html[data-foot="safari"], set by the
+   head script (inc/daypart-head.php) from the user agent: Chrome for iOS ends the page above
+   its own bar and showed the strip as a stray line, an iPad's Safari keeps its address bar at
+   the top, a desktop window has no such bar (author, 27 Sep 2026). The bottom notice lifts by
+   the same 4px (cookie-notice.css) so the strip stays the bottom-most element and the bar
+   stays dark under the Lime band. `--foot-h` is the one number; `?bar=dark` holds Peppercorn
+   by day. */
+:root {
+    --foot-h: 4px;
+}
+
+/* Fifth pass (author's phone, 27 Sep 2026): iOS 26 reports no bottom inset even with
+   viewport-fit=cover, and bottom: 0 stays at the bar's TOP while the page is painted under the
+   bar — so Safari only ever copied a colour there, and only once scrolled. A fixed element may
+   run past the layout viewport, and the screen under the bar paints it: the strip overshoots
+   by --foot-under, more than any bar is tall, and owns the bar's area at rest as well. Its
+   visible part above the bar stays --foot-h. Where the page ends above the browser's bar
+   (Chrome for iOS, Android) the overshoot is off-screen. */
+:root {
+    --foot-under: 160px;
+}
+
+.viewport-foot {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(-1 * var(--foot-under));
+    height: calc(var(--foot-h) + var(--foot-under) + env(safe-area-inset-bottom, 0px));
+    z-index: 98; /* under the notice (99), the header (100) and the drawers */
+    pointer-events: none;
+    background-color: var(--bg);
+}
+
+html[data-foot="safari"] .viewport-foot {
+    display: block;
+}
+
+.page-template-page-about .viewport-foot,
+.page-template-page-visit .viewport-foot,
+.single-vacancy .viewport-foot,
+html[data-bar="dark"] .viewport-foot {
+    background-color: var(--peppercorn);
+}
+
+/* ?bar=dark (27 Sep 2026): the canvas itself Peppercorn too, so a day page gets a dark bar to
+   compare on the phone; the overscroll beyond the header goes dark with it — the trade to judge */
+html[data-bar="dark"] {
+    background-color: var(--peppercorn);
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--text);
+    text-wrap: pretty;
+    transition: background-color var(--dur-gentle) var(--ease-gentle-flat), color var(--dur-gentle) var(--ease-gentle-flat);
+}
+
+/* Screen-reader-only text — the WordPress convention, kept in the theme so it never depends on
+   a core stylesheet. The skip link comes back into view when it takes keyboard focus. */
+.screen-reader-text {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+    word-wrap: normal !important;
+}
+
+.skip-link.screen-reader-text:focus {
+    top: 8px;
+    left: 8px;
+    z-index: 100000;
+    width: auto;
+    height: auto;
+    padding: 12px 20px;
+    clip: auto;
+    clip-path: none;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-decoration: none;
+    outline: 2px solid currentColor;
+}
+
+/* Base typography */
+h1, h2, h3, .molot-text {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+h1 {
+    font-size: 44px;
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 1.35;
+    letter-spacing: 0.05em;
+}
+
+/* Gutter ramps instead of stepping (Sep 2026, tablet pass).
+   `12.5vw - 80px` is one-eighth of the viewport less 80, which passes through exactly
+   16px at 768 and exactly 80px at 1280 — both authored endpoints survive, and below 768
+   it clamps to the phone's 16px (Figma mobile frames, 370 content in 402).
+
+   It replaces a hard 24px → 80px step at 992 that made the content column NARROW as the
+   window got WIDER: 943 at 991, 832 at 992. Everything sized off the container jumped
+   backwards with it (hero tile 186→162, cards 298→261, connector SVG 943→832).
+
+   website-brief.md → Grid: the "24px gutter in between" constant retires; the ramp passes
+   through 24px at ~834. The 4px rule still holds for every authored value (16 and 80 are
+   both on it) — what the ramp computes between them is interpolation, like a fluid type
+   scale, and nothing aligns against a page margin. A `round(down, …, 4px)` variant keeps
+   every computed gutter on the grid but turns the content width into a sawtooth (climbs
+   ~37px, drops 8px at each step), i.e. one 111px cliff traded for fourteen 8px ones.
+
+   `vw` not `%`: one `.container` on /menu/ sits inside `.menu-visit-cta`, so a percentage
+   would resolve against the wrong box there. The cost is that vw counts the scrollbar. */
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-inline: var(--gutter); /* clamp(16px, 12.5vw - 80px, 80px) — variables.css */
+}
+
+/* Below the nav breakpoint the page must never scroll sideways (website-brief.md → Responsive).
+   The clip sits on #page, not html: mobile browsers size the layout viewport to the document's
+   min-content width, which stretches every fixed element (header, drawer) with it, and a clip on
+   html does not stop that (measured Sep 2026: html clip → 595px viewport at 402; #page clip → 402).
+   `clip` rather than `hidden` so #page stays a non-scroll-container and position: sticky keeps
+   working. Needed while desktop-only sections still overflow a phone; harmless afterwards. */
+@media (max-width: 991px) {
+    #page {
+        overflow-x: clip;
+    }
+
+    /* Room for the fixed 76px header (header.css). The home hero subtracts it from 100dvh. */
+    body {
+        padding-top: 76px;
+    }
+
+    /* Anchor landings clear the fixed header (native hash jumps and gentle-scroll.js both read it) */
+    section[id] {
+        scroll-margin-top: 76px;
+    }
+}
+
+
+/* iOS data detectors — belt and braces for header.php's format-detection meta: if Safari
+   still wraps a number or an address in its own link, the link wears the text's colour. */
+a[x-apple-data-detectors] {
+    color: inherit !important;
+    text-decoration: none !important;
+    font: inherit !important;
+}

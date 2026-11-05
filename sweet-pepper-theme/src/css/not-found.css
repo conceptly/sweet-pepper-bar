@@ -1,0 +1,500 @@
+/* ══════════════════════════════════════════════════════════════════════
+   The 404 page — PROTOTYPE, 1 Oct 2026 (404.php, inc/not-found.php).
+   Three layouts on trial, `?nf=` on any address that doesn't exist:
+
+     .not-found--0    the author's Figma draft ("Lost in the Sauce-404" 2803:78133): the
+                      centred stack, the digits popping in turn (lettersSize 2807:77957)
+     .not-found--a    the bar answers: copy left, the dish picker's ticket right,
+                      centred in the screen under the header
+     .not-found--b    the draft's copy left, the number standing in the footer — the
+                      theater is shorter, so the footer rises into the first screen; the
+                      scroll carries the number out to the middle of its column (below)
+     .not-found--bt   b with the ticket as well
+
+   Always dark (inc/daypart-head.php), so the colours are night's own and literal.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.not-found {
+    /* The header's height: 77px on desktop (24 + the 53px logo), the fixed 76px bar below
+       992 — the body already keeps that room (main.css) */
+    --nf-header: 77px;
+    --nf-pad: 64px;
+    /* Layout b's copy column: as wide as the headline's longest line needs at H1 64, so
+       the number can keep its 48px from what is seen, not from a box the headline runs out
+       of. EN "GOT LOST IN" is 394; RU «В СТОП-ЛИСТЕ.» is 476 and breaks at its hyphen in
+       anything narrower. Typed per language, as the Location headline's fit is — retune
+       when a headline changes (website-brief.md → 404 page). */
+    --nf-col: 400px;
+}
+
+:lang(ru) .not-found--b {
+    --nf-col: 480px;
+}
+
+@media (max-width: 991px) {
+    .not-found {
+        --nf-header: 76px;
+        --nf-pad: 48px;
+    }
+}
+
+.not-found__theater {
+    position: relative;
+}
+
+.not-found__inner {
+    position: relative;
+}
+
+/* ── The words ── */
+
+/* Molot 16 / 1.4 / 4% — Figma Heading/Captions, with the 8px Chili dot */
+.not-found__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    color: var(--lime);
+}
+
+.not-found__dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--chili);
+}
+
+.not-found__headline {
+    margin-top: 16px;
+    font-size: var(--text-h1);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--lemon);
+    text-wrap: balance;
+}
+
+.not-found__body {
+    margin: 24px 0 0;
+    max-width: 440px;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    color: var(--mushroom);
+    text-wrap: pretty;
+}
+
+.not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 40px;
+}
+
+/* One arrow glyph in the theme: the way back shows it mirrored */
+.not-found__back .btn-icon {
+    scale: -1 1;
+}
+
+/* ── The number ── */
+
+.not-found__digits {
+    margin: 0;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--chili);
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* Layout 0 — the draft's digits. Molot at 238px sets a digit 140 × 214 (line 0.9), 10px
+   apart, in a 353px room; the popped digit is 165 × 252, i.e. × 1.176, and its neighbours
+   step 12.5px aside. All of it in em, so a phone scales the set whole (phones take their
+   own, smaller swell: lettersSize-mobile 2827:79143, below). */
+.not-found__digits--pop {
+    --nf-pop: 1.176;
+    --nf-step: 0.0525em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.042em;
+    height: 1.483em;
+    font-size: min(238px, 47vw);
+    line-height: 0.9;
+}
+
+.not-found__digits--pop span {
+    display: block;
+}
+
+/* One clock, four beats of 1.5s: rest (Chili) → the first 4 (Lemon) → the 0 (Lime) → the
+   last 4 (Paprika). Each beat opens with the move (the first 8%) and then holds. The
+   digits take Bouncy — the page loader's knob pops on it; the colour takes the flat curve. */
+@media (prefers-reduced-motion: no-preference) {
+    .not-found__digits--pop {
+        animation: nf-hue 6s var(--ease-flat) infinite;
+    }
+
+    .not-found__digits--pop span {
+        animation: 6s var(--ease-bouncy) infinite;
+    }
+
+    .not-found__digits--pop span:nth-child(1) { animation-name: nf-pop-1; }
+    .not-found__digits--pop span:nth-child(2) { animation-name: nf-pop-2; }
+    .not-found__digits--pop span:nth-child(3) { animation-name: nf-pop-3; }
+}
+
+@keyframes nf-hue {
+    0%        { -webkit-text-stroke-color: var(--paprika); }
+    8%, 25%   { -webkit-text-stroke-color: var(--chili); }
+    33%, 50%  { -webkit-text-stroke-color: var(--lemon); }
+    58%, 75%  { -webkit-text-stroke-color: var(--lime); }
+    83%, 100% { -webkit-text-stroke-color: var(--paprika); }
+}
+
+@keyframes nf-pop-1 {
+    0%        { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+    8%, 25%   { scale: 1;     translate: 0 0; }
+    33%, 50%  { scale: var(--nf-pop); translate: 0 0; }
+    58%, 100% { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+}
+
+@keyframes nf-pop-2 {
+    0%        { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+    8%, 25%   { scale: 1;     translate: 0 0; }
+    33%, 50%  { scale: 1;     translate: var(--nf-step) 0; }
+    58%, 75%  { scale: var(--nf-pop); translate: 0 0; }
+    83%, 100% { scale: 1;     translate: calc(-1 * var(--nf-step)) 0; }
+}
+
+@keyframes nf-pop-3 {
+    0%        { scale: var(--nf-pop); translate: 0 0; }
+    8%, 25%   { scale: 1;     translate: 0 0; }
+    33%, 75%  { scale: 1;     translate: var(--nf-step) 0; }
+    83%, 100% { scale: var(--nf-pop); translate: 0 0; }
+}
+
+/* Layouts b / bt — the giant number, standing in the footer. Line 0.7 is Molot's cap
+   height, so the box is the digits; --nf-sink of it sits under the footer's edge.
+   0.1em (1 Oct 2026; 0.16 before — the author wanted the number higher and tried 0.04):
+   the depth is read off the glyphs. The 4's bar ends 0.13em above the foot, the 0's counter
+   0.16em, and the 0's corners start to round 0.08em up — so 0.13 and 0.16 lay a stroke on
+   the Lime edge, and anything under 0.08 cuts the 0 through its curve, which reads as a
+   cropping slip. At 0.1 the 4's bar clears the edge and only straight strokes go under. */
+.not-found__digits--sunk {
+    --nf-sink: 0.1em;
+    position: absolute;
+    right: var(--gutter);
+    bottom: calc(-1 * var(--nf-pad) - var(--nf-sink));
+    margin-right: -0.042em; /* the last digit's own tracking */
+    /* what the copy column (--nf-col) and the row's 48px gap leave of the content width —
+       the container's, which stops growing at 1280. The number is out of the flow, so the
+       gap declared on .not-found__inner never reaches it: it is counted here (author, 1 Oct
+       2026 — the first formula left 10px, and the Russian headline ran 64px over the
+       number's edge). 1.834em is the set's box (1.876) less the last digit's tracking,
+       pulled back above. */
+    font-size: calc((min(100vw, 1280px) - 2 * var(--gutter) - var(--nf-col) - 48px) / 1.834);
+    line-height: 0.7;
+    letter-spacing: 0.042em;
+    pointer-events: none;
+}
+
+/* The level: the same digits filled Chili, shown from the footer's edge up. At rest it
+   starts 15px under the edge — below the 12px bites — whatever the depth and the size
+   (a fixed 83% let it show in the bites on a phone) */
+.not-found__digits--sunk::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: var(--chili);
+    -webkit-text-stroke: 0 transparent;
+    clip-path: inset(calc(100% - var(--nf-sink) + 15px) 0 -10% 0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .not-found__digits--sunk::after {
+        animation: nf-level 9s var(--ease-flat) infinite;
+    }
+}
+
+@keyframes nf-level {
+    0%, 12%   { clip-path: inset(calc(100% - var(--nf-sink) + 15px) 0 -10% 0); }
+    50%       { clip-path: inset(46% 0 -10% 0); }
+    88%, 100% { clip-path: inset(calc(100% - var(--nf-sink) + 15px) 0 -10% 0); }
+}
+
+/* ── Layout 0 — the draft, as drawn: 28 · the digits' room · 26 · label · 26 · headline
+   · 24 · copy · 40 · buttons · 93. The label sat above the digits until 1 Oct 2026 —
+   28px under the header it argued with the top nav (author, in the browser) ── */
+.not-found--0 .not-found__inner {
+    display: flex;
+    justify-content: center;
+    padding-block: 28px 93px;
+}
+
+.not-found--0 .not-found__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(100%, 760px);
+    text-align: center;
+}
+
+.not-found--0 .not-found__digits {
+    margin-bottom: 26px;
+}
+
+.not-found--0 .not-found__headline {
+    margin-top: 26px;
+    font-size: 36px;
+}
+
+.not-found--0 .not-found__body {
+    max-width: 560px;
+}
+
+.not-found--0 .not-found__actions {
+    justify-content: center;
+}
+
+/* ── Layouts a, b, bt — copy left, centred in the theater's height ── */
+.not-found--a .not-found__theater,
+.not-found--b .not-found__theater,
+.not-found--bt .not-found__theater {
+    display: flex;
+    padding-block: var(--nf-pad);
+}
+
+/* a: the theater is the screen under the header, the footer starts at the fold */
+.not-found--a .not-found__theater {
+    min-height: calc(100svh - var(--nf-header));
+}
+
+/* b: 240px shorter, so the footer — hours, phone, links — is in the first screen */
+.not-found--b,
+.not-found--bt {
+    --nf-theater: max(520px, calc(100svh - var(--nf-header) - 240px));
+}
+
+.not-found--b .not-found__theater,
+.not-found--bt .not-found__theater {
+    min-height: var(--nf-theater);
+}
+
+.not-found--a .not-found__inner,
+.not-found--b .not-found__inner,
+.not-found--bt .not-found__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+}
+
+.not-found--a .not-found__copy {
+    flex: 1 1 0;
+    max-width: 548px; /* 6 of 12 columns */
+}
+
+.not-found--b .not-found__copy,
+.not-found--bt .not-found__copy {
+    position: relative;
+    z-index: 1;
+    width: min(100%, var(--nf-col));
+}
+
+/* The ticket — the dish picker's card (dish-picker.css) at its own width, 404px */
+.not-found__ticket {
+    flex: none;
+    z-index: 1;
+    width: min(100%, 404px);
+}
+
+.not-found__asked {
+    overflow-wrap: anywhere;
+}
+
+/* ── The footer's edge ──
+   The bites take the page's Peppercorn (night's default is Soft Peppercorn, footer.css).
+   In b the number stands behind the footer, so the bites are real holes there: the Lime is
+   masked instead of painted over, and the digits show through them. */
+html[data-theme="night"] .error404 .footer-rugged-top .rugged-edge {
+    --rugged-color: var(--peppercorn) !important;
+}
+
+html[data-theme="night"] .not-found-pick-b .footer-rugged-top .rugged-edge,
+html[data-theme="night"] .not-found-pick-bt .footer-rugged-top .rugged-edge {
+    --rugged-color: transparent !important;
+}
+
+.not-found-pick-b .site-footer,
+.not-found-pick-bt .site-footer {
+    -webkit-mask: radial-gradient(circle at 24px 0, transparent 11.5px, #000 12px) center top / 48px 12px repeat-x,
+                  linear-gradient(#000, #000) 0 12px / 100% calc(100% - 12px) no-repeat;
+    mask: radial-gradient(circle at 24px 0, transparent 11.5px, #000 12px) center top / 48px 12px repeat-x,
+          linear-gradient(#000, #000) 0 12px / 100% calc(100% - 12px) no-repeat;
+}
+
+/* ── Layout b answers the scroll (author, 2 Oct 2026) ──
+   The author on the desktop page: "it feels unfinished; it feels like you have to do
+   something with this page but don't get how." The level rising and falling for ever was an
+   idle demo of an interaction that wasn't there (Motion language → Idle self-demo), and a
+   fill that never stays never says "arrived" (→ Outline → fill is the state change).
+
+   So the scroll carries the number — the author's parallax, picked over an arrival on the
+   page's reveal. The page opens as before: the number comes up to its place in the footer
+   and the level idles, an idle demo that now has its interaction. From the first pixel of
+   scroll the number climbs out of the footer to the middle of its column and fills as it
+   goes (wide screens); where it stays in the flow above the footer (≤ 991) it slides up
+   into its place instead. `--nf-p` 0 → 1 is the scroll's share (src/js/not-found.js). A wide screen scrolls
+   only 135–172px here — one wheel notch is most of the way — so the number rides the scroll
+   on the house spring instead of being pinned to it. Scrolled back, it sinks and empties.
+   On narrow screens the first scroll is held for it — the block after this one.
+
+   Reduced motion: no entrance, no idle, no scroll link — the number in the middle, filled.
+   Without the script: layout b as it was, the level idling. bt keeps the number in the
+   footer. */
+.not-found--b .not-found__digits--sunk::after {
+    clip-path: inset(calc((100% - var(--nf-sink) + 15px) * (1 - var(--nf-p, 0))) 0 -10% 0);
+}
+
+/* the way up, wide screens: from its place in the footer to the copy's centre. The script
+   measures it (--nf-way): the theater grows past its formula when the copy is tall (the
+   English lines at 1280 × 800 — the number landed 11px low), and on a short window the way is
+   cut so the number's top stays on the screen at the scroll's end. The formula is the
+   fallback until the script has run: half the theater, less half the number, plus what stood
+   under the edge. */
+@media (min-width: 992px) {
+    .not-found--b .not-found__digits--sunk {
+        translate: 0 calc(var(--nf-p, 0) * -1 * var(--nf-way, calc(var(--nf-theater) / 2 - 0.35em + var(--nf-sink))));
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .not-found--b .not-found__digits--sunk {
+        animation: nf-come 900ms var(--ease-gentle) 300ms backwards;
+        transition: translate var(--dur-gentle) var(--ease-gentle);
+    }
+
+    .not-found--b .not-found__digits--sunk::after {
+        transition: clip-path 400ms var(--ease-flat);
+    }
+
+    /* the scroll has it: the idle level (nf-level, above) lets go */
+    .not-found--b .not-found__digits--sunk.is-scrolled::after {
+        animation: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .not-found--b .not-found__digits--sunk {
+        --nf-p: 1 !important; /* over the script's inline value */
+    }
+}
+
+/* the reveal: from 0.45em under the footer's edge to its place */
+@keyframes nf-come {
+    from { translate: 0 0.35em; }
+}
+
+/* ── Narrow screens (≤ 991): the first scroll is the number's (author, 2 Oct 2026) ──
+   The author on a phone: the level by the scroll was "a bit too abrupt", and "it scrolls to
+   the footer, and I want it first scroll the fill / 404 slide in". Here the number and the
+   footer leave together, so the scroll that filled the number was the scroll that took it
+   away.
+
+   So the page holds still for --nf-hold of scroll (#page is sticky inside a body made that
+   much taller — the browser's own pin, no script in the scroll path) while the 404 slides up
+   out of the footer — from 0.45em under the edge, its tops showing, to its place — and
+   fills; then the page scrolls on to the footer. Both ride the house duration, so a flick
+   that crosses the hold in one go still lands as one move. No reveal and no idling level
+   here: the scroll brings the number in.
+
+   `html.nf-live` and `--nf-hold` are the script's (src/js/not-found.js); where scripts are
+   off the number stands in its place with the level idling, as layout b did. Reduced
+   motion: no hold, the number in its place, filled. This is a pinned scene — the thing the
+   brief's service pages avoid; it is one swipe long, the buttons stay live, and it is the
+   author's call. The default so it can be judged on a real iPhone, where it has not been
+   seen: #page carries overflow-x: clip itself (main.css) — a clip ABOVE a sticky element
+   trembled on iOS in September, a clip ON it should not. */
+@media (max-width: 991px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+    html.nf-live body::after {
+        content: "";
+        display: block;
+        height: var(--nf-hold, 0px);
+    }
+
+    html.nf-live #page {
+        position: sticky;
+        top: 76px; /* where it stands: under the body's room for the fixed header (main.css) */
+    }
+
+    .not-found--b .not-found__digits--sunk {
+        animation: none; /* no reveal: the scroll brings it in */
+        translate: 0 calc((1 - var(--nf-p, 0)) * 0.35em);
+    }
+
+    .not-found--b .not-found__digits--sunk::after {
+        animation: none; /* nothing idles under the edge */
+        transition: clip-path var(--dur-gentle) var(--ease-flat);
+    }
+}
+
+/* ── Tablets and phones (≤ 991): one column ── */
+@media (max-width: 991px) {
+    .not-found--a .not-found__inner,
+    .not-found--b .not-found__inner,
+    .not-found--bt .not-found__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .not-found--a .not-found__copy {
+        flex: none;
+    }
+
+    .not-found--b .not-found__theater,
+    .not-found--bt .not-found__theater {
+        min-height: 0;
+        padding-bottom: 0;
+    }
+
+    /* The number goes under the copy, as wide as the column, still standing in the footer */
+    .not-found__digits--sunk {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        align-self: center;
+        margin-bottom: calc(-1 * var(--nf-sink));
+        font-size: min(400px, calc((100vw - 2 * var(--gutter)) / 1.84));
+    }
+}
+
+@media (max-width: 767px) {
+    /* Layout 0 on phones — Figma "content" 2827:79374 at 402: 48 · the digits · 26 · label
+       · 26 · headline · 24 · copy · 40 · buttons · 48. The top gives way on short screens. */
+    .not-found--0 .not-found__inner {
+        padding-block: clamp(24px, 5.5svh, 48px) 48px;
+    }
+
+    /* lettersSize-mobile 2827:79143: Molot 180 at 402 (scaled with the screen), line 0.9,
+       the popped digit 200 (× 1.111) — it fits inside the line's own air, so the set's box
+       is just its line and nothing reserves room above or below (the desktop set keeps
+       1.483em for its × 1.176 swell). Neighbours step half the growth aside. */
+    .not-found__digits--pop {
+        --nf-pop: 1.111;
+        --nf-step: 0.0327em;
+        gap: 0.05em; /* 23px between the glyphs at 180, as drawn */
+        height: 0.9em;
+        font-size: min(180px, 44.78vw);
+    }
+
+    /* Even lines under a centred headline, not a long line and a stub */
+    .not-found--0 .not-found__body {
+        text-wrap: balance;
+    }
+
+    .not-found__ticket {
+        width: 100%;
+    }
+}

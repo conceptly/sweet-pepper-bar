@@ -13,7 +13,7 @@ tools/i18n/_old/
 sweet-pepper-style-guide-PREVIEW.pdf
 
 # Node (theme build)
-node_modules/
+node_modules
 
 # Heavy working material — kept outside git (see styleGuide-report.md §9)
 photos/
@@ -29,5 +29,14 @@ sweet-pepper-style-guide-ru.pdf
 style-guide-config.php
 style-guide-backups/
 
-# Reference screenshots (regenerable from Figma)
+# Reference screenshots (regenerable from Figma), scratch, licensed font kit
 figmaScreenshots/
+Claude outputs/
+Molot-fontfacekit/
+Molot-fontfacekit.zip
+case-study/.~lock.*
+design/old-chili-peppers-pattern/
+
+# Database dumps — never in git (the test site dump landed in the repo root on 25 Sep 2026)
+*.sql
+*.sql.gz

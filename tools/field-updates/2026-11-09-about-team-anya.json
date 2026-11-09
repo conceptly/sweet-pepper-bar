@@ -1,0 +1,260 @@
+{
+  "page": "about",
+  "date": "2026-11-09",
+  "note": "About → «Команда»: Аня / Anya, bartender since 2025 — card 8, right after Саша the bartender (author, 9 Nov 2026: «ближе к барменам, не последней»). Cards 8–11 move down one; card 12 is the old 11th (Саша, повар). Photo photos/website-ready/team/anya-bartender.jpg → theme asset team/anya.jpg, 600 × 600. Her RU button and line, shortened by the author to fit the open card («Ягерь-мастер курс»; «…а знатокам покажу его с новой стороны!»); EN drafted, shortened to fit the card (button from 992px, line as wide as Stas's).",
+  "groups": [
+    {
+      "note": "About → «Команда»: card 12 — Саша, повар (the old 11th, moved down one)",
+      "append": "about_team_members",
+      "after": 11,
+      "new": [
+        {
+          "photo": "asset:team/sasha.jpg",
+          "name_ru": "Саша",
+          "name_en": "Sasha",
+          "name_gen": "Саши",
+          "since": "2025",
+          "chip": "ask",
+          "chip_label_ru": "Борща хотите?",
+          "chip_label_en": "Borscht, anyone?",
+          "role_ru": "Повар",
+          "role_en": "Cook",
+          "message_ru": "Борщ — мой. На десерт тоже оставайтесь: сама делаю, за вкус ручаюсь.",
+          "message_en": "The borscht is mine. Stay for dessert — I make it myself, taste guaranteed."
+        }
+      ]
+    },
+    {
+      "note": "About → «Команда»: card 8 is Аня; Софья, Джонни, Вероника move to 9–11",
+      "set": [
+        [
+          "about_team_members_7_photo",
+          "asset:team/sofia.jpg",
+          "asset:team/anya.jpg"
+        ],
+        [
+          "about_team_members_7_name_ru",
+          "Софья",
+          "Аня"
+        ],
+        [
+          "about_team_members_7_name_en",
+          "Sofia",
+          "Anya"
+        ],
+        [
+          "about_team_members_7_name_gen",
+          "Софьи",
+          "Ани"
+        ],
+        [
+          "about_team_members_7_since",
+          "2023",
+          "2025"
+        ],
+        [
+          "about_team_members_7_chip",
+          "pick",
+          "ask"
+        ],
+        [
+          "about_team_members_7_chip_label_ru",
+          "Беру на ланч",
+          "Ягерь-мастер курс"
+        ],
+        [
+          "about_team_members_7_chip_label_en",
+          "My lunch go-to",
+          "Jäger master class"
+        ],
+        [
+          "about_team_members_7_role_ru",
+          "Повар",
+          "Бармен"
+        ],
+        [
+          "about_team_members_7_role_en",
+          "Cook",
+          "Bartender"
+        ],
+        [
+          "about_team_members_7_message_ru",
+          "Жаркое по-ярославски — сама его с удовольствием ем. И ещё стейк из свинины.",
+          "Влюблю в Ягерь с первого шота, а знатокам покажу его с новой стороны!"
+        ],
+        [
+          "about_team_members_7_message_en",
+          "The Yaroslavl-style roast — I eat it myself, happily. And the pork steak.",
+          "One shot and you'll love Jäger. Already a fan? I'll show you a new side of it!"
+        ],
+        [
+          "about_team_members_8_photo",
+          "asset:team/johnny.jpg",
+          "asset:team/sofia.jpg"
+        ],
+        [
+          "about_team_members_8_name_ru",
+          "Джонни",
+          "Софья"
+        ],
+        [
+          "about_team_members_8_name_en",
+          "Johnny",
+          "Sofia"
+        ],
+        [
+          "about_team_members_8_name_gen",
+          "Джонни",
+          "Софьи"
+        ],
+        [
+          "about_team_members_8_since",
+          "2014",
+          "2023"
+        ],
+        [
+          "about_team_members_8_chip_label_ru",
+          "В планах на ужин",
+          "Беру на ланч"
+        ],
+        [
+          "about_team_members_8_chip_label_en",
+          "My dinner hits",
+          "My lunch go-to"
+        ],
+        [
+          "about_team_members_8_role_ru",
+          "Су-шеф",
+          "Повар"
+        ],
+        [
+          "about_team_members_8_role_en",
+          "Sous-chef",
+          "Cook"
+        ],
+        [
+          "about_team_members_8_message_ru",
+          "Неаполитана, борщ, а на десерт — Сан-Себастьян.",
+          "Жаркое по-ярославски — сама его с удовольствием ем. И ещё стейк из свинины."
+        ],
+        [
+          "about_team_members_8_message_en",
+          "The Napolitana, the borscht, and San Sebastián cheesecake for dessert.",
+          "The Yaroslavl-style roast — I eat it myself, happily. And the pork steak."
+        ],
+        [
+          "about_team_members_9_photo",
+          "asset:team/veronika.jpg",
+          "asset:team/johnny.jpg"
+        ],
+        [
+          "about_team_members_9_name_ru",
+          "Вероника",
+          "Джонни"
+        ],
+        [
+          "about_team_members_9_name_en",
+          "Veronika",
+          "Johnny"
+        ],
+        [
+          "about_team_members_9_name_gen",
+          "Вероники",
+          "Джонни"
+        ],
+        [
+          "about_team_members_9_since",
+          "",
+          "2014"
+        ],
+        [
+          "about_team_members_9_chip_label_ru",
+          "Мои любимчики",
+          "В планах на ужин"
+        ],
+        [
+          "about_team_members_9_chip_label_en",
+          "My favourites",
+          "My dinner hits"
+        ],
+        [
+          "about_team_members_9_role_ru",
+          "Повар",
+          "Су-шеф"
+        ],
+        [
+          "about_team_members_9_role_en",
+          "Cook",
+          "Sous-chef"
+        ],
+        [
+          "about_team_members_9_message_ru",
+          "Очень люблю наш борщ. А ещё Цезарь-бейгл — он прикольный.",
+          "Неаполитана, борщ, а на десерт — Сан-Себастьян."
+        ],
+        [
+          "about_team_members_9_message_en",
+          "I really love our borscht. The Caesar bagel's a fun one too.",
+          "The Napolitana, the borscht, and San Sebastián cheesecake for dessert."
+        ],
+        [
+          "about_team_members_10_photo",
+          "asset:team/sasha.jpg",
+          "asset:team/veronika.jpg"
+        ],
+        [
+          "about_team_members_10_name_ru",
+          "Саша",
+          "Вероника"
+        ],
+        [
+          "about_team_members_10_name_en",
+          "Sasha",
+          "Veronika"
+        ],
+        [
+          "about_team_members_10_name_gen",
+          "Саши",
+          "Вероники"
+        ],
+        [
+          "about_team_members_10_since",
+          "2025",
+          ""
+        ],
+        [
+          "about_team_members_10_chip",
+          "ask",
+          "pick"
+        ],
+        [
+          "about_team_members_10_chip_label_ru",
+          "Борща хотите?",
+          "Мои любимчики"
+        ],
+        [
+          "about_team_members_10_chip_label_en",
+          "Borscht, anyone?",
+          "My favourites"
+        ],
+        [
+          "about_team_members_10_message_ru",
+          "Борщ — мой. На десерт тоже оставайтесь: сама делаю, за вкус ручаюсь.",
+          "Очень люблю наш борщ. А ещё Цезарь-бейгл — он прикольный."
+        ],
+        [
+          "about_team_members_10_message_en",
+          "The borscht is mine. Stay for dessert — I make it myself, taste guaranteed.",
+          "I really love our borscht. The Caesar bagel's a fun one too."
+        ]
+      ]
+    }
+  ],
+  "uploads": {
+    "team/anya.jpg": {
+      "title": "Аня, бармен",
+      "alt": "Аня в чёрной футболке с гусями улыбается за барной стойкой, позади полки с бутылками",
+      "topic": "Команда"
+    }
+  }
+}

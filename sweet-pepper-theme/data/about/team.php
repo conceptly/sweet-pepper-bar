@@ -122,6 +122,17 @@ return [
                            'message' => 'За чистый вкус и чистый кайф. Фернет-Бранка, джин-тоник — без украшений.' ],
         ],
         [
+            'name'    => 'Anya', // bartender since 2025, next to Sasha (author, 9 Nov 2026)
+            'role'    => 'Bartender',
+            'since'   => 2025,
+            'photo'   => 'team/anya.jpg',
+            'chip'    => 'ask',
+            'message' => "One shot and you'll love Jäger. Already a fan? I'll show you a new side of it!",
+            'chip_label' => 'Jäger master class', // the button's own text
+            'ru'      => [ 'chip_label' => 'Ягерь-мастер курс', 'name' => 'Аня', 'name_gen' => 'Ани', 'role' => 'Бармен',
+                           'message' => 'Влюблю в Ягерь с первого шота, а знатокам покажу его с новой стороны!' ],
+        ],
+        [
             'name'    => 'Sofia',
             'role'    => 'Cook',
             'since'   => 2023,

@@ -3,7 +3,7 @@
  *
  * Open/close: .js-team-form-trigger → .is-open on overlay + dialog.
  * Name chips: toggle active state ("All" toggles all individual chips).
- * Validation: mirrors contact-form.js (name required, email regex, message required);
+ * Validation: mirrors contact-form.js (name has a letter, email regex, message required);
  * the live state (accent icon, checkmark) comes from field-state.js as on the contact form.
  * Counter: textarea character count.
  * Submit: validated, then sent by form-send.js (inc/forms.php) → success state once confirmed.
@@ -12,7 +12,7 @@
  * @module team-form
  */
 
-import { watchFieldState, isValidEmail } from './field-state';
+import { watchFieldState, focusFirstError, isValidName, isValidEmail } from './field-state';
 import { sendForm, checkConsent } from './form-send';
 
 export function initTeamForm() {
@@ -138,7 +138,7 @@ export function initTeamForm() {
             let valid = true;
 
             // Name
-            if (!nameInput.value.trim()) {
+            if (!isValidName(nameInput.value)) {
                 setFieldError(nameInput.closest('.contact-field'));
                 valid = false;
             }
@@ -156,6 +156,7 @@ export function initTeamForm() {
             }
 
             if (!checkConsent(dialog)) valid = false;
+            if (!valid) focusFirstError(dialog);
 
             const recipients = individualChips
                 .filter(c => c.classList.contains('is-active'))

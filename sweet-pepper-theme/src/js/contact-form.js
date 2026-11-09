@@ -7,7 +7,7 @@
  *   "success" → confirmation view, once inc/forms.php confirms the send (form-send.js)
  */
 
-import { watchFieldState, isValidEmail, isValidPhone } from './field-state';
+import { watchFieldState, focusFirstError, isValidName, isValidEmail, isValidPhone } from './field-state';
 import { sendForm, checkConsent } from './form-send';
 
 export function initContactForm() {
@@ -93,7 +93,7 @@ export function initContactForm() {
 
             // Validate name
             const nameInput = root.querySelector('#contact-name');
-            if (!nameInput.value.trim()) {
+            if (!isValidName(nameInput.value)) {
                 setFieldError(nameInput.closest('.contact-field'));
                 valid = false;
             }
@@ -121,6 +121,7 @@ export function initContactForm() {
             }
 
             if (!checkConsent(root)) valid = false;
+            if (!valid) focusFirstError(root);
 
             if (valid && await sendForm(form, { form: 'contact' }, submitBtn, sendError)) {
                 root.dataset.formState = 'success';

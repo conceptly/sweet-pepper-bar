@@ -72,7 +72,7 @@
                     <span class="contact-field__error-text"><?php esc_html_e( 'Please enter your name', 'sweet-pepper' ); ?></span>
                 </div>
                 <div class="contact-field__input-wrap">
-                    <input class="contact-field__input ym-disable-keys" type="text" id="team-name" name="name" autocomplete="name" required>
+                    <input class="contact-field__input ym-disable-keys" type="text" id="team-name" name="name" autocomplete="name" maxlength="100" required>
                     <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
                     <span class="contact-field__status contact-field__status--error"><?php echo sweet_pepper_inline_svg( 'assets/icons/exclamation.svg' ); ?></span>
                 </div>

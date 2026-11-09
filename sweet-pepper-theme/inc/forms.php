@@ -130,9 +130,10 @@ function sweet_pepper_forms_handle( WP_REST_Request $request ) {
     $lang    = 'en' === ( $p['lang'] ?? '' ) ? 'EN' : 'RU';
 
     // The same rules as the browser's checks (field-state.js); the team form has no phone.
+    // A name needs one letter in any alphabet (isValidName); it is already cut to 100 above.
     $has_email = '' !== $email && is_email( $email );
     $has_phone = 'contact' === $form && preg_match_all( '/\d/', $phone ) >= 6;
-    if ( '' === $name || '' === trim( $message ) || ! ( $has_email || $has_phone ) || empty( $p['consent'] ) ) {
+    if ( ! preg_match( '/\p{L}/u', $name ) || '' === trim( $message ) || ! ( $has_email || $has_phone ) || empty( $p['consent'] ) ) {
         return new WP_Error( 'sp_form_invalid', 'Missing or invalid fields.', [ 'status' => 400 ] );
     }
 

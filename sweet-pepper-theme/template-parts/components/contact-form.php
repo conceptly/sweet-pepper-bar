@@ -75,6 +75,7 @@ $topics = $args['topics'] ?? [];
                         id="contact-name"
                         name="name"
                         autocomplete="name"
+                        maxlength="100"
                         required
                     >
                     <span class="contact-field__status contact-field__status--ok"><?php echo sweet_pepper_inline_svg( 'assets/icons/c-checkmark.svg' ); ?></span>
